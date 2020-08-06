@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_packing_list"
+        android:orderInCategory="80"
+        android:title="@string/packing_list"
+        app:showAsAction="always" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/menu_packing_print"
+        android:orderInCategory="80"
+        android:title="@string/return_storage_scan_menu_print"
+        app:showAsAction="always" />
+</menu>

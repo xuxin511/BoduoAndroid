@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+
+        <LinearLayout
+            android:id="@+id/layout_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/txt_quality_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:textColor="@color/blueviolet"
+                    android:textSize="@dimen/activity_list_text_first" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/forth_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/txt_materialNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:maxLines="1"
+                    android:textColor="@color/mediumseagreen"
+                    android:textSize="@dimen/activity_list_text_size_third" />
+
+
+                <TextView
+                    android:id="@+id/txt_voucherNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txtERPVoucherNo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:textColor="@color/mediumseagreen"
+                    android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/second_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+
+
+                <TextView
+                    android:id="@+id/txt_erpVoucherNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/activity_list_text_size_third" />
+
+                <TextView
+                    android:id="@+id/txt_arrVoucherNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:textColor="@color/peru"
+                    android:textSize="@dimen/activity_list_text_size_third"  />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/third_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txt_arrVoucherNo1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txt_inspectors"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txt_inspection_department"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp" />
+
+        </LinearLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/txt_voucher_qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"/>
+</LinearLayout>

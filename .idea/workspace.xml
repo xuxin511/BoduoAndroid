@@ -1,0 +1,1069 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="AutomaticModuleUnloader">
+    <loaded-modules>
+      <module name="BODUOWMS" />
+      <module name="app" />
+    </loaded-modules>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fe741ad4-1b3c-4d15-b8a0-286ab64ebaec" name="Default Changelist" comment="出库验退流程" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="127.0.0.1:62027" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/app">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/LinkOS">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="BODUOWMS" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="BODUOWMS" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="BODUOWMS" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="BODUOWMS" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="valueResourceFile" />
+        <option value="layoutResourceFile" />
+        <option value="resourceFile" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\LianSuWMS.jks" />
+    <option name="KEY_ALIAS" value="wms" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+    <option name="BUILD_TARGET_KEY" value="apk" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1dfSDHoR9mRVlvhO5d9WDaiPdkN" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ApkExportedModule" value="app" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="127.0.0.1:62027" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-04T11:10:47.440Z" />
+    <property name="ExportApk.ApkPath" value="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app" />
+    <property name="ExportApk.BuildVariants" value="release" />
+    <property name="ExportApk.SignV1" value="true" />
+    <property name="ExportApk.SignV2" value="true" />
+    <property name="KEY_COMPOSED_FOLDERS" value="{&quot;DecomposedFolders&quot;:[]}" />
+    <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../../../../ANDROID/SDK" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable-mdpi" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
+    <property name="project.structure.last.edited" value="Dependencies" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="PsdUISettings">
+    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\drawable-mdpi" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout\login\layout" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout\login_view" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout\baseView" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\modules\outstock\purchaseReturn" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\modules\qualityInspection\purchaseInspection\scan" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\ui\adapter\outstock" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\drawable-mdpi" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.liansu.boduowms.ui.adapter.outstock.offscan" />
+      <recent name="com.liansu.boduowms.modules.menu.outboundBusiness.subMenu" />
+      <recent name="com.liansu.boduowms.ui.adapter.outstock.purchaseInspection" />
+      <recent name="com.liansu.boduowms.modules.qualityInspection.purchaseInspection.bill" />
+      <recent name="com.liansu.boduowms.modules.qualityInspection.purchaseInspection" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.liansu.boduowms.ui.dialog" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Android App.app">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+    </configuration>
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BODUOWMS [sourceSets]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="sourceSets" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="BODUOWMS:LinkOS [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/LinkOS" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="BODUOWMS:app [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/app" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.BODUOWMS:LinkOS [build]" />
+        <item itemvalue="Gradle.BODUOWMS:app [build]" />
+        <item itemvalue="Gradle.BODUOWMS [sourceSets]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\yangyiqing\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fe741ad4-1b3c-4d15-b8a0-286ab64ebaec" name="Default Changelist" comment="" />
+      <created>1592814532385</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1592814532385</updated>
+    </task>
+    <task id="LOCAL-00001" summary="第一次提交">
+      <created>1593101765610</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1593101765610</updated>
+    </task>
+    <task id="LOCAL-00002" summary="采购入库和销售出库流程界面设计">
+      <created>1593364411778</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1593364411778</updated>
+    </task>
+    <task id="LOCAL-00003" summary="组托功能初步完成">
+      <created>1593704245022</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1593704245022</updated>
+    </task>
+    <task id="LOCAL-00004" summary="采购入库扫描功能">
+      <created>1594189883232</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1594189883232</updated>
+    </task>
+    <task id="LOCAL-00005" summary="登录功能&#10;1.第一次登录&#10;2.登录信息缓存">
+      <created>1594293314881</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1594293314881</updated>
+    </task>
+    <task id="LOCAL-00006" summary="入库&#10;1.分装列表和扫描基类&#10;2.采购入库，委外入库，有源杂入，调拨入库">
+      <created>1594876463819</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1594876463819</updated>
+    </task>
+    <task id="LOCAL-00007" summary="入库&#10;1.生产退货入库&#10;2.无源入库&#10;3.生产入库&#10;4.销售退货入库">
+      <created>1595082001773</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1595082001773</updated>
+    </task>
+    <task id="LOCAL-00008" summary="入库抽检修改">
+      <created>1595485189283</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1595485189284</updated>
+    </task>
+    <task id="LOCAL-00009" summary="配货下架">
+      <created>1595774604006</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1595774604006</updated>
+    </task>
+    <task id="LOCAL-00010" summary="1.采购入库UI修改&#10;2.拼箱逻辑自写完成">
+      <created>1595950279282</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1595950279282</updated>
+    </task>
+    <task id="LOCAL-00011" summary="1.设置界面系统设置功能完成&#10;2.打印机设置界面画完">
+      <created>1596068506657</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1596068506658</updated>
+    </task>
+    <task id="LOCAL-00012" summary="打印设置功能完成,还需对接接口调试">
+      <created>1596096953568</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1596096953568</updated>
+    </task>
+    <task id="LOCAL-00013" summary="1.销售退货 功能编写">
+      <created>1596381467239</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1596381467239</updated>
+    </task>
+    <task id="LOCAL-00014" summary="1.销售退货 功能编写">
+      <created>1596442306882</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1596442306882</updated>
+    </task>
+    <task id="LOCAL-00015" summary="1.销售退货 功能编写">
+      <created>1596540176484</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1596540176484</updated>
+    </task>
+    <task id="LOCAL-00016" summary="1.销售退货 功能编写">
+      <created>1596555940342</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1596555940342</updated>
+    </task>
+    <task id="LOCAL-00017" summary="出库验退流程">
+      <created>1596591071665</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1596591071665</updated>
+    </task>
+    <task id="LOCAL-00018" summary="出库验退流程">
+      <created>1596689067865</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1596689067865</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="第一次提交" />
+    <MESSAGE value="采购入库和销售出库流程界面设计" />
+    <MESSAGE value="组托功能初步完成" />
+    <MESSAGE value="采购入库扫描功能" />
+    <MESSAGE value="登录功能&#10;1.第一次登录&#10;2.登录信息缓存" />
+    <MESSAGE value="入库&#10;1.分装列表和扫描基类&#10;2.采购入库，委外入库，有源杂入，调拨入库" />
+    <MESSAGE value="入库&#10;1.生产退货入库&#10;2.无源入库&#10;3.生产入库&#10;4.销售退货入库" />
+    <MESSAGE value="入库抽检修改" />
+    <MESSAGE value="配货下架" />
+    <MESSAGE value="1.采购入库UI修改&#10;2.拼箱逻辑自写完成" />
+    <MESSAGE value="1.设置界面系统设置功能完成&#10;2.打印机设置界面画完" />
+    <MESSAGE value="打印设置功能完成,还需对接接口调试" />
+    <MESSAGE value="1.销售退货 功能编写" />
+    <MESSAGE value="出库验退流程" />
+    <option name="LAST_COMMIT_MESSAGE" value="出库验退流程" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="261" y="0" key="#Notifications" timestamp="1596540217748">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="261" y="0" key="#Notifications/0.0.1536.824@0.0.1536.824" timestamp="1596540217748" />
+    <state x="425" y="0" key="#app" timestamp="1596272713618">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="0" key="#app/0.0.1536.824@0.0.1536.824" timestamp="1596272713618" />
+    <state x="530" y="42" key="#com.intellij.ide.util.MemberChooser" timestamp="1596684427764">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="530" y="42" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1596684427764" />
+    <state x="5" y="324" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1596552738652">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="5" y="324" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1596552738652" />
+    <state x="378" y="246" width="780" height="343" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1595515372496">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="378" y="246" width="780" height="343" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1595515372496" />
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1595754977637">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1595754977637" />
+    <state x="608" y="163" key="AndroidProcessChooserDialog" timestamp="1596450548470">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="608" y="163" key="AndroidProcessChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1596450548470" />
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1596689142630">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1596689142630" />
+    <state width="603" height="546" key="DebuggerActiveHint" timestamp="1596683582080">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="603" height="546" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1596683582080" />
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1596335650710">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1596335650710" />
+    <state x="499" y="110" key="FileChooserDialogImpl" timestamp="1596609496316">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="110" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1596609496316" />
+    <state width="1483" height="252" key="GridCell.Tab.0.bottom" timestamp="1596689037983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="1483" height="252" key="GridCell.Tab.0.center" timestamp="1596689037983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="1483" height="252" key="GridCell.Tab.0.left" timestamp="1596689037983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="1483" height="252" key="GridCell.Tab.0.right" timestamp="1596689037983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="1483" height="252" key="GridCell.Tab.1.bottom" timestamp="1596689037983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="1483" height="252" key="GridCell.Tab.1.center" timestamp="1596689037983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="1483" height="252" key="GridCell.Tab.1.left" timestamp="1596689037983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="1483" height="252" key="GridCell.Tab.1.right" timestamp="1596689037983">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="1483" height="252" key="GridCell.Tab.2.bottom" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.2.center" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.2.left" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.2.right" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.3.bottom" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.3.center" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.3.left" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.3.right" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.4.bottom" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.4.bottom/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.4.center" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.4.center/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.4.left" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.4.left/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state width="1483" height="252" key="GridCell.Tab.4.right" timestamp="1596689037984">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1483" height="252" key="GridCell.Tab.4.right/0.0.1536.824@0.0.1536.824" timestamp="1596689037984" />
+    <state x="249" y="95" key="IDE.errors.dialog" timestamp="1595483379208">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="249" y="95" key="IDE.errors.dialog/0.0.1536.824@0.0.1536.824" timestamp="1595483379208" />
+    <state x="150" y="0" key="SettingsEditor" timestamp="1596383146306">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="150" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1596383146306" />
+    <state x="261" y="80" key="Vcs.Push.Dialog.v2" timestamp="1596689160025">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="261" y="80" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1596689160025" />
+    <state width="756" height="420" key="XDebugger.FullValuePopup" timestamp="1596683582075">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="756" height="420" key="XDebugger.FullValuePopup/0.0.1536.824@0.0.1536.824" timestamp="1596683582075" />
+    <state x="530" y="177" key="chooseDestDirectoryDialog" timestamp="1596441790975">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="530" y="177" key="chooseDestDirectoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1596441790975" />
+    <state x="0" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1595310873352">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="0" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1595310873352" />
+    <state x="100" y="100" width="1336" height="624" key="dock-window-1" timestamp="1595921974992">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="100" y="100" width="1336" height="624" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1595921974992" />
+    <state x="377" y="85" width="781" height="654" key="find.popup" timestamp="1594972707806">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="377" y="85" width="781" height="654" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594972707806" />
+    <state width="376" height="45" key="javadoc.popup.new" timestamp="1596685296766">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="376" height="45" key="javadoc.popup.new/0.0.1536.824@0.0.1536.824" timestamp="1596685296766" />
+    <state x="451" y="0" key="refactoring.ChangeSignatureDialog" timestamp="1596498565794">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="451" y="0" key="refactoring.ChangeSignatureDialog/0.0.1536.824@0.0.1536.824" timestamp="1596498565794" />
+    <state x="342" y="183" width="840" height="1034" key="run.anything.popup" timestamp="1596510525429">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="342" y="183" width="840" height="1034" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1596510525429" />
+    <state x="347" y="0" width="840" height="822" key="search.everywhere.popup" timestamp="1596580476924">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="347" y="0" width="840" height="822" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1596580476924" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/model/print/OffshelfBatchScanModel.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/pallet/combinePallet/CombinPalletPresenter.java</url>
+          <line>428</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/inventoryMovement/InventoryMovementScan.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/inventoryMovement/InventoryMovementPresenter.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/ui/dialog/MaterialInfoDialogActivity.java</url>
+          <line>118</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/outsourcingStorage/scan/OutsourcingStorageScanPresenter.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/print/linkos/LinkOSPrintConnectActivity.java</url>
+          <line>150</line>
+          <option name="timeStamp" value="138" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/print/linkos/LinkOSPrintConnectActivity.java</url>
+          <line>148</line>
+          <option name="timeStamp" value="139" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/scan/ProductStorageScan.java</url>
+          <line>98</line>
+          <option name="timeStamp" value="180" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/base/BasePresenterFactory.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="204" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/bill/QualityInspectionBill.java</url>
+          <line>95</line>
+          <option name="timeStamp" value="249" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/qualityInspectionProcessing/QualityInspectionProcessingPresenter.java</url>
+          <line>292</line>
+          <option name="timeStamp" value="259" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionPresenter.java</url>
+          <line>261</line>
+          <option name="timeStamp" value="309" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionModel.java</url>
+          <line>298</line>
+          <option name="timeStamp" value="312" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/offScan/BaseOutStockBusinessPresenter.java</url>
+          <line>82</line>
+          <option name="timeStamp" value="315" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/baseOrderBusiness/bill/BaseOrderBillChoice.java</url>
+          <line>168</line>
+          <option name="timeStamp" value="317" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionModel.java</url>
+          <line>307</line>
+          <option name="timeStamp" value="321" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionModel.java</url>
+          <line>319</line>
+          <option name="timeStamp" value="325" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/print/PrintBusinessModel.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="334" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionPresenter.java</url>
+          <line>165</line>
+          <option name="timeStamp" value="336" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionPresenter.java</url>
+          <line>160</line>
+          <option name="timeStamp" value="338" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/offScan/BaseOutStockBusiness.java</url>
+          <line>199</line>
+          <option name="timeStamp" value="403" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/utils/updateversion/UpdateVersionService.java</url>
+          <line>147</line>
+          <option name="timeStamp" value="440" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/purchaseStorage/scan/PurchaseStorageScanPresenter.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="441" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/activeOtherStorage/scan/ActiveOtherScanPresenter.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="461" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/activeOtherStorage/scan/ActiveOtherScanModel.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="472" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/printPalletScan/PrintPalletScanModel.java</url>
+          <line>366</line>
+          <option name="timeStamp" value="508" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/printPalletScan/PrintPalletScanModel.java</url>
+          <line>368</line>
+          <option name="timeStamp" value="509" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/qualityInspectionProcessing/QualityInspectionProcessingModel.java</url>
+          <line>172</line>
+          <option name="timeStamp" value="511" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/qualityInspectionProcessing/QualityInspectionProcessingPresenter.java</url>
+          <line>240</line>
+          <option name="timeStamp" value="512" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/bill/UnQualifiedBillPresenter.java</url>
+          <line>77</line>
+          <option name="timeStamp" value="520" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SaleReturnPrintModel.java</url>
+          <line>87</line>
+          <option name="timeStamp" value="554" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/scan/ProductStorageScanModel.java</url>
+          <line>105</line>
+          <option name="timeStamp" value="557" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/scan/ProductStorageScanPresenter.java</url>
+          <line>221</line>
+          <option name="timeStamp" value="579" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanPresenter.java</url>
+          <line>199</line>
+          <option name="timeStamp" value="604" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanPresenter.java</url>
+          <line>193</line>
+          <option name="timeStamp" value="605" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanModel.java</url>
+          <line>146</line>
+          <option name="timeStamp" value="606" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SalesReturnPrintPresenter.java</url>
+          <line>182</line>
+          <option name="timeStamp" value="615" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SaleReturnPrintModel.java</url>
+          <line>189</line>
+          <option name="timeStamp" value="616" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/baseOrderBusiness/scan/BaseOrderScanPresenter.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="621" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/purchaseStorage/scan/PurchaseStorageScanModel.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="623" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/printPalletScan/PrintPalletScanPresenter.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="627" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/printPalletScan/PrintPalletScanPresenter.java</url>
+          <line>157</line>
+          <option name="timeStamp" value="628" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SalesReturnPrintPresenter.java</url>
+          <line>78</line>
+          <option name="timeStamp" value="630" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SalesReturnPrintPresenter.java</url>
+          <line>134</line>
+          <option name="timeStamp" value="631" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanPresenter.java</url>
+          <line>190</line>
+          <option name="timeStamp" value="632" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanPresenter.java</url>
+          <line>146</line>
+          <option name="timeStamp" value="633" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
+          <line>253</line>
+          <option name="timeStamp" value="669" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>444</line>
+          <option name="timeStamp" value="673" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
+          <line>174</line>
+          <option name="timeStamp" value="674" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
+          <line>173</line>
+          <option name="timeStamp" value="675" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
+          <line>252</line>
+          <option name="timeStamp" value="696" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanModel.java</url>
+          <line>133</line>
+          <option name="timeStamp" value="698" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/baseReviewScan/BaseReviewScanModel.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="699" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
+          <line>256</line>
+          <option name="timeStamp" value="703" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>156</line>
+          <option name="timeStamp" value="707" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>160</line>
+          <option name="timeStamp" value="708" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
+          <line>233</line>
+          <option name="timeStamp" value="721" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>381</line>
+          <option name="timeStamp" value="722" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
+          <line>144</line>
+          <option name="timeStamp" value="723" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>133</line>
+          <option name="timeStamp" value="726" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
+          <line>259</line>
+          <option name="timeStamp" value="728" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
+          <line>177</line>
+          <option name="timeStamp" value="729" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
+          <line>183</line>
+          <option name="timeStamp" value="730" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
+          <line>196</line>
+          <option name="timeStamp" value="731" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
+          <line>207</line>
+          <option name="timeStamp" value="732" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanModel.java</url>
+          <line>163</line>
+          <option name="timeStamp" value="733" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
+          <line>129</line>
+          <option name="timeStamp" value="736" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/baseReviewScan/BaseReviewScan.java</url>
+          <line>235</line>
+          <option name="timeStamp" value="746" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/baseReviewScan/BaseReviewScan.java</url>
+          <line>240</line>
+          <option name="timeStamp" value="747" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
+          <line>252</line>
+          <option name="timeStamp" value="749" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>199</line>
+          <option name="timeStamp" value="755" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>206</line>
+          <option name="timeStamp" value="758" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>351</line>
+          <option name="timeStamp" value="760" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>300</line>
+          <option name="timeStamp" value="761" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>211</line>
+          <option name="timeStamp" value="762" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
+          <line>215</line>
+          <option name="timeStamp" value="763" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
+          <line>246</line>
+          <option name="timeStamp" value="764" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/purchaseStorage/scan/PurchaseStorageScanModel.java</url>
+          <line>98</line>
+          <option name="timeStamp" value="765" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="app">
+        <watch expression="this" />
+        <watch expression="result" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

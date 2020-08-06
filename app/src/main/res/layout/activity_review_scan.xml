@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/review_scan_driver_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/review_scan_driver"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_guideline_h_1" />
+
+
+    <EditText
+        android:id="@+id/review_driver"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/review_scan_driver_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_guideline_h_1" />
+
+    <TextView
+        android:id="@+id/review_receive_address"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/review_scan_erp_voucher_no"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/review_driver" />
+
+    <TextView
+        android:id="@+id/review_receive_logistics_company_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/review_receive_logistics_company"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/review_receive_address" />
+
+
+    <EditText
+        android:id="@+id/review_erp_voucher_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/review_scan_erp_voucher_no_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_driver" />
+
+
+    <TextView
+        android:id="@+id/review_scan_qty_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/offscan_scan_qty_desc"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/review_scan_barcode_desc" />
+    <EditText
+        android:id="@+id/review_scan_qty"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/offscan_scan_input_qty"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/review_scan_qty_desc"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/review_scan_barcode_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/barcode"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/review_scan_receive_address" />
+
+    <TextView
+        android:id="@+id/review_scan_sum_qty"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="left"
+        android:text="@string/review_scan_sum_qty"
+        app:layout_constraintLeft_toLeftOf="@+id/review_scan_barcode_desc"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_scan_qty_desc" />
+
+    <TextView
+        android:id="@+id/review_scan_receiver_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/review_scan_receiver"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/review_receive_logistics_company_desc" />
+
+    <TextView
+        android:id="@+id/review_scan_receiver"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_receive_logistics_company_desc" />
+
+    <TextView
+        android:id="@+id/review_scan_receive_address"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left"
+        android:maxLines="3"
+        android:text="@string/review_scan_receive_address"
+        app:layout_constraintLeft_toLeftOf="@+id/review_scan_driver_desc"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_scan_receiver" />
+
+
+    <EditText
+        android:id="@+id/review_receive_logistics_company"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/review_receive_logistics_company_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_receive_address" />
+
+    <EditText
+        android:id="@+id/review_scan_barcode"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/packing_scan_barcode_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/review_scan_barcode_desc"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline86"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.66" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/offscan_guideline_v_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/offscan_guideline_h_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+
+    <ListView
+        android:id="@+id/review_scan_list_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/review_refer"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_scan_sum_qty"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:textColor="@color/white"
+        android:id="@+id/review_refer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bt_selector"
+        android:text="@string/review_scan_refer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

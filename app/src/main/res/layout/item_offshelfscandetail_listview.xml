@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+        
+        
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1.2">
+        <TextView
+            android:id="@+id/txt_voucherNo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:layout_margin="3dp"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/activity_list_text_first"/>
+
+        <TextView
+            android:id="@+id/txt_reference_standard"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:layout_margin="3dp"
+            android:textColor="@color/red"
+            android:maxLines="1"
+            android:textSize="@dimen/activity_list_text_first"/>
+</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+                <TextView
+                    android:id="@+id/txtVoucherQty"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/mediumpurple"
+                    android:textSize="@dimen/activity_list_text_size_third" />
+
+                <TextView
+                    android:id="@+id/txtRemainQty"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/activity_list_text_size_third" />
+
+                <TextView
+                    android:id="@+id/txtScanQty"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/activity_list_text_size_third" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/txtMaterialDesc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="3dp"
+            android:layout_weight="0.8"
+            android:maxLines="2"
+            android:textColor="@color/peru"
+            android:textSize="@dimen/activity_list_text_size_third" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+                <TextView
+                    android:id="@+id/txt_recommended_location"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/peru"
+                    android:maxLines="1"
+                    android:textSize="@dimen/activity_list_text_size_third"/>
+
+
+        </LinearLayout>
+
+
+
+</LinearLayout>

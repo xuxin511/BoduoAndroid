@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_consignment_note_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_consignment_note"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_guideline_h_1" />
+
+    <EditText
+        android:id="@+id/logistics_loading_settings_consignment_note"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/offscan_voucher_no_hint"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_guideline_h_1" />
+
+
+    <Button
+
+        android:id="@+id/logistics_loading_settings_consignment_note_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bt_selector"
+        android:text="@string/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_guideline_h_1" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_shipment_number_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_shipment_number"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_consignment_note_desc" />
+
+
+    <EditText
+        android:id="@+id/logistics_loading_settings_shipment_number"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/offscan_voucher_no_hint"
+        app:layout_constraintBottom_toBottomOf="@+id/logistics_loading_settings_shipment_number_desc"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_erp_voucher_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_erp_voucher_no"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_shipment_number_desc" />
+
+    <EditText
+        android:id="@+id/logistics_loading_settings_erp_voucher_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/offscan_voucher_no_hint"
+        app:layout_constraintBottom_toBottomOf="@+id/logistics_loading_settings_erp_voucher_no_desc"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_shipment_number_name_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_shipment_number_name"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_erp_voucher_no_desc" />
+
+
+    <EditText
+        android:id="@+id/logistics_loading_settings_shipment_number_name"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_erp_voucher_no_desc" />
+
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_receiver_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_receiver"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_shipment_number_name_desc" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_receiver"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_shipment_number_name_desc" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_address_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_address"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_receiver_desc" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_address"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:maxLines="3"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_receiver" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_delivery_methods_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_delivery_methods"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_address" />
+
+    <Spinner
+        android:id="@+id/logistics_loading_settings_delivery_methods"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/logistics_loading_settings_delivery_methods_desc"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_delivery_methods_desc">
+
+    </Spinner>
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_door_to_door_fee_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_door_to_door_fee"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_delivery_methods_desc" />
+
+    <EditText
+        android:id="@+id/logistics_loading_settings_door_to_door_fee"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_delivery_methods_desc" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_insured_cost_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_insured_cost"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_door_to_door_fee_desc" />
+
+    <EditText
+        android:id="@+id/logistics_loading_settings_insured_cost"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_door_to_door_fee_desc" />
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_business_type_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_business_type"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_insured_cost_desc" />
+
+    <Spinner
+        android:id="@+id/logistics_loading_settings_business_type"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/logistics_loading_settings_business_type_desc"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_business_type_desc">
+
+    </Spinner>
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_settlement_method_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_settlement_method"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_business_type_desc" />
+
+    <Spinner
+        android:id="@+id/logistics_loading_settings_settlement_method"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/logistics_loading_settings_settlement_method_desc"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_consignment_note_details"
+        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_settlement_method_desc">
+
+    </Spinner>
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_cost_calculation_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_cost_calculation"
+        android:textAlignment="textStart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_settlement_method_desc" />
+
+    <Spinner
+        android:id="@+id/logistics_loading_settings_cost_calculation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/logistics_loading_settings_cost_calculation_desc"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_3"
+        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_cost_calculation_desc">
+
+    </Spinner>
+
+    <TextView
+        android:id="@+id/logistics_loading_settings_unit_price_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/logistics_loading_settings_unit_price"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="@+id/logistics_loading_settings_cost_calculation_desc"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_cost_calculation"
+        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_cost_calculation_desc" />
+
+
+    <EditText
+        android:id="@+id/logistics_loading_settings_unit_price"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_unit_price_desc"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_4"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_settlement_method" />
+
+    <Button
+        android:id="@+id/btn_Login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bt_selector"
+        android:text="@string/logistics_loading_settings_confirm"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_loading_settings_guideline_h_2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/logistics_loading_settings_guideline_v_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/logistics_loading_settings_guideline_h_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/logistics_loading_settings_guideline_v_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/logistics_loading_settings_guideline_v_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/logistics_loading_settings_guideline_h_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+</androidx.constraintlayout.widget.ConstraintLayout>

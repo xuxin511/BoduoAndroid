@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/offscan_button_select_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ToggleButton
+            android:id="@+id/offscan_box_type_pallet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="ToggleButton"
+            android:textOff="@string/AllPallet"
+            android:textOn="@string/AllPallet"
+          />
+
+        <ToggleButton
+            android:id="@+id/offscan_box_type_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="ToggleButton"
+            android:textOff="@string/AllPackage"
+            android:textOn="@string/AllPackage"
+            android:visibility="visible" />
+
+
+        <ToggleButton
+            android:id="@+id/offscan_box_type_spare_parts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="ToggleButton"
+            android:textOff="@string/spare_parts"
+            android:textOn="@string/spare_parts"
+            android:visibility="visible"
+            app:layout_constraintBaseline_toBaselineOf="@+id/offscan_box_type_pallet"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/offscan_box_type_pallet"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ToggleButton
+            android:id="@+id/offscan_box_type_combine_trays"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="@string/combine_trays"
+            android:textOff="@string/combine_trays"
+            android:textOn="@string/combine_trays"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/offscan_voucher_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:text="@string/offscan_voucher_no_desc"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_button_select_layout" />
+
+    <EditText
+        android:id="@+id/offscan_voucher_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/offscan_voucher_no_hint"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/activity_off_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_button_select_layout" />
+
+    <TextView
+        android:id="@+id/offscan_receive_address"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:text="@string/offscan_receive_address"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_voucher_no" />
+
+    <TextView
+        android:id="@+id/offscan_area_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:text="@string/offscan_area_no"
+        android:visibility="gone"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_receive_address" />
+
+    <TextView
+        android:id="@+id/offscan_barcode_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:text="@string/offscan_scan_barcode_desc"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_area_desc" />
+
+
+    <TextView
+        android:id="@+id/offscan_sub_barcode_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:text="@string/offscan_scan_sub_barcode_desc"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_barcode_desc" />
+
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/offscan_batch_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:text="@string/offscan_batch_no"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_sub_barcode_desc" />
+
+
+    <EditText
+        android:visibility="gone"
+        android:id="@+id/offscan_batch_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/offscan_batch_no"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/activity_off_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_sub_barcode_desc" />
+
+
+    <TextView
+        android:id="@+id/offscan_qty_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:text="@string/offscan_scan_qty_desc"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_batch_no_desc" />
+
+    <EditText
+        android:id="@+id/offscan_qty"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/offscan_scan_input_qty"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/activity_off_text_size"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_batch_no" />
+
+    <EditText
+        android:id="@+id/offscan_sub_barcode"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="请扫描散装条码"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/activity_off_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_barcode_desc" />
+
+    <Button
+
+        android:id="@+id/offscan_address_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/offscan_receive_address_input"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/offscan_receive_address_input" />
+
+    <EditText
+        android:id="@+id/offscan_receive_address_input"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="请输入地址"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/activity_off_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_address_select"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_voucher_no" />
+
+    <EditText
+        android:id="@+id/offscan_area_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="请扫描库位"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/activity_off_text_size"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_receive_address" />
+
+    <EditText
+        android:id="@+id/offscan_barcode"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/activity_off_scan_margin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="请扫描条码"
+        android:inputType="textPersonName"
+        android:textSize="@dimen/activity_off_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_guideline_v_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_area_no" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline86"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.66"
+        tools:layout_editor_absoluteX="238dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/offscan_guideline_v_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+
+    <ListView
+        android:id="@+id/offscan_list_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/offscan_platform"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offscan_qty_desc" />
+
+
+    <Button
+        android:id="@+id/offscan_packing_box"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bt_selector"
+        android:text="@string/offscan_scan_packing_box"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/offscan_platform" />
+
+    <Button
+        android:id="@+id/offscan_platform"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bt_selector"
+        android:text="@string/offscan_scan_platform"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/offscan_packing_box"
+        app:layout_constraintRight_toRightOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

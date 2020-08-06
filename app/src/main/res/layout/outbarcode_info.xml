@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/outbarcode_info_material_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/outbarcode_info_material_no_desc"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/outbarcode_info_material_no"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text=""
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/outbarcode_info_material_no_desc"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_v_2"
+        app:layout_constraintTop_toTopOf="@+id/outbarcode_info_material_no_desc"></TextView>
+
+    <TextView
+        android:id="@+id/outbarcode_info_material_name_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/outbarcode_info_material_name_desc"
+        android:textColor="@color/black"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/outbarcode_info_material_no_desc"></TextView>
+
+
+    <TextView
+        android:id="@+id/outbarcode_info_material_name"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text=""
+        android:textColor="@color/black"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/outbarcode_info_material_name_desc"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_v_2"
+
+        app:layout_constraintTop_toTopOf="@+id/outbarcode_info_material_name_desc"></TextView>
+
+    <TextView
+        android:id="@+id/outbarcode_info_batch_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/outbarcode_info_material_batch_desc"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/outbarcode_info_material_name"></TextView>
+
+    <TextView
+        android:id="@+id/outbarcode_info_batch_no"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text=""
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/outbarcode_info_batch_desc"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_v_2"
+        app:layout_constraintTop_toTopOf="@+id/outbarcode_info_batch_desc"></TextView>
+
+    <TextView
+        android:id="@+id/outbarcode_info_random_inspection_qty_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/outbarcode_info_random_inspection_qty_desc"
+        android:textColor="@color/black"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="@+id/outbarcode_info_batch_desc"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_v_3"
+        app:layout_constraintTop_toBottomOf="@+id/outbarcode_info_batch_no"></TextView>
+
+    <TextView
+        android:id="@+id/outbarcode_info_random_inspection_qty"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text=""
+        android:textColor="@color/black"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/outbarcode_info_random_inspection_qty_desc"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_v_2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/outbarcode_info_random_inspection_qty_desc"></TextView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_v_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_v_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_v_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:id="@+id/balcony_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:translationZ="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dialog_balcony_button_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balcony_info_title"></TextView>
+
+
+    <TextView
+        android:id="@+id/balcony_info_title"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="#ff7200"
+        android:gravity="center"
+        android:text="自定义弹窗"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:translationZ="1dp"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dialog_balcony_order_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/dialog_balcony_order_no"
+        android:textSize="25sp"
+        android:translationZ="1dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/dialog_material_info_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_material_info_guideline_h_1" />
+
+
+    <EditText
+        android:id="@+id/dialog_balcony_order_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="left"
+        android:textSize="25sp"
+        android:translationZ="1dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/dialog_material_info_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/dialog_material_info_guideline_v_2"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_material_info_guideline_h_1" />
+
+    <TextView
+        android:id="@+id/dialog_balcony_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/dialog_balcony_desc"
+        android:textSize="25sp"
+        android:translationZ="1dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/dialog_material_info_guideline_v_1"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_balcony_order_no" />
+
+    <EditText
+        android:id="@+id/dialog_balcony_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="left"
+        android:textSize="25sp"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dialog_balcony_desc"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/dialog_material_info_guideline_v_1"
+        app:layout_constraintRight_toLeftOf="@+id/dialog_material_info_guideline_v_2" />
+
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:id="@+id/dialog_balcony_button_layout"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:translationZ="1dp"
+        android:weightSum="2"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_balcony_no"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+
+            android:id="@+id/dialog_balcony_info_positiveTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/dialog_material_info_button_ok"
+            android:textColor="#ff9138"
+            android:textSize="20sp"
+            android:translationZ="1dp" />
+
+        <TextView
+            android:id="@+id/dialog_balcony_info_negativeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/dialog_material_info_button_cancel"
+            android:textColor="#b8b8b8"
+            android:textSize="20sp"
+            android:translationZ="1dp" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dialog_material_info_guideline_h_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dialog_material_info_guideline_h_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dialog_material_info_guideline_h_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dialog_material_info_guideline_h_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dialog_material_info_guideline_v_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dialog_material_info_guideline_v_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dialog_material_info_guideline_v_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dialog_material_info_guideline_v_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+</androidx.constraintlayout.widget.ConstraintLayout>

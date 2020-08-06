@@ -1,0 +1,399 @@
+<resources>
+    //系统通用
+    <string name="app_name">BODUOWMS</string>
+    <string name="title_storage_business">入库业务</string>
+    <string name="title_in_house_management">库内管理</string>
+    <string name="title_outbound_business">出库业务</string>
+    <string name="activity_login_company">chinetek 上海辰达 @2017</string>
+    <string name="version_msg">当前版本：1.0</string>
+    <string name="warehousename">仓库</string>
+    <string name="SaveSuccess">保存成功！</string>
+    <string name="login_setting">设置</string>
+    <string name="login_Version">版本：</string>
+    <string name="Setting_Save">保存设置</string>
+    <string name="Setting_IPAdress">服务器：</string>
+    <string name="Setting_Port">端口：</string>
+    <string name="Setting_TimeOut">超时时间：</string>
+    <string name="Setting_Second">秒</string>
+    <string name="Setting_PrintIP">打印机IP：</string>
+    <string name="Setting_ElecScale">电子称IP：</string>
+    <string name="login_login">登陆</string>
+    <string name="Error_IntRequire">需要输入整数！</string>
+    <string name="Error_isnotnum">请输入数字！</string>
+    <string name="Error_no_internet">无网络连接！</string>
+    <string name="Error_generic_server_down">服务器连接超时！</string>
+    <string name="Error_generic_error">通讯错误！</string>
+    <string name="Error_PrintIPNotSet">请设置打印机IP地址！</string>
+    <string name="Error_EricIPNotSet">请设置电子称IP地址！</string>
+    <string name="Message_No_ReceiveAreaID">收货货位未配置！</string>
+    <string name="Message_No_PickAreaID">拣货货位未配置！</string>
+    <string name="Message_No_MenuList">菜单权限未配置！</string>
+    <string name="Message_No_WhareHouse">获取仓库列表失败！</string>
+    <string name="Message_ERROR_MoveStock">移入库位不正确！</string>
+    <string name="Msg_Login">用户验证...</string>
+    <string name="Msg_UploadLogFile">日志文件上传中...</string>
+    <string name="LogUpload">日志上报</string>
+    <string name="activity_login_WareHousChoice">仓库选择：</string>
+    <string name="Msg_GetWareHouse">获取仓库信息...</string>
+    <string name="Error_SubmitMore">操作过于频繁！</string>
+    <string name="config">确定</string>
+    <string name="Bill">单号:</string>
+    <string name="area_no">库位号:</string>
+    <string name="submit">提交</string>
+    <string name="print">打印</string>
+    <string name="Count">数量：</string>
+    <string name="AllPackage">整箱</string>
+    <string name="AllPallet">整托</string>
+    <string name="scan_type_pallet">托盘</string>
+    <string name="AllEAN">EAN</string>
+    <string name="unboxing">整箱/散件</string>
+    <string name="compine_pallet">组托</string>
+    <string name="label_reprint">补打</string>
+    <string name="spare_parts">散件</string>
+    <string name="combine_trays">拼托</string>
+    <string name="balcony">月台</string>
+    <string name="boxing">装箱</string>
+    <string name="choice">选择</string>
+    <string name="text">测试</string>
+    <string name="jump">去扫描</string>
+    <string name="material_no">物料编号</string>
+    <string name="batch_no">批次</string>
+    <string name="material_desc">名称</string>
+    <string name="supplier">供应商：</string>
+    <string name="palletNo">托盘:</string>
+    <string name="outerBoxOrSpareParts">整箱或散件:</string>
+    <string name="offScan">下架扫描</string>
+    <string name="request_print_order_purchase_return">正在打印验退单据..</string>
+
+
+
+    //接口
+    <string name="Msg_GetAreaModelADF">获取库位信息...</string>
+    <string name="Msg_GetT_SerialNoByPalletADF">正在获取条码信息...</string>
+    <string name="Msg_SaveT_InStockDetailADF">保存收货明细列表...</string>
+    <string name="Msg_GetT_InStockDetailListByHeaderIDADF">获取收货明细列表...</string>
+    <string name="Error_ReceiveOver">该物料收货数量大于可收数量！</string>
+    <string name="Msg_SaveT_InStockTaskDetailADF">保存上架明细列表...</string>
+    <string name="Msg_GetT_InTaskDetailListByHeaderIDADF">获取上架明细列表...</string>
+    <string name="Msg_order_refer">正在提交订单明细...</string>
+    <string name="message_request_get_order_detail">正在获取单据明细...</string>
+    <string name="message_request_refer_barcode_info">正在提交条码信息...</string>
+    <string name="message_request_system_refer">正在信息过账操作...</string>
+    <string name="message_request_material_info">正在获取物料信息...</string>
+    <string name="message_request_print">正在提交打印信息...</string>
+    <string name="message_request_quality_inspection_refer">正在提交质检合格信息...</string>
+    <string name="message_request_quality_un_inspection_refer">正在提交单据信息...</string>
+    <string name="message_request_barcode_refer">正在提交条码信息...</string>
+    <string name="message_request_purchase_inspection_detail">正在获取采购验退单表体信息....</string>
+    //错误提示
+    <string name="Error_UpshelfQtyBiger">扫描数量超过上架数量！</string>
+    <string name="Error_BarcodeScaned">该条码已扫描！</string>
+    <string name="Error_BarcodeNotInList">此物料不在列表中！</string>
+    //设置
+    <string name="setting_system_info">系统设置</string>
+    <string name="setting_print_info">打印设置</string>
+    <string name="setting_title">设置</string>
+    <string name="setting_print_laser_printer_desc">激光打印机:</string>
+    <string name="setting_print_desktop_printer_desc">台式打印机:</string>
+    <string name="setting_print_bluetooth_printer_desc">蓝牙打印机:</string>
+    <string name="setting_print_in_stock_printer_type">入库打印方式:</string>
+    <string name="setting_print_out_stock_printer_type">出库打印方式:</string>
+    <string name="setting_print_laser_printer">激光打印机</string>
+    <string name="setting_print_desktop_printer">台式打印机</string>
+    <string name="setting_print_printer_name_hint">请选择或输入打印机名称</string>
+    <string name="setting_print_bluetooth_printer_desc_hint">请选择或输入MAC地址</string>
+    <string name="setting_print_request_get_print_name_list">正在获取打印机名称列表信息...</string>
+    //登录
+    <string name="Msg_Verifying_Permission_information">正在校验权限信息！</string>
+    //主菜单
+    <string name="main_menu_title">主菜单</string>
+    <string name="main_menu_item_purchase_storage">到货入库</string>
+    <string name="main_menu_item_spot_check">到货抽检</string>
+    <string name="main_menu_item_upshelf">上架</string>
+    <string name="main_menu_item_production_storage">成品入库</string>
+    <string name="main_menu_item_production_storage_pallet_no_print">成品托盘打印</string>
+    <string name="main_menu_item_production_returns">生产退货</string>
+    <string name="main_menu_item_transfer_to_storage">调拨入库</string>
+    <string name="main_menu_item_outsourcing">委外入库</string>
+    <string name="main_menu_item_active_other_storage">有源杂入</string>
+    <string name="main_menu_item_active_scan_other_storage">无源杂入</string>
+    <string name="main_menu_item_active_sales_return">销售退货</string>
+    <string name="main_menu_item_quality_inspection">质检处理</string>
+    <string name="main_menu_item_mobile_warehouse_inventory">移库</string>
+    <string name="main_menu_item_set_tray">组托</string>
+    <string name="main_menu_item_remove_tray">拆托</string>
+    <string name="main_menu_item_inventory_adjustment">库存调整</string>
+    <string name="main_menu_item_inventory_scan">盘点</string>
+    <string name="main_menu_item_inventory_inquiry">库存查询</string>
+    <string name="main_menu_item_pick_up_and_out_of_warehouse">领料出库</string>
+    <string name="main_menu_item_sales_out_of_stock">销售发货</string>
+    <string name="main_menu_item_administrative_use">行政领用</string>
+    <string name="main_menu_item_off_shelf_scan">下架扫描</string>
+    <string name="main_menu_item_other_outbound">其他出库</string>
+    <string name="main_menu_item_outsourcing_dispatch">委外发料</string>
+    <string name="main_menu_item_transfer_out_of_warehouse">调拨出库</string>
+    <string name="main_menu_item_loading_truck">装车</string>
+    <string name="main_menu_item_other_loading_truck">发货装车复核</string>
+    <string name="main_menu_item_delivery_lcl">发货拼箱</string>
+    <string name="main_menu_item_loading_truck_setting">装车设置</string>
+    <string name="main_menu_item_purchase_inspection">采购验退</string>
+    <string name="main_menu_item_purchase_return">采购退货</string>
+    //组托
+    <string name="combine_pallet_hint_barcode">请扫描箱码或托盘码</string>
+    <string name="combine_pallet_create_new_tray_no">生成</string>
+    <string name="combine_pallet_tray_no_scan">请扫描托盘码</string>
+    <string name="combine_pallet_outer_barcode_no_scan">请扫描托盘码</string>
+    <string name="Hit_Selectwohouse">点击选择仓库</string>
+    <string name="activity_pallet_barcode">托盘条码：</string>
+    <string name="activity_pallet_PalletNum">累计箱数/件数：</string>
+    <string name="activity_pallet_PalletPrint">托盘标签打印</string>
+    <string name="barcode">条码:</string>
+    <string name="activity_pallet_combine">组托方式：</string>
+    <string name="activity_pallet_On">添加组托</string>
+    <string name="activity_pallet_Off">新建组托</string>
+    <string name="Pallet_scan">组托扫描</string>
+    <string name="combine_pallet_create_pallet_no_hint">请点击生成按钮</string>
+    <string name="combine_pallet_scan_barcode_hint">请扫描外箱码</string>
+    //拆托
+    <string name="activity_dispallet_combine">拆托方式：</string>
+    <string name="activity_dispallet_On">整托销毁</string>
+    <string name="activity_dispallet_Off">拆除单箱</string>
+    <string name="DisPallet_scan">拆托扫描</string>
+    //入库
+    //采购订单列表
+    <string name="filter_content">请输入或扫描单号</string>
+
+    <string name="supplierNoFilter">未筛选</string>
+    <string name="receipt_subtitle">单据选择</string>
+    <string name="appbar_title_receipt_bill">采购订单</string>
+    <string name="appbar_title_outsourcing_orders">委外订单</string>
+    <string name="filter">供应商筛选</string>
+    <string name="supplier_no_filter">供应商代码</string>
+    <string name="QCfilter">质检取样</string>
+    <string name="title_Receipt_RightFilter">取消筛选</string>
+    <string name="Msg_GetT_InStockListADF">获取收货列表...</string>
+    <string name="message_request_get_order_header_info">正在获取单据列表信息...</string>
+    <string name="filter_query">查询</string>
+    //采购订单扫描
+    <string name="activity_Receipt_Scan_InStockQty">收货数量：</string>
+    <string name="activity_Receipt_Scan_ReceiveQty">已收数量：</string>
+    <string name="activity_Receipt_Scan_RemainQty">可收数量：</string>
+    <string name="activity_Receipt_Scan_ScanQty">已扫数量：</string>
+    <string name="activity_Receipt_Scan_Detail">单据明细</string>
+    <string name="receipt_scan_bill_no">单据编号:</string>
+    <string name="receipt_scan_supplier_name">供应商:</string>
+    <string name="receipt_scan_hint_scan_pallet_no">请扫描托盘号</string>
+    <string name="receipt_scan_hint_scan_barcode">请扫描外箱号</string>
+    <string name="receipt_scan_combine_pallet">组托</string>
+    <string name="receipt_scan_combine_refer">提交</string>
+    <string name="receipt_scan_transfer_submission">调拨</string>
+    <string name="appbar_title_receipt_scan">收货扫描</string>
+    <string name="receipt_scan_module_type_combine_pallet">入库组托</string>
+    <string name="receipt_scan_module_type_pallet_scan">托盘扫描</string>
+    <string name="receipt_scan_module_type_desc">扫描模式</string>
+    //采购订单上架列表
+    <string name="filter_content1">请输入或扫描单号</string>
+    <string name="UpShelf_title">上架列表</string>
+    <string name="activity_UpShelf_Qty">上架数量：</string>
+    <string name="activity_UpShelf_ScanQty">已扫数量：</string>
+    <string name="UpShelfscan_subtitle">上架扫描</string>
+    //抽检扫描
+    <string name="quality_inspection_erp_voucher_no_hint">请扫描或输入到货单/委外单/退货单</string>
+    <string name="quality_inspection_area_no_hint">请扫描或输入库位</string>
+    <string name="quality_inspection_pallet_no_hint">请扫描或输入外箱码/托盘条码</string>
+    <string name="quality_inspection_title">抽检</string>
+    <string name="quality_inspection_scan_qty">请输入抽检数量</string>
+    <string name="quality_inspection_erp_voucher_no_desc">检验单号:</string>
+    <string name="quality_inspection_area_no_desc">库位:</string>
+    <string name="quality_inspection_barcode_no_desc">条码:</string>
+    <string name="quality_inspection_qty_desc">抽检数量:</string>
+    <string name="quality_inspection_title_list_name">抽检列表</string>
+    <string name="outbarcode_info_material_no_desc">物料编号:</string>
+    <string name="outbarcode_info_material_name_desc">物料名称:</string>
+    <string name="outbarcode_info_material_batch_desc">批次编号:</string>
+    <string name="outbarcode_info_random_inspection_qty_desc">单据数量:</string>
+    //质检处理列表
+    <string name="quality_inspection_processing_title">质检列表</string>
+    <string name="qualified_title">质检合格列表</string>
+    <string name="unqualified_title">质检不合格列表</string>
+    <string name="quality_inspection_list_query">正在查询质检单列表信息</string>
+    //质检处理扫描
+    <string name="quality_inspection_processing_scan_title">质检扫描</string>
+    <string name="quality_inspection_scan_strongholdNo">据点:</string>
+    <string name="quality_inspection_scan_receipt_voucher_no">到货单:</string>
+    <string name="quality_inspection_scan_erp_voucher_no">检验单:</string>
+    <string name="quality_inspection_scan_material_no">物料:</string>
+    <string name="quality_inspection_scan_batch_no">批次:</string>
+    <string name="quality_inspection_scan_qualified_qty">合格数:</string>
+    <string name="quality_inspection_scan_un_qualified_qty">不合格数:</string>
+    <string name="quality_inspection_scan_un_qualified_scan_qty">已扫:</string>
+    <string name="quality_inspection_scan_un_qualified_barcode_hint">请输入或扫描不合格条码:</string>
+    <string name="quality_inspection_scan_un_qualified_barcode">条码:</string>
+    <string name="quality_inspection_scan_un_qualified_barcode_qty">数量:</string>
+    <string name="quality_inspection_scan_un_qualified_father_barcode">托盘码</string>
+    <string name="quality_inspection_scan_area_no">库位:</string>
+    //采购验退列表
+    <string name="purchase_inspection_processing_title">采购验退列表</string>
+    <string name="purchase_inspection_processing_scan">采购验退扫描</string>
+
+    //下架扫描
+    <string name="SplitNumber">拆零数量：</string>
+    <string name="boxNumber">拆装数量：</string>
+    <string name="OffshelfNumber">下架数量：</string>
+    <string name="OffshelfPickNumber">拣货数量：</string>
+    <string name="offscan_voucher_no_hint">请扫描或输入单号</string>
+    <string name="offscan_receive_address">收货地址:</string>
+    <string name="offscan_voucher_no_desc">订单号:</string>
+    <string name="offscan_scan_barcode_desc">外箱:</string>
+    <string name="offscan_scan_sub_barcode_desc">散装:</string>
+    <string name="offscan_scan_qty_desc">数量:</string>
+    <string name="offscan_scan_input_qty">请输入数量</string>
+    <string name="offscan_scan_packing_box">拼箱</string>
+    <string name="offscan_scan_platform">提交月台</string>
+    <string name="offscan_area_no">库位:</string>
+    <string name="offscan_batch_no">批次</string>
+    <string name="appbar_title_offscan">配货下架</string>
+    //拼箱扫描
+    <string name="appbar_title_packing">发货拼箱</string>
+    <string name="packing_scan_type_packing">拼箱</string>
+    <string name="packing_scan_barcode">条码:</string>
+    <string name="packing_scan_batch_no_desc">批次:</string>
+    <string name="packing_scan_type_unpacking">拆箱</string>
+    <string name="packing_scan_platform">月台</string>
+    <string name="packing_scan_packing">拼箱码</string>
+    <string name="packing_scan_create_packing_no">生成</string>
+    <string name="packing_scan_packing_no">生成或扫描拼箱码</string>
+    <string name="packing_scan_unstock">非库存拼箱</string>
+    <string name="packing_scan_barcode_hint">请扫描外箱码/69码/物料编码</string>
+    <string name="packing_scan_print">打印</string>
+    <string name="packing_scan_delete_packing">删除拼箱</string>
+    <string name="packing_scan_qty">数量:</string>
+    <string name="packing_scan_qty_hint">请输入数量</string>
+    <string name="packing_list">拼箱列表</string>
+    //reviewScan
+    <string name="appbar_title_review">市区发货装车</string>
+    <string name="review_scan_driver">司机姓名：</string>
+    <string name="review_scan_driver_hint">请输入司机姓名</string>
+    <string name="review_scan_erp_voucher_no">单号:</string>
+    <string name="review_scan_erp_voucher_no_hint">请扫描单号</string>
+    <string name="review_scan_receiver">收货人:</string>
+    <string name="review_scan_receive_address">收货地址:</string>
+    <string name="review_scan_sum_qty">外箱数: 0    散件数: 0  </string>
+    <string name="review_scan_refer">提交</string>
+    <string name="review_receive_logistics_company">物流公司:</string>
+    <string name="review_receive_logistics_company_hint">请输入物流公司</string>
+
+    //Logistics loading settings
+    <string name="appbar_title_logistics_loading_setting">发货装车设置</string>
+    <string name="logistics_loading_settings_consignment_note">托运单:</string>
+    <string name="logistics_loading_settings_consignment_note_details">托运明细:</string>
+    <string name="logistics_loading_settings_shipment_number">物流单号:</string>
+    <string name="logistics_loading_settings_erp_voucher_no">单号:</string>
+    <string name="logistics_loading_settings_shipment_number_name">发货物流:</string>
+    <string name="logistics_loading_settings_receiver">收货人:</string>
+    <string name="logistics_loading_settings_address">收货地址:</string>
+    <string name="logistics_loading_settings_delivery_methods">送货方式:</string>
+    <string name="logistics_loading_settings_door_to_door_fee">上门费用:</string>
+    <string name="logistics_loading_settings_insured_cost">保价费用:</string>
+    <string name="logistics_loading_settings_business_type">业务类型:</string>
+    <string name="logistics_loading_settings_settlement_method">结算方式:</string>
+    <string name="logistics_loading_settings_cost_calculation">费用计算:</string>
+    <string name="logistics_loading_settings_unit_price">单价:</string>
+    <string name="logistics_loading_settings_confirm">打印</string>
+    //dialog 入库创建新条码物料
+    <string name="dialog_material_info_material_no">物料:</string>
+    <string name="dialog_material_info_material_name">名称:</string>
+    <string name="dialog_material_info_material_out_box_count">外箱:</string>
+    <string name="dialog_material_info_material_pack_count">包装量:</string>
+    <string name="dialog_material_info_material_bulk_volume">散装量:</string>
+    <string name="dialog_material_info_batch_no">批次:</string>
+    <string name="dialog_material_info_qty">数量:</string>
+    <string name="dialog_material_info_batch_no_hint">请输入或扫描批次</string>
+    <string name="dialog_material_info_qty_hint">请输入数量</string>
+    <string name="dialog_material_info_button_ok">保存</string>
+    <string name="dialog_material_info_button_cancel">取消</string>
+    //入库拼托
+    <string name="instock_pallet_scan">入库拼托</string>
+    <string name="instock_pallet_erp_voucher_no_desc">订单号:</string>
+    <string name="instock_pallet_erp_voucher_no_hint"></string>
+    //移库
+    <string name="activity_inventory_movement_scan">移库</string>
+    <string name="activity_inventory_movement_instock">移入库：</string>
+    <string name="activity_inventory_movement_outstock">移出库：</string>
+    <string name="activity_inventory_movement_qty">移动数量:</string>
+    <string name="activity_inventory_movement_instock_hint">请扫描或输入移入库位</string>
+    <string name="activity_inventory_movement_outstock_hint">请扫描或输入移出库位</string>
+    <string name="activity_inventory_movement_qty_hint">请输入移动数量</string>
+    <string name="activity_inventory_movement_refer">提交</string>
+
+    //委外入库
+    <string name="appbar_title_outsourcing_storage_scan">委外入库扫描</string>
+
+    //调拨入库
+    <string name="appbar_title_transfer_to_storage">调拨入库</string>
+    <string name="appbar_title_transfer_to_storage_scan">调拨入库扫描</string>
+    //有源杂入
+    <string name="appbar_title_active_other_bill">有源杂入</string>
+    <string name="appbar_title_active_other_bill_scan">有源杂入扫描</string>
+    //产品入库
+    <string name="appbar_title_product_storage_bill">成品入库</string>
+    <string name="appbar_title_product_storage_scan">成品入库扫描</string>
+    <string name="appbar_title_product_storage_pallet_label_print">托盘标签打印</string>
+    <string name="MSG_GET_FINISHED_PRODUCT">获取成品入库订单列表...</string>
+    <string name="product_storage_print_jump_to_next_activity">完成</string>
+    <string name="product_storage_print_request_barcode_info">正在提交条码信息</string>
+    <string name="product_storage_print_label">正在打印托盘标签信息</string>
+    //销售退货
+    <string name="appbar_title_sales_return_storage_bill">销售退货</string>
+    <string name="appbar_title_sales_return_storage_scan">销售退货扫描</string>
+    <string name="appbar_title_sales_return_storage_print">销售退货打印</string>
+    <string name="return_storage_scan_menu_print">打印</string>
+    <string name="return_storage_scan_print_customer_code">客户编码:</string>
+    <string name="return_storage_scan_print_customer_code_hint">请扫描或输入客户编码</string>
+    <string name="return_storage_scan_print_area_no">库位:</string>
+    <string name="return_storage_scan_print_area_no_hint">请扫描或输入库位</string>
+    <string name="return_storage_scan_print_material_no">物料编码:</string>
+    <string name="return_storage_scan_print_material_no_hint">请扫描或输入物料编码</string>
+    <string name="return_storage_scan_print_query_date_time">开始日期:</string>
+    <string name="return_storage_scan_print_query_end_date_time">结束日期:</string>
+    <string name="return_storage_scan_print_query_date_time_hint"></string>
+    <string name="return_storage_scan_print_material_desc">物料名称:</string>
+    <string name="return_storage_scan_print_pack_qty">包装量:</string>
+    <string name="return_storage_scan_print_qty">总数量:</string>
+    <string name="return_storage_scan_print_button">打印</string>
+    <string name="return_storage_scan_print_batch_no">批次:</string>
+    <string name="return_storage_scan_print_batch_no_select">选择</string>
+    <string name="return_storage_scan_print_batch_no_select_desc">选择开始批次日期</string>
+    <string name="sales_return_scan_pallet_no_desc">托盘号:</string>
+    <string name="sales_return_scan_pallet_no_hint"></string>
+
+
+    //生产退货
+    <string name="appbar_title_production_returns_bill">生产退货列表</string>
+    <string name="appbar_title_production_returns_scan">生产退货扫描</string>
+    //无源杂入
+    <string name="appbar_title_no_source_scan">无源杂入</string>
+    <string name="no_source_scan_instock_type">入库方式:</string>
+    <string name="no_source_scan_instock_qualified">合格入库</string>
+    <string name="no_source_scan_instock_un_qualified">不合格入库</string>
+    //标签补打
+    <string name="appbar_title_label_reprint">标签补打</string>
+    <string name="label_print_type">标签类型:</string>
+    <string name="label_print_type_raw_material">原料标签:</string>
+    <string name="label_print_type_finished_product">产品标签:</string>
+    <string name="label_print_type_pallet">托盘标签:</string>
+    <string name="label_reprint_erp_voucher_no">订单编号:</string>
+    <string name="label_reprint_material_no">物料编号:</string>
+    <string name="label_reprint_material_name">物料名称:</string>
+    <string name="label_reprint_batch_no">批次:</string>
+    <string name="label_reprint_batch_no_select">选择</string>
+    <string name="label_reprint_batch_no_list_desc">请选择批次</string>
+    <string name="label_reprint_product_time">生产日期</string>
+    <string name="label_reprint_qty">数量:</string>
+    <string name="label_reprint_print_count">打印张数:</string>
+    <string name="label_reprint_print">打印</string>
+
+    //dialog dialog_balcony_order_no
+    <string name="dialog_balcony_order_no">订单号:</string>
+    <string name="dialog_balcony_desc">月台:</string>
+</resources>
