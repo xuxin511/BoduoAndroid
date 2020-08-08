@@ -147,7 +147,7 @@ public class BaseOutStockBusiness<T extends BaseOutStockBusinessPresenter> exten
                 case R.id.offscan_barcode:
                     if (scanType == BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_TRAY) {
                         String fatherBarcode = mFatherBarcode.getText().toString().trim();
-                        mPresenter.onScan(fatherBarcode, "", scanType);
+//                        mPresenter.onScan(fatherBarcode, "", scanType);
                     } else {
                         onSubBarcodeFocus();
                     }
@@ -156,7 +156,7 @@ public class BaseOutStockBusiness<T extends BaseOutStockBusinessPresenter> exten
                     if (scanType == BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_OUTER_BOX) {
                         String fatherBarcode = mFatherBarcode.getText().toString().trim();
                         String subBarcode = mSubBarcode.getText().toString().trim();
-                        mPresenter.onScan(fatherBarcode, subBarcode, scanType);
+//                        mPresenter.onScan(fatherBarcode, subBarcode, scanType);
                         break;
                     } else if (scanType == BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_SPARE_PARTS) {
                         onQtyFocus();
@@ -166,7 +166,7 @@ public class BaseOutStockBusiness<T extends BaseOutStockBusinessPresenter> exten
                     if (scanType == BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_SPARE_PARTS) {
                         String fatherBarcode = mFatherBarcode.getText().toString().trim();
                         String subBarcode = mSubBarcode.getText().toString().trim();
-                        mPresenter.onScan(fatherBarcode, subBarcode, scanType);
+//                        mPresenter.onScan(fatherBarcode, subBarcode, scanType);
                         break;
                     }
                     break;
@@ -177,7 +177,7 @@ public class BaseOutStockBusiness<T extends BaseOutStockBusinessPresenter> exten
     }
 
     @Override
-    public void setOffShelfHeaderInfo(OutStockOrderHeaderInfo model) {
+    public void setOrderHeaderInfo(OutStockOrderHeaderInfo model) {
         mVoucherNo.setText(model.getErpvoucherno());
     }
 
@@ -269,6 +269,14 @@ public class BaseOutStockBusiness<T extends BaseOutStockBusinessPresenter> exten
             mPalletType.setVisibility(View.VISIBLE);
             selectScanType(mPalletType, true);
         }
+    }
+
+    @Override
+    public void onReset() {
+        mFatherBarcode.setText("");
+        mSubBarcode.setText("");
+        mQty.setText("0");
+        onFatherBarcodeFocus();
     }
 
     /**

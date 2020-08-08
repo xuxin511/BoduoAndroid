@@ -14,7 +14,7 @@ import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScanModel;
-import com.liansu.boduowms.modules.outstock.purchaseReturn.purchaseInspection.scan.PurchaseInspectionProcessingScan;
+
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -117,7 +117,7 @@ public class PurchaseReturnReviewScanModel extends BaseReviewScanModel {
         mNetMap.put("TAG_GET_T_CHECK_OUT_STOCK_DETAIL_LIST_ADF_ASYNC", callBackListener);
         String modelJson = parseModelToJson(receiptModel);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_GET_T_CHECK_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_CHECK_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_get_order_detail), mContext, mHandler, RESULT_TAG_GET_T_CHECK_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().InspecReturn_GetT_CheckOutStockDetailListADFAsync, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_CHECK_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_get_order_detail), mContext, mHandler, RESULT_TAG_GET_T_CHECK_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().PurchaseReturn_GetT_CheckOutStockDetailListADFAsync, modelJson, null);
     }
 
     /**
@@ -130,9 +130,8 @@ public class PurchaseReturnReviewScanModel extends BaseReviewScanModel {
     public void requestOrderRefer(List<OrderRequestInfo> list, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_POST_T_OUT_STOCK_DETAIL_ADF_ASYNC", callBackListener);
         String modelJson = parseModelListToJsonArray(list);
-        LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, TAG_POST_T_OUT_STOCK_DETAIL_ADF_ASYNC, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_T_OUT_STOCK_DETAIL_ADF_ASYNC, mContext.getString(R.string.message_request_quality_un_inspection_refer), mContext, mHandler, RESULT_TAG_POST_T_OUT_STOCK_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().InspecReturn_PostT_OutStockDetailADFAsync, modelJson, null);
-
+//        LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, TAG_POST_T_OUT_STOCK_DETAIL_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_T_OUT_STOCK_DETAIL_ADF_ASYNC, mContext.getString(R.string.message_request_quality_un_inspection_refer), mContext, mHandler, RESULT_TAG_POST_T_OUT_STOCK_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().PurchaseReturn_PostT_OutStockDetailADFAsync, modelJson, null);
     }
 
     /**
@@ -161,7 +160,7 @@ public class PurchaseReturnReviewScanModel extends BaseReviewScanModel {
         mNetMap.put("TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC", callBackListener);
         String modelJson = parseModelToJson(info);
         LogUtil.WriteLog(UpShelfScan.class, TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, mContext.getString(R.string.message_request_barcode_refer), mContext, mHandler, RESULT_TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, null, UrlInfo.getUrl().InspecReturn_SubmitReviewScanADFAsync, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, mContext.getString(R.string.message_request_barcode_refer), mContext, mHandler, RESULT_TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, null, UrlInfo.getUrl().PurchaseReturn_SubmitReviewScanADFAsync, modelJson, null);
     }
 
     /**

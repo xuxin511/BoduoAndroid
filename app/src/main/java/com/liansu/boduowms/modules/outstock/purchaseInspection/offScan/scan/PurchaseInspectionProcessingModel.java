@@ -141,19 +141,19 @@ public class PurchaseInspectionProcessingModel extends BaseModel {
     public void requestBarcodeInfoRefer(OutStockOrderDetailInfo info, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_SAVE_T_OUT_STOCK_DETAIL_ADF_ASYNC", callBackListener);
         String modelJson = parseModelToJson(info);
-        LogUtil.WriteLog(UpShelfScan.class, TAG_SAVE_T_OUT_STOCK_DETAIL_ADF_ASYNC, modelJson);
+        LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, TAG_SAVE_T_OUT_STOCK_DETAIL_ADF_ASYNC, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_T_OUT_STOCK_DETAIL_ADF_ASYNC, mContext.getString(R.string.message_request_barcode_refer), mContext, mHandler, RESULT_TAG_SAVE_T_OUT_STOCK_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().InspecReturn_SaveT_OutStockDetailADFAsync, modelJson, null);
 
     }
 
     /**
-     * @desc: 查询条码信息
+     * @desc: 查询物料信息
      * @param:
      * @return:
      * @author: Nietzsche
      * @time 2020/7/3 16:47
      */
-    public void requestBarcodeInfoQuery(String material, NetCallBackListener<String> callBackListener) {
+    public void requestMaterialInfoQuery(String material, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_SELECT_MATERIAL", callBackListener);
         String modelJson = parseModelToJson(material);
         LogUtil.WriteLog(UpShelfScan.class, TAG_SELECT_MATERIAL, modelJson);

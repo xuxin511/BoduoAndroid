@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -41,35 +42,39 @@ import java.util.List;
  */
 @ContentView(R.layout.activity_purchase_return_scan)
 public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseReturnOffScanView {
-    protected Context  mContext = this;
+    protected Context      mContext = this;
     @ViewInject(R.id.offscan_list_view)
-    protected ListView   mListView;
+    protected ListView     mListView;
     @ViewInject(R.id.offscan_voucher_no)
-    protected EditText   mErpVoucherNo;
+    protected EditText     mErpVoucherNo;
     @ViewInject(R.id.offscan_receive_supplier_desc)
-    protected   TextView mSupplierDesc;
+    protected TextView     mSupplierDesc;
     @ViewInject(R.id.offscan_receive_supplier)
-    protected   EditText mSupplier;
+    protected EditText     mSupplier;
     @ViewInject(R.id.offscan_barcode)
-    protected EditText                      mFatherBarcode;
+    protected EditText     mFatherBarcode;
     @ViewInject(R.id.offscan_sub_barcode)
-    protected EditText                      mSubBarcode;
+    protected EditText     mSubBarcode;
     @ViewInject(R.id.offscan_batch_no)
-    protected EditText                      mBatchNo;
+    protected EditText     mBatchNo;
     @ViewInject(R.id.offscan_qty)
-    protected EditText                      mQty;
+    protected EditText     mQty;
     @ViewInject(R.id.offscan_box_type_pallet)
-    protected ToggleButton                  mPalletType;
+    protected ToggleButton mPalletType;
     @ViewInject(R.id.offscan_box_type_box)
-    protected ToggleButton                  mOuterBoxType;
+    protected ToggleButton mOuterBoxType;
     @ViewInject(R.id.offscan_box_type_spare_parts)
-    protected ToggleButton                  mSparePartsType;
+    protected ToggleButton mSparePartsType;
     @ViewInject(R.id.offscan_box_type_combine_trays)
-    protected ToggleButton                  mCombineTraysType;
+    protected ToggleButton mCombineTraysType;
     @ViewInject(R.id.offscan_sub_barcode_desc)
-    protected TextView                      mSubBarcodeDesc;
+    protected TextView     mSubBarcodeDesc;
     @ViewInject(R.id.offscan_qty_desc)
-    protected TextView                      mQtyDesc;
+    protected TextView     mQtyDesc;
+    @ViewInject(R.id.offscan_refer)
+    Button mOrderRefer;
+    @ViewInject(R.id.offscan_print)
+    Button mOrderPrint;
     protected String                        mBusinessType = "";  //业务类型
     protected BaseOutStockBusinessPresenter mPresenter;
     protected BaseOffShelfScanDetailAdapter mAdapter;
@@ -101,6 +106,9 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
     @Override
     protected void onResume() {
         super.onResume();
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -130,40 +138,38 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
 
     }
 
+    /**
+     * @desc: 扫描条码
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/7 8:19
+     */
     @Event(value = {R.id.offscan_voucher_no, R.id.offscan_barcode, R.id.offscan_sub_barcode, R.id.offscan_qty}, type = View.OnKeyListener.class)
     private boolean onScanClick(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
             int scanType = getScanType();
+            String fatherBarcode = mFatherBarcode.getText().toString().trim();
+            String subBarcode = mSubBarcode.getText().toString().trim();
             switch (v.getId()) {
                 case R.id.offscan_voucher_no:
                     String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
                     mPresenter.getOrderDetailInfoList(erpVoucherNo);
                     break;
                 case R.id.offscan_barcode:
-                    if (scanType == BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_TRAY) {
-                        String fatherBarcode = mFatherBarcode.getText().toString().trim();
-                        mPresenter.onScan(fatherBarcode, "", scanType);
-                    } else {
-                        onSubBarcodeFocus();
-                    }
+                    mPresenter.onPalletScan(fatherBarcode, scanType);
                     break;
                 case R.id.offscan_sub_barcode:
                     if (scanType == BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_OUTER_BOX) {
-                        String fatherBarcode = mFatherBarcode.getText().toString().trim();
-                        String subBarcode = mSubBarcode.getText().toString().trim();
-                        mPresenter.onScan(fatherBarcode, subBarcode, scanType);
-                        break;
+                        mPresenter.onOuterBoxScan(fatherBarcode, subBarcode, scanType);
                     } else if (scanType == BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_SPARE_PARTS) {
-                        onQtyFocus();
+                        mPresenter.onSparePartsScan(fatherBarcode, subBarcode, scanType);
                     }
-
+                    break;
                 case R.id.offscan_qty:
                     if (scanType == BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_SPARE_PARTS) {
-                        String fatherBarcode = mFatherBarcode.getText().toString().trim();
-                        String subBarcode = mSubBarcode.getText().toString().trim();
-                        mPresenter.onScan(fatherBarcode, subBarcode, scanType);
-                        break;
+                        mPresenter.onSparePartsInfoRefer(fatherBarcode, subBarcode, scanType);
                     }
                     break;
             }
@@ -172,10 +178,33 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
         return false;
     }
 
-    @Override
-    public void setOffShelfHeaderInfo(OutStockOrderHeaderInfo info) {
-        if (info!=null){
+    /**
+     * @desc: 过账提交
+     * @param:
+     * @return:
+     * @author:
+     * @time 2020/4/20 17:16
+     */
+    @Event(value = {R.id.offscan_refer}, type = CompoundButton.OnClickListener.class)
+    private void onRefer(View view) {
+        mPresenter.onOrderRefer();
+    }
+    /**
+     * @desc: 打印
+     * @param:
+     * @return:
+     * @author:
+     * @time 2020/4/20 17:16
+     */
+    @Event(value = {R.id.offscan_print}, type = CompoundButton.OnClickListener.class)
+    private void onpPrint(View view) {
+        mPresenter.onOrderPrint();
+    }
 
+    @Override
+    public void setOrderHeaderInfo(OutStockOrderHeaderInfo info) {
+        if (info != null) {
+//             mSupplier.setText(info.);
         }
     }
 
@@ -188,8 +217,6 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
     public void onOrderAddressFocus() {
 
     }
-
-
 
 
     @Override
@@ -228,7 +255,13 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String select_item = items[which].toString();
-//                            mAddress.setText(select_item);
+                            if (mPresenter.getModel().getCurrentSubInfo() != null) {
+                                mPresenter.getModel().getCurrentSubInfo().setBatchno(select_item);
+                                mPresenter.onSparePartsInfoRefer(mFatherBarcode.getText().toString().trim(), mSubBarcode.getText().toString().trim(), getScanQty());
+                            } else {
+                                MessageBox.Show(mContext, "获取散件信息为空!请先扫描散件");
+                            }
+
                             dialog.dismiss();
                         }
                     }).show();
@@ -268,7 +301,20 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
         } else if (mBusinessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PICKING_OFF_THE_SHELF_ONLY_TRAY)) {
             mPalletType.setVisibility(View.VISIBLE);
             selectScanType(mPalletType, true);
+        }else if(mBusinessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)){
+            mPalletType.setVisibility(View.VISIBLE);
+            selectScanType(mPalletType, true);
+            mOrderRefer.setVisibility(View.GONE);
+            mOrderPrint.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onReset() {
+        mFatherBarcode.setText("");
+        mSubBarcode.setText("");
+        mQty.setText("0");
+        onFatherBarcodeFocus();
     }
 
     /**
@@ -309,13 +355,14 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
         } else if (viewId == R.id.offscan_box_type_combine_trays) {
             mPalletType.setChecked(false);
             mOuterBoxType.setChecked(false);
-            mSparePartsType.setChecked(false);
-            mSubBarcode.setVisibility(View.GONE);
-            mQty.setVisibility(View.GONE);
-            mSubBarcodeDesc.setVisibility(View.GONE);
-            mQtyDesc.setVisibility(View.GONE);
+            mCombineTraysType.setChecked(false);
+            mSubBarcode.setVisibility(View.VISIBLE);
+            mQty.setVisibility(View.VISIBLE);
+            mSubBarcodeDesc.setVisibility(View.VISIBLE);
+            mQtyDesc.setVisibility(View.VISIBLE);
         }
     }
+
 
     @Event(R.id.offscan_packing_box)
     private void btnStartPickingClick(View view) {
@@ -332,7 +379,11 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
      * @time 2020/7/24 14:54
      */
     protected void initTitle() {
-        BaseApplication.toolBarTitle = new ToolBarTitle(mBusinessType + getString(R.string.offScan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+        mBusinessType = getIntent().getStringExtra("BusinessType").toString();
+        if (mBusinessType!=null){ BaseApplication.toolBarTitle = new ToolBarTitle(mBusinessType + getString(R.string.offScan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+
+        }
+
     }
 
 

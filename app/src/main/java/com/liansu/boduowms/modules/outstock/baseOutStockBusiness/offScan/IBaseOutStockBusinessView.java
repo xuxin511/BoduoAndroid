@@ -15,7 +15,7 @@ import java.util.List;
 public interface IBaseOutStockBusinessView extends IBaseView {
     void bindListView(List<OutStockOrderDetailInfo> list);
 
-    void setOffShelfHeaderInfo(OutStockOrderHeaderInfo model);
+    void setOrderHeaderInfo(OutStockOrderHeaderInfo model);
 
     void onErpVoucherNoFocus();
 
@@ -35,7 +35,7 @@ public interface IBaseOutStockBusinessView extends IBaseView {
     int getScanType();
    float getScanQty();
     void initViewStatus();
-
+   void onReset();
     void selectScanType(ToggleButton view, boolean viewStatus);
 
 

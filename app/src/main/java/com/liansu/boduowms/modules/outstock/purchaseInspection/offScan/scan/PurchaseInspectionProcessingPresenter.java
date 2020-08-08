@@ -272,7 +272,7 @@ public class PurchaseInspectionProcessingPresenter {
         }
         final OutBarcodeInfo finalScanSubQRCode = scanSubQRCode;
         final OutBarcodeInfo finalScanFatherQRCode = scanFatherQRCode;
-        mModel.requestBarcodeInfoQuery(finalScanSubQRCode.getBarcode(), new NetCallBackListener<String>() {
+        mModel.requestMaterialInfoQuery(finalScanSubQRCode.getBarcode(), new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
                 try {
@@ -349,7 +349,7 @@ public class PurchaseInspectionProcessingPresenter {
      * @time 2019/11/14 17:39
      */
     public void scanOuterBarcode(final OutBarcodeInfo fatherBarcode, final OutBarcodeInfo scanBarcode) {
-        mModel.requestBarcodeInfoQuery(fatherBarcode.getMaterialno(), new NetCallBackListener<String>() {
+        mModel.requestMaterialInfoQuery(fatherBarcode.getMaterialno(), new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
                 try {
@@ -476,6 +476,7 @@ public class PurchaseInspectionProcessingPresenter {
         OutStockOrderDetailInfo info = new OutStockOrderDetailInfo();
         if (mModel.getOrderHeaderInfo() == null) {
             MessageBox.Show(mContext, "请扫描单据编号");
+            return;
         }
         info.setErpvoucherno(mModel.getOrderHeaderInfo().getErpvoucherno());
         info.setPrintername(UrlInfo.mOutStockPrintName);
