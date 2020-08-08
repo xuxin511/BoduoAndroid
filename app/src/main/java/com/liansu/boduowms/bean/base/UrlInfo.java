@@ -78,4 +78,14 @@ public class UrlInfo {
     public String InspecReturn_PostT_OutStockDetailADFAsync         = GetWCFAdress() + "InspecReturn/PostT_OutStockDetailADFAsync"; //采购验退复核过账
     public String InspecReturn_PrintInspecReturn                    = GetWCFAdress() + "InspecReturn/PrintInspecReturn"; //采购验退打印
 
+
+    //采购退货
+    public String PurchaseReturn_GetT_InspecReturnListADFAsync        = GetWCFAdress() + "PurchaseReturn/GetT_InspecReturnListADFAsync"; //采购退货获取列表
+    public String PurchaseReturn_GetT_OutStockDetailListADFAsync      = GetWCFAdress() + "PurchaseReturn/GetT_OutStockDetailListADFAsync"; //采购退货获取表体
+    public String PurchaseReturn_SaveT_OutStockDetailADFAsync         = GetWCFAdress() + "PurchaseReturn/SaveT_OutStockDetailADFAsync"; //采购退货实时提交
+    public String PurchaseReturn_GetT_CheckOutStockDetailListADFAsync = GetWCFAdress() + "PurchaseReturn/GetT_CheckOutStockDetailListADFAsync"; //采购退货复核获取单据明细
+    public String PurchaseReturn_SubmitReviewScanADFAsync             = GetWCFAdress() + "PurchaseReturn/SubmitReviewScanADFAsync"; //采购退货复核扫描提交
+    public String PurchaseReturn_PostT_OutStockDetailADFAsync         = GetWCFAdress() + "PurchaseReturn/PostT_OutStockDetailADFAsync"; //采购退货复核过账
+    public String PurchaseReturn_PrintInspecReturn                    = GetWCFAdress() + "PurchaseReturn/PrintInspecReturn"; //采购退货打印
+
 }

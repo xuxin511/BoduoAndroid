@@ -89,7 +89,7 @@ public class DistributionOffShelfModel extends BaseOutStockBusinessModel {
      * @author: Nietzsche
      * @time 2020/7/5 11:01
      */
-    public BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> findMaterialInfo(OutBarcodeInfo scanFatherBarcode) {
+    public BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> findMaterialInfo2(OutBarcodeInfo scanFatherBarcode) {
         BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> resultInfo = new BaseMultiResultInfo<>();
         OutStockOrderDetailInfo sMaterialInfo = null;
         String barcodeMaterialNo = scanFatherBarcode.getMaterialno() != null ? scanFatherBarcode.getMaterialno() : "";

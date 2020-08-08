@@ -33,10 +33,7 @@ public class DistributionOffShelfPresenter extends BaseOutStockBusinessPresenter
         return null;
     }
 
-    @Override
-    public void onScan(String fatherBarcode, String subBarcode, int scanType) {
-        super.onScan(fatherBarcode, subBarcode, scanType);
-    }
+
 
     @Override
     public void getOrderDetailInfoList(String erpVoucherNo) {
