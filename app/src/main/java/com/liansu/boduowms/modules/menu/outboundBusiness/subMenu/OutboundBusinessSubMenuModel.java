@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScan;
@@ -49,6 +50,13 @@ public class OutboundBusinessSubMenuModel {
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
             mItemIconList.add(R.drawable.loading_truck);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck));
+        }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
+            mItemIconList.add(R.drawable.other_outbound);
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
+            mItemIconList.add(R.drawable.loading_truck);
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck));
+            mItemIconList.add(R.drawable.set_tray_and_remove_tray);
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_delivery_lcl));
         }
         for (int i = 0; i < mItemIconList.size(); i++) {
             Map<String, Object> map = new HashMap<String, Object>();
@@ -74,9 +82,27 @@ public class OutboundBusinessSubMenuModel {
                 intent.setClass(mContext, PurchaseInspectionBill.class);
             } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)){
                 intent.setClass(mContext, PurchaseReturnOffScan.class);
+            }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
+                intent.setClass(mContext, SalesOutstock.class);
             }
             intent.putExtra("BusinessType", businessType);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
+          //复核
+            intent = intent.setClass(mContext, BaseReviewScan.class);
+            if  (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
+                intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
+            }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
+                //销售出库复核
+            }
+        }
+        //拼箱
+        else if(moduleName.equals((mContext.getString((R.string.main_menu_item_delivery_lcl))))){
+            intent = intent.setClass(mContext, BaseReviewScan.class);
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
+                //销售出库拼箱
+            }
+        }
+        else if (moduleName.equals(mContext.getString(R.string.main_menu_item_off_shelf_scan))) {
             intent = intent.setClass(mContext, BaseReviewScan.class);
             intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
         } else {

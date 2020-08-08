@@ -28,4 +28,7 @@ public class OrderType {
     public final static int OUT_STOCK_ORDER_TYPE_OTHER_DELIVERY_AND_LOADING_VALUE  = 1;
 
 
+    public final static String OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK  = "销售出库";
+
+
 }

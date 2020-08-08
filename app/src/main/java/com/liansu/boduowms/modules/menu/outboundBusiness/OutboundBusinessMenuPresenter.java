@@ -11,6 +11,7 @@ import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.menu.IMenuPresenter;
 import com.liansu.boduowms.modules.menu.IMenuView;
 import com.liansu.boduowms.modules.menu.outboundBusiness.subMenu.OutboundBusinessSubMenu;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
 import com.liansu.boduowms.modules.outstock.offScan.DistributionOffShelf;
 import com.liansu.boduowms.utils.function.CommonUtil;
@@ -55,9 +56,13 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
                         itemIconList.add(R.drawable.purchase_returns);
                         itemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
                         break;
+//                    case 30:
+//                        itemIconList.add(R.drawable.sales_out_of_stock);
+//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_of_stock));
+//                        break;
                     case 30:
                         itemIconList.add(R.drawable.sales_out_of_stock);
-                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_of_stock));
+                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_stock));
                         break;
                 }
             }    //cion和iconName的长度是相同的，这里任选其一都可以
@@ -79,10 +84,7 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
     @Override
     protected void loadBusiness(String moduleName) {
         Intent intent = new Intent();
-        if (moduleName.equals(mContext.getString(R.string.main_menu_item_sales_out_of_stock))) {
-            intent.setClass(mContext, DistributionOffShelf.class);
-            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PICKING_OFF_THE_SHELF);
-        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_delivery_lcl))) {
+      if (moduleName.equals(mContext.getString(R.string.main_menu_item_delivery_lcl))) {
 //            intent.setClass(mContext, PackingScan.class);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_loading_truck))) {
             intent.setClass(mContext, BaseReviewScan.class);
@@ -96,7 +98,14 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
         }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
             intent = intent.setClass(mContext, BaseReviewScan.class);
             intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
+        }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_sales_out_stock))) {
+          intent.setClass(mContext, OutboundBusinessSubMenu.class);
+          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK);
+//            intent = intent.setClass(mContext, SalesOutstock.class);
+//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK);
         }
+
+
         if (intent != null) {
             mMenuView.loadBusiness(intent);
         }

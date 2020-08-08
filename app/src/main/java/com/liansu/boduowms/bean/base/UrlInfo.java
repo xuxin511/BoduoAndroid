@@ -88,4 +88,11 @@ public class UrlInfo {
     public String PurchaseReturn_PostT_OutStockDetailADFAsync         = GetWCFAdress() + "PurchaseReturn/PostT_OutStockDetailADFAsync"; //采购退货复核过账
     public String PurchaseReturn_PrintInspecReturn                    = GetWCFAdress() + "PurchaseReturn/PrintInspecReturn"; //采购退货打印
 
+
+    //销售出库
+    public String SalesOutstock_SacnningNo        = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
+    public String SalesOutstock_SacnningPallet     = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
+
+
+
 }
