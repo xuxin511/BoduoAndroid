@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,6 +88,9 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
         }
         x.view().inject(this);
         initListener();
+        mSwipeLayout.setEnabled(false);
+        mEdtfilterContent.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
+        mSupplierNoFilter.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
     }
 
     @Override
@@ -127,6 +131,8 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
                 mAdapter.notifyDataSetChanged();
             }
         }
+
+
     }
 
     protected void initListener() {
@@ -195,8 +201,9 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
                             receiptModel2.setSupplierno(sSupplierNo);
                         }
                         if (mPresenter != null) {
-                            mPresenter.getOrderHeaderList(receiptModel2);
+                            mPresenter.getOrderHeaderList2(receiptModel2,mSupplierNoFilter);
                         }
+
                         break;
 
                     }
@@ -279,6 +286,7 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
     @Override
     public void onReset() {
         mEdtfilterContent.setText("");
+        mSupplierNoFilter.setText("");
     }
 }
 

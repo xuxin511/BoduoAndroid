@@ -44,9 +44,9 @@
     <string name="Count">数量：</string>
     <string name="AllPackage">整箱</string>
     <string name="AllPallet">整托</string>
-    <string name="scan_type_pallet">托盘</string>
+    <string name="scan_type_pallet">托盘(点击切换操作模式)</string>
     <string name="AllEAN">EAN</string>
-    <string name="unboxing">整箱/散件</string>
+    <string name="unboxing">整箱/散件(点击切换操作模式)</string>
     <string name="compine_pallet">组托</string>
     <string name="label_reprint">补打</string>
     <string name="spare_parts">散件</string>
@@ -219,7 +219,7 @@
     <string name="unqualified_title">质检不合格列表</string>
     <string name="quality_inspection_list_query">正在查询质检单列表信息</string>
     //质检处理扫描
-    <string name="quality_inspection_processing_scan_title">质检扫描</string>
+    <string name="quality_inspection_processing_scan_title">质检处理</string>
     <string name="quality_inspection_scan_strongholdNo">据点:</string>
     <string name="quality_inspection_scan_receipt_voucher_no">到货单:</string>
     <string name="quality_inspection_scan_erp_voucher_no">检验单:</string>
@@ -228,7 +228,9 @@
     <string name="quality_inspection_scan_qualified_qty">合格数:</string>
     <string name="quality_inspection_scan_un_qualified_qty">不合格数:</string>
     <string name="quality_inspection_scan_un_qualified_scan_qty">已扫:</string>
-    <string name="quality_inspection_scan_un_qualified_barcode_hint">请输入或扫描不合格条码:</string>
+
+    <string name="quality_inspection_scan_un_qualified_barcode_hint">请输入或扫描整箱或散件</string>
+    <string name="quality_inspection_scan_un_qualified_pallet_no_barcode_hint">请输入或扫描托盘码</string>
     <string name="quality_inspection_scan_un_qualified_barcode">条码:</string>
     <string name="quality_inspection_scan_un_qualified_barcode_qty">数量:</string>
     <string name="quality_inspection_scan_un_qualified_father_barcode">托盘码</string>

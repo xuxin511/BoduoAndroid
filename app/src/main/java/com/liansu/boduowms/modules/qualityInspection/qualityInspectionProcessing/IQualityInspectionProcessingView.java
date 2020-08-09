@@ -22,6 +22,8 @@ public interface IQualityInspectionProcessingView {
     void createDialog(OutBarcodeInfo info);
     void setViewStatus();
     String getAreaNo();
+    void onActivityFinish(String title);
+
 
 
 

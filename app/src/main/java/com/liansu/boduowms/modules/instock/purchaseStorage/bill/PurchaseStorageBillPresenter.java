@@ -1,6 +1,8 @@
 package com.liansu.boduowms.modules.instock.purchaseStorage.bill;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.widget.EditText;
 
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.R;
@@ -13,8 +15,9 @@ import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoicePresenter;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.IBaseOrderBillChoiceView;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -22,6 +25,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -66,14 +70,70 @@ public class PurchaseStorageBillPresenter extends BaseOrderBillChoicePresenter<I
                                 mView.bindListView(mModel.getOrderHeaderInfotList());
                             }
                         }
-
+                        mView.onFilterContentFocus();
                     } else {
-                        ToastUtil.show("获取单据列表失败:"+returnMsgModel.getResultValue());
+
+                       MessageBox.Show(mContext, "获取单据列表失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int which) {
+                               mView.onFilterContentFocus();
+                           }
+                       });
                     }
                 } catch (Exception ex) {
-                    ToastUtil.show(ex.getMessage());
+                    MessageBox.Show(mContext, "获取单据列表失败：出现意料之外的异常-" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onFilterContentFocus();
+                        }
+                    });
                 }finally {
-                    mView.onFilterContentFocus();
+
+                }
+
+            }
+        });
+    }
+    @Override
+    public void getOrderHeaderList2(OrderRequestInfo orderHeaderInfo, final EditText editText) {
+        orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE);
+        mModel.requestInStockList(orderHeaderInfo, new NetCallBackListener<String>() {
+            @Override
+            public void onCallBack(String result) {
+                try {
+                    LogUtil.WriteLog(BaseOrderBillChoice.class, mModel.TAG_GetT_InStockList, result);
+                    BaseResultInfo<List<OrderHeaderInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OrderHeaderInfo>>>() {
+                    }.getType());
+                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        mModel.setOrderInfoList(returnMsgModel.getData());
+                        if (mModel.getOrderHeaderInfotList().size() != 0 && mModel.getBarCodeList().size() != 0) {
+                        } else {
+                            if (mModel.getOrderHeaderInfotList().size() == 1) {  //如果只有一条单据，直接跳转扫描界面
+                                mView.StartScanIntent(mModel.getOrderHeaderInfotList().get(0), null);
+                            } else {
+                                mView.sumBillCount(mModel.getOrderHeaderInfotList().size());
+                                mView.bindListView(mModel.getOrderHeaderInfotList());
+                            }
+                        }
+
+                    } else {
+
+                        MessageBox.Show(mContext, "获取单据列表失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(mContext, "获取单据列表失败：出现意料之外的异常-" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                }finally {
+                    CommonUtil.setEditFocus(editText);
                 }
 
             }

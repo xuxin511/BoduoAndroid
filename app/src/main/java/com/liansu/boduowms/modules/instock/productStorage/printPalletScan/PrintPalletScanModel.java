@@ -245,7 +245,7 @@ public class PrintPalletScanModel extends BaseModel {
                 resultInfo.setHeaderStatus(true);
             } else {
                 resultInfo.setHeaderStatus(false);
-                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "],批次:[" + barcodeBatchNo + "]不在订单：" + mOrderHeaderInfo.getErpvoucherno() + "中,不能组托");
+                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "],批次:[" + barcodeBatchNo + "]不在订单：" + mOrderDetailList.get(0).getErpvoucherno() + "中,不能组托");
                 return resultInfo;
             }
 

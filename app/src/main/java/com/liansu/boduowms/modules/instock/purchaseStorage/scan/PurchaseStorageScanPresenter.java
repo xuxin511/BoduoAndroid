@@ -9,6 +9,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
@@ -70,20 +71,20 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
                             if (mModel.getOrderDetailList().size() > 0) {
                                 mView.bindListView(mModel.getOrderDetailList());
                             } else {
-                                MessageBox.Show(mContext, "获取表体信息为空" );
+                                MessageBox.Show(mContext, "获取表体信息为空");
                                 mView.onAreaNoFocus();
                             }
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue());
                             mView.onAreaNoFocus();
                         }
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
                         mView.onAreaNoFocus();
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
+                    MessageBox.Show(mContext, ex.getMessage());
                     mView.onAreaNoFocus();
                 }
 
@@ -128,19 +129,25 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
 //                                List<OrderDetailInfo>  orderDetailInfos=orderHeaderInfo.getDetail();
 //
 //                            }
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getOrderDetailInfoList();
-                                }
-                            });
+                            BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
+                            if (!checkResult.getHeaderStatus()) {
+                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getOrderDetailInfoList();
+                                    }
+                                });
+                            } else {
+                                mView.onActivityFinish(checkResult.getMessage());
+                            }
+
 
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue());
                         }
 
                     } catch (Exception ex) {
-                        MessageBox.Show(mContext, ex.getMessage() );
+                        MessageBox.Show(mContext, ex.getMessage());
                     }
 
 

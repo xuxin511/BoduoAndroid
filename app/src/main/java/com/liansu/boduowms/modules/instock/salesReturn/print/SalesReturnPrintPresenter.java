@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.instock.salesReturn.print;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -64,7 +66,12 @@ public class SalesReturnPrintPresenter {
      */
     public void getMaterialNoBatchList(final String materialNo, String startTime, String endTime, final String customerNo) {
         if (materialNo.equals("")) {
-            MessageBox.Show(mContext, "物料信息不能为空");
+            MessageBox.Show(mContext, "物料信息不能为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onMaterialNoFocus();
+                }
+            });
             return;
         }
         OrderRequestInfo orderRequestInfo = new OrderRequestInfo();
@@ -90,7 +97,12 @@ public class SalesReturnPrintPresenter {
                                 mView.setMaterialInfo(mModel.getMaterialDetailsList().get(0));
                                 mView.setSpinnerData(checkResult.getInfo());
                             } else {
-                                MessageBox.Show(mContext, checkResult.getMessage());
+                                MessageBox.Show(mContext, checkResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onMaterialNoFocus();
+                                    }
+                                });
                             }
 
                         }
@@ -102,11 +114,21 @@ public class SalesReturnPrintPresenter {
 //                        });
 
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                        MessageBox.Show(mContext, "获取物料批次信息失败:"+returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onMaterialNoFocus();
+                            }
+                        });
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage());
+                    MessageBox.Show(mContext, "获取物料批次信息失败,出现预期之外的异常:"+ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onMaterialNoFocus();
+                        }
+                    });
                 }
 
 
@@ -149,7 +171,7 @@ public class SalesReturnPrintPresenter {
             MessageBox.Show(mContext, "包装数量必须大于0");
             return;
         }
-        if (sumPalletQty >= packCount) {
+        if (sumPalletQty <= packCount) {
             MessageBox.Show(mContext, "总数量必须大于等于包装量");
             return;
         }

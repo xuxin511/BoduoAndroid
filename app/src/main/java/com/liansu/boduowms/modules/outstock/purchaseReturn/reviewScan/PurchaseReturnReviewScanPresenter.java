@@ -79,16 +79,38 @@ public class PurchaseReturnReviewScanPresenter extends BaseReviewScanPresenter<I
                                 mView.setErpVoucherNoInfo(mModel.getOrderHeaderInfo());
                                 mView.setSumScanQty(mModel.getOrderDetailList().get(0).getMaterialCartonNum(), mModel.getOrderDetailList().get(0).getMaterialPartNum());
                             } else {
-                                MessageBox.Show(mContext, returnMsgModel.getResultValue());
-                                mView.onErpVoucherFocus();
+                                MessageBox.Show(mContext, "获取单据失败:获取表体数据为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onErpVoucherFocus();
+                                    }
+                                });
+
                             }
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                            MessageBox.Show(mContext, "获取单据失败:获取表体数据为空" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onErpVoucherFocus();
+                                }
+                            });
                         }
+                    } else {
+                        MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onErpVoucherFocus();
+                            }
+                        });
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage());
+                    MessageBox.Show(mContext, "获取单据失败:出现预期之外的异常，" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onErpVoucherFocus();
+                        }
+                    });
                 }
 
 
@@ -106,8 +128,13 @@ public class PurchaseReturnReviewScanPresenter extends BaseReviewScanPresenter<I
             if (resultInfo.getHeaderStatus()) {
                 scanQRCode = resultInfo.getInfo();
             } else {
-                MessageBox.Show(mContext, "解析条码失败:" + resultInfo.getMessage());
-                mView.onBarcodeFocus();
+                MessageBox.Show(mContext, "解析条码失败:" + resultInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
+
                 return;
             }
             String materialNo = "";
@@ -146,13 +173,23 @@ public class PurchaseReturnReviewScanPresenter extends BaseReviewScanPresenter<I
 
                                 }
                             } else {
-                                MessageBox.Show(mContext, "查询物料信息失败:" + returnMsgModel.getResultValue());
-                                mView.onBarcodeFocus();
+                                MessageBox.Show(mContext, "查询物料信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onBarcodeFocus();
+                                    }
+                                });
+
                             }
 
                         } catch (Exception e) {
-                            MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
-                            mView.onBarcodeFocus();
+                            MessageBox.Show(mContext, "查询物料信息失败,出现意料之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onBarcodeFocus();
+                                }
+                            });
+
                         } finally {
 
                         }
@@ -161,7 +198,12 @@ public class PurchaseReturnReviewScanPresenter extends BaseReviewScanPresenter<I
             }
 
         } catch (Exception e) {
-            MessageBox.Show(mContext, "扫描条码出现预期之外的异常:" + e.getMessage());
+            MessageBox.Show(mContext, "扫描条码出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
         }
     }
 
@@ -216,19 +258,41 @@ public class PurchaseReturnReviewScanPresenter extends BaseReviewScanPresenter<I
                             if (info != null) {
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.setSumScanQty(info.getMaterialCartonNum(), info.getMaterialPartNum());
-
+                                mView.onBarcodeFocus();
+                            } else {
+                                MessageBox.Show(mContext, "校验条码失败:获取校验的条码信息为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onBarcodeFocus();
+                                    }
+                                });
                             }
                         } else
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onBarcodeFocus();
+                                }
+                            });
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                        MessageBox.Show(mContext, "扫描条码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onBarcodeFocus();
+                            }
+                        });
 
                     }
 
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    MessageBox.Show(mContext, "扫描条码失败,出现意料之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
                 } finally {
-                    mView.onBarcodeFocus();
+
                 }
             }
 
@@ -245,7 +309,7 @@ public class PurchaseReturnReviewScanPresenter extends BaseReviewScanPresenter<I
         info.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
         info.setDirver(mView.getDriverInfo());
         info.setLogisticsCompany(mView.getLogisticsCompany());
-        List<OrderRequestInfo> list=new ArrayList<>();
+        List<OrderRequestInfo> list = new ArrayList<>();
         list.add(info);
         mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
             @Override
@@ -261,10 +325,10 @@ public class PurchaseReturnReviewScanPresenter extends BaseReviewScanPresenter<I
                             }
                         });
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                        MessageBox.Show(mContext, "提交单据信息失败:"+returnMsgModel.getResultValue());
                     }
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    MessageBox.Show(mContext, "提交单据信息失败,出现意料之外的异常:" + e.getMessage());
                 }
             }
         });

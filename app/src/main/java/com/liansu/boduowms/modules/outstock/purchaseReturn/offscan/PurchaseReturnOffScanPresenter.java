@@ -62,21 +62,37 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.onFatherBarcodeFocus();
                             } else {
-                                MessageBox.Show(mContext, "获取订单明细失败:获取表体信息为空");
-                                mView.onErpVoucherNoFocus();
+                                MessageBox.Show(mContext, "获取订单明细失败:获取表体信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onErpVoucherNoFocus();
+                                    }
+                                });
                             }
                         } else {
-                            MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue());
-                            mView.onErpVoucherNoFocus();
+                            MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onErpVoucherNoFocus();
+                                }
+                            });
                         }
                     } else {
-                        MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue());
-                        mView.onErpVoucherNoFocus();
+                        MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onErpVoucherNoFocus();
+                            }
+                        });
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, "获取订单明细失败: " + ex.getMessage());
-                    mView.onErpVoucherNoFocus();
+                    MessageBox.Show(mContext, "获取订单明细失败: " + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onErpVoucherNoFocus();
+                        }
+                    });
                 }
 
 
@@ -141,14 +157,14 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                         MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                mView.onActivityFinish();
+
                             }
                         });
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                        MessageBox.Show(mContext,"提交订单失败:"+ returnMsgModel.getResultValue());
                     }
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    MessageBox.Show(mContext, "提交订单失败,出现意料之外的异常:" + e.getMessage());
                 }
             }
         });
@@ -166,7 +182,12 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
     public void  onOrderPrint(){
         OutStockOrderDetailInfo info = new OutStockOrderDetailInfo();
         if (mModel.getOrderHeaderInfo() == null) {
-            MessageBox.Show(mContext, "请扫描单据编号");
+            MessageBox.Show(mContext, "请扫描单据编号", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onErpVoucherNoFocus();
+                }
+            });
             return;
         }
         info.setErpvoucherno(mModel.getOrderHeaderInfo().getErpvoucherno());
@@ -187,10 +208,10 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                             }
                         });
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                        MessageBox.Show(mContext, "打印单据失败:"+returnMsgModel.getResultValue());
                     }
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    MessageBox.Show(mContext, "打印单据失败,出现意料之外的异常:" + e.getMessage());
                 }
             }
         });

@@ -1,7 +1,9 @@
 package com.liansu.boduowms.modules.qualityInspection.qualityInspectionProcessing;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -11,8 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
@@ -73,11 +75,15 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     @ViewInject(R.id.quality_inspection_scan_un_qualified_barcode_qty_desc)
     TextView mQtyDesc;
     @ViewInject(R.id.quality_inspection_scan_un_qualified_barcode_qty)
-    EditText mQty;//质检扫描数量
+    EditText     mQty;//质检扫描数量
     @ViewInject(R.id.quality_inspection_box_type)
-    Switch   mOperationType;
+    ToggleButton mOperationType;
     @ViewInject(R.id.quality_inspection_qty_refer)
-    Button   mRefer;
+    Button       mRefer;
+    @ViewInject(R.id.quality_inspection_scan_father_barcode)
+    TextView mFatherBarcodeDesc;
+    @ViewInject(R.id.quality_inspection_scan_un_qualified_father_barcode)
+    EditText mFatherBarcode;
     QualityInspectionScanAdapter         mAdapter;
     QualityInspectionProcessingPresenter mPresenter;
     public final int REQUEST_CODE_OK = 1;
@@ -214,7 +220,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_receiptbilldetail, menu);
+//        getMenuInflater().inflate(R.menu.menu_receiptbilldetail, menu);
         return true;
     }
 
@@ -338,6 +344,10 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
             mBarcodeDesc.setVisibility(View.GONE);
             mQtyDesc.setVisibility(View.GONE);
             mQty.setVisibility(View.GONE);
+            mOperationType.setVisibility(View.GONE);
+            mFatherBarcodeDesc.setVisibility(View.GONE);
+            mFatherBarcode.setVisibility(View.GONE);
+            mRefer.setText("提交");
         } else if (mQualityType.equals("UNQUALIFIED")) {
             mUnQualifiedQty.setVisibility(View.VISIBLE);
             mUnQualifiedSumQty.setVisibility(View.VISIBLE);
@@ -353,6 +363,18 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     @Override
     public String getAreaNo() {
         return mAreaNo.getText().toString().trim();
+    }
+
+    @Override
+    public void onActivityFinish(String title) {
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(title+" 是否返回上一页面？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO 自动生成的方法
+                        closeActivity();
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 
 

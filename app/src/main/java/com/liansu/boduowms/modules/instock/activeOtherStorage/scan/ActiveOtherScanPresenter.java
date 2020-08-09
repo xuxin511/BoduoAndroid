@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.instock.activeOtherStorage.scan;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des: 有源杂入扫描
@@ -71,15 +73,28 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.onAreaNoFocus();
                             } else {
-                                MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                                MessageBox.Show(mContext, "获取单据失败:获取的表体数据为空",MEDIA_MUSIC_NONE);
                             }
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                            MessageBox.Show(mContext, "获取单据失败:获取的表体数据为空",MEDIA_MUSIC_NONE);
                         }
+                    }else {
+                        MessageBox.Show(mContext,"获取单据失败:"+returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
+                    MessageBox.Show(mContext,"获取单据失败:出现预期之外的异常,"+ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
                 }
 
 
@@ -124,13 +139,13 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
                         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                         }.getType());
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE);
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                            MessageBox.Show(mContext,"提交订单失败:"+ returnMsgModel.getResultValue(),MEDIA_MUSIC_NONE );
                         }
 
                     } catch (Exception ex) {
-                        MessageBox.Show(mContext, ex.getMessage() );
+                        MessageBox.Show(mContext, "提交订单失败:出现预期之外的异常"+ex.getMessage(),MEDIA_MUSIC_NONE );
                     }
 
 

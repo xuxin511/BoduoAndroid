@@ -57,13 +57,13 @@ public class QualityInspection extends BaseActivity implements IQualityInspectio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseApplication.context = QualityInspection.this;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         x.view().inject(this);
         mRandomInspectionQty.setVisibility(View.VISIBLE);
         mRandomInspectionQtyDesc.setVisibility(View.VISIBLE);
         mRandomInspectionQtyDesc.setText("送检数:");
-        closeKeyBoard(mAreaNo);
-        closeKeyBoard(mBarcode);
+//        closeKeyBoard(mAreaNo);
+//        closeKeyBoard(mBarcode);
     }
 
     @Override
@@ -176,7 +176,9 @@ public class QualityInspection extends BaseActivity implements IQualityInspectio
 
     @Override
     public float getQty() {
-        return Float.parseFloat(mQty.getText().toString().trim());
+        String qty = mQty.getText().toString().trim();
+        if (qty.equals("")) qty = "0";
+        return Float.parseFloat(qty);
     }
 
     @Override

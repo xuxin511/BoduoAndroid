@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.instock.salesReturn.scan;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +22,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -71,17 +73,30 @@ public class SalesReturnStorageScanPresenter {
                             mModel.setAreaInfo(data);
                             mView.onPalletNoFocus();
                         } else {
-                            MessageBox.Show(mContext, "获取的库位信息为空" );
-                            mView.onAreaNoFocus();
+                            MessageBox.Show(mContext, "获取的库位信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onAreaNoFocus();
+                                }
+                            });
                         }
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
-                        mView.onAreaNoFocus();
+                        MessageBox.Show(mContext, "获取的库位信息失败：" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onAreaNoFocus();
+                            }
+                        });
+
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
-                    mView.onAreaNoFocus();
+                    MessageBox.Show(mContext, "获取的库位信息失败：出现预期之外的异常" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onAreaNoFocus();
+                        }
+                    });
                 }
 
 
@@ -100,8 +115,12 @@ public class SalesReturnStorageScanPresenter {
     public void scanBarcode(String scanBarcode) {
         try {
             if (mModel.getAreaInfo() == null) {
-                MessageBox.Show(mContext, "请先扫描库位信息" );
-                mView.onAreaNoFocus();
+                MessageBox.Show(mContext, "请先扫描库位信息", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onAreaNoFocus();
+                    }
+                });
                 return;
             }
             OutBarcodeInfo scanQRCode = null;
@@ -110,14 +129,22 @@ public class SalesReturnStorageScanPresenter {
             if (resultInfo.getHeaderStatus()) {
                 scanQRCode = resultInfo.getInfo();
             } else {
-                MessageBox.Show(mContext, resultInfo.getMessage() );
+                MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onPalletNoFocus();
+                    }
+                });
                 return;
             }
             if (scanQRCode != null) {
                 if (scanQRCode.getSerialno() == null) {
-                    mView.onPalletNoFocus();
-                    MessageBox.Show(mContext, "条码解析失败:条码规则不正确,请扫描托盘条码" );
-
+                    MessageBox.Show(mContext, "条码解析失败:条码规则不正确,请扫描托盘条码", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onPalletNoFocus();
+                        }
+                    });
                     return;
                 }
 
@@ -143,33 +170,57 @@ public class SalesReturnStorageScanPresenter {
                                         mView.bindListView(mModel.getList());
                                         mView.onPalletNoFocus();
                                     } else {
-                                        MessageBox.Show(mContext,checkResult.getMessage() );
-                                        mView.onPalletNoFocus();
+                                        MessageBox.Show(mContext, checkResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                mView.onPalletNoFocus();
+                                            }
+                                        });
                                     }
                                 } else {
-                                    MessageBox.Show(mContext, "条码查询失败,获取的条码信息为空" );
-                                    mView.onPalletNoFocus();
+                                    MessageBox.Show(mContext, "条码查询失败,获取的条码信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onPalletNoFocus();
+                                        }
+                                    });
                                 }
                             } else {
-                                MessageBox.Show(mContext, "条码查询失败: "+returnMsgModel.getResultValue() );
-                                mView.onPalletNoFocus();
+                                MessageBox.Show(mContext, "条码查询失败: " + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onPalletNoFocus();
+                                    }
+                                });
                             }
 
                         } catch (Exception ex) {
-                            MessageBox.Show(mContext, "条码查询失败: "+ex.getMessage() );
-                            mView.onPalletNoFocus();
+                            MessageBox.Show(mContext, "条码查询失败: " + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onPalletNoFocus();
+                                }
+                            });
                         }
                     }
                 });
 
             } else {
-                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode );
-                mView.onPalletNoFocus();
+                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onPalletNoFocus();
+                    }
+                });
                 return;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, e.getMessage() );
-            mView.onPalletNoFocus();
+            MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onPalletNoFocus();
+                }
+            });
             return;
         }
 
@@ -185,7 +236,7 @@ public class SalesReturnStorageScanPresenter {
     protected void onOrderRefer() {
         List<OutBarcodeInfo> list = mModel.getList();
         if (list == null) {
-            MessageBox.Show(mContext, "扫描数据为空!请先进行扫描操作" );
+            MessageBox.Show(mContext, "扫描数据为空!请先进行扫描操作");
             return;
         }
         mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
@@ -197,13 +248,13 @@ public class SalesReturnStorageScanPresenter {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         onReset();
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
+                    MessageBox.Show(mContext, ex.getMessage());
                 }
 
 

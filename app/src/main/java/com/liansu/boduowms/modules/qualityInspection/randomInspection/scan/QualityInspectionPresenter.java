@@ -25,6 +25,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -61,7 +62,6 @@ public class QualityInspectionPresenter {
      * @time 2020/7/11 21:39
      */
     public void getOrderDetailInfo() {
-
         QualityHeaderInfo info = new QualityHeaderInfo();
         info.setId(mModel.getOrderHeaderInfo().getId());
         mModel.requestOrderDetailInfo(info, new NetCallBackListener<String>() {
@@ -80,12 +80,20 @@ public class QualityInspectionPresenter {
                         }
 
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
-                        mView.onErpVoucherNoFocus();
+                        MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onErpVoucherNoFocus();
+                            }
+                        });
                     }
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
-                    mView.onErpVoucherNoFocus();
+                    MessageBox.Show(mContext, "获取单据失败：出现预期之外的异常" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onErpVoucherNoFocus();
+                        }
+                    });
                 }
 
 
@@ -109,23 +117,35 @@ public class QualityInspectionPresenter {
                         LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GetAreaModelADF, result);
                         BaseResultInfo<AreaInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<AreaInfo>>() {
                         }.getType());
-                        if (returnMsgModel.getResult() == 1) {
+                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                             AreaInfo areaInfo = returnMsgModel.getData();
                             if (areaInfo != null) {
                                 mModel.setAreaInfo(areaInfo);
                                 mView.onBarcodeFocus();
                             } else {
-                                MessageBox.Show(mContext, "出现预期之外的异常,获取的库位信息为空" );
-                                mView.onAreaNoFocus();
+                                MessageBox.Show(mContext, "获取的库位信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onAreaNoFocus();
+                                    }
+                                });
                                 return;
                             }
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue() );
-                            mView.onAreaNoFocus();
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onAreaNoFocus();
+                                }
+                            });
                         }
                     } catch (Exception ex) {
-                        MessageBox.Show(mContext, ex.getMessage() );
-                        mView.onAreaNoFocus();
+                        MessageBox.Show(mContext, "获取库位信息出现预期之外的异常:" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onAreaNoFocus();
+                            }
+                        });
                     }
 
                 }
@@ -151,8 +171,13 @@ public class QualityInspectionPresenter {
                     scanQRCode = resultInfo.getInfo();
                     mView.onQtyFocus();
                 } else {
-                    MessageBox.Show(mContext, resultInfo.getMessage() );
-                    mView.onBarcodeFocus();
+                    MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
+
                     return;
                 }
 
@@ -184,31 +209,54 @@ public class QualityInspectionPresenter {
 
                                         }
                                     } else {
-                                        MessageBox.Show(mContext, resultInfo.getMessage() );
-                                        mView.onBarcodeFocus();
+                                        MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                mView.onBarcodeFocus();
+                                            }
+                                        });
                                         return;
                                     }
                                 }
 
 
                             } else {
-                                MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                                MessageBox.Show(mContext, "查询条码失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onBarcodeFocus();
+                                    }
+                                });
 
                             }
                         } catch (Exception e) {
-                            MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage() );
+                            MessageBox.Show(mContext, "查询条码失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onBarcodeFocus();
+                                }
+                            });
+
                         }
                     }
                 });
 
             } else {
-                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode );
-                mView.onBarcodeFocus();
+                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
                 return;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, e.getMessage() );
-            mView.onBarcodeFocus();
+            MessageBox.Show(mContext, "扫描条码出现预期之外的异常:"+e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
             return;
         }
 
@@ -224,25 +272,41 @@ public class QualityInspectionPresenter {
      */
     public void onOrderRefer() {
         if (mModel.getOrderHeaderInfo() == null) {
-            MessageBox.Show(mContext, "单据信息不能为空" );
-            mView.onErpVoucherNoFocus();
+            MessageBox.Show(mContext, "单据信息不能为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onErpVoucherNoFocus();
+                }
+            });
             return;
         }
         if (mModel.getCurrentBarcodeInfo() == null) {
-            MessageBox.Show(mContext, "扫描标签信息为空,请先扫描托盘批次标签" );
-            mView.onErpVoucherNoFocus();
+            MessageBox.Show(mContext, "扫描标签信息为空,请先扫描托盘批次标签", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
             return;
         }
 
         float voucherQty = mModel.getCurrentDetailInfo().getVoucherqty();
         float qty = mModel.getScannedQty();
         if (qty > voucherQty) {
-            MessageBox.Show(mContext, "抽检数量不能大于抽检单数量" );
-            mView.onErpVoucherNoFocus();
+            MessageBox.Show(mContext, "抽检数量不能大于抽检单数量", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onQtyFocus();
+                }
+            });
             return;
         } else if (qty < voucherQty) {
-            MessageBox.Show(mContext, "抽检数量必须等于抽检单数量" );
-            mView.onErpVoucherNoFocus();
+            MessageBox.Show(mContext, "抽检数量必须等于抽检单数量", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onQtyFocus();
+                }
+            });
             return;
         }
 
@@ -258,7 +322,7 @@ public class QualityInspectionPresenter {
                         LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_POST_CHECK_QUALITY_SYNC, result);
                         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                         }.getType());
-                        if (returnMsgModel.getResult() == 1) {
+                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                             MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -266,14 +330,27 @@ public class QualityInspectionPresenter {
                                     mView.onActivityFinish();
                                 }
                             });
+                        }else {
+                            MessageBox.Show(mContext, "提交质检信息失败:", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
                         }
                     } catch (Exception e) {
-                        MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage() );
+                        MessageBox.Show(mContext, "提交质检信息失败,出现意料之外的异常:" + e.getMessage(),MEDIA_MUSIC_NONE);
                     }
                 }
             });
         } else {
 
+            MessageBox.Show(mContext, "提交质检信息失败,订单信息不能为空:" , MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onErpVoucherNoFocus();
+                }
+            });
         }
     }
 
@@ -289,15 +366,19 @@ public class QualityInspectionPresenter {
         float scanQty = mView.getQty();
         StockInfo scanBarcode = mModel.getCurrentBarcodeInfo();
         if (scanBarcode == null) {
-            MessageBox.Show(mContext, "扫描标签信息为空,请先扫描托盘标签" );
-            mView.onErpVoucherNoFocus();
+            MessageBox.Show(mContext, "扫描标签信息为空,请先扫描托盘标签", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
             return;
         }
         BaseMultiResultInfo<Boolean, Void> result = mModel.setBarcodeInfo(scanBarcode, scanQty, mModel.getCurrentDetailInfo());
         if (result.getHeaderStatus()) {
             mView.setScannedQty(mModel.getScannedQty() + "/" + mModel.getCurrentDetailInfo().getVoucherqty());
         } else {
-            MessageBox.Show(mContext, result.getMessage() );
+            MessageBox.Show(mContext, result.getMessage(),MEDIA_MUSIC_NONE);
         }
 
     }

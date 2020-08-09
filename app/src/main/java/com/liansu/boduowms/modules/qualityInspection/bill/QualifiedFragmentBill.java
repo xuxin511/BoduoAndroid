@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.liansu.boduowms.R;
+import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.BaseFragment;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
@@ -58,6 +59,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mSwipeLayout.setEnabled(false);
         mSwipeLayout.setOnRefreshListener(this); //下拉刷新
     }
 
@@ -79,6 +81,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
             mPresenter.onReset();
             QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
             qualityHeaderInfo.setLinestatus(0);
+            qualityHeaderInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
             mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
         }
     }
