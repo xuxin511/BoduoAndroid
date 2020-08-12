@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutReview;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBox;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
@@ -88,19 +90,23 @@ public class OutboundBusinessSubMenuModel {
             intent.putExtra("BusinessType", businessType);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
           //复核
-            intent = intent.setClass(mContext, BaseReviewScan.class);
+          //  intent = intent.setClass(mContext, BaseReviewScan.class);
             if  (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
                 intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
             }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
-                //销售出库复核
+                //销售出库复核PackingScanAdapter
+                intent.setClass(mContext, SalesOutReview.class);
             }
+            intent.putExtra("BusinessType", businessType);
         }
         //拼箱
         else if(moduleName.equals((mContext.getString((R.string.main_menu_item_delivery_lcl))))){
-            intent = intent.setClass(mContext, BaseReviewScan.class);
+     //       intent = intent.setClass(mContext, BaseReviewScan.class);
             if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
                 //销售出库拼箱
+                intent.setClass(mContext, SalesOutStockBox.class);
             }
+            intent.putExtra("BusinessType", businessType);
         }
         else if (moduleName.equals(mContext.getString(R.string.main_menu_item_off_shelf_scan))) {
             intent = intent.setClass(mContext, BaseReviewScan.class);

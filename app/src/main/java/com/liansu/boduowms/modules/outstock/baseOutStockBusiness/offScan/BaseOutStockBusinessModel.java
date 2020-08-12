@@ -414,6 +414,7 @@ public class BaseOutStockBusinessModel extends BaseModel {
         return resultInfo;
     }
 
+
     /**
      * @desc: 更新物料信息
      * @param:
@@ -472,6 +473,92 @@ public class BaseOutStockBusinessModel extends BaseModel {
     }
 
 
+    // 更新item
+    public BaseMultiResultInfo<Boolean, Void> UpdateMaterialInfo(OutStockOrderDetailInfo detailInfo) {
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        if (detailInfo != null) {
+            String rowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
+            String rowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";
+            String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
+            boolean isexits = false;
+            for (OutStockOrderDetailInfo info : mOrderDetailList) {
+                String sRowNo = info.getRowno() != null ? info.getRowno() : "";
+                String sRowDel = info.getRownodel() != null ? info.getRownodel() : "";
+                String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
+                if (sRowNo.equals(rowNo) && sRowDel.equals(rowDel)) {
+                    isexits = true;
+                    //复核没有单号
+//                    if (erpVoucherNo.equals(sErpVoucherNo)) {
+                    info.setScanqty(ArithUtil.add(info.getScanqty(), detailInfo.getScanqty()));
+                    Float arr = ArithUtil.sub(info.getRemainqty(), detailInfo.getScanqty());
+                    if (arr < 0) {
+                        resultInfo.setHeaderStatus(false);
+                        return resultInfo;
+                    } else {
+                        //info.setRemainqty(arr);
+                    }
+                    resultInfo.setHeaderStatus(true);
+                    break;
+                }
+//                else {
+//                    resultInfo.setMessage("校验物料行失败:物料的项次[" + sRowNo + "]或项序[" + rowDel + "]+不订单在中");
+//                resultInfo.setHeaderStatus(false);
+//                return resultInfo;
+//                }
+            }
+            if (!isexits) {
+                //   resultInfo.setMessage("校验物料行失败:物料的项次[" + rowNo + "]或项序[" + rowDel + "]+不订单在中");
+                resultInfo.setHeaderStatus(false);
+                return resultInfo;
+            }
+        } else {
+//            resultInfo.setMessage("更新物料行失败:更新数据不能为空");
+            resultInfo.setHeaderStatus(false);
+            return resultInfo;
+        }
+        return resultInfo;
+    }
+
+
+    //更新item
+    public  BaseMultiResultInfo<Boolean,Void> UpdateListViewItem(OutStockOrderDetailInfo detailInfo){
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+
+        if(detailInfo!=null)
+        {
+            String materialno = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
+            String batchno = detailInfo.getBatchno() != null ? detailInfo.getBatchno() : "";
+            String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
+            String arrvoucherno = detailInfo.getArrvoucherNO() != null ? detailInfo.getArrvoucherNO() : "";
+            for (OutStockOrderDetailInfo info : mOrderDetailList) {
+                String smaterialno = info.getMaterialno() != null ? info.getMaterialno() : "";
+                String sbatchno = info.getBatchno() != null ? info.getBatchno() : "";
+                String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
+                String sarrvoucherno = info.getArrvoucherNO() != null ? info.getArrvoucherNO() : "";
+                if (smaterialno.equals(materialno) && batchno.equals(sbatchno)&& sErpVoucherNo.equals(erpVoucherNo)&& sarrvoucherno.equals(arrvoucherno)) {
+                    if (erpVoucherNo.equals(sErpVoucherNo)) {
+                        info.setScanqty(detailInfo.getScanqty());
+                        Float arr=ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
+                        if(arr<0){
+                            resultInfo.setHeaderStatus(false);
+                            return  resultInfo;
+                        }else{
+                            info.setRemainqty(arr);
+                        }
+                        resultInfo.setHeaderStatus(true);
+                        return resultInfo;
+                    }
+                }
+            }
+        }
+        resultInfo.setHeaderStatus(false);
+        return resultInfo;
+    }
+
+
+
+
+
     /**
      * @desc: 获取当前行的物料明细
      * @param:
@@ -479,8 +566,7 @@ public class BaseOutStockBusinessModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/8/5 17:52
      */
-    public BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> findMaterialInfo
-    (OutBarcodeInfo outBarcodeInfo) {
+    public BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> findMaterialInfo(OutBarcodeInfo outBarcodeInfo) {
         BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> resultInfo = new BaseMultiResultInfo<>();
         String materialNo = outBarcodeInfo.getMaterialno() != null ? outBarcodeInfo.getMaterialno() : "";
         String batchNo = outBarcodeInfo.getBatchno() != null ? outBarcodeInfo.getBatchno() : "";
@@ -526,8 +612,7 @@ public class BaseOutStockBusinessModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/3 16:47
      */
-    public void requestRefer(OrderRequestInfo
-                                     info, NetCallBackListener<String> callBackListener) {
+    public void requestRefer(OrderRequestInfo info, NetCallBackListener<String> callBackListener) {
     }
 
     /**

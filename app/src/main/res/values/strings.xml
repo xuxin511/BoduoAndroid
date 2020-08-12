@@ -67,7 +67,6 @@
     <string name="request_print_order_purchase_return">正在打印验退单据..</string>
 
 
-
     //接口
     <string name="Msg_request_material_info">获取校验物料信息...</string>
     <string name="Msg_GetAreaModelADF">获取库位信息...</string>
@@ -409,4 +408,9 @@
     <string name="dialog_balcony_order_no">订单号:</string>
     <string name="dialog_balcony_desc">月台:</string>
     <string name="message_request_quality_barcode_refer">正在提交条码信息</string>
+
+    //销售出库
+    <string name="main_menu_item_sales_out_stock">销售出库</string>
+
+
 </resources>

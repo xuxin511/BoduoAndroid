@@ -2,18 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.liansu.boduowms">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -22,60 +10,64 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".OutstockSalesActivity" />
         <activity
             android:name=".modules.menu.MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity android:name=".modules.login.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.print.DeviceListActivity"></activity>
-        <activity android:name=".modules.pallet.combinePallet.CombinPallet"></activity>
-        <activity android:name=".modules.pallet.disCombinePallet.DismantlePallet"></activity>
-        <activity android:name=".modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice"></activity>
-        <activity android:name=".modules.instock.baseOrderBusiness.scan.BaseOrderScan">
-
-        </activity>
-        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.bill.UpShelfBillChoice"></activity>
-        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScanActivity2"></activity>
-        <activity android:name=".modules.qualityInspection.randomInspection.scan.QualityInspection"></activity>
-        <activity android:name=".modules.outstock.offScan.DistributionOffShelf"></activity>
-        <activity android:name=".modules.outstock.packingScan.PackingScan"></activity>
-        <activity android:name=".modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan"></activity>
-        <activity android:name=".modules.outstock.logisticsLoading.setting.LogisticsLoadingSetting"></activity>
+        <activity android:name=".modules.print.DeviceListActivity" />
+        <activity android:name=".modules.pallet.combinePallet.CombinPallet" />
+        <activity android:name=".modules.pallet.disCombinePallet.DismantlePallet" />
+        <activity android:name=".modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice" />
+        <activity android:name=".modules.instock.baseOrderBusiness.scan.BaseOrderScan" />
+        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.bill.UpShelfBillChoice" />
+        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScanActivity2" />
+        <activity android:name=".modules.qualityInspection.randomInspection.scan.QualityInspection" />
+        <activity android:name=".modules.outstock.offScan.DistributionOffShelf" />
+        <activity android:name=".modules.outstock.packingScan.PackingScan" />
+        <activity android:name=".modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan" />
+        <activity android:name=".modules.outstock.logisticsLoading.setting.LogisticsLoadingSetting" />
         <activity
             android:name=".ui.dialog.MaterialInfoDialogActivity"
             android:launchMode="singleTask"
-            android:theme="@style/MyDialogStyle"></activity>
-        <activity android:name=".modules.instock.combinePallet.InstockCombinePallet"></activity>
-        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan"></activity>
-        <activity android:name=".modules.inventoryMovement.InventoryMovementScan"></activity>
-        <activity android:name=".modules.qualityInspection.bill.QualityInspectionBill"></activity>
-        <activity android:name=".modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingScan"></activity>
-        <activity android:name=".modules.instock.productStorage.bill.ProductStorageBillChoice"></activity>
-        <activity android:name=".modules.instock.productStorage.scan.ProductStorageScan"></activity>
-        <activity android:name=".modules.instock.salesReturn.print.SalesReturnPrint"></activity>
-        <activity android:name=".modules.instock.salesReturn.bill.SalesReturnBillChoice"></activity>
-        <activity android:name=".modules.instock.salesReturn.scan.SalesReturnStorageScan"></activity>
-        <activity android:name=".modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan"></activity>
-        <activity android:name=".modules.print.LabelReprint.LabelReprintScan"></activity>
-        <activity android:name=".modules.qualityInspection.bill.QualityInspectionMainActivity"></activity>
-        <activity android:name=".modules.qualityInspection.randomInspection.bill.RandomInspectionBill"></activity>
-        <activity android:name=".modules.instock.productStorage.printPalletScan.PrintPalletScan"></activity>
-        <activity android:name=".modules.outstock.baseOutStockBusiness.offScan.BaseOutStockBusiness"></activity>
+            android:theme="@style/MyDialogStyle" />
+        <activity android:name=".modules.instock.combinePallet.InstockCombinePallet" />
+        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan" />
+        <activity android:name=".modules.inventoryMovement.InventoryMovementScan" />
+        <activity android:name=".modules.qualityInspection.bill.QualityInspectionBill" />
+        <activity android:name=".modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingScan" />
+        <activity android:name=".modules.instock.productStorage.bill.ProductStorageBillChoice" />
+        <activity android:name=".modules.instock.productStorage.scan.ProductStorageScan" />
+        <activity android:name=".modules.instock.salesReturn.print.SalesReturnPrint" />
+        <activity android:name=".modules.instock.salesReturn.bill.SalesReturnBillChoice" />
+        <activity android:name=".modules.instock.salesReturn.scan.SalesReturnStorageScan" />
+        <activity android:name=".modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan" />
+        <activity android:name=".modules.print.LabelReprint.LabelReprintScan" />
+        <activity android:name=".modules.qualityInspection.bill.QualityInspectionMainActivity" />
+        <activity android:name=".modules.qualityInspection.randomInspection.bill.RandomInspectionBill" />
+        <activity android:name=".modules.instock.productStorage.printPalletScan.PrintPalletScan" />
+        <activity android:name=".modules.outstock.baseOutStockBusiness.offScan.BaseOutStockBusiness" />
         <activity
             android:name=".modules.outstock.offScan.BalconyInfoDialogActivity"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
         <activity android:name=".modules.outstock.packingScan.packingList.PackingList" />
         <activity
             android:name=".modules.setting.SettingMainActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan" />
         <activity android:name=".modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill" />
-        <activity android:name=".modules.menu.outboundBusiness.subMenu.OutboundBusinessSubMenu"></activity>
+        <activity android:name=".modules.menu.outboundBusiness.subMenu.OutboundBusinessSubMenu" />
         <activity android:name=".modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScan" />
+        <activity android:name=".modules.outstock.SalesOutstock.SalesOutstock" />
+        <activity android:name=".modules.outstock.SalesOutstock.SalesOutStockBox" />
+        <activity android:name=".modules.outstock.SalesOutstock.SalesOutStockBoxList" />
+        <activity android:name=".modules.outstock.SalesOutstock.SalesOutReview" />
         <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint" />
         <activity android:name=".modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan" />
 
@@ -88,7 +80,17 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

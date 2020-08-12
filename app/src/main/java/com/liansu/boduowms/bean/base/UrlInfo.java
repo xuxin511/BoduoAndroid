@@ -92,8 +92,21 @@ public class UrlInfo {
 
 
     //销售出库
-    public String SalesOutstock_SacnningNo        = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
+    public String SalesOutstock_ScanningNo        = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
     public String SalesOutstock_SacnningPallet     = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
+    public String SalesOutstock_PlatForm   = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
+    //拼箱
+    public String  SalesOutstock_Box_ScanningNo=GetWCFAdress() + "OutStock/GetT_CheckOutStockStatusADFAsync"; //拼箱订单判断是否下架
+    public String  SalesOutstock_Box_Submit=GetWCFAdress() + "OutStock/Package_CartonScanADFAsync";//拼箱提交
+    public String  SalesOutstock_Box_Batchno=GetWCFAdress() + "OutStock/CheckPackageScan";//验证69吗/箱号/物料是否多批次
+    public String  SalesOutstock_GetBoxList=GetWCFAdress()+ "OutStock/GetPackage_CartonScanADFAsync";//获取拼箱列表
+    public String  SalesOutstock_DelBox=GetWCFAdress()+ "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
+    //复核
+    public String  SalesOutstock_Review_ScanningNo=GetWCFAdress()+ "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
+    public String  SalesOutstock_JudgeStock=GetWCFAdress()+ "Stock/GetT_ScanStockADFAsync";//判断托盘库存
+    public String  SalesOutstock__SubmitBarcode = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
+    public String  SalesOutstock__Review_Submit = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
+
 
 
 

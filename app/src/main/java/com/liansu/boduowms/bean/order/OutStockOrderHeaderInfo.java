@@ -44,8 +44,8 @@ public class OutStockOrderHeaderInfo implements Parcelable {
     private double                        WeightTotal;
     private int                           CostTotal;
     private int                           OutCostTotal;
-    private int                           OrderCartonNum;
-    private int                           OrderScanCartonNum;
+    private Float                           OrderCartonNum;
+    private Float                           OrderScanCartonNum;
     private int                           Id;
     private String                        Companycode;
     private String                        Strongholdcode;
@@ -70,8 +70,8 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         WeightTotal = in.readDouble();
         CostTotal = in.readInt();
         OutCostTotal = in.readInt();
-        OrderCartonNum = in.readInt();
-        OrderScanCartonNum = in.readInt();
+        OrderCartonNum = in.readFloat();
+        OrderScanCartonNum = in.readFloat();
         Id = in.readInt();
         Companycode = in.readString();
         Strongholdcode = in.readString();
@@ -96,8 +96,8 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         dest.writeDouble(WeightTotal);
         dest.writeInt(CostTotal);
         dest.writeInt(OutCostTotal);
-        dest.writeInt(OrderCartonNum);
-        dest.writeInt(OrderScanCartonNum);
+        dest.writeFloat(OrderCartonNum);
+        dest.writeFloat(OrderScanCartonNum);
         dest.writeInt(Id);
         dest.writeString(Companycode);
         dest.writeString(Strongholdcode);
@@ -208,19 +208,19 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         this.OutCostTotal = OutCostTotal;
     }
 
-    public int getOrderCartonNum() {
+    public Float getOrderCartonNum() {
         return OrderCartonNum;
     }
 
-    public void setOrderCartonNum(int OrderCartonNum) {
+    public void setOrderCartonNum(Float OrderCartonNum) {
         this.OrderCartonNum = OrderCartonNum;
     }
 
-    public int getOrderScanCartonNum() {
+    public Float getOrderScanCartonNum() {
         return OrderScanCartonNum;
     }
 
-    public void setOrderScanCartonNum(int OrderScanCartonNum) {
+    public void setOrderScanCartonNum(Float OrderScanCartonNum) {
         this.OrderScanCartonNum = OrderScanCartonNum;
     }
 

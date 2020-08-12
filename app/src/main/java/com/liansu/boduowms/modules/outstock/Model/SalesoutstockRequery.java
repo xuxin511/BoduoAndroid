@@ -6,14 +6,32 @@ public class SalesoutstockRequery {
      public String  Erpvoucherno;
 
     public String  Towarehouseno;
+    public String  Creater;
 
+    public String getCreater() {
+        return Creater;
+    }
+
+    public void setCreater(String creater) {
+        Creater = creater;
+    }
+
+    public String getStrongholdcode() {
+        return Strongholdcode;
+    }
+
+    public void setStrongholdcode(String strongholdcode) {
+        Strongholdcode = strongholdcode;
+    }
+
+    public  String Strongholdcode;
 
     public String  MaterialNo;
     public String  Batchno;
     public String  PostUserNo;
-    public int  ScanQty;
+    public Float  ScanQty;
     public String  PalletNo;
-    public String  BarcodeType;
+    public int  BarcodeType;
     public int  Vouchertype;
 
     public String getTowarehouseno() {
@@ -56,11 +74,11 @@ public class SalesoutstockRequery {
         PostUserNo = postUserNo;
     }
 
-    public int getScanQty() {
+    public Float getScanQty() {
         return ScanQty;
     }
 
-    public void setScanQty(int scanQty) {
+    public void setScanQty(Float scanQty) {
         ScanQty = scanQty;
     }
 
@@ -72,11 +90,11 @@ public class SalesoutstockRequery {
         PalletNo = palletNo;
     }
 
-    public String getBarcodeType() {
+    public int getBarcodeType() {
         return BarcodeType;
     }
 
-    public void setBarcodeType(String barcodeType) {
+    public void setBarcodeType(int barcodeType) {
         BarcodeType = barcodeType;
     }
 

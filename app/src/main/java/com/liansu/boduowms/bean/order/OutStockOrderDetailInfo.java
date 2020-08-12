@@ -66,7 +66,24 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private String Towarehouseno;
     private String Printername;
     private int  Printertype;
-    private String Arrvoucherno;
+    private  Float Qty;//下架数量
+    private  String Arrvoucherno;
+
+    public String getArrvoucherNO() {
+        return Arrvoucherno;
+    }
+
+    public void setArrvoucherNO(String Arrvoucherno) {
+        Arrvoucherno = Arrvoucherno;
+    }
+
+    public Float getQty() {
+        return Qty;
+    }
+
+    public void setQTY(Float Qty) {
+        this.Qty = Qty;
+    }
 
     public OutStockOrderDetailInfo() {
     }
@@ -103,6 +120,7 @@ public class OutStockOrderDetailInfo implements Parcelable {
         Towarehouseno=in.readString();
         Printername=in.readString();
         Printertype=in.readInt();
+        Qty=in.readFloat();
         Arrvoucherno=in.readString();
     }
 
@@ -139,6 +157,7 @@ public class OutStockOrderDetailInfo implements Parcelable {
         dest.writeString(Towarehouseno);
         dest.writeString(Printername);
         dest.writeInt(Printertype);
+        dest.writeFloat(Qty);
         dest.writeString(Arrvoucherno);
 
     }
@@ -406,13 +425,5 @@ public class OutStockOrderDetailInfo implements Parcelable {
 
     public void setPrintertype(int printertype) {
         Printertype = printertype;
-    }
-
-    public String getArrvoucherno() {
-        return Arrvoucherno;
-    }
-
-    public void setArrvoucherno(String arrvoucherno) {
-        Arrvoucherno = arrvoucherno;
     }
 }

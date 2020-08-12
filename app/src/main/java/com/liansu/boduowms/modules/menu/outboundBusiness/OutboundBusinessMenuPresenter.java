@@ -85,7 +85,7 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
     protected void loadBusiness(String moduleName) {
         Intent intent = new Intent();
       if (moduleName.equals(mContext.getString(R.string.main_menu_item_delivery_lcl))) {
-//            intent.setClass(mContext, PackingScan.class);
+//          intent.setClass(mContext, PackingScan.class);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_loading_truck))) {
             intent.setClass(mContext, BaseReviewScan.class);
             intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
