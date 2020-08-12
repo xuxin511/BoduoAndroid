@@ -206,5 +206,42 @@ public class PurchaseInspectionReviewScanModel extends BaseReviewScanModel {
         }
         return resultInfo;
     }
+    /**
+     * @desc: 是否订单已扫描完毕
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/8 11:38
+     */
+    public   BaseMultiResultInfo<Boolean, Void>  isOrderScanFinished(){
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        boolean IS_ORDER_FINISHED=true;
+        for (OutStockOrderDetailInfo info:mOrderDetailList){
+            if (info!=null){
+                if (info.getRemainqty()!=0){
+                    IS_ORDER_FINISHED=false;
+                    break;
+                }
+            }
+        }
+        if (IS_ORDER_FINISHED){
+            resultInfo.setHeaderStatus(true);
+            resultInfo.setMessage("订单已扫描完毕!");
+        }else {
+            resultInfo.setHeaderStatus(false);
 
+        }
+        return resultInfo;
+    }
+    /**
+     * @desc: 清空数据
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/12 15:16
+     */
+    public void onReset(){
+         mOrderDetailList.clear();
+         mOrderHeaderInfo=null;
+    }
 }

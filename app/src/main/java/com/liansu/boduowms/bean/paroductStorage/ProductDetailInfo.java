@@ -95,6 +95,7 @@ public class ProductDetailInfo implements Parcelable {
     protected List<OutBarcodeInfo> LstBarCode;
     protected String               Printername; //打印机名称
     protected int                  Printertype; //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙
+    protected  String Unitname;
 
     protected ProductDetailInfo(Parcel in) {
         Headerid = in.readInt();
@@ -136,6 +137,7 @@ public class ProductDetailInfo implements Parcelable {
         LstBarCode = in.createTypedArrayList(OutBarcodeInfo.CREATOR);
         Printername = in.readString();
         Printertype = in.readInt();
+        Unitname=in.readString();
     }
 
     @Override
@@ -179,6 +181,7 @@ public class ProductDetailInfo implements Parcelable {
         dest.writeTypedList(LstBarCode);
         dest.writeString(Printername);
         dest.writeInt(Printertype);
+        dest.writeString(Unitname);
     }
 
     @Override
@@ -528,5 +531,17 @@ public class ProductDetailInfo implements Parcelable {
 
     public void setPrintertype(int printertype) {
         Printertype = printertype;
+    }
+
+    public void setOutstockqty(float outstockqty) {
+        Outstockqty = outstockqty;
+    }
+
+    public String getUnitname() {
+        return Unitname;
+    }
+
+    public void setUnitname(String unitname) {
+        Unitname = unitname;
     }
 }

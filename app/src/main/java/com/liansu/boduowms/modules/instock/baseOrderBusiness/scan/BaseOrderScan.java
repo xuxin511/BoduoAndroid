@@ -108,6 +108,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
 //        closeKeyBoard(mAreaNo);
         initListener();
         onAreaNoFocus();
+
 //        setToolbarTitleViewTextSize((AppCompatActivity) mContext,toolbar);
     }
 

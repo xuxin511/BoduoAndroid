@@ -67,13 +67,13 @@ public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
     }
 
     /**
-     * @desc: 获取采购订单表体明细
+     * @desc: 获取订单表体明细
      * @param:
      * @return:
      * @author: Nietzsche
      * @time 2020/6/27 21:37
      */
-    public void requestReceiptDetail(OrderHeaderInfo receiptModel, NetCallBackListener<String> callBackListener) {
+    public void requestOrderDetail(OrderHeaderInfo receiptModel, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_GetT_PurchaseOrderListADFAsync", callBackListener);
         String modelJson = parseModelToJson(receiptModel);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_GetT_InStockDetailListByHeaderIDADF, modelJson);

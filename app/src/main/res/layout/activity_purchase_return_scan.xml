@@ -61,7 +61,7 @@
             android:text="@string/combine_trays"
             android:textOff="@string/combine_trays"
             android:textOn="@string/combine_trays"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -308,24 +308,24 @@
 
 
     <Button
-        android:textColor="@color/white"
         android:id="@+id/offscan_refer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bt_selector"
         android:text="@string/submit"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/offscan_print" />
 
     <Button
-        android:textColor="@color/white"
         android:id="@+id/offscan_print"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bt_selector"
         android:text="@string/print"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/offscan_refer"

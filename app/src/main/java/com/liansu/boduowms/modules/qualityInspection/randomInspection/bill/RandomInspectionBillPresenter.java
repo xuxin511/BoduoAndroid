@@ -18,7 +18,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -57,30 +57,35 @@ public class RandomInspectionBillPresenter {
                     BaseResultInfo<List<QualityHeaderInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<QualityHeaderInfo>>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        mModel.setQualityInspectionInfoList(returnMsgModel.getData());
+                        List<QualityHeaderInfo> list=returnMsgModel.getData();
+                        mModel.setQualityInspectionInfoList(list);
 //
                         if (mModel.getQualityInspectionInfoList().size() != 0) {
                             mView.sumBillCount(mModel.getQualityInspectionInfoList().size());
                             mView.bindListView(mModel.getQualityInspectionInfoList());
                         } else {
-                            MessageBox.Show(mContext,"获取单据失败", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext,"获取单据失败", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    mView.sumBillCount(mModel.getQualityInspectionInfoList().size());
+                                    mView.bindListView(mModel.getQualityInspectionInfoList());
                                     mView.onFilterContentFocus();
                                 }
                             });
                         }
 
                     } else {
-                        MessageBox.Show(mContext,"获取单据失败:"+returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext,"获取单据失败:"+returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                mView.sumBillCount(mModel.getQualityInspectionInfoList().size());
+                                mView.bindListView(mModel.getQualityInspectionInfoList());
                                 mView.onFilterContentFocus();
                             }
                         });
                     }
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext,"获取单据列表失败：出现预期之外的异常，"+ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext,"获取单据列表失败：出现预期之外的异常，"+ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onFilterContentFocus();

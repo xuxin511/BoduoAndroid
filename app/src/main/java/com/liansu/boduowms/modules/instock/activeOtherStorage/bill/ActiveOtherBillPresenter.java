@@ -22,7 +22,6 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -69,7 +68,7 @@ public class ActiveOtherBillPresenter extends BaseOrderBillChoicePresenter<IBase
 
 
                     } else {
-                        MessageBox.Show(mContext,"获取单据失败:"+returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext,"获取单据失败:"+returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onFilterContentFocus();
@@ -77,7 +76,7 @@ public class ActiveOtherBillPresenter extends BaseOrderBillChoicePresenter<IBase
                         });
                     }
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext,"获取单据失败:出现预期之外的异常，"+ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext,"获取单据失败:出现预期之外的异常，"+ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onFilterContentFocus();

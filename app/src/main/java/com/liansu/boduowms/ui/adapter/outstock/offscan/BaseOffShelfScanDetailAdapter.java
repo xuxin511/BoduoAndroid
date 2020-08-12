@@ -31,6 +31,7 @@ public class BaseOffShelfScanDetailAdapter extends BaseAdapter {
         public TextView txtScanQty;
         public TextView txtMaterialDesc;
         public TextView txt_recommended_location;
+        public TextView txt_batch_no;
 
     }
 
@@ -73,6 +74,7 @@ public class BaseOffShelfScanDetailAdapter extends BaseAdapter {
             listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
             listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.txtMaterialDesc);
             listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
+            listItemView.txt_batch_no = (TextView) convertView.findViewById(R.id.txt_batch_no);
             convertView.setTag(listItemView);
         } else {
             listItemView = (ListItemView) convertView.getTag();
@@ -86,8 +88,9 @@ public class BaseOffShelfScanDetailAdapter extends BaseAdapter {
         listItemView.txtVoucherQty.setText("订单：" + mDetailInfo.getVoucherqty());
         listItemView.txtRemainQty.setText("剩余:" + mDetailInfo.getRemainqty());
         listItemView.txtScanQty.setText("已扫：" + mDetailInfo.getScanqty());
-        listItemView.txt_recommended_location.setText("推荐库位:");
+        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText("名称:" + mDetailInfo.getMaterialdesc());
+        listItemView.txt_batch_no.setText("批次:"+mDetailInfo.getBatchno());
         if (mDetailInfo.getRemainqty() > 0 && mDetailInfo.getRemainqty() < mDetailInfo.getVoucherqty()) {
             convertView.setBackgroundResource(R.color.khaki);
         } else if (mDetailInfo.getRemainqty() == 0) {

@@ -22,10 +22,11 @@ import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -74,13 +75,14 @@ public class QualityInspectionPresenter {
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         List<QualityHeaderInfo> list = returnMsgModel.getData();
                         if (list != null && list.size() > 0) {
+                            onReset();
                             mModel.setCurrentDetailInfo(list.get(0));
                             mView.setOrderInfo(mModel.getCurrentDetailInfo());
                             mView.onAreaNoFocus();
                         }
 
                     } else {
-                        MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onErpVoucherNoFocus();
@@ -88,7 +90,7 @@ public class QualityInspectionPresenter {
                         });
                     }
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, "获取单据失败：出现预期之外的异常" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "获取单据失败：出现预期之外的异常" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onErpVoucherNoFocus();
@@ -123,7 +125,7 @@ public class QualityInspectionPresenter {
                                 mModel.setAreaInfo(areaInfo);
                                 mView.onBarcodeFocus();
                             } else {
-                                MessageBox.Show(mContext, "获取的库位信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                MessageBox.Show(mContext, "获取的库位信息为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         mView.onAreaNoFocus();
@@ -132,7 +134,7 @@ public class QualityInspectionPresenter {
                                 return;
                             }
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onAreaNoFocus();
@@ -140,7 +142,7 @@ public class QualityInspectionPresenter {
                             });
                         }
                     } catch (Exception ex) {
-                        MessageBox.Show(mContext, "获取库位信息出现预期之外的异常:" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "获取库位信息出现预期之外的异常:" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onAreaNoFocus();
@@ -171,7 +173,7 @@ public class QualityInspectionPresenter {
                     scanQRCode = resultInfo.getInfo();
                     mView.onQtyFocus();
                 } else {
-                    MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onBarcodeFocus();
@@ -183,7 +185,13 @@ public class QualityInspectionPresenter {
 
             }
             if (scanQRCode != null) {
-                mModel.requestPalletInfoFromStockQuery(scanQRCode.getBarcode(), new NetCallBackListener<String>() {
+                OutBarcodeInfo postInfo = new OutBarcodeInfo();
+                postInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                postInfo.setBarcode(scanQRCode.getBarcode());
+                postInfo.setVouchertype(47);
+                scanQRCode.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                scanQRCode.setVouchertype(47);
+                mModel.requestPalletInfoFromStockQuery2(postInfo, new NetCallBackListener<String>() {
                     @Override
                     public void onCallBack(String result) {
                         try {
@@ -199,7 +207,7 @@ public class QualityInspectionPresenter {
                                         if (materialInfo != null) {
                                             mModel.setCurrentBarcodeInfo(stockInfo);
                                             float qty = stockInfo.getQty();
-                                            float scannedQty = mModel.getScannedQty();
+                                           float scannedQty = mModel.getScannedQty();
                                             float remainWty = mModel.getCurrentDetailInfo().getRemainqty();
                                             float remainQty = ArithUtil.sub(remainWty, scannedQty);
                                             if (remainQty >= qty && qty <= remainWty) {
@@ -209,7 +217,7 @@ public class QualityInspectionPresenter {
 
                                         }
                                     } else {
-                                        MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                        MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 mView.onBarcodeFocus();
@@ -221,7 +229,7 @@ public class QualityInspectionPresenter {
 
 
                             } else {
-                                MessageBox.Show(mContext, "查询条码失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                MessageBox.Show(mContext, "查询条码失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         mView.onBarcodeFocus();
@@ -230,7 +238,7 @@ public class QualityInspectionPresenter {
 
                             }
                         } catch (Exception e) {
-                            MessageBox.Show(mContext, "查询条码失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, "查询条码失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onBarcodeFocus();
@@ -242,7 +250,7 @@ public class QualityInspectionPresenter {
                 });
 
             } else {
-                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onBarcodeFocus();
@@ -251,7 +259,7 @@ public class QualityInspectionPresenter {
                 return;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "扫描条码出现预期之外的异常:"+e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "扫描条码出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onBarcodeFocus();
@@ -272,7 +280,7 @@ public class QualityInspectionPresenter {
      */
     public void onOrderRefer() {
         if (mModel.getOrderHeaderInfo() == null) {
-            MessageBox.Show(mContext, "单据信息不能为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "单据信息不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onErpVoucherNoFocus();
@@ -281,7 +289,7 @@ public class QualityInspectionPresenter {
             return;
         }
         if (mModel.getCurrentBarcodeInfo() == null) {
-            MessageBox.Show(mContext, "扫描标签信息为空,请先扫描托盘批次标签", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "扫描标签信息为空,请先扫描托盘批次标签", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onBarcodeFocus();
@@ -291,17 +299,47 @@ public class QualityInspectionPresenter {
         }
 
         float voucherQty = mModel.getCurrentDetailInfo().getVoucherqty();
-        float qty = mModel.getScannedQty();
+        float qty = mView.getQty();
         if (qty > voucherQty) {
-            MessageBox.Show(mContext, "抽检数量不能大于抽检单数量", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "抽检数量不能大于抽检单数量", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onQtyFocus();
                 }
             });
             return;
-        } else if (qty < voucherQty) {
-            MessageBox.Show(mContext, "抽检数量必须等于抽检单数量", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+        }
+//        else if (qty < voucherQty) {
+//            MessageBox.Show(mContext, "抽检数量必须小于等于抽检单数量", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    mView.onQtyFocus();
+//                }
+//            });
+//            return;
+//        }
+
+        if (qty > mModel.getCurrentBarcodeInfo().getQty()) {
+            MessageBox.Show(mContext, "抽检数量不能大于库存数量", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onQtyFocus();
+                }
+            });
+            return;
+        }
+        if (qty <= 0) {
+            MessageBox.Show(mContext, "抽检数量必须大于0", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onQtyFocus();
+                }
+            });
+            return;
+        }
+        float remainQty=ArithUtil.sub(mModel.getCurrentDetailInfo().getVoucherqty(),mModel.getCurrentDetailInfo().getSampqty());
+        if (qty>remainQty){
+            MessageBox.Show(mContext, "抽检数量["+qty+"]不能大于剩余抽检数量["+remainQty+"]", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onQtyFocus();
@@ -310,10 +348,14 @@ public class QualityInspectionPresenter {
             return;
         }
 
-
         QualityHeaderInfo postInfo = mModel.getCurrentDetailInfo();
         postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
         postInfo.setScanqty(qty);
+        mModel.getCurrentBarcodeInfo().setQty(qty);
+        List<StockInfo> list = new ArrayList<>();
+        list.add(mModel.getCurrentBarcodeInfo());
+        postInfo.setLstBarCode(list);
+        ;
         if (postInfo != null) {
             mModel.requestReferInfo(postInfo, new NetCallBackListener<String>() {
                 @Override
@@ -327,11 +369,11 @@ public class QualityInspectionPresenter {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    mView.onActivityFinish();
+                                    getOrderDetailInfo();
                                 }
                             });
-                        }else {
-                            MessageBox.Show(mContext, "提交质检信息失败:", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        } else {
+                            MessageBox.Show(mContext, "提交质检信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
@@ -339,13 +381,13 @@ public class QualityInspectionPresenter {
                             });
                         }
                     } catch (Exception e) {
-                        MessageBox.Show(mContext, "提交质检信息失败,出现意料之外的异常:" + e.getMessage(),MEDIA_MUSIC_NONE);
+                        MessageBox.Show(mContext, "提交质检信息失败,出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR);
                     }
                 }
             });
         } else {
 
-            MessageBox.Show(mContext, "提交质检信息失败,订单信息不能为空:" , MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "提交质检信息失败,订单信息不能为空:", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onErpVoucherNoFocus();
@@ -366,7 +408,7 @@ public class QualityInspectionPresenter {
         float scanQty = mView.getQty();
         StockInfo scanBarcode = mModel.getCurrentBarcodeInfo();
         if (scanBarcode == null) {
-            MessageBox.Show(mContext, "扫描标签信息为空,请先扫描托盘标签", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "扫描标签信息为空,请先扫描托盘标签", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onBarcodeFocus();
@@ -374,13 +416,18 @@ public class QualityInspectionPresenter {
             });
             return;
         }
-        BaseMultiResultInfo<Boolean, Void> result = mModel.setBarcodeInfo(scanBarcode, scanQty, mModel.getCurrentDetailInfo());
-        if (result.getHeaderStatus()) {
-            mView.setScannedQty(mModel.getScannedQty() + "/" + mModel.getCurrentDetailInfo().getVoucherqty());
-        } else {
-            MessageBox.Show(mContext, result.getMessage(),MEDIA_MUSIC_NONE);
-        }
+        onOrderRefer();
+//        BaseMultiResultInfo<Boolean, Void> result = mModel.setBarcodeInfo(scanBarcode, scanQty, mModel.getCurrentDetailInfo());
+//        if (result.getHeaderStatus()) {
+//            mView.setScannedQty(mModel.getScannedQty() + "/" + mModel.getCurrentDetailInfo().getVoucherqty());
+//        } else {
+//            MessageBox.Show(mContext, result.getMessage(), MEDIA_MUSIC_ERROR);
+//        }
 
     }
 
+    public void onReset(){
+        mModel.onReset();
+        mView.onReset();
+    }
 }

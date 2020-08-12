@@ -7,9 +7,9 @@ import com.android.volley.Request;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseModel;
+import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
-import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
@@ -40,16 +40,18 @@ public class QualityInspectionModel extends BaseModel {
     public String TAG_GET_CHECK_QUALITY_DETAIL_LIST_SYNC = "QualityInspectionModel_GetT_CheckQualityDetailListsync"; //抽检表体
     public String TAG_POST_CHECK_QUALITY_SYNC            = "QualityInspectionModel_PostT_CheckQualitysync"; //抽检表体
     public String TAG_CHECK_T_PALLET_BARCODE_SYNC        = "QualityInspectionModel_CheckT_PalletBarcodesync"; //检验托盘号是否待检
+    public String TAG_GET_T_PURCHASE_ORDER_LIST_ADF      = "QualityInspectionModel_GetT_PurchaseOrderListADF"; //取样扫描接口
 
-    private final int                  RESULT_AREA_NO_INFO                           = 107;
-    private final int                  RESULT_TAG_GET_CHECK_QUALITY_DETAIL_LIST_SYNC = 119;
-    private final int                  RESULT_TAG_POST_CHECK_QUALITY_SYNC            = 120;
-    private final int                  RESULT_TAG_CHECK_T_PALLET_BARCODE_SYNC        = 121;
-    private       QualityHeaderInfo    mOrderHeaderInfo;  //选择的检验单列表item 单号信息
-    private       AreaInfo             mAreaInfo;
-    private       QualityHeaderInfo    mCurrentDetailInfo; //当前抽检单表体
-    private       StockInfo       mCurrentBarcode;  //当前条码
-    private       List<StockInfo> mCurrentBarCodeList                           = new ArrayList<>();
+    private final int               RESULT_AREA_NO_INFO                           = 107;
+    private final int               RESULT_TAG_GET_CHECK_QUALITY_DETAIL_LIST_SYNC = 119;
+    private final int               RESULT_TAG_POST_CHECK_QUALITY_SYNC            = 120;
+    private final int               RESULT_TAG_CHECK_T_PALLET_BARCODE_SYNC        = 121;
+    private final int               RESULT_TAG_GET_T_PURCHASE_ORDER_LIST_ADF      = 122;
+    private       QualityHeaderInfo mOrderHeaderInfo;  //选择的检验单列表item 单号信息
+    private       AreaInfo          mAreaInfo;
+    private       QualityHeaderInfo mCurrentDetailInfo; //当前抽检单表体
+    private       StockInfo         mCurrentBarcode;  //当前条码
+    private       List<StockInfo>   mCurrentBarCodeList                           = new ArrayList<>();
 
     public QualityInspectionModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
@@ -71,6 +73,9 @@ public class QualityInspectionModel extends BaseModel {
                 break;
             case RESULT_TAG_CHECK_T_PALLET_BARCODE_SYNC:
                 listener = mNetMap.get("TAG_CHECK_T_PALLET_BARCODE_SYNC");
+                break;
+            case RESULT_TAG_GET_T_PURCHASE_ORDER_LIST_ADF:
+                listener = mNetMap.get("TAG_GET_T_PURCHASE_ORDER_LIST_ADF");
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
@@ -151,6 +156,22 @@ public class QualityInspectionModel extends BaseModel {
     }
 
     /**
+     * @desc: 查询条码信息带出托盘号 库存  新 2020-8-10
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2019/11/20 21:06
+     */
+    public void requestPalletInfoFromStockQuery2(OutBarcodeInfo info, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_GET_T_PURCHASE_ORDER_LIST_ADF", callBackListener);
+        String modelJson=parseModelToJson(info);
+        LogUtil.WriteLog(QualityInspection.class, TAG_GET_T_PURCHASE_ORDER_LIST_ADF, parseModelToJson(info));
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_PURCHASE_ORDER_LIST_ADF, "正在查询托盘信息...", mContext, mHandler, RESULT_TAG_GET_T_PURCHASE_ORDER_LIST_ADF, null, UrlInfo.getUrl().GetT_ScanStockADFAsync, modelJson, null);
+
+    }
+
+
+    /**
      * @desc: 查询条码信息带出托盘号
      * @param:
      * @return:
@@ -164,7 +185,6 @@ public class QualityInspectionModel extends BaseModel {
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_CHECK_T_PALLET_BARCODE_SYNC, "正在查询托盘信息...", mContext, mHandler, RESULT_TAG_CHECK_T_PALLET_BARCODE_SYNC, null, UrlInfo.getUrl().CheckT_PalletBarcodesync, params, null);
 
     }
-
     /**
      * @desc: 抽检提交
      * @param:
@@ -172,7 +192,7 @@ public class QualityInspectionModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/3 16:47
      */
-    public void requestReferInfo(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
+    public void requestReferInfo(QualityHeaderInfo info, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_POST_CHECK_QUALITY_SYNC", callBackListener);
         String modelJson = parseModelToJson(info);
         LogUtil.WriteLog(QualityInspection.class, TAG_POST_CHECK_QUALITY_SYNC, parseModelToJson(info));
@@ -192,6 +212,7 @@ public class QualityInspectionModel extends BaseModel {
         QualityHeaderInfo sMaterialInfo = null;
         String barcodeMaterialNo = scanBarcode.getMaterialno() != null ? scanBarcode.getMaterialno() : "";
         String barcodeBatchNo = scanBarcode.getBatchno() != null ? scanBarcode.getBatchno() : "";
+        String barcodeQualityNo=scanBarcode.getQualityno()!=null?scanBarcode.getQualityno():"";
         float barcodeQty = scanBarcode.getQty();
         String barcodeSerialNo = scanBarcode.getSerialno() != null ? scanBarcode.getSerialno() : "";
         String barcodeStrongHoldCode = scanBarcode.getStrongholdcode() != null ? scanBarcode.getStrongholdcode() : "";
@@ -235,6 +256,7 @@ public class QualityInspectionModel extends BaseModel {
             if (sMaterialInfo != null) {
                 String strongHoldCode = mOrderHeaderInfo.getStrongholdcode() != null ? mOrderHeaderInfo.getStrongholdcode() : "";
                 String toWareHouseNo = mOrderHeaderInfo.getTowarehouseno() != null ? mOrderHeaderInfo.getTowarehouseno() : "";
+                String qualityNo=mOrderHeaderInfo.getQualityno()!=null?mOrderHeaderInfo.getQualityno():"";
                 if (!strongHoldCode.trim().equals(barcodeStrongHoldCode.trim())) {
                     resultInfo.setHeaderStatus(false);
                     resultInfo.setMessage("校验条码失败:条码的组织编码[" + barcodeStrongHoldCode + "]和单据的组织编号[" + strongHoldCode + "]不符");
@@ -247,7 +269,12 @@ public class QualityInspectionModel extends BaseModel {
                     return resultInfo;
 
                 }
+                if (!qualityNo.trim().equals(barcodeQualityNo)) {
+                    resultInfo.setHeaderStatus(false);
+                    resultInfo.setMessage("校验条码失败:条码的之间单号编码[" + barcodeQualityNo + "]和单据的质检单号[" + qualityNo + "]不符");
+                    return resultInfo;
 
+                }
                 resultInfo.setHeaderStatus(true);
                 resultInfo.setInfo(sMaterialInfo);
             } else {
@@ -277,6 +304,7 @@ public class QualityInspectionModel extends BaseModel {
         String barcodeMaterialNo = scanBarcode.getMaterialno() != null ? scanBarcode.getMaterialno() : "";
         String barcodeBatchNo = scanBarcode.getBatchno() != null ? scanBarcode.getBatchno() : "";
         String barcodeSerialNo = scanBarcode.getSerialno() != null ? scanBarcode.getSerialno() : "";
+        String barcodeQualityNo=scanBarcode.getQualityno()!=null?scanBarcode.getQualityno():"";
         float barcodeQty = scanBarcode.getQty();
         float sumScannedQty = 0;
 //        float voucherQty = qualityHeaderInfo.getVoucherqty();
@@ -286,6 +314,7 @@ public class QualityInspectionModel extends BaseModel {
             String materialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
             String batchNo = info.getBatchno() != null ? info.getBatchno() : "";
             String serialNo = info.getSerialno() != null ? info.getSerialno() : "";
+            String qualityNo =info.getQualityno()!=null?info.getQualityno():"";
             final float qty = info.getQty();
             if (materialNo.trim().equals(barcodeMaterialNo.trim()) && batchNo.trim().equals(barcodeBatchNo.trim()) && barcodeSerialNo.equals(serialNo)) {
                 scanInfo = info;
@@ -342,5 +371,9 @@ public class QualityInspectionModel extends BaseModel {
 
         }
         return sumQty;
+    }
+
+    public void onReset(){
+        mCurrentBarcode=null;
     }
 }

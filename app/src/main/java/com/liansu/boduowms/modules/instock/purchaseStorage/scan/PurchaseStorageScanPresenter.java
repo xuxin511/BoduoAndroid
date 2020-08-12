@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -131,7 +132,7 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
 //                            }
                             BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
                             if (!checkResult.getHeaderStatus()) {
-                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1, new DialogInterface.OnClickListener() {
+                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         getOrderDetailInfoList();

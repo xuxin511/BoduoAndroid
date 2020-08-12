@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -66,7 +65,7 @@ public class SalesReturnPrintPresenter {
      */
     public void getMaterialNoBatchList(final String materialNo, String startTime, String endTime, final String customerNo) {
         if (materialNo.equals("")) {
-            MessageBox.Show(mContext, "物料信息不能为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "物料信息不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onMaterialNoFocus();
@@ -97,7 +96,7 @@ public class SalesReturnPrintPresenter {
                                 mView.setMaterialInfo(mModel.getMaterialDetailsList().get(0));
                                 mView.setSpinnerData(checkResult.getInfo());
                             } else {
-                                MessageBox.Show(mContext, checkResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                MessageBox.Show(mContext, checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         mView.onMaterialNoFocus();
@@ -114,7 +113,7 @@ public class SalesReturnPrintPresenter {
 //                        });
 
                     } else {
-                        MessageBox.Show(mContext, "获取物料批次信息失败:"+returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "获取物料批次信息失败:"+returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onMaterialNoFocus();
@@ -123,7 +122,7 @@ public class SalesReturnPrintPresenter {
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, "获取物料批次信息失败,出现预期之外的异常:"+ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "获取物料批次信息失败,出现预期之外的异常:"+ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onMaterialNoFocus();
@@ -199,6 +198,7 @@ public class SalesReturnPrintPresenter {
         postBarcodeInfo.setPrintertype(UrlInfo.mInStockPrintType);
         postBarcodeInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
         postBarcodeInfo.setCuscode(mModel.getCustomerCode());
+
         float divValue = ArithUtil.div(sumPalletQty, packCount);
         final double printCount = Math.ceil(divValue);   //向上取整
         final float lastPackQty = sumPalletQty % packCount;  //最后一箱数量 模

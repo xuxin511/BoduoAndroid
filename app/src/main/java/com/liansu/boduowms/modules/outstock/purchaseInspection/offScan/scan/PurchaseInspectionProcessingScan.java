@@ -214,7 +214,9 @@ public class PurchaseInspectionProcessingScan extends BaseActivity implements IP
 
     @Override
     public void onReset() {
-
+        mPalletNo.setText("");
+        mBarcode.setText("");
+        onPalletFocus();
     }
 
     @Override
@@ -339,9 +341,18 @@ public class PurchaseInspectionProcessingScan extends BaseActivity implements IP
         return mAreaNo.getText().toString().trim();
     }
 
+
+
     @Override
-    public void onActivityFinish() {
-        closeActivity();
+    public void onActivityFinish(String title) {
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(title+"是否返回上一页面？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO 自动生成的方法
+                        closeActivity();
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 
     @Override

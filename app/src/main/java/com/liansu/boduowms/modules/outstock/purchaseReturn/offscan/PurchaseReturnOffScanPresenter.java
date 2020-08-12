@@ -21,7 +21,6 @@ import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -62,7 +61,7 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.onFatherBarcodeFocus();
                             } else {
-                                MessageBox.Show(mContext, "获取订单明细失败:获取表体信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                MessageBox.Show(mContext, "获取订单明细失败:获取表体信息为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         mView.onErpVoucherNoFocus();
@@ -70,7 +69,7 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                                 });
                             }
                         } else {
-                            MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onErpVoucherNoFocus();
@@ -78,7 +77,7 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                             });
                         }
                     } else {
-                        MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onErpVoucherNoFocus();
@@ -87,7 +86,7 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, "获取订单明细失败: " + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "获取订单明细失败: " + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onErpVoucherNoFocus();
@@ -154,7 +153,7 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -201,7 +200,7 @@ public class PurchaseReturnOffScanPresenter extends BaseOutStockBusinessPresente
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 

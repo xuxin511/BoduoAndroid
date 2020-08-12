@@ -19,6 +19,7 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan;
 import com.liansu.boduowms.ui.adapter.outstock.purchaseInspection.PurchaseInspectionBillItemAdapter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -139,16 +140,13 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
             if (code.equals("")) {
                 return true;
             }
-            if (code.length() < 20) {
-                OutStockOrderHeaderInfo qualityHeaderInfo = new OutStockOrderHeaderInfo();
-//                receiptModel.setStatus(1);
-//                receiptModel.setErpVoucherNo(code);
+            if (code.length() < 25) {
                 if (mPresenter != null) {
-                    mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
+                    mPresenter.getQualityInspectionDetailList(code);
                 }
 
             } else {
-//                GetT_ErpVoucherNo(code);
+                MessageBox.Show(context,"校验订单的长度失败:请扫描订单号");
             }
 
         }
@@ -177,8 +175,14 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
 
     @Override
     public void bindListView(List<OutStockOrderHeaderInfo> receiptModels) {
-        mAdapter = new PurchaseInspectionBillItemAdapter(context, receiptModels);
-        mListView.setAdapter(mAdapter);
+        if (mAdapter==null){
+            mAdapter = new PurchaseInspectionBillItemAdapter(context, receiptModels);
+            mAdapter.notifyDataSetChanged();
+            mListView.setAdapter(mAdapter);
+        }else {
+            mAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override

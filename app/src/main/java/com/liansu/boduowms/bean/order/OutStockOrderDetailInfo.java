@@ -66,6 +66,7 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private String Towarehouseno;
     private String Printername;
     private int  Printertype;
+    private String Arrvoucherno;
 
     public OutStockOrderDetailInfo() {
     }
@@ -102,6 +103,7 @@ public class OutStockOrderDetailInfo implements Parcelable {
         Towarehouseno=in.readString();
         Printername=in.readString();
         Printertype=in.readInt();
+        Arrvoucherno=in.readString();
     }
 
     @Override
@@ -137,6 +139,7 @@ public class OutStockOrderDetailInfo implements Parcelable {
         dest.writeString(Towarehouseno);
         dest.writeString(Printername);
         dest.writeInt(Printertype);
+        dest.writeString(Arrvoucherno);
 
     }
 
@@ -403,5 +406,13 @@ public class OutStockOrderDetailInfo implements Parcelable {
 
     public void setPrintertype(int printertype) {
         Printertype = printertype;
+    }
+
+    public String getArrvoucherno() {
+        return Arrvoucherno;
+    }
+
+    public void setArrvoucherno(String arrvoucherno) {
+        Arrvoucherno = arrvoucherno;
     }
 }

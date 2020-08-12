@@ -22,6 +22,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
@@ -73,7 +74,7 @@ public class SalesReturnStorageScanPresenter {
                             mModel.setAreaInfo(data);
                             mView.onPalletNoFocus();
                         } else {
-                            MessageBox.Show(mContext, "获取的库位信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, "获取的库位信息为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onAreaNoFocus();
@@ -81,7 +82,7 @@ public class SalesReturnStorageScanPresenter {
                             });
                         }
                     } else {
-                        MessageBox.Show(mContext, "获取的库位信息失败：" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "获取的库位信息失败：" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onAreaNoFocus();
@@ -91,7 +92,7 @@ public class SalesReturnStorageScanPresenter {
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, "获取的库位信息失败：出现预期之外的异常" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "获取的库位信息失败：出现预期之外的异常" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onAreaNoFocus();
@@ -115,7 +116,7 @@ public class SalesReturnStorageScanPresenter {
     public void scanBarcode(String scanBarcode) {
         try {
             if (mModel.getAreaInfo() == null) {
-                MessageBox.Show(mContext, "请先扫描库位信息", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "请先扫描库位信息", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onAreaNoFocus();
@@ -129,7 +130,7 @@ public class SalesReturnStorageScanPresenter {
             if (resultInfo.getHeaderStatus()) {
                 scanQRCode = resultInfo.getInfo();
             } else {
-                MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onPalletNoFocus();
@@ -139,7 +140,7 @@ public class SalesReturnStorageScanPresenter {
             }
             if (scanQRCode != null) {
                 if (scanQRCode.getSerialno() == null) {
-                    MessageBox.Show(mContext, "条码解析失败:条码规则不正确,请扫描托盘条码", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "条码解析失败:条码规则不正确,请扫描托盘条码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onPalletNoFocus();
@@ -170,7 +171,7 @@ public class SalesReturnStorageScanPresenter {
                                         mView.bindListView(mModel.getList());
                                         mView.onPalletNoFocus();
                                     } else {
-                                        MessageBox.Show(mContext, checkResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                        MessageBox.Show(mContext, checkResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 mView.onPalletNoFocus();
@@ -178,7 +179,7 @@ public class SalesReturnStorageScanPresenter {
                                         });
                                     }
                                 } else {
-                                    MessageBox.Show(mContext, "条码查询失败,获取的条码信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    MessageBox.Show(mContext, "条码查询失败,获取的条码信息为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             mView.onPalletNoFocus();
@@ -186,7 +187,7 @@ public class SalesReturnStorageScanPresenter {
                                     });
                                 }
                             } else {
-                                MessageBox.Show(mContext, "条码查询失败: " + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                MessageBox.Show(mContext, "条码查询失败: " + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         mView.onPalletNoFocus();
@@ -195,7 +196,7 @@ public class SalesReturnStorageScanPresenter {
                             }
 
                         } catch (Exception ex) {
-                            MessageBox.Show(mContext, "条码查询失败: " + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, "条码查询失败: " + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onPalletNoFocus();
@@ -206,7 +207,7 @@ public class SalesReturnStorageScanPresenter {
                 });
 
             } else {
-                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onPalletNoFocus();
@@ -215,7 +216,7 @@ public class SalesReturnStorageScanPresenter {
                 return;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onPalletNoFocus();
@@ -248,7 +249,7 @@ public class SalesReturnStorageScanPresenter {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         onReset();
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(),MEDIA_MUSIC_NONE);
                     } else {
                         MessageBox.Show(mContext, returnMsgModel.getResultValue());
                     }

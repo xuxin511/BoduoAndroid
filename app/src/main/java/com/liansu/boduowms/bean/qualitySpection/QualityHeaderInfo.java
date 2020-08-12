@@ -3,8 +3,7 @@ package com.liansu.boduowms.bean.qualitySpection;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
-import com.liansu.boduowms.bean.order.OrderDetailInfo;
+import com.liansu.boduowms.bean.stock.StockInfo;
 
 import java.util.Date;
 
@@ -12,7 +11,7 @@ import java.util.Date;
  * @ Des:质检明细类
  * @ Created by yangyiqing on 2020/7/9.
  */
-public class QualityHeaderInfo extends OrderDetailInfo implements Parcelable {
+public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
 
     /// 合格数量
     public float  Qualityqty;
@@ -25,7 +24,12 @@ public class QualityHeaderInfo extends OrderDetailInfo implements Parcelable {
     public String Orowno;
     public String Orownodel;
     public String Ylinestatus;
-    public String Areano;
+    public String  Areano;
+   private  float  Sampqty;
+   private  String Erpvoucherdesc;
+   private String Erpstatuscodedesc;
+
+
     public QualityHeaderInfo() {
     }
 
@@ -69,7 +73,7 @@ public class QualityHeaderInfo extends OrderDetailInfo implements Parcelable {
         Supplierno = in.readString();
         Suppliername = in.readString();
         PackQty = in.readInt();
-        LstBarCode = in.createTypedArrayList(OutBarcodeInfo.CREATOR);
+        LstBarCode = in.createTypedArrayList(StockInfo.CREATOR);
         Outstockqty = in.readFloat();
         Spec = in.readString();
         Isquality = in.readInt();
@@ -77,7 +81,9 @@ public class QualityHeaderInfo extends OrderDetailInfo implements Parcelable {
         Towarehouseno=in.readString();
         Companycode=in.readString();
         Arrvoucherno =in.readString();
-
+        Sampqty =in.readFloat();
+        Erpvoucherdesc=in.readString();
+        Erpstatuscodedesc=in.readString();
     }
 
     public static final Creator<QualityHeaderInfo> CREATOR = new Creator<QualityHeaderInfo>() {
@@ -172,6 +178,30 @@ public class QualityHeaderInfo extends OrderDetailInfo implements Parcelable {
         Towarehouseno = towarehouseno;
     }
 
+    public float getSampqty() {
+        return Sampqty;
+    }
+
+    public void setSampqty(float sampqty) {
+        this.Sampqty = sampqty;
+    }
+
+    public String getErpvoucherdesc() {
+        return Erpvoucherdesc;
+    }
+
+    public void setErpvoucherdesc(String erpvoucherdesc) {
+        Erpvoucherdesc = erpvoucherdesc;
+    }
+
+    public String getErpstatuscodedesc() {
+        return Erpstatuscodedesc;
+    }
+
+    public void setErpstatuscodedesc(String erpstatuscodedesc) {
+        Erpstatuscodedesc = erpstatuscodedesc;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -226,6 +256,9 @@ public class QualityHeaderInfo extends OrderDetailInfo implements Parcelable {
         dest.writeString(Towarehouseno);
         dest.writeString(Companycode);
         dest.writeString(Arrvoucherno);
+        dest.writeFloat(Sampqty);
+        dest.writeString(Erpvoucherdesc);
+        dest.writeString(Erpstatuscodedesc);
 
     }
 }

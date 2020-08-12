@@ -18,6 +18,7 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
 import com.liansu.boduowms.modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingScan;
 import com.liansu.boduowms.ui.adapter.quality_inspection.QualityInspectionBillItemAdapter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -136,7 +137,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
         Intent intent = new Intent(mContext, QualityInspectionProcessingScan.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("QUALITY_INSPECTION", headerInfo);
-        bundle.putString("QUALITY_TYPE","QUALIFIED");
+        bundle.putString("QUALITY_TYPE", "QUALIFIED");
         intent.putExtras(bundle);
         mContext.startActivity(intent);
     }
@@ -184,4 +185,27 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
         });
     }
 
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)// 如果为Enter键
+        {
+
+            String code = mEdtfilterContent.getText().toString().trim();
+            if (code.equals("")) {
+                return true;
+            }
+            if (code.length() < 25) {
+                QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
+//                receiptModel.setStatus(1);
+                qualityHeaderInfo.setErpvoucherno(code);
+                if (mPresenter != null) {
+                    mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
+                }
+
+            } else {
+                MessageBox.Show(mContext,"校验单据长度失败:"+"请扫描单据号");
+            }
+
+        }
+        return false;
+    }
 }

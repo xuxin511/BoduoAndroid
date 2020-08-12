@@ -15,7 +15,7 @@ public class BaseInfo implements Parcelable {
     protected String Strongholdcode ;
     protected String Strongholdname ;
     protected String Creater ;
-    protected Date   Createtime ;
+//    protected Date   Createtime ;
     protected String Modifyer ;
     protected Date Modifytime ;
    public  BaseInfo(){}
@@ -80,13 +80,13 @@ public class BaseInfo implements Parcelable {
         Creater = creater;
     }
 
-    public Date getCreatetime() {
-        return Createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        Createtime = createtime;
-    }
+//    public Date getCreatetime() {
+//        return Createtime;
+//    }
+//
+//    public void setCreatetime(Date createtime) {
+//        Createtime = createtime;
+//    }
 
     public String getModifyer() {
         return Modifyer;

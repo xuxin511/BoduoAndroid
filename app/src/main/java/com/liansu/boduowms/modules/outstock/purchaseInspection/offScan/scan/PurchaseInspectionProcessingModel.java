@@ -188,7 +188,6 @@ public class PurchaseInspectionProcessingModel extends BaseModel {
         String modelJson = parseModelToJson(info);
         LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, TAG_INSPEC_RETURN_PRINT_INSPEC_RETURN, parseModelToJson(info));
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_INSPEC_RETURN_PRINT_INSPEC_RETURN, mContext.getString(R.string.request_print_order_purchase_return), mContext, mHandler, RESULT_TAG_INSPEC_RETURN_PRINT_INSPEC_RETURN, null, UrlInfo.getUrl().InspecReturn_PrintInspecReturn, modelJson, null);
-
     }
 
 
@@ -234,41 +233,47 @@ public class PurchaseInspectionProcessingModel extends BaseModel {
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
 
         if (detailInfo != null) {
-//            String materialNo = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
-//            String batchNo = detailInfo.getBatchno() != null ? detailInfo.getBatchno() : "";
+            String materialNo = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
+            String batchNo = detailInfo.getBatchno() != null ? detailInfo.getBatchno() : "";
             String rowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
             String rowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";
             String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
-
+            String arrVoucherNo=detailInfo.getArrvoucherno()!=null? detailInfo.getArrvoucherno():"";
             for (OutStockOrderDetailInfo info : mOrderDetailList) {
-                String sMaterialNo = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
-                String sRowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
-                String sRowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";
-                String sErpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
-//                if (sMaterialNo.equals(materialNo)) {
-                    if (sRowNo.equals(rowNo) && sRowDel.equals(rowDel)) {
-                        if (erpVoucherNo.equals(sErpVoucherNo)) {
-                            if (isUpdate) {
-                                info.setScanqty(detailInfo.getScanqty());
-                                info.setRemainqty(ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty()));
-                                resultInfo.setHeaderStatus(true);
-                                break;
-                            }
-                        } else {
-                            resultInfo.setMessage("校验物料行失败:条码的订单号[" + erpVoucherNo + "]不订单在中");
-                            resultInfo.setHeaderStatus(false);
-                            return resultInfo;
+                String sMaterialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
+                String sBatchNo = info.getBatchno() != null ? info.getBatchno() : "";
+                String sRowNo = info.getRowno() != null ? info.getRowno() : "";
+                String sRowDel = info.getRownodel() != null ? info.getRownodel() : "";
+                String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
+                String sArrVoucherNo=info.getArrvoucherno()!=null?info.getArrvoucherno():"";
+                if (sMaterialNo.equals(materialNo)) {
+//                    if (sRowNo.equals(rowNo) && sRowDel.equals(rowDel)) {
+                    if (erpVoucherNo.equals(sErpVoucherNo) && sArrVoucherNo.equals(arrVoucherNo)) {
+                        if (isUpdate) {
+                            info.setScanqty(detailInfo.getScanqty());
+                            info.setRemainqty(ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty()));
+                            resultInfo.setHeaderStatus(true);
+                            break;
                         }
                     } else {
-                        resultInfo.setMessage("校验物料行失败:物料的项次[" + sRowNo + "]或项序[" + rowDel + "]+不订单在中");
+                        resultInfo.setMessage("校验物料行失败:条码的订单号[" + erpVoucherNo + "],到货单号["+arrVoucherNo+"]不订单在中");
                         resultInfo.setHeaderStatus(false);
                         return resultInfo;
                     }
+//                    } else {
+//                        resultInfo.setMessage("校验物料行失败:物料的项次[" + sRowNo + "]或项序[" + rowDel + "]+不订单在中");
+//                        resultInfo.setHeaderStatus(false);
+//                        return resultInfo;
+//                    }
+                } else {
+                    resultInfo.setMessage("校验物料行失败:物料[" + materialNo + "]+不订单在中");
+                    resultInfo.setHeaderStatus(false);
+                    return resultInfo;
                 }
 
+            }
 
-
-        }else {
+        } else {
             resultInfo.setMessage("更新物料行失败:更新数据不能为空");
             resultInfo.setHeaderStatus(false);
             return resultInfo;
@@ -316,31 +321,59 @@ public class PurchaseInspectionProcessingModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/8/5 17:52
      */
-    public BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo>  findMaterialInfo(OutBarcodeInfo outBarcodeInfo){
+    public BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> findMaterialInfo(OutBarcodeInfo outBarcodeInfo) {
         BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> resultInfo = new BaseMultiResultInfo<>();
-        String materialNo=outBarcodeInfo.getMaterialno()!=null?outBarcodeInfo.getMaterialno():"";
-        OutStockOrderDetailInfo mMaterialInfo=null;
+        String materialNo = outBarcodeInfo.getMaterialno() != null ? outBarcodeInfo.getMaterialno() : "";
+        OutStockOrderDetailInfo mMaterialInfo = null;
         for (OutStockOrderDetailInfo info : mOrderDetailList) {
             String sMaterialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
-            if (sMaterialNo.equals(materialNo)){
-                mMaterialInfo= info;
+            if (sMaterialNo.equals(materialNo)) {
+                mMaterialInfo = info;
                 break;
             }
         }
-        if (mMaterialInfo!=null){
-            if (mMaterialInfo.getStrongholdcode()==null){
+        if (mMaterialInfo != null) {
+            if (mMaterialInfo.getStrongholdcode() == null) {
                 resultInfo.setHeaderStatus(false);
-                resultInfo.setMessage("获取当前物料信息失败:和当前扫描的条码的物料编号:"+materialNo+"匹配的物料数据中据点为空!");
+                resultInfo.setMessage("获取当前物料信息失败:和当前扫描的条码的物料编号:" + materialNo + "匹配的物料数据中据点为空!");
                 return resultInfo;
             }
             resultInfo.setHeaderStatus(true);
             resultInfo.setInfo(mMaterialInfo);
-        }else {
+        } else {
             resultInfo.setHeaderStatus(false);
-            resultInfo.setMessage("获取当前物料号信息失败:扫描的条码的物料编号:"+materialNo+"不在单据中");
+            resultInfo.setMessage("获取当前物料号信息失败:扫描的条码的物料编号:" + materialNo + "不在单据中");
             return resultInfo;
         }
 
+        return resultInfo;
+    }
+
+    /**
+     * @desc: 是否订单已扫描完毕
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/8 11:38
+     */
+    public   BaseMultiResultInfo<Boolean, Void>  isOrderScanFinished(){
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        boolean IS_ORDER_FINISHED=true;
+        for (OutStockOrderDetailInfo info:mOrderDetailList){
+            if (info!=null){
+                if (info.getRemainqty()!=0){
+                    IS_ORDER_FINISHED=false;
+                    break;
+                }
+            }
+        }
+        if (IS_ORDER_FINISHED){
+            resultInfo.setHeaderStatus(true);
+            resultInfo.setMessage("订单已扫描完毕!");
+        }else {
+            resultInfo.setHeaderStatus(false);
+
+        }
         return resultInfo;
     }
 }

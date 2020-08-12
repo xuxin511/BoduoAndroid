@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.qualityInspection.randomInspection.bill;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -19,6 +20,7 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
 import com.liansu.boduowms.modules.qualityInspection.randomInspection.scan.QualityInspection;
 import com.liansu.boduowms.ui.adapter.quality_inspection.RandomInspectionBillItemAdapter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -69,6 +71,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
         BaseApplication.context = context;
         BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title_list_name) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
         x.view().inject(this);
+
     }
 
     @Override
@@ -135,7 +138,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
             if (code.equals("")) {
                 return true;
             }
-            if (code.length() < 20) {
+            if (code.length() <= 25) {
                 QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
 //                receiptModel.setStatus(1);
                 qualityHeaderInfo.setErpvoucherno(code);
@@ -144,6 +147,12 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
                 }
 
             } else {
+                MessageBox.Show(context, "检验订单长度失败，请输入订单号", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onFilterContentFocus();
+                    }
+                });
 //                GetT_ErpVoucherNo(code);
             }
 
@@ -173,8 +182,14 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
 
     @Override
     public void bindListView(List<QualityHeaderInfo> receiptModels) {
-        mAdapter = new RandomInspectionBillItemAdapter(context, receiptModels);
-        mListView.setAdapter(mAdapter);
+        if (mAdapter==null){
+            mAdapter = new RandomInspectionBillItemAdapter(context, receiptModels);
+            mAdapter.notifyDataSetChanged();
+            mListView.setAdapter(mAdapter);
+        }else {
+            mAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override

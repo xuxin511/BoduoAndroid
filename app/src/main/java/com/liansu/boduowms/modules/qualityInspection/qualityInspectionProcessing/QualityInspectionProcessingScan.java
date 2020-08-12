@@ -10,7 +10,6 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,7 +36,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 /**
- * @desc: 质检扫描
+ * @desc: 质检合格扫描
  * @param: if (DoubleClickCheck.isFastDoubleClick(context)) {
  * return false;
  * }
@@ -45,7 +44,7 @@ import androidx.annotation.Nullable;
  * @author: Nietzsche
  * @time 2020/7/12 14:14
  */
-@ContentView(R.layout.activity_quality_inspection_processing_scan)
+@ContentView(R.layout.activity_quality_inspection_processing_scan2)
 public class QualityInspectionProcessingScan extends BaseActivity implements IQualityInspectionProcessingView {
     Context context = QualityInspectionProcessingScan.this;
     @ViewInject(R.id.quality_inspection_scan_stronghold_no)
@@ -58,16 +57,6 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     TextView mMaterialNo;
     @ViewInject(R.id.quality_inspection_scan_batch_no)
     TextView mBatchNo;
-    @ViewInject(R.id.quality_inspection_scan_qualified_qty)
-    TextView mQualifiedQty;
-    @ViewInject(R.id.quality_inspection_scan_un_qualified_qty_desc)
-    TextView mUnQualifiedQty;
-    @ViewInject(R.id.quality_inspection_scan_un_qualified_scan_qty)
-    TextView mUnQualifiedSumQty; //已扫描数量合计
-    @ViewInject(R.id.quality_inspection_scan_area_no)
-    EditText mAreaNo;
-    @ViewInject(R.id.quality_inspection_scan_area_no_desc)
-    TextView mAreaNoDesc;
     @ViewInject(R.id.quality_inspection_scan_un_qualified_barcode)
     EditText mBarcode;
     @ViewInject(R.id.quality_inspection_scan_barcode)
@@ -84,6 +73,22 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     TextView mFatherBarcodeDesc;
     @ViewInject(R.id.quality_inspection_scan_un_qualified_father_barcode)
     EditText mFatherBarcode;
+    @ViewInject(R.id.quality_inspection_voucher_no_desc_name)
+    TextView mVoucherNoDesc;  //单据性质
+    @ViewInject(R.id.quality_inspection_purchase_no_desc)
+    TextView mPurchaseOrderNoDesc;
+    @ViewInject(R.id.quality_inspection_purchase_no)
+    TextView mPurchaseNo;
+    @ViewInject(R.id.quality_inspection_scan_receipt_voucher_no_desc)
+    TextView mArrVoucherNoDesc;
+    @ViewInject(R.id.quality_inspection_voucher_no_desc_name)
+    TextView mErpVoucherName;
+    @ViewInject(R.id.quality_inspection_scan_material_desc)
+    TextView mMaterialDesc;
+    @ViewInject(R.id.quality_inspection_scan_voucher_qty)
+    TextView mVoucherQty;
+    @ViewInject(R.id.quality_inspection_scan_qualified_qty)
+    TextView mQualifiedQty;
     QualityInspectionScanAdapter         mAdapter;
     QualityInspectionProcessingPresenter mPresenter;
     public final int REQUEST_CODE_OK = 1;
@@ -93,7 +98,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     protected void initViews() {
         super.initViews();
         BaseApplication.context = context;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_processing_scan_title), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_processing_scan_title)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mRefer.setOnClickListener(new View.OnClickListener() {
@@ -145,15 +150,13 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
 
             switch (v.getId()) {
                 case R.id.quality_inspection_scan_area_no:
-                    String areaNo = mAreaNo.getText().toString().trim();
-//                    mPresenter.getAreaInfo(areaNo);
+
                     break;
                 case R.id.quality_inspection_scan_un_qualified_barcode:
                     String barcode = mBarcode.getText().toString().trim();
                     mPresenter.onBarCodeScan(barcode, getOperationType());
                     break;
-                case R.id.quality_inspection_scan_un_qualified_barcode_qty:
-                    break;
+
             }
 
         }
@@ -183,39 +186,9 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     }
 
 
-//    @Event(R.id.btn_ReceiptDetail)
-//    private void btnCombinePalletClick(View view) {
-//        Intent intent = new Intent();
-//        intent.setClass(QualityInspectionProcessingScan.this, InstockCombinePallet.class);
-//        Bundle bundle = new Bundle();
-////        bundle.putInt("inStockType", COMBINE_PALLET_TYPE_RECEIPTION);
-////        bundle.putParcelable("orderHeader", mPresenter.getModel().getReceiptModel());
-////        bundle.putParcelableArrayList("orderDetailList", (ArrayList<? extends Parcelable>) DebugModuleData.loadReceiptScanDetailList());
-////        bundle.putParcelableArrayList("orderDetailList", mPresenter.getModel().getReceiptDetailModels());
-//        intent.putExtras(bundle);
-//        startActivityLeft(intent);
-//    }
 
 
-    @Event(value = R.id.lsv_ReceiptScan, type = AdapterView.OnItemClickListener.class)
-    private boolean lsv_ReceiptScanItemClick(AdapterView<?> parent, View view, int position,
-                                             long id) {
-//        if (id >= 0) {
-//            ReceiptDetail_Model receiptDetailModel = receiptDetailModels.get(position);
-//            try {
-//                if (receiptDetailModel.getLstBarCode() != null && receiptDetailModel.getLstBarCode().size() != 0) {
-////                        Intent intent = new Intent(context, ReceiptionBillDetail.class);
-////                        Bundle bundle = new Bundle();
-////                        bundle.putParcelable("receiptDetailModel", receiptDetailModel);
-////                        intent.putExtras(bundle);
-////                        startActivityLeft(intent);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-        return true;
-    }
+
 
 
     @Override
@@ -245,8 +218,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     }
 
     @Override
-    public void onAreaNoFocus() {
-        CommonUtil.setEditFocus(mAreaNo);
+    public void onAreaNoFocus(){
     }
 
     @Override
@@ -258,14 +230,33 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     public void setOrderInfo(QualityHeaderInfo headerInfo) {
         if (headerInfo != null) {
             mStrongHoldNo.setText(headerInfo.getStrongholdcode() + "");
-            mReceiptVoucherNo.setText(headerInfo.getVoucherno() + "");
-            mErpVoucherNo.setText(headerInfo.getErpvoucherno() + "");
+            mReceiptVoucherNo.setText(headerInfo.getArrvoucherno() + "");
+            mErpVoucherNo.setText(headerInfo.getQualityno() + "");
+            mPurchaseNo.setText(headerInfo.getErpvoucherno());
+            mMaterialDesc.setText(headerInfo.getMaterialdesc());
+            mVoucherQty.setText(headerInfo.getVoucherqty()+"");
             mQualifiedQty.setText(headerInfo.getQualityqty()+"");
+            if (headerInfo.getVouchertype()==47){
+                mPurchaseOrderNoDesc.setText("采购单号:");
+                mArrVoucherNoDesc.setText("到货单号:");
+            }else  if (headerInfo.getVouchertype()==48){
+                mPurchaseOrderNoDesc.setText("工单号:");
+                mArrVoucherNoDesc.setText("完工单号:");
+            }
+            mVoucherNoDesc.setText(headerInfo.getErpvoucherdesc() +"  "+headerInfo.getErpstatuscodedesc());
+            mErpVoucherName.setTextColor(getResources().getColor(R.color.colorPrimary));
+            mPurchaseNo.setTextColor(getResources().getColor(R.color.colorPrimary));
+            mReceiptVoucherNo.setTextColor(getResources().getColor(R.color.peru));
+            mErpVoucherNo.setTextColor(getResources().getColor(R.color.colorPrimary));
+            mMaterialDesc.setTextColor(getResources().getColor(R.color.colorPrimary));
+            mMaterialNo.setTextColor(getResources().getColor(R.color.mediumseagreen));
+
         } else {
+            mErpVoucherName.setText("");
             mStrongHoldNo.setText("");
             mReceiptVoucherNo.setText("");
             mErpVoucherNo.setText("");
-            mQualifiedQty.setText("");
+            mQualifiedQty.setText("0");
         }
     }
 
@@ -274,13 +265,11 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
         if (detailInfo != null) {
             mMaterialNo.setText(detailInfo.getMaterialno());
             mBatchNo.setText(detailInfo.getBatchno());
-            mUnQualifiedQty.setText(detailInfo.getUnqualityqty()+"");
-            mQualifiedQty.setText(detailInfo.getQualityqty()+"");
+
         } else {
             mMaterialNo.setText("");
             mBatchNo.setText("");
-            mUnQualifiedQty.setText("");
-            mQualifiedQty.setText("");
+
         }
     }
 
@@ -297,7 +286,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
 
     @Override
     public void setScanQty(float qty) {
-        mUnQualifiedSumQty.setText(qty + "");
+
     }
 
 
@@ -338,23 +327,11 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     @Override
     public void setViewStatus() {
         if (mQualityType.equals("QUALIFIED")) {
-            mUnQualifiedQty.setVisibility(View.GONE);
-            mUnQualifiedSumQty.setVisibility(View.GONE);
-            mBarcode.setVisibility(View.GONE);
-            mBarcodeDesc.setVisibility(View.GONE);
-            mQtyDesc.setVisibility(View.GONE);
-            mQty.setVisibility(View.GONE);
+
             mOperationType.setVisibility(View.GONE);
-            mFatherBarcodeDesc.setVisibility(View.GONE);
-            mFatherBarcode.setVisibility(View.GONE);
             mRefer.setText("提交");
         } else if (mQualityType.equals("UNQUALIFIED")) {
-            mUnQualifiedQty.setVisibility(View.VISIBLE);
-            mUnQualifiedSumQty.setVisibility(View.VISIBLE);
-            mBarcode.setVisibility(View.VISIBLE);
-            mBarcodeDesc.setVisibility(View.VISIBLE);
-            mQtyDesc.setVisibility(View.VISIBLE);
-            mQty.setVisibility(View.VISIBLE);
+
         }
 
 
@@ -362,7 +339,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
 
     @Override
     public String getAreaNo() {
-        return mAreaNo.getText().toString().trim();
+      return null;
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
+import com.liansu.boduowms.utils.function.DoubleClickCheck;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -87,7 +88,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
                 });
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage() );
+            MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
         }
     }
 
@@ -96,6 +97,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
             keyBoardCancle();
+
             switch (v.getId()) {
                 case R.id.dialog_material_info_material_no:
                     requestBatchNoFocus();
@@ -104,11 +106,17 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
                     if (mMaterialType == MATERIAL_INFO_TYPE_FINISHED_PRODUCT) {
                         requestOuterBoxQtyFocus();
                     } else {
-                        requestQtyFocus();
+
                     }
                     break;
                 case R.id.dialog_material_info_outer_barcode_qty:
-                    requestPackCountFocus();
+                    float  pcakcount=Float.parseFloat(mPackCount.getText().toString().trim());
+                    if (pcakcount==0){
+                        requestPackCountFocus();
+                    }else {
+                        requestBulkVolumeFocus();
+                    }
+                ;
                     sumQtyOfFinishedProduct();
                     break;
                 case R.id.dialog_material_info_pack_count:
@@ -117,6 +125,12 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
                     break;
                 case R.id.dialog_material_info_material_bulk_volume:
                     sumQtyOfFinishedProduct();
+                    requestQtyFocus();
+                case R.id.dialog_material_info_qty:
+                    if (DoubleClickCheck.isFastDoubleClick(mContext,200)) {
+                        return false;
+                    }
+                    saveData();
                     break;
 
             }
@@ -135,23 +149,24 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
      */
     public void initData(OutBarcodeInfo info, int materialType) {
         mTitle.setText("添加物料信息");
-        mMaterialType=materialType;
+        mMaterialType = materialType;
         if (info != null) {
             float packQty = info.getPackQty();
-            if (packQty!=0){
-                mMaterialType=MATERIAL_INFO_TYPE_FINISHED_PRODUCT;
-            }else {
-                mMaterialType=MATERIAL_INFO_TYPE_RAW_MATERIAL;
+            if (packQty != 0) {
+                mMaterialType = MATERIAL_INFO_TYPE_FINISHED_PRODUCT;
+            } else {
+                mMaterialType = MATERIAL_INFO_TYPE_RAW_MATERIAL;
             }
             String materialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
             String materialName = info.getMaterialdesc() != null ? info.getMaterialdesc() : "";
-            String batchNo=info.getBatchno()!=null?info.getBatchno():"";
+            String batchNo = info.getBatchno() != null ? info.getBatchno() : "";
+            float packCount=info.getPackQty();
             mMaterialName.setText(materialName);
             mMaterialName.setEnabled(false);
             mMaterialNo.setText(materialNo);
             mBatchNo.setText(info.getBatchno());
             mQty.setText(info.getQty() + "");
-            mPackCount.setText(packQty+"");
+            mPackCount.setText(packQty + "");
             mBulkVolume.setText("0");
             mOuterBoxQty.setText("0");
             if (materialNo.equals("")) {
@@ -161,10 +176,14 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
                 mMaterialNo.setEnabled(false);
 
             }
-            if (batchNo.equals("") && !materialNo.equals("")){
+            if (batchNo.equals("") && !materialNo.equals("")) {
                 requestBatchNoFocus();
             }
-
+            if (info.getPackQty()!=0){
+                mQty.setText("0");
+                mQty.setEnabled(false);
+            }
+            requestBatchNoFocus();
         }
 
 
@@ -192,15 +211,15 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
         String materialNo = mMaterialNo.getText().toString().trim();
         float qty = Float.parseFloat(mQty.getText().toString());
         if (batchNo.equals("")) {
-            MessageBox.Show(mContext, "批次不能为空" );
+            MessageBox.Show(mContext, "批次不能为空");
             return;
         }
         if (qty <= 0) {
-            MessageBox.Show(mContext, "数量必须大于0" );
+            MessageBox.Show(mContext, "数量必须大于0");
             return;
         }
         if (materialNo.equals("")) {
-            MessageBox.Show(mContext, "物料编号不能为空" );
+            MessageBox.Show(mContext, "物料编号不能为空");
             return;
         }
         mOutBarcode.setMaterialno(mMaterialNo.getText().toString().trim());

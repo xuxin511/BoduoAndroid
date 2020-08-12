@@ -22,4 +22,14 @@ public class DoubleClickCheck {
             lastClickTime = time;
             return false;
         }
+    public static boolean isFastDoubleClick(Context context,int value) {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if ( 0 < timeD && timeD < value) {       //200毫秒内按钮无效，这样可以控制快速点击，自己调整频率
+            MessageBox.Show(context,context.getString(R.string.Error_SubmitMore) );
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+    }
 }

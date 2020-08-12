@@ -55,7 +55,7 @@ public class OutStockOrderHeaderInfo implements Parcelable {
     private List<OutStockOrderDetailInfo> Detail;
     private String                        Arrvoucherno;
     private String                        Purchaseno;
-
+    private String      Qualityno;
     public OutStockOrderHeaderInfo() {
     }
 
@@ -81,6 +81,7 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         Detail = in.createTypedArrayList(OutStockOrderDetailInfo.CREATOR);
         Arrvoucherno = in.readString();
         Purchaseno = in.readString();
+        Qualityno=in.readString();
     }
 
     @Override
@@ -106,6 +107,7 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         dest.writeTypedList(Detail);
         dest.writeString(Arrvoucherno);
         dest.writeString(Purchaseno);
+        dest.writeString(Qualityno);
 
     }
 
@@ -294,4 +296,11 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         Purchaseno = purchaseno;
     }
 
+    public String getQualityno() {
+        return Qualityno;
+    }
+
+    public void setQualityno(String qualityno) {
+        Qualityno = qualityno;
+    }
 }

@@ -70,6 +70,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
     protected int    Printertype; //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙
     protected String Postuser;//过账人
     protected String Username;//登录人
+    protected String Unitname;
 
     public OutBarcodeInfo() {
     }
@@ -112,6 +113,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         Printertype = in.readInt();
         Postuser = in.readString();
         Username=in.readString();
+        Unitname=in.readString();
     }
 
     @NonNull
@@ -423,6 +425,14 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         Username = username;
     }
 
+    public String getUnitname() {
+        return Unitname;
+    }
+
+    public void setUnitname(String unitname) {
+        Unitname = unitname;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -467,6 +477,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         dest.writeInt(Printertype);
         dest.writeString(Postuser);
         dest.writeString(Username);
+        dest.writeString(Unitname);
     }
 
 //    @Override

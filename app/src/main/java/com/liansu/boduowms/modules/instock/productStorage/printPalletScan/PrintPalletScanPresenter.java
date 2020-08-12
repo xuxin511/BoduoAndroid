@@ -29,7 +29,6 @@ import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -163,7 +162,7 @@ public class PrintPalletScanPresenter {
                 if (result.getHeaderStatus()) {
                     mView.createDialog(scanQRCode);
                 } else {
-                    MessageBox.Show(mContext, "解析条码失败: " + result.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "解析条码失败: " + result.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onBarcodeFocus();
@@ -173,7 +172,7 @@ public class PrintPalletScanPresenter {
                 }
 
             } else {
-                MessageBox.Show(mContext, "解析条码失败: 条码格式不正确" + scanBarcode, MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "解析条码失败: 条码格式不正确" + scanBarcode, MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onBarcodeFocus();
@@ -181,7 +180,7 @@ public class PrintPalletScanPresenter {
                 });
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "解析条码失败: " + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "解析条码失败: " + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onBarcodeFocus();
@@ -236,7 +235,7 @@ public class PrintPalletScanPresenter {
 //                                    }
                                     mView.onBarcodeFocus();
                                 } else {
-                                    MessageBox.Show(mContext,"提交条码信息失败:"+ returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    MessageBox.Show(mContext,"提交条码信息失败:"+ returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             mView.onBarcodeFocus();
@@ -244,7 +243,7 @@ public class PrintPalletScanPresenter {
                                     });
                                 }
                             } catch (Exception e) {
-                                MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         mView.onBarcodeFocus();
@@ -254,7 +253,7 @@ public class PrintPalletScanPresenter {
                         }
                     });
                 } else {
-                    MessageBox.Show(mContext, checkMaterialResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, checkMaterialResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onBarcodeFocus();
@@ -262,7 +261,7 @@ public class PrintPalletScanPresenter {
                     });
                 }
             } else {
-                MessageBox.Show(mContext, detailResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, detailResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onBarcodeFocus();
@@ -270,7 +269,7 @@ public class PrintPalletScanPresenter {
                 });
             }
         } else {
-            MessageBox.Show(mContext, "外箱信息不能为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "外箱信息不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onBarcodeFocus();

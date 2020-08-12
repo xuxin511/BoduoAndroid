@@ -56,8 +56,9 @@ public class QRCodeFunc {
                 resultBarcode.setMaterialno(materialNo);
                 resultBarcode.setBatchno(batchNo);
                 resultBarcode.setQty(qty);
-            } else { //
+            } else { //散件  69 码或者物料编码
                 resultBarcode.setBarcode(originalCode);
+                resultBarcode.setMaterialno(originalCode);
             }
             if (resultBarcode != null) {
                 resultInfo.setInfo(resultBarcode);

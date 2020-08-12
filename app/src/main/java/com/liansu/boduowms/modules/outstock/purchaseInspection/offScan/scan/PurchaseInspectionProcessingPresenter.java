@@ -30,7 +30,6 @@ import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.sc
 import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingModel.BARCODE_TYPE_OUT_BARCODE;
 import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingModel.BARCODE_TYPE_PALLET_NO;
 import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingModel.SCAN_TYPE_PALLET_NO;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -248,7 +247,7 @@ public class PurchaseInspectionProcessingPresenter {
         } else {
             if (palletInfo.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO && palletInfo.getMaterialno().equals("") && palletInfo.getBatchno().equals("")) { //如果是混托用表头数据
                 info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
-            }else{
+            } else {
                 MessageBox.Show(mContext, "托盘的物料编号不在订单中:" + checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -271,6 +270,12 @@ public class PurchaseInspectionProcessingPresenter {
                         BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkAndUpdateMaterialInfo(returnMsgModel.getData().get(0), true);
                         if (checkResult.getHeaderStatus()) {
                             mView.setOrderDetailInfo(mModel.getOrderDetailList().get(0));
+                            mView.onPalletFocus();
+                            BaseMultiResultInfo<Boolean, Void> checkOrderResult = mModel.isOrderScanFinished();
+                            if (checkOrderResult.getHeaderStatus()) {
+                                mView.onReset();
+                                mView.onActivityFinish("订单已扫描完毕,");
+                            }
                         } else
                             MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
@@ -279,7 +284,7 @@ public class PurchaseInspectionProcessingPresenter {
                                 }
                             });
                     } else {
-                        MessageBox.Show(mContext, "提交整托信息失败:"+ returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "提交整托信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onPalletFocus();
@@ -413,6 +418,11 @@ public class PurchaseInspectionProcessingPresenter {
                                         if (checkResult.getHeaderStatus()) {
                                             mView.setOrderDetailInfo(mModel.getOrderDetailList().get(0));
                                             mView.onBarcodeFocus();
+                                            BaseMultiResultInfo<Boolean, Void> checkOrderResult = mModel.isOrderScanFinished();
+                                            if (checkOrderResult.getHeaderStatus()) {
+                                                mView.onReset();
+                                                mView.onActivityFinish("订单已扫描完毕,");
+                                            }
                                         } else {
                                             MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                                 @Override
@@ -422,7 +432,7 @@ public class PurchaseInspectionProcessingPresenter {
                                             });
                                         }
                                     } else {
-                                        MessageBox.Show(mContext,"提交散件信息失败:"+  returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        MessageBox.Show(mContext, "提交散件信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 mView.onBarcodeFocus();
@@ -530,15 +540,20 @@ public class PurchaseInspectionProcessingPresenter {
                                         if (checkResult.getHeaderStatus()) {
                                             mView.setOrderDetailInfo(mModel.getOrderDetailList().get(0));
                                             mView.onBarcodeFocus();
+                                            BaseMultiResultInfo<Boolean, Void> checkOrderResult = mModel.isOrderScanFinished();
+                                            if (checkOrderResult.getHeaderStatus()) {
+                                                mView.onReset();
+                                                mView.onActivityFinish("订单已扫描完毕,");
+                                            }
                                         } else
-                                            MessageBox.Show(mContext, returnMsgModel.getResultValue(),  MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     mView.onBarcodeFocus();
                                                 }
                                             });
                                     } else {
-                                        MessageBox.Show(mContext,"提交整箱信息失败:"+ returnMsgModel.getResultValue(),  MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        MessageBox.Show(mContext, "提交整箱信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 mView.onBarcodeFocus();
@@ -562,7 +577,7 @@ public class PurchaseInspectionProcessingPresenter {
 
                         });
                     } else {
-                        MessageBox.Show(mContext, "校验外箱条码的物料编码失败:" + returnMsgModel.getResultValue(),  MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "校验外箱条码的物料编码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onBarcodeFocus();
@@ -598,6 +613,7 @@ public class PurchaseInspectionProcessingPresenter {
         OrderRequestInfo info = new OrderRequestInfo();
         if (mModel.getOrderHeaderInfo() == null) {
             MessageBox.Show(mContext, "请扫描单据编号");
+            return;
         }
         info.setErpvoucherno(mModel.getOrderHeaderInfo().getErpvoucherno());
         info.setVouchertype(mModel.getOrderHeaderInfo().getVouchertype());
@@ -610,10 +626,10 @@ public class PurchaseInspectionProcessingPresenter {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mView.onActivityFinish();
+                                mView.onActivityFinish("订单已扫描完毕,");
                             }
                         });
                     } else {
@@ -652,7 +668,7 @@ public class PurchaseInspectionProcessingPresenter {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "打印验退单成功", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -669,7 +685,6 @@ public class PurchaseInspectionProcessingPresenter {
 
 
     }
-
 
 
 }

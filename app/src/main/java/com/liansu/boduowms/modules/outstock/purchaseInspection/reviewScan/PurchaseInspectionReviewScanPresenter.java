@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
@@ -75,20 +76,49 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
                             mModel.setOrderHeaderInfo(orderHeaderInfo);
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
-                                mView.bindListView(mModel.getOrderDetailList());
-                                mView.setErpVoucherNoInfo(mModel.getOrderHeaderInfo());
-                                mView.setSumScanQty(mModel.getOrderDetailList().get(0).getMaterialCartonNum(), mModel.getOrderDetailList().get(0).getMaterialPartNum());
+                                BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
+                                if (!checkResult.getHeaderStatus()) {
+                                    mView.bindListView(mModel.getOrderDetailList());
+                                    mView.setErpVoucherNoInfo(mModel.getOrderHeaderInfo());
+                                    mView.setSumScanQty(mModel.getOrderDetailList().get(0).getMaterialCartonNum(), mModel.getOrderDetailList().get(0).getMaterialPartNum());
+
+                                } else {
+                                    mView.onActivityFinish("单号已扫描完毕," + checkResult.getMessage());
+                                }
                             } else {
-                                MessageBox.Show(mContext, returnMsgModel.getResultValue());
-                                mView.onErpVoucherFocus();
+                                MessageBox.Show(mContext, "获取单据明细失败::获取单据明细为空" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onErpVoucherFocus();
+                                    }
+                                });
+
                             }
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                            MessageBox.Show(mContext, "获取单据明细失败:获取单据明细为空" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onErpVoucherFocus();
+                                }
+                            });
                         }
+                    } else {
+                        MessageBox.Show(mContext, "获取单据明细失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onErpVoucherFocus();
+                            }
+                        });
                     }
 
+
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage());
+                    MessageBox.Show(mContext, "获取单据明细出现预期之外的异常:" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onErpVoucherFocus();
+                        }
+                    });
                 }
 
 
@@ -106,8 +136,13 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
             if (resultInfo.getHeaderStatus()) {
                 scanQRCode = resultInfo.getInfo();
             } else {
-                MessageBox.Show(mContext, "解析条码失败:" + resultInfo.getMessage());
-                mView.onBarcodeFocus();
+                MessageBox.Show(mContext, "解析条码失败:" + resultInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
+
                 return;
             }
             String materialNo = "";
@@ -130,9 +165,9 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                                 if (finalScanQRCode.getBarcode().contains("%")) {
                                     mView.setQtyViewStatus(false);
-                                    if (finalScanQRCode.getSerialno() != null) {
+                                    if (finalScanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO && finalScanQRCode.getSerialno().equals("")) {
                                         onPalletNoBarcodeScan(finalScanQRCode);
-                                    } else {
+                                    } else if (finalScanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_OUTER_BOX) {
                                         onOuterBarcodeScan(finalScanQRCode);
                                     }
 
@@ -146,8 +181,13 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
 
                                 }
                             } else {
-                                MessageBox.Show(mContext, "查询物料信息失败:" + returnMsgModel.getResultValue());
-                                mView.onBarcodeFocus();
+                                MessageBox.Show(mContext, "查询物料信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onBarcodeFocus();
+                                    }
+                                });
+
                             }
 
                         } catch (Exception e) {
@@ -242,13 +282,22 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
 
     @Override
     protected void onOrderRefer() {
+        if (mModel.getOrderHeaderInfo() == null) {
+            MessageBox.Show(mContext, "获取的订单信息为空,请先扫描单据号", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onErpVoucherFocus();
+                }
+            });
+            return;
+        }
         OrderRequestInfo info = new OrderRequestInfo();
         info.setErpvoucherno(mModel.getOrderHeaderInfo().getErpvoucherno());
         info.setVouchertype(mModel.getOrderHeaderInfo().getVouchertype());
         info.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
         info.setDirver(mView.getDriverInfo());
         info.setLogisticsCompany(mView.getLogisticsCompany());
-        List<OrderRequestInfo> list=new ArrayList<>();
+        List<OrderRequestInfo> list = new ArrayList<>();
         list.add(info);
         mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
             @Override
@@ -261,6 +310,7 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
                         MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                onReset();
                             }
                         });
                     } else {
@@ -278,4 +328,17 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
         mView.setReceiverStatus(false);
         mView.setLogisticsCompanyStatus(true);
     }
+
+    /**
+     * @desc: 重置数据
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/12 15:25
+     */
+    void onReset() {
+        mView.onReset();
+        mModel.onReset();
+    }
+
 }

@@ -27,7 +27,6 @@ import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -109,7 +108,7 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                             mModel.setAreaInfo(data);
                             mView.onBarcodeFocus();
                         } else {
-                            MessageBox.Show(mContext, "获取的库位信息为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, "获取的库位信息为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onAreaNoFocus();
@@ -118,7 +117,7 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
 
                         }
                     } else {
-                        MessageBox.Show(mContext, "获取的库位信息失败，" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "获取的库位信息失败，" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onAreaNoFocus();
@@ -128,7 +127,7 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, "获取的库位信息出现预期之外的异常，" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "获取的库位信息出现预期之外的异常，" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onAreaNoFocus();

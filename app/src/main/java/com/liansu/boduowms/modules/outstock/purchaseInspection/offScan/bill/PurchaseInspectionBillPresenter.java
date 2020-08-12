@@ -6,7 +6,9 @@ import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.base.BaseActivity;
+import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.qualityInspection.bill.QualityInspectionBill;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -15,6 +17,7 @@ import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
@@ -90,6 +93,70 @@ public class PurchaseInspectionBillPresenter {
             }
         });
 
+
+    }
+
+
+    /**
+     * @desc: 获取采购验退单明细 (筛选)
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/12 18:11
+     */
+    public void getQualityInspectionDetailList(String erpVoucherNo) {
+        mView.startRefreshProgress();
+        OrderRequestInfo info = new OrderRequestInfo();
+        info.setErpvoucherno(erpVoucherNo);
+        info.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        mModel.requestQualityInspectionDetail(info, new NetCallBackListener<String>() {
+            @Override
+            public void onCallBack(String result) {
+                try {
+                    LogUtil.WriteLog(QualityInspectionBill.class, mModel.TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC, result);
+                    BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
+                    }.getType());
+                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        List<OutStockOrderHeaderInfo> list = new ArrayList<>();
+                        if (returnMsgModel.getData() != null) {
+                            list.add(returnMsgModel.getData());
+                            mModel.setQualityInspectionInfoList(list);
+                        }
+
+                        if (mModel.getQualityInspectionInfoList().size() != 0 && mModel.getBarCodeList().size() != 0) {
+                        } else {
+                            mView.sumBillCount(mModel.getQualityInspectionInfoList().size());
+                            mView.bindListView(mModel.getQualityInspectionInfoList());
+                        }
+
+                    } else {
+                        MessageBox.Show(mContext, "获取订单失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mModel.setQualityInspectionInfoList(null);
+                                mView.bindListView(mModel.getQualityInspectionInfoList());
+                                mView.onFilterContentFocus();
+                            }
+                        });
+
+
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(mContext, "获取订单失败:" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onFilterContentFocus();
+                        }
+                    });
+
+
+                } finally {
+                    mView.onFilterContentFocus();
+                    mView.stopRefreshProgress();
+                }
+
+            }
+        });
 
     }
 

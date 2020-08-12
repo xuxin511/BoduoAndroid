@@ -30,7 +30,7 @@ import static com.liansu.boduowms.modules.outstock.baseOutStockBusiness.offScan.
 import static com.liansu.boduowms.modules.outstock.baseOutStockBusiness.offScan.BaseOutStockBusinessModel.OUT_STOCK_SCAN_TYPE_TRAY;
 import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingModel.BARCODE_TYPE_BULK;
 import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingModel.BARCODE_TYPE_PALLET_NO;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -93,7 +93,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
         if (QRResultInfo.getHeaderStatus()) {
             scanFatherQRCode = QRResultInfo.getInfo();
             if (scanFatherQRCode.getBarcodetype() != QRCodeFunc.BARCODE_TYPE_PALLET_NO) {
-                MessageBox.Show(mContext, "解析托盘码失败:托盘格式不正确", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "解析托盘码失败:托盘格式不正确", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onFatherBarcodeFocus();
@@ -102,7 +102,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                 return;
             }
         } else {
-            MessageBox.Show(mContext, "解析托盘码失败:" + QRResultInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "解析托盘码失败:" + QRResultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onFatherBarcodeFocus();
@@ -129,7 +129,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                             }
 
                         } else {
-                            MessageBox.Show(mContext, "查询托盘信息失败:获取托盘信息为空  " + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, "查询托盘信息失败:获取托盘信息为空  " + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onFatherBarcodeFocus();
@@ -137,7 +137,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                             });
                         }
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onFatherBarcodeFocus();
@@ -146,7 +146,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, "查询托盘信息失败:" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "查询托盘信息失败:" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onFatherBarcodeFocus();
@@ -173,7 +173,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
         mModel.setCurrentMaterialBatchNoList(null);
         final OutBarcodeInfo fatherInfo = mModel.getCurrentFatherInfo();
         if (fatherInfo == null) {
-            MessageBox.Show(mContext, "校验托盘条码信息失败:获取的条码信息为空,请扫描托盘码", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "校验托盘条码信息失败:获取的条码信息为空,请扫描托盘码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onFatherBarcodeFocus();
@@ -182,7 +182,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
             return;
         }
         if (!palletBarcode.contains(fatherInfo.getSerialno())) {
-            MessageBox.Show(mContext, "校验托盘条码信息失败:已保存的托盘序列号和当前界面扫描的托盘序列号不一致!请扫描托盘码", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "校验托盘条码信息失败:已保存的托盘序列号和当前界面扫描的托盘序列号不一致!请扫描托盘码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onFatherBarcodeFocus();
@@ -197,7 +197,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
         if (resultSubInfo.getHeaderStatus()) {
             scanSubQRCode = resultSubInfo.getInfo();
             if (scanSubQRCode.getBarcodetype() != QRCodeFunc.BARCODE_TYPE_OUTER_BOX) {
-                MessageBox.Show(mContext, "解析外箱条码失败:外箱格式不正确", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "解析外箱条码失败:外箱格式不正确", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onSubBarcodeFocus();
@@ -206,7 +206,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                 return;
             }
         } else {
-            MessageBox.Show(mContext, "解析外箱条码失败:" + resultSubInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "解析外箱条码失败:" + resultSubInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onSubBarcodeFocus();
@@ -217,7 +217,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
         }
 
         if (scanSubQRCode.getBatchno() == null || scanSubQRCode.getBatchno().equals("")) {
-            MessageBox.Show(mContext, "解析外箱条码失败:批次不能为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "解析外箱条码失败:批次不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onSubBarcodeFocus();
@@ -227,7 +227,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
             return;
         }
         if (scanSubQRCode.getMaterialno() == null || scanSubQRCode.getMaterialno().equals("")) {
-            MessageBox.Show(mContext, "解析外箱条码失败:物料不能为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "解析外箱条码失败:物料不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onSubBarcodeFocus();
@@ -250,7 +250,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                         mView.onSubBarcodeFocus();
 
                     } else {
-                        MessageBox.Show(mContext, "校验外箱码的物料信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "校验外箱码的物料信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onSubBarcodeFocus();
@@ -260,7 +260,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                     }
 
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "校验外箱码的物料信息失败,出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "校验外箱码的物料信息失败,出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onSubBarcodeFocus();
@@ -287,7 +287,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
         mModel.setCurrentMaterialBatchNoList(null);
         final OutBarcodeInfo fatherInfo = mModel.getCurrentFatherInfo();
         if (fatherInfo == null) {
-            MessageBox.Show(mContext, "校验托盘条码信息失败:获取的条码信息为空,请扫描托盘码", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "校验托盘条码信息失败:获取的条码信息为空,请扫描托盘码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onFatherBarcodeFocus();
@@ -298,7 +298,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
 
         if (!palletBarcode.contains(fatherInfo.getSerialno())) {
             if (fatherInfo.getBatchno() != null && fatherInfo.getMaterialno() != null) { //如果是托盘码则校验和界面扫描的托盘码的序列号是否一致
-                MessageBox.Show(mContext, "校验托盘条码信息失败:已保存的托盘序列号和当前界面扫描的托盘序列号不一致!请扫描托盘码", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "校验托盘条码信息失败:已保存的托盘序列号和当前界面扫描的托盘序列号不一致!请扫描托盘码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onFatherBarcodeFocus();
@@ -316,7 +316,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
         if (resultSubInfo.getHeaderStatus()) {
             scanSubQRCode = resultSubInfo.getInfo();
             if (scanSubQRCode.getBarcodetype() != QRCodeFunc.BARCODE_TYPE_SPARE_PARTS) {
-                MessageBox.Show(mContext, "解析散件条码失败:散件格式不正确,必须是物料编号或69码", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "解析散件条码失败:散件格式不正确,必须是物料编号或69码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onSubBarcodeFocus();
@@ -326,7 +326,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                 return;
             }
         } else {
-            MessageBox.Show(mContext, "解析散件条码失败:" + resultSubInfo.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "解析散件条码失败:" + resultSubInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onSubBarcodeFocus();
@@ -350,7 +350,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
 
 
                     } else {
-                        MessageBox.Show(mContext, "校验散件的物料信息失败:" + returnMsgModel.getResultValue() , MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "校验散件的物料信息失败:" + returnMsgModel.getResultValue() , MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onSubBarcodeFocus();
@@ -359,7 +359,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                     }
 
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onSubBarcodeFocus();
@@ -399,7 +399,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
             if (fatherBarcode.getBatchno().equals("") && fatherBarcode.getMaterialno().equals("") && fatherBarcode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO) {
                 info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
             } else {
-                MessageBox.Show(mContext, "获取和条码匹配的物料数据失败:" + checkResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "获取和条码匹配的物料数据失败:" + checkResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onFatherBarcodeFocus();
@@ -426,7 +426,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                                     //更新数量
                                     BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkAndUpdateMaterialInfo(orderDetailInfo);
                                     if (!checkResult.getHeaderStatus()) {
-                                        MessageBox.Show(mContext, "更新物料行失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                        MessageBox.Show(mContext, "更新物料行失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 mView.onFatherBarcodeFocus();
@@ -436,7 +436,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                                         break;
                                     }
                                 } else {
-                                    MessageBox.Show(mContext, "实时提交托盘码获取的表体数据为空", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    MessageBox.Show(mContext, "实时提交托盘码获取的表体数据为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             mView.onFatherBarcodeFocus();
@@ -453,7 +453,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                         }
 
                     } else {
-                        MessageBox.Show(mContext, "提交条码失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "提交条码失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onFatherBarcodeFocus();
@@ -463,7 +463,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, "出现预期之外的异常" + ex.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "出现预期之外的异常" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onFatherBarcodeFocus();
@@ -488,7 +488,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
         final OutBarcodeInfo fatherInfo = mModel.getCurrentFatherInfo();
         final OutBarcodeInfo subInfo = mModel.getCurrentSubInfo();
         if (fatherInfo == null) {
-            MessageBox.Show(mContext, "校验托盘条码信息失败:获取的条码信息为空,请扫描托盘码", MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "校验托盘条码信息失败:获取的条码信息为空,请扫描托盘码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onFatherBarcodeFocus();
@@ -535,7 +535,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
             if (fatherInfo.getBatchno().equals("") && fatherInfo.getMaterialno().equals("") && fatherInfo.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO) {
                 info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
             } else {
-                MessageBox.Show(mContext, "获取和托盘条码匹配的物料行数据失败:" + checkResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "获取和托盘条码匹配的物料行数据失败:" + checkResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onFatherBarcodeFocus();
@@ -559,7 +559,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                             for (OutStockOrderDetailInfo updateInfo : list) {
                                 BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkAndUpdateMaterialInfo(updateInfo);
                                 if (!checkResult.getHeaderStatus()) {
-                                    MessageBox.Show(mContext, "更新物料行失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    MessageBox.Show(mContext, "更新物料行失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             mView.onQtyFocus();
@@ -582,7 +582,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                         if (resultInfo.getHeaderStatus()) {
                             mView.createMultipleBatchesSelectDialog(resultInfo.getInfo());
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onSubBarcodeFocus();
@@ -592,7 +592,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                         }
 
                     } else {
-                        MessageBox.Show(mContext,"提交条码失败:"+ returnMsgModel.getResultValue() , MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext,"提交条码失败:"+ returnMsgModel.getResultValue() , MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onQtyFocus();
@@ -603,7 +603,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                     }
 
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "提交条码失败,出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "提交条码失败,出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onQtyFocus();
@@ -644,7 +644,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
             if (fatherBarcodeInfo.getBatchno().equals("") && fatherBarcodeInfo.getMaterialno().equals("") && fatherBarcodeInfo.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO) {
                 info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
             } else {
-                MessageBox.Show(mContext, "获取和托盘条码匹配的物料行数据失败:" + checkResult.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "获取和托盘条码匹配的物料行数据失败:" + checkResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mView.onSubBarcodeFocus();
@@ -668,7 +668,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                             for (OutStockOrderDetailInfo updateInfo : list) {
                                 BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkAndUpdateMaterialInfo(updateInfo);
                                 if (!checkResult.getHeaderStatus()) {
-                                    MessageBox.Show(mContext, "更新物料行失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    MessageBox.Show(mContext, "更新物料行失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             mView.onSubBarcodeFocus();
@@ -684,7 +684,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
 
 
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onSubBarcodeFocus();
@@ -694,7 +694,7 @@ public abstract class BaseOutStockBusinessPresenter<V extends IBaseOutStockBusin
                     }
 
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mView.onSubBarcodeFocus();

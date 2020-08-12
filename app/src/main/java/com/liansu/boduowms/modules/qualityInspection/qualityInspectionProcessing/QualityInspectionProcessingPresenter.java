@@ -273,7 +273,7 @@ public class QualityInspectionProcessingPresenter {
         info.setScanqty(99999999);
         outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
         list.add(outBarcodeInfo);
-        info.setLstBarCode(list);
+//        info.setLstBarCode(list);
         mModel.requestQualifiedRefer(info, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -317,7 +317,7 @@ public class QualityInspectionProcessingPresenter {
                                 LogUtil.WriteLog(QualityInspectionProcessingScan.class, mModel.TAG_GetAreaModelADF, result);
                                 BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                                 }.getType());
-                                if (returnMsgModel.getResult() == 1) {
+                                if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                                     mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, true);
                                     mView.bindListView(mModel.getQualityInspectionDetailList());
                                     mView.onBarcodeFocus();

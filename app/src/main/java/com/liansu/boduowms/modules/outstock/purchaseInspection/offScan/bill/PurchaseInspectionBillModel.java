@@ -9,7 +9,9 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseModel;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
+import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan;
 import com.liansu.boduowms.modules.qualityInspection.bill.QualityInspectionMainActivity;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -22,15 +24,19 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
+
 /**
  * @ Des:
  * @ Created by yangyiqing on 2020/6/27.
  */
 public class PurchaseInspectionBillModel extends BaseModel {
-    public        String TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC = "PurchaseInspectionBillModel_GetT_InspecReturnListADFAsync";  //采购验退
-    private final int    RESULT_TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC      = 301;
+    public String TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC    = "PurchaseInspectionBillModel_GetT_InspecReturnListADFAsync";  //采购验退
+    public String TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC = "PurchaseInspectionProcessingModel_InspecReturn_GetT_OutStockDetailListADFAsync";  //采购验退获取表体
     ArrayList<OutStockOrderHeaderInfo> mQualityOrderList = new ArrayList<>();//单据信息
-    ArrayList<OutBarcodeInfo>    mBarCodeInfos     = new ArrayList<>();
+    ArrayList<OutBarcodeInfo>          mBarCodeInfos     = new ArrayList<>();
+    private final int RESULT_TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC = 221;
+    private final int RESULT_TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC    = 301;
 
     public PurchaseInspectionBillModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
@@ -43,6 +49,9 @@ public class PurchaseInspectionBillModel extends BaseModel {
         switch (msg.what) {
             case RESULT_TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC:
                 listener = mNetMap.get("TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC");
+                break;
+            case RESULT_TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC:
+                listener = mNetMap.get("TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC");
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
@@ -94,4 +103,19 @@ public class PurchaseInspectionBillModel extends BaseModel {
         mBarCodeInfos.clear();
         mQualityOrderList.clear();
     }
+
+    /**
+     * @desc: 获取质检表体
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/6/27 21:37
+     */
+    public void requestQualityInspectionDetail(OrderRequestInfo headerInfo, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC", callBackListener);
+        String modelJson = parseModelToJson(headerInfo);
+        LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_purchase_inspection_detail), mContext, mHandler, RESULT_TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().InspecReturn_GetT_OutStockDetailListADFAsync, modelJson, null);
+    }
+
 }

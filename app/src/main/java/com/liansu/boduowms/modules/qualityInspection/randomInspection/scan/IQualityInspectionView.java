@@ -16,5 +16,6 @@ public interface IQualityInspectionView {
     void setScannedQty(String qty);
     void setOrderInfo(QualityHeaderInfo info);
     void onActivityFinish();
+    void onReset();
 
 }

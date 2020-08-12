@@ -63,6 +63,7 @@
     <string name="palletNo">托盘:</string>
     <string name="outerBoxOrSpareParts">整箱或散件:</string>
     <string name="offScan">下架扫描</string>
+    <string name="name">名称:</string>
     <string name="request_print_order_purchase_return">正在打印验退单据..</string>
 
 
@@ -118,6 +119,8 @@
     <string name="main_menu_item_outsourcing">委外入库</string>
     <string name="main_menu_item_active_other_storage">有源杂入</string>
     <string name="main_menu_item_active_scan_other_storage">无源杂入</string>
+    <string name="main_menu_item_product_return_print_storage">生产退货打印</string>
+    <string name="main_menu_item_product_return_scan_storage">生产退货扫描</string>
     <string name="main_menu_item_active_sales_return">销售退货</string>
     <string name="main_menu_item_quality_inspection">质检处理</string>
     <string name="main_menu_item_mobile_warehouse_inventory">移库</string>
@@ -205,6 +208,9 @@
     <string name="quality_inspection_title">抽检</string>
     <string name="quality_inspection_scan_qty">请输入抽检数量</string>
     <string name="quality_inspection_erp_voucher_no_desc">检验单号:</string>
+    <string name="quality_inspection_purchase_order_no_desc">采购单号:</string>
+    <string name="quality_inspection_arr_voucher_no_order_desc">到货单号:</string>
+    <string name="quality_inspection_erp_voucher_desc">单据性质:</string>
     <string name="quality_inspection_area_no_desc">库位:</string>
     <string name="quality_inspection_barcode_no_desc">条码:</string>
     <string name="quality_inspection_qty_desc">抽检数量:</string>
@@ -213,6 +219,8 @@
     <string name="outbarcode_info_material_name_desc">物料名称:</string>
     <string name="outbarcode_info_material_batch_desc">批次编号:</string>
     <string name="outbarcode_info_random_inspection_qty_desc">单据数量:</string>
+    <string name="random_inspection_voucher_qty_desc">送验量:</string>
+    <string name="random_inspection_sampqty_qty_desc">已抽数量:</string>
     //质检处理列表
     <string name="quality_inspection_processing_title">质检列表</string>
     <string name="qualified_title">质检合格列表</string>
@@ -373,6 +381,7 @@
 
     //生产退货
     <string name="appbar_title_production_returns_bill">生产退货列表</string>
+    <string name="appbar_title_production_returns_print">生产退货打印</string>
     <string name="appbar_title_production_returns_scan">生产退货扫描</string>
     //无源杂入
     <string name="appbar_title_no_source_scan">无源杂入</string>
