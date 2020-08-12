@@ -16,7 +16,6 @@ import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
-import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.IBaseOrderScanView;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.function.GsonUtil;
@@ -27,14 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
  * @ Created by yangyiqing on 2020/6/27.
  */
-public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IBaseOrderScanView, ProductStorageScanModel> {
+public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProductStoragerScanView, ProductStorageScanModel> {
 
-    public ProductStorageScanPresenter(Context context, IBaseOrderScanView view, MyHandler<BaseActivity> handler, OrderHeaderInfo orderHeaderInfo, List<OutBarcodeInfo> barCodeInfos) {
+    public ProductStorageScanPresenter(Context context, IProductStoragerScanView view, MyHandler<BaseActivity> handler, OrderHeaderInfo orderHeaderInfo, List<OutBarcodeInfo> barCodeInfos) {
         super(context, view, handler, orderHeaderInfo, barCodeInfos, new ProductStorageScanModel(context, handler));
     }
 
@@ -71,18 +71,39 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IBaseOrd
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
                                 mView.bindListView(mModel.getOrderDetailList());
+                                mView.onAreaNoFocus();
                             } else {
-                                MessageBox.Show(mContext, "获取单据失败: "+returnMsgModel.getResultValue() );
+                                MessageBox.Show(mContext, "获取单据失败: " + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onErpVoucherNoFocus();
+                                    }
+                                });
                             }
                         } else {
-                            MessageBox.Show(mContext, "获取单据失败: "+returnMsgModel.getResultValue() );
+                            MessageBox.Show(mContext, "获取单据失败: " + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onErpVoucherNoFocus();
+                                }
+                            });
                         }
-                    }else {
-                        MessageBox.Show(mContext,"获取单据失败: "+ returnMsgModel.getResultValue() );
+                    } else {
+                        MessageBox.Show(mContext, "获取单据失败: " + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onErpVoucherNoFocus();
+                            }
+                        });
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext,"获取单据失败: "+ ex.getMessage() );
+                    MessageBox.Show(mContext, "获取单据失败:出现预期之外的异常, " + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onErpVoucherNoFocus();
+                        }
+                    });
                 }
 
 
@@ -110,7 +131,12 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IBaseOrd
                 if (resultInfo.getHeaderStatus()) {
                     scanQRCode = resultInfo.getInfo();
                 } else {
-                    MessageBox.Show(mContext, resultInfo.getMessage() );
+                    MessageBox.Show(mContext, resultInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
                     return;
                 }
 
@@ -128,24 +154,49 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IBaseOrd
                                 if (outBarcodeInfo != null) {
                                     onCombinePalletRefer(outBarcodeInfo);
                                 } else {
-                                    MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                                    MessageBox.Show(mContext, "查询托盘码失败:获取的托盘数据为空," + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
                                 }
                             } else {
-                                MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                                MessageBox.Show(mContext, "查询托盘码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onBarcodeFocus();
+                                    }
+                                });
                             }
 
                         } catch (Exception ex) {
-                            MessageBox.Show(mContext, ex.getMessage() );
+                            MessageBox.Show(mContext, "查询托盘码失败，出现预期之外的异常-" + ex.getMessage() + ",", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onBarcodeFocus();
+                                }
+                            });
                         }
                     }
                 });
 
             } else {
-                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode );
+                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
                 return;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, e.getMessage() );
+            MessageBox.Show(mContext, "查询条码失败，出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
             return;
         }
 
@@ -176,24 +227,49 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IBaseOrd
                                     outBarcodeInfo.setBarcode(barcode);
                                     mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, true);
                                     mView.bindListView(mModel.getOrderDetailList());
-
+                                    mView.onBarcodeFocus();
                                 } else {
-                                    MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                                    MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
 
                                 }
                             } catch (Exception e) {
-                                MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage() );
+                                MessageBox.Show(mContext, "提交条码信息失败:出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onBarcodeFocus();
+                                    }
+                                });
                             }
                         }
                     });
                 } else {
-                    MessageBox.Show(mContext, checkMaterialResult.getMessage() );
+                    MessageBox.Show(mContext, checkMaterialResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
                 }
             } else {
-                MessageBox.Show(mContext, detailResult.getMessage() );
+                MessageBox.Show(mContext, detailResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
             }
         } else {
-            MessageBox.Show(mContext, "外箱信息不能为空" );
+            MessageBox.Show(mContext, "解析的外箱信息不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
         }
 
     }
@@ -225,7 +301,7 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IBaseOrd
 //                        BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                         }.getType());
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
@@ -233,11 +309,11 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IBaseOrd
                             });
 
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                            MessageBox.Show(mContext, "提交单据信息失败:" + returnMsgModel.getResultValue());
                         }
 
                     } catch (Exception ex) {
-                        MessageBox.Show(mContext, ex.getMessage() );
+                        MessageBox.Show(mContext, "提交单据信息失败:出现预期之外的异常," + ex.getMessage());
                     }
 
 

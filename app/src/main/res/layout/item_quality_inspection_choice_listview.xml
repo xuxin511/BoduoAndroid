@@ -16,12 +16,20 @@
                     android:id="@+id/txt_quality_no"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.6"
                     android:maxLines="1"
                     android:textColor="@color/blueviolet"
                     android:textSize="@dimen/activity_list_text_first" />
 
-
+                <TextView
+                    android:gravity="right"
+                    android:id="@+id/txt_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:maxLines="1"
+                    android:textColor="@color/blueviolet"
+                    android:textSize="@dimen/activity_list_text_first" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/forth_layout"
@@ -34,8 +42,8 @@
                     android:id="@+id/txt_materialNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    android:maxLines="1"
+                    android:layout_weight="0.35"
+                    android:maxLines="2"
                     android:textColor="@color/mediumseagreen"
                     android:textSize="@dimen/activity_list_text_size_third" />
 
@@ -44,8 +52,8 @@
                     android:id="@+id/txt_voucherNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:maxLines="1"
+                    android:layout_weight="0.65"
+                    android:maxLines="2"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp" />
 

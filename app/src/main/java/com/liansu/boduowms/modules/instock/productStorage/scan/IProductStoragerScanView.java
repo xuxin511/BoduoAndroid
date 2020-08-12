@@ -9,4 +9,5 @@ import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.IBaseOrderScan
 public interface IProductStoragerScanView extends IBaseOrderScanView {
     void setTransferSubmissionStatus();
 
+    void onErpVoucherNoFocus();
 }

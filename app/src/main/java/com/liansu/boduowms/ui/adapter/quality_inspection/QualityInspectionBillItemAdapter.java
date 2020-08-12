@@ -33,6 +33,8 @@ public class QualityInspectionBillItemAdapter extends BaseAdapter {
         public TextView txt_voucherNo;     //单据类型
         public TextView txt_arrVoucherNo;  //到货单号
         public TextView txt_voucher_qty;  //订单数量
+        public TextView txt_status;  //质检状态
+        public TextView txt_material_desc;  //物料名称
     }
 
     public QualityInspectionBillItemAdapter(Context context, List<QualityHeaderInfo> receiptModels) {
@@ -77,7 +79,8 @@ public class QualityInspectionBillItemAdapter extends BaseAdapter {
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
             listItemView.txt_arrVoucherNo = (TextView) convertView.findViewById(R.id.txt_arrVoucherNo);
             listItemView.txt_voucher_qty = (TextView) convertView.findViewById(R.id.txt_voucher_qty);
-
+            listItemView.txt_status= (TextView) convertView.findViewById(R.id.txt_status);
+            listItemView.txt_material_desc=(TextView) convertView.findViewById(R.id.txt_voucherNo);
             convertView.setTag(listItemView);
         } else {
             listItemView = (ListItemView) convertView.getTag();
@@ -94,7 +97,9 @@ public class QualityInspectionBillItemAdapter extends BaseAdapter {
         listItemView.txt_quality_no.setText(headerInfo.getQualityno());
         listItemView.txt_erpVoucherNo.setText(headerInfo.getErpvoucherno());
         listItemView.txt_materialNo.setText(headerInfo.getMaterialno());
-
+        listItemView.txt_voucher_qty.setText(headerInfo.getMaterialdesc());
+        listItemView.txt_status.setText(headerInfo.getErpvoucherdesc());
+        listItemView.txt_material_desc.setText(headerInfo.getMaterialdesc());
         String arrVoucherNo = headerInfo.getArrvoucherno() != null ? headerInfo.getArrvoucherno() : "";
         listItemView.txt_arrVoucherNo.setText(arrVoucherNo);
 //        listItemView.txt_voucher_qty.setText("订单数量:" + headerInfo.getVoucherqty());

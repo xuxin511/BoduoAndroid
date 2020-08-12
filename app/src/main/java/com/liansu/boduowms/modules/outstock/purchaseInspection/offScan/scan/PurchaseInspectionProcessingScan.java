@@ -1,6 +1,8 @@
 package com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -151,12 +153,23 @@ public class PurchaseInspectionProcessingScan extends BaseActivity implements IP
                     BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(palletNo);
                     if (resultInfo.getHeaderStatus()){
                         OutBarcodeInfo info=resultInfo.getInfo();
-                        if (info.getBarcodetype()!=2){
-                            MessageBox.Show(context,"解析父级条码失败:请扫描托盘码");
+                        if (info.getBarcodetype()!=QRCodeFunc.BARCODE_TYPE_PALLET_NO){
+                            MessageBox.Show(context, "解析父级条码失败:请扫描托盘码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onPalletFocus();
+                                }
+                            });
+
                             return false ;
                         }
                     }else {
-                        MessageBox.Show(context,"解析父级条码失败:"+ resultInfo.getMessage());
+                        MessageBox.Show(context,"解析父级条码失败:"+ resultInfo.getMessage() ,MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onPalletFocus();
+                            }
+                        });
                         return false ;
                     }
 
@@ -201,7 +214,9 @@ public class PurchaseInspectionProcessingScan extends BaseActivity implements IP
 
     @Override
     public void onReset() {
-
+        mPalletNo.setText("");
+        mBarcode.setText("");
+        onPalletFocus();
     }
 
     @Override
@@ -247,14 +262,26 @@ public class PurchaseInspectionProcessingScan extends BaseActivity implements IP
             mMaterialNo.setText(detailInfo.getMaterialno());
             mBatchNo.setText(detailInfo.getBatchno());
             mUnQualifiedQty.setText("剩余数量:"+detailInfo.getRemainqty() + "");
+            setScanQty(detailInfo.getScanqty());
+            if (detailInfo.getRemainqty()==0){
+                new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage("单据已扫描完毕,是否返回上一页面？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO 自动生成的方法
+                                closeActivity();
+                            }
+                        }).setNegativeButton("取消", null).show();
+            }
 //            mQualifiedQty.setText(detailInfo.getQualityqty()+"");
         } else {
             mMaterialNo.setText("");
             mBatchNo.setText("");
             mUnQualifiedQty.setText("0");
             mQualifiedQty.setText("");
+            setScanQty(detailInfo.getScanqty());
         }
-        setScanQty(detailInfo.getScanqty());
+
     }
 
     @Override
@@ -314,9 +341,18 @@ public class PurchaseInspectionProcessingScan extends BaseActivity implements IP
         return mAreaNo.getText().toString().trim();
     }
 
+
+
     @Override
-    public void onActivityFinish() {
-        closeActivity();
+    public void onActivityFinish(String title) {
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(title+"是否返回上一页面？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO 自动生成的方法
+                        closeActivity();
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 
     @Override

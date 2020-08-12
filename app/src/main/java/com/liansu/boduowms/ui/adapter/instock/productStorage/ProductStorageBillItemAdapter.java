@@ -69,7 +69,6 @@ public class ProductStorageBillItemAdapter extends BaseAdapter {
         ListItemView listItemView = null;
         if (convertView == null) {
             listItemView = new ListItemView();
-
             // 获取list_item布局文件的视图
             convertView = listContainer.inflate(R.layout.item_receiptbillchoice_listview,null);
             listItemView.txtTaskNo = (TextView) convertView.findViewById(R.id.txtTaskNo);

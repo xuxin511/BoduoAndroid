@@ -1,6 +1,8 @@
 package com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Message;
 import android.view.KeyEvent;
@@ -210,6 +212,23 @@ public class BaseReviewScan extends BaseActivity implements IBaseReviewScanView 
     @Override
     public String getLogisticsCompany() {
         return mLogisticsCompany.getText().toString();
+    }
+
+    @Override
+    public void onActivityFinish(String title) {
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(title+"是否返回上一页面？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO 自动生成的方法
+                        closeActivity();
+                    }
+                }).setNegativeButton("取消", null).show();
+    }
+
+    @Override
+    public void onReset() {
+
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.qualityInspection.bill;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
@@ -22,9 +23,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 public class QualityInspectionMainActivity extends FragmentActivity {
 
-    TabLayout tabLayout;
-    Toolbar   mToolBar;
-    Context   mContext = QualityInspectionMainActivity.this;
+    TabLayout             tabLayout;
+    Toolbar               mToolBar;
+    Context               mContext = QualityInspectionMainActivity.this;
+    QualifiedFragmentBill mQualifiedFragmentBill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +37,10 @@ public class QualityInspectionMainActivity extends FragmentActivity {
         tabTexts.add(getString(R.string.qualified_title));
 //        tabTexts.add(getString(R.string.unqualified_title));
         mToolBar = findViewById(R.id.widget_common_tool_bar);
-        mToolBar.setTitle(mContext.getResources().getString(R.string.quality_inspection_processing_scan_title));
+        mToolBar.setTitle(mContext.getResources().getString(R.string.quality_inspection_processing_scan_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
         final List<Fragment> listFragments = new ArrayList<>();
-        listFragments.add(new QualifiedFragmentBill());
+        mQualifiedFragmentBill = new QualifiedFragmentBill();
+        listFragments.add(mQualifiedFragmentBill);
 //        listFragments.add(new UnQualifiedFragmentBill());
         mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,5 +111,15 @@ public class QualityInspectionMainActivity extends FragmentActivity {
         BaseApplication.isCloseActivity = true;
         if (AppManager.getAppManager().GetActivityCount() != 0)
             BaseApplication.context = AppManager.getAppManager().currentActivity();
+    }
+
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mQualifiedFragmentBill != null) {
+            return mQualifiedFragmentBill.onKeyDown(keyCode, event);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

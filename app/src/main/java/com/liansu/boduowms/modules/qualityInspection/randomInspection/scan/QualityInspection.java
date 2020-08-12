@@ -26,7 +26,7 @@ import org.xutils.x;
  * @ Des: 抽检扫描
  * @ Created by yangyiqing on 2020/6/28.
  */
-@ContentView(R.layout.activity_quality_inspection)
+@ContentView(R.layout.activity_quality_inspection2)
 public class QualityInspection extends BaseActivity implements IQualityInspectionView {
     @ViewInject(R.id.quality_inspection_erp_voucher_no)
     TextView mErpVoucherNo;
@@ -50,6 +50,20 @@ public class QualityInspection extends BaseActivity implements IQualityInspectio
     TextView mRandomInspectionQty;
     @ViewInject(R.id.outbarcode_info_material_name)
     TextView mMaterialDesc;
+    @ViewInject(R.id.quality_inspection_purchase_order_no)
+    TextView mPurchaseOrderNo;
+    @ViewInject(R.id.quality_inspection_arr_voucher_no_order)
+    TextView mArrVoucherNo;
+    @ViewInject(R.id.random_inspection_voucher_qty)
+    TextView mVoucherQty;
+    @ViewInject(R.id.random_inspection_sampqty_qty)
+    TextView mSampQty;
+    @ViewInject(R.id.quality_inspection_erp_voucher_name)
+    TextView mErpVoucherName;
+    @ViewInject(R.id.quality_inspection_purchase_order_no_desc)
+    TextView mPurchaseOrderNoDesc;
+    @ViewInject(R.id.quality_inspection_arr_voucher_no_order_desc)
+    TextView mArrVoucherNoDesc;
     QualityInspectionPresenter mPresenter;
     Context                    mContext = QualityInspection.this;
 
@@ -57,13 +71,15 @@ public class QualityInspection extends BaseActivity implements IQualityInspectio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseApplication.context = QualityInspection.this;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         x.view().inject(this);
         mRandomInspectionQty.setVisibility(View.VISIBLE);
         mRandomInspectionQtyDesc.setVisibility(View.VISIBLE);
         mRandomInspectionQtyDesc.setText("送检数:");
-        closeKeyBoard(mAreaNo);
-        closeKeyBoard(mBarcode);
+        mRandomInspectionQtyDesc.setVisibility(View.GONE);
+        mRandomInspectionQty.setVisibility(View.GONE);
+//        closeKeyBoard(mAreaNo);
+//        closeKeyBoard(mBarcode);
     }
 
     @Override
@@ -149,23 +165,56 @@ public class QualityInspection extends BaseActivity implements IQualityInspectio
     @Override
     public void setOrderInfo(QualityHeaderInfo info) {
         if (info != null) {
+            if (info.getVouchertype() == 47) {
+                mPurchaseOrderNoDesc.setText("采购单号:");
+                mArrVoucherNoDesc.setText("到货单号:");
+            } else if (info.getVouchertype() == 48) {
+                mPurchaseOrderNoDesc.setText("工单号:");
+                mArrVoucherNoDesc.setText("完工单号:");
+            }
             mErpVoucherNo.setText(info.getQualityno());
+            mErpVoucherNo.setTextColor(getResources().getColor(R.color.colorPrimary));
             mMaterialNo.setText(info.getMaterialno());
+            mMaterialNo.setTextColor(getResources().getColor(R.color.mediumseagreen));
             mBatchNo.setText(info.getBatchno());
             mRandomInspectionQty.setText("0/" + info.getVoucherqty());
             mMaterialDesc.setText(info.getMaterialdesc());
+            mMaterialDesc.setTextColor(getResources().getColor(R.color.colorPrimary));
+            mPurchaseOrderNo.setText(info.getErpvoucherno());
+            mPurchaseOrderNo.setTextColor(getResources().getColor(R.color.colorPrimary));
+            mArrVoucherNo.setText(info.getArrvoucherno());
+            mArrVoucherNo.setTextColor(getResources().getColor(R.color.peru));
+            mVoucherQty.setText(info.getVoucherqty() + "");
+            mSampQty.setText(info.getSampqty() + "");
+            mSampQty.setTextColor(getResources().getColor(R.color.red));
+            mErpVoucherName.setText(info.getErpvoucherdesc() + "  " + info.getErpstatuscodedesc());
+            mErpVoucherName.setTextColor(getResources().getColor(R.color.colorPrimary));
         } else {
             mErpVoucherNo.setText(info.getQualityno());
             mMaterialNo.setText(info.getMaterialno());
             mBatchNo.setText(info.getBatchno());
             mRandomInspectionQty.setText("" + info.getVoucherqty() + "");
             mMaterialDesc.setText(info.getMaterialdesc());
+            mPurchaseOrderNo.setText(info.getErpvoucherno());
+            mArrVoucherNo.setText(info.getArrvoucherno());
+            mVoucherQty.setText("0");
+            mSampQty.setText("0");
+            mErpVoucherName.setText(info.getErpvoucherdesc());
         }
+
+
     }
 
     @Override
     public void onActivityFinish() {
         closeActivity();
+    }
+
+    @Override
+    public void onReset() {
+        mBarcode.setText("");
+        mQty.setText("0");
+        onBarcodeFocus();
     }
 
 
@@ -176,7 +225,9 @@ public class QualityInspection extends BaseActivity implements IQualityInspectio
 
     @Override
     public float getQty() {
-        return Float.parseFloat(mQty.getText().toString().trim());
+        String qty = mQty.getText().toString().trim();
+        if (qty.equals("")) qty = "0";
+        return Float.parseFloat(qty);
     }
 
     @Override

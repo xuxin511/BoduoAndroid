@@ -69,6 +69,9 @@ public class DebugModuleData {
         itemNamesList.add(context.getString(R.string.main_menu_item_active_sales_return));
         itemIconList.add(R.drawable.scan_other_storage);
         itemNamesList.add(context.getString(R.string.main_menu_item_quality_inspection));
+        itemIconList.add(R.drawable.production_storage);
+        itemNamesList.add(context.getString(R.string.main_menu_item_product_return_print_storage));
+
     }
 
     /**

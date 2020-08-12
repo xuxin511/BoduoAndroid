@@ -32,6 +32,8 @@ public class RandomInspectionBillItemAdapter extends BaseAdapter {
         public TextView txt_voucherNo;     //单据类型
         public TextView txt_arrVoucherNo;  //到货单号
         public TextView txt_voucher_qty;  //订单数量
+        public TextView txt_status;  //质检状态
+        public TextView txt_material_desc;  //物料名称
     }
 
     public RandomInspectionBillItemAdapter(Context context, List<QualityHeaderInfo> receiptModels) {
@@ -76,6 +78,8 @@ public class RandomInspectionBillItemAdapter extends BaseAdapter {
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
             listItemView.txt_arrVoucherNo = (TextView) convertView.findViewById(R.id.txt_arrVoucherNo);
             listItemView.txt_voucher_qty = (TextView) convertView.findViewById(R.id.txt_voucher_qty);
+            listItemView.txt_status=(TextView) convertView.findViewById(R.id.txt_status);
+            listItemView.txt_material_desc=(TextView) convertView.findViewById(R.id.txt_voucherNo);
             convertView.setTag(listItemView);
         } else {
             listItemView = (ListItemView) convertView.getTag();
@@ -83,17 +87,18 @@ public class RandomInspectionBillItemAdapter extends BaseAdapter {
         QualityHeaderInfo headerInfo = receiptModels.get(selectID);
         int voucherType = headerInfo.getVouchertype();
         if (voucherType == 47) {
-            listItemView.txt_erpVoucherNo.setText( headerInfo.getErpvoucherno());
+            listItemView.txt_erpVoucherNo.setText(headerInfo.getErpvoucherno());
         } else if (voucherType == 48) {
-            listItemView.txt_erpVoucherNo.setText( headerInfo.getErpvoucherno());
+            listItemView.txt_erpVoucherNo.setText(headerInfo.getErpvoucherno());
         } else {
-            listItemView.txt_erpVoucherNo.setText( headerInfo.getErpvoucherno());
+            listItemView.txt_erpVoucherNo.setText(headerInfo.getErpvoucherno());
         }
-
-        listItemView.txt_materialNo.setText( headerInfo.getMaterialno());
-        listItemView.txt_quality_no.setText( headerInfo.getQualityno());
-        listItemView.txt_arrVoucherNo.setText( headerInfo.getArrvoucherno());
-        listItemView.txt_voucher_qty.setText(headerInfo.getVoucherqty()+"");
+         listItemView.txt_status.setText(headerInfo.getErpvoucherdesc());
+        listItemView.txt_materialNo.setText(headerInfo.getMaterialno());
+        listItemView.txt_material_desc.setText(headerInfo.getMaterialdesc());
+        listItemView.txt_quality_no.setText(headerInfo.getQualityno());
+        listItemView.txt_arrVoucherNo.setText(headerInfo.getArrvoucherno());
+        listItemView.txt_voucher_qty.setText(headerInfo.getVoucherqty() + "");
         return convertView;
     }
 

@@ -12,6 +12,8 @@ import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillC
 import com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScan;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
+import com.liansu.boduowms.modules.instock.productionReturnsStorage.print.ProductionReturnsPrint;
+import com.liansu.boduowms.modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan;
 import com.liansu.boduowms.modules.instock.salesReturn.print.SalesReturnPrint;
 import com.liansu.boduowms.modules.menu.IMenuPresenter;
 import com.liansu.boduowms.modules.menu.IMenuView;
@@ -45,7 +47,6 @@ public class StorageBusinessMenuPresenter extends IMenuPresenter {
         ArrayList<String> itemNamesList = new ArrayList<>();
         List<MenuChildrenInfo> menuChildrenInfos = getMenuChildrenList(menuInfos);
         if (menuChildrenInfos != null) {
-
             for (int i = 0; i < menuChildrenInfos.size(); i++) {
                 String path = menuChildrenInfos.get(i).getPath();
                 if (!CommonUtil.isNumeric(path)) continue;
@@ -115,10 +116,15 @@ public class StorageBusinessMenuPresenter extends IMenuPresenter {
             intent.setClass(mContext, SalesReturnPrint.class);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE);
         }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_production_returns))){
-            intent.setClass(mContext, BaseOrderBillChoice.class);
+            intent.setClass(mContext, ProductionReturnStorageScan.class);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE);
         }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_active_scan_other_storage))){
             intent.setClass(mContext, NoSourceOtherScan.class);
+        }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_product_return_print_storage))){
+            intent.setClass(mContext, ProductionReturnsPrint.class);
+            intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE);
+
+
         }
 
 

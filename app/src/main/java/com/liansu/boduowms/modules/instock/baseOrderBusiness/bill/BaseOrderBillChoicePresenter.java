@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.instock.baseOrderBusiness.bill;
 
 import android.content.Context;
 import android.os.Message;
+import android.widget.EditText;
 
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
 
@@ -52,7 +53,7 @@ public abstract class BaseOrderBillChoicePresenter<V extends  IBaseOrderBillChoi
      * @time 2020/6/27 17:44
      */
     public abstract  void getOrderHeaderList(final OrderRequestInfo orderHeaderInfo);
-
+    public   void getOrderHeaderList2(final OrderRequestInfo orderHeaderInfo, EditText editText){};
     /**
      * @desc: 重置界面和数据
      * @param:

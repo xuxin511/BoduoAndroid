@@ -76,6 +76,8 @@
         <activity android:name=".modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill" />
         <activity android:name=".modules.menu.outboundBusiness.subMenu.OutboundBusinessSubMenu"></activity>
         <activity android:name=".modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScan" />
+        <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint" />
+        <activity android:name=".modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

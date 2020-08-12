@@ -110,6 +110,7 @@ public class PrintPalletScanModel extends BaseModel {
             mDetailInfo.setStrongholdname(mProductInfo.getStrongholdname());
             mDetailInfo.setCompanycode(mProductInfo.getCompanycode());
             mDetailInfo.setSpec(mProductInfo.getSpec());
+            mDetailInfo.setUnitname(mProductInfo.getUnitname());
             mDetailInfo.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
             mOrderDetailList.add(mDetailInfo);
         }
@@ -233,6 +234,7 @@ public class PrintPalletScanModel extends BaseModel {
                             info.setCompanycode(sMaterialInfo.getCompanycode());
                             info.setSpec(sMaterialInfo.getSpec());
                             info.setPackQty(sMaterialInfo.getPackQty());
+                            info.setUnitname(sMaterialInfo.getUnitname());
                             break;
                         }
 
@@ -245,7 +247,7 @@ public class PrintPalletScanModel extends BaseModel {
                 resultInfo.setHeaderStatus(true);
             } else {
                 resultInfo.setHeaderStatus(false);
-                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "],批次:[" + barcodeBatchNo + "]不在订单：" + mOrderHeaderInfo.getErpvoucherno() + "中,不能组托");
+                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "],批次:[" + barcodeBatchNo + "]不在订单：" + mOrderDetailList.get(0).getErpvoucherno() + "中,不能组托");
                 return resultInfo;
             }
 

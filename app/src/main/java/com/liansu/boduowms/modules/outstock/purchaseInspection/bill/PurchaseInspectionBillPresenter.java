@@ -19,7 +19,7 @@ import java.util.List;
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
 
 /**
- * @ Des:
+ * @ Des: 已废弃
  * @ Created by yangyiqing on 2020/6/27.
  */
 public class PurchaseInspectionBillPresenter {

@@ -79,6 +79,7 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
         tabLayout.addTab(tabLayout.newTab().setText(tabTexts.get(0)));
         tabLayout.addTab(tabLayout.newTab().setText(tabTexts.get(1)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setVisibility(View.VISIBLE);
         new TabLayoutMediator(tabLayout, viewPager2,
                 new TabLayoutMediator.TabConfigurationStrategy() {
                     @Override

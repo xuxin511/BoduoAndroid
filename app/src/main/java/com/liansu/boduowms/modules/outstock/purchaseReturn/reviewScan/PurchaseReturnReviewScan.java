@@ -145,6 +145,16 @@ public class PurchaseReturnReviewScan extends BaseActivity implements IPurchaseR
         return null;
     }
 
+    @Override
+    public void onActivityFinish(String title) {
+
+    }
+
+    @Override
+    public void onReset() {
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

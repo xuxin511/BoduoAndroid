@@ -30,7 +30,6 @@ import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.sc
 import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingModel.BARCODE_TYPE_OUT_BARCODE;
 import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingModel.BARCODE_TYPE_PALLET_NO;
 import static com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingModel.SCAN_TYPE_PALLET_NO;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -90,20 +89,20 @@ public class PurchaseInspectionProcessingPresenter {
                                 mView.onPalletFocus();
                             } else {
                                 MessageBox.Show(mContext, "获取表体信息为空");
-//                                mView.onErpVoucherNoFocus();
+
                             }
                         } else {
                             MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue());
-//                            mView.onErpVoucherNoFocus();
+
                         }
                     } else {
                         MessageBox.Show(mContext, "获取订单明细失败: " + returnMsgModel.getResultValue());
-//                        mView.onErpVoucherNoFocus();
+
                     }
 
                 } catch (Exception ex) {
                     MessageBox.Show(mContext, "获取订单明细失败: " + ex.getMessage());
-//                    mView.onErpVoucherNoFocus();
+
                 }
 
 
@@ -122,8 +121,6 @@ public class PurchaseInspectionProcessingPresenter {
      */
     public void onBarCodeScan(String fatherBarcode, String subBarcode, int operationType, float scanQty) {
         try {
-
-
             //解析父级条码
             OutBarcodeInfo scanFatherQRCode = null;
             if (fatherBarcode.equals("")) return;
@@ -131,12 +128,20 @@ public class PurchaseInspectionProcessingPresenter {
             if (resultInfo.getHeaderStatus()) {
                 scanFatherQRCode = resultInfo.getInfo();
                 if (scanFatherQRCode.getSerialno() == null || scanFatherQRCode.getSerialno().equals("")) {
-                    MessageBox.Show(mContext, "解析父级条码失败:父级的序列号不能为空");
-                    mView.onPalletFocus();
+                    MessageBox.Show(mContext, "解析父级条码失败:父级的序列号不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onPalletFocus();
+                        }
+                    });
                 }
             } else {
-                MessageBox.Show(mContext, "解析父级条码失败:" + resultInfo.getMessage());
-                mView.onPalletFocus();
+                MessageBox.Show(mContext, "解析父级条码失败:" + resultInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onPalletFocus();
+                    }
+                });
                 return;
             }
 
@@ -151,10 +156,15 @@ public class PurchaseInspectionProcessingPresenter {
                 if (resultSubInfo.getHeaderStatus()) {
                     scanSubQRCode = resultSubInfo.getInfo();
                 } else {
-                    MessageBox.Show(mContext, "解析子级条码失败:" + resultSubInfo.getMessage());
+                    MessageBox.Show(mContext, "解析子级条码失败:" + resultSubInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
                     return;
                 }
-                if (scanSubQRCode.getBarcode().contains("%")) {
+                if (scanSubQRCode.getBarcode().contains("%") && scanSubQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_OUTER_BOX) {
                     //外箱条码
                     if (scanSubQRCode.getSerialno() == null || scanSubQRCode.getSerialno().equals("")) {
                         mView.setQtyViewStatus(false);
@@ -162,17 +172,52 @@ public class PurchaseInspectionProcessingPresenter {
                     }
 
                 } else {
-                    mView.setQtyViewStatus(true);
-                    mView.onQtyFocus();
+                    //如果是散件要检验物料
+                    mModel.requestMaterialInfoQuery(scanSubQRCode.getMaterialno(), new NetCallBackListener<String>() {
+                        @Override
+                        public void onCallBack(String result) {
+                            try {
+                                LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, mModel.TAG_SELECT_MATERIAL, result);
+                                BaseResultInfo<OutBarcodeInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutBarcodeInfo>>() {
+                                }.getType());
+                                if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                                    mView.setQtyViewStatus(true);
+                                    mView.onQtyFocus();
 
+                                } else {
+                                    MessageBox.Show(mContext, "解析散件条码的物料失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
+                                    return;
+                                }
+                            } catch (Exception e) {
+                                MessageBox.Show(mContext, "解析散件条码的物料出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onBarcodeFocus();
+                                    }
+                                });
+
+                            }
+                        }
+
+
+                    });
                 }
-
             } else if (operationType == SCAN_TYPE_PALLET_NO) {
                 scanPalletNo(scanFatherQRCode);
             }
 
         } catch (Exception e) {
-            MessageBox.Show(mContext, "扫描条码出现预期之外的异常:" + e.getMessage());
+            MessageBox.Show(mContext, "扫描条码出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
         }
     }
 
@@ -195,14 +240,24 @@ public class PurchaseInspectionProcessingPresenter {
         info.setVouchertype(mModel.getOrderHeaderInfo().getVouchertype());
         info.setPostUserNo(BaseApplication.mCurrentUserInfo.getUserno());
 //        info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
-        BaseMultiResultInfo<Boolean,OutStockOrderDetailInfo>  checkResult=mModel.findMaterialInfo(palletInfo);
-        if (checkResult.getHeaderStatus()){
-            OutStockOrderDetailInfo materialInfo=checkResult.getInfo();
+        BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> checkResult = mModel.findMaterialInfo(palletInfo);
+        if (checkResult.getHeaderStatus()) {
+            OutStockOrderDetailInfo materialInfo = checkResult.getInfo();
             info.setStrongholdcode(materialInfo.getStrongholdcode());
-        }else {
-            MessageBox.Show(mContext,"获取和条码匹配的物料数据失败:"+checkResult.getMessage());
-            mView.onPalletFocus();
-            return;
+        } else {
+            if (palletInfo.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO && palletInfo.getMaterialno().equals("") && palletInfo.getBatchno().equals("")) { //如果是混托用表头数据
+                info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
+            } else {
+                MessageBox.Show(mContext, "托盘的物料编号不在订单中:" + checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onPalletFocus();
+                    }
+                });
+
+                return;
+            }
+
         }
         mModel.requestBarcodeInfoRefer(info, new NetCallBackListener<String>() {
             @Override
@@ -215,17 +270,37 @@ public class PurchaseInspectionProcessingPresenter {
                         BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkAndUpdateMaterialInfo(returnMsgModel.getData().get(0), true);
                         if (checkResult.getHeaderStatus()) {
                             mView.setOrderDetailInfo(mModel.getOrderDetailList().get(0));
+                            mView.onPalletFocus();
+                            BaseMultiResultInfo<Boolean, Void> checkOrderResult = mModel.isOrderScanFinished();
+                            if (checkOrderResult.getHeaderStatus()) {
+                                mView.onReset();
+                                mView.onActivityFinish("订单已扫描完毕,");
+                            }
                         } else
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onPalletFocus();
+                                }
+                            });
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
-
+                        MessageBox.Show(mContext, "提交整托信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onPalletFocus();
+                            }
+                        });
                     }
 
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onPalletFocus();
+                        }
+                    });
                 } finally {
-                    mView.onPalletFocus();
+
                 }
             }
 
@@ -247,15 +322,35 @@ public class PurchaseInspectionProcessingPresenter {
         BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(fatherBarcode);
         if (resultInfo.getHeaderStatus()) {
             scanFatherQRCode = resultInfo.getInfo();
-            if (scanFatherQRCode.getSerialno() == null || scanFatherQRCode.getSerialno().equals("")) {
-                MessageBox.Show(mContext, "解析父级条码失败:父级的序列号不能为空");
-                mView.onPalletFocus();
+            if (scanFatherQRCode.getBarcodetype() != QRCodeFunc.BARCODE_TYPE_PALLET_NO) {
+                MessageBox.Show(mContext, "校验父级条码失败:请扫描托盘码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onPalletFocus();
+                    }
+                });
+            }
+            if (!scanFatherQRCode.getBatchno().equals("") && !scanFatherQRCode.getMaterialno().equals("")) {  //整托的序列号不能为空
+                if (scanFatherQRCode.getSerialno() == null || scanFatherQRCode.getSerialno().equals("")) {
+                    MessageBox.Show(mContext, "解析父级条码失败:父级的序列号不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onPalletFocus();
+                        }
+                    });
+
+                }
             }
         } else {
-            MessageBox.Show(mContext, "解析父级条码失败:" + resultInfo.getMessage());
-            mView.onPalletFocus();
+            MessageBox.Show(mContext, "解析父级条码失败:" + resultInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onPalletFocus();
+                }
+            });
             return;
         }
+
 
         //解析子级条码
         OutBarcodeInfo scanSubQRCode = null;
@@ -267,7 +362,12 @@ public class PurchaseInspectionProcessingPresenter {
         if (resultSubInfo.getHeaderStatus()) {
             scanSubQRCode = resultSubInfo.getInfo();
         } else {
-            MessageBox.Show(mContext, "解析子级条码失败:" + resultSubInfo.getMessage());
+            MessageBox.Show(mContext, "解析散件条码失败:" + resultSubInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
             return;
         }
         final OutBarcodeInfo finalScanSubQRCode = scanSubQRCode;
@@ -289,13 +389,21 @@ public class PurchaseInspectionProcessingPresenter {
                         info.setPalletNo(finalScanFatherQRCode.getBarcode());
                         info.setVouchertype(mModel.getOrderHeaderInfo().getVouchertype());
 //                        info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
-                        BaseMultiResultInfo<Boolean,OutStockOrderDetailInfo>  checkResult=mModel.findMaterialInfo(finalScanFatherQRCode);
-                        if (checkResult.getHeaderStatus()){
-                            OutStockOrderDetailInfo materialInfo=checkResult.getInfo();
+                        BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> checkResult = mModel.findMaterialInfo(finalScanFatherQRCode);
+                        if (checkResult.getHeaderStatus()) {
+                            OutStockOrderDetailInfo materialInfo = checkResult.getInfo();
                             info.setStrongholdcode(materialInfo.getStrongholdcode());
-                        }else {
-                            MessageBox.Show(mContext,"获取和条码匹配的物料数据失败:"+checkResult.getMessage());
-                            mView.onPalletFocus();
+                        } else {
+                            if (finalScanFatherQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO && finalScanFatherQRCode.getMaterialno().equals("") && finalScanFatherQRCode.getBatchno().equals("")) {
+                                info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
+                            } else {
+                                MessageBox.Show(mContext, "获取和条码匹配的物料数据失败:" + checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onPalletFocus();
+                                    }
+                                });
+                            }
                             return;
                         }
                         mModel.requestBarcodeInfoRefer(info, new NetCallBackListener<String>() {
@@ -309,31 +417,63 @@ public class PurchaseInspectionProcessingPresenter {
                                         BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkAndUpdateMaterialInfo(returnMsgModel.getData().get(0), true);
                                         if (checkResult.getHeaderStatus()) {
                                             mView.setOrderDetailInfo(mModel.getOrderDetailList().get(0));
-                                        } else
-                                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                                            mView.onBarcodeFocus();
+                                            BaseMultiResultInfo<Boolean, Void> checkOrderResult = mModel.isOrderScanFinished();
+                                            if (checkOrderResult.getHeaderStatus()) {
+                                                mView.onReset();
+                                                mView.onActivityFinish("订单已扫描完毕,");
+                                            }
+                                        } else {
+                                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    mView.onBarcodeFocus();
+                                                }
+                                            });
+                                        }
                                     } else {
-                                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                                        MessageBox.Show(mContext, "提交散件信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                mView.onBarcodeFocus();
+                                            }
+                                        });
 
                                     }
 
                                 } catch (Exception e) {
-                                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
                                 } finally {
-                                    mView.onBarcodeFocus();
+
                                 }
                             }
 
 
                         });
                     } else {
-                        MessageBox.Show(mContext, "扫描失败:" + returnMsgModel.getResultValue(), 1);
+                        MessageBox.Show(mContext, "校验散件的物料编码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onBarcodeFocus();
+                            }
+                        });
 
                     }
 
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onPalletFocus();
+                        }
+                    });
                 } finally {
-                    mView.onPalletFocus();
+
                 }
             }
         });
@@ -349,7 +489,8 @@ public class PurchaseInspectionProcessingPresenter {
      * @time 2019/11/14 17:39
      */
     public void scanOuterBarcode(final OutBarcodeInfo fatherBarcode, final OutBarcodeInfo scanBarcode) {
-        mModel.requestMaterialInfoQuery(fatherBarcode.getMaterialno(), new NetCallBackListener<String>() {
+        //校验外箱的物料是否存在
+        mModel.requestMaterialInfoQuery(scanBarcode.getMaterialno(), new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
                 try {
@@ -363,20 +504,28 @@ public class PurchaseInspectionProcessingPresenter {
                         info.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                         if (scanBarcode.getBarcode() != null && scanBarcode.getBarcode().contains("%")) {
                             info.setBarcodeType(BARCODE_TYPE_OUT_BARCODE);
-                        } else {
-                            info.setBarcodeType(BARCODE_TYPE_BULK);
                         }
                         info.setMaterialno(scanBarcode.getBarcode());
                         info.setPalletNo(fatherBarcode.getBarcode());
                         info.setVouchertype(mModel.getOrderHeaderInfo().getVouchertype());
 //                        info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
-                        BaseMultiResultInfo<Boolean,OutStockOrderDetailInfo>  checkResult=mModel.findMaterialInfo(fatherBarcode);
-                        if (checkResult.getHeaderStatus()){
-                            OutStockOrderDetailInfo materialInfo=checkResult.getInfo();
+                        BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> checkResult = mModel.findMaterialInfo(scanBarcode);
+                        if (checkResult.getHeaderStatus()) {
+
+                            OutStockOrderDetailInfo materialInfo = checkResult.getInfo();
                             info.setStrongholdcode(materialInfo.getStrongholdcode());
-                        }else {
-                            MessageBox.Show(mContext,"获取和条码匹配的物料数据失败:"+checkResult.getMessage());
-                            mView.onPalletFocus();
+                        } else {
+                            if (fatherBarcode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO && fatherBarcode.getMaterialno().equals("") && fatherBarcode.getBatchno().equals("")) { //如果是混托用表头数据
+                                info.setStrongholdcode(mModel.getOrderHeaderInfo().getStrongholdcode());
+                            } else {
+                                MessageBox.Show(mContext, "外箱的物料编码不在订单中:" + checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onPalletFocus();
+                                    }
+                                });
+                            }
+
                             return;
                         }
                         mModel.requestBarcodeInfoRefer(info, new NetCallBackListener<String>() {
@@ -390,31 +539,62 @@ public class PurchaseInspectionProcessingPresenter {
                                         BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkAndUpdateMaterialInfo(returnMsgModel.getData().get(0), true);
                                         if (checkResult.getHeaderStatus()) {
                                             mView.setOrderDetailInfo(mModel.getOrderDetailList().get(0));
+                                            mView.onBarcodeFocus();
+                                            BaseMultiResultInfo<Boolean, Void> checkOrderResult = mModel.isOrderScanFinished();
+                                            if (checkOrderResult.getHeaderStatus()) {
+                                                mView.onReset();
+                                                mView.onActivityFinish("订单已扫描完毕,");
+                                            }
                                         } else
-                                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    mView.onBarcodeFocus();
+                                                }
+                                            });
                                     } else {
-                                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                                        MessageBox.Show(mContext, "提交整箱信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                mView.onBarcodeFocus();
+                                            }
+                                        });
 
                                     }
 
                                 } catch (Exception e) {
-                                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
                                 } finally {
-                                    mView.onBarcodeFocus();
+
                                 }
                             }
 
 
                         });
                     } else {
-                        MessageBox.Show(mContext, "扫描失败:" + returnMsgModel.getResultValue(), 1);
+                        MessageBox.Show(mContext, "校验外箱条码的物料编码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onBarcodeFocus();
+                            }
+                        });
 
                     }
 
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
                 } finally {
-                    mView.onPalletFocus();
+
                 }
             }
         });
@@ -433,6 +613,7 @@ public class PurchaseInspectionProcessingPresenter {
         OrderRequestInfo info = new OrderRequestInfo();
         if (mModel.getOrderHeaderInfo() == null) {
             MessageBox.Show(mContext, "请扫描单据编号");
+            return;
         }
         info.setErpvoucherno(mModel.getOrderHeaderInfo().getErpvoucherno());
         info.setVouchertype(mModel.getOrderHeaderInfo().getVouchertype());
@@ -445,10 +626,10 @@ public class PurchaseInspectionProcessingPresenter {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mView.onActivityFinish();
+                                mView.onActivityFinish("订单已扫描完毕,");
                             }
                         });
                     } else {
@@ -461,8 +642,6 @@ public class PurchaseInspectionProcessingPresenter {
         });
 
 
-
-
     }
 
     /**
@@ -472,7 +651,7 @@ public class PurchaseInspectionProcessingPresenter {
      * @author: Nietzsche
      * @time 2020/8/6 11:14
      */
-    public void  onOrderPrint(){
+    public void onOrderPrint() {
         OutStockOrderDetailInfo info = new OutStockOrderDetailInfo();
         if (mModel.getOrderHeaderInfo() == null) {
             MessageBox.Show(mContext, "请扫描单据编号");
@@ -489,7 +668,7 @@ public class PurchaseInspectionProcessingPresenter {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "打印验退单成功", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -506,5 +685,6 @@ public class PurchaseInspectionProcessingPresenter {
 
 
     }
+
 
 }

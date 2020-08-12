@@ -18,7 +18,6 @@ import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
-import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
@@ -102,7 +101,6 @@ public class QualityInspectionProcessingModel extends BaseModel {
     public void requestQualityInspectionDetail(QualityHeaderInfo headerInfo, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_GetT_QualityDetailListsync", callBackListener);
         String modelJson = "{\"id\":" + headerInfo.getId() + "}";
-
         LogUtil.WriteLog(QualityInspectionProcessingScan.class, TAG_GetT_QualityDetailListsync, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GetT_QualityDetailListsync, mContext.getString(R.string.Msg_GetT_InStockDetailListByHeaderIDADF), mContext, mHandler, RESULT_MSG_GET_QUALITY_DETAIL_LIST_SYNC, null, UrlInfo.getUrl().GetT_QualityDetailListsync, modelJson, null);
     }
@@ -233,67 +231,67 @@ public class QualityInspectionProcessingModel extends BaseModel {
      */
     public BaseMultiResultInfo<Boolean, Void> checkMaterialInfo(QualityHeaderInfo detailInfo, OutBarcodeInfo scanBarcode, boolean isUpdate) {
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
-        String barcodeMaterialNo = scanBarcode.getMaterialno() != null ? scanBarcode.getMaterialno() : "";
-        String barcodeBatchNo = scanBarcode.getBatchno() != null ? scanBarcode.getBatchno() : "";
-        float barcodeScanQty = scanBarcode.getQty();
-        if (detailInfo != null) {
-            String materialNo = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
-            String batchNo = detailInfo.getBatchno() != null ? detailInfo.getBatchno() : "";
-            String rowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
-            if (materialNo.trim().equals(barcodeMaterialNo.trim()) && batchNo.trim().equals(barcodeBatchNo.trim())) {
-                float scanQty = detailInfo.getScanqty();
-                float remainQty = detailInfo.getRemainqty(); //订单的剩余扫描数量　　
-                float hasRemainQty = ArithUtil.sub(detailInfo.getRemainqty(), detailInfo.getScanqty()); // (订单减去已扫描条码的)剩余扫描数量
-                if (remainQty > 0) {
-                    if (hasRemainQty > 0) {
-                        if (ArithUtil.sub(hasRemainQty, barcodeScanQty) >= 0) {
-                            if (isUpdate) {
-                                detailInfo.setScanqty(ArithUtil.add(scanQty, barcodeScanQty));
-                                detailInfo.setRemainqty(ArithUtil.sub(remainQty, barcodeScanQty));
-                                detailInfo.setReceiveqty(ArithUtil.sub(detailInfo.getVoucherqty(), detailInfo.getRemainqty()));
-                            } else {
-                                List<OutBarcodeInfo> list = new ArrayList<>();
-                                list.add(scanBarcode);
-                                detailInfo.setLstBarCode(list);
-                            }
-                            resultInfo.setHeaderStatus(true);
-
-                        } else {
-                            resultInfo.setMessage("校验物料行失败:物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "],行号:[" + rowNo + "]的物料行的收货数量不能大于剩余收货数量");
-                            resultInfo.setHeaderStatus(false);
-                            return resultInfo;
-                        }
-                    } else {
-                        if (hasRemainQty == 0) {
-                            resultInfo.setMessage("校验物料行失败:物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "],行号:[" + rowNo + "]的物料行已扫完毕");
-                        } else {
-                            resultInfo.setMessage("校验物料行出现异常:剩余扫描数量不能大于扫描数量!剩余数量[" + detailInfo.getRemainqty() + "],已扫描数量：[" + detailInfo.getScanqty() + "]");
-                        }
-                        resultInfo.setHeaderStatus(false);
-                        return resultInfo;
-                    }
-                } else if (remainQty == 0) {
-                    resultInfo.setMessage("校验物料行失败:物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "],行号:[" + rowNo + "]的物料行已扫完毕");
-                    resultInfo.setHeaderStatus(false);
-                    return resultInfo;
-                } else {
-                    resultInfo.setMessage("校验物料行出现异常:剩余扫描数量不能为负数!");
-                    resultInfo.setHeaderStatus(false);
-                    return resultInfo;
-                }
-            } else {
-                resultInfo.setHeaderStatus(false);
-                resultInfo.setMessage("更新物料行失败:订单中没有物料号为:[" + barcodeMaterialNo + "],批次为：[" + barcodeBatchNo + "]的物料行,扫描的条码序列号为:" + scanBarcode.getBarcode());
-                return resultInfo;
-            }
-
-
-        } else {
-            resultInfo.setHeaderStatus(false);
-            resultInfo.setMessage("绑定条码信息失败:没有找到能匹配条码的物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "]的物料行");
-            return resultInfo;
-
-        }
+//        String barcodeMaterialNo = scanBarcode.getMaterialno() != null ? scanBarcode.getMaterialno() : "";
+//        String barcodeBatchNo = scanBarcode.getBatchno() != null ? scanBarcode.getBatchno() : "";
+//        float barcodeScanQty = scanBarcode.getQty();
+//        if (detailInfo != null) {
+//            String materialNo = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
+//            String batchNo = detailInfo.getBatchno() != null ? detailInfo.getBatchno() : "";
+//            String rowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
+//            if (materialNo.trim().equals(barcodeMaterialNo.trim()) && batchNo.trim().equals(barcodeBatchNo.trim())) {
+//                float scanQty = detailInfo.getScanqty();
+//                float remainQty = detailInfo.getRemainqty(); //订单的剩余扫描数量　　
+//                float hasRemainQty = ArithUtil.sub(detailInfo.getRemainqty(), detailInfo.getScanqty()); // (订单减去已扫描条码的)剩余扫描数量
+//                if (remainQty > 0) {
+//                    if (hasRemainQty > 0) {
+//                        if (ArithUtil.sub(hasRemainQty, barcodeScanQty) >= 0) {
+//                            if (isUpdate) {
+//                                detailInfo.setScanqty(ArithUtil.add(scanQty, barcodeScanQty));
+//                                detailInfo.setRemainqty(ArithUtil.sub(remainQty, barcodeScanQty));
+//                                detailInfo.setReceiveqty(ArithUtil.sub(detailInfo.getVoucherqty(), detailInfo.getRemainqty()));
+//                            } else {
+//                                List<OutBarcodeInfo> list = new ArrayList<>();
+//                                list.add(scanBarcode);
+//                                detailInfo.setLstBarCode(list);
+//                            }
+//                            resultInfo.setHeaderStatus(true);
+//
+//                        } else {
+//                            resultInfo.setMessage("校验物料行失败:物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "],行号:[" + rowNo + "]的物料行的收货数量不能大于剩余收货数量");
+//                            resultInfo.setHeaderStatus(false);
+//                            return resultInfo;
+//                        }
+//                    } else {
+//                        if (hasRemainQty == 0) {
+//                            resultInfo.setMessage("校验物料行失败:物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "],行号:[" + rowNo + "]的物料行已扫完毕");
+//                        } else {
+//                            resultInfo.setMessage("校验物料行出现异常:剩余扫描数量不能大于扫描数量!剩余数量[" + detailInfo.getRemainqty() + "],已扫描数量：[" + detailInfo.getScanqty() + "]");
+//                        }
+//                        resultInfo.setHeaderStatus(false);
+//                        return resultInfo;
+//                    }
+//                } else if (remainQty == 0) {
+//                    resultInfo.setMessage("校验物料行失败:物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "],行号:[" + rowNo + "]的物料行已扫完毕");
+//                    resultInfo.setHeaderStatus(false);
+//                    return resultInfo;
+//                } else {
+//                    resultInfo.setMessage("校验物料行出现异常:剩余扫描数量不能为负数!");
+//                    resultInfo.setHeaderStatus(false);
+//                    return resultInfo;
+//                }
+//            } else {
+//                resultInfo.setHeaderStatus(false);
+//                resultInfo.setMessage("更新物料行失败:订单中没有物料号为:[" + barcodeMaterialNo + "],批次为：[" + barcodeBatchNo + "]的物料行,扫描的条码序列号为:" + scanBarcode.getBarcode());
+//                return resultInfo;
+//            }
+//
+//
+//        } else {
+//            resultInfo.setHeaderStatus(false);
+//            resultInfo.setMessage("绑定条码信息失败:没有找到能匹配条码的物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "]的物料行");
+//            return resultInfo;
+//
+//        }
         return resultInfo;
     }
 
@@ -413,48 +411,48 @@ public class QualityInspectionProcessingModel extends BaseModel {
      */
     public BaseMultiResultInfo<Boolean, Void> findOutBarcodeInfoFromMaterial(OutBarcodeInfo info) {
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
-        OrderDetailInfo sMaterialInfo = null;
-        String barcodeMaterialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
-        String barcodeBatchNo = info.getBatchno() != null ? info.getBatchno() : "";
-        try {
-
-
-            for (int i = 0; i < mQualityInspectionDetailList.size(); i++) {
-                OrderDetailInfo materialInfo = mQualityInspectionDetailList.get(i);
-                if (materialInfo != null) {
-                    String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
-                    String batchNo = materialInfo.getBatchno() != null ? materialInfo.getBatchno() : "";
-                    if (materialNo.trim().equals(barcodeMaterialNo.trim()) && batchNo.trim().equals(barcodeBatchNo.trim())) {
-                        if (materialInfo.getRemainqty() != 0) {
-                            sMaterialInfo = materialInfo;
-                            info.setUnit(sMaterialInfo.getUnit());
-                            info.setMaterialno(sMaterialInfo.getMaterialno());
-                            info.setMaterialdesc(sMaterialInfo.getMaterialdesc());
-                            info.setErpvoucherno(sMaterialInfo.getErpvoucherno());
-                            info.setStrongholdcode(sMaterialInfo.getStrongholdcode());
-                            info.setStrongholdname(sMaterialInfo.getStrongholdname());
-                            info.setPackQty(sMaterialInfo.getPackQty());
-                            break;
-                        }
-
-
-                    }
-                }
-            }
-
-            if (sMaterialInfo != null) {
-                resultInfo.setHeaderStatus(true);
-            } else {
-                resultInfo.setHeaderStatus(false);
-                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "],批次:[" + barcodeBatchNo + "]不在订单：" + mQualityHeaderInfo.getErpvoucherno() + "中,不能组托");
-                return resultInfo;
-            }
-
-
-        } catch (Exception e) {
-            resultInfo.setHeaderStatus(false);
-            resultInfo.setMessage("获取物料信息出现意料之外的异常:" + e.getMessage());
-        }
+//        OrderDetailInfo sMaterialInfo = null;
+//        String barcodeMaterialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
+//        String barcodeBatchNo = info.getBatchno() != null ? info.getBatchno() : "";
+//        try {
+//
+//
+//            for (int i = 0; i < mQualityInspectionDetailList.size(); i++) {
+//                OrderDetailInfo materialInfo = mQualityInspectionDetailList.get(i);
+//                if (materialInfo != null) {
+//                    String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
+//                    String batchNo = materialInfo.getBatchno() != null ? materialInfo.getBatchno() : "";
+//                    if (materialNo.trim().equals(barcodeMaterialNo.trim()) && batchNo.trim().equals(barcodeBatchNo.trim())) {
+//                        if (materialInfo.getRemainqty() != 0) {
+//                            sMaterialInfo = materialInfo;
+//                            info.setUnit(sMaterialInfo.getUnit());
+//                            info.setMaterialno(sMaterialInfo.getMaterialno());
+//                            info.setMaterialdesc(sMaterialInfo.getMaterialdesc());
+//                            info.setErpvoucherno(sMaterialInfo.getErpvoucherno());
+//                            info.setStrongholdcode(sMaterialInfo.getStrongholdcode());
+//                            info.setStrongholdname(sMaterialInfo.getStrongholdname());
+//                            info.setPackQty(sMaterialInfo.getPackQty());
+//                            break;
+//                        }
+//
+//
+//                    }
+//                }
+//            }
+//
+//            if (sMaterialInfo != null) {
+//                resultInfo.setHeaderStatus(true);
+//            } else {
+//                resultInfo.setHeaderStatus(false);
+//                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "],批次:[" + barcodeBatchNo + "]不在订单：" + mQualityHeaderInfo.getErpvoucherno() + "中,不能组托");
+//                return resultInfo;
+//            }
+//
+//
+//        } catch (Exception e) {
+//            resultInfo.setHeaderStatus(false);
+//            resultInfo.setMessage("获取物料信息出现意料之外的异常:" + e.getMessage());
+//        }
 
         return resultInfo;
     }

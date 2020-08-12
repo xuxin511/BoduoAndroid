@@ -26,7 +26,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
-import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -108,7 +108,7 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                             mModel.setAreaInfo(data);
                             mView.onBarcodeFocus();
                         } else {
-                            MessageBox.Show(mContext, "获取的库位信息为空",MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            MessageBox.Show(mContext, "获取的库位信息为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mView.onAreaNoFocus();
@@ -117,13 +117,23 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
 
                         }
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
-                        mView.onAreaNoFocus();
+                        MessageBox.Show(mContext, "获取的库位信息失败，" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onAreaNoFocus();
+                            }
+                        });
+
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
-                    mView.onAreaNoFocus();
+                    MessageBox.Show(mContext, "获取的库位信息出现预期之外的异常，" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onAreaNoFocus();
+                        }
+                    });
+
                 }
 
 
@@ -152,8 +162,12 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                 if (resultInfo.getHeaderStatus()) {
                     scanQRCode = resultInfo.getInfo();
                 } else {
-                    MessageBox.Show(mContext, resultInfo.getMessage() );
-                    mView.onBarcodeFocus();
+                    MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
                     return;
                 }
 
@@ -163,19 +177,35 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                 BaseMultiResultInfo<Boolean, Void> resultInfo = mModel.findOutBarcodeInfoFromMaterial(scanQRCode); //找到物料行,如果找到给外箱码赋值
                 if (resultInfo.getHeaderStatus()) {
                     mView.createDialog(scanQRCode);
-                } else {
-                    MessageBox.Show(mContext, resultInfo.getMessage() );
                     mView.onBarcodeFocus();
+                } else {
+                    MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
                 }
 
             } else {
-                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode );
-                mView.onBarcodeFocus();
-                return;
+                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
+
+
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, e.getMessage() );
-            mView.onBarcodeFocus();
+            MessageBox.Show(mContext, "解析条码失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
+
+
             return;
         }
 
@@ -227,30 +257,48 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                                         mPrintModel.onPrint(printInfo);
 
                                     }
-
-                                } else {
-                                    MessageBox.Show(mContext, returnMsgModel.getResultValue() );
                                     mView.onBarcodeFocus();
+                                } else {
+                                    MessageBox.Show(mContext,"提交条码信息失败:"+ returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
                                 }
                             } catch (Exception e) {
-                                MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage() );
-                                mView.onBarcodeFocus();
-                            } finally {
-                                mView.onBarcodeFocus();
+                                MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onBarcodeFocus();
+                                    }
+                                });
                             }
                         }
                     });
                 } else {
-                    MessageBox.Show(mContext, checkMaterialResult.getMessage() );
-                    mView.onBarcodeFocus();
+                    MessageBox.Show(mContext, checkMaterialResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
                 }
             } else {
-                MessageBox.Show(mContext, detailResult.getMessage() );
-                mView.onBarcodeFocus();
+                MessageBox.Show(mContext, detailResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
             }
         } else {
-            MessageBox.Show(mContext, "外箱信息不能为空" );
-            mView.onBarcodeFocus();
+            MessageBox.Show(mContext, "外箱信息不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onBarcodeFocus();
+                }
+            });
         }
     }
 

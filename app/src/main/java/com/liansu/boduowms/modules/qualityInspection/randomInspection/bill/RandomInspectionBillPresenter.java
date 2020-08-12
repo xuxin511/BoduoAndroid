@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.qualityInspection.randomInspection.bill;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
@@ -8,13 +9,16 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.List;
+
+import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -52,24 +56,43 @@ public class RandomInspectionBillPresenter {
                     LogUtil.WriteLog(RandomInspectionBill.class, mModel.TAG_GET_CHECK_QUALITY_HEAD_LIST_SYNC, result);
                     BaseResultInfo<List<QualityHeaderInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<QualityHeaderInfo>>>() {
                     }.getType());
-                    if (returnMsgModel.getResult() == 1) {
-                        mModel.setQualityInspectionInfoList(returnMsgModel.getData());
+                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        List<QualityHeaderInfo> list=returnMsgModel.getData();
+                        mModel.setQualityInspectionInfoList(list);
 //
                         if (mModel.getQualityInspectionInfoList().size() != 0) {
                             mView.sumBillCount(mModel.getQualityInspectionInfoList().size());
                             mView.bindListView(mModel.getQualityInspectionInfoList());
                         } else {
-
+                            MessageBox.Show(mContext,"获取单据失败", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.sumBillCount(mModel.getQualityInspectionInfoList().size());
+                                    mView.bindListView(mModel.getQualityInspectionInfoList());
+                                    mView.onFilterContentFocus();
+                                }
+                            });
                         }
 
                     } else {
-                        ToastUtil.show(returnMsgModel.getResultValue());
+                        MessageBox.Show(mContext,"获取单据失败:"+returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.sumBillCount(mModel.getQualityInspectionInfoList().size());
+                                mView.bindListView(mModel.getQualityInspectionInfoList());
+                                mView.onFilterContentFocus();
+                            }
+                        });
                     }
                 } catch (Exception ex) {
-                    ToastUtil.show(ex.getMessage());
-                }
-                mView.onFilterContentFocus();
-            }
+                    MessageBox.Show(mContext,"获取单据列表失败：出现预期之外的异常，"+ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onFilterContentFocus();
+                        }
+                    });
+
+            }}
         });
 
 

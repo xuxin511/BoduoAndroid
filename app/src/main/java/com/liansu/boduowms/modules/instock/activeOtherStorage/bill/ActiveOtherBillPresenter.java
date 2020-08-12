@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.instock.activeOtherStorage.bill;
 
 import android.content.Context;
+import android.content.DialogInterface;
 
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.R;
@@ -12,7 +13,7 @@ import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoicePresenter;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.IBaseOrderBillChoiceView;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
@@ -62,16 +63,27 @@ public class ActiveOtherBillPresenter extends BaseOrderBillChoicePresenter<IBase
                         }else if (mModel.getOrderHeaderInfotList().size() >1 ) {
                             mView.sumBillCount(mModel.getOrderHeaderInfotList().size());
                             mView.bindListView(mModel.getOrderHeaderInfotList());
+                            mView.onFilterContentFocus();
                         }
 
 
                     } else {
-                        ToastUtil.show(returnMsgModel.getResultValue());
+                        MessageBox.Show(mContext,"获取单据失败:"+returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onFilterContentFocus();
+                            }
+                        });
                     }
                 } catch (Exception ex) {
-                    ToastUtil.show(ex.getMessage());
+                    MessageBox.Show(mContext,"获取单据失败:出现预期之外的异常，"+ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onFilterContentFocus();
+                        }
+                    });
                 }
-                mView.onFilterContentFocus();
+
             }
         });
     }

@@ -430,18 +430,18 @@ public class BaseOutStockBusinessModel extends BaseModel {
      */
     public BaseMultiResultInfo<Boolean, Void> checkAndUpdateMaterialInfo(OutStockOrderDetailInfo detailInfo) {
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
-
         if (detailInfo != null) {
-            ;
             String rowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
             String rowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";
             String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
+            boolean IS_EXIST = false;
             for (OutStockOrderDetailInfo info : mOrderDetailList) {
-                String sRowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
-                String sRowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";
-                String sErpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
+                String sRowNo = info.getRowno() != null ? info.getRowno() : "";
+                String sRowDel = info.getRownodel() != null ? info.getRownodel() : "";
+                String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
                 if (sRowNo.equals(rowNo) && sRowDel.equals(rowDel)) {
                     if (erpVoucherNo.equals(sErpVoucherNo)) {
+                        IS_EXIST = true;
                         info.setScanqty(detailInfo.getScanqty());
                         info.setRemainqty(ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty()));
                         resultInfo.setHeaderStatus(true);
@@ -451,14 +451,18 @@ public class BaseOutStockBusinessModel extends BaseModel {
                         resultInfo.setHeaderStatus(false);
                         return resultInfo;
                     }
-                } else {
-                    resultInfo.setMessage("校验物料行失败:物料的项次[" + sRowNo + "]或项序[" + rowDel + "]+不订单在中");
-                    resultInfo.setHeaderStatus(false);
-                    return resultInfo;
                 }
+//                else {
+//                    resultInfo.setMessage("校验物料行失败:物料的项次[" + rowNo + "]或项序[" + rowDel + "]+不订单在中");
+//                    resultInfo.setHeaderStatus(false);
+//                    return resultInfo;
+//                }
             }
-
-
+            if (!IS_EXIST) {
+                resultInfo.setMessage("校验物料行失败:物料的项次[" + rowNo + "]或项序[" + rowDel + "]+不订单在中");
+                resultInfo.setHeaderStatus(false);
+                return resultInfo;
+            }
         } else {
             resultInfo.setMessage("更新物料行失败:更新数据不能为空");
             resultInfo.setHeaderStatus(false);
@@ -475,7 +479,8 @@ public class BaseOutStockBusinessModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/8/5 17:52
      */
-    public BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> findMaterialInfo(OutBarcodeInfo outBarcodeInfo) {
+    public BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> findMaterialInfo
+    (OutBarcodeInfo outBarcodeInfo) {
         BaseMultiResultInfo<Boolean, OutStockOrderDetailInfo> resultInfo = new BaseMultiResultInfo<>();
         String materialNo = outBarcodeInfo.getMaterialno() != null ? outBarcodeInfo.getMaterialno() : "";
         String batchNo = outBarcodeInfo.getBatchno() != null ? outBarcodeInfo.getBatchno() : "";
@@ -496,21 +501,21 @@ public class BaseOutStockBusinessModel extends BaseModel {
 
             }
         }
-            if (mMaterialInfo != null) {
-                if (mMaterialInfo.getStrongholdcode() == null) {
-                    resultInfo.setHeaderStatus(false);
-                    resultInfo.setMessage("获取当前物料信息失败:和当前扫描的条码的物料编号[" + materialNo + "],批次[" + batchNo + " ]匹配的物料数据中据点为空!");
-                    return resultInfo;
-                }
-                resultInfo.setHeaderStatus(true);
-                resultInfo.setInfo(mMaterialInfo);
-            } else {
+        if (mMaterialInfo != null) {
+            if (mMaterialInfo.getStrongholdcode() == null) {
                 resultInfo.setHeaderStatus(false);
-                resultInfo.setMessage("获取当前物料号信息失败:扫描的条码的物料编号[" + materialNo + "],批次[" + batchNo + " ]不在单据中");
+                resultInfo.setMessage("获取当前物料信息失败:和当前扫描的条码的物料编号[" + materialNo + "],批次[" + batchNo + " ]匹配的物料数据中据点为空!");
                 return resultInfo;
             }
-
+            resultInfo.setHeaderStatus(true);
+            resultInfo.setInfo(mMaterialInfo);
+        } else {
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("获取当前物料号信息失败:扫描的条码的物料编号[" + materialNo + "],批次[" + batchNo + " ]不在单据中");
             return resultInfo;
+        }
+
+        return resultInfo;
 
     }
 
@@ -521,7 +526,8 @@ public class BaseOutStockBusinessModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/3 16:47
      */
-    public void requestRefer(OrderRequestInfo info, NetCallBackListener<String> callBackListener) {
+    public void requestRefer(OrderRequestInfo
+                                     info, NetCallBackListener<String> callBackListener) {
     }
 
     /**

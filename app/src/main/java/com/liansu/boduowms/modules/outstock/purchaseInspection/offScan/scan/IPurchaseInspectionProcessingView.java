@@ -21,7 +21,7 @@ public interface IPurchaseInspectionProcessingView {
     void createDialog(OutBarcodeInfo info);
     void setViewStatus();
     String getAreaNo();
-    void  onActivityFinish();
+    void  onActivityFinish(String title);
     void setQtyViewStatus(boolean isStatus);
 
 

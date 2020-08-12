@@ -32,7 +32,7 @@ import java.util.List;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
- * @desc: 采购验退列表
+ * @desc: 采购验退列表  已废弃
  * @param:
  * @return:
  * @author: Nietzsche
@@ -208,6 +208,6 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
     }
 
     public void initTitle(){
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_processing_title), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.purchase_inspection_processing_title), false);
     }
 }

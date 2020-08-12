@@ -49,6 +49,8 @@ public class UrlInfo {
     public String PostT_QualityADFAsync             = GetWCFAdress() + "Quality/PostT_QualityADFAsync"; //质检合格提交
     public String GetT_CheckQualityHeadListsync     = GetWCFAdress() + "Quality/GetT_CheckQualityHeadListsync"; //抽检获取列表
     public String GetT_CheckQualityDetailListsync   = GetWCFAdress() + "Quality/GetT_CheckQualityDetailListsync"; //抽检表体获取
+    public String GetT_PurchaseOrderListADF         = GetWCFAdress() + "Stock/GetT_PurchaseOrderListADF"; //取样扫描接口  2020-8-10 废弃
+    public String GetT_ScanStockADFAsync         = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync"; //取样扫描接口 新 2020-8-10
     public String CheckT_PalletBarcodesync          = GetWCFAdress() + "Quality/CheckT_PalletBarcodesync"; //检验托盘号是否待检
     public String PostT_CheckQualitysync            = GetWCFAdress() + "Quality/PostT_CheckQualitysync"; //抽检表体提交
     public String GetT_WorkOrderHeadListADFAsync    = GetWCFAdress() + "WorkOrder/GetT_WorkOrderHeadListADFAsync"; //获取工单列表 产品入库

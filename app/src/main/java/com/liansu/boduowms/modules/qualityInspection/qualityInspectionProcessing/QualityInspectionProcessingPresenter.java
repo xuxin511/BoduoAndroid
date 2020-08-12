@@ -224,11 +224,6 @@ public class QualityInspectionProcessingPresenter {
      * @time 2020/7/20 15:38
      */
     public void onQualifiedOrderRefer() {
-        String areaNo = mView.getAreaNo();
-//        if (areaNo == null || areaNo.equals("")) {
-//            MessageBox.Show(mContext, "库位号不能为空");
-//            return;
-//        }
         QualityHeaderInfo info = mModel.getQualityHeaderInfo();
         info.setScanqty(info.getQualityqty());
         info.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
@@ -246,10 +241,7 @@ public class QualityInspectionProcessingPresenter {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-//                        mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, true);
-//                        mView.bindListView(mModel.getQualityInspectionDetailList());
-//                        mView.onBarcodeFocus();
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(),1);
+                        mView.onActivityFinish(returnMsgModel.getResultValue());
                     }else {
                         MessageBox.Show(mContext, returnMsgModel.getResultValue(),1);
                     }
@@ -281,7 +273,7 @@ public class QualityInspectionProcessingPresenter {
         info.setScanqty(99999999);
         outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
         list.add(outBarcodeInfo);
-        info.setLstBarCode(list);
+//        info.setLstBarCode(list);
         mModel.requestQualifiedRefer(info, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -325,7 +317,7 @@ public class QualityInspectionProcessingPresenter {
                                 LogUtil.WriteLog(QualityInspectionProcessingScan.class, mModel.TAG_GetAreaModelADF, result);
                                 BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                                 }.getType());
-                                if (returnMsgModel.getResult() == 1) {
+                                if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                                     mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, true);
                                     mView.bindListView(mModel.getQualityInspectionDetailList());
                                     mView.onBarcodeFocus();

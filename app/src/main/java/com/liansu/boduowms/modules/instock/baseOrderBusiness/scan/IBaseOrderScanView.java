@@ -28,4 +28,5 @@ public interface IBaseOrderScanView {
      <T extends IBaseOrderScanView > T getIView();
      void setSecondLineInfo(String desc,String name,boolean isVisibility);
 
+     void onActivityFinish(String title) ;
 }

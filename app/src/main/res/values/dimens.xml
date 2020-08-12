@@ -12,5 +12,6 @@
     <dimen name="activity_list_text_size_third">13sp</dimen>
     <dimen name="activity_purchase_inspection_text_size">16sp</dimen>
     <dimen name="activity_return_sales_print_margin_left">8dp</dimen>
+    <dimen name="activity_random_inspection_margin_top">3dp</dimen>
 
 </resources>

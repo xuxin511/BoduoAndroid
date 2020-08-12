@@ -1,7 +1,9 @@
 package com.liansu.boduowms.modules.instock.baseOrderBusiness.scan;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -106,6 +108,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
 //        closeKeyBoard(mAreaNo);
         initListener();
         onAreaNoFocus();
+
 //        setToolbarTitleViewTextSize((AppCompatActivity) mContext,toolbar);
     }
 
@@ -354,6 +357,18 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
             mSupplierName.setVisibility(View.GONE);
             mSupplierNameDesc.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onActivityFinish(String message) {
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(message+" 是否返回上一页面？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO 自动生成的方法
+                        closeActivity();
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 
 

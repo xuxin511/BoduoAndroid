@@ -23,6 +23,7 @@ public interface IBaseReviewScanView {
     void setLogisticsCompanyStatus(boolean isVisibility);
     void setReceiverStatus(boolean isVisibility);
     String getLogisticsCompany();
-
+    void  onActivityFinish(String title);
+    void onReset();
 
 }

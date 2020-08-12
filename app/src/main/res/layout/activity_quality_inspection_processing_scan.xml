@@ -244,7 +244,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="8dp"
-        android:hint="@string/quality_inspection_scan_un_qualified_barcode_hint"
+        android:hint="@string/quality_inspection_scan_un_qualified_pallet_no_barcode_hint"
         app:layout_constraintLeft_toLeftOf="@+id/guideline_v_1"
         app:layout_constraintRight_toLeftOf="@+id/quality_inspection_material_select"
         app:layout_constraintTop_toBottomOf="@+id/quality_inspection_scan_area_no" />
@@ -279,6 +279,7 @@
     </TextView>
 
     <EditText
+        android:inputType="numberDecimal"
         android:textSize="@dimen/activity_purchase_inspection_text_size"
         android:id="@+id/quality_inspection_scan_un_qualified_barcode_qty"
         style="@style/EditTextStyle"
