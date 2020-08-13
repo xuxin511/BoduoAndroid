@@ -18,6 +18,7 @@ public class PrintInfo {
     private String signatory;  //签收人
     private String QRCode;  //二维码
     private String spec;//规格
+    private int PackQty; // 包装规格
 
     public String getPrintType() {
         return printType;
@@ -97,5 +98,13 @@ public class PrintInfo {
 
     public void setSpec(String spec) {
         this.spec = spec;
+    }
+
+    public int getPackQty() {
+        return PackQty;
+    }
+
+    public void setPackQty(int packQty) {
+        PackQty = packQty;
     }
 }

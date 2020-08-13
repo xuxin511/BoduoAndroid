@@ -209,7 +209,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
     public void saveData() {
         String batchNo = mBatchNo.getText().toString().trim();
         String materialNo = mMaterialNo.getText().toString().trim();
-        int packQty = Integer.parseInt(mPackCount.getText().toString().trim());
+        float packQty = Float.parseFloat(mPackCount.getText().toString().trim());
         float qty = Float.parseFloat(mQty.getText().toString());
         if (batchNo.equals("")) {
             MessageBox.Show(mContext, "批次不能为空");
@@ -225,7 +225,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
         }
 
         if (packQty != mOutBarcode.getPackQty()) {
-            mOutBarcode.setPackQty(packQty);
+            mOutBarcode.setPackQty((int) packQty);
         }
         mOutBarcode.setMaterialno(mMaterialNo.getText().toString().trim());
         mOutBarcode.setBatchno(batchNo);
