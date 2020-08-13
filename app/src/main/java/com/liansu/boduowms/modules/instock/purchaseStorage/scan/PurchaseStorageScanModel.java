@@ -130,6 +130,7 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
             printInfo.setMaterialDesc(outBarcodeInfo.getMaterialdesc());
             printInfo.setBatchNo(batchNo);
             printInfo.setQty(barcodeQty);
+            printInfo.setPackQty(outBarcodeInfo.getPackQty());
             printInfo.setQRCode(QRBarcode);
             printInfo.setSignatory(BaseApplication.mCurrentUserInfo.getUsername());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");

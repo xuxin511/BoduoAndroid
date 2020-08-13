@@ -110,13 +110,13 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.dialog_material_info_outer_barcode_qty:
-                    float  pcakcount=Float.parseFloat(mPackCount.getText().toString().trim());
-                    if (pcakcount==0){
+                    float pcakcount = Float.parseFloat(mPackCount.getText().toString().trim());
+                    if (pcakcount == 0) {
                         requestPackCountFocus();
-                    }else {
+                    } else {
                         requestBulkVolumeFocus();
                     }
-                ;
+                    ;
                     sumQtyOfFinishedProduct();
                     break;
                 case R.id.dialog_material_info_pack_count:
@@ -127,7 +127,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
                     sumQtyOfFinishedProduct();
                     requestQtyFocus();
                 case R.id.dialog_material_info_qty:
-                    if (DoubleClickCheck.isFastDoubleClick(mContext,200)) {
+                    if (DoubleClickCheck.isFastDoubleClick(mContext, 200)) {
                         return false;
                     }
                     saveData();
@@ -160,7 +160,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
             String materialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
             String materialName = info.getMaterialdesc() != null ? info.getMaterialdesc() : "";
             String batchNo = info.getBatchno() != null ? info.getBatchno() : "";
-            float packCount=info.getPackQty();
+            float packCount = info.getPackQty();
             mMaterialName.setText(materialName);
             mMaterialName.setEnabled(false);
             mMaterialNo.setText(materialNo);
@@ -179,7 +179,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
             if (batchNo.equals("") && !materialNo.equals("")) {
                 requestBatchNoFocus();
             }
-            if (info.getPackQty()!=0){
+            if (info.getPackQty() != 0) {
                 mQty.setText("0");
                 mQty.setEnabled(false);
             }
@@ -209,6 +209,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
     public void saveData() {
         String batchNo = mBatchNo.getText().toString().trim();
         String materialNo = mMaterialNo.getText().toString().trim();
+        int packQty = Integer.parseInt(mPackCount.getText().toString().trim());
         float qty = Float.parseFloat(mQty.getText().toString());
         if (batchNo.equals("")) {
             MessageBox.Show(mContext, "批次不能为空");
@@ -221,6 +222,10 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
         if (materialNo.equals("")) {
             MessageBox.Show(mContext, "物料编号不能为空");
             return;
+        }
+
+        if (packQty != mOutBarcode.getPackQty()) {
+            mOutBarcode.setPackQty(packQty);
         }
         mOutBarcode.setMaterialno(mMaterialNo.getText().toString().trim());
         mOutBarcode.setBatchno(batchNo);

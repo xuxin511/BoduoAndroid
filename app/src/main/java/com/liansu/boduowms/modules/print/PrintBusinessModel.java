@@ -217,6 +217,8 @@ public class PrintBusinessModel extends BaseModel {
         String batchNo = info.getBatchNo() != null ? info.getBatchNo() : "";
         String spec = info.getSpec() != null ? info.getSpec() : "";
         int barcodeQty = (int) info.getQty();
+        int packQty=info.getPackQty();
+
         String QRCode = info.getQRCode() != null ? info.getQRCode() : "";
         String materialDesc1 = "";
         String materialDesc2 = "";
@@ -255,7 +257,7 @@ public class PrintBusinessModel extends BaseModel {
 
         command = command.replace("X_MATERIAL_NO", materialNo).replace("X_MATERIAL_DESC", materialDesc1).replace("SECOND_MATERIAL_DESC", materialDesc2)
                 .replace("X_SPEC", spec).replace("X_BATCH_NO", batchNo)
-                .replace("X_QTY", barcodeQty + "").replace("X_QR_CODE", QRCode);
+                .replace("X_QTY", packQty + "").replace("X_QR_CODE", QRCode);
         return command;
     }
 
