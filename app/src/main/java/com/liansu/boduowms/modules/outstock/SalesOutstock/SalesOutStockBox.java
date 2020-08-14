@@ -41,6 +41,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,7 +110,7 @@ public  class SalesOutStockBox   extends BaseActivity {
     private  int CurrVoucherType;
 
     private  int Scanningtype;
-
+    UrlInfo info=new UrlInfo();
     //endregion
     protected void initViews() {
         super.initViews();
@@ -125,6 +126,12 @@ public  class SalesOutStockBox   extends BaseActivity {
     }
     protected void initData() {
         super.initData();
+        //重写路径
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+   
+        int type=Integer.parseInt(data.toString());
+        info.InitUrl(type);
 
 
     }
@@ -145,7 +152,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     model.Vouchertype=CurrVoucherType;
                     String modelJson = parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_SelectNO, "订单提交中",
-                            context, mHandler, RESULT_Saleoutstock_Box_SelectNO, null, UrlInfo.getUrl().SalesOutstock_Box_ScanningNo, modelJson, null);
+                            context, mHandler, RESULT_Saleoutstock_Box_SelectNO, null, info.SalesOutstock_Box_ScanningNo, modelJson, null);
                     return true;
                 }
             } catch (Exception ex) {
@@ -185,7 +192,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         //查询该物料是否存在
                         String modelJson = parseModelToJson(barcode);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts, "检验是否存在",
-                                context, mHandler, RESULT_Saleoutstock_ScannParts, null, UrlInfo.getUrl().SelectMaterial, modelJson, null);
+                                context, mHandler, RESULT_Saleoutstock_ScannParts, null, info.SelectMaterial, modelJson, null);
                         return true;
                     }
                     if (arr.length == 4) {
@@ -202,7 +209,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.Vouchertype = CurrVoucherType;
                             String modelJson = parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
-                                    context, mHandler, RESULT_Saleoutstock_Box_Check_Box, null, UrlInfo.getUrl().SalesOutstock_Box_Batchno, modelJson, null);
+                                    context, mHandler, RESULT_Saleoutstock_Box_Check_Box, null, info.SalesOutstock_Box_Batchno, modelJson, null);
                             return true;
                         }
                     }
@@ -222,7 +229,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                 if (stockInfoModels.size() > 0) {
                     String modelJson = parseModelToJson(stockInfoModels);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "拼箱提交中",
-                            context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, UrlInfo.getUrl().SalesOutstock_Box_Submit, modelJson, null);
+                            context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, info.SalesOutstock_Box_Submit, modelJson, null);
                 } else {
                     MessageBox.Show(context, "列表中没有需要提交的信息，请先扫描69码/物料");
                 }
@@ -262,6 +269,8 @@ public  class SalesOutStockBox   extends BaseActivity {
     private void  Click_showBoxList(View view){
         Intent intent = new Intent();
         //intent.setData(data);
+        Uri data = Uri.parse(String.valueOf(CurrVoucherType));
+        intent.setData(data);
         intent.setClass(context, SalesOutStockBoxList.class);
         startActivity(intent);
     }
@@ -335,10 +344,12 @@ public  class SalesOutStockBox   extends BaseActivity {
                     model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                     model.Qty = Float.parseFloat(arr[2]);
                     model.Vouchertype = CurrVoucherType;
+                    model.Printername= UrlInfo.mOutStockPrintName;
+                    model.Printertype= UrlInfo.mOutStockPrintType;
                     listmodel.add(model);
                     String modelJson = parseModelToJson(list);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
-                            context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, UrlInfo.getUrl().SalesOutstock_Box_Submit, modelJson, null);
+                            context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, info.SalesOutstock_Box_Submit, modelJson, null);
 //                    CommonUtil.setEditFocus(sales_outstock_box_watercode);
 //                    MessageBox.Show(context, returnMsgModel.getResultValue());
                 }
@@ -371,6 +382,8 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.PostUserNo=BaseApplication.mCurrentUserInfo.getUserno();
                         model.Qty=num;
                         model.Vouchertype=CurrVoucherType;
+                        model.Printername= UrlInfo.mOutStockPrintName;
+                        model.Printertype= UrlInfo.mOutStockPrintType;
                         modelIsExits.put(materialModle.Materialno+list.get(0).getBatchno(),materialModle.Materialno);
                         stockInfoModels.add(model);
                     } else {
@@ -495,7 +508,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                                 model.Platform=inputYuetai;
                                 String json = GsonUtil.parseModelToJson(model);
                                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
-                                        context, mHandler, RESULT_Saleoutstock_PlatForm, null, UrlInfo.getUrl().SalesOutstock_PlatForm, json, null);
+                                        context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
                             }
                         });
                 builder.show();
@@ -554,10 +567,12 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Qty = Float.parseFloat(boxno.split("%")[2]);
                         model.Vouchertype = CurrVoucherType;
+                        model.Printername= UrlInfo.mOutStockPrintName;
+                        model.Printertype= UrlInfo.mOutStockPrintType;
                         lista.add(model);
                         String modelJson = parseModelToJson(lista);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "拼箱提交中",
-                                context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, UrlInfo.getUrl().SalesOutstock_Box_Submit, modelJson, null);
+                                context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, info.SalesOutstock_Box_Submit, modelJson, null);
                     }else
                     {
                         //先找到返回的对象
@@ -578,6 +593,8 @@ public  class SalesOutStockBox   extends BaseActivity {
                                 }
                             }
                         }
+                        List<SalesoutStcokboxRequery> listModel=new ArrayList<SalesoutStcokboxRequery>();
+                        listModel=stockInfoModels;
                         //散件  刷新界面
                         String name = modelIsExits.get(materialModle.Materialno+ cities[which]);
                         if (name==null||name.equals("")) {
@@ -590,19 +607,25 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.Erpvoucherno=CurrOrder;
                             model.PostUserNo=BaseApplication.mCurrentUserInfo.getUserno();
                             model.Qty=num;
+                            model.Printername=UrlInfo.mOutStockPrintName;
+                            model.Printertype=UrlInfo.mOutStockPrintType;
                             model.Vouchertype=CurrVoucherType;
                             modelIsExits.put(materialModle.Materialno+cities[which],materialModle.Materialno);
-                            stockInfoModels.add(model);
+                            listModel.add(0,model);
                         } else {
+                            listModel=stockInfoModels;
                             //存在
                             for (SalesoutStcokboxRequery infos : stockInfoModels) {
                                 if (infos.getMaterialno().equals(materialModle.Materialno) && infos.getBatchno().equals(cities[which])) {
+                                    listModel.remove(infos);
                                     Float value =ArithUtil.add(infos.Qty , num);
                                     infos.setQty(value);
+                                    listModel.add(0,infos);
                                 }
                             }
                         }
-                        mAdapter = new SalesoutstockBoxAdapter(context, stockInfoModels);
+                        stockInfoModels=listModel;
+                        mAdapter = new SalesoutstockBoxAdapter(context, listModel);
                         mList.setAdapter(mAdapter);
                         mAdapter.notifyDataSetChanged();
                     }
@@ -657,7 +680,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.Vouchertype = CurrVoucherType;
                             String modelJson = parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
-                                    context, mHandler, RESULT_Saleoutstock_Box_Check_waterCode, null, UrlInfo.getUrl().SalesOutstock_Box_Batchno, modelJson, null);
+                                    context, mHandler, RESULT_Saleoutstock_Box_Check_waterCode, null, info.SalesOutstock_Box_Batchno, modelJson, null);
 
                         } catch (Exception ex) {
                             CommonUtil.setEditFocus(sales_outstock_box_watercode);

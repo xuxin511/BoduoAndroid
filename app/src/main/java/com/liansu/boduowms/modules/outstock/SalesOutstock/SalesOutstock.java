@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.util.ArrayMap;
 import android.view.KeyEvent;
 import android.view.View;
@@ -163,7 +164,11 @@ public class SalesOutstock  extends BaseActivity  {
         super.initViews();
         //不同类型的标题
         //  mBusinessType = getIntent().getStringExtra("BusinessType").toString();
-        BaseApplication.toolBarTitle = new ToolBarTitle("下架", true);
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+        int type=Integer.parseInt(data.toString());
+        info.InitUrl(type);
+        BaseApplication.toolBarTitle = new ToolBarTitle("配货下架", true);
         x.view().inject(this);
         //注册单选按钮事件
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -202,18 +207,13 @@ public class SalesOutstock  extends BaseActivity  {
 
     }
 
-
-
+    UrlInfo info=new UrlInfo();
+String  url;
     @Override
     protected void initData() {
         super.initData();
-       // radioGroup_pallet.setOnClickListener(this);
-//        radioGroup.setOnClickListener(onCheckedChanged(radioGroup,radioGroup_pallet.getId()));
-//        radioGroup_box.setOnClickListener(this);
-//        radioGroup_san.setOnClickListener(this);
-//        Intent intentMain = getIntent();
-//        Uri data = intentMain.getData();
-        //userModel= GsonUtil.parseJsonToModel(data.toString(),UserModel.class);
+        //重写路径
+
     }
 
     //#region 事件
@@ -235,7 +235,7 @@ public class SalesOutstock  extends BaseActivity  {
                     model.Creater=BaseApplication.mCurrentUserInfo.getUsername();
                     String json = GsonUtil.parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
-                            context, mHandler, RESULT_Saleoutstock_SalesNO, null, UrlInfo.getUrl().SalesOutstock_ScanningNo, json, null);
+                            context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
                     return true;
                 }
             } catch (Exception ex) {
@@ -271,12 +271,14 @@ public class SalesOutstock  extends BaseActivity  {
                         if (!Analysis(palletno, OutStock_Submit_type_pallet)) {
                             CommonUtil.setEditFocus(sales_outstock_pallettext);
                             MessageBox.Show(context, "请输入或扫描正确托盘号");
+                            CommonUtil.setEditFocus(sales_outstock_pallettext);
                             return false;
                         } else {
                             if(OutStock_Type.equals(OutStock_Submit_type_pallet)){
                                 if (palletno.split("%")[0].equals("")) {
                                     CommonUtil.setEditFocus(sales_outstock_pallettext);
                                     MessageBox.Show(context, "该托盘是拼托,请选择其它模式下架");
+                                    CommonUtil.setEditFocus(sales_outstock_pallettext);
                                     return false;
                                 }
                             }
@@ -288,7 +290,7 @@ public class SalesOutstock  extends BaseActivity  {
                             // model.Vouchertype=0;
                             String json = GsonUtil.parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
-                                    context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, UrlInfo.getUrl().SalesOutstock_JudgeStock, json, null);
+                                    context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, info.SalesOutstock_JudgeStock, json, null);
                             return true;
                         }
                     }
@@ -343,7 +345,7 @@ public class SalesOutstock  extends BaseActivity  {
                                 model.ScanQty = Float.parseFloat(strBox[2]);
                                 String json = GsonUtil.parseModelToJson(model);
                                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBox, "箱号提交中",
-                                        context, mHandler, RESULT_Saleoutstock_ScannBoxNo, null, UrlInfo.getUrl().SalesOutstock_SacnningPallet, json, null);
+                                        context, mHandler, RESULT_Saleoutstock_ScannBoxNo, null, info.SalesOutstock_SacnningPallet, json, null);
                                 return true;
                             }
                         }
@@ -355,7 +357,7 @@ public class SalesOutstock  extends BaseActivity  {
                             //检验是否存在
                             String modelJson = parseModelToJson(boxNo);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts, "检验是否存在",
-                                    context, mHandler, RESULT_Saleoutstock_ScannParts, null, UrlInfo.getUrl().SelectMaterial, modelJson, null);
+                                    context, mHandler, RESULT_Saleoutstock_ScannParts, null, info.SelectMaterial, modelJson, null);
                             return true;
                             //}
                         }
@@ -587,7 +589,7 @@ public class SalesOutstock  extends BaseActivity  {
                 model.ScanQty = Float.parseFloat(strPallet[2]);
                 String json = GsonUtil.parseModelToJson(model);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitPallet, "托盘提交中",
-                        context, mHandler, RESULT_Saleoutstock_ScannPalletNo, null, UrlInfo.getUrl().SalesOutstock_SacnningPallet, json, null);
+                        context, mHandler, RESULT_Saleoutstock_ScannPalletNo, null, info.SalesOutstock_SacnningPallet, json, null);
                 //}
             } else {
                 CommonUtil.setEditFocus(sales_outstock_boxtext);
@@ -735,7 +737,7 @@ public class SalesOutstock  extends BaseActivity  {
                                 model.ScanQty =inputValue;
                                 String json = GsonUtil.parseModelToJson(model);
                                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "箱号提交中",
-                                        context, mHandler, RESULT_Saleoutstock_ScannParts_Submit, null, UrlInfo.getUrl().SalesOutstock_SacnningPallet, json, null);
+                                        context, mHandler, RESULT_Saleoutstock_ScannParts_Submit, null, info.SalesOutstock_SacnningPallet, json, null);
 
 
                         } catch (Exception ex) {
@@ -769,7 +771,7 @@ public class SalesOutstock  extends BaseActivity  {
 //                        model.Platform=inputYuetai;
 //                        String json = GsonUtil.parseModelToJson(model);
 //                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
-//                                context, mHandler, RESULT_Saleoutstock_PlatForm, null, UrlInfo.getUrl().SalesOutstock_PlatForm, json, null);
+//                                context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
 //                    }
 //                });
 //        builder.show();
@@ -826,7 +828,7 @@ public class SalesOutstock  extends BaseActivity  {
                     model.ScanQty =inputNum;
                     String json = GsonUtil.parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "箱号提交中",
-                            context, mHandler, RESULT_Saleoutstock_ScannParts_Submit, null, UrlInfo.getUrl().SalesOutstock_SacnningPallet, json, null);
+                            context, mHandler, RESULT_Saleoutstock_ScannParts_Submit, null, info.SalesOutstock_SacnningPallet, json, null);
 
                 }catch (Exception ex){
                     CommonUtil.setEditFocus(sales_outstock_boxtext);

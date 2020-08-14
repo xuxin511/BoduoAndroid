@@ -41,9 +41,9 @@ public class OutStockOrderHeaderInfo implements Parcelable {
     private String                        Contacts;
     private String                        Erpstatus;
     private String                        Erpnote;
-    private double                        WeightTotal;
-    private int                           CostTotal;
-    private int                           OutCostTotal;
+    private Float                        WeightTotal;
+    private Float                           CostTotal;
+    private Float                           OutCostTotal;
     private Float                           OrderCartonNum;
     private Float                           OrderScanCartonNum;
     private int                           Id;
@@ -67,9 +67,9 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         Contacts = in.readString();
         Erpstatus = in.readString();
         Erpnote = in.readString();
-        WeightTotal = in.readDouble();
-        CostTotal = in.readInt();
-        OutCostTotal = in.readInt();
+        WeightTotal = in.readFloat();
+        CostTotal = in.readFloat();
+        OutCostTotal = in.readFloat();
         OrderCartonNum = in.readFloat();
         OrderScanCartonNum = in.readFloat();
         Id = in.readInt();
@@ -94,8 +94,8 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         dest.writeString(Erpstatus);
         dest.writeString(Erpnote);
         dest.writeDouble(WeightTotal);
-        dest.writeInt(CostTotal);
-        dest.writeInt(OutCostTotal);
+        dest.writeFloat(CostTotal);
+        dest.writeFloat(OutCostTotal);
         dest.writeFloat(OrderCartonNum);
         dest.writeFloat(OrderScanCartonNum);
         dest.writeInt(Id);
@@ -188,23 +188,23 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         return WeightTotal;
     }
 
-    public void setWeightTotal(double WeightTotal) {
+    public void setWeightTotal(Float WeightTotal) {
         this.WeightTotal = WeightTotal;
     }
 
-    public int getCostTotal() {
+    public Float getCostTotal() {
         return CostTotal;
     }
 
-    public void setCostTotal(int CostTotal) {
+    public void setCostTotal(Float CostTotal) {
         this.CostTotal = CostTotal;
     }
 
-    public int getOutCostTotal() {
+    public Float getOutCostTotal() {
         return OutCostTotal;
     }
 
-    public void setOutCostTotal(int OutCostTotal) {
+    public void setOutCostTotal(Float OutCostTotal) {
         this.OutCostTotal = OutCostTotal;
     }
 

@@ -223,7 +223,7 @@
 
     <Button
         android:id="@+id/outstock_sales_button_reviewsubmit"
-        android:layout_width="150sp"
+        android:layout_width="0dp"
         android:layout_height="@dimen/sp_30"
         android:layout_marginTop="7dp"
         android:background="@drawable/bt_selector"

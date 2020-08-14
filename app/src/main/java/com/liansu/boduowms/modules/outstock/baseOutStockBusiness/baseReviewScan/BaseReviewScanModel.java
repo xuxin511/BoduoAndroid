@@ -52,8 +52,6 @@ public class BaseReviewScanModel extends BaseModel {
     public List<OutStockOrderDetailInfo> getOrderDetailList() {
         return mOrderDetailList;
     }
-
-
     /**
      * @desc: 保存表头信息
      * @param:

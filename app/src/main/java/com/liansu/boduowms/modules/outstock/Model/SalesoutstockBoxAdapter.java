@@ -27,6 +27,7 @@ import java.util.List;
             public TextView txtMaterialDesc;
             public TextView txtQty;
             public TextView txtBatchNo;
+            public TextView txtstrong;
         }
 
         public SalesoutstockBoxAdapter(Context mContext, List<SalesoutStcokboxRequery> stockInfoModels) {
@@ -62,6 +63,7 @@ import java.util.List;
 
                 // 获取list_item布局文件的视图
                 convertView = listContainer.inflate(R.layout.item_quality_inspection_listview, null);
+              //  listItemView.txtstrong = (TextView) convertView.findViewById(R.id.txt_strongcode);
                 listItemView.txtMaterialNo = (TextView) convertView.findViewById(R.id.item_quality_inspection_material_no);
                 listItemView.txtBatchNo = (TextView) convertView.findViewById(R.id.item_quality_inspection_batch_no);
                 listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.item_quality_inspection_material_desc);

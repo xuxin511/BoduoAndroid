@@ -238,14 +238,14 @@ public class PurchaseInspectionProcessingModel extends BaseModel {
             String rowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
             String rowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";
             String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
-            String arrVoucherNo=detailInfo.getArrvoucherno()!=null? detailInfo.getArrvoucherno():"";
+            String arrVoucherNo=detailInfo.getArrvoucherNO()!=null? detailInfo.getArrvoucherNO():"";
             for (OutStockOrderDetailInfo info : mOrderDetailList) {
                 String sMaterialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
                 String sBatchNo = info.getBatchno() != null ? info.getBatchno() : "";
                 String sRowNo = info.getRowno() != null ? info.getRowno() : "";
                 String sRowDel = info.getRownodel() != null ? info.getRownodel() : "";
                 String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
-                String sArrVoucherNo=info.getArrvoucherno()!=null?info.getArrvoucherno():"";
+                String sArrVoucherNo=info.getArrvoucherNO()!=null?info.getArrvoucherNO():"";
                 if (sMaterialNo.equals(materialNo)) {
 //                    if (sRowNo.equals(rowNo) && sRowDel.equals(rowDel)) {
                     if (erpVoucherNo.equals(sErpVoucherNo) && sArrVoucherNo.equals(arrVoucherNo)) {

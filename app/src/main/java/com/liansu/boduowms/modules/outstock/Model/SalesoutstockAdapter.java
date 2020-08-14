@@ -23,6 +23,8 @@ public class SalesoutstockAdapter extends BaseAdapter {
         public TextView txtScanQty;
         public TextView txtMaterialDesc;//
         public TextView txt_recommended_location;
+        public TextView txtstrong;
+
 
     }
 
@@ -58,6 +60,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
 
             // 获取list_item布局文件的视图
             convertView = listContainer.inflate(R.layout.item_offshelfscandetail_listview, null);
+            listItemView.txtstrong = (TextView) convertView.findViewById(R.id.txt_strongcode);
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
             listItemView.txt_reference_standard = (TextView) convertView.findViewById(R.id.txt_reference_standard);
             listItemView.txtVoucherQty = (TextView) convertView.findViewById(R.id.txtVoucherQty);
@@ -74,6 +77,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
         if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
             listItemView.txt_reference_standard.setText("外箱:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
         }
+        listItemView.txtstrong.setText(mDetailInfo.getStrongholdcode());
         listItemView.txtVoucherQty.setText("订单：" + mDetailInfo.getVoucherqty());
         listItemView.txtRemainQty.setText("剩余:" + mDetailInfo.getRemainqty());
         listItemView.txtScanQty.setText("已扫：" + mDetailInfo.getScanqty());

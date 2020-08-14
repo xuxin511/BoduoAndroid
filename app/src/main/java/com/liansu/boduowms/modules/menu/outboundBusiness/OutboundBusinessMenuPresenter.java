@@ -101,9 +101,14 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
         }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_sales_out_stock))) {
           intent.setClass(mContext, OutboundBusinessSubMenu.class);
           intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK);
-//            intent = intent.setClass(mContext, SalesOutstock.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK);
-        }
+      }
+          else if(moduleName.equals(mContext.getString(R.string.main_menu_item_rowmaterial_lcl))) {//原材料出库
+          intent.setClass(mContext, OutboundBusinessSubMenu.class);
+          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK);
+      }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_outsourc_lcl))) {//委外装车发料
+          intent.setClass(mContext, OutboundBusinessSubMenu.class);
+          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK);
+      }
 
 
         if (intent != null) {

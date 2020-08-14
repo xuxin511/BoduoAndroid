@@ -9,6 +9,25 @@ public  class SalesoutStcokboxRequery {
     public  int Vouchertype;
     public  String PostUserNo;
 
+    public  String Printername;
+    public  int  Printertype;
+
+    public String getPrintname() {
+        return Printername;
+    }
+
+    public void setPrintname(String printname) {
+        Printername = printname;
+    }
+
+    public int getPrinttype() {
+        return Printertype;
+    }
+
+    public void setPrinttype(int printtype) {
+        Printertype = printtype;
+    }
+
     public  String Materialdesc;
     public String getErpvoucherno() {
         return Erpvoucherno;

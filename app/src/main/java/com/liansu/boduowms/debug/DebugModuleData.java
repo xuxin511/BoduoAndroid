@@ -129,7 +129,11 @@ public class DebugModuleData {
         itemNamesList.add(context.getString(R.string.main_menu_item_other_loading_truck));
         itemIconList.add(R.drawable.delivery_lcl);
         itemNamesList.add(context.getString(R.string.main_menu_item_delivery_lcl));
-
+        //原材料出库
+        itemIconList.add(R.drawable.sales_out_of_stock);
+        itemNamesList.add(context.getString(R.string.main_menu_item_rowmaterial_lcl));
+        itemIconList.add(R.drawable.sales_out_of_stock);
+        itemNamesList.add(context.getString(R.string.main_menu_item_outsourc_lcl));
     }
 
     /**

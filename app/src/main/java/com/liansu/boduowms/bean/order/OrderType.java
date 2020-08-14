@@ -31,5 +31,9 @@ public class OrderType {
 
     public final static String OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK  = "销售出库";
 
+    public final static String OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK  = "原材料发货";
+    public final static String OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK  = "委外发料";
+
+
 
 }

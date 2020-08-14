@@ -3,6 +3,8 @@ package com.liansu.boduowms.modules.outstock.SalesOutstock;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Message;
 import android.util.ArrayMap;
 import android.view.KeyEvent;
@@ -76,11 +78,16 @@ public class SalesOutStockBoxList extends BaseActivity {
     SalesoutstockBoxListRequery delModel;
 
     int index;
-
+    UrlInfo info = new UrlInfo();
     @Override
     protected void initData() {
         super.initData();
+        //重写路径
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
 
+        int type = Integer.parseInt(data.toString());
+        info.InitUrl(type);
     }
 
 
@@ -115,7 +122,7 @@ public class SalesOutStockBoxList extends BaseActivity {
                     final Map<String, String> map = new HashMap<String, String>();
                     map.put("Erpvoucherno", order);
                     RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GetBoxList, "订单提交中",
-                            context, mHandler, RESULT_Saleoutstock_GetBoxList, null, UrlInfo.getUrl().SalesOutstock_GetBoxList, map, null);
+                            context, mHandler, RESULT_Saleoutstock_GetBoxList, null, info.SalesOutstock_GetBoxList, map, null);
                     return true;
                 }
             } catch (Exception ex) {

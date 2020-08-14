@@ -4,6 +4,8 @@ package com.liansu.boduowms.modules.outstock.SalesOutstock;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
@@ -135,7 +137,7 @@ public  class SalesOutReview extends BaseActivity {
 
     //存储类
     private PurchaseReturnOffScanModel mModel;
-
+    UrlInfo info=new UrlInfo();
 
     @Override
     protected void initViews() {
@@ -151,6 +153,12 @@ public  class SalesOutReview extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
+        //重写路径
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+     
+        int type=Integer.parseInt(data.toString());
+        info.InitUrl(type);
     }
 
 
@@ -171,7 +179,7 @@ public  class SalesOutReview extends BaseActivity {
                     model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                     String json = GsonUtil.parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
-                            context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, UrlInfo.getUrl().SalesOutstock_Review_ScanningNo, json, null);
+                            context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
                     return true;
                 }
             } catch (Exception ex) {
@@ -214,7 +222,7 @@ public  class SalesOutReview extends BaseActivity {
                         // model.Vouchertype=0;
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
-                                context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, UrlInfo.getUrl().SalesOutstock_JudgeStock, json, null);
+                                context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, info.SalesOutstock_JudgeStock, json, null);
                         return true;
                     }
                     if (type.equals(OutStock_Submit_type_box)) {
@@ -233,14 +241,14 @@ public  class SalesOutReview extends BaseActivity {
                         }
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
-                                context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, UrlInfo.getUrl().SalesOutstock__SubmitBarcode, json, null);
+                                context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                     }
                     if (type.equals(OutStock_Submit_type_parts)) {
                         //散件
                         //先判断物料
                         String modelJson = parseModelToJson(barcode);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts, "检验是否存在",
-                                context, mHandler, RESULT_Saleoutstock_ScannParts, null, UrlInfo.getUrl().SelectMaterial, modelJson, null);
+                                context, mHandler, RESULT_Saleoutstock_ScannParts, null, info.SelectMaterial, modelJson, null);
                         return true;
 
                         //输入数量直接提交
@@ -386,7 +394,7 @@ public  class SalesOutReview extends BaseActivity {
                      model.ScanQty = Float.parseFloat(strPallet[2]);
                      String json = GsonUtil.parseModelToJson(model);
                      RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
-                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, UrlInfo.getUrl().SalesOutstock__SubmitBarcode, json, null);
+                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                  }
              } catch (Exception ex) {
                  CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
@@ -488,7 +496,7 @@ public  class SalesOutReview extends BaseActivity {
                             model.ScanQty = inputValue;
                             String json = GsonUtil.parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
-                                    context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, UrlInfo.getUrl().SalesOutstock__SubmitBarcode, json, null);
+                                    context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         } catch (Exception ex) {
                             CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
                             MessageBox.Show(context, "请输入正确的数量");
@@ -578,7 +586,7 @@ public  class SalesOutReview extends BaseActivity {
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",
-                                context, mHandler, RESULT_Saleoutstock_PostReview, null, UrlInfo.getUrl().SalesOutstock__Review_Submit, modelJson, null);
+                                context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
