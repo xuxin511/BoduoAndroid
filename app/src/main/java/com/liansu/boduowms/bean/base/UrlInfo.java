@@ -109,6 +109,10 @@ public class UrlInfo {
     public String  SalesOutstock_JudgeStock=GetWCFAdress()+ "Stock/GetT_ScanStockADFAsync";//判断托盘库存
     public String  SalesOutstock__SubmitBarcode = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
     public String  SalesOutstock__Review_Submit = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
+    //托运单保存
+    public String  SalesOutstock__Review_configSaveOrder = GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
+    public String  SalesOutstock__Review_configSelectOrder = GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单表头
+    public String  SalesOutstock__Review_configSelectOrderDetial = GetWCFAdress() + "WayBill/Get_WayBillDetail"; //获取托运单明细
     //endregion
 
     public  void InitUrl(int type) {
@@ -128,6 +132,9 @@ public class UrlInfo {
                 SalesOutstock_JudgeStock = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
                 SalesOutstock__SubmitBarcode = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
+                //托运单保存
+                SalesOutstock__Review_configSaveOrder =  GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
+                SalesOutstock__Review_configSelectOrder= GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单
                 break;
             case 46:
                 SalesOutstock_ScanningNo = GetWCFAdress() + "RawMaterialOut/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描

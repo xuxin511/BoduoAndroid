@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.alibaba.fastjson.JSON;
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.R;
@@ -23,6 +24,7 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
+import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutStcokboxRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter;
@@ -119,19 +121,18 @@ public  class SalesOutStockBox   extends BaseActivity {
         CurrOrder="";
         materialModle=new  MaterialResponseModel();
         stockInfoModels=new ArrayList<SalesoutStcokboxRequery>();
-        CurrVoucherType=29;
+        //重写路径
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+        int type=Integer.parseInt(data.toString());
+        info.InitUrl(type);
+        CurrVoucherType=type;
         modelIsExits=new HashMap<String, String>();
         Scanningtype=0;
         responseList=new ArrayList<OutStockOrderDetailInfo>();
     }
     protected void initData() {
         super.initData();
-        //重写路径
-        Intent intentMain = getIntent();
-        Uri data = intentMain.getData();
-   
-        int type=Integer.parseInt(data.toString());
-        info.InitUrl(type);
 
 
     }
@@ -269,7 +270,12 @@ public  class SalesOutStockBox   extends BaseActivity {
     private void  Click_showBoxList(View view){
         Intent intent = new Intent();
         //intent.setData(data);
-        Uri data = Uri.parse(String.valueOf(CurrVoucherType));
+        //本地单号传过去
+        Outbarcode_Requery model=new Outbarcode_Requery();
+        model.Barcode=CurrOrder;
+        model.Vouchertype=CurrVoucherType;
+        String json=  GsonUtil.parseModelToJson(model);
+        Uri data = Uri.parse(json);
         intent.setData(data);
         intent.setClass(context, SalesOutStockBoxList.class);
         startActivity(intent);

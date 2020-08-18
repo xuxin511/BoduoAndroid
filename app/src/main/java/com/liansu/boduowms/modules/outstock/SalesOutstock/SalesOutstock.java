@@ -203,7 +203,7 @@ public class SalesOutstock  extends BaseActivity  {
         CurrOrderNO="";
         mModel= new PurchaseReturnOffScanModel(context, mHandler);
         materialModle=new  MaterialResponseModel();
-         CurrVoucherType= 29;
+         CurrVoucherType= type; //
 
     }
 

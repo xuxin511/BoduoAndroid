@@ -6,6 +6,8 @@ import android.net.Uri;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockSalesConfig;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutReview;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBox;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
@@ -60,6 +62,9 @@ public class OutboundBusinessSubMenuModel {
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck));
             mItemIconList.add(R.drawable.set_tray_and_remove_tray);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_delivery_lcl));
+            mItemIconList.add(R.drawable.loading_truck);
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_loading_truck));
+
         } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK)) {
             mItemIconList.add(R.drawable.other_outbound);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
@@ -101,7 +106,7 @@ public class OutboundBusinessSubMenuModel {
                 //原材料发货下架
                 Uri data = Uri.parse("46");
                 intent.setData(data);
-                intent.setClass(mContext, SalesOutstock.class);
+                intent.setClass(mContext, OutstockRawmaterialActivity.class);
             }
             else  if(businessType.equals((OrderType.OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK))) {
                 //委外发料
@@ -137,7 +142,19 @@ public class OutboundBusinessSubMenuModel {
         else if (moduleName.equals(mContext.getString(R.string.main_menu_item_off_shelf_scan))) {
             intent = intent.setClass(mContext, BaseReviewScan.class);
             intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-        } else {
+
+        }else if(moduleName.equals((mContext.getString(((R.string.main_menu_item_loading_truck)))))) {
+            //装车
+            //销售出库装车
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
+                Uri data = Uri.parse("29");
+                intent.setData(data);
+                intent.setClass(mContext, OutstockSalesConfig.class);
+            }
+            intent.putExtra("BusinessType", businessType);
+        }
+
+        else {
             intent = null;
         }
        return intent;

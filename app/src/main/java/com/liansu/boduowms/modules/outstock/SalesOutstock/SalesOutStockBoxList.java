@@ -21,6 +21,7 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutStcokboxRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutsotckBxoListAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter;
@@ -85,9 +86,19 @@ public class SalesOutStockBoxList extends BaseActivity {
         //重写路径
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
+        Outbarcode_Requery model = new Outbarcode_Requery();
+        String arr=data.toString();
+        model = GsonUtil.parseJsonToModel(arr,Outbarcode_Requery.class);
+        //初始化加载列表
+        info.InitUrl(model.Vouchertype);
+        sales_outstock_boxlist_order.setText(model.Barcode);
+        if (!sales_outstock_boxlist_order.getText().toString().trim().equals("")) {
+            final Map<String, String> map = new HashMap<String, String>();
+            map.put("Erpvoucherno", model.Barcode);
+            RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GetBoxList, "订单提交中",
+                    context, mHandler, RESULT_Saleoutstock_GetBoxList, null, info.SalesOutstock_GetBoxList, map, null);
+        }
 
-        int type = Integer.parseInt(data.toString());
-        info.InitUrl(type);
     }
 
 

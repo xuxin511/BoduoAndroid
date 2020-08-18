@@ -132,6 +132,8 @@ public  class SalesOutReview extends BaseActivity {
     String CurrOrderNO;
 
 
+
+
     //据点集合
     Map<String,String> StrongholdcodeList=new HashMap<>();
 
@@ -144,21 +146,20 @@ public  class SalesOutReview extends BaseActivity {
         super.initViews();
         BaseApplication.toolBarTitle = new ToolBarTitle("市内发货装车", true);
         x.view().inject(this);
-        CurrvoucherType=29;
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+        int type=Integer.parseInt(data.toString());
+        info.InitUrl(type);
+        CurrvoucherType=type;
         CurrOrderNO="";
         mModel= new PurchaseReturnOffScanModel(context, mHandler);
         materialModle=new MaterialResponseModel();
+
     }
 
     @Override
     protected void initData() {
         super.initData();
-        //重写路径
-        Intent intentMain = getIntent();
-        Uri data = intentMain.getData();
-     
-        int type=Integer.parseInt(data.toString());
-        info.InitUrl(type);
     }
 
 
@@ -256,7 +257,7 @@ public  class SalesOutReview extends BaseActivity {
                     }
                     if (type.equals(OutStock_Submit_type_ppallet)) {
                         CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                        MessageBox.Show(context, "该托盘是拼托,请选择其它模式下架");
+                        MessageBox.Show(context, "该托盘是拼托,请确认");
                         return true;
                     }
                 }
@@ -275,6 +276,8 @@ public  class SalesOutReview extends BaseActivity {
     private void   Sales_outstock_review_Submit(View view) {
         if (IsSacnningOrder()) {
             if (!IsScanningOver()) {
+                //CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                //  MessageBox.Show(context, "订单未全部复核完成");
                 //部分复核
                 ISSubmit("订单未全部复核完成，确认提交吗");
             } else {

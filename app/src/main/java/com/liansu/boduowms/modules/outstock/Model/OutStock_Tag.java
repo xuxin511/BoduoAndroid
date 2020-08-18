@@ -2,7 +2,7 @@ package com.liansu.boduowms.modules.outstock.Model;
 
 public class OutStock_Tag {
 
-    //#region 下架
+
     public static String  TAG_Saleoutstock_SelectNO ="Sales_outstock_ScannNo";    // 销售出库单号扫描
     public static   final int   RESULT_Saleoutstock_SalesNO=123;
 
@@ -27,7 +27,6 @@ public class OutStock_Tag {
     public static String  TAG_Saleoutstock_SubmitParts_Submit ="Sales_outstock_ScannParts_Submit";    // 散件扫描托盘提交
     public static   final int   RESULT_Saleoutstock_ScannParts_Submit=129;
 
-    //endregion
 
     //#region 出库下架模式/复核barcode扫描类型
     public static   String   OutStock_Submit_type_parts="0";//散件
@@ -37,7 +36,7 @@ public class OutStock_Tag {
     public static   String   OutStock_Submit_type_ppallet="4"; //拼托
      //#endregion
 
-    //region 拼箱
+
     public static String  TAG_Saleoutstock_Box_SelectNO ="Sales_outstock_Box_SelectNO";    // 拼箱查询单号
     public static   final int   RESULT_Saleoutstock_Box_SelectNO=130;
 
@@ -50,11 +49,8 @@ public class OutStock_Tag {
     public static String  TAG_Saleoutstock_GetBoxList ="Sales_outstock_GetBoxList";    // 拼箱查询单号
     public static   final int   RESULT_Saleoutstock_GetBoxList=135;
 
-
     public static String  TAG_Saleoutstock_DelBox ="Sales_outstock_DelBox";    // 删除箱号
     public static   final int   RESULT_Saleoutstock_DelBox=136;
-
-
 
     public static String  TAG_Saleoutstock_ReviewOrder ="Sales_outstock_ReviewOrder";    // 复核判断单号是否存在库存
     public static   final int   RESULT_Saleoutstock_ReviewOrder=137;
@@ -66,9 +62,12 @@ public class OutStock_Tag {
     public static String  TAG_Saleoutstock_PostReview ="Sales_outstock_PostReview";    // 过账
     public static   final int   RESULT_Saleoutstock_PostReview=139;
 
-    //endregion
+    public static String  TAG_Saleoutstock_ConfigSelectOrder ="Sales_outstock_ConfigSelectOrder";    // 获取托运单信息
+    public static   final int   RESULT_Saleoutstock_ConfigSelectOrder=140;
 
-
-
+    public static String  TAG_Saleoutstock_ConfigSaveOrder ="Sales_outstock_ConfigSaveOrder";    // 保存托运单号
+    public static   final int   RESULT_Saleoutstock_ConfigSaveOrder=141;
+    public static String  TAG_Saleoutstock_ConfigSaveOrderDetail ="Sales_outstock_ConfigSaveOrderDetail";    // 获取托运单明细
+    public static   final int   RESULT_Saleoutstock_ConfigSaveOrderDetail=142;
 
 }

@@ -477,15 +477,18 @@ public class BaseOutStockBusinessModel extends BaseModel {
     public BaseMultiResultInfo<Boolean, Void> UpdateMaterialInfo(OutStockOrderDetailInfo detailInfo) {
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
         if (detailInfo != null) {
+            sortList = new ArrayList<OutStockOrderDetailInfo>();
             String rowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
             String rowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";
             String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
             boolean isexits = false;
+            sortList = mOrderDetailList;
             for (OutStockOrderDetailInfo info : mOrderDetailList) {
                 String sRowNo = info.getRowno() != null ? info.getRowno() : "";
                 String sRowDel = info.getRownodel() != null ? info.getRownodel() : "";
                 String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
                 if (sRowNo.equals(rowNo) && sRowDel.equals(rowDel)) {
+                    sortList.remove(info);
                     isexits = true;
                     //复核没有单号
 //                    if (erpVoucherNo.equals(sErpVoucherNo)) {
@@ -495,7 +498,12 @@ public class BaseOutStockBusinessModel extends BaseModel {
                         resultInfo.setHeaderStatus(false);
                         return resultInfo;
                     } else {
-                        //info.setRemainqty(arr);
+                        if(arr==0){
+                            sortList.add(sortList.size(), info);
+                        }else
+                        {
+                            sortList.add(0, info);
+                        }
                     }
                     resultInfo.setHeaderStatus(true);
                     break;
@@ -548,7 +556,13 @@ public class BaseOutStockBusinessModel extends BaseModel {
                         } else {
                             info.setRemainqty(arr);
                         }
-                        sortList.add(0, info);
+                        if(arr==0){
+                            sortList.add(sortList.size(), info);
+                        }else
+                        {
+                            sortList.add(0, info);
+                        }
+
                         resultInfo.setHeaderStatus(true);
                         return resultInfo;
                     }
