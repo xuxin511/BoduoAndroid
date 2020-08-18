@@ -26,7 +26,7 @@ public class TransferToStorageBillModel extends BaseOrderBillChoiceModel {
 
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
         super.onHandleMessage(msg);
         NetCallBackListener<String> listener = null;
         switch (msg.what) {

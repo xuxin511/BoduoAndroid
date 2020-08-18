@@ -70,6 +70,7 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
                         if (orderHeaderInfo != null) {
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
+                                mModel.sortDetailList(null);
                                 mView.bindListView(mModel.getOrderDetailList());
                             } else {
                                 MessageBox.Show(mContext, "获取表体信息为空");
@@ -92,6 +93,11 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
 
             }
         });
+    }
+
+    @Override
+    public void scanBarcode(String scanBarcode) {
+        super.scanBarcode(scanBarcode);
     }
 
     @Override

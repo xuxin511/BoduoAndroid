@@ -33,16 +33,21 @@ import static com.liansu.boduowms.utils.SharePreferUtil.readBluetoothPrinterMacA
  * @ Created by yangyiqing on 2020/7/7.
  */
 public class PrintBusinessModel extends BaseModel {
-    public              String                mMac                   = "";
+    public              String                mMac                         = "";
     private             PrintCallBackListener mPrintListener;
     //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙 -1 未选择
-    public static final int                   PRINTER_TYPE_LASER     = 1;
-    public static final int                   PRINTER_TYPE_DESKTOP   = 2;
-    public static final int                   PRINTER_TYPE_BLUETOOTH = 3;
-    public static final int                   PRINTER_TYPE_NONE      = -1;
+    public static final int                   PRINTER_TYPE_LASER           = 1;
+    public static final int                   PRINTER_TYPE_DESKTOP         = 2;
+    public static final int                   PRINTER_TYPE_BLUETOOTH       = 3;
+    public static final int                   PRINTER_TYPE_NONE            = -1;
+    public static final int                   PRINTER_LABEL_TYPE_OUTER_BOX = 1;
+    public static final int                   PRINTER_LABEL_TYPE_PALLET_NO = 2;
+    public static final int                   PRINTER_LABEL_TYPE_NONE      = -1;
+    public static final String                PRINTER_LABEL_NAME_PALLET_NO = "托盘标签";
+    public static final String                PRINTER_LABEL_NAME_OUTER_BOX = "外箱标签";
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
 
     }
 
@@ -94,11 +99,12 @@ public class PrintBusinessModel extends BaseModel {
 
     public void sendFileByList(List<PrintInfo> list) {
         if (list != null && list.size() > 0) {
-            for (PrintInfo info : list) {
-                if (!sendFile(info)) {
-                    break;
-                }
-            }
+            sendFile(list);
+//            for (PrintInfo info : list) {
+//                if (!sendFile(info)) {
+//                    break;
+//                }
+//            }
         }
     }
 
@@ -108,15 +114,15 @@ public class PrintBusinessModel extends BaseModel {
             mMac = UrlInfo.mBluetoothPrinterMacAddress;
             Connection connection = null;
             if (CommonCheckUtil.isEmptyOrNull(mMac)) {
-                MessageBox.Show(mContext, "蓝牙地址不存在，是否已保存?" );
+                MessageBox.Show(mContext, "蓝牙地址不存在，是否已保存?");
                 return false;
             }
             if (info == null) {
-                MessageBox.Show(mContext, "打印的数据信息不能为空" );
+                MessageBox.Show(mContext, "打印的数据信息不能为空");
                 return false;
             }
             if (info.getPrintType() == null || info.getPrintType().equals("")) {
-                MessageBox.Show(mContext, "打印的模板类型不能为空" );
+                MessageBox.Show(mContext, "打印的模板类型不能为空");
                 return false;
             }
             connection = new BluetoothConnection(mMac);
@@ -128,10 +134,56 @@ public class PrintBusinessModel extends BaseModel {
                 mPrintListener.afterPrint();
             }
         } catch (ConnectionException e) {
-            MessageBox.Show(mContext, e.getMessage() );
+            MessageBox.Show(mContext, e.getMessage());
             return false;
         } catch (ZebraPrinterLanguageUnknownException e) {
-            MessageBox.Show(mContext, e.getMessage() );
+            MessageBox.Show(mContext, e.getMessage());
+            return false;
+
+
+        }
+        return true;
+    }
+
+    /**
+     * @desc: 批量打印数据
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/14 17:22
+     */
+    public boolean sendFile(List<PrintInfo> list) {
+        try {
+            readBluetoothPrinterMacAddressShare(mContext);
+            mMac = UrlInfo.mBluetoothPrinterMacAddress;
+            Connection connection = null;
+            if (CommonCheckUtil.isEmptyOrNull(mMac)) {
+                MessageBox.Show(mContext, "蓝牙地址不存在，是否已保存?");
+                return false;
+            }
+            if (list == null ||list.size()==0) {
+                MessageBox.Show(mContext, "打印的数据信息不能为空");
+                return false;
+            }
+            if (list.get(0).getPrintType() == null || list.get(0).getPrintType().equals("")) {
+                MessageBox.Show(mContext, "打印的模板类型不能为空");
+                return false;
+            }
+            connection = new BluetoothConnection(mMac);
+            connection.open();
+            ZebraPrinter printer = ZebraPrinterFactory.getInstance(connection);
+            for (PrintInfo printInfo : list) {
+                sendFile(printer, printInfo);
+            }
+            connection.close();
+            if (mPrintListener != null) {
+                mPrintListener.afterPrint();
+            }
+        } catch (ConnectionException e) {
+            MessageBox.Show(mContext, e.getMessage());
+            return false;
+        } catch (ZebraPrinterLanguageUnknownException e) {
+            MessageBox.Show(mContext, e.getMessage());
             return false;
 
 
@@ -146,10 +198,10 @@ public class PrintBusinessModel extends BaseModel {
             printer.sendFileContents(filepath.getAbsolutePath());
             SettingsHelper.saveBluetoothAddress(mContext, mMac);
         } catch (ConnectionException e1) {
-            MessageBox.Show(mContext, "Error creating file" );
+            MessageBox.Show(mContext, "Error creating file");
 
         } catch (IOException e) {
-            MessageBox.Show(mContext, "Error creating file" );
+            MessageBox.Show(mContext, "Error creating file");
 
         }
     }
@@ -217,7 +269,7 @@ public class PrintBusinessModel extends BaseModel {
         String batchNo = info.getBatchNo() != null ? info.getBatchNo() : "";
         String spec = info.getSpec() != null ? info.getSpec() : "";
         int barcodeQty = (int) info.getQty();
-        int packQty=info.getPackQty();
+        float packQty = info.getPackQty();
 
         String QRCode = info.getQRCode() != null ? info.getQRCode() : "";
         String materialDesc1 = "";
@@ -332,7 +384,7 @@ public class PrintBusinessModel extends BaseModel {
         readBluetoothPrinterMacAddressShare(mContext);
         mMac = UrlInfo.mBluetoothPrinterMacAddress;
         if (CommonCheckUtil.isEmptyOrNull(mMac)) {
-            MessageBox.Show(mContext, "蓝牙地址不存在，是否已保存?" );
+            MessageBox.Show(mContext, "蓝牙地址不存在，请到设置页面设置?");
             isAccess = false;
         }
 

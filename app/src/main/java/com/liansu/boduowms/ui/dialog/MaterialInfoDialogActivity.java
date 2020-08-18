@@ -155,7 +155,8 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
             if (packQty != 0) {
                 mMaterialType = MATERIAL_INFO_TYPE_FINISHED_PRODUCT;
             } else {
-                mMaterialType = MATERIAL_INFO_TYPE_RAW_MATERIAL;
+//                mMaterialType = MATERIAL_INFO_TYPE_FINISHED_PRODUCT;
+//                mMaterialType = MATERIAL_INFO_TYPE_RAW_MATERIAL;
             }
             String materialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
             String materialName = info.getMaterialdesc() != null ? info.getMaterialdesc() : "";

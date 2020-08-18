@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".modules.outstock.SalesOutstock.OutstockSalesConfig" android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+
         <activity
             android:name=".modules.menu.MainActivity"
             android:label="@string/app_name" />
@@ -39,7 +40,7 @@
             android:theme="@style/MyDialogStyle" />
         <activity android:name=".modules.instock.combinePallet.InstockCombinePallet" />
         <activity android:name=".modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan" />
-        <activity android:name=".modules.inventoryMovement.InventoryMovementScan" />
+        <activity android:name=".modules.inHouseStock.inventoryMovement.InventoryMovementScan" />
         <activity android:name=".modules.qualityInspection.bill.QualityInspectionBill" />
         <activity android:name=".modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingScan" />
         <activity android:name=".modules.instock.productStorage.bill.ProductStorageBillChoice" />
@@ -70,6 +71,9 @@
         <activity android:name=".modules.outstock.SalesOutstock.SalesOutReview" android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint" />
         <activity android:name=".modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan" />
+        <activity android:name=".modules.instock.batchPrint.order.BaseOrderLabelPrintSelect" />
+        <activity android:name=".modules.instock.batchPrint.print.BaseOrderLabelPrint" />
+        <activity android:name=".modules.instock.transferToStorage.scan.TransferToStorageScan" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

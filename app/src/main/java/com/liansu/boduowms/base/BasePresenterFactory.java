@@ -21,7 +21,6 @@ import com.liansu.boduowms.modules.instock.purchaseStorage.bill.PurchaseStorageB
 import com.liansu.boduowms.modules.instock.purchaseStorage.scan.PurchaseStorageScanPresenter;
 import com.liansu.boduowms.modules.instock.salesReturn.bill.SalesReturnStorageBillPresenter;
 import com.liansu.boduowms.modules.instock.transferToStorage.bill.TransferToStorageBillPresenter;
-import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScanPresenter;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScanPresenter;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.IBaseReviewScanView;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.offScan.BaseOutStockBusinessPresenter;
@@ -83,7 +82,7 @@ public class BasePresenterFactory {
             } else if (businssType.equals(OrderType.IN_STOCK_ORDER_TYPE_OUTSOURCING_STORAGE)) {
                 presenter = new OutsourcingStorageScanPresenter(context, view, handler, orderHeaderInfo, barCodeInfos);
             } else if (businssType.equals(OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE)) {
-                presenter = new TransferToStorageScanPresenter(context, view, handler, orderHeaderInfo, barCodeInfos);
+//                presenter = new TransferToStorageScanPresenter(context, view, handler, orderHeaderInfo, barCodeInfos);
             } else if (businssType.equals(OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE)) {
                 presenter = new ActiveOtherScanPresenter(context, view, handler, orderHeaderInfo, barCodeInfos);
             } else if (businssType.equals(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE)) {

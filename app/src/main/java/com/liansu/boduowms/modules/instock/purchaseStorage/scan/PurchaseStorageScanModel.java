@@ -50,7 +50,7 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
     }
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
         switch (msg.what) {
             case RESULT_Msg_GetT_InStockDetailListByHeaderIDADF:
@@ -102,6 +102,22 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
     }
 
     /**
+     * @desc: 组托并提交入库
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/3 16:47
+     */
+    @Override
+    public void requestCombineAndReferPallet(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_SaveT_PurchaseDetailADFAsync", callBackListener);
+        String modelJson = parseModelListToJsonArray(list);
+        LogUtil.WriteLog(BaseOrderScan.class, TAG_SaveT_PurchaseDetailADFAsync, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveT_PurchaseDetailADFAsync, mContext.getString(R.string.message_request_refer_barcode_info), mContext, mHandler, RESULT_Msg_SaveT_PurchaseDetailADFAsync, null, UrlInfo.getUrl().SaveT_PurchaseDetailADFAsync, modelJson, null);
+    }
+
+
+    /**
      * @desc: 过账
      * @param:
      * @return:
@@ -126,7 +142,7 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
             String batchNo = outBarcodeInfo.getBatchno() != null ? outBarcodeInfo.getBatchno() : "";
             int barcodeQty = (int) outBarcodeInfo.getQty();
             int packQty=outBarcodeInfo.getPackQty();
-            String QRBarcode = materialNo+"%"+batchNo+"%"+packQty+"%"+outBarcodeInfo.getBarcodetype();
+            String QRBarcode = materialNo+"%"+batchNo+"%"+packQty+"%"+1;
             printInfo.setMaterialNo(materialNo);
             printInfo.setMaterialDesc(outBarcodeInfo.getMaterialdesc());
             printInfo.setBatchNo(batchNo);

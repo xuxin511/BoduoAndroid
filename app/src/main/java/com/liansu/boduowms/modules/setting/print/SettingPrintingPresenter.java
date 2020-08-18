@@ -47,9 +47,10 @@ public class SettingPrintingPresenter {
         onReadData();
     }
 
-   public SettingModel getModel(){
-        return  mModel;
-   }
+    public SettingModel getModel() {
+        return mModel;
+    }
+
     /**
      * @desc: 测试蓝牙打印
      * @param:
@@ -59,10 +60,11 @@ public class SettingPrintingPresenter {
      */
     public void onLabelTest() {
         try {
-            mPrintModel.onPrint(DebugModuleData.getRawMaterialLabel());
+//            mPrintModel.onPrint(DebugModuleData.getRawMaterialLabel());
 //        mPrintModel.onPrint( DebugModuleData.getRawMaterialLabel());
+            mPrintModel.onPrint(DebugModuleData.getRawMaterialLabelList());
         } catch (Exception ex) {
-            MessageBox.Show(mContext, ex.toString() );
+            MessageBox.Show(mContext, ex.toString());
         }
     }
 
@@ -78,28 +80,28 @@ public class SettingPrintingPresenter {
         try {
             String laserPrinterAddress = mView.getLaserPrinterAddress();
             String desktopPrintAddress = mView.getDesktopPrintAddress();
-            String inStockPrintAddress="";
-            String outStockPrintAddress="";
+            String inStockPrintAddress = "";
+            String outStockPrintAddress = "";
             String bluetoothPrinterMacAddress = mView.getBluetoothPrinterMacAddress();
             int inStockPrintType = mView.getInStockPrintType();
             int outStockPrintType = mView.getOutStockPrintType();
-            if(inStockPrintType==PrintBusinessModel.PRINTER_TYPE_LASER){
-                inStockPrintAddress=laserPrinterAddress;
-            }else if (inStockPrintType==PrintBusinessModel.PRINTER_TYPE_DESKTOP){
-                inStockPrintAddress=desktopPrintAddress;
+            if (inStockPrintType == PrintBusinessModel.PRINTER_TYPE_LASER) {
+                inStockPrintAddress = laserPrinterAddress;
+            } else if (inStockPrintType == PrintBusinessModel.PRINTER_TYPE_DESKTOP) {
+                inStockPrintAddress = desktopPrintAddress;
             }
-            if(outStockPrintType==PrintBusinessModel.PRINTER_TYPE_LASER){
-                outStockPrintAddress=laserPrinterAddress;
-            }else if (outStockPrintType==PrintBusinessModel.PRINTER_TYPE_DESKTOP){
-                outStockPrintAddress=desktopPrintAddress;
+            if (outStockPrintType == PrintBusinessModel.PRINTER_TYPE_LASER) {
+                outStockPrintAddress = laserPrinterAddress;
+            } else if (outStockPrintType == PrintBusinessModel.PRINTER_TYPE_DESKTOP) {
+                outStockPrintAddress = desktopPrintAddress;
             }
 
             setPrinterAddressShare(mContext, laserPrinterAddress, desktopPrintAddress);
             setBluetoothPrinterMacAddressShare(mContext, bluetoothPrinterMacAddress);
-            setBusinessPrinterType(mContext, inStockPrintType, inStockPrintAddress,outStockPrintType,outStockPrintAddress);
-            MessageBox.Show(mContext,"保存成功",MEDIA_MUSIC_NONE);
-        }catch (Exception e){
-            MessageBox.Show(mContext,"保存打印设置出现预期之外的异常:"+e.getMessage() );
+            setBusinessPrinterType(mContext, inStockPrintType, inStockPrintAddress, outStockPrintType, outStockPrintAddress);
+            MessageBox.Show(mContext, "保存成功", MEDIA_MUSIC_NONE);
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "保存打印设置出现预期之外的异常:" + e.getMessage());
         }
     }
 
@@ -132,8 +134,8 @@ public class SettingPrintingPresenter {
                     BaseResultInfo<List<String>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<String>>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        List<String> list=returnMsgModel.getData();
-                        if (list!=null && list.size()>0){
+                        List<String> list = returnMsgModel.getData();
+                        if (list != null && list.size() > 0) {
                             mModel.setDesktopPrinterAddressList(list);
                             mModel.setLaserPrinterAddressList(list);
                         }

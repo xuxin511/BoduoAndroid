@@ -84,7 +84,6 @@ public class ProductionReturnsPrint extends BaseActivity implements IProductionR
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
 
-
             switch (v.getId()) {
                 case R.id.txt_VoucherNo:
                     String erpVoucherNo=mErpVoucherNo.getText().toString().trim();

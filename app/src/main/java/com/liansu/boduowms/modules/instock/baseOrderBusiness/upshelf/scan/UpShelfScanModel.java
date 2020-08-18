@@ -17,7 +17,7 @@ public class UpShelfScanModel extends BaseModel {
     }
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
 
     }
 //    String TAG_GetT_InStockDetailListByHeaderIDADF = "ReceiptionScan_GetT_InStockDetailListByHeaderIDADF";

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="5dp">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -12,14 +13,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.27" />
+
     <Switch
-        android:visibility="gone"
         android:id="@+id/receiption_scan_module_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="-42dp"
-        android:layout_marginTop="16dp"
         android:checked="false"
         android:showText="true"
         android:splitTrack="true"
@@ -31,135 +29,116 @@
         android:textOn="@string/receipt_scan_module_type_pallet_scan"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:checked="false" />
+
     <TextView
         android:id="@+id/textView5"
         style="@style/TextViewComminStyle"
-        android:layout_width="0dp"
+        android:layout_width="111dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/receipt_scan_bill_no"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_VoucherNo"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/receiption_scan_module_type" />
+        app:layout_constraintTop_toTopOf="@+id/txt_VoucherNo" />
 
     <include
-        android:visibility="gone"
         android:id="@+id/include5"
         layout="@layout/material_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="3dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiption_scan_out_barcode_desc" />
+        android:layout_marginBottom="3dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/lsv_ReceiptScan"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/txt_VoucherNo"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/activity_product_storage_scan_margin_top"
         android:gravity="left"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintLeft_toRightOf="@+id/textView5"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/textView10"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="3dp"
         android:text="@string/barcode"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/receiption_scan_out_barcode_desc"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <TextView
         android:id="@+id/receiption_scan_out_barcode_desc"
         style="@style/TextViewComminStyle"
-        android:layout_width="0dp"
+        android:layout_width="111dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/barcode"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintBottom_toBottomOf="@+id/receiption_scan_out_barcode"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/receiption_scan_out_barcode" />
 
     <EditText
-       android:layout_marginTop="5dp"
         android:id="@+id/receiption_scan_out_barcode"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/activity_product_storage_scan_margin_top"
         android:hint="@string/receipt_scan_hint_scan_barcode"
-        app:layout_constraintTop_toBottomOf="@+id/edt_area_no"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_area_no" />
 
     <EditText
-        android:visibility="gone"
         android:id="@+id/edt_RecScanBarcode"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="-2dp"
         android:hint="@string/receipt_scan_hint_scan_pallet_no"
-        app:layout_constraintBottom_toBottomOf="@+id/textView10"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:visibility="gone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/receiption_scan_out_barcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent" />
 
 
     <TextView
-        android:gravity="right"
         android:id="@+id/textView33"
         style="@style/TextViewComminStyle"
-        android:layout_width="0dp"
+        android:layout_width="111dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:gravity="right"
         android:text="@string/area_no"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_area_no"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="@+id/edt_area_no" />
 
     <EditText
         android:id="@+id/edt_area_no"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/activity_product_storage_scan_margin_top"
         android:hint="请扫描库位"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintBottom_toTopOf="@+id/receiption_scan_out_barcode"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView33" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_VoucherNo" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -174,37 +153,41 @@
         android:id="@+id/btn_refer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
         android:background="@drawable/bt_selector"
         android:text="@string/receipt_scan_combine_refer"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/btn_transfer_submission"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_transfer_submission"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lsv_ReceiptScan" />
+
     <Button
-        android:visibility="gone"
         android:id="@+id/btn_transfer_submission"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bt_selector"
         android:text="@string/receipt_scan_transfer_submission"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/btn_refer"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_refer"
+        app:layout_constraintTop_toBottomOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/lsv_ReceiptScan"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="7dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_refer"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include5"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/receiption_scan_out_barcode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

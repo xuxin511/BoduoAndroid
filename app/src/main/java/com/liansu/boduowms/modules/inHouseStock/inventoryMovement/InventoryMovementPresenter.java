@@ -1,4 +1,4 @@
-package com.liansu.boduowms.modules.inventoryMovement;
+package com.liansu.boduowms.modules.inHouseStock.inventoryMovement;
 
 import android.content.Context;
 import android.os.Message;

@@ -47,7 +47,7 @@ public class SaleReturnPrintModel extends BaseModel {
     }
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
         switch (msg.what) {
             case RESULT_TAG_GET_T_SALE_RETURN_DETAIL_LIST_ADF_ASYNC:
@@ -114,25 +114,23 @@ public class SaleReturnPrintModel extends BaseModel {
 //物料规格（ERP获取）
 //采购批次或供应商批次（手工录入）
 //物料数量（手工录入）
-    protected PrintInfo getPrintModel(OutBarcodeInfo outBarcodeInfo) {
-        PrintInfo printInfo = null;
-        if (outBarcodeInfo != null) {
-            printInfo = new PrintInfo();
-            String materialNo = outBarcodeInfo.getMaterialno() != null ? outBarcodeInfo.getMaterialno() : "";
-            String materialDesc = outBarcodeInfo.getMaterialdesc() != null ? outBarcodeInfo.getMaterialdesc() : "";
-            String batchNo = outBarcodeInfo.getBatchno() != null ? outBarcodeInfo.getBatchno() : "";
-            String spec = outBarcodeInfo.getSpec() != null ? outBarcodeInfo.getSpec() : "";
-            int barcodeQty = (int) outBarcodeInfo.getQty();
+    protected PrintInfo getPrintModel(PrintInfo info) {
+        if (info != null) {
+            String materialNo = info.getMaterialNo() != null ? info.getMaterialNo() : "";
+            String materialDesc = info.getMaterialDesc() != null ? info.getMaterialDesc() : "";
+            String batchNo = info.getBatchNo() != null ? info.getBatchNo() : "";
+            String spec = info.getSpec() != null ? info.getSpec() : "";
+            int barcodeQty = (int) info.getQty();
             String QRBarcode = materialNo + "%" + batchNo + "%" + barcodeQty + "%" + PrintType.PRINT_LABEL_TYPE_RAW_MATERIAL;
-            printInfo.setMaterialNo(materialNo);
-            printInfo.setMaterialDesc(outBarcodeInfo.getMaterialdesc());
-            printInfo.setBatchNo(batchNo);
-            printInfo.setQty(barcodeQty);
-            printInfo.setQRCode(QRBarcode);
-            printInfo.setSpec(spec);
-            printInfo.setPrintType(PrintType.PRINT_TYPE_RAW_MATERIAL_STYLE);
+            info.setMaterialNo(materialNo);
+            info.setMaterialDesc(info.getMaterialDesc());
+            info.setBatchNo(batchNo);
+            info.setQty(barcodeQty);
+            info.setQRCode(QRBarcode);
+            info.setSpec(spec);
+            info.setPrintType(PrintType.PRINT_TYPE_RAW_MATERIAL_STYLE);
         }
-        return printInfo;
+        return info;
 
 
     }

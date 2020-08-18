@@ -39,7 +39,7 @@ public class NoSourceOtherStorageScanModel extends BaseOrderScanModel {
     }
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
         switch (msg.what) {
             case RESULT_Msg_GetT_InStockDetailListByHeaderIDADF:

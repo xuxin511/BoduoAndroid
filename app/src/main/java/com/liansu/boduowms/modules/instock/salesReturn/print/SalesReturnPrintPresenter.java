@@ -212,19 +212,19 @@ public class SalesReturnPrintPresenter {
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {  //托盘码打印成功后，打印外箱码
                         List<PrintInfo> printInfoList = new ArrayList<>();
                         for (int i = 0; i < printCount; i++) {
-                            OutBarcodeInfo info = new OutBarcodeInfo();
-                            info.setMaterialno(materialNo);
-                            info.setMaterialdesc(materialName);
-                            info.setBatchno(batchNo);
+                                PrintInfo info = new PrintInfo();
+                            info.setMaterialNo(materialNo);
+                            info.setMaterialDesc(materialName);
+                            info.setBatchNo(batchNo);
                             info.setSpec(mModel.getSpec(materialNo));
                             if (i == printCount - 1) {  //最后一箱数量 ，余数等于0 就是包装量 ,模大于零 就去余数
                                 if (lastPackQty == 0) {
-                                    info.setQty(packCount);
+                                    info.setPackQty(packCount);
                                 } else {
-                                    info.setQty(lastPackQty);
+                                    info.setPackQty(lastPackQty);
                                 }
                             } else {
-                                info.setQty(packCount);
+                                info.setPackQty(packCount);
                             }
 
                             printInfoList.add(mModel.getPrintModel(info));

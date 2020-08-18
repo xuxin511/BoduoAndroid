@@ -47,7 +47,7 @@
                     android:layout_weight="1"
                     android:layout_margin="3dp"
                     android:textColor="@color/mediumpurple"
-                    android:textSize="13sp"/>
+                    android:textSize="11sp"/>
 
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:layout_weight="1"
                     android:layout_margin="3dp"
                     android:textColor="@color/mediumpurple"
-                    android:textSize="13sp"/>
+                    android:textSize="11sp"/>
 
                 <TextView
                     android:id="@+id/txtScanNum"
@@ -66,6 +66,6 @@
                     android:layout_weight="1"
                     android:layout_margin="3dp"
                     android:textColor="@color/red"
-                    android:textSize="13sp"/>
+                    android:textSize="11sp"/>
         </LinearLayout>
 </LinearLayout>

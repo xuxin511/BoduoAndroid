@@ -13,6 +13,10 @@
     <dimen name="activity_purchase_inspection_text_size">16sp</dimen>
     <dimen name="activity_return_sales_print_margin_left">8dp</dimen>
     <dimen name="activity_random_inspection_margin_top">3dp</dimen>
+    <dimen name="base_order_label_print_select_text_size">15sp</dimen>
+    <dimen name="base_order_label_print_margin_top">5dp</dimen>
+    <dimen name="base_order_label_print_edit_text_height">40dp</dimen>
+    <dimen name="activity_product_storage_scan_margin_top">2dp</dimen>
 
 <!-- font size,you can add if there is no one -->
 <dimen name="sp_6">6sp</dimen>

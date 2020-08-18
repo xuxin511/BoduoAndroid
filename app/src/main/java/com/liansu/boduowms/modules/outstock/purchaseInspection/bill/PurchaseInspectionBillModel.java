@@ -38,7 +38,7 @@ public class PurchaseInspectionBillModel extends BaseModel {
 
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
         switch (msg.what) {
             case RESULT_TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC:
