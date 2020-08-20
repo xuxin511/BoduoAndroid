@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
+import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
@@ -108,5 +109,9 @@ public class RandomInspectionBillPresenter {
     public void onReset() {
         mView.onReset();
         mModel.onReset();
+    }
+
+    public String getTitle() {
+        return mContext.getString(R.string.quality_inspection_title_list_name) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 }

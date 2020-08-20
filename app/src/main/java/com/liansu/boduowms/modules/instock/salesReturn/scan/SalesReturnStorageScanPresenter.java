@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
+import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.QRCodeFunc;
@@ -274,5 +275,10 @@ public class SalesReturnStorageScanPresenter {
     public void onReset() {
         mView.onReset();
         mModel.onReset();
+    }
+
+
+    public String getTitle() {
+        return mContext.getResources().getString(R.string.appbar_title_sales_return_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 }

@@ -1,10 +1,13 @@
 package com.liansu.boduowms.bean.menu;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @ Des:
  * @ Created by yangyiqing on 2020/7/9.
  */
-public class MenuChildrenInfo {
+public class MenuChildrenInfo implements Parcelable {
     /**
      * Id : 14
      * path : 22
@@ -20,8 +23,45 @@ public class MenuChildrenInfo {
     private String    component;
     private Object    name;
     private Object    icon;
-    private String    title;
-    private MetaBeanX meta;
+    private String           title;
+    private MenuMetaInfo     meta;
+    private MenuChildrenInfo children;
+
+    protected MenuChildrenInfo(Parcel in) {
+        Id = in.readInt();
+        path = in.readString();
+        component = in.readString();
+        title = in.readString();
+        meta = in.readParcelable(MenuMetaInfo.class.getClassLoader());
+        children = in.readParcelable(MenuChildrenInfo.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(Id);
+        dest.writeString(path);
+        dest.writeString(component);
+        dest.writeString(title);
+        dest.writeParcelable(meta, flags);
+        dest.writeParcelable(children, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<MenuChildrenInfo> CREATOR = new Creator<MenuChildrenInfo>() {
+        @Override
+        public MenuChildrenInfo createFromParcel(Parcel in) {
+            return new MenuChildrenInfo(in);
+        }
+
+        @Override
+        public MenuChildrenInfo[] newArray(int size) {
+            return new MenuChildrenInfo[size];
+        }
+    };
 
     public int getId() {
         return Id;
@@ -71,67 +111,19 @@ public class MenuChildrenInfo {
         this.title = title;
     }
 
-    public MetaBeanX getMeta() {
+    public MenuMetaInfo getMeta() {
         return meta;
     }
 
-    public void setMeta(MetaBeanX meta) {
+    public void setMeta(MenuMetaInfo meta) {
         this.meta = meta;
     }
 
-    public static class MetaBeanX {
-        /**
-         * Id : 14
-         * keepalive : false
-         * internalOrExternal : false
-         * title : 到货入库
-         * icon : null
-         */
+    public MenuChildrenInfo getChildren() {
+        return children;
+    }
 
-        private int     Id;
-        private boolean keepalive;
-        private boolean internalOrExternal;
-        private String  title;
-        private Object  icon;
-
-        public int getId() {
-            return Id;
-        }
-
-        public void setId(int Id) {
-            this.Id = Id;
-        }
-
-        public boolean isKeepalive() {
-            return keepalive;
-        }
-
-        public void setKeepalive(boolean keepalive) {
-            this.keepalive = keepalive;
-        }
-
-        public boolean isInternalOrExternal() {
-            return internalOrExternal;
-        }
-
-        public void setInternalOrExternal(boolean internalOrExternal) {
-            this.internalOrExternal = internalOrExternal;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public Object getIcon() {
-            return icon;
-        }
-
-        public void setIcon(Object icon) {
-            this.icon = icon;
-        }
+    public void setChildren(MenuChildrenInfo children) {
+        this.children = children;
     }
 }

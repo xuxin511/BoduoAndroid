@@ -11,9 +11,7 @@ import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.menu.IMenuPresenter;
 import com.liansu.boduowms.modules.menu.IMenuView;
 import com.liansu.boduowms.modules.menu.outboundBusiness.subMenu.OutboundBusinessSubMenu;
-import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
-import com.liansu.boduowms.modules.outstock.offScan.DistributionOffShelf;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import java.util.ArrayList;
@@ -48,22 +46,22 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
                 if (!CommonUtil.isNumeric(nodUrl)) continue;
                 int Node = Integer.parseInt(nodUrl);
                 switch (Node) {
-                    case 25:
-                        itemIconList.add(R.drawable.transfer_out_of_warehouse);
-                        itemNamesList.add(mContext.getString(R.string.main_menu_item_transfer_out_of_warehouse));
-                        break;
-                    case 27:
-                        itemIconList.add(R.drawable.purchase_returns);
-                        itemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-                        break;
+//                    case 25:
+//                        itemIconList.add(R.drawable.transfer_out_of_warehouse);
+//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_transfer_out_of_warehouse));
+//                        break;
+//                    case 27:
+//                        itemIconList.add(R.drawable.purchase_returns);
+//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
+//                        break;
+////                    case 30:
+////                        itemIconList.add(R.drawable.sales_out_of_stock);
+////                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_of_stock));
+////                        break;
 //                    case 30:
 //                        itemIconList.add(R.drawable.sales_out_of_stock);
-//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_of_stock));
+//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_stock));
 //                        break;
-                    case 30:
-                        itemIconList.add(R.drawable.sales_out_of_stock);
-                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_stock));
-                        break;
                 }
             }    //cion和iconName的长度是相同的，这里任选其一都可以
 
@@ -101,14 +99,9 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
         }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_sales_out_stock))) {
           intent.setClass(mContext, OutboundBusinessSubMenu.class);
           intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK);
-      }
-          else if(moduleName.equals(mContext.getString(R.string.main_menu_item_rowmaterial_lcl))) {//原材料出库
-          intent.setClass(mContext, OutboundBusinessSubMenu.class);
-          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK);
-      }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_outsourc_lcl))) {//委外装车发料
-          intent.setClass(mContext, OutboundBusinessSubMenu.class);
-          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK);
-      }
+//            intent = intent.setClass(mContext, SalesOutstock.class);
+//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK);
+        }
 
 
         if (intent != null) {

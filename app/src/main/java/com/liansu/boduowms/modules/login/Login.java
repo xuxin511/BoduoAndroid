@@ -18,6 +18,7 @@ import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
 import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.menu.MainActivity;
 import com.liansu.boduowms.modules.setting.SettingMainActivity;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.SharePreferUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -59,6 +60,14 @@ public class Login extends BaseActivity implements ILoginView {
     protected void initViews() {
         BaseApplication.context = mContext;
         x.view().inject(this);
+        txtVersion.setText(getString(R.string.login_Version) + (updateVersionService.getVersionCode(mContext)));
+        DebugModuleData.setDebugDataStatus(mContext, DEBUG_DATA_STATUS_OFFLINE);
+        super.initViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         SharePreferUtil.ReadShare(mContext);
         SharePreferUtil.ReadUserShare(mContext);
         SharePreferUtil.ReadWareHouseInfoShare(mContext);
@@ -70,14 +79,6 @@ public class Login extends BaseActivity implements ILoginView {
         if (BaseApplication.mCurrentWareHouseInfo != null) {
             mWareHouseName.setText(BaseApplication.mCurrentWareHouseInfo.getWarehousename());
         }
-        txtVersion.setText(getString(R.string.login_Version) + (updateVersionService.getVersionCode(mContext)));
-        DebugModuleData.setDebugDataStatus(mContext, DEBUG_DATA_STATUS_OFFLINE);
-        super.initViews();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (mPresenter == null) {
             mPresenter = new LoginPresenter(mContext, this, mHandler);
         }
@@ -139,6 +140,12 @@ public class Login extends BaseActivity implements ILoginView {
                         public void onClick(DialogInterface dialog, int which) {
                             // TODO 自动生成的方法存根
                             String select_item = items[which].toString();
+                            String userNo = mUserNo.getText().toString().trim();
+                            if (!userNo.equals( BaseApplication.mCurrentUserInfo.getUserno())){
+                                MessageBox.Show(mContext,"正在登陆的用户:["+userNo+"]和已登陆的用户:["+BaseApplication.mCurrentUserInfo.getUserno()+"]不一致,请重新登录再选择仓库");
+                                dialog.dismiss();
+                                return;
+                            }
                             WareHouseInfo wareHouseInfo = BaseApplication.mCurrentUserInfo.getModelListWarehouse().get(which);
                             mWareHouseName.setText(select_item);
                             BaseApplication.mCurrentWareHouseInfo = wareHouseInfo;

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:icon="@drawable/outbound_business_icon"
-        android:id="@+id/menu_sale_return_icon"
-        android:orderInCategory="80"
-        android:title="@string/jump"
-        app:showAsAction="always" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+  >
+
     <item
         android:id="@+id/user_setting_warehouse_select"
         android:orderInCategory="80"
         android:title="@string/setting_user_select_warehouse_no"
         app:showAsAction="ifRoom" />
+
+
 </menu>

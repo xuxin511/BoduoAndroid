@@ -54,19 +54,19 @@ public class StorageBusinessMenuPresenter extends IMenuPresenter {
                 if (!CommonUtil.isNumeric(path)) continue;
                 int Node = Integer.parseInt(path);
                 switch (Node) {
-                    case 22:
-                        itemIconList.add(R.drawable.purchase_storage_icon);  //到货入库
-                        itemNamesList.add(mContext.getString(R.string.main_menu_item_purchase_storage));
-                        break;
-                    case 24:
-                        itemIconList.add(R.drawable.transfer_to_storage);  //调拨入库
-                        itemNamesList.add(mContext.getString(R.string.main_menu_item_transfer_to_storage));
-                        break;
-                    case 26:
-                        itemIconList.add(R.drawable.sales_return);  //销售退货
-                        itemNamesList.add(mContext.getString(R.string.main_menu_item_active_sales_return));
-                        break;
-
+//                    case 22:
+//                        itemIconList.add(R.drawable.purchase_storage_icon);  //到货入库
+//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_purchase_storage));
+//                        break;
+//                    case 24:
+//                        itemIconList.add(R.drawable.transfer_to_storage);  //调拨入库
+//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_transfer_to_storage));
+//                        break;
+//                    case 26:
+//                        itemIconList.add(R.drawable.sales_return);  //销售退货
+//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_active_sales_return));
+//                        break;
+//
 
                 }
             }

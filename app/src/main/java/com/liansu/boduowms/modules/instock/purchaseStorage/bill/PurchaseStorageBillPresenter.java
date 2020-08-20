@@ -139,4 +139,10 @@ public class PurchaseStorageBillPresenter extends BaseOrderBillChoicePresenter<I
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 }

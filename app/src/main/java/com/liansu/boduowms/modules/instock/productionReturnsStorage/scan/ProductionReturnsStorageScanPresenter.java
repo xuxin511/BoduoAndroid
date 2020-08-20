@@ -46,7 +46,7 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_production_returns_scan);
+        return mContext.getResources().getString(R.string.appbar_title_production_returns_scan)+ "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 
 

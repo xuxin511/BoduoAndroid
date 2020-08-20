@@ -29,6 +29,7 @@ import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.instock.combinePallet.InstockCombinePallet;
 import com.liansu.boduowms.modules.print.LabelReprint.LabelReprintScan;
+import com.liansu.boduowms.modules.setting.SettingMainActivity;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -171,7 +172,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
             mPresenter.getOrderDetailInfoList();
             IS_START = -1;
         }
-
+       getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
     }
 
     @Event(value = R.id.edt_area_no, type = View.OnKeyListener.class)
@@ -265,6 +266,8 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
 //        bundle.putParcelableArrayList("orderDetailList", mPresenter.getModel().getReceiptDetailModels());
             intent.putExtras(bundle);
             startActivityLeft(intent);
+        }else if (item.getItemId()==R.id.menu_setting){
+            startActivityLeft(new Intent(mContext, SettingMainActivity.class));
         }
 
         return false;
