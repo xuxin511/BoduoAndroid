@@ -174,7 +174,6 @@ public class PrintBusinessModel extends BaseModel {
             ZebraPrinter printer = ZebraPrinterFactory.getInstance(connection);
             for (PrintInfo printInfo : list) {
                 sendFile(printer, printInfo);
-                Thread.sleep(200);
             }
             connection.close();
             if (mPrintListener != null) {
@@ -187,10 +186,6 @@ public class PrintBusinessModel extends BaseModel {
             MessageBox.Show(mContext, e.getMessage());
             return false;
 
-
-        } catch (InterruptedException e) {
-            MessageBox.Show(mContext, e.getMessage());
-            return false;
 
         }
         return true;

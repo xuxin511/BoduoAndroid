@@ -33,20 +33,26 @@ public class BaseOrderLabelPrintPresenter {
     protected BaseOrderLabelPrintModel mModel;
     protected IBaseOrderLabelPrintView mView;
     protected PrintBusinessModel       mPrintModel;
+    protected   MyHandler<BaseActivity> mHandler;
+    protected  final  int  PRINT_OUTER_BOX=10003;
+
+
     PrintCallBackListener mPrintCallBackListener = new PrintCallBackListener() {
         @Override
         public void afterPrint() {
-            MessageBox.Show(mContext, "打印成功!", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-//                    mView.onReset();
-                }
-            });
+            Message message=new Message();
+            message.what=PRINT_OUTER_BOX;
+            mHandler.sendMessage(message);
         }
     };
 
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
+        switch (msg.what){
+            case PRINT_OUTER_BOX:
+                mView.onReset();
+                break;
+        }
     }
 
     public BaseOrderLabelPrintPresenter(Context context, IBaseOrderLabelPrintView view, MyHandler<BaseActivity> handler) {
@@ -55,6 +61,7 @@ public class BaseOrderLabelPrintPresenter {
         this.mModel = new BaseOrderLabelPrintModel(mContext, handler);
         this.mPrintModel = new PrintBusinessModel(context, handler);
         this.mPrintModel.setPrintCallBackListener(mPrintCallBackListener);
+        this.mHandler=handler;
     }
 
     public BaseOrderLabelPrintModel getModel() {

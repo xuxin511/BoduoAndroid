@@ -81,7 +81,7 @@ public class BaseOrderLabelPrintModel extends BaseModel {
             String batchNo = printInfo.getBatchNo() != null ? printInfo.getBatchNo() : "";
             String spec = printInfo.getSpec() != null ? printInfo.getSpec() : "";
             int barcodeQty = (int) printInfo.getQty();
-            String QRBarcode = materialNo + "%" + batchNo + "%" + barcodeQty + "%" + PrintType.PRINT_LABEL_TYPE_RAW_MATERIAL;
+            String QRBarcode = materialNo + "%" + batchNo + "%" + printInfo.getPackQty() + "%" + PrintType.PRINT_LABEL_TYPE_RAW_MATERIAL;
             printInfo.setMaterialNo(materialNo);
             printInfo.setMaterialDesc(materialDesc);
             printInfo.setBatchNo(batchNo);

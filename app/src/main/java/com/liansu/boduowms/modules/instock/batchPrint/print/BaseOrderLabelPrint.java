@@ -103,6 +103,16 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                 case R.id.base_order_label_print_batch_no:
                     if (mPresenter != null) {
                         String batchNo = mBatchNo.getText().toString().trim();
+                        if (batchNo.equals("")){
+                            MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onBatchNoFocus();
+
+                                }
+                            });
+                            return false;
+                        }
                         if (!DateUtil.isBeforeOrCompareToday(batchNo, "yyyyMMdd")) {
                             MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
@@ -205,6 +215,11 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
             mRemainQty.setText(printInfoData.getRemainqty() + "");
 
             if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
+                if (printInfoData.getPackQty()>0){
+                    mPackQty.setEnabled(false);
+                }else {
+                    mPackQty.setEnabled(true);
+                }
                 mPackQty.setText(printInfoData.getPackQty() + "");
                 mPrintCount.setText("0");
             } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {

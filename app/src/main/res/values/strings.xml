@@ -216,8 +216,8 @@
     <string name="quality_inspection_barcode_no_desc">条码:</string>
     <string name="quality_inspection_qty_desc">抽检数量:</string>
     <string name="quality_inspection_title_list_name">抽检列表</string>
-    <string name="outbarcode_info_material_no_desc">物料编号:</string>
-    <string name="outbarcode_info_material_name_desc">物料名称:</string>
+    <string name="outbarcode_info_material_no_desc">料号:</string>
+    <string name="outbarcode_info_material_name_desc">品名:</string>
     <string name="outbarcode_info_material_batch_desc">批次编号:</string>
     <string name="outbarcode_info_random_inspection_qty_desc">单据数量:</string>
     <string name="random_inspection_voucher_qty_desc">送验量:</string>
@@ -424,7 +424,7 @@
     <string name="order_type_desc">订单类型:</string>
     <string name="order_no_desc">单据编号:</string>
     <string name="order_no_desc_hint">请扫描或输入单据编号</string>
-    <string name="material_no_desc_hint">请扫描或输入描据编号</string>
+    <string name="material_no_desc_hint">请扫描外箱标签或输入料号</string>
     <string name="remain_qty_desc">可打印数:</string>
     <string name="pack_qty_hint">可输入包装量</string>
     <string name="pallet_no_hint">可输入整托数量</string>
