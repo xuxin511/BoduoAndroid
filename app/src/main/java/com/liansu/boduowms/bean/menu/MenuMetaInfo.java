@@ -1,10 +1,13 @@
 package com.liansu.boduowms.bean.menu;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @ Des:
  * @ Created by yangyiqing on 2020/7/9.
  */
-public class MenuMetaInfo {
+public class MenuMetaInfo implements Parcelable {
     /**
      * Id : 13
      * keepalive : false
@@ -18,6 +21,25 @@ public class MenuMetaInfo {
     private boolean internalOrExternal;
     private String  title;
     private Object  icon;
+
+    protected MenuMetaInfo(Parcel in) {
+        Id = in.readInt();
+        keepalive = in.readByte() != 0;
+        internalOrExternal = in.readByte() != 0;
+        title = in.readString();
+    }
+
+    public static final Creator<MenuMetaInfo> CREATOR = new Creator<MenuMetaInfo>() {
+        @Override
+        public MenuMetaInfo createFromParcel(Parcel in) {
+            return new MenuMetaInfo(in);
+        }
+
+        @Override
+        public MenuMetaInfo[] newArray(int size) {
+            return new MenuMetaInfo[size];
+        }
+    };
 
     public int getId() {
         return Id;
@@ -57,5 +79,18 @@ public class MenuMetaInfo {
 
     public void setIcon(Object icon) {
         this.icon = icon;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(Id);
+        dest.writeByte((byte) (keepalive ? 1 : 0));
+        dest.writeByte((byte) (internalOrExternal ? 1 : 0));
+        dest.writeString(title);
     }
 }

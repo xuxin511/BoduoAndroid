@@ -15,9 +15,10 @@
         android:title="@string/label_reprint"
         app:showAsAction="always" />
     <item
-        android:visible="false"
-        android:id="@+id/menu_order_setting"
+        android:id="@+id/menu_setting"
         android:orderInCategory="80"
-        android:title="@string/return_storage_scan_menu_print"
-        app:showAsAction="always" />
+        android:title="@string/setting"
+        app:showAsAction="never"/>
+
+
 </menu>

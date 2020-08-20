@@ -45,10 +45,10 @@ public class InHouseManagementMenuPresenter extends IMenuPresenter {
                 if (!CommonUtil.isNumeric(nodUrl)) continue;
                 int Node = Integer.parseInt(nodUrl);
                 switch (Node) {
-                    case 34:
-                        itemIconList.add(R.drawable.mobile_warehouse_inventory);
-                        itemNamesList.add(mContext.getString(R.string.main_menu_item_mobile_warehouse_inventory));
-                        break;
+//                    case 34:
+//                        itemIconList.add(R.drawable.mobile_warehouse_inventory);
+//                        itemNamesList.add(mContext.getString(R.string.main_menu_item_mobile_warehouse_inventory));
+//                        break;
 
                 }
             }    //cion和iconName的长度是相同的，这里任选其一都可以

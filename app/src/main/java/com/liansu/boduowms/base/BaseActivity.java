@@ -297,4 +297,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
         }
 
 
+
+      public ToolBarHelper  getToolBarHelper(){
+        return  mToolBarHelper;
+      }
 }

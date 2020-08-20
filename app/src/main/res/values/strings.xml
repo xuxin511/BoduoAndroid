@@ -66,7 +66,7 @@
     <string name="offScan">下架扫描</string>
     <string name="name">名称:</string>
     <string name="request_print_order_purchase_return">正在打印验退单据..</string>
-
+    <string name="setting">设置</string>
 
     //接口
     <string name="Msg_request_material_info">获取校验物料信息...</string>
@@ -106,6 +106,7 @@
     <string name="setting_print_printer_name_hint">请选择或输入打印机名称</string>
     <string name="setting_print_bluetooth_printer_desc_hint">请选择或输入MAC地址</string>
     <string name="setting_print_request_get_print_name_list">正在获取打印机名称列表信息...</string>
+    <string name="setting_user_select_warehouse_no">切换仓库</string>
     //登录
     <string name="Msg_Verifying_Permission_information">正在校验权限信息！</string>
     //主菜单

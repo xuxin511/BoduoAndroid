@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
+import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
+import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
@@ -53,7 +55,9 @@ public class BaseOrderLabelPrintSelectPresenter {
     public BaseOrderLabelPrintSelectModel getModel() {
         return mModel;
     }
-
+    public  String  getTitle(){
+     return    mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+    }
     /**
      * @desc: 获取订单类型数据
      * @param:

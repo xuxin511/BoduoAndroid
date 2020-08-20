@@ -1,8 +1,11 @@
 package com.liansu.boduowms.modules.qualityInspection.bill;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
@@ -10,6 +13,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.AppManager;
 import com.liansu.boduowms.base.BaseApplication;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.widget.MyFragmentStateAdapter;
 
 import java.util.ArrayList;
@@ -21,13 +26,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-public class QualityInspectionMainActivity extends FragmentActivity {
+public class QualityInspectionMainActivity extends FragmentActivity implements IUserSettingView {
 
     TabLayout             tabLayout;
     Toolbar               mToolBar;
     Context               mContext = QualityInspectionMainActivity.this;
     QualifiedFragmentBill mQualifiedFragmentBill;
-
+    protected UserSettingPresenter mUserSettingPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,24 @@ public class QualityInspectionMainActivity extends FragmentActivity {
             }
 
 
+        });
+        mToolBar.inflateMenu(R.menu.menu_setting);
+        mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                //利用colorFilter动态更改图标颜色
+//            menuItem.getIcon().setColorFilter(Color.parseColor("#223344"),PorterDuff.Mode.MULTIPLY);
+
+                switch (menuItem.getItemId()) {
+                    case R.id.user_setting_warehouse_select:
+                        if (mUserSettingPresenter != null) {
+                            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+                        }
+                        break;
+
+                }
+                return true;
+            }
         });
         // SETUP VIEWPAGER2
         final ViewPager2 viewPager2 = findViewById(R.id.pager);
@@ -74,6 +97,7 @@ public class QualityInspectionMainActivity extends FragmentActivity {
                 super.onPageScrollStateChanged(state);
             }
         });
+        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         MyFragmentStateAdapter adapter = new MyFragmentStateAdapter(this, listFragments);
         viewPager2.setAdapter(adapter);
 
@@ -122,4 +146,38 @@ public class QualityInspectionMainActivity extends FragmentActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
+
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+    @Override
+    public void setTitle() {
+        mToolBar.setTitle(mContext.getResources().getString(R.string.quality_inspection_processing_scan_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
 }

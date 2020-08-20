@@ -1,12 +1,15 @@
 package com.liansu.boduowms.bean.menu;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * @ Des:
  * @ Created by yangyiqing on 2020/7/9.
  */
-public class MenuInfo {
+public class MenuInfo implements Parcelable {
     /**
      * Id : 13
      * Menuno : 1013
@@ -36,6 +39,53 @@ public class MenuInfo {
     private Object                 name;
     private MenuMetaInfo           meta;
     private List<MenuChildrenInfo> children;
+
+
+    protected MenuInfo(Parcel in) {
+        Id = in.readInt();
+        Menuno = in.readString();
+        title = in.readString();
+        Menutype = in.readInt();
+        path = in.readString();
+        component = in.readString();
+        Nodelevel = in.readString();
+        Nodesort = in.readString();
+        Parentid = in.readInt();
+        meta = in.readParcelable(MenuMetaInfo.class.getClassLoader());
+        children = in.createTypedArrayList(MenuChildrenInfo.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(Id);
+        dest.writeString(Menuno);
+        dest.writeString(title);
+        dest.writeInt(Menutype);
+        dest.writeString(path);
+        dest.writeString(component);
+        dest.writeString(Nodelevel);
+        dest.writeString(Nodesort);
+        dest.writeInt(Parentid);
+        dest.writeParcelable(meta, flags);
+        dest.writeTypedList(children);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<MenuInfo> CREATOR = new Creator<MenuInfo>() {
+        @Override
+        public MenuInfo createFromParcel(Parcel in) {
+            return new MenuInfo(in);
+        }
+
+        @Override
+        public MenuInfo[] newArray(int size) {
+            return new MenuInfo[size];
+        }
+    };
 
     public int getId() {
         return Id;
@@ -140,6 +190,7 @@ public class MenuInfo {
     public void setChildren(List<MenuChildrenInfo> children) {
         this.children = children;
     }
+
 
 
 }

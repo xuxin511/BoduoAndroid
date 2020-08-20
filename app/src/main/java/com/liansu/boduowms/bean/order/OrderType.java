@@ -26,6 +26,7 @@ public class OrderType {
     public final static int    IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE        = 44;
     public final static int    IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE        = 26;
     public final static int    IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE_VALUE        = 24;
+    public final static int    IN_STOCK_ORDER_TYPE_BATCH_PRINTING_VALUE        = 33;
     public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE        = 28;
     public final static int    OUT_STOCK_ORDER_TYPE_OTHER_DELIVERY_AND_LOADING_VALUE = 1;
     public final static String IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_NAME             = "采购订单";

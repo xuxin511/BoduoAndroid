@@ -6,4 +6,5 @@ package com.liansu.boduowms.modules.setting;
  */
   public interface ISettingView {
      void closeActivity() ;
+
 }

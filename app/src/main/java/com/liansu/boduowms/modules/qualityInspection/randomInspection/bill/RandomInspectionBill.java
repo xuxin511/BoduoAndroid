@@ -1,11 +1,14 @@
 package com.liansu.boduowms.modules.qualityInspection.randomInspection.bill;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,6 +22,8 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
 import com.liansu.boduowms.modules.qualityInspection.randomInspection.scan.QualityInspection;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.quality_inspection.RandomInspectionBillItemAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
@@ -41,12 +46,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
  * @time 2020/7/19 15:40
  */
 @ContentView(R.layout.activity_quality_inspection_bill_choice)
-public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, IRandomInspectionBillView {
+public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, IRandomInspectionBillView , IUserSettingView {
     /*业务类型 */
     String                        businesType = "";
-    Context                       context     = RandomInspectionBill.this;
+    Context                       mContext    = RandomInspectionBill.this;
     RandomInspectionBillPresenter mPresenter;
-
+    protected UserSettingPresenter mUserSettingPresenter;
     @Override
     public void onHandleMessage(Message msg) {
         mSwipeLayout.setRefreshing(false);
@@ -68,10 +73,10 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
     @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.context = context;
+        BaseApplication.context = mContext;
         BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title_list_name) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
         x.view().inject(this);
-
+        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
     }
 
     @Override
@@ -84,7 +89,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
     protected void onResume() {
         super.onResume();
         if (mPresenter == null) {
-            mPresenter = new RandomInspectionBillPresenter(context, this, mHandler);
+            mPresenter = new RandomInspectionBillPresenter(mContext, this, mHandler);
         }
         onRefresh();
 
@@ -147,7 +152,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
                 }
 
             } else {
-                MessageBox.Show(context, "检验订单长度失败，请输入订单号", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                MessageBox.Show(mContext, "检验订单长度失败，请输入订单号", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         onFilterContentFocus();
@@ -162,7 +167,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
 
 
     void StartScanIntent(QualityHeaderInfo headerInfo, ArrayList<OutBarcodeInfo> barCodeInfo) {
-        Intent intent = new Intent(context, QualityInspection.class);
+        Intent intent = new Intent(mContext, QualityInspection.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable("qualityInspection", headerInfo);
         intent.putExtras(bundle);
@@ -183,7 +188,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
     @Override
     public void bindListView(List<QualityHeaderInfo> receiptModels) {
         if (mAdapter==null){
-            mAdapter = new RandomInspectionBillItemAdapter(context, receiptModels);
+            mAdapter = new RandomInspectionBillItemAdapter(mContext, receiptModels);
             mAdapter.notifyDataSetChanged();
             mListView.setAdapter(mAdapter);
         }else {
@@ -195,6 +200,51 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
     @Override
     public void onReset() {
         mEdtfilterContent.setText("");
+    }
+
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
+
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+    @Override
+    public void setTitle() {
+        if (mPresenter!=null){
+            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }
+        return false;
     }
 }
 

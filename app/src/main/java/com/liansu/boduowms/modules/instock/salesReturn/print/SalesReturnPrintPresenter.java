@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
+import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
@@ -248,4 +249,7 @@ public class SalesReturnPrintPresenter {
 
     }
 
+    public String getTitle() {
+        return mContext.getResources().getString(R.string.appbar_title_sales_return_storage_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+    }
 }

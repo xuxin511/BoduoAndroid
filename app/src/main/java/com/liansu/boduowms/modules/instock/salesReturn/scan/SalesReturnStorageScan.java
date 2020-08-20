@@ -1,8 +1,12 @@
 package com.liansu.boduowms.modules.instock.salesReturn.scan;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +18,8 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.salesReturnStorage.SalesReturnStorageAdapter;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
@@ -30,7 +36,7 @@ import java.util.List;
  */
 
 @ContentView(R.layout.activity_sales_return_scan)
-public class SalesReturnStorageScan extends BaseActivity implements ISalesReturnStorageScanView {
+public class SalesReturnStorageScan extends BaseActivity implements ISalesReturnStorageScanView, IUserSettingView {
     Context                         mContext = SalesReturnStorageScan.this;
     SalesReturnStorageScanPresenter mPresenter;
     @ViewInject(R.id.sales_return_scan_pallet_no)
@@ -50,7 +56,7 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
     @ViewInject(R.id.sales_return_scan_print_pallet_label)
     Button   mReferButton;
     SalesReturnStorageAdapter mAdapter;
-
+    protected UserSettingPresenter mUserSettingPresenter;
     @Override
     protected void initViews() {
         super.initViews();
@@ -87,6 +93,7 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
     @Override
     protected void onResume() {
         super.onResume();
+        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         //每次界面启动时刷新实时数据
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
@@ -190,5 +197,49 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
         bindListView(null);
     }
 
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
+
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+    @Override
+    public void setTitle() {
+        if (mPresenter!=null){
+            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }
+        return false;
+    }
 
 }
