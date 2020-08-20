@@ -71,6 +71,8 @@ public class DebugModuleData {
         itemNamesList.add(context.getString(R.string.main_menu_item_quality_inspection));
         itemIconList.add(R.drawable.production_storage);
         itemNamesList.add(context.getString(R.string.main_menu_item_product_return_print_storage));
+        itemIconList.add(R.drawable.production_storage);
+        itemNamesList.add(context.getString(R.string.main_menu_item_batch_printing));
 
     }
 
@@ -499,6 +501,23 @@ public class DebugModuleData {
         return printInfo;
     }
 
+
+      public  static  List<PrintInfo>  getRawMaterialLabelList(){
+        List<PrintInfo>  list=new ArrayList<>();
+          for (int i=0;i<4;i++){
+              PrintInfo printInfo = new PrintInfo();
+              printInfo.setMaterialNo("130100002-测试数据"+i);
+              printInfo.setMaterialDesc("百香果风味饮料（博多家园）-测试数据"+i);
+              printInfo.setBatchNo("20200717-测试数据"+i);
+              printInfo.setPackQty(88+i);
+              printInfo.setQRCode("130100001%20200717%88%1-测试数据"+i);
+              printInfo.setSpec("8瓶*2升-测试数据"+i);
+              printInfo.setPrintType(PrintType.PRINT_TYPE_RAW_MATERIAL_STYLE);
+              list.add(printInfo);
+          }
+          return list;
+
+      }
     /**
      * @desc: 托盘标签
      * @param:

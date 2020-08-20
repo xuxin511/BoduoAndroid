@@ -7,7 +7,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
 import com.liansu.boduowms.bean.menu.MenuInfo;
 import com.liansu.boduowms.debug.DebugModuleData;
-import com.liansu.boduowms.modules.inventoryMovement.InventoryMovementScan;
+import com.liansu.boduowms.modules.inHouseStock.inventoryMovement.InventoryMovementScan;
 import com.liansu.boduowms.modules.menu.IMenuPresenter;
 import com.liansu.boduowms.modules.menu.IMenuView;
 import com.liansu.boduowms.modules.pallet.combinePallet.CombinPallet;

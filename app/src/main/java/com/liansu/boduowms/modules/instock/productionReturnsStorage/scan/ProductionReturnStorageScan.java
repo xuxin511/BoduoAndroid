@@ -93,8 +93,6 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
     protected void onStart() {
         super.onStart();
         mPresenter = getPresenter();
-
-
     }
 
 //    @Override
@@ -171,8 +169,6 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @Event(value = R.id.edt_area_no, type = View.OnKeyListener.class)

@@ -1,7 +1,7 @@
 package com.liansu.boduowms.modules.print.linkos;
 
 /**
- * @ Des:
+ * @ Des: 过时,现在用 PrintBusinessModel 类
  * @ Created by yangyiqing on 2020/7/15.
  */
 public final class PrintType {

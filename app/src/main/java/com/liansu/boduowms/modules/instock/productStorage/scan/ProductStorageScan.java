@@ -112,7 +112,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
     @Override
     public void setTransferSubmissionStatus() {
-          mTransferSubmission.setVisibility(View.VISIBLE);
+          mTransferSubmission.setVisibility(View.GONE);
     }
 
     @Override

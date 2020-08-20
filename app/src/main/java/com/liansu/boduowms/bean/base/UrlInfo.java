@@ -52,7 +52,7 @@ public class UrlInfo {
     public String GetT_CheckQualityHeadListsync     = GetWCFAdress() + "Quality/GetT_CheckQualityHeadListsync"; //抽检获取列表
     public String GetT_CheckQualityDetailListsync   = GetWCFAdress() + "Quality/GetT_CheckQualityDetailListsync"; //抽检表体获取
     public String GetT_PurchaseOrderListADF         = GetWCFAdress() + "Stock/GetT_PurchaseOrderListADF"; //取样扫描接口  2020-8-10 废弃
-    public String GetT_ScanStockADFAsync         = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync"; //取样扫描接口 新 2020-8-10
+    public String GetT_ScanStockADFAsync            = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync"; //取样扫描接口 新 2020-8-10
     public String CheckT_PalletBarcodesync          = GetWCFAdress() + "Quality/CheckT_PalletBarcodesync"; //检验托盘号是否待检
     public String PostT_CheckQualitysync            = GetWCFAdress() + "Quality/PostT_CheckQualitysync"; //抽检表体提交
     public String GetT_WorkOrderHeadListADFAsync    = GetWCFAdress() + "WorkOrder/GetT_WorkOrderHeadListADFAsync"; //获取工单列表 产品入库
@@ -68,6 +68,7 @@ public class UrlInfo {
     public String Post_SaleReturnDetailADFasync     = GetWCFAdress() + "SaleReturn/Post_SaleReturnDetailADFasync"; //销售退货提交
     public String GetT_SaleReturnDetailListADFAsync = GetWCFAdress() + "SaleReturn/GetT_SaleReturnDetailListADFAsync"; //销售退货打印获取物料批次
     public String Print_PalletNo                    = GetWCFAdress() + "OutBarcode/Print_PalletNo"; //销售退货打印托盘号
+    public String GetT_ParameterList                = GetWCFAdress() + "Parameter/GetT_ParameterList"; //获取入库打印单据
 
 
     //出库模块
@@ -98,12 +99,15 @@ public class UrlInfo {
     public String SalesOutstock_ScanningNo= GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
     public String SalesOutstock_SacnningPallet     = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
     public String SalesOutstock_PlatForm   = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
+    public String SalesOutstock_ScanningNo        = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
+    public String SalesOutstock_SacnningPallet    = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
+    public String SalesOutstock_PlatForm          = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
     //拼箱
-    public String  SalesOutstock_Box_ScanningNo=GetWCFAdress() + "OutStock/GetT_CheckOutStockStatusADFAsync"; //拼箱订单判断是否下架
-    public String  SalesOutstock_Box_Submit=GetWCFAdress() + "OutStock/Package_CartonScanADFAsync";//拼箱提交
-    public String  SalesOutstock_Box_Batchno=GetWCFAdress() + "OutStock/CheckPackageScan";//验证69吗/箱号/物料是否多批次
-    public String  SalesOutstock_GetBoxList=GetWCFAdress()+ "OutStock/GetPackage_CartonScanADFAsync";//获取拼箱列表
-    public String  SalesOutstock_DelBox=GetWCFAdress()+ "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
+    public String SalesOutstock_Box_ScanningNo    = GetWCFAdress() + "OutStock/GetT_CheckOutStockStatusADFAsync"; //拼箱订单判断是否下架
+    public String SalesOutstock_Box_Submit        = GetWCFAdress() + "OutStock/Package_CartonScanADFAsync";//拼箱提交
+    public String SalesOutstock_Box_Batchno       = GetWCFAdress() + "OutStock/CheckPackageScan";//验证69吗/箱号/物料是否多批次
+    public String SalesOutstock_GetBoxList        = GetWCFAdress() + "OutStock/GetPackage_CartonScanADFAsync";//获取拼箱列表
+    public String SalesOutstock_DelBox            = GetWCFAdress() + "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
     //复核
     public String  SalesOutstock_Review_ScanningNo=GetWCFAdress()+ "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
     public String  SalesOutstock_JudgeStock=GetWCFAdress()+ "Stock/GetT_ScanStockADFAsync";//判断托盘库存
@@ -151,8 +155,12 @@ public class UrlInfo {
 
 
 
+    public String SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
+    public String SalesOutstock_JudgeStock        = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
+    public String SalesOutstock__SubmitBarcode    = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
+    public String SalesOutstock__Review_Submit    = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
 
-
-
+   //批量打印
+   public String CreateT_OutBarcodeADFAsync    = GetWCFAdress() + "OutBarcode/CreateT_OutBarcodeADFAsync"; //批量生成条码
 
 }

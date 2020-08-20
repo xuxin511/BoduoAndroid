@@ -98,6 +98,9 @@ public class OrderDetailInfo implements Parcelable {
     protected String               Printername; //打印机名称
     protected int                  Printertype; //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙
     protected String               Username;
+    protected float  Printqty;   //托盘打印功能 剩余数量
+    protected String Departmentcode;
+    protected String Departmentname;
 
     public OrderDetailInfo() {
     }
@@ -145,6 +148,9 @@ public class OrderDetailInfo implements Parcelable {
         Printername = in.readString();
         Printertype = in.readInt();
         Username=in.readString();
+        Printqty=in.readFloat();
+        Departmentcode=in.readString();
+        Departmentname=in.readString();
     }
 
     public static final Creator<OrderDetailInfo> CREATOR = new Creator<OrderDetailInfo>() {
@@ -519,6 +525,30 @@ public class OrderDetailInfo implements Parcelable {
         Username = username;
     }
 
+    public float getPrintqty() {
+        return Printqty;
+    }
+
+    public void setPrintqty(float printqty) {
+        Printqty = printqty;
+    }
+
+    public String getDepartmentcode() {
+        return Departmentcode;
+    }
+
+    public void setDepartmentcode(String departmentcode) {
+        Departmentcode = departmentcode;
+    }
+
+    public String getDepartmentname() {
+        return Departmentname;
+    }
+
+    public void setDepartmentname(String departmentname) {
+        Departmentname = departmentname;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -579,7 +609,9 @@ public class OrderDetailInfo implements Parcelable {
         dest.writeString(Printername);
         dest.writeInt(Printertype);
         dest.writeString(Username);
-
+        dest.writeFloat(Printqty);
+        dest.writeString(Departmentcode);
+        dest.writeString(Departmentname);
 
     }
 

@@ -1,4 +1,4 @@
-package com.liansu.boduowms.modules.inventoryMovement;
+package com.liansu.boduowms.modules.inHouseStock.inventoryMovement;
 
 import android.content.Context;
 import android.os.Message;
@@ -10,7 +10,6 @@ import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
-import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 
 import java.util.HashMap;

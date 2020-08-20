@@ -47,7 +47,7 @@ public class PurchaseInspectionReviewScanModel extends BaseReviewScanModel {
     }
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
         switch (msg.what) {
             case RESULT_TAG_GET_T_CHECK_OUT_STOCK_DETAIL_LIST_ADF_ASYNC:

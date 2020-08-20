@@ -37,7 +37,8 @@
     <string name="Msg_GetWareHouse">获取仓库信息...</string>
     <string name="Error_SubmitMore">操作过于频繁！</string>
     <string name="config">确定</string>
-    <string name="Bill">单号:</string>
+    <string name="bill">单号:</string>
+    <string name="voucher_no">单据编号:</string>
     <string name="area_no">库位号:</string>
     <string name="submit">提交</string>
     <string name="print">打印</string>
@@ -414,5 +415,22 @@
     <string name="main_menu_item_rowmaterial_lcl">原材料出库</string>
     <string name="main_menu_item_outsourc_lcl">委外发料</string>
 
+
+    //入库打印订单选择基类
+    <string name="print_type_desc">打印类型:</string>
+    <string name="print_type_pallet_no_print_desc">托盘标签</string>
+    <string name="print_type_outer_box_print_desc">外箱标签</string>
+    <string name="order_type_desc">订单类型:</string>
+    <string name="order_no_desc">单据编号:</string>
+    <string name="order_no_desc_hint">请扫描或输入单据编号</string>
+    <string name="material_no_desc_hint">请扫描或输入描据编号</string>
+    <string name="remain_qty_desc">可打印数:</string>
+    <string name="pack_qty_hint">可输入包装量</string>
+    <string name="pallet_no_hint">可输入整托数量</string>
+    <string name="print_count_hint">输入打印张数</string>
+    <string name="print_count">打印张数:</string>
+    <string name="pallet_no_desc">整托数量:</string>
+    <string name="print_count_desc">打印张数:</string>
+    <string name="request_order_detail_info">正在获取单据信息...</string>
 
 </resources>

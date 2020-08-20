@@ -32,7 +32,7 @@ public class BaseOrderBillChoiceModel extends BaseModel {
     }
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
 
     }
 

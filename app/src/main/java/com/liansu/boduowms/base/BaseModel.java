@@ -18,7 +18,7 @@ public abstract class BaseModel {
     protected Context                          mContext;
     protected Map<String, NetCallBackListener> mNetMap = new HashMap<>();
 
-    protected abstract void onHandleMessage(Message msg);
+    public abstract void onHandleMessage(Message msg);
 
     public BaseModel(Context context, MyHandler<BaseActivity> handler) {
         mContext = context;

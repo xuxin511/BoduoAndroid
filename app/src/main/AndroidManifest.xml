@@ -13,10 +13,11 @@
         <activity android:name=".modules.outstock.SalesOutstock.OutstockConsignmentDetail"></activity>
         <activity android:name=".modules.outstock.SalesOutstock.OutstockConfigreview" />
         <activity android:name=".modules.outstock.SalesOutstock.OutstockRawmaterialActivity" />
+        <activity android:name=".modules.outstock.SalesOutstock.OutstockSalesConfig" android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+
+
         <activity
-            android:name=".modules.outstock.SalesOutstock.OutstockSalesConfig"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
+
             android:name=".modules.menu.MainActivity"
             android:label="@string/app_name" />
         <activity android:name=".modules.login.Login">
@@ -44,7 +45,6 @@
             android:theme="@style/MyDialogStyle" />
         <activity android:name=".modules.instock.combinePallet.InstockCombinePallet" />
         <activity android:name=".modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan" />
-        <activity android:name=".modules.inventoryMovement.InventoryMovementScan" />
         <activity android:name=".modules.qualityInspection.bill.QualityInspectionBill" />
         <activity android:name=".modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingScan" />
         <activity android:name=".modules.instock.productStorage.bill.ProductStorageBillChoice" />
@@ -83,7 +83,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint" />
         <activity android:name=".modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.liansu.boduowms.fileProvider"

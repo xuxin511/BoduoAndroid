@@ -10,11 +10,13 @@ import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan;
+import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScan;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
 import com.liansu.boduowms.modules.instock.productionReturnsStorage.print.ProductionReturnsPrint;
 import com.liansu.boduowms.modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan;
 import com.liansu.boduowms.modules.instock.salesReturn.print.SalesReturnPrint;
+import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScan;
 import com.liansu.boduowms.modules.menu.IMenuPresenter;
 import com.liansu.boduowms.modules.menu.IMenuView;
 import com.liansu.boduowms.modules.qualityInspection.bill.QualityInspectionMainActivity;
@@ -99,7 +101,7 @@ public class StorageBusinessMenuPresenter extends IMenuPresenter {
             intent.setClass(mContext, BaseOrderBillChoice.class);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_OUTSOURCING_STORAGE);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_transfer_to_storage))) {
-            intent.setClass(mContext, BaseOrderBillChoice.class);
+            intent.setClass(mContext, TransferToStorageScan.class);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_active_other_storage))) {
             intent.setClass(mContext, BaseOrderBillChoice.class);
@@ -123,8 +125,9 @@ public class StorageBusinessMenuPresenter extends IMenuPresenter {
         }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_product_return_print_storage))){
             intent.setClass(mContext, ProductionReturnsPrint.class);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE);
-
-
+        }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_batch_printing))){
+            intent.setClass(mContext, BaseOrderLabelPrintSelect.class);
+            intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_BATCH_PRINTING);
         }
 
 

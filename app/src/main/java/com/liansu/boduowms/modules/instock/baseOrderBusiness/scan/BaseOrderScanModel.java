@@ -22,11 +22,13 @@ import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
+import com.liansu.boduowms.utils.function.ListUtils;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +39,7 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
  * @ Created by yangyiqing on 2020/6/27.
  */
 public abstract class BaseOrderScanModel extends BaseModel {
-    public  String  TAG_COMBINE_AND_REFER_PALLET_SUB="TAG_COMBINE_AND_REFER_PALLET_SUB";
+    public          String                     TAG_COMBINE_AND_REFER_PALLET_SUB               = "TAG_COMBINE_AND_REFER_PALLET_SUB";
     public          String                     TAG_GetT_InStockDetailListByHeaderIDADF        = "ReceiptionScan_GetT_InStockDetailListByHeaderIDADF";
     public          String                     TAG_GetT_PalletDetailByBarCodeADF              = "ReceiptionScan_GetT_PalletDetailByBarCodeADF";
     public          String                     TAG_GET_T_AREA_MODEL                           = "BaseOrderScanModel_GetT_AreaModel";  //库位
@@ -58,7 +60,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
     }
 
     @Override
-    protected void onHandleMessage(Message msg) {
+    public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
         switch (msg.what) {
             case RESULT_Msg_GetT_InStockDetailListByHeaderIDADF:
@@ -73,7 +75,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
                 listener = mNetMap.get("TAG_GET_T_AREA_MODEL");
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj );
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj);
                 break;
 
         }
@@ -149,6 +151,9 @@ public abstract class BaseOrderScanModel extends BaseModel {
      * @time 2020/7/3 16:47
      */
     public abstract void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener);
+
+    public void requestCombineAndReferPallet(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
+    }
 
 
     public ArrayList<OrderDetailInfo> getOrderDetailList() {
@@ -277,6 +282,39 @@ public abstract class BaseOrderScanModel extends BaseModel {
         return resultInfo;
     }
 
+    /**
+     * @desc: 更新物料信息
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/5 13:40
+     */
+    public BaseMultiResultInfo<Boolean, Void> updateMaterialInfo(OrderDetailInfo detailInfo) {
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        String resultMaterialNo = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
+        String resultRowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
+        String resultRowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";
+        //查找和条码的 物料和批次匹配的订单明细行的数据，只查第一个
+        for (int i = 0; i < mOrderDetailList.size(); i++) {
+            OrderDetailInfo materialInfo = mOrderDetailList.get(i);
+            if (materialInfo != null) {
+                String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
+                String rowNo = materialInfo.getRowno() != null ? materialInfo.getRowno() : "";
+                String rowDel = materialInfo.getRownodel() != null ? materialInfo.getRownodel() : "";
+                if (materialNo.trim().equals(resultMaterialNo.trim()) && rowNo.trim().equals(resultRowNo.trim()) && rowDel.trim().equals(resultRowDel.trim())) {
+                    float scanQty = detailInfo.getScanqty();
+                    float remainQty = detailInfo.getRemainqty(); //订单的剩余扫描数量　　
+                    float receiveQty = detailInfo.getReceiveqty(); // (订单减去已扫描条码的)剩余扫描数量
+                    materialInfo.setScanqty(scanQty);
+                    materialInfo.setRemainqty(remainQty);
+                    materialInfo.setReceiveqty(receiveQty);
+                    resultInfo.setHeaderStatus(true);
+                    break;
+                }
+            }
+        }
+        return resultInfo;
+    }
 
     /**
      * @desc: 校验条码重复
@@ -387,6 +425,83 @@ public abstract class BaseOrderScanModel extends BaseModel {
     }
 
     /**
+     * @desc: 找到扫描条码的所在行
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/5 11:01
+     */
+    public BaseMultiResultInfo<Boolean, List<OrderDetailInfo>> findMaterialInfoList(OutBarcodeInfo scanBarcode) {
+        BaseMultiResultInfo<Boolean, List<OrderDetailInfo>> resultInfo = new BaseMultiResultInfo<>();
+        List<OrderDetailInfo> sMaterialInfoList = new ArrayList<>();
+        String barcodeMaterialNo = scanBarcode.getMaterialno() != null ? scanBarcode.getMaterialno() : "";
+//        String barcodeBatchNo = scanBarcode.getBatchno() != null ? scanBarcode.getBatchno() : "";
+//        String barcodeRowNo = scanBarcode.getRowno() != null ? scanBarcode.getRowno() : "";
+        String barcodeRowDel = scanBarcode.getRownodel() != null ? scanBarcode.getRownodel() : "";
+        String barcodeStrongHoldCode = scanBarcode.getStrongholdcode() != null ? scanBarcode.getStrongholdcode() : "";
+//        String barcodeErpVoucherNo = scanBarcode.getErpvoucherno() != null ? scanBarcode.getErpvoucherno() : "";
+        float barcodeQty = scanBarcode.getQty();
+        try {
+
+            if (barcodeMaterialNo == null || barcodeMaterialNo.equals("")) {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:条码的物料信息不能为空");
+                return resultInfo;
+            }
+
+            if (barcodeQty < 0) {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:条码的数量必须大于0");
+                return resultInfo;
+            }
+            //查找和条码的 物料和批次匹配的订单明细行的数据，只查第一个
+            for (int i = 0; i < mOrderDetailList.size(); i++) {
+                OrderDetailInfo materialInfo = mOrderDetailList.get(i);
+                if (materialInfo != null) {
+                    String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
+                    String rowNo = materialInfo.getRowno() != null ? materialInfo.getRowno() : "";
+                    String rowDel = materialInfo.getRownodel() != null ? materialInfo.getRownodel() : "";
+                    if (materialNo.trim().equals(barcodeMaterialNo.trim())) {
+                        List<OutBarcodeInfo> list = new ArrayList<>();
+                        list.add(scanBarcode);
+                        materialInfo.setLstBarCode(list);
+                        sMaterialInfoList.add(materialInfo);
+
+                    }
+                }
+            }
+
+            if (sMaterialInfoList != null && sMaterialInfoList.size() > 0) {
+                String strongHoldCode = sMaterialInfoList.get(0).getStrongholdcode() != null ? sMaterialInfoList.get(0).getStrongholdcode() : "";
+//                String erpVoucherNo = sMaterialInfo.getErpvoucherno() != null ? sMaterialInfo.getErpvoucherno() : "";
+                if (!strongHoldCode.equals(barcodeStrongHoldCode)) {
+                    resultInfo.setHeaderStatus(false);
+                    resultInfo.setMessage("校验条码失败:条码的组织编码[" + barcodeStrongHoldCode + "]和订单的组织编码[" + strongHoldCode + "]不一致");
+                    return resultInfo;
+                }
+//
+//                if (!erpVoucherNo.equals(barcodeErpVoucherNo)) {
+//                    resultInfo.setHeaderStatus(false);
+//                    resultInfo.setMessage("校验条码失败:条码的订单号[" + barcodeErpVoucherNo + "]不匹配当前订单[" + erpVoucherNo + "]");
+//                    return resultInfo;
+//                }
+                resultInfo.setHeaderStatus(true);
+                resultInfo.setInfo(sMaterialInfoList);
+            } else {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:订单中没有物料号为:[" + barcodeMaterialNo + "]的物料行,扫描的条码序列号为:" + scanBarcode.getBarcode());
+                return resultInfo;
+            }
+        } catch (Exception e) {
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("校验条码失败:出现预期之外的错误:" + e.getMessage());
+            return resultInfo;
+        }
+
+        return resultInfo;
+    }
+
+    /**
      * @desc: 获取扫描外箱码相对应的物料信息
      * @param:
      * @return:
@@ -453,5 +568,49 @@ public abstract class BaseOrderScanModel extends BaseModel {
      */
     protected PrintInfo getPrintModel(OutBarcodeInfo outBarcodeInfo) {
         return null;
+    }
+
+    /**
+     * @desc: 排序
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/18 16:09
+     */
+    public void sortDetailList(String materialNo) {
+        String[] sortNameArr = {"Materialno", "Remainqty"};
+        boolean[] isAscArr = {true,true};
+        ListUtils.sort(mOrderDetailList, sortNameArr, isAscArr);
+        List<OrderDetailInfo> taskDoneList = new ArrayList<>();
+        List<OrderDetailInfo> currentMaterialList = new ArrayList<>();
+        Iterator<OrderDetailInfo> it = mOrderDetailList.iterator();
+        while (it.hasNext()) {
+            OrderDetailInfo item = it.next();
+            String sMaterialNo = item.getMaterialno() != null ? item.getMaterialno() : "";
+            if (materialNo!=null &&materialNo.equals(sMaterialNo)) {
+                if (item.getRemainqty() > 0 && ArithUtil.sub(item.getVoucherqty(), item.getRemainqty()) > 0) {
+                    it.remove();
+                    currentMaterialList.add(item);
+                    continue;
+                }
+            }
+            //变绿的沉底
+            if ( item.getRemainqty() == 0) {
+                it.remove();
+                taskDoneList.add(item);
+
+            }
+
+        }
+        //扫描完毕的沉底
+        if (taskDoneList.size() > 0) {
+            mOrderDetailList.addAll(taskDoneList);
+
+        }
+        //正在扫描的物料放在最前面
+        if (currentMaterialList.size()>0){
+            mOrderDetailList.addAll(0,currentMaterialList);
+        }
+
     }
 }

@@ -34,7 +34,7 @@ public class QRCodeFunc {
                     // 物料编号%批次%数量%标签类型
                     materialNo = listCode[0];
                     batchNo = listCode[1];
-                    qty = Integer.parseInt(listCode[2]);
+                    qty = Float.parseFloat(listCode[2]);
                     serialNo = listCode[3];
                     barcodeType = Integer.parseInt(listCode[4]);
                 } else if (listCode.length == 4) {
@@ -42,7 +42,7 @@ public class QRCodeFunc {
                     // 物料编号%批次%数量%标签类型
                     materialNo = listCode[0];
                     batchNo = listCode[1];
-                    qty = Integer.parseInt(listCode[2]);
+                    qty = Float.parseFloat(listCode[2]);
                     barcodeType = Integer.parseInt(listCode[3]);
 
                 } else if (listCode.length == 2) {

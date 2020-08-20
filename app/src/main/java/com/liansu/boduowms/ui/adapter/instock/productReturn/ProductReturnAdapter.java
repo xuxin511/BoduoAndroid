@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.liansu.boduowms.R;
@@ -22,18 +21,17 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 
 public class ProductReturnAdapter extends RecyclerView.Adapter<ProductReturnAdapter.ViewHolder>  {
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
     private Context               context; // 运行上下文
     private List<OrderDetailInfo> receiptDetailModels; // 信息集合
     private LayoutInflater        listContainer; // 视图容器
     private String                receiptType = "";
 
     //私有属性
-    private View.OnClickListener onClickListener = null;
+    OnItemClickListener mOnItemClickListener;
 
-    //setter方法
-    public void set(AdapterView.OnItemClickListener onItemClickListener) {
-//        this.onItemClickListener = onItemClickListener;
-    }
     public ProductReturnAdapter(Context context,List<OrderDetailInfo> receiptDetailModels) {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
@@ -68,9 +66,9 @@ public class ProductReturnAdapter extends RecyclerView.Adapter<ProductReturnAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (onItemClickListener != null) {
-//                    onItemClickListener.onItemClick(view, note, position);
-//                }
+                if (mOnItemClickListener != null) {
+//                    mOnItemClickListener.onItemClick(view, note, position);
+                }
             }
         });
     }
