@@ -43,7 +43,13 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
         tabTexts.add(getString(R.string.setting_system_info));
         tabTexts.add(getString(R.string.setting_print_info));
         mToolBar = findViewById(R.id.widget_common_tool_bar);
-        mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+        if (BaseApplication.mCurrentWareHouseInfo!=null){
+            mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title) + "-" +BaseApplication.mCurrentWareHouseInfo.getWarehousename() );
+
+        }else {
+            mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title)  );
+
+        }
         mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -55,7 +55,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
     @ViewInject(R.id.base_order_label_print_button)
     Button   mPrint;
     @ViewInject(R.id.base_order_label_print_print_count_desc)
-    TextView  mPrintCountDesc;
+    TextView mPrintCountDesc;
     @ViewInject(R.id.base_order_label_print_outer_box_print_count)
     EditText mPrintCount;
     Context                      mContext = BaseOrderLabelPrint.this;
@@ -64,7 +64,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
 
     @Override
     public void onHandleMessage(Message msg) {
-        if (mPresenter!=null){
+        if (mPresenter != null) {
             mPresenter.onHandleMessage(msg);
         }
     }
@@ -94,7 +94,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
         }
     }
 
-    @Event(value = {R.id.base_order_label_print_batch_no,R.id.base_order_label_print_pack_qty,R.id.base_order_label_print_pallet_no}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.base_order_label_print_batch_no, R.id.base_order_label_print_pack_qty, R.id.base_order_label_print_pallet_no}, type = View.OnKeyListener.class)
     private boolean onScan(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
@@ -115,15 +115,19 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
 
                     }
                     break;
-                case R.id.base_order_label_print_pack_qty :
-                    if (mPresenter != null) {
-                        mPresenter.onPrint();
-                    }
+                case R.id.base_order_label_print_pack_qty:
                     break;
                 case R.id.base_order_label_print_pallet_no:
                     if (mPresenter != null) {
                         mPresenter.onPrint();
                     }
+                    break;
+
+                case R.id.base_order_label_print_outer_box_print_count:
+                    if (mPresenter != null) {
+                        mPresenter.onPrint();
+                    }
+
                     break;
 
             }
