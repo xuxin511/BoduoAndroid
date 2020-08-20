@@ -186,7 +186,7 @@ public class SalesReturnPrintPresenter {
         postBarcodeInfo.setMaterialdesc(materialName);
         postBarcodeInfo.setBatchno(batchNo);
         postBarcodeInfo.setSpec(mModel.getSpec(materialNo));
-        postBarcodeInfo.setPackQty((int) packCount);
+        postBarcodeInfo.setPackqty((int) packCount);
         postBarcodeInfo.setQty(sumPalletQty);
         postBarcodeInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE);
         postBarcodeInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());

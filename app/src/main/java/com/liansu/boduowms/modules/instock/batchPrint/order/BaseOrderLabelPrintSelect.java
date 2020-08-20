@@ -22,12 +22,16 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
+import com.liansu.boduowms.bean.QRCodeFunc;
+import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseOrderLabelPrintDetailAdapter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -40,6 +44,8 @@ import java.util.List;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des: 选择物料
@@ -71,6 +77,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     BaseOrderLabelPrintDetailAdapter   mAdapter;
     ArrayAdapter                       mVoucherTypeNameArrayAdapter;
     protected UserSettingPresenter mUserSettingPresenter;
+
     @Override
     public void onHandleMessage(Message msg) {
         if (mPresenter != null) {
@@ -93,7 +100,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     @Override
     protected void initData() {
         super.initData();
-        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
+        mUserSettingPresenter = new UserSettingPresenter(mContext, this);
     }
 
 //    @Override
@@ -161,12 +168,12 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
 
     @Override
     public void onReset(boolean isReset) {
-        if (isReset){
+        if (isReset) {
             initViewStatus(getPrintType());
-            if (mPresenter!=null){
+            if (mPresenter != null) {
                 bindListView(mPresenter.getModel().getOrderDetailList());
             }
-        }else {
+        } else {
             onMaterialFocus();
         }
 
@@ -174,17 +181,33 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     }
 
 
-
-
     @Override
     public void bindListView(List<OrderDetailInfo> orderDetailInfos) {
+
         if (mAdapter == null) {
             mAdapter = new BaseOrderLabelPrintDetailAdapter(mContext, "", orderDetailInfos);
             mAdapter.setRecyclerView(mRecyclerView);
             mAdapter.setOnItemClickListener(new BaseOrderLabelPrintDetailAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
-                    if (data!=null){
+                    if (data != null) {
+                        OutBarcodeInfo scanQRCode = null;
+                        BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(mMaterialNo.getText().toString());
+                        if (resultInfo.getHeaderStatus()) {
+                            scanQRCode = resultInfo.getInfo();
+                        } else {
+                            MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onMaterialFocus();
+                                }
+                            });
+                            return;
+                        }
+                        if (scanQRCode != null && scanQRCode.getBatchno() != null &&scanQRCode.getMaterialno()!=null ) {
+
+                            data.setBatchno(scanQRCode.getBatchno());
+                        }
                         StartScanIntent(data);
                     }
 
@@ -255,9 +278,9 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
             ) {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                       if (mPresenter!=null){
-                           mPresenter.onReset(true);
-                       }
+                    if (mPresenter != null) {
+                        mPresenter.onReset(true);
+                    }
 
 
                 }
@@ -274,14 +297,13 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPresenter==null){
+        if (mPresenter == null) {
             mPresenter = new BaseOrderLabelPrintSelectPresenter(mContext, this, mHandler);
             mPresenter.getVoucherTypeList();
             initViewStatus(getPrintType());
-        }else {
+        } else {
             mPresenter.onReset(false);
         }
-
 
 
     }
@@ -325,7 +347,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if (mPresenter!=null){
+        if (mPresenter != null) {
             mPresenter.onReset(true);
         }
 
@@ -356,7 +378,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
 
     @Override
     public void setTitle() {
-        if (mPresenter!=null){
+        if (mPresenter != null) {
             getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
         }
 

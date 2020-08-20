@@ -233,7 +233,7 @@ public class PrintPalletScanModel extends BaseModel {
                             info.setStrongholdname(sMaterialInfo.getStrongholdname());
                             info.setCompanycode(sMaterialInfo.getCompanycode());
                             info.setSpec(sMaterialInfo.getSpec());
-                            info.setPackQty(sMaterialInfo.getPackQty());
+                            info.setPackqty(sMaterialInfo.getPackQty());
                             info.setUnitname(sMaterialInfo.getUnitname());
                             break;
                         }

@@ -51,7 +51,7 @@ public class NoSourceOtherScanPresenter   {
 
 
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_no_source_scan);
+        return mContext.getResources().getString(R.string.appbar_title_no_source_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 
     /**

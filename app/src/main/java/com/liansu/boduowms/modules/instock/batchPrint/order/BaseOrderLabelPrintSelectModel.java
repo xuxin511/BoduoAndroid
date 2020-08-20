@@ -288,10 +288,15 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
      */
     public List<String> getVoucherTypeNameList() {
         List<String> list = new ArrayList<>();
-        list.add(ORDER_TYPE_NONE);
+//        list.add(ORDER_TYPE_NONE);
         for (String key : mVoucherTypeMap.keySet()) {
             if (!list.contains(key)) {
-                list.add(key);
+                if (mVoucherTypeMap.get(key)==OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE){
+                    list.add(0,key);
+                }else {
+                    list.add(key);
+                }
+
             }
 
         }
@@ -327,7 +332,6 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
      * @time 2020/8/18 16:09
      */
     public void sortDetailList(String materialNo) {
-        if (materialNo==null) return;
         String[] sortNameArr = {"Materialno", "Remainqty"};
         boolean[] isAscArr = {true,true};
         ListUtils.sort(mOrderDetailList, sortNameArr, isAscArr);

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,8 @@ import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -44,7 +48,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * @ Created by yangyiqing on 2020/7/15.
  */
 @ContentView(R.layout.activity_product_storage_scan)
-public class TransferToStorageScan extends BaseActivity implements TransferToStorageScanView {
+public class TransferToStorageScan extends BaseActivity implements TransferToStorageScanView, IUserSettingView {
     protected Context mContext = TransferToStorageScan.this;
     @ViewInject(R.id.btn_transfer_submission)
     Button mTransferSubmission;
@@ -73,7 +77,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     private      int                    IS_START        = 1;
 
     TransferToStorageScanPresenter mPresenter;
-
+    protected UserSettingPresenter mUserSettingPresenter;
     @Override
     protected void initViews() {
         super.initViews();
@@ -164,6 +168,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
         if (mPresenter == null) {
             mPresenter = new TransferToStorageScanPresenter(mContext, this, mHandler, null, null);
         }
+        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
     }
 
     protected void initListener() {
@@ -389,7 +394,50 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     }
 
 
-    ;
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
+
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+    @Override
+    public void setTitle() {
+        if (mPresenter!=null){
+            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }
+        return false;
+    }
 
 
 

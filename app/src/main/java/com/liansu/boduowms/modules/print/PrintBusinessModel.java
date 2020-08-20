@@ -180,7 +180,7 @@ public class PrintBusinessModel extends BaseModel {
                 mPrintListener.afterPrint();
             }
         } catch (ConnectionException e) {
-            MessageBox.Show(mContext, e.getMessage());
+            MessageBox.Show(mContext,"连接蓝牙失败:"+ e.getMessage());
             return false;
         } catch (ZebraPrinterLanguageUnknownException e) {
             MessageBox.Show(mContext, e.getMessage());

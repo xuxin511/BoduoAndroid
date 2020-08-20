@@ -314,8 +314,8 @@
     <string name="logistics_loading_settings_unit_price">单价:</string>
     <string name="logistics_loading_settings_confirm">打印</string>
     //dialog 入库创建新条码物料
-    <string name="dialog_material_info_material_no">物料:</string>
-    <string name="dialog_material_info_material_name">名称:</string>
+    <string name="dialog_material_info_material_no">料号:</string>
+    <string name="dialog_material_info_material_name">品名:</string>
     <string name="dialog_material_info_material_out_box_count">外箱:</string>
     <string name="dialog_material_info_material_pack_count">包装量:</string>
     <string name="dialog_material_info_material_bulk_volume">散装量:</string>

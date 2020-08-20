@@ -58,8 +58,9 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
     private   String CusMaterialNo;
     private   String Scanuserno;
     private   String Specialstock;
-    private   int    Headeridsub;//关联表体ID
-    private   int    PackQty; //包装量
+    private   int Headeridsub;//关联表体ID
+    private   int Packqty; //包装量
+//    private   int    PackQty; //包装量
     /**
      * 1-不拆零 2-拆零
      */
@@ -107,7 +108,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         Headeridsub = in.readInt();
         IsAmount = in.readInt();
         WCustomerno = in.readString();
-        PackQty = in.readInt();
+        Packqty = in.readInt();
         Rownodel = in.readString();
         Spec = in.readString();
         Printername = in.readString();
@@ -372,12 +373,12 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         Headeridsub = headeridsub;
     }
 
-    public int getPackQty() {
-        return PackQty;
+    public int getPackqty() {
+        return Packqty;
     }
 
-    public void setPackQty(int packQty) {
-        PackQty = packQty;
+    public void setPackqty(int packqty) {
+        Packqty = packqty;
     }
 
     public String getRownodel() {
@@ -489,7 +490,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         dest.writeInt(Headeridsub);
         dest.writeInt(IsAmount);
         dest.writeString(WCustomerno);
-        dest.writeInt(PackQty);
+        dest.writeInt(Packqty);
         dest.writeString(Rownodel);
         dest.writeString(Spec);
         dest.writeString(Printername);

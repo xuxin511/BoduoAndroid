@@ -1,12 +1,16 @@
 package com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +23,8 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.NoSourceScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -42,7 +48,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 
 @ContentView(R.layout.activity_no_source_scan)
-public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherScanView {
+public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherScanView, IUserSettingView {
     @ViewInject(R.id.no_source_scan_instock_type_spinner)
     Spinner      mInstockTypeSpinner;
     @ViewInject(R.id.edt_area_no)
@@ -59,14 +65,14 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
     NoSourceOtherScanPresenter mPresenter;
     ArrayAdapter               mInstockTypeArrayAdapter;
     Context                    mContext;
-    public final int REQUEST_CODE_OK = 1;
-
+    public final int                  REQUEST_CODE_OK = 1;
+    protected    UserSettingPresenter mUserSettingPresenter;
     @Override
     protected void initViews() {
         super.initViews();
         mContext = NoSourceOtherScan.this;
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_no_source_scan), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_no_source_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
 
@@ -77,6 +83,7 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
     protected void initData() {
         super.initData();
         mPresenter=new NoSourceOtherScanPresenter(mContext,this,mHandler);
+        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         onReset();
 
     }
@@ -242,5 +249,51 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
     @Override
     public String getSpinnerItemValue() {
         return mInstockTypeSpinner.getSelectedItem().toString();
+    }
+
+
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
+
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+    @Override
+    public void setTitle() {
+        if (mPresenter!=null){
+            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }
+        return false;
     }
 }
