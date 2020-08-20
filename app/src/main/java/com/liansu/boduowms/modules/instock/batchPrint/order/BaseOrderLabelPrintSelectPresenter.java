@@ -40,6 +40,7 @@ public class BaseOrderLabelPrintSelectPresenter {
     protected BaseOrderLabelPrintSelectModel mModel;
     protected IBaseOrderLabelPrintSelectView mView;
     protected PrintBusinessModel             mPrintModel;
+
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
 
@@ -55,9 +56,11 @@ public class BaseOrderLabelPrintSelectPresenter {
     public BaseOrderLabelPrintSelectModel getModel() {
         return mModel;
     }
-    public  String  getTitle(){
-     return    mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+
+    public String getTitle() {
+        return mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
+
     /**
      * @desc: 获取订单类型数据
      * @param:
@@ -145,6 +148,7 @@ public class BaseOrderLabelPrintSelectPresenter {
                             OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
                             if (orderHeaderInfo != null) {
                                 mModel.setOrderDetailList(orderHeaderInfo.getDetail());
+                                mModel.setOrderHeaderInfo(orderHeaderInfo);
                                 if (mModel.getOrderDetailList().size() > 0) {
                                     mView.bindListView(mModel.getOrderDetailList());
                                     mView.onMaterialFocus();
@@ -391,7 +395,12 @@ public class BaseOrderLabelPrintSelectPresenter {
             List<OrderDetailInfo> list = resultInfo.getInfo();
             if (list != null && list.size() == 1) {
                 mView.StartScanIntent(list.get(0));
-            } else {
+            } else if (list != null && list.size() > 1) {
+                if (mModel.getOrderDetailList().size() > 0) {
+                    mModel.sortDetailList(list.get(0).getMaterialno());
+                    mView.bindListView(mModel.getOrderDetailList());
+                }
+
 
             }
 
