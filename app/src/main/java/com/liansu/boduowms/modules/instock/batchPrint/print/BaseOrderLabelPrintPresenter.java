@@ -36,8 +36,12 @@ public class BaseOrderLabelPrintPresenter {
     PrintCallBackListener mPrintCallBackListener = new PrintCallBackListener() {
         @Override
         public void afterPrint() {
-//            mView.onReset();
-            MessageBox.Show(mContext, "打印成功!");
+            MessageBox.Show(mContext, "打印成功!", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+//                    mView.onReset();
+                }
+            });
         }
     };
 
@@ -84,53 +88,53 @@ public class BaseOrderLabelPrintPresenter {
     public void onOuterBoxInfoBatchPrint() {
         try {
 
-        if (mPrintModel.checkBluetoothSetting() == false) return;
-        OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
-        if (printInfo != null) {
-            String materialNo = printInfo.getMaterialno();
-            String materialDesc = printInfo.getMaterialdesc();
-            String spec = printInfo.getSpec();
-            String batchNo = mView.getBatchNo();
-            float printCount = mView.getPrintCount();
-            float packQty = mView.getPackQty();
-            if (materialNo.equals("")) {
-                MessageBox.Show(mContext, "物料编号不能为空");
-                return;
-            }
-            if (batchNo.equals("")) {
-                MessageBox.Show(mContext, "批次不能为空");
-                return;
-            }
+            if (mPrintModel.checkBluetoothSetting() == false) return;
+            OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
+            if (printInfo != null) {
+                String materialNo = printInfo.getMaterialno();
+                String materialDesc = printInfo.getMaterialdesc();
+                String spec = printInfo.getSpec();
+                String batchNo = mView.getBatchNo();
+                float printCount = mView.getPrintCount();
+                float packQty = mView.getPackQty();
+                if (materialNo.equals("")) {
+                    MessageBox.Show(mContext, "物料编号不能为空");
+                    return;
+                }
+                if (batchNo.equals("")) {
+                    MessageBox.Show(mContext, "批次不能为空");
+                    return;
+                }
 
-            if (packQty <= 0) {
-                MessageBox.Show(mContext, "包装数量必须大于0");
-                return;
-            }
-            if (printCount <=0) {
-                MessageBox.Show(mContext, "打印张数必须大于0");
-                return;
-            }
-            List<PrintInfo> printInfoList = new ArrayList<>();
-            for (int i = 0; i < printCount; i++) {
-                PrintInfo info = new PrintInfo();
-                info.setMaterialNo(materialNo);
-                info.setMaterialDesc(materialDesc);
-                info.setBatchNo(batchNo);
-                info.setSpec(spec);
-                info.setPackQty(packQty);
-                printInfoList.add(mModel.getPrintModel(info));
+                if (packQty <= 0) {
+                    MessageBox.Show(mContext, "包装数量必须大于0");
+                    return;
+                }
+                if (printCount <= 0) {
+                    MessageBox.Show(mContext, "打印张数必须大于0");
+                    return;
+                }
+                List<PrintInfo> printInfoList = new ArrayList<>();
+                for (int i = 0; i < printCount; i++) {
+                    PrintInfo info = new PrintInfo();
+                    info.setMaterialNo(materialNo);
+                    info.setMaterialDesc(materialDesc);
+                    info.setBatchNo(batchNo);
+                    info.setSpec(spec);
+                    info.setPackQty(packQty);
+                    printInfoList.add(mModel.getPrintModel(info));
 
-            }
+                }
 
-            if (printInfoList.size() > 0) {
-                mPrintModel.onPrint(printInfoList);
-            }
+                if (printInfoList.size() > 0) {
+                    mPrintModel.onPrint(printInfoList);
+                }
 
-        } else {
-            MessageBox.Show(mContext, "传入的打印数据为空");
-        }
-        }catch (Exception e){
-            MessageBox.Show(mContext, "打印出现预期之外的异常:"+e.getMessage());
+            } else {
+                MessageBox.Show(mContext, "传入的打印数据为空");
+            }
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "打印出现预期之外的异常:" + e.getMessage());
         }
     }
 
@@ -169,7 +173,7 @@ public class BaseOrderLabelPrintPresenter {
                 MessageBox.Show(mContext, "总数量必须大于等于可打印数");
                 return;
             }
-            OrderDetailInfo orderDetailInfo =  mModel.getCurrentPrintInfo();
+            OrderDetailInfo orderDetailInfo = mModel.getCurrentPrintInfo();
             orderDetailInfo.setScanqty(palletQty);
             orderDetailInfo.setPrintqty(remainQty);
             orderDetailInfo.setBatchno(batchNo);
@@ -185,7 +189,7 @@ public class BaseOrderLabelPrintPresenter {
                         }.getType());
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
 
-                           MessageBox.Show(mContext,returnMsgModel.getResultValue(),MessageBox.MEDIA_MUSIC_NONE);
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE);
 
                         } else {
                             MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {

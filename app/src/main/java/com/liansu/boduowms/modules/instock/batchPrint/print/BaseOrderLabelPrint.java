@@ -177,19 +177,23 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
 
     @Override
     public void onReset() {
-        int printType = -1;
-        if (mPresenter != null) {
-            printType = mPresenter.getModel().getPrintType();
+        try {
+            int printType = -1;
+            if (mPresenter != null) {
+                printType = mPresenter.getModel().getPrintType();
+            }
+            mBatchNo.setText("");
+            mRemainQty.setText("0");
+            if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
+                mPackQty.setText("0");
+            } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
+                mPalletQty.setText("0");
+            }
+            onBatchNoFocus();
+        }catch (Exception e){
+            MessageBox.Show(mContext,"出现预期之外的异常:"+e.getMessage());
         }
-        mBatchNo.setText("");
-        mRemainQty.setText("0");
-        if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
-            mPackQty.setText("0");
 
-        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
-            mPalletQty.setText("0");
-        }
-        onBatchNoFocus();
     }
 
     @Override
