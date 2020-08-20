@@ -36,7 +36,7 @@ public class BaseOrderLabelPrintPresenter {
     PrintCallBackListener mPrintCallBackListener = new PrintCallBackListener() {
         @Override
         public void afterPrint() {
-            mView.onReset();
+//            mView.onReset();
             MessageBox.Show(mContext, "打印成功!");
         }
     };
@@ -82,6 +82,8 @@ public class BaseOrderLabelPrintPresenter {
      * @time 2020/8/14 16:53
      */
     public void onOuterBoxInfoBatchPrint() {
+        try {
+
         if (mPrintModel.checkBluetoothSetting() == false) return;
         OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
         if (printInfo != null) {
@@ -115,6 +117,7 @@ public class BaseOrderLabelPrintPresenter {
                 info.setMaterialDesc(materialDesc);
                 info.setBatchNo(batchNo);
                 info.setSpec(spec);
+                info.setPackQty(packQty);
                 printInfoList.add(mModel.getPrintModel(info));
 
             }
@@ -126,7 +129,9 @@ public class BaseOrderLabelPrintPresenter {
         } else {
             MessageBox.Show(mContext, "传入的打印数据为空");
         }
-
+        }catch (Exception e){
+            MessageBox.Show(mContext, "打印出现预期之外的异常:"+e.getMessage());
+        }
     }
 
 
