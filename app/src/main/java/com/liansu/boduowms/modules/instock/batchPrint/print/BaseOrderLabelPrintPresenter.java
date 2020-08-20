@@ -15,7 +15,6 @@ import com.liansu.boduowms.modules.print.PrintCallBackListener;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
-import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -90,7 +89,7 @@ public class BaseOrderLabelPrintPresenter {
             String materialDesc = printInfo.getMaterialdesc();
             String spec = printInfo.getSpec();
             String batchNo = mView.getBatchNo();
-            float remainQty = mView.getRemainQty();
+            float printCount = mView.getPrintCount();
             float packQty = mView.getPackQty();
             if (materialNo.equals("")) {
                 MessageBox.Show(mContext, "物料编号不能为空");
@@ -105,13 +104,10 @@ public class BaseOrderLabelPrintPresenter {
                 MessageBox.Show(mContext, "包装数量必须大于0");
                 return;
             }
-            if (remainQty <= packQty) {
-                MessageBox.Show(mContext, "总数量必须大于等于包装量");
+            if (printCount <=0) {
+                MessageBox.Show(mContext, "打印张数必须大于0");
                 return;
             }
-            float divValue = ArithUtil.div(remainQty, packQty);
-            final double printCount = Math.ceil(divValue);   //向上取整
-            final float lastPackQty = remainQty % packQty;  //最后一箱数量 模
             List<PrintInfo> printInfoList = new ArrayList<>();
             for (int i = 0; i < printCount; i++) {
                 PrintInfo info = new PrintInfo();
@@ -119,16 +115,6 @@ public class BaseOrderLabelPrintPresenter {
                 info.setMaterialDesc(materialDesc);
                 info.setBatchNo(batchNo);
                 info.setSpec(spec);
-                if (i == printCount - 1) {  //最后一箱数量 ，余数等于0 就是包装量 ,模大于零 就去余数
-                    if (lastPackQty == 0) {
-                        info.setPackQty(packQty);
-                    } else {
-                        info.setPackQty(lastPackQty);
-                    }
-                } else {
-                    info.setPackQty(packQty);
-                }
-
                 printInfoList.add(mModel.getPrintModel(info));
 
             }
