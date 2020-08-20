@@ -45,7 +45,7 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_transfer_to_storage_scan);
+        return mContext.getResources().getString(R.string.appbar_title_transfer_to_storage_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 
 

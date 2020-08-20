@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,8 @@ import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -44,35 +48,36 @@ import androidx.recyclerview.widget.RecyclerView;
  * @ Created by yangyiqing on 2020/7/15.
  */
 @ContentView(R.layout.activity_product_storage_scan)
-public class ProductStorageScan extends BaseActivity implements IProductStoragerScanView {
+public class ProductStorageScan extends BaseActivity implements IProductStoragerScanView, IUserSettingView {
     protected Context mContext = ProductStorageScan.this;
     @ViewInject(R.id.btn_transfer_submission)
     Button mTransferSubmission;
     @ViewInject(R.id.lsv_ReceiptScan)
     protected RecyclerView mRecyclerView;
     @ViewInject(R.id.edt_RecScanBarcode)
-    protected EditText mPalletBarcode;
+    protected EditText     mPalletBarcode;
     @ViewInject(R.id.txt_VoucherNo)
-    protected EditText mErpVoucherNo;
+    protected EditText     mErpVoucherNo;
     @ViewInject(R.id.txt_Company)
-    protected TextView txtCompany;
+    protected TextView     txtCompany;
     @ViewInject(R.id.edt_area_no)
-    protected EditText mAreaNo;
+    protected EditText     mAreaNo;
     @ViewInject(R.id.receiption_scan_supplier_name)
     protected TextView     mSupplierName;
     @ViewInject(R.id.receiption_scan_out_barcode)
-    protected EditText mOutBarcode;
+    protected EditText     mOutBarcode;
     @ViewInject(R.id.btn_refer)
     protected Button       mRefer;
     @ViewInject(R.id.txt_receiption_scan_supplier_name)
-    TextView  mSupplierNameDesc;
+    TextView mSupplierNameDesc;
     BaseScanDetailAdapter mAdapter;
-    public final int                    REQUEST_CODE_OK = 1;
+    public final int    REQUEST_CODE_OK = 1;
     /*业务类型 */
-    protected    String                 mBusinessType   = "";
-    private      int                    IS_START        = 1;
+    protected    String mBusinessType   = "";
+    private      int    IS_START        = 1;
 
     ProductStorageScanPresenter mPresenter;
+    protected UserSettingPresenter mUserSettingPresenter;
 
     @Override
     protected void initViews() {
@@ -97,22 +102,22 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
     @Event(R.id.btn_transfer_submission)
     private void onclick(View view) {
-         if (mPresenter!=null){
-             mPresenter.onTransferSubmissionRefer();
-         }
+        if (mPresenter != null) {
+            mPresenter.onTransferSubmissionRefer();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mPresenter=getPresenter();
+        mPresenter = getPresenter();
 
 
     }
 
     @Override
     public void setTransferSubmissionStatus() {
-          mTransferSubmission.setVisibility(View.GONE);
+        mTransferSubmission.setVisibility(View.GONE);
     }
 
     @Override
@@ -122,7 +127,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
 
     protected void initTitle() {
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
 
     }
 
@@ -132,6 +137,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
             mPresenter.onHandleMessage(msg);
         }
     }
+
     /**
      * @desc: 单据号扫描
      * @param:
@@ -145,7 +151,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
         {
             String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
             if (mPresenter != null) {
-                OrderHeaderInfo orderHeaderInfo=new OrderHeaderInfo();
+                OrderHeaderInfo orderHeaderInfo = new OrderHeaderInfo();
                 orderHeaderInfo.setErpvoucherno(erpVoucherNo);
                 orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
                 mPresenter.getOrderDetailInfoList(orderHeaderInfo);
@@ -156,7 +162,6 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     }
 
 
-
     @Override
     protected void initData() {
         super.initData();
@@ -164,8 +169,9 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 //        List<OutBarcodeInfo> barCodeInfos = getIntent().getParcelableArrayListExtra("barCodeInfo");
         mBusinessType = getIntent().getStringExtra("BusinessType").toString();
         if (mPresenter == null) {
-            mPresenter = new  ProductStorageScanPresenter(mContext, this, mHandler, null, null);
+            mPresenter = new ProductStorageScanPresenter(mContext, this, mHandler, null, null);
         }
+        mUserSettingPresenter = new UserSettingPresenter(mContext, this);
     }
 
     protected void initListener() {
@@ -190,7 +196,6 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     public <T extends BaseOrderScanPresenter> T getPresenter() {
         return (T) mPresenter;
     }
-
 
 
     @Override
@@ -238,16 +243,16 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     }
 
 
-    @Event(value ={ R.id.btn_refer}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.btn_refer}, type = View.OnKeyListener.class)
     private boolean onRefer(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
 
-           switch (v.getId()){
-               case R.id.btn_refer:
-                   mPresenter.onOrderRefer();
-                   break;
-           }
+            switch (v.getId()) {
+                case R.id.btn_refer:
+                    mPresenter.onOrderRefer();
+                    break;
+            }
         }
         return false;
     }
@@ -333,7 +338,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
                     break;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "从物料界面传递数据给入库扫描界面出现异常" + e.getMessage() );
+            MessageBox.Show(mContext, "从物料界面传递数据给入库扫描界面出现异常" + e.getMessage());
         }
 
 
@@ -365,14 +370,14 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
     @Override
     public void setSecondLineInfo(String desc, String name, boolean isVisibility) {
-        if (isVisibility){
+        if (isVisibility) {
             mSupplierName.setVisibility(View.VISIBLE);
             mSupplierNameDesc.setVisibility(View.VISIBLE);
-            if (desc!=null && name!=null ){
+            if (desc != null && name != null) {
                 mSupplierNameDesc.setText(desc);
                 mSupplierName.setText(name);
             }
-        }else {
+        } else {
             mSupplierName.setVisibility(View.GONE);
             mSupplierNameDesc.setVisibility(View.GONE);
         }
@@ -380,7 +385,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
     @Override
     public void onActivityFinish(String title) {
-        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(title+" 是否返回上一页面？")
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(title + " 是否返回上一页面？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -390,9 +395,50 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
                 }).setNegativeButton("取消", null).show();
     }
 
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
 
-    ;
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
 
+    @Override
+    public void setTitle() {
+        if (mPresenter!=null){
+            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }
+        return false;
+    }
 
 
 }
