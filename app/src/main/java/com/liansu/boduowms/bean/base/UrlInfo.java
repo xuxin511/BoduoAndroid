@@ -135,18 +135,25 @@ public class UrlInfo {
                 SalesOutstock__SubmitBarcode = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
                 //托运单保存
-                SalesOutstock__Review_configSaveOrder =  GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
-                SalesOutstock__Review_configSelectOrder= GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单
+                SalesOutstock__Review_configSaveOrder = GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
+                SalesOutstock__Review_configSelectOrder = GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单
                 break;
-            case 46:
+            case 46://领料
                 SalesOutstock_ScanningNo = GetWCFAdress() + "RawMaterialOut/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "RawMaterialOut/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
                 break;
-            case 57:
+            case 57://委外工单
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OutWork/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OutWork/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
                 break;
-
+            case 25://一阶段调拨
+                SalesOutstock_ScanningNo = GetWCFAdress() + "Transferout/GetT_OutStockDetailListADFAsync"; //订单扫描
+                SalesOutstock_SacnningPallet = GetWCFAdress() + "Transferout/SaveT_OutStockDetailADFAsync"; //托盘提交
+                break;
+            case 30://二阶段调拨
+                SalesOutstock_ScanningNo = GetWCFAdress() + "TransferTwoout/GetT_OutStockDetailListADFAsync"; //订单扫描
+                SalesOutstock_SacnningPallet = GetWCFAdress() + "TransferTwoout/SaveT_OutStockDetailADFAsync"; //托盘提交
+                break;
         }
 
     }

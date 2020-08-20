@@ -38,7 +38,11 @@ public class OrderType {
 
     public final static String OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK  = "原材料发货";
     public final static String OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK  = "委外发料";
-
+    public final static String OUT_STOCK_ORDER_TYPE_SENDCARSORDER= "派车单";
+    public final static String OUT_STOCK_ORDER_TYPE_ALLOCATION= "一阶段调拨出";
+    public final static String OUT_STOCK_ORDER_TYPE_REALLOCATION= "二阶段调拨出";
+    public final static String OUT_STOCK_ORDER_TYPE_OTHEROUT= "杂出";
+    //Sendcarsorder
 
 
 }

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BODUOWMS.iml" filepath="$PROJECT_DIR$/BODUOWMS.iml" group="BODUOWMS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/BODUOWMS-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/BODUOWMS-app.iml" group="BODUOWMS/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="BODUOWMS/app" />
     </modules>
   </component>

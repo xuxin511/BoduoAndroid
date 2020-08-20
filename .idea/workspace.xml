@@ -2,11 +2,14 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config />
+      <config>
+        <device id="pixel" />
+        <device id="pixel_c" />
+      </config>
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutomaticModuleUnloader">
@@ -16,13 +19,96 @@
     </loaded-modules>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe741ad4-1b3c-4d15-b8a0-286ab64ebaec" name="Default Changelist" comment="出库验退流程" />
+    <list default="true" id="fe741ad4-1b3c-4d15-b8a0-286ab64ebaec" name="Default Changelist" comment="出库验退流程">
+      <change afterPath="$PROJECT_DIR$/.idea/modules/app/BODUOWMS-app.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/Model/MenuOutStockModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_activity_activity_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_activity_activity_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_appcompat_appcompat_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_appcompat_appcompat_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_appcompat_appcompat_resources_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_appcompat_appcompat_resources_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_arch_core_core_runtime_2_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_arch_core_core_runtime_2_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_cardview_cardview_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_cardview_cardview_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_1_1_3_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_1_1_3_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_coordinatorlayout_coordinatorlayout_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_coordinatorlayout_coordinatorlayout_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_cursoradapter_cursoradapter_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_cursoradapter_cursoradapter_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_customview_customview_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_customview_customview_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_drawerlayout_drawerlayout_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_drawerlayout_drawerlayout_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_exifinterface_exifinterface_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_exifinterface_exifinterface_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_fragment_fragment_1_2_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_fragment_fragment_1_2_1_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_interpolator_interpolator_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_interpolator_interpolator_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_extensions_2_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_extensions_2_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_livedata_2_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_livedata_2_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_livedata_core_2_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_livedata_core_2_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_process_2_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_process_2_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_runtime_2_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_runtime_2_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_service_2_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_service_2_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_viewmodel_2_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_viewmodel_2_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_viewmodel_savedstate_2_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_viewmodel_savedstate_2_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_loader_loader_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_loader_loader_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_multidex_multidex_2_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_multidex_multidex_2_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_multidex_multidex_instrumentation_2_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_multidex_multidex_instrumentation_2_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_navigation_navigation_common_2_2_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_navigation_navigation_common_2_2_1_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_navigation_navigation_fragment_2_2_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_navigation_navigation_fragment_2_2_1_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_navigation_navigation_runtime_2_2_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_navigation_navigation_runtime_2_2_1_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_navigation_navigation_ui_2_2_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_navigation_navigation_ui_2_2_1_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_recyclerview_recyclerview_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_recyclerview_recyclerview_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_savedstate_savedstate_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_savedstate_savedstate_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_swiperefreshlayout_swiperefreshlayout_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_swiperefreshlayout_swiperefreshlayout_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_core_1_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_core_1_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_ext_junit_1_1_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_ext_junit_1_1_1_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_transition_transition_1_2_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_transition_transition_1_2_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_animated_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_animated_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_versionedparcelable_versionedparcelable_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_versionedparcelable_versionedparcelable_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_viewpager2_viewpager2_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_viewpager2_viewpager2_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_viewpager_viewpager_1_0_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_viewpager_viewpager_1_0_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_contrarywind_Android_PickerView_4_1_9_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_contrarywind_Android_PickerView_4_1_9_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_contrarywind_wheelview_4_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_contrarywind_wheelview_4_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_gifdecoder_4_11_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_gifdecoder_4_11_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_glide_4_11_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_glide_4_11_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_material_material_1_1_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_material_material_1_1_0_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_haibin_calendarview_3_6_9_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_haibin_calendarview_3_6_9_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_xutils_xutils_3_3_40_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_xutils_xutils_3_3_40_aar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/bean/base/UrlInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/bean/base/UrlInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/bean/order/OrderType.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/bean/order/OrderType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/debug/DebugModuleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/debug/DebugModuleData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/menu/outboundBusiness/OutboundBusinessMenuPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/menu/outboundBusiness/OutboundBusinessMenuPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/menu/outboundBusiness/subMenu/OutboundBusinessSubMenuModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/menu/outboundBusiness/subMenu/OutboundBusinessSubMenuModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockRawmaterialActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockRawmaterialActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutstock.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutstock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="127.0.0.1:62027" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="192.168.111.102:5555" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -73,8 +159,8 @@
       <list>
         <option value="valueResourceFile" />
         <option value="layoutResourceFile" />
-        <option value="resourceFile" />
         <option value="Interface" />
+        <option value="resourceFile" />
         <option value="Class" />
       </list>
     </option>
@@ -87,6 +173,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1dfSDHoR9mRVlvhO5d9WDaiPdkN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -99,26 +186,40 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="app" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="127.0.0.1:62027" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-04T11:10:47.440Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="192.168.111.102:5555" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-20T03:40:30.934Z" />
     <property name="ExportApk.ApkPath" value="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app" />
     <property name="ExportApk.BuildVariants" value="release" />
     <property name="ExportApk.SignV1" value="true" />
     <property name="ExportApk.SignV2" value="true" />
     <property name="KEY_COMPOSED_FOLDERS" value="{&quot;DecomposedFolders&quot;:[]}" />
-    <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../../../../ANDROID/SDK" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="android.sdk.path" value="C:/../../ANDROID/SDK" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable-mdpi" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="http.proxy" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
+    <key name="android.template.2058828689">
+      <recent name="com.liansu.boduowms.modules.outstock.SalesOutstock" />
+    </key>
+    <key name="android.template.-1950521660">
+      <recent name="com.liansu.boduowms" />
+    </key>
+    <key name="android.template.-93522261">
+      <recent name="com.liansu.boduowms" />
+    </key>
+    <key name="android.template.192917806">
+      <recent name="com.liansu.boduowms.modules.outstock.SalesOutstock" />
+      <recent name="com.liansu.boduowms" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\drawable-mdpi" />
       <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout" />
@@ -126,12 +227,11 @@
       <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout\login_view" />
       <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout\baseView" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout" />
-      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\modules\outstock\purchaseReturn" />
-      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\modules\qualityInspection\purchaseInspection\scan" />
-      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\ui\adapter\outstock" />
-      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\drawable-mdpi" />
+    <key name="android.template.-1671304820">
+      <recent name="com.liansu.boduowms.modules.outstock.SalesOutstock" />
+    </key>
+    <key name="android.template.260191673">
+      <recent name="com.liansu.boduowms" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.liansu.boduowms.ui.adapter.outstock.offscan" />
@@ -140,11 +240,24 @@
       <recent name="com.liansu.boduowms.modules.qualityInspection.purchaseInspection.bill" />
       <recent name="com.liansu.boduowms.modules.qualityInspection.purchaseInspection" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\layout" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\modules\outstock\purchaseReturn" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\modules\qualityInspection\purchaseInspection\scan" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\java\com\liansu\boduowms\ui\adapter\outstock" />
+      <recent name="F:\DEVELOPMENT\WORKPACE\Project\SCG\project\BODUO\app\BODUOWMS\app\src\main\res\drawable-mdpi" />
+    </key>
+    <key name="android.template.-863820108">
+      <recent name="com.liansu.boduowms" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.liansu.boduowms.ui.dialog" />
     </key>
+    <key name="android.template.693151776">
+      <recent name="com.liansu.boduowms.modules.outstock.SalesOutstock" />
+    </key>
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="Android App.BODUOWMS-app">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -178,6 +291,57 @@
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BODUOWMS-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="BODUOWMS-app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
@@ -450,7 +614,42 @@
       <option name="project" value="LOCAL" />
       <updated>1596689067865</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="出库验退流程">
+      <created>1596878086939</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1596878086939</updated>
+    </task>
+    <task id="LOCAL-00020" summary="出库验退流程">
+      <created>1597229796571</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1597229796572</updated>
+    </task>
+    <task id="LOCAL-00021" summary="出库验退流程">
+      <created>1597375044847</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1597375044847</updated>
+    </task>
+    <task id="LOCAL-00022" summary="出库验退流程">
+      <created>1597745039760</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1597745039761</updated>
+    </task>
+    <task id="LOCAL-00023" summary="出库验退流程">
+      <created>1597890781307</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1597890781307</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -486,18 +685,26 @@
     <option name="LAST_COMMIT_MESSAGE" value="出库验退流程" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="261" y="0" key="#Notifications" timestamp="1596540217748">
+    <state x="477" y="56" key="#BODUOWMS-app" timestamp="1597062374890">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="261" y="0" key="#Notifications/0.0.1536.824@0.0.1536.824" timestamp="1596540217748" />
+    <state x="477" y="56" key="#BODUOWMS-app/0.0.1536.824@0.0.1536.824" timestamp="1597062374890" />
+    <state x="261" y="0" key="#Notifications" timestamp="1597377978508">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="261" y="0" key="#Notifications/0.0.1536.824@0.0.1536.824" timestamp="1597377978508" />
     <state x="425" y="0" key="#app" timestamp="1596272713618">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="0" key="#app/0.0.1536.824@0.0.1536.824" timestamp="1596272713618" />
-    <state x="530" y="42" key="#com.intellij.ide.util.MemberChooser" timestamp="1596684427764">
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597053339046">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="530" y="42" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1596684427764" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1597053339046" />
+    <state x="530" y="42" key="#com.intellij.ide.util.MemberChooser" timestamp="1597892858816">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="530" y="42" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1597892858816" />
     <state x="5" y="324" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1596552738652">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -510,58 +717,66 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1595754977637" />
-    <state x="608" y="163" key="AndroidProcessChooserDialog" timestamp="1596450548470">
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1597200088033">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="608" y="163" key="AndroidProcessChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1596450548470" />
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1596689142630">
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1597200088033" />
+    <state x="349" y="167" key="AndroidCreateResourceFileDialog" timestamp="1597392523979">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1596689142630" />
-    <state width="603" height="546" key="DebuggerActiveHint" timestamp="1596683582080">
+    <state x="349" y="167" key="AndroidCreateResourceFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1597392523979" />
+    <state x="608" y="163" key="AndroidProcessChooserDialog" timestamp="1597894345176">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="603" height="546" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1596683582080" />
-    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1596335650710">
+    <state x="608" y="163" key="AndroidProcessChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1597894345176" />
+    <state x="356" y="12" key="CommitChangelistDialog2" timestamp="1597891041007">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1596335650710" />
-    <state x="499" y="110" key="FileChooserDialogImpl" timestamp="1596609496316">
+    <state x="356" y="12" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1597891041007" />
+    <state width="603" height="546" key="DebuggerActiveHint" timestamp="1597900061292">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="110" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1596609496316" />
-    <state width="1483" height="252" key="GridCell.Tab.0.bottom" timestamp="1596689037983">
+    <state width="603" height="546" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1597900061292" />
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1597890907518">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1483" height="252" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
-    <state width="1483" height="252" key="GridCell.Tab.0.center" timestamp="1596689037983">
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1597890907518" />
+    <state x="589" y="139" key="FileChooserDialogImpl" timestamp="1597656213992">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1483" height="252" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
-    <state width="1483" height="252" key="GridCell.Tab.0.left" timestamp="1596689037983">
+    <state x="589" y="139" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1597656213992" />
+    <state width="746" height="167" key="GridCell.Tab.0.bottom" timestamp="1597899802682">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1483" height="252" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
-    <state width="1483" height="252" key="GridCell.Tab.0.right" timestamp="1596689037983">
+    <state width="746" height="167" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1597899802682" />
+    <state width="746" height="167" key="GridCell.Tab.0.center" timestamp="1597899802682">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1483" height="252" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
-    <state width="1483" height="252" key="GridCell.Tab.1.bottom" timestamp="1596689037983">
+    <state width="746" height="167" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1597899802682" />
+    <state width="746" height="167" key="GridCell.Tab.0.left" timestamp="1597899802682">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1483" height="252" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
-    <state width="1483" height="252" key="GridCell.Tab.1.center" timestamp="1596689037983">
+    <state width="746" height="167" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1597899802682" />
+    <state width="746" height="167" key="GridCell.Tab.0.right" timestamp="1597899802682">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1483" height="252" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
-    <state width="1483" height="252" key="GridCell.Tab.1.left" timestamp="1596689037983">
+    <state width="746" height="167" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1597899802682" />
+    <state width="746" height="167" key="GridCell.Tab.1.bottom" timestamp="1597899827438">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1483" height="252" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
-    <state width="1483" height="252" key="GridCell.Tab.1.right" timestamp="1596689037983">
+    <state width="746" height="167" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1597899827438" />
+    <state width="746" height="167" key="GridCell.Tab.1.center" timestamp="1597899827438">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1483" height="252" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1596689037983" />
+    <state width="746" height="167" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1597899827438" />
+    <state width="746" height="167" key="GridCell.Tab.1.left" timestamp="1597899827438">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="746" height="167" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1597899827438" />
+    <state width="746" height="167" key="GridCell.Tab.1.right" timestamp="1597899827438">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="746" height="167" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1597899827438" />
     <state width="1483" height="252" key="GridCell.Tab.2.bottom" timestamp="1596689037984">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -614,34 +829,50 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="249" y="95" key="IDE.errors.dialog/0.0.1536.824@0.0.1536.824" timestamp="1595483379208" />
-    <state x="150" y="0" key="SettingsEditor" timestamp="1596383146306">
+    <state x="200" y="37" key="MergeDialog" timestamp="1597889156450">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="150" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1596383146306" />
-    <state x="261" y="80" key="Vcs.Push.Dialog.v2" timestamp="1596689160025">
+    <state x="200" y="37" key="MergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1597889156450" />
+    <state x="477" y="128" key="MultipleFileMergeDialog" timestamp="1597889156461">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="261" y="80" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1596689160025" />
-    <state width="756" height="420" key="XDebugger.FullValuePopup" timestamp="1596683582075">
+    <state x="477" y="128" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1597889156461" />
+    <state x="149" y="42" key="SettingsEditor" timestamp="1597297204020">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="756" height="420" key="XDebugger.FullValuePopup/0.0.1536.824@0.0.1536.824" timestamp="1596683582075" />
+    <state x="149" y="42" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1597297204020" />
+    <state x="261" y="80" key="Vcs.Push.Dialog.v2" timestamp="1597890789724">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="261" y="80" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1597890789724" />
+    <state width="756" height="420" key="XDebugger.FullValuePopup" timestamp="1596707815364">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="756" height="420" key="XDebugger.FullValuePopup/0.0.1536.824@0.0.1536.824" timestamp="1596707815364" />
     <state x="530" y="177" key="chooseDestDirectoryDialog" timestamp="1596441790975">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="530" y="177" key="chooseDestDirectoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1596441790975" />
+    <state x="100" y="100" width="1336" height="630" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596771544301">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="100" y="100" width="1336" height="630" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1536.824@0.0.1536.824" timestamp="1596771544301" />
     <state x="0" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1595310873352">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1595310873352" />
+    <state x="562" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597903523746">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="562" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1597903523746" />
     <state x="100" y="100" width="1336" height="624" key="dock-window-1" timestamp="1595921974992">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="100" y="100" width="1336" height="624" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1595921974992" />
-    <state x="377" y="85" width="781" height="654" key="find.popup" timestamp="1594972707806">
+    <state x="377" y="85" width="781" height="654" key="find.popup" timestamp="1597230300936">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="377" y="85" width="781" height="654" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594972707806" />
+    <state x="377" y="85" width="781" height="654" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1597230300936" />
     <state width="376" height="45" key="javadoc.popup.new" timestamp="1596685296766">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -650,14 +881,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="451" y="0" key="refactoring.ChangeSignatureDialog/0.0.1536.824@0.0.1536.824" timestamp="1596498565794" />
-    <state x="342" y="183" width="840" height="1034" key="run.anything.popup" timestamp="1596510525429">
+    <state x="342" y="183" width="840" height="1034" key="run.anything.popup" timestamp="1597890520438">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="342" y="183" width="840" height="1034" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1596510525429" />
-    <state x="347" y="0" width="840" height="822" key="search.everywhere.popup" timestamp="1596580476924">
+    <state x="342" y="183" width="840" height="1034" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1597890520438" />
+    <state x="347" y="0" width="840" height="822" key="search.everywhere.popup" timestamp="1597296626075">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="347" y="0" width="840" height="822" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1596580476924" />
+    <state x="347" y="0" width="840" height="822" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1597296626075" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -684,7 +915,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/ui/dialog/MaterialInfoDialogActivity.java</url>
-          <line>118</line>
+          <line>126</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -704,12 +935,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/scan/ProductStorageScan.java</url>
-          <line>98</line>
+          <line>100</line>
           <option name="timeStamp" value="180" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/base/BasePresenterFactory.java</url>
-          <line>91</line>
+          <line>89</line>
           <option name="timeStamp" value="204" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -719,52 +950,52 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/qualityInspectionProcessing/QualityInspectionProcessingPresenter.java</url>
-          <line>292</line>
+          <line>284</line>
           <option name="timeStamp" value="259" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionPresenter.java</url>
-          <line>261</line>
+          <line>367</line>
           <option name="timeStamp" value="309" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionModel.java</url>
-          <line>298</line>
+          <line>327</line>
           <option name="timeStamp" value="312" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/offScan/BaseOutStockBusinessPresenter.java</url>
-          <line>82</line>
+          <line>154</line>
           <option name="timeStamp" value="315" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/baseOrderBusiness/bill/BaseOrderBillChoice.java</url>
-          <line>168</line>
+          <line>181</line>
           <option name="timeStamp" value="317" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionModel.java</url>
-          <line>307</line>
+          <line>336</line>
           <option name="timeStamp" value="321" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionModel.java</url>
-          <line>319</line>
+          <line>348</line>
           <option name="timeStamp" value="325" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/print/PrintBusinessModel.java</url>
-          <line>70</line>
+          <line>75</line>
           <option name="timeStamp" value="334" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionPresenter.java</url>
-          <line>165</line>
+          <line>198</line>
           <option name="timeStamp" value="336" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/randomInspection/scan/QualityInspectionPresenter.java</url>
-          <line>160</line>
+          <line>187</line>
           <option name="timeStamp" value="338" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -779,12 +1010,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/purchaseStorage/scan/PurchaseStorageScanPresenter.java</url>
-          <line>45</line>
+          <line>47</line>
           <option name="timeStamp" value="441" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/activeOtherStorage/scan/ActiveOtherScanPresenter.java</url>
-          <line>125</line>
+          <line>140</line>
           <option name="timeStamp" value="461" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -794,22 +1025,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/printPalletScan/PrintPalletScanModel.java</url>
-          <line>366</line>
+          <line>368</line>
           <option name="timeStamp" value="508" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/printPalletScan/PrintPalletScanModel.java</url>
-          <line>368</line>
+          <line>370</line>
           <option name="timeStamp" value="509" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/qualityInspectionProcessing/QualityInspectionProcessingModel.java</url>
-          <line>172</line>
+          <line>170</line>
           <option name="timeStamp" value="511" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/qualityInspection/qualityInspectionProcessing/QualityInspectionProcessingPresenter.java</url>
-          <line>240</line>
+          <line>235</line>
           <option name="timeStamp" value="512" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -829,17 +1060,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/scan/ProductStorageScanPresenter.java</url>
-          <line>221</line>
+          <line>297</line>
           <option name="timeStamp" value="579" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanPresenter.java</url>
-          <line>199</line>
+          <line>252</line>
           <option name="timeStamp" value="604" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanPresenter.java</url>
-          <line>193</line>
+          <line>246</line>
           <option name="timeStamp" value="605" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -849,62 +1080,62 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SalesReturnPrintPresenter.java</url>
-          <line>182</line>
+          <line>205</line>
           <option name="timeStamp" value="615" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SaleReturnPrintModel.java</url>
-          <line>189</line>
+          <line>187</line>
           <option name="timeStamp" value="616" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/baseOrderBusiness/scan/BaseOrderScanPresenter.java</url>
-          <line>125</line>
+          <line>130</line>
           <option name="timeStamp" value="621" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/purchaseStorage/scan/PurchaseStorageScanModel.java</url>
-          <line>113</line>
+          <line>130</line>
           <option name="timeStamp" value="623" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/printPalletScan/PrintPalletScanPresenter.java</url>
-          <line>153</line>
+          <line>175</line>
           <option name="timeStamp" value="627" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/productStorage/printPalletScan/PrintPalletScanPresenter.java</url>
-          <line>157</line>
+          <line>182</line>
           <option name="timeStamp" value="628" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SalesReturnPrintPresenter.java</url>
-          <line>78</line>
+          <line>85</line>
           <option name="timeStamp" value="630" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/print/SalesReturnPrintPresenter.java</url>
-          <line>134</line>
+          <line>156</line>
           <option name="timeStamp" value="631" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanPresenter.java</url>
-          <line>190</line>
+          <line>243</line>
           <option name="timeStamp" value="632" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/salesReturn/scan/SalesReturnStorageScanPresenter.java</url>
-          <line>146</line>
+          <line>175</line>
           <option name="timeStamp" value="633" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
-          <line>253</line>
+          <line>252</line>
           <option name="timeStamp" value="669" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>444</line>
+          <line>625</line>
           <option name="timeStamp" value="673" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -919,7 +1150,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
-          <line>252</line>
+          <line>301</line>
           <option name="timeStamp" value="696" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -929,32 +1160,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/baseReviewScan/BaseReviewScanModel.java</url>
-          <line>97</line>
+          <line>95</line>
           <option name="timeStamp" value="699" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
-          <line>256</line>
+          <line>305</line>
           <option name="timeStamp" value="703" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>156</line>
+          <line>166</line>
           <option name="timeStamp" value="707" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>160</line>
+          <line>170</line>
           <option name="timeStamp" value="708" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
-          <line>233</line>
+          <line>232</line>
           <option name="timeStamp" value="721" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>381</line>
+          <line>530</line>
           <option name="timeStamp" value="722" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -964,32 +1195,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>133</line>
+          <line>130</line>
           <option name="timeStamp" value="726" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
-          <line>259</line>
+          <line>308</line>
           <option name="timeStamp" value="728" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
-          <line>177</line>
+          <line>217</line>
           <option name="timeStamp" value="729" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
-          <line>183</line>
+          <line>223</line>
           <option name="timeStamp" value="730" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
-          <line>196</line>
+          <line>236</line>
           <option name="timeStamp" value="731" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
-          <line>207</line>
+          <line>247</line>
           <option name="timeStamp" value="732" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
@@ -999,63 +1230,198 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/reviewScan/PurchaseInspectionReviewScanPresenter.java</url>
-          <line>129</line>
+          <line>164</line>
           <option name="timeStamp" value="736" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/baseReviewScan/BaseReviewScan.java</url>
-          <line>235</line>
+          <line>254</line>
           <option name="timeStamp" value="746" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/baseOutStockBusiness/baseReviewScan/BaseReviewScan.java</url>
-          <line>240</line>
+          <line>259</line>
           <option name="timeStamp" value="747" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
-          <line>252</line>
+          <line>251</line>
           <option name="timeStamp" value="749" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>199</line>
+          <line>244</line>
           <option name="timeStamp" value="755" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>206</line>
+          <line>261</line>
           <option name="timeStamp" value="758" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>351</line>
+          <line>491</line>
           <option name="timeStamp" value="760" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>300</line>
+          <line>408</line>
           <option name="timeStamp" value="761" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>211</line>
+          <line>266</line>
           <option name="timeStamp" value="762" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingPresenter.java</url>
-          <line>215</line>
+          <line>270</line>
           <option name="timeStamp" value="763" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/purchaseInspection/offScan/scan/PurchaseInspectionProcessingModel.java</url>
-          <line>246</line>
+          <line>245</line>
           <option name="timeStamp" value="764" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/instock/purchaseStorage/scan/PurchaseStorageScanModel.java</url>
-          <line>98</line>
+          <line>99</line>
           <option name="timeStamp" value="765" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutStockBox.java</url>
+          <line>78</line>
+          <option name="timeStamp" value="871" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutStockBoxList.java</url>
+          <line>154</line>
+          <option name="timeStamp" value="938" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutStockBoxList.java</url>
+          <line>217</line>
+          <option name="timeStamp" value="943" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutStockBoxList.java</url>
+          <line>171</line>
+          <option name="timeStamp" value="950" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutStockBoxList.java</url>
+          <line>184</line>
+          <option name="timeStamp" value="951" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutStockBoxList.java</url>
+          <line>191</line>
+          <option name="timeStamp" value="955" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutReview.java</url>
+          <line>588</line>
+          <option name="timeStamp" value="984" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutReview.java</url>
+          <line>317</line>
+          <option name="timeStamp" value="985" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutReview.java</url>
+          <line>410</line>
+          <option name="timeStamp" value="996" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutstock.java</url>
+          <line>741</line>
+          <option name="timeStamp" value="1004" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutstock.java</url>
+          <line>719</line>
+          <option name="timeStamp" value="1005" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/SalesOutStockBox.java</url>
+          <line>353</line>
+          <option name="timeStamp" value="1009" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockRawmaterialActivity.java</url>
+          <line>183</line>
+          <option name="timeStamp" value="1026" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockRawmaterialActivity.java</url>
+          <line>231</line>
+          <option name="timeStamp" value="1027" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockRawmaterialActivity.java</url>
+          <line>419</line>
+          <option name="timeStamp" value="1028" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockConfigreview.java</url>
+          <line>503</line>
+          <option name="timeStamp" value="1033" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockConfigreview.java</url>
+          <line>304</line>
+          <option name="timeStamp" value="1034" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java</url>
+          <line>73</line>
+          <option name="timeStamp" value="1042" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java</url>
+          <line>514</line>
+          <option name="timeStamp" value="1066" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockConfigreview.java</url>
+          <line>280</line>
+          <option name="timeStamp" value="1076" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockConfigreview.java</url>
+          <line>186</line>
+          <option name="timeStamp" value="1077" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockConsignmentDetail.java</url>
+          <line>104</line>
+          <option name="timeStamp" value="1085" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java</url>
+          <line>152</line>
+          <option name="timeStamp" value="1088" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java</url>
+          <line>187</line>
+          <option name="timeStamp" value="1091" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java</url>
+          <line>420</line>
+          <option name="timeStamp" value="1092" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java</url>
+          <line>279</line>
+          <option name="timeStamp" value="1093" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/liansu/boduowms/modules/outstock/SalesOutstock/OutstockSalesConfig.java</url>
+          <line>408</line>
+          <option name="timeStamp" value="1094" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -15,7 +15,6 @@
         <activity android:name=".modules.outstock.SalesOutstock.OutstockRawmaterialActivity" />
         <activity android:name=".modules.outstock.SalesOutstock.OutstockSalesConfig" android:windowSoftInputMode="adjustPan|stateHidden"></activity>
 
-
         <activity
 
             android:name=".modules.menu.MainActivity"
@@ -83,6 +82,9 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint" />
         <activity android:name=".modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan" />
+        <activity android:name=".modules.instock.batchPrint.order.BaseOrderLabelPrintSelect" />
+        <activity android:name=".modules.instock.batchPrint.print.BaseOrderLabelPrint" />
+        <activity android:name=".modules.instock.transferToStorage.scan.TransferToStorageScan" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.liansu.boduowms.fileProvider"
@@ -104,5 +106,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+
 
 </manifest>

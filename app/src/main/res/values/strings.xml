@@ -4,7 +4,7 @@
     <string name="title_storage_business">入库业务</string>
     <string name="title_in_house_management">库内管理</string>
     <string name="title_outbound_business">出库业务</string>
-    <string name="activity_login_company">chinetek 上海辰达 @2017</string>
+    <string name="activity_login_company">chinetek 上海辰达 @2020</string>
     <string name="version_msg">当前版本：1.0</string>
     <string name="warehousename">仓库</string>
     <string name="SaveSuccess">保存成功！</string>
@@ -137,8 +137,8 @@
     <string name="main_menu_item_other_outbound">其他出库</string>
     <string name="main_menu_item_outsourcing_dispatch">委外发料</string>
     <string name="main_menu_item_transfer_out_of_warehouse">调拨出库</string>
-    <string name="main_menu_item_loading_truck">装车</string>
-    <string name="main_menu_item_other_loading_truck">发货装车复核</string>
+    <string name="main_menu_item_loading_truck">发货装车</string>
+    <string name="main_menu_item_other_loading_truck">市内装车</string>
     <string name="main_menu_item_delivery_lcl">发货拼箱</string>
     <string name="main_menu_item_loading_truck_setting">装车设置</string>
     <string name="main_menu_item_purchase_inspection">采购验退</string>
@@ -411,12 +411,14 @@
     <string name="dialog_balcony_desc">月台:</string>
     <string name="message_request_quality_barcode_refer">正在提交条码信息</string>
 
-    //销售出库
+    //出库
     <string name="main_menu_item_sales_out_stock">销售出库</string>
     <string name="main_menu_item_rowmaterial_lcl">原材料出库</string>
     <string name="main_menu_item_outsourc_lcl">委外发料</string>
-
-
+    <string name="main_menu_item_outsotck_Sendcarsorder">派车单</string>
+    <string name="main_menu_item_outsotck_allocation">一阶段调拨出</string>
+    <string name="main_menu_item_outsotck_reallocation">二阶段调拨出</string>
+    <string name="main_menu_item_outsotck_otherout">杂出</string>
     //入库打印订单选择基类
     <string name="print_type_desc">打印类型:</string>
     <string name="print_type_pallet_no_print_desc">托盘标签</string>

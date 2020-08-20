@@ -137,6 +137,14 @@ public class DebugModuleData {
         itemNamesList.add(context.getString(R.string.main_menu_item_rowmaterial_lcl));
         itemIconList.add(R.drawable.sales_out_of_stock);
         itemNamesList.add(context.getString(R.string.main_menu_item_outsourc_lcl));
+        itemIconList.add(R.drawable.sales_return);
+        itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_Sendcarsorder));
+        itemIconList.add(R.drawable.outsourcing);
+        itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_allocation));
+        itemIconList.add(R.drawable.outsourcing);
+        itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_reallocation));
+        itemIconList.add(R.drawable.transfer_to_storage);
+        itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_otherout));
     }
 
     /**

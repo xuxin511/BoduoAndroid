@@ -185,6 +185,7 @@ public class OutstockSalesConfig extends BaseActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        CommonUtil.setEditFocus(sales_outstock_wlOrder);
     }
 
 
@@ -223,6 +224,7 @@ public class OutstockSalesConfig extends BaseActivity {
         fydapter.addPairs(2, "2", "件数", fydapter.pairs);
         fydapter.addPairs(3, "3", "体积", fydapter.pairs);
         fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+        CommonUtil.setEditFocus(sales_outstock_wlOrder);
     }
 
     //确认按钮
@@ -264,8 +266,10 @@ public class OutstockSalesConfig extends BaseActivity {
                 awyBll.Vouchertype=CurrVoucherType;
                 awyBll.Trackingnumber=sales_outstock_wlOrder.getText().toString().trim();
                 awyBll.Address= outstock_config_address.getText().toString().trim();
+                awyBll.SendAddress= outstock_config_address.getText().toString().trim();
+                awyBll.Contacts=outstock_config_creater.getText().toString().trim();
                 //awyBll.Customerno= outstock_config_creater.getText().toString().trim();
-                awyBll.InsuranceCost= Float.parseFloat(sales_outstock_configbj_text.getText().toString().trim());
+               // awyBll.InsuranceCost= Float.parseFloat(sales_outstock_configbj_text.getText().toString().trim());
                 awyBll.LogisticsCompany= mfhSpinner.getText().toString().trim();
                 if(pair.value.equals("2")) {
                     awyBll.OutCostTotal= Float.parseFloat(sales_outstock_configsm_text.getText().toString().trim());
@@ -411,6 +415,9 @@ public class OutstockSalesConfig extends BaseActivity {
             awyBll.LinkVoucherNo=returnMsgModel.getData().getErpvoucherno();
             awyBll.Customerno=returnMsgModel.getData().getCustomerno();
             awyBll.Address=returnMsgModel.getData().getAddress();
+            awyBll.Customername=returnMsgModel.getData().getCustomername();
+            awyBll.Tel=returnMsgModel.getData().getTel();
+            awyBll.LogisticsCompany=returnMsgModel.getData().getLogisticsCompany();
             model.Address = returnMsgModel.getData().getAddress();
             model.Customerno = returnMsgModel.getData().getCustomerno();
             String json = GsonUtil.parseModelToJson(model);
@@ -504,6 +511,7 @@ public class OutstockSalesConfig extends BaseActivity {
             public void onClick(DialogInterface dialog, int which){
                 //再次提交
                 try {
+
                     String order = cities[which];
                     for (AwyBll model : awyBllList) {
                         if (model.Erpvoucherno.equals(order)) {
@@ -522,7 +530,7 @@ public class OutstockSalesConfig extends BaseActivity {
                         }
                     }
                     if (order.equals("新的托运单号")) {
-                        awyBll = awyBllList.get(0);
+                        awyBll.Erpvoucherno = awyBllList.get(0).getErpvoucherno();
                     }
                     awyBll.LinkVoucherNo=CurrVoucherNo;
                     outstock_sales_config_order.setText(awyBll.Erpvoucherno);

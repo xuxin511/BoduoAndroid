@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: org.xutils:xutils:3.3.40@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e8986bd022c63c5961833f1fe9145535/jetified-xutils-3.3.40/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e8986bd022c63c5961833f1fe9145535/jetified-xutils-3.3.40/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e8986bd022c63c5961833f1fe9145535/jetified-xutils-3.3.40/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9db851bfbe3c6b81bbddf70a43119d2e/jetified-xutils-3.3.40/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9db851bfbe3c6b81bbddf70a43119d2e/jetified-xutils-3.3.40/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9db851bfbe3c6b81bbddf70a43119d2e/jetified-xutils-3.3.40/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.xutils/xutils/3.3.40/ed755cc2fa9565699081ebeded6c14e47e62a562/xutils-3.3.40-javadoc.jar!/" />

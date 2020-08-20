@@ -29,6 +29,7 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
@@ -72,8 +73,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     Context context = OutstockRawmaterialActivity.this;
     //region  控件
     //司机
-
-
 
     //订单框
     @ViewInject(R.id.sales_outstock_rawmaterial_order)
@@ -122,9 +121,12 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         //  mBusinessType = getIntent().getStringExtra("BusinessType").toString();
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
-        int type=Integer.parseInt(data.toString());
+        MenuOutStockModel model = new MenuOutStockModel();
+        String arr=data.toString();
+        model = GsonUtil.parseJsonToModel(arr,MenuOutStockModel.class);
+        int type=Integer.parseInt(model.VoucherType);
         info.InitUrl(type);
-        BaseApplication.toolBarTitle = new ToolBarTitle("配货下架", true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(model.Title, true);
         x.view().inject(this);
         //默认是托盘提交  隐藏箱号框
         CurrOrderNO="";

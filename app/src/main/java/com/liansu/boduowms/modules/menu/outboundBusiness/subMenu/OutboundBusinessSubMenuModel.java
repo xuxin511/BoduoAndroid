@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockSalesConfig;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutReview;
@@ -14,6 +15,7 @@ import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScan;
+import com.liansu.boduowms.utils.function.GsonUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,8 +60,6 @@ public class OutboundBusinessSubMenuModel {
         } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
             mItemIconList.add(R.drawable.other_outbound);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-            mItemIconList.add(R.drawable.loading_truck);
-            mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck));
             mItemIconList.add(R.drawable.set_tray_and_remove_tray);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_delivery_lcl));
             mItemIconList.add(R.drawable.loading_truck);
@@ -72,7 +72,16 @@ public class OutboundBusinessSubMenuModel {
         else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK)) {//委外发料  二级菜单加载
             mItemIconList.add(R.drawable.other_outbound);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
+        }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER)) {
+            mItemIconList.add(R.drawable.other_outbound);
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
+            mItemIconList.add(R.drawable.loading_truck);
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck));
+        }else if(businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION)) {
+            mItemIconList.add(R.drawable.other_outbound);
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
         }
+
         for (int i = 0; i < mItemIconList.size(); i++) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("image", mItemIconList.get(i));
@@ -99,11 +108,22 @@ public class OutboundBusinessSubMenuModel {
                 intent.setClass(mContext, PurchaseReturnOffScan.class);
             }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
                 //销售出库下架
-                Uri data = Uri.parse("29");
+                MenuOutStockModel model=new MenuOutStockModel();
+                model.Title="销售出库下架";
+                model.VoucherType="29";
+                String json = GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
                 intent.setData(data);
                 intent.setClass(mContext, SalesOutstock.class);
-            }else  if(businessType.equals((OrderType.OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK))){
-                //原材料发货下架
+            }else  if(businessType.equals((OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER))){
+                //派车单
+                MenuOutStockModel model=new MenuOutStockModel();
+                model.Title="派车单下架";
+                model.VoucherType="29";
+                String json = GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
+                intent.setData(data);
+                intent.setClass(mContext, SalesOutstock.class);
 //                Uri data = Uri.parse("46");
 //                intent.setData(data);
 //                intent.setClass(mContext, OutstockRawmaterialActivity.class);
@@ -114,14 +134,20 @@ public class OutboundBusinessSubMenuModel {
 //                intent.setData(data);
 //                intent.setClass(mContext, SalesOutstock.class);
             }
+
             intent.putExtra("BusinessType", businessType);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
-          //复核
+          //市内装车
           //  intent = intent.setClass(mContext, BaseReviewScan.class);
             if  (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
                 intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
             }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
                 //销售出库复核PackingScanAdapter
+                Uri data = Uri.parse("29");
+                intent.setData(data);
+                intent.setClass(mContext, SalesOutReview.class);
+            }
+            else if(businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER )){
                 Uri data = Uri.parse("29");
                 intent.setData(data);
                 intent.setClass(mContext, SalesOutReview.class);
@@ -144,7 +170,7 @@ public class OutboundBusinessSubMenuModel {
             intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
 
         }else if(moduleName.equals((mContext.getString(((R.string.main_menu_item_loading_truck)))))) {
-            //装车
+            //发货装车
             //销售出库装车
             if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
                 Uri data = Uri.parse("29");
