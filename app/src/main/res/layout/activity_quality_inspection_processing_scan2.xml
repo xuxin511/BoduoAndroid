@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/quality_inspection_scan_stronghold_no"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -34,6 +35,7 @@
         app:layout_constraintRight_toRightOf="@+id/guideline_v_2"
         app:layout_constraintTop_toBottomOf="@+id/quality_inspection_voucher_no_desc_name" />
     <TextView
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/quality_inspection_scan_strongholdNo"
@@ -268,6 +270,19 @@
     </TextView>
 
     <TextView
+        android:id="@+id/quality_inspection_scan_sampqty_qty_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/quality_inspection_scan_sampqty_qty_desc"
+        android:textColor="@color/black"
+        android:textSize="@dimen/activity_purchase_inspection_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/quality_inspection_scan_sampqty_qty"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_v_1"
+        app:layout_constraintTop_toTopOf="@+id/quality_inspection_scan_sampqty_qty">
+
+    </TextView>
+
+    <TextView
         android:id="@+id/quality_inspection_scan_father_barcode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -279,8 +294,6 @@
         app:layout_constraintTop_toTopOf="@+id/quality_inspection_scan_voucher_qty">
 
     </TextView>
-
-
 
     <TextView
         android:id="@+id/quality_inspection_scan_voucher_qty"
@@ -296,6 +309,20 @@
         app:layout_constraintRight_toRightOf="@+id/guideline_v_2"
         app:layout_constraintTop_toBottomOf="@+id/quality_inspection_scan_qualified_qty" />
 
+
+    <TextView
+        android:id="@+id/quality_inspection_scan_sampqty_qty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/activity_purchase_inspection_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline_v_1"
+        app:layout_constraintRight_toRightOf="@+id/guideline_v_2"
+        app:layout_constraintTop_toBottomOf="@+id/quality_inspection_scan_voucher_qty" />
 
 
 
@@ -329,6 +356,7 @@
         app:layout_constraintRight_toLeftOf="@+id/quality_inspection_material_select"
         app:layout_constraintTop_toBottomOf="@+id/quality_inspection_erp_voucher_no" />
     <TextView
+        android:maxLines="2"
         android:id="@+id/quality_inspection_scan_material_desc_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -349,6 +377,7 @@
         android:layout_marginRight="8dp"
         android:textColor="@color/black"
         android:textSize="@dimen/activity_purchase_inspection_text_size"
+        android:maxLines="2"
         app:layout_constraintLeft_toLeftOf="@+id/guideline_v_1"
         app:layout_constraintRight_toLeftOf="@+id/quality_inspection_material_select"
         app:layout_constraintTop_toBottomOf="@+id/quality_inspection_scan_material_no" />
@@ -383,7 +412,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_v_3"

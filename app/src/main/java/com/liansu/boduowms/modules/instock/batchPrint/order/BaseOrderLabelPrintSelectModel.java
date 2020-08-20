@@ -327,6 +327,7 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
      * @time 2020/8/18 16:09
      */
     public void sortDetailList(String materialNo) {
+        if (materialNo==null) return;
         String[] sortNameArr = {"Materialno", "Remainqty"};
         boolean[] isAscArr = {true,true};
         ListUtils.sort(mOrderDetailList, sortNameArr, isAscArr);

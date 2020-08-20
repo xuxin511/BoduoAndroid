@@ -64,7 +64,7 @@
     <string name="palletNo">托盘:</string>
     <string name="outerBoxOrSpareParts">整箱或散件:</string>
     <string name="offScan">下架扫描</string>
-    <string name="name">名称:</string>
+    <string name="name">品名:</string>
     <string name="request_print_order_purchase_return">正在打印验退单据..</string>
     <string name="setting">设置</string>
 
@@ -234,11 +234,12 @@
     <string name="quality_inspection_scan_strongholdNo">据点:</string>
     <string name="quality_inspection_scan_receipt_voucher_no">到货单:</string>
     <string name="quality_inspection_scan_erp_voucher_no">检验单:</string>
-    <string name="quality_inspection_scan_material_no">物料:</string>
+    <string name="quality_inspection_scan_material_no">料号:</string>
     <string name="quality_inspection_scan_batch_no">批次:</string>
     <string name="quality_inspection_scan_qualified_qty">合格数:</string>
     <string name="quality_inspection_scan_un_qualified_qty">不合格数:</string>
     <string name="quality_inspection_scan_un_qualified_scan_qty">已扫:</string>
+    <string name="quality_inspection_scan_sampqty_qty_desc">抽检数量:</string>
 
     <string name="quality_inspection_scan_un_qualified_barcode_hint">请输入或扫描整箱或散件</string>
     <string name="quality_inspection_scan_un_qualified_pallet_no_barcode_hint">请输入或扫描托盘码</string>

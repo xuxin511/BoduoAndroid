@@ -89,6 +89,8 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     TextView mVoucherQty;
     @ViewInject(R.id.quality_inspection_scan_qualified_qty)
     TextView mQualifiedQty;
+    @ViewInject(R.id.quality_inspection_scan_sampqty_qty)
+    TextView  mSampQty;
     QualityInspectionScanAdapter         mAdapter;
     QualityInspectionProcessingPresenter mPresenter;
     public final int REQUEST_CODE_OK = 1;
@@ -236,6 +238,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
             mMaterialDesc.setText(headerInfo.getMaterialdesc());
             mVoucherQty.setText(headerInfo.getVoucherqty()+"");
             mQualifiedQty.setText(headerInfo.getQualityqty()+"");
+            mSampQty.setText(headerInfo.getSampqty()+"");
             if (headerInfo.getVouchertype()==47){
                 mPurchaseOrderNoDesc.setText("采购单号:");
                 mArrVoucherNoDesc.setText("到货单号:");
