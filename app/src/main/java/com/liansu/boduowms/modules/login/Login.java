@@ -141,7 +141,7 @@ public class Login extends BaseActivity implements ILoginView {
                             // TODO 自动生成的方法存根
                             String select_item = items[which].toString();
                             String userNo = mUserNo.getText().toString().trim().toUpperCase();
-                            if (!userNo.equals( BaseApplication.mCurrentUserInfo.getUserno())){
+                            if (!userNo.equals( BaseApplication.mCurrentUserInfo.getUserno().toUpperCase())  ){
                                 MessageBox.Show(mContext,"正在登陆的用户:["+userNo+"]和已登陆的用户:["+BaseApplication.mCurrentUserInfo.getUserno()+"]不一致,请重新登录再选择仓库");
                                 dialog.dismiss();
                                 return;
