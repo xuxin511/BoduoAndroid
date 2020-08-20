@@ -141,13 +141,13 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
             String materialNo = outBarcodeInfo.getMaterialno() != null ? outBarcodeInfo.getMaterialno() : "";
             String batchNo = outBarcodeInfo.getBatchno() != null ? outBarcodeInfo.getBatchno() : "";
             int barcodeQty = (int) outBarcodeInfo.getQty();
-            int packQty=outBarcodeInfo.getPackQty();
+            int packQty=outBarcodeInfo.getPackqty();
             String QRBarcode = materialNo+"%"+batchNo+"%"+packQty+"%"+1;
             printInfo.setMaterialNo(materialNo);
             printInfo.setMaterialDesc(outBarcodeInfo.getMaterialdesc());
             printInfo.setBatchNo(batchNo);
             printInfo.setQty(packQty);
-            printInfo.setPackQty(outBarcodeInfo.getPackQty());
+            printInfo.setPackQty(outBarcodeInfo.getPackqty());
             printInfo.setQRCode(QRBarcode);
             printInfo.setSignatory(BaseApplication.mCurrentUserInfo.getUsername());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");

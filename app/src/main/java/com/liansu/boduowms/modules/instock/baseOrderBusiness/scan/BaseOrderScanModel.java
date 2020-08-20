@@ -531,7 +531,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
                             info.setErpvoucherno(sMaterialInfo.getErpvoucherno());
                             info.setStrongholdcode(sMaterialInfo.getStrongholdcode());
                             info.setStrongholdname(sMaterialInfo.getStrongholdname());
-                            info.setPackQty(sMaterialInfo.getPackQty());
+                            info.setPackqty(sMaterialInfo.getPackQty());
                             info.setSpec(sMaterialInfo.getSpec());
                             break;
                         }

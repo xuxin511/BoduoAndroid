@@ -11,6 +11,7 @@ public interface IBaseOrderLabelPrintView {
     void onOrderRemainQtyFocus();
     void onPackQtyFocus();
     void onPalletQtyFocus();
+    void onPrintCountFocus();
     void onReset();
     void setPrintInfoData(OrderDetailInfo printInfoData,int printType);
     void setViewStatus(int printType);
@@ -19,5 +20,5 @@ public interface IBaseOrderLabelPrintView {
     float getPackQty();
     float getPalletQty();
     int  getPrintCount();
-
+    boolean checkBatchNo(String batchNo);
 }

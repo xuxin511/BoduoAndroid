@@ -151,7 +151,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
         mTitle.setText("添加物料信息");
         mMaterialType = materialType;
         if (info != null) {
-            float packQty = info.getPackQty();
+            float packQty = info.getPackqty();
             if (packQty != 0) {
                 mMaterialType = MATERIAL_INFO_TYPE_FINISHED_PRODUCT;
             } else {
@@ -161,7 +161,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
             String materialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
             String materialName = info.getMaterialdesc() != null ? info.getMaterialdesc() : "";
             String batchNo = info.getBatchno() != null ? info.getBatchno() : "";
-            float packCount = info.getPackQty();
+            float packCount = info.getPackqty();
             mMaterialName.setText(materialName);
             mMaterialName.setEnabled(false);
             mMaterialNo.setText(materialNo);
@@ -180,7 +180,7 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
             if (batchNo.equals("") && !materialNo.equals("")) {
                 requestBatchNoFocus();
             }
-            if (info.getPackQty() != 0) {
+            if (info.getPackqty() != 0) {
                 mQty.setText("0");
                 mQty.setEnabled(false);
             }
@@ -225,8 +225,8 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
             return;
         }
 
-        if (packQty != mOutBarcode.getPackQty()) {
-            mOutBarcode.setPackQty((int) packQty);
+        if (packQty != mOutBarcode.getPackqty()) {
+            mOutBarcode.setPackqty((int) packQty);
         }
         mOutBarcode.setMaterialno(mMaterialNo.getText().toString().trim());
         mOutBarcode.setBatchno(batchNo);

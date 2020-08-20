@@ -29,26 +29,26 @@ import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
  * @ Created by yangyiqing on 2020/8/14.
  */
 public class BaseOrderLabelPrintPresenter {
-    protected Context                  mContext;
-    protected BaseOrderLabelPrintModel mModel;
-    protected IBaseOrderLabelPrintView mView;
-    protected PrintBusinessModel       mPrintModel;
-    protected   MyHandler<BaseActivity> mHandler;
-    protected  final  int  PRINT_OUTER_BOX=10003;
+    protected       Context                  mContext;
+    protected       BaseOrderLabelPrintModel mModel;
+    protected       IBaseOrderLabelPrintView mView;
+    protected       PrintBusinessModel       mPrintModel;
+    protected       MyHandler<BaseActivity>  mHandler;
+    protected final int                      PRINT_OUTER_BOX = 10003;
 
 
     PrintCallBackListener mPrintCallBackListener = new PrintCallBackListener() {
         @Override
         public void afterPrint() {
-            Message message=new Message();
-            message.what=PRINT_OUTER_BOX;
+            Message message = new Message();
+            message.what = PRINT_OUTER_BOX;
             mHandler.sendMessage(message);
         }
     };
 
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
-        switch (msg.what){
+        switch (msg.what) {
             case PRINT_OUTER_BOX:
                 mView.onReset();
                 break;
@@ -61,7 +61,7 @@ public class BaseOrderLabelPrintPresenter {
         this.mModel = new BaseOrderLabelPrintModel(mContext, handler);
         this.mPrintModel = new PrintBusinessModel(context, handler);
         this.mPrintModel.setPrintCallBackListener(mPrintCallBackListener);
-        this.mHandler=handler;
+        this.mHandler = handler;
     }
 
     public BaseOrderLabelPrintModel getModel() {
@@ -110,6 +110,10 @@ public class BaseOrderLabelPrintPresenter {
                 }
                 if (batchNo.equals("")) {
                     MessageBox.Show(mContext, "批次不能为空");
+                    return;
+                }
+
+                if (mView.checkBatchNo(batchNo) == false) {
                     return;
                 }
 
@@ -195,8 +199,8 @@ public class BaseOrderLabelPrintPresenter {
                         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                         }.getType());
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE);
+                            mView.onReset();
+//                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE);
 
                         } else {
                             MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {

@@ -103,7 +103,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                 case R.id.base_order_label_print_batch_no:
                     if (mPresenter != null) {
                         String batchNo = mBatchNo.getText().toString().trim();
-                        if (batchNo.equals("")){
+                        if (batchNo.equals("")) {
                             MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -121,6 +121,14 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                                 }
                             });
                             return false;
+                        }
+                        if (mPresenter.getModel().getPrintType()==PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX){
+                            if (mPresenter.getModel().getCurrentPrintInfo().getPackQty() != 0) {
+                                onPrintCountFocus();
+                            }else {
+                                onPackQtyFocus();
+                            }
+
                         }
 
                     }
@@ -177,12 +185,35 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
 
     @Override
     public void onPackQtyFocus() {
-        CommonUtil.setEditFocus(mPackQty);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mPackQty);
+            }
+        }, 200);
+
     }
 
     @Override
     public void onPalletQtyFocus() {
-        CommonUtil.setEditFocus(mPalletQty);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mPalletQty);
+            }
+        }, 200);
+
+    }
+
+    @Override
+    public void onPrintCountFocus() {
+     mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mPrintCount);
+            }
+        }, 200);
+
     }
 
     @Override
@@ -196,12 +227,13 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
             mRemainQty.setText("0");
             if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
                 mPackQty.setText("0");
+                mPrintCount.setText("0");
             } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
                 mPalletQty.setText("0");
             }
             onBatchNoFocus();
-        }catch (Exception e){
-            MessageBox.Show(mContext,"出现预期之外的异常:"+e.getMessage());
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage());
         }
 
     }
@@ -215,9 +247,9 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
             mRemainQty.setText(printInfoData.getRemainqty() + "");
 
             if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
-                if (printInfoData.getPackQty()>0){
+                if (printInfoData.getPackQty() > 0) {
                     mPackQty.setEnabled(false);
-                }else {
+                } else {
                     mPackQty.setEnabled(true);
                 }
                 mPackQty.setText(printInfoData.getPackQty() + "");
@@ -236,6 +268,8 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
             mPrintCount.setText("0");
             mErpVoucherNo.setText("");
         }
+
+
     }
 
 
@@ -290,5 +324,18 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
     @Override
     public int getPrintCount() {
         return Integer.parseInt(mPrintCount.getText().toString().trim());
+    }
+
+    public boolean checkBatchNo(String batchNo) {
+        if (!DateUtil.isBeforeOrCompareToday(batchNo, "yyyyMMdd")) {
+            MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBatchNoFocus();
+                }
+            });
+            return false;
+        }
+        return true;
     }
 }

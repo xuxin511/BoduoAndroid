@@ -62,11 +62,13 @@
         android:layout_marginTop="@dimen/base_order_label_print_margin_top"
         android:gravity="left"
         android:textSize="@dimen/base_order_label_print_select_text_size"
+        android:maxLines="2"
         app:layout_constraintLeft_toRightOf="@+id/guideline6"
         app:layout_constraintRight_toLeftOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_material_no" />
 
     <TextView
+        android:maxLines="2"
         android:id="@+id/base_order_label_print_material_name"
         style="@style/TextViewComminStyle"
         android:layout_width="wrap_content"
@@ -238,7 +240,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline11"

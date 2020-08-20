@@ -193,6 +193,8 @@ public class BaseOrderLabelPrintSelectPresenter {
         int voucherType = mModel.getVoucherType(voucherTypeName);
         OrderRequestInfo postInfo = new OrderRequestInfo();
         postInfo.setErpvoucherno(erpVoucherNo);
+        mModel.setOrderHeaderInfo(null);
+        mModel.setOrderDetailList(null);
         mModel.getOrderDetailInfoList(voucherType, postInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -207,6 +209,7 @@ public class BaseOrderLabelPrintSelectPresenter {
                             mModel.setOrderHeaderInfo(orderHeaderInfo);
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
+                                mModel.sortDetailList(null);
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.onMaterialFocus();
                             } else {
@@ -326,7 +329,7 @@ public class BaseOrderLabelPrintSelectPresenter {
                         OutBarcodeInfo materialInfo = returnMsgModel.getData();
                         if (materialInfo != null) {
                             scanQRCode.setMaterialdesc(materialInfo.getMaterialdesc());
-                            scanQRCode.setPackQty(materialInfo.getPackQty());
+                            scanQRCode.setPackqty(materialInfo.getPackqty());
                             scanQRCode.setSpec(materialInfo.getSpec());
                             scanQRCode.setUnit(materialInfo.getUnit());
                             scanQRCode.setUnitname(materialInfo.getUnitname());
@@ -373,7 +376,7 @@ public class BaseOrderLabelPrintSelectPresenter {
         materialInfo.setMaterialno(scanQRCode.getMaterialno());
         materialInfo.setMaterialdesc(scanQRCode.getMaterialdesc());
         materialInfo.setBatchno(scanQRCode.getBatchno());
-        materialInfo.setPackQty(scanQRCode.getPackQty());
+        materialInfo.setPackQty(scanQRCode.getPackqty());
         materialInfo.setSpec(scanQRCode.getSpec());
         materialInfo.setUnit(scanQRCode.getUnit());
         materialInfo.setUnitname(scanQRCode.getUnitname());
@@ -394,9 +397,21 @@ public class BaseOrderLabelPrintSelectPresenter {
             mView.onMaterialFocus();
             List<OrderDetailInfo> list = resultInfo.getInfo();
             if (list != null && list.size() == 1) {
+                if (scanQRCode.getBatchno()!=null){
+                    list.get(0).setBatchno(scanQRCode.getBatchno());
+                }
+
                 mView.StartScanIntent(list.get(0));
             } else if (list != null && list.size() > 1) {
                 if (mModel.getOrderDetailList().size() > 0) {
+                    //订单无批次,用外箱的
+                    if (scanQRCode.getBatchno()!=null){
+                        for (OrderDetailInfo info:list){
+                            info.setBatchno(scanQRCode.getBatchno());
+                        }
+                    }
+
+
                     mModel.sortDetailList(list.get(0).getMaterialno());
                     mView.bindListView(mModel.getOrderDetailList());
                 }
