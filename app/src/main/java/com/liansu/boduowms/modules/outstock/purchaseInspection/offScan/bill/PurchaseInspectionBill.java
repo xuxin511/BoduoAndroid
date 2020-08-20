@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
@@ -17,10 +18,12 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan;
 import com.liansu.boduowms.ui.adapter.outstock.purchaseInspection.PurchaseInspectionBillItemAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
+import com.liansu.boduowms.utils.function.GsonUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -56,7 +59,7 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
 
     @ViewInject(R.id.lsvChoiceReceipt)
     ListView           mListView;
-    @ViewInject(R.id.mSwipeLayout)
+    @ViewInject(R.id.inspection_bill_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
     @ViewInject(R.id.edt_filterContent)
     EditText           mEdtfilterContent;
@@ -155,11 +158,15 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
 
 
     void StartScanIntent(OutStockOrderHeaderInfo headerInfo, ArrayList<OutBarcodeInfo> barCodeInfo) {
-        Intent intent = new Intent(context, PurchaseInspectionProcessingScan.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("QUALITY_INSPECTION", headerInfo);
-        intent.putExtras(bundle);
-        startActivityLeft(intent);
+        Intent intent = new Intent();
+        intent.setClass(PurchaseInspectionBill.this, PurchaseInspectionProcessingScan.class);
+        String json = GsonUtil.parseModelToJson(headerInfo);
+        Uri data = Uri.parse(json);
+        intent.setData(data);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable("QUALITY_INSPECTION", headerInfo);
+//        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 

@@ -8,6 +8,7 @@ public class SalesoutstockRequery {
     public String  Towarehouseno;
     public String  Creater;
 
+
     public String getCreater() {
         return Creater;
     }

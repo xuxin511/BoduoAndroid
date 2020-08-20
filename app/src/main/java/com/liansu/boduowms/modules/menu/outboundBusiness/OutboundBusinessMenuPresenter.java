@@ -113,7 +113,7 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
           String json = GsonUtil.parseModelToJson(model);
           Uri data = Uri.parse(json);
           intent.setData(data);
-          intent.setClass(mContext, SalesOutstock.class);
+          intent.setClass(mContext, OutstockRawmaterialActivity.class);
       }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_outsourc_lcl))) {//委外装车发料
           MenuOutStockModel model=new MenuOutStockModel();
           model.Title="委外发料下架";
@@ -155,7 +155,7 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
           intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION);
        //   intent.setClass(mContext, OutboundBusinessSubMenu.class);
          // intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION);
-      }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_allocation))) {
+      }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_otherout))) {
           //杂出
 //          intent.setClass(mContext, OutboundBusinessSubMenu.class);
 //          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_OTHEROUT);

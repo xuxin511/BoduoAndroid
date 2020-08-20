@@ -362,10 +362,21 @@ public  class SalesOutReview extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-
+            //库存输入散件
+          //  inputTitleDialog("输入散件数量");
+            //直接提交一件
             materialModle = returnMsgModel.getData();
-            //库存
-            inputTitleDialog("输入散件数量");
+            SalesoutstockRequery model = new SalesoutstockRequery();
+            model.Erpvoucherno = CurrOrderNO;
+            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+            model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+            model.Vouchertype = CurrvoucherType;
+            model.MaterialNo = sales_outstock_reviewbarcode.getText().toString().trim();
+            model.ScanQty = 1.0f;
+            String json = GsonUtil.parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
+                    context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
             MessageBox.Show(context, EX.toString());
@@ -468,6 +479,8 @@ public  class SalesOutReview extends BaseActivity {
         }
 
 
+
+        //散件输入数量
     private void inputTitleDialog(String name) {
         final EditText inputServer = new EditText(this);
         inputServer.setFocusable(true);
@@ -481,7 +494,6 @@ public  class SalesOutReview extends BaseActivity {
                         String Value = inputServer.getText().toString();
                         try {
                             Float inputValue = Float.parseFloat(Value);
-
                             int packqty = Integer.parseInt(materialModle.getPackqty());
                             if (inputValue >= packqty) {
                                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);

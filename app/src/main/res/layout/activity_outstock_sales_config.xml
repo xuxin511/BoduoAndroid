@@ -7,30 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".modules.outstock.SalesOutstock.OutstockSalesConfig">
 
+    <!--    <Button-->
+    <!--        android:id="@+id/sales_outstock_button_configdetail"-->
+    <!--        android:layout_width="120sp"-->
+    <!--        android:layout_height="@dimen/sp_30"-->
+    <!--        android:background="@drawable/bt_selector"-->
+    <!--        android:text="托运明细"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="@dimen/sp_15"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintLeft_toLeftOf="@+id/sales_outstock_button_configsubmit"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/guideline6"></Button>-->
+
     <Button
         android:id="@+id/sales_outstock_button_configsubmit"
-        android:layout_width="120sp"
+        android:layout_width="0dp"
         android:layout_height="@dimen/sp_30"
+        android:layout_marginBottom="3dp"
         android:background="@drawable/bt_selector"
         android:text="确认"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_15"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="parent"></Button>
-
-    <Button
-        android:id="@+id/sales_outstock_button_configdetail"
-        android:layout_width="120sp"
-        android:layout_height="@dimen/sp_30"
-        android:background="@drawable/bt_selector"
-        android:text="托运明细"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_15"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/sales_outstock_button_configsubmit"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"></Button>
+        app:layout_constraintEnd_toStartOf="@+id/guideline9"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"></Button>
 
     <ScrollView
         android:id="@+id/sales_config_scrollview"
@@ -119,26 +121,6 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintStart_toStartOf="@+id/guideline_left"
                 app:layout_constraintTop_toBottomOf="@+id/outstock_config_fy" />
-            <TextView
-                android:id="@+id/combine_pallet_toolbar1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:height="40sp"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sales_outstock_configdj_text" />
-                 />
-
-
-            <TextView
-                android:id="@+id/outstock_down_fahuo"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/sp_30"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-                app:layout_constraintStart_toStartOf="@+id/guideline_middle"
-                app:layout_constraintTop_toBottomOf="@+id/sales_outstock_configOrder"></TextView>
 
             <Spinner
                 android:id="@+id/outstock_down_shstatus"
@@ -149,6 +131,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintStart_toStartOf="@+id/guideline_middle"
                 app:layout_constraintTop_toBottomOf="@+id/outstock_config_ren"></Spinner>
+            />
 
 
             <Spinner
@@ -171,6 +154,7 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline_middle"
                 app:layout_constraintTop_toBottomOf="@+id/outstock_config_ywtype"></Spinner>
 
+
             <Spinner
                 android:id="@+id/outstock_config_fytype"
                 android:layout_width="0dp"
@@ -180,6 +164,25 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintStart_toStartOf="@+id/guideline_middle"
                 app:layout_constraintTop_toBottomOf="@+id/outstock_config_jstype"></Spinner>
+
+            <TextView
+                android:id="@+id/combine_pallet_toolbar1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:height="40sp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sales_outstock_configdj_text" />
+
+            <TextView
+                android:id="@+id/outstock_down_fahuo"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/sp_30"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintStart_toStartOf="@+id/guideline_middle"
+                app:layout_constraintTop_toBottomOf="@+id/sales_outstock_configOrder"></TextView>
 
             <TextView
                 android:id="@+id/combine_pallet_toolbar"
@@ -397,14 +400,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.96" />
+                app:layout_constraintGuide_percent="0.96107054" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="20dp" />
+                app:layout_constraintGuide_percent="0.05109489" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -414,6 +417,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96107054" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

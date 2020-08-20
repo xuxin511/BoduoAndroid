@@ -17,32 +17,33 @@
             app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:gravity="left"
                     android:id="@+id/txt_voucherNo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
-                    android:layout_weight="0.4"
+                    android:layout_margin="0.5sp"
+                    android:layout_weight="0.43"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/activity_list_text_first" />
-
-
                 <TextView
                     android:gravity="center"
                     android:id="@+id/txt_strongcode"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
-                    android:layout_weight="0.3"
+                    android:layout_margin="0.5sp"
+                    android:layout_weight="0.25"
                     android:textColor="@color/green"
                     android:textSize="@dimen/activity_list_text_first" />
 
 
                 <TextView
+                    android:gravity="right"
                     android:id="@+id/txt_reference_standard"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
-                    android:layout_weight="0.4"
+                    android:layout_margin="0.5sp"
+                    android:layout_marginLeft="1.5sp"
+                    android:layout_weight="0.63"
                     android:maxLines="1"
                     android:textColor="@color/red"
                     android:textSize="@dimen/activity_list_text_first" />

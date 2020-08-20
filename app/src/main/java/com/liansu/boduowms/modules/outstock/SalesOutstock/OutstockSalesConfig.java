@@ -291,25 +291,25 @@ public class OutstockSalesConfig extends BaseActivity {
     }
 
     //托运单明细
-    @Event(value = R.id.sales_outstock_button_configdetail)
-    private void Click_showdetail(View view) {
-        try {
-            if (awyBll.Erpvoucherno.equals("")) {
-                MessageBox.Show(context, "请先选择或者生成托运单");
-                return;
-            }
-            String json = GsonUtil.parseModelToJson(awyBll);
-            Intent intent = new Intent();
-            //界面传值
-            Uri data = Uri.parse(json);
-            intent.setData(data);
-            intent.setClass(this, OutstockConsignmentDetail.class);
-            startActivity(intent);
-        } catch (Exception ex) {
-            MessageBox.Show(context, "请先选择或者生成托运单");
-            return;
-        }
-    }
+//    @Event(value = R.id.sales_outstock_button_configdetail)
+//    private void Click_showdetail(View view) {
+//        try {
+//            if (awyBll.Erpvoucherno.equals("")) {
+//                MessageBox.Show(context, "请先选择或者生成托运单");
+//                return;
+//            }
+//            String json = GsonUtil.parseModelToJson(awyBll);
+//            Intent intent = new Intent();
+//            //界面传值
+//            Uri data = Uri.parse(json);
+//            intent.setData(data);
+//            intent.setClass(this, OutstockConsignmentDetail.class);
+//            startActivity(intent);
+//        } catch (Exception ex) {
+//            MessageBox.Show(context, "请先选择或者生成托运单");
+//            return;
+//        }
+//    }
 
 
     //单号扫描事件

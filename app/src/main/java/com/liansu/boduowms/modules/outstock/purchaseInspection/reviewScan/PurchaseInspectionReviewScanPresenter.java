@@ -165,7 +165,7 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                                 if (finalScanQRCode.getBarcode().contains("%")) {
                                     mView.setQtyViewStatus(false);
-                                    if (finalScanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO && finalScanQRCode.getSerialno().equals("")) {
+                                    if (finalScanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO) {
                                         onPalletNoBarcodeScan(finalScanQRCode);
                                     } else if (finalScanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_OUTER_BOX) {
                                         onOuterBarcodeScan(finalScanQRCode);

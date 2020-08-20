@@ -11,6 +11,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.utils.function.ArithUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SalesoutstockreviewAdapter extends BaseAdapter {
@@ -34,8 +35,15 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
     public SalesoutstockreviewAdapter(Context context, List<OutStockOrderDetailInfo> outStockTaskDetailsInfoModels) {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
+        List<OutStockOrderDetailInfo> list=new ArrayList<OutStockOrderDetailInfo>();
+        list=outStockTaskDetailsInfoModels;
+        for (OutStockOrderDetailInfo item:outStockTaskDetailsInfoModels){
+             if(item.getRemainqty()==0){
+                 list.remove(item);
+                 list.add(outStockTaskDetailsInfoModels.size(),item);
+             }
+        }
         this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
-
     }
 
     @Override
@@ -79,12 +87,13 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
 //        if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
 //            listItemView.txt_reference_standard.setText("外箱:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
 //        }
+        Float QTY=ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty());
         listItemView.txtVoucherQty.setText("复核数量:" + mDetailInfo.getRemainqty());
         listItemView.txtRemainQty.setText("剩余数量:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty()));
         listItemView.txtScanQty.setText("已复核：" + mDetailInfo.getScanqty());
 //        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
-        if (mDetailInfo.getRemainqty() > 0 && mDetailInfo.getRemainqty() < mDetailInfo.getVoucherqty()) {
+        if (QTY>0&&QTY<mDetailInfo.getRemainqty()) {//已扫数量
             convertView.setBackgroundResource(R.color.khaki);
         } else if ( ArithUtil.sub( mDetailInfo.getRemainqty() ,mDetailInfo.getScanqty())==0) {
             convertView.setBackgroundResource(R.color.springgreen);

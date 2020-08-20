@@ -75,14 +75,28 @@ public class SalesoutstockAdapter extends BaseAdapter {
         final OutStockOrderDetailInfo mDetailInfo = outStockTaskDetailsInfoModels.get(selectID);
         listItemView.txt_voucherNo.setText(mDetailInfo.getMaterialno());
         if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
-            listItemView.txt_reference_standard.setText("外箱:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
+            listItemView.txt_reference_standard.setText("整件:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
         }
-        listItemView.txtstrong.setText(mDetailInfo.getStrongholdcode());
+        listItemView.txtstrong.setText("包装:"+String.valueOf(mDetailInfo.getPackQty()));
         listItemView.txtVoucherQty.setText("订单：" + mDetailInfo.getVoucherqty());
         listItemView.txtRemainQty.setText("剩余:" + mDetailInfo.getRemainqty());
         listItemView.txtScanQty.setText("已扫：" + mDetailInfo.getScanqty());
         listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
+
+
+//             listItemView.txt_voucherNo.setText("12345678901");
+//        if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
+//            listItemView.txt_reference_standard.setText("整件:1111" + "/零头:1111");
+//        }
+//        listItemView.txtstrong.setText(String.valueOf("包装:"+mDetailInfo.getPackQty()));
+//        listItemView.txtVoucherQty.setText("订单：" + mDetailInfo.getVoucherqty());
+//        listItemView.txtRemainQty.setText("剩余:" + mDetailInfo.getRemainqty());
+//        listItemView.txtScanQty.setText("已扫：" + mDetailInfo.getScanqty());
+//        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
+//        listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
+
+
         if (mDetailInfo.getRemainqty() > 0 && mDetailInfo.getRemainqty() < mDetailInfo.getVoucherqty()) {
             convertView.setBackgroundResource(R.color.khaki);
         } else if (mDetailInfo.getRemainqty() == 0) {

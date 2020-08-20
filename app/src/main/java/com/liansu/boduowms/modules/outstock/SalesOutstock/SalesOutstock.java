@@ -42,6 +42,7 @@ import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
+import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
@@ -182,6 +183,7 @@ public class SalesOutstock  extends BaseActivity  {
                 switch (checkedId) {
                     case R.id.sales_outstock_rediobutton_pallet:
                         sales_outstock_boxtext.setVisibility(View.INVISIBLE);
+                        sales_outstock_boxtext.setText("");
                         OutStock_Type=OutStock_Submit_type_pallet;
                         materialModle=new  MaterialResponseModel();
                         break;
@@ -189,11 +191,13 @@ public class SalesOutstock  extends BaseActivity  {
                         sales_outstock_boxtext.setVisibility(View.VISIBLE);
                         OutStock_Type=OutStock_Submit_type_box;
                         sales_outstock_boxtext.setHint("扫描箱号");
+                        sales_outstock_boxtext.setText("");
                         materialModle=new  MaterialResponseModel();
                         break;
                     case R.id.sales_outstock_rediobutton_san:
                         sales_outstock_boxtext.setHint("扫描69码/物料");
                         OutStock_Type=OutStock_Submit_type_parts;
+                        sales_outstock_boxtext.setText("");
                         sales_outstock_boxtext.setVisibility(View.VISIBLE);
                         materialModle=new  MaterialResponseModel();
                         break;
@@ -305,11 +309,10 @@ String  url;
         }
         return false;
     }
-
-
     //箱号回车事件
     @Event(value = R.id.sales_outstock_boxtext,type = EditText.OnKeyListener.class)
     private  boolean boxKeyDowm(View v, int keyCode, KeyEvent event) {
+
         View vFocus = v.findFocus();
         int etid = vFocus.getId();
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == sales_outstock_boxtext.getId()) {
@@ -353,16 +356,16 @@ String  url;
                             }
                         }
                         if (OutStock_Type.equals(OutStock_Submit_type_parts)) {
-//                            if (!Analysis(palletno, OutStock_Submit_type_parts)) {
-//                                MessageBox.Show(context, "请输入或扫描正确69码或者物料号");
-//                                CommonUtil.setEditFocus(sales_outstock_boxtext);
-//                            } else {
+                            if (!Analysis(palletno, OutStock_Submit_type_parts)) {
+                                MessageBox.Show(context, "请输入或扫描正确69码或者物料号");
+                                CommonUtil.setEditFocus(sales_outstock_boxtext);
+                            } else {
                             //检验是否存在
                             String modelJson = parseModelToJson(boxNo);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts, "检验是否存在",
                                     context, mHandler, RESULT_Saleoutstock_ScannParts, null, info.SelectMaterial, modelJson, null);
                             return true;
-                            //}
+                            }
                         }
 
                     }
@@ -719,11 +722,10 @@ String  url;
                         try {
                             Float inputValue = Float.parseFloat(Value);
                             inputNum = inputValue;
-                            int packqty = Integer.parseInt(materialModle.getPackqty());
-                            if(inputNum>=packqty) {
+                            Float packqty = Float.parseFloat(materialModle.Packqty);
+                            if(ArithUtil.sub(inputNum,packqty)>=0) {
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                                 MessageBox.Show(context, "不能大于" + packqty + "包装量");
-
                                 return;
                             }
                             //提交散件

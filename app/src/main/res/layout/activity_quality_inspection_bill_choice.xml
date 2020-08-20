@@ -31,7 +31,7 @@
         android:layout_marginLeft="30dp"
         android:text="@string/supplier"
         android:textAlignment="textEnd"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -43,12 +43,12 @@
         android:layout_marginLeft="8dp"
         android:text="@string/supplierNoFilter"
         android:textColor="@color/red"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/txt_SupplierContent"
         app:layout_constraintLeft_toRightOf="@+id/txt_SupplierContent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/mSwipeLayout"
+        android:id="@+id/inspection_bill_swipeLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"

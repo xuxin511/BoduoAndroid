@@ -14,6 +14,7 @@ import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBox;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
+import com.liansu.boduowms.modules.outstock.purchaseInspection.reviewScan.PurchaseInspectionReviewScan;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScan;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
@@ -56,7 +57,7 @@ public class OutboundBusinessSubMenuModel {
             mItemIconList.add(R.drawable.other_outbound);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
             mItemIconList.add(R.drawable.loading_truck);
-            mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck));
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_loading_truck));
         } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
             mItemIconList.add(R.drawable.other_outbound);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
@@ -176,6 +177,11 @@ public class OutboundBusinessSubMenuModel {
                 Uri data = Uri.parse("29");
                 intent.setData(data);
                 intent.setClass(mContext, OutstockSalesConfig.class);
+            }
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)){
+                intent = intent.setClass(mContext, BaseReviewScan.class);
+                intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
+
             }
             intent.putExtra("BusinessType", businessType);
         }

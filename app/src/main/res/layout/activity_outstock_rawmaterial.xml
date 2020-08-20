@@ -28,7 +28,7 @@
     <EditText
         android:id="@+id/sales_outstock_rawmaterial_order"
         android:layout_width="0dp"
-        android:layout_height="@dimen/sp_25"
+        android:layout_height="@dimen/sp_30"
         android:layout_marginTop="2sp"
         android:background="@color/white"
         android:gravity="left|center_vertical"
@@ -46,7 +46,7 @@
     <EditText
         android:id="@+id/sales_outstock_material_pallettext"
         android:layout_width="0dp"
-        android:layout_height="@dimen/sp_25"
+        android:layout_height="@dimen/sp_30"
         android:layout_marginTop="2sp"
         android:background="@color/white"
         android:gravity="left|center_vertical"

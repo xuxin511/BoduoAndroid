@@ -166,7 +166,7 @@
         android:layout_marginTop="3sp"
         android:inputType="textPersonName"
         android:id="@+id/sales_outstock_pallettext"
-        android:layout_width="130sp"
+        android:layout_width="140sp"
         android:layout_height="@dimen/sp_25"
         android:background="@color/white"
         android:gravity="left|center_vertical"
@@ -183,17 +183,17 @@
         />
 
     <EditText
-        style="@style/EditTextStyle"
-        android:layout_marginTop="3sp"
         android:id="@+id/sales_outstock_boxtext"
-        android:layout_width="130sp"
+        style="@style/EditTextStyle"
+        android:layout_width="140sp"
         android:layout_height="@dimen/sp_25"
         android:layout_marginLeft="@dimen/sp_20"
+        android:layout_marginTop="3sp"
         android:background="@color/white"
         android:gravity="left|center_vertical"
-        android:hint="扫描箱号"
-        android:paddingLeft="@dimen/sp_7"
+        android:hint="扫描外箱条码"
         android:inputType="textPersonName"
+        android:paddingLeft="@dimen/sp_7"
         android:singleLine="true"
         android:text=""
         android:textColor="@color/black"
@@ -261,7 +261,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20sp" />
+        app:layout_constraintGuide_percent="0.02" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_middle"
@@ -289,7 +289,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.96" />
+        app:layout_constraintGuide_percent="0.98" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_height"

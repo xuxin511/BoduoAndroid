@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
@@ -23,10 +24,12 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.ui.adapter.quality_inspection.QualityInspectionScanAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
+import com.liansu.boduowms.utils.function.GsonUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -100,7 +103,12 @@ public class PurchaseInspectionProcessingScan extends BaseActivity implements IP
     protected void initData() {
         super.initData();
         try {
-            OutStockOrderHeaderInfo headerInfo = getIntent().getParcelableExtra("QUALITY_INSPECTION");
+
+           Intent intentMain = getIntent();
+            Uri data = intentMain.getData();
+            MenuOutStockModel model = new MenuOutStockModel();
+            String arr=data.toString();
+            OutStockOrderHeaderInfo headerInfo = GsonUtil.parseJsonToModel(arr,OutStockOrderHeaderInfo.class);
             mQualityType = "UNQUALIFIED";
             if (mPresenter == null) {
                 mPresenter = new PurchaseInspectionProcessingPresenter(context, this, mHandler, headerInfo, mQualityType);

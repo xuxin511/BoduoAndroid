@@ -37,6 +37,7 @@ import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
+import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
@@ -159,14 +160,23 @@ public class OutstockConfigreview extends BaseActivity {
     //提交过账
     @Event(value =R.id.outstock_sales_configbutton_reviewsubmit)
     private void   Sales_outstock_review_Submit(View view) {
-        if (!IsScanningOver()) {
+        if (IsScanning()) {
             //部分复核
             //  CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
             // MessageBox.Show(context, "订单未全部复核完成");
-            ISSubmit("订单未全部复核完成，确认提交吗");
+            MessageBox.Show(context, "订单未扫描,不能过账");
+
         } else {
-            //全部复核
-            ISSubmit("订单全部复核完成，确认提交吗");
+           if(!IsScanningOver()){
+               //全部复核
+               ISSubmit("订单未全部复核完成，确认提交吗");
+           }else
+           {
+               //全部复核
+               ISSubmit("订单全部复核完成，确认提交吗");
+
+           }
+
         }
     }
 
@@ -179,7 +189,7 @@ public class OutstockConfigreview extends BaseActivity {
         //如果是扫描
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == sales_outstock_config_reviewbarcode.getId()) {
             try {
-                if(IsScanningOver()){
+                if(!IsScanningOver()){
                     if(CurrOrderNO.equals("")) {
                         MessageBox.Show(context, "请先扫描有效单号");
                         return true;
@@ -283,6 +293,7 @@ public class OutstockConfigreview extends BaseActivity {
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 /// 失败之后直接返回
                 MessageBox.Show(context, returnMsgModel.getResultValue());
+               // closeActivity();
                 return;
             }
             //   CurrOrderNO = awyBll.LinkVoucherNo;
@@ -327,8 +338,7 @@ public class OutstockConfigreview extends BaseActivity {
                 mAdapter.notifyDataSetChanged();
                 //this.closeActivity();
                 //跳到前一界面
-
-
+                ISReturn();
             }
 
         } catch (Exception EX) {
@@ -350,10 +360,20 @@ public class OutstockConfigreview extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-
             materialModle = returnMsgModel.getData();
             //库存
-            inputTitleDialog("输入散件数量");
+           // inputTitleDialog("输入散件数量");
+            //直接打印 +1
+            SalesoutstockRequery model = new SalesoutstockRequery();
+            model.Erpvoucherno = CurrOrderNO;
+            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+            model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+            model.Vouchertype = CurrvoucherType;
+            model.MaterialNo = sales_outstock_config_reviewbarcode.getText().toString().trim();
+            model.ScanQty = 1f;
+            String json = GsonUtil.parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
+                    context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
             MessageBox.Show(context, EX.toString());
@@ -427,7 +447,7 @@ public class OutstockConfigreview extends BaseActivity {
         CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
     }
 
-
+     //散件输入
     private void inputTitleDialog(String name) {
         final EditText inputServer = new EditText(this);
         inputServer.setFocusable(true);
@@ -441,9 +461,8 @@ public class OutstockConfigreview extends BaseActivity {
                         String Value = inputServer.getText().toString();
                         try {
                             Float inputValue = Float.parseFloat(Value);
-
-                            int packqty = Integer.parseInt(materialModle.getPackqty());
-                            if (inputValue >= packqty) {
+                            Float packqty = Float.parseFloat(materialModle.Packqty);
+                            if(ArithUtil.sub(inputValue,packqty)>=0) {
                                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                                 MessageBox.Show(context, "不能大于" + packqty + "包装量");
                                 return;
@@ -466,6 +485,25 @@ public class OutstockConfigreview extends BaseActivity {
                     }
                 });
         builder.show();
+    }
+
+
+    //是否返回上一级菜单
+    public void ISReturn() {
+        new AlertDialog.Builder(this).setTitle("数据保存成功，是否返回上一页")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //点击确定触发的事件
+                        closeActivity();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //点击取消触发的事件
+                    }
+                }).show();
     }
 
 
@@ -503,12 +541,25 @@ public class OutstockConfigreview extends BaseActivity {
     private boolean IsScanningOver() {
         boolean istrue = true;
         for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-            if (item.getRemainqty() != item.getScanqty()) {
+            if (item.getRemainqty()!=0){
                 istrue = false;
             }
         }
         return istrue;
     }
+    //判断是否全部复核完成
+    private boolean IsScanning() {
+        boolean istrue = true;
+        for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+            if (item.getScanqty()>0){
+                istrue = false;
+            }
+        }
+        return istrue;
+    }
+
+
+
 
 
 

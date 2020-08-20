@@ -117,10 +117,10 @@ public class DebugModuleData {
 //        itemIconList.add(R.drawable.other_outbound);
 //        itemNamesList.add(context.getString(R.string.main_menu_item_other_outbound));
 //        itemIconList.add(R.drawable.other_outbound);
-//        itemNamesList.add(context.getString(R.string.main_menu_item_purchase_inspection));
-//        itemIconList.add(R.drawable.other_outbound);
-//        itemNamesList.add(context.getString(R.string.main_menu_item_purchase_return));
-//        itemIconList.add(R.drawable.outsourcing_dispatch);
+        itemNamesList.add(context.getString(R.string.main_menu_item_purchase_inspection));
+        itemIconList.add(R.drawable.other_outbound);
+        itemNamesList.add(context.getString(R.string.main_menu_item_purchase_return));
+        itemIconList.add(R.drawable.outsourcing_dispatch);
 //        itemNamesList.add(context.getString(R.string.main_menu_item_outsourcing_dispatch));
 //        itemIconList.add(R.drawable.transfer_out_of_warehouse);
 //        itemNamesList.add(context.getString(R.string.main_menu_item_transfer_out_of_warehouse));
