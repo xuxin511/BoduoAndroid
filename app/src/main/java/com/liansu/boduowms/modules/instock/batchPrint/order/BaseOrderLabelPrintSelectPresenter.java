@@ -40,9 +40,9 @@ public class BaseOrderLabelPrintSelectPresenter {
     protected BaseOrderLabelPrintSelectModel mModel;
     protected IBaseOrderLabelPrintSelectView mView;
     protected PrintBusinessModel             mPrintModel;
-
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
+
     }
 
     public BaseOrderLabelPrintSelectPresenter(Context context, IBaseOrderLabelPrintSelectView view, MyHandler<BaseActivity> handler) {
