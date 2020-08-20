@@ -433,5 +433,7 @@
     <string name="pallet_no_desc">整托数量:</string>
     <string name="print_count_desc">打印张数:</string>
     <string name="request_order_detail_info">正在获取单据信息...</string>
-
+    <string name="dialog_material_info_remain_qty_hint">请输入打印次数</string>
+    <string name="main_menu_item_batch_printing">批量打印</string>
+    <string name="message_request_voucher_info_query">正在获取单据类型信息....</string>
 </resources>

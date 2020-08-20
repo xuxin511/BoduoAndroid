@@ -107,30 +107,31 @@ public class DebugModuleData {
      * @time 2020/6/25 19:50
      */
     public static void loadOutboundBusinessMenuList(Context context, ArrayList<Integer> itemIconList, ArrayList<String> itemNamesList) {
-        itemIconList.add(R.drawable.pick_up_and_out_of_warehouse);
-        itemNamesList.add(context.getString(R.string.main_menu_item_pick_up_and_out_of_warehouse));
-        itemIconList.add(R.drawable.sales_out_of_stock);
-        itemNamesList.add(context.getString(R.string.main_menu_item_sales_out_of_stock));
-        itemIconList.add(R.drawable.administrative_use);
-        itemNamesList.add(context.getString(R.string.main_menu_item_administrative_use));
-        itemIconList.add(R.drawable.purchase_returns);
-        itemNamesList.add(context.getString(R.string.main_menu_item_off_shelf_scan));
-        itemIconList.add(R.drawable.other_outbound);
-        itemNamesList.add(context.getString(R.string.main_menu_item_other_outbound));
-        itemIconList.add(R.drawable.other_outbound);
-        itemNamesList.add(context.getString(R.string.main_menu_item_purchase_inspection));
-        itemIconList.add(R.drawable.other_outbound);
-        itemNamesList.add(context.getString(R.string.main_menu_item_purchase_return));
-        itemIconList.add(R.drawable.outsourcing_dispatch);
-        itemNamesList.add(context.getString(R.string.main_menu_item_outsourcing_dispatch));
-        itemIconList.add(R.drawable.transfer_out_of_warehouse);
-        itemNamesList.add(context.getString(R.string.main_menu_item_transfer_out_of_warehouse));
-        itemIconList.add(R.drawable.loading_truck);
-        itemNamesList.add(context.getString(R.string.main_menu_item_loading_truck));
-        itemIconList.add(R.drawable.loading_truck);
-        itemNamesList.add(context.getString(R.string.main_menu_item_other_loading_truck));
-        itemIconList.add(R.drawable.delivery_lcl);
-        itemNamesList.add(context.getString(R.string.main_menu_item_delivery_lcl));
+//        itemIconList.add(R.drawable.pick_up_and_out_of_warehouse);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_pick_up_and_out_of_warehouse));
+
+//        itemIconList.add(R.drawable.administrative_use);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_administrative_use));
+//        itemIconList.add(R.drawable.purchase_returns);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_off_shelf_scan));
+//        itemIconList.add(R.drawable.other_outbound);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_other_outbound));
+//        itemIconList.add(R.drawable.other_outbound);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_purchase_inspection));
+//        itemIconList.add(R.drawable.other_outbound);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_purchase_return));
+//        itemIconList.add(R.drawable.outsourcing_dispatch);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_outsourcing_dispatch));
+//        itemIconList.add(R.drawable.transfer_out_of_warehouse);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_transfer_out_of_warehouse));
+//        itemIconList.add(R.drawable.loading_truck);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_loading_truck));
+//        itemIconList.add(R.drawable.sales_out_of_stock);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_sales_out_of_stock));
+//        itemIconList.add(R.drawable.loading_truck);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_other_loading_truck));
+//        itemIconList.add(R.drawable.delivery_lcl);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_delivery_lcl));
         //原材料出库
         itemIconList.add(R.drawable.sales_out_of_stock);
         itemNamesList.add(context.getString(R.string.main_menu_item_rowmaterial_lcl));
