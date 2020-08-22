@@ -213,8 +213,7 @@ public class ProductStorageScanModel extends BaseOrderScanModel {
                 float remainQty = detailInfo.getRemainqty(); //订单的剩余扫描数量　　
                 float hasRemainQty = ArithUtil.sub(detailInfo.getRemainqty(), detailInfo.getScanqty()); // (订单减去已扫描条码的)剩余扫描数量
                 if (remainQty > 0) {
-                    if (hasRemainQty > 0) {
-                        if (ArithUtil.sub(hasRemainQty, barcodeScanQty) >= 0) {
+                        if (ArithUtil.sub(remainQty, barcodeScanQty) >= 0) {
                             if (isUpdate) {
                                 detailInfo.setScanqty(ArithUtil.add(scanQty, barcodeScanQty));
                                 detailInfo.setRemainqty(ArithUtil.sub(remainQty, barcodeScanQty));
@@ -231,15 +230,7 @@ public class ProductStorageScanModel extends BaseOrderScanModel {
                             resultInfo.setHeaderStatus(false);
                             return resultInfo;
                         }
-                    } else {
-                        if (hasRemainQty == 0) {
-                            resultInfo.setMessage("校验物料行失败:物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "]的物料行已扫完毕");
-                        } else {
-                            resultInfo.setMessage("校验物料行出现异常:剩余扫描数量不能大于扫描数量!剩余数量[" + detailInfo.getRemainqty() + "],已扫描数量：[" + detailInfo.getScanqty() + "]");
-                        }
-                        resultInfo.setHeaderStatus(false);
-                        return resultInfo;
-                    }
+
                 } else if (remainQty == 0) {
                     resultInfo.setMessage("校验物料行失败:物料号:[" + barcodeMaterialNo + "],批次：[" + barcodeBatchNo + "]的物料行已扫完毕");
                     resultInfo.setHeaderStatus(false);
