@@ -144,7 +144,7 @@ public class PrintPalletScanModel extends BaseModel {
      */
     public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_CREATE_PALLET_NO_ADF_ASYNC", callBackListener);
-        String modelJson = parseModelToJson(info);
+        String modelJson=  GsonUtil.parseModelToJson(info);
         LogUtil.WriteLog(PrintPalletScan.class, TAG_CREATE_PALLET_NO_ADF_ASYNC, parseModelToJson(info));
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_CREATE_PALLET_NO_ADF_ASYNC, mContext.getString(R.string.product_storage_print_request_barcode_info), mContext, mHandler, RESULT_TAG_CREATE_PALLET_NO_ADF_ASYNC, null, UrlInfo.getUrl().Create_PalletNoADFAsync, modelJson, null);
     }

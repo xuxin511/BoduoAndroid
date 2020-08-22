@@ -93,7 +93,7 @@ public class PurchaseInspectionReviewScan extends BaseActivity implements IPurch
     }
 
     @Override
-    public void setSumScanQty(int outBoxQty, int EANQty) {
+    public void setSumScanQty(float outBoxQty, float EANQty) {
         mSumQty.setText("外箱数:" + outBoxQty + "     散件数:" + EANQty);
     }
 

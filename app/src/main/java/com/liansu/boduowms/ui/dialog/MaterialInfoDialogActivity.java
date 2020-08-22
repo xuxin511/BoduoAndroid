@@ -226,7 +226,8 @@ public class MaterialInfoDialogActivity extends AppCompatActivity {
         }
 
         if (packQty != mOutBarcode.getPackqty()) {
-            mOutBarcode.setPackqty((int) packQty);
+            mOutBarcode.setPackqty(1);
+           // mOutBarcode.setPackqty( (int) packQty);
         }
         mOutBarcode.setMaterialno(mMaterialNo.getText().toString().trim());
         mOutBarcode.setBatchno(batchNo);

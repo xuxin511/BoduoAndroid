@@ -119,8 +119,7 @@
                     android:id="@+id/txt_recommended_location"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
-                    android:layout_weight="0.6"
+                    android:layout_weight="1"
                     android:maxLines="2"
                     android:textColor="@color/peru"
                     android:textSize="@dimen/activity_list_text_size_third" />
@@ -130,7 +129,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0"
                     android:maxLines="2"
                     android:textColor="@color/peru"
                     android:textSize="@dimen/activity_list_text_size_third" />

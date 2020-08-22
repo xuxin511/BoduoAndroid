@@ -83,7 +83,10 @@ public class PurchaseInspectionReviewScanPresenter extends BaseReviewScanPresent
                                     mView.setSumScanQty(mModel.getOrderDetailList().get(0).getMaterialCartonNum(), mModel.getOrderDetailList().get(0).getMaterialPartNum());
 
                                 } else {
-                                    mView.onActivityFinish("单号已扫描完毕," + checkResult.getMessage());
+                                    mView.bindListView(mModel.getOrderDetailList());
+                                    mView.setErpVoucherNoInfo(mModel.getOrderHeaderInfo());
+                                    mView.setSumScanQty(mModel.getOrderDetailList().get(0).getMaterialCartonNum(), mModel.getOrderDetailList().get(0).getMaterialPartNum());
+                                    mView.onActivityFinish( checkResult.getMessage());
                                 }
                             } else {
                                 MessageBox.Show(mContext, "获取单据明细失败::获取单据明细为空" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {

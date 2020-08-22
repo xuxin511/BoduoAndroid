@@ -78,6 +78,7 @@ import java.util.List;
 //        listItemView.txtQty.setText("取样数："+(stockInfoModel.getPickModel()==3?stockInfoModel.getAmountQty():stockInfoModel.getQty()));
             listItemView.txtMaterialDesc.setText(stockInfoModel.getMaterialdesc());
             listItemView.txtBatchNo.setText(stockInfoModel.getBatchno());
+
             return convertView;
         }
 

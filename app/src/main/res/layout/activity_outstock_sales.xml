@@ -31,6 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
+        android:selectAllOnFocus="true"
         android:id="@+id/sales_outstock_order"
         android:layout_width="0dp"
         android:layout_height="@dimen/sp_25"
@@ -162,6 +163,7 @@
     </RadioGroup>
 
     <EditText
+        android:selectAllOnFocus="true"
         style="@style/EditTextStyle"
         android:layout_marginTop="3sp"
         android:inputType="textPersonName"
@@ -183,6 +185,7 @@
         />
 
     <EditText
+        android:selectAllOnFocus="true"
         android:id="@+id/sales_outstock_boxtext"
         style="@style/EditTextStyle"
         android:layout_width="140sp"

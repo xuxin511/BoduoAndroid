@@ -62,7 +62,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
 
     @ViewInject(R.id.lsvChoiceReceipt)
     ListView           mListView;
-    @ViewInject(R.id.mSwipeLayout)
+    @ViewInject(R.id.inspection_bill_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
     @ViewInject(R.id.edt_filterContent)
     EditText           mEdtfilterContent;

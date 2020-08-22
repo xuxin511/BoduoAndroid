@@ -248,6 +248,7 @@ String  url;
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_order);
                 MessageBox.Show(context, ex.getMessage());
+                return true;
             }
         }
         return false;
@@ -279,14 +280,14 @@ String  url;
                             CommonUtil.setEditFocus(sales_outstock_pallettext);
                             MessageBox.Show(context, "请输入或扫描正确托盘号");
                             CommonUtil.setEditFocus(sales_outstock_pallettext);
-                            return false;
+                            return true;
                         } else {
                             if(OutStock_Type.equals(OutStock_Submit_type_pallet)){
                                 if (palletno.split("%")[0].equals("")) {
                                     CommonUtil.setEditFocus(sales_outstock_pallettext);
                                     MessageBox.Show(context, "该托盘是拼托,请选择其它模式下架");
                                     CommonUtil.setEditFocus(sales_outstock_pallettext);
-                                    return false;
+                                    return true;
                                 }
                             }
                             //先判断托盘是否存在
@@ -305,6 +306,7 @@ String  url;
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_pallettext);
                 MessageBox.Show(context, ex.getMessage());
+                return true;
             }
         }
         return false;
@@ -324,20 +326,25 @@ String  url;
                         if(palletno.equals("")){
                             CommonUtil.setEditFocus(sales_outstock_boxtext);
                             MessageBox.Show(context, "请先扫描托盘号");
-                            return false;
+                            return true;
                         }
                         //判断当前模式是箱还是散件
                         if (OutStock_Type.equals(OutStock_Submit_type_box)) {
                             if (!Analysis(boxNo, OutStock_Submit_type_box)) {
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                                 MessageBox.Show(context, "请输入或扫描正确的箱号");
-
-                                return false;
+                                return true;
                             } else {
                                 //  MessageBox.Show(context, "是箱号");
                                 //提交
                                 String[] strBox = boxNo.split("%");
                                 String Strongholdcode = GetStrongholdcode(strBox[0]);
+                                String[] strPallet = palletno.split("%");
+                                if(!strBox[0].equals(strPallet[0])){
+                                    CommonUtil.setEditFocus(sales_outstock_boxtext);
+                                    MessageBox.Show(context, "扫描的外箱条码"+strBox[0]+"和托盘条码物料不一致");
+                                    return  true;
+                                }
                                 SalesoutstockRequery model = new SalesoutstockRequery();
                                 model.Erpvoucherno = CurrOrderNO;
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
@@ -356,7 +363,7 @@ String  url;
                             }
                         }
                         if (OutStock_Type.equals(OutStock_Submit_type_parts)) {
-                            if (!Analysis(palletno, OutStock_Submit_type_parts)) {
+                            if (!Analysis(boxNo, OutStock_Submit_type_parts)) {
                                 MessageBox.Show(context, "请输入或扫描正确69码或者物料号");
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                             } else {
@@ -373,6 +380,7 @@ String  url;
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                 MessageBox.Show(context, ex.getMessage());
+                return true;
             }
         }
         return false;
@@ -547,7 +555,14 @@ String  url;
                 return;
             }
             materialModle = returnMsgModel.getData();
-            //库存
+            //如果包装量等于1
+            Float packqty = Float.parseFloat(materialModle.Packqty);
+            if( ArithUtil.sub(packqty,1f)==0) {
+                CommonUtil.setEditFocus(sales_outstock_boxtext);
+                MessageBox.Show(context, "包装量等于1不允许下架");
+                return;
+            }
+            //输入数量
             inputTitleDialog("输入散件数量");
 
         } catch (Exception EX) {
@@ -723,6 +738,7 @@ String  url;
                             Float inputValue = Float.parseFloat(Value);
                             inputNum = inputValue;
                             Float packqty = Float.parseFloat(materialModle.Packqty);
+
                             if(ArithUtil.sub(inputNum,packqty)>=0) {
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                                 MessageBox.Show(context, "不能大于" + packqty + "包装量");

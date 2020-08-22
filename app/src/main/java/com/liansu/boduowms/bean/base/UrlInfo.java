@@ -138,13 +138,13 @@ public class UrlInfo {
                 SalesOutstock__Review_configSaveOrder = GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
                 SalesOutstock__Review_configSelectOrder = GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单
                 break;
-            case 46://领料
-                SalesOutstock_ScanningNo = GetWCFAdress() + "RawMaterialOut/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
-                SalesOutstock_SacnningPallet = GetWCFAdress() + "RawMaterialOut/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
+            case 46://领料/原材料发货
+                SalesOutstock_ScanningNo = GetWCFAdress() + "RawMaterialOut/GetT_OutStockDetailListADFAsync"; //订单扫描
+                SalesOutstock_SacnningPallet = GetWCFAdress() + "RawMaterialOut/SaveT_OutStockDetailADFAsync"; //托盘提交
                 break;
             case 57://委外工单
-                SalesOutstock_ScanningNo = GetWCFAdress() + "OutWork/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
-                SalesOutstock_SacnningPallet = GetWCFAdress() + "OutWork/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
+                SalesOutstock_ScanningNo = GetWCFAdress() + "OutWork/GetT_OutStockDetailListADFAsync"; //订单扫描
+                SalesOutstock_SacnningPallet = GetWCFAdress() + "OutWork/SaveT_OutStockDetailADFAsync"; //托盘提交
                 break;
             case 25://一阶段调拨
                 SalesOutstock_ScanningNo = GetWCFAdress() + "Transferout/GetT_OutStockDetailListADFAsync"; //订单扫描

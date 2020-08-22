@@ -160,13 +160,13 @@ public class OutstockConfigreview extends BaseActivity {
     //提交过账
     @Event(value =R.id.outstock_sales_configbutton_reviewsubmit)
     private void   Sales_outstock_review_Submit(View view) {
-        if (IsScanning()) {
+      //  if (IsScanning()) {
             //部分复核
             //  CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
             // MessageBox.Show(context, "订单未全部复核完成");
-            MessageBox.Show(context, "订单未扫描,不能过账");
+       //     MessageBox.Show(context, "订单未扫描,不能过账");
 
-        } else {
+      //  } else {
            if(!IsScanningOver()){
                //全部复核
                ISSubmit("订单未全部复核完成，确认提交吗");
@@ -177,7 +177,7 @@ public class OutstockConfigreview extends BaseActivity {
 
            }
 
-        }
+      // }
     }
 
 
@@ -325,7 +325,7 @@ public class OutstockConfigreview extends BaseActivity {
                 //   CommonUtil.setEditFocus(sales_outstock_);
                 // MessageBox.Show(context, returnMsgModel.getResultValue());
                 //清空
-                MessageBox.Show(context, returnMsgModel.getResultValue());
+              //  MessageBox.Show(context, returnMsgModel.getResultValue());
                 outstock_sales_boxcount.setText("0");
                 outstock_sales_boxscanning.setText("0");
 //                outstock_sales_jiancount.setText("0");

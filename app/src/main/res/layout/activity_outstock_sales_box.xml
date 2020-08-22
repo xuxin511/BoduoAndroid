@@ -43,6 +43,7 @@
         android:text=""
         android:textColor="@color/black"
         android:visibility="visible"
+        android:selectAllOnFocus="true"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
@@ -60,6 +61,7 @@
         android:gravity="left|center_vertical"
         android:hint="扫描物料/69码"
         android:paddingLeft="@dimen/sp_7"
+        android:selectAllOnFocus="true"
         android:singleLine="true"
         android:text=""
         android:textColor="@color/black"
@@ -71,13 +73,32 @@
         app:layout_constraintRight_toLeftOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         />
+
     <TextView
-        android:layout_height="@dimen/sp_16"
-        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/sp_5"
+        android:id="@+id/outstock_sales_shelf_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="非库存拼箱"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintStart_toEndOf="@+id/outstock_box_isCheck"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_box_watercode" />
+    <CheckBox
+        android:layout_marginTop="@dimen/sp_5"
+        android:id="@+id/outstock_box_isCheck"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_25"
+        android:buttonTint="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_box_watercode" />
+
+    <TextView
         android:id="@+id/sales_outstock_line2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_box_watercode"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sp_16"
+        app:layout_constraintTop_toBottomOf="@+id/outstock_box_isCheck" />
 
 
     <ListView
@@ -107,7 +128,7 @@
             android:textSize="@dimen/sp_15"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal"
-            android:text="拼箱"
+            android:text="封箱"
             />
 
     <Button

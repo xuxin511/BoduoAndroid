@@ -231,6 +231,13 @@ public class OutstockSalesConfig extends BaseActivity {
     @Event(value = R.id.sales_outstock_button_configsubmit)
     private void Click_submit(View view) {
         try {
+            if (awyBll.Erpvoucherno == null) {
+                CommonUtil.setEditFocus(sales_outstock_configOrder);
+                MessageBox.Show(context, "请先扫描单据号");
+                return;
+            }
+
+
             if (!awyBll.Erpvoucherno.equals("")) {
 //                if(sales_outstock_wlOrder.getText().toString().trim().equals("")){
 //                    CommonUtil.setEditFocus(sales_outstock_wlOrder);

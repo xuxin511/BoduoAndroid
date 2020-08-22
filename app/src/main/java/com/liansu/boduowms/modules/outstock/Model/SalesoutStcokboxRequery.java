@@ -7,7 +7,16 @@ public  class SalesoutStcokboxRequery {
     public  String Batchno;
     public  String Materialno;
     public  int Vouchertype;
-    public  String PostUserNo;
+    public  String PostUser;
+    public  int IsStockCombine;
+
+    public int getIsStockCombine() {
+        return IsStockCombine;
+    }
+
+    public void setIsStockCombine(int isStockCombine) {
+        IsStockCombine = isStockCombine;
+    }
 
     public  String Printername;
     public  int  Printertype;
@@ -78,10 +87,10 @@ public  class SalesoutStcokboxRequery {
     }
 
     public String getPostUserNo() {
-        return PostUserNo;
+        return PostUser;
     }
 
-    public void setPostUserNo(String postUserNo) {
-        PostUserNo = postUserNo;
+    public void setPostUserNo(String PostUser) {
+        PostUser = PostUser;
     }
 }

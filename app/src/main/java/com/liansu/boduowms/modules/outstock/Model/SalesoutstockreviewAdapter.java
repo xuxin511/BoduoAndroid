@@ -35,15 +35,16 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
     public SalesoutstockreviewAdapter(Context context, List<OutStockOrderDetailInfo> outStockTaskDetailsInfoModels) {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
-        List<OutStockOrderDetailInfo> list=new ArrayList<OutStockOrderDetailInfo>();
-        list=outStockTaskDetailsInfoModels;
-        for (OutStockOrderDetailInfo item:outStockTaskDetailsInfoModels){
-             if(item.getRemainqty()==0){
-                 list.remove(item);
-                 list.add(outStockTaskDetailsInfoModels.size(),item);
-             }
-        }
+//        List<OutStockOrderDetailInfo> list=new ArrayList<OutStockOrderDetailInfo>();
+//        list=outStockTaskDetailsInfoModels;
+//        for (OutStockOrderDetailInfo item:outStockTaskDetailsInfoModels){
+//             if(item.getRemainqty()==0){
+//                 list.remove(item);
+//                 list.add(outStockTaskDetailsInfoModels.size(),item);
+//             }
+//        }
         this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
+
     }
 
     @Override

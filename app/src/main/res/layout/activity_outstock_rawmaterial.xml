@@ -26,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
+
         android:id="@+id/sales_outstock_rawmaterial_order"
         android:layout_width="0dp"
         android:layout_height="@dimen/sp_30"
@@ -39,6 +40,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/sp_17"
         android:visibility="visible"
+        android:selectAllOnFocus="true"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintRight_toLeftOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
@@ -51,6 +53,7 @@
         android:background="@color/white"
         android:gravity="left|center_vertical"
         android:hint="扫描托盘"
+        android:selectAllOnFocus="true"
         android:paddingLeft="@dimen/sp_7"
         android:singleLine="true"
         android:text=""

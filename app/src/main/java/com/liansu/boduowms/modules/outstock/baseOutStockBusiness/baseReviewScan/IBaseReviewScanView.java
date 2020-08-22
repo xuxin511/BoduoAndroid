@@ -12,7 +12,7 @@ import java.util.List;
 public interface IBaseReviewScanView {
     void bindListView(List<OutStockOrderDetailInfo> list);
     void setErpVoucherNoInfo(OutStockOrderHeaderInfo model);
-    void setSumScanQty(int outBoxQty,int EANQty);
+    void setSumScanQty(float outBoxQty, float EANQty);
     String  getDriverInfo();
     void onErpVoucherFocus();
     void  onDriverInfoFocus();

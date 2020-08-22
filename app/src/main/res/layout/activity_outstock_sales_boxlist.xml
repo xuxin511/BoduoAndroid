@@ -30,6 +30,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
     //69码
     <EditText
+        android:selectAllOnFocus="true"
         android:id="@+id/sales_outstock_boxlist_order"
         android:layout_width="0dp"
         android:layout_height="@dimen/sp_25"

@@ -63,6 +63,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
             listItemView.txtstrong = (TextView) convertView.findViewById(R.id.txt_strongcode);
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
             listItemView.txt_reference_standard = (TextView) convertView.findViewById(R.id.txt_reference_standard);
+
             listItemView.txtVoucherQty = (TextView) convertView.findViewById(R.id.txtVoucherQty);
             listItemView.txtRemainQty = (TextView) convertView.findViewById(R.id.txtRemainQty);
             listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
@@ -74,15 +75,15 @@ public class SalesoutstockAdapter extends BaseAdapter {
         }
         final OutStockOrderDetailInfo mDetailInfo = outStockTaskDetailsInfoModels.get(selectID);
         listItemView.txt_voucherNo.setText(mDetailInfo.getMaterialno());
-        if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
-            listItemView.txt_reference_standard.setText("整件:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
-        }
-        listItemView.txtstrong.setText("包装:"+String.valueOf(mDetailInfo.getPackQty()));
+//        if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
+//            listItemView.txt_reference_standard.setText("整件:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
+//        }
+    //    listItemView.txtstrong.setText("包装:"+String.valueOf(mDetailInfo.getPackQty()));
         listItemView.txtVoucherQty.setText("订单：" + mDetailInfo.getVoucherqty());
         listItemView.txtRemainQty.setText("剩余:" + mDetailInfo.getRemainqty());
         listItemView.txtScanQty.setText("已扫：" + mDetailInfo.getScanqty());
         listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
-        listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
+        listItemView.txtMaterialDesc.setText(mDetailInfo.getMaterialdesc());
 
 
 //             listItemView.txt_voucherNo.setText("12345678901");

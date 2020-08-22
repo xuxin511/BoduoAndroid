@@ -39,8 +39,8 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private String Spec;
     private String Unitname;
     private String Erpnote;
-    private int    MaterialCartonNum;
-    private int    MaterialPartNum;
+    private Float    MaterialCartonNum;
+    private Float    MaterialPartNum;
     private float    ReviewQty;
     private int    Headerid;
     private int    Id;
@@ -93,8 +93,8 @@ public class OutStockOrderDetailInfo implements Parcelable {
         Spec = in.readString();
         Unitname = in.readString();
         Erpnote = in.readString();
-        MaterialCartonNum = in.readInt();
-        MaterialPartNum = in.readInt();
+        MaterialCartonNum = in.readFloat();
+        MaterialPartNum = in.readFloat();
         ReviewQty = in.readFloat();
         Headerid = in.readInt();
         Id = in.readInt();
@@ -130,8 +130,8 @@ public class OutStockOrderDetailInfo implements Parcelable {
         dest.writeString(Spec);
         dest.writeString(Unitname);
         dest.writeString(Erpnote);
-        dest.writeInt(MaterialCartonNum);
-        dest.writeInt(MaterialPartNum);
+        dest.writeFloat(MaterialCartonNum);
+        dest.writeFloat(MaterialPartNum);
         dest.writeFloat(ReviewQty);
         dest.writeInt(Headerid);
         dest.writeInt(Id);
@@ -211,19 +211,19 @@ public class OutStockOrderDetailInfo implements Parcelable {
         Erpnote = erpnote;
     }
 
-    public int getMaterialCartonNum() {
+    public Float getMaterialCartonNum() {
         return MaterialCartonNum;
     }
 
-    public void setMaterialCartonNum(int materialCartonNum) {
+    public void setMaterialCartonNum(Float materialCartonNum) {
         MaterialCartonNum = materialCartonNum;
     }
 
-    public int getMaterialPartNum() {
+    public Float getMaterialPartNum() {
         return MaterialPartNum;
     }
 
-    public void setMaterialPartNum(int materialPartNum) {
+    public void setMaterialPartNum(Float materialPartNum) {
         MaterialPartNum = materialPartNum;
     }
 

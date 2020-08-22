@@ -11,6 +11,17 @@ public  class AwyBll {
     public String Erpvoucherno ;
     public int Vouchertype ;
     public int Status ;
+
+     public  int IsStockCombine;
+
+    public int getIsStockCombine() {
+        return IsStockCombine;
+    }
+
+    public void setIsStockCombine(int isStockCombine) {
+        IsStockCombine = isStockCombine;
+    }
+
     /// <summary>
     /// 体积
     /// </summary>

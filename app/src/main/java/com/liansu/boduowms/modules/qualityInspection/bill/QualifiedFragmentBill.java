@@ -40,7 +40,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
     QualifiedBillPresenter mPresenter;
     @ViewInject(R.id.lsvChoiceReceipt)
     ListView           mListView;
-    @ViewInject(R.id.mSwipeLayout)
+    @ViewInject(R.id.inspection_bill_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
     @ViewInject(R.id.edt_filterContent)
     EditText           mEdtfilterContent;

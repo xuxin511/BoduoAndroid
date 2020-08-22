@@ -38,6 +38,7 @@ import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
+import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
@@ -103,8 +104,8 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     private int CurrVoucherType;
 
 
-    //据点集合
-    Map<String,String> StrongholdcodeList=new HashMap<>();
+    //存储物料跟批次对象
+    Map<String,OutStockOrderDetailInfo>  stockorderdetail=new HashMap<String,OutStockOrderDetailInfo>();
 
     //存储类
     private PurchaseReturnOffScanModel mModel;
@@ -165,6 +166,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
                 MessageBox.Show(context, ex.getMessage());
+                return true;
             }
         }
         return false;
@@ -186,11 +188,10 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                         if (!Analysis(palletno, OutStock_Submit_type_pallet)) {
                             CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                             MessageBox.Show(context, "请输入或扫描正确托盘号");
-                            CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                            return false;
+                           // CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                            return true;
                         } else {
-
-                            //先判断托盘是否存在
+                          //先判断托盘是否存在
                             Outbarcode_Requery model = new Outbarcode_Requery();
                             model.Barcode = palletno;
                             model.Vouchertype = CurrVoucherType;
@@ -206,6 +207,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                 MessageBox.Show(context, ex.getMessage());
+                return true;
             }
         }
         return false;
@@ -243,6 +245,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     //扫描单号获取数据
     public  void SacnnNo(String result) {
         try {
+            stockorderdetail=new HashMap<String,OutStockOrderDetailInfo>();
             BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -254,6 +257,13 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             //成功
             List<OutStockOrderDetailInfo> detailInfos = new ArrayList<OutStockOrderDetailInfo>();
             detailInfos = returnMsgModel.getData().getDetail();
+             //存储单号对象
+//              for (OutStockOrderDetailInfo item:returnMsgModel.getData().getDetail()) {
+//                  String Batchno = "";
+//                  if (item.getBatchno() != null)
+//                      Batchno = item.getBatchno();
+//                  stockorderdetail.put(item.getMaterialno() + Batchno, item);
+//              }
             if (detailInfos.size() > 0) {
                 //绑定
                 mModel.setOrderHeaderInfo(returnMsgModel.getData());
@@ -276,28 +286,44 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         try {
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
+            if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ACTION_CONTINUE){
+                //过账完成 更新listview
+                for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()){
+                    item.setScanqty(ArithUtil.add(item.getScanqty(),item.getRemainqty()));
+                    item.setRemainqty(0f);
+                }
+                mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
+                mList.setAdapter(mAdapter);
+                MessageBox.Show(context,"过账成功");
+                return;
+            }
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-            List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
-            list = returnMsgModel.getData();
-            //成功需要更新listView 怎么更新
-            String msg = "";
-            if (returnMsgModel.getData().size() > 0) {
-                for (OutStockOrderDetailInfo oderdetail : list) {
-                    BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateListViewItem(oderdetail);
-                    mAdapter.notifyDataSetChanged();
-                    if (!checkResult.getHeaderStatus()) {
-                        msg = msg + "物料" + oderdetail.getMaterialno() + "批次" + oderdetail.getBatchno();
+            else{
+                //实时更新
+                List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
+                list = returnMsgModel.getData();
+                //成功需要更新listView 怎么更新
+                String msg = "";
+                if (returnMsgModel.getData().size() > 0) {
+                    for (OutStockOrderDetailInfo oderdetail : list) {
+                        BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateListViewItem(oderdetail);
+                        mAdapter.notifyDataSetChanged();
+                        if (!checkResult.getHeaderStatus()) {
+                            msg = msg + "物料" + oderdetail.getMaterialno() + "批次" + oderdetail.getBatchno();
+                        }
                     }
                 }
+                if (!msg.equals("")) {
+                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                    MessageBox.Show(context, msg + "更新失败");
+                }
             }
-            if (!msg.equals("")) {
-                MessageBox.Show(context, msg + "更新失败");
-            }
-
         } catch (Exception EX) {
+            CommonUtil.setEditFocus(sales_outstock_material_pallettext);
             MessageBox.Show(context, EX.toString());
         }
     }
@@ -307,7 +333,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 
 
     //先判断托盘是否存在   再处理逻辑
-    public  void   BarcodeisExist(String result){
+    public  void   BarcodeisExist(String result) {
         try {
             BaseResultInfo<Outbarcode_Requery> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<Outbarcode_Requery>>() {
             }.getType());
@@ -317,8 +343,13 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 return;
             }
             //region   托盘回车
-            inputTitleDialog("请输入托盘数量");
-
+            //找到单据数量 传过去
+//            String palletno = sales_outstock_material_pallettext.getText().toString().trim();
+//            String[] palletarr = palletno.split("%");
+          //  OutStockOrderDetailInfo model = stockorderdetail.get(palletarr[0] + palletarr[1]);
+           // if(model!=null){
+                inputTitleDialog("托盘数量");
+          //  }
             //endregion
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_material_pallettext);
@@ -393,6 +424,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         }
 
         final EditText inputServer = new EditText(this);
+        inputServer.setHint("请输入托盘数量");
         inputServer.setFocusable(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(name).setIcon(

@@ -128,7 +128,7 @@ public class BaseReviewScan extends BaseActivity implements IBaseReviewScanView 
     }
 
     @Override
-    public void setSumScanQty(int outBoxQty, int EANQty) {
+    public void setSumScanQty(float outBoxQty, float EANQty) {
         mSumQty.setText("外箱数:" + outBoxQty + "     散件数:" + EANQty);
     }
 

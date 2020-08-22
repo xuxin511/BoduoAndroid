@@ -186,6 +186,7 @@ public  class SalesOutReview extends BaseActivity {
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_revieworder);
                 MessageBox.Show(context, ex.getMessage());
+                return true;
             }
         }
         return false;

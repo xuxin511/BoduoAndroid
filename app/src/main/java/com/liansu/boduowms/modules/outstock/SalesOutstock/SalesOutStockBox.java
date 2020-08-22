@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -95,6 +97,11 @@ public  class SalesOutStockBox   extends BaseActivity {
     @ViewInject(R.id.out_stock_sales_box_ListView)
     ListView mList;
 
+    //单选按钮
+    @ViewInject(R.id.outstock_box_isCheck)
+    CheckBox checkBox;
+
+
 
     //物料存储类 判断是否存在
     Map<String,String> modelIsExits;
@@ -118,18 +125,51 @@ public  class SalesOutStockBox   extends BaseActivity {
         super.initViews();
         BaseApplication.toolBarTitle = new ToolBarTitle("拼箱", true);
         x.view().inject(this);
-        CurrOrder="";
-        materialModle=new  MaterialResponseModel();
-        stockInfoModels=new ArrayList<SalesoutStcokboxRequery>();
+        CurrOrder = "";
+        materialModle = new MaterialResponseModel();
+        stockInfoModels = new ArrayList<SalesoutStcokboxRequery>();
         //重写路径
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
-        int type=Integer.parseInt(data.toString());
+        int type = Integer.parseInt(data.toString());
         info.InitUrl(type);
-        CurrVoucherType=type;
-        modelIsExits=new HashMap<String, String>();
-        Scanningtype=0;
-        responseList=new ArrayList<OutStockOrderDetailInfo>();
+        CurrVoucherType = type;
+        modelIsExits = new HashMap<String, String>();
+        Scanningtype = 0;
+        responseList = new ArrayList<OutStockOrderDetailInfo>();
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                // TODO Auto-generated method stub
+                if (isChecked) {
+                    // editText1.setText(buttonView.getText()+"选中");
+                    SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
+                    model.Materialno = "";
+                    model.Materialdesc = "非库存拼箱";
+                    model.Batchno = "";
+                    model.Erpvoucherno = CurrOrder;
+                    model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.Qty = 1f;
+                    model.IsStockCombine = 1;
+                    model.Vouchertype = CurrVoucherType;
+                    model.Printername = UrlInfo.mOutStockPrintName;
+                    model.Printertype = UrlInfo.mOutStockPrintType;
+                    stockInfoModels.add(model);
+                } else {
+                    for (SalesoutStcokboxRequery infos : stockInfoModels) {
+                        if (infos.Materialdesc.equals("非库存拼箱")) {
+                            stockInfoModels.remove(infos);
+                        }
+                    }
+                }
+                mAdapter = new SalesoutstockBoxAdapter(context, stockInfoModels);
+                mList.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
     protected void initData() {
         super.initData();
@@ -159,7 +199,7 @@ public  class SalesOutStockBox   extends BaseActivity {
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_box_order);
                 MessageBox.Show(context, ex.toString());
-                return false;
+                return true;
             }
         }
         return false;
@@ -205,7 +245,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.Batchno = arr[1];
                             model.Materialno = barcode;
                             model.Erpvoucherno = CurrOrder;
-                            model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                            model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                             model.Qty = Float.parseFloat(arr[2]);
                             model.Vouchertype = CurrVoucherType;
                             String modelJson = parseModelToJson(model);
@@ -216,6 +256,8 @@ public  class SalesOutStockBox   extends BaseActivity {
                     }
                 } catch (Exception ex) {
                     MessageBox.Show(context, ex.toString());
+                    CommonUtil.setEditFocus(sales_outstock_box_watercode);
+                    return true;
                 }
             }
             //   MessageBox.Show(context, "请扫描69码/物料/外箱标签");
@@ -347,7 +389,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     model.Batchno = list.get(0).getBatchno();
                     model.Materialno = arr[0];
                     model.Erpvoucherno = CurrOrder;
-                    model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                     model.Qty = Float.parseFloat(arr[2]);
                     model.Vouchertype = CurrVoucherType;
                     model.Printername= UrlInfo.mOutStockPrintName;
@@ -385,7 +427,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.Materialdesc=materialModle.Materialdesc;
                         model.Batchno=list.get(0).getBatchno();
                         model.Erpvoucherno=CurrOrder;
-                        model.PostUserNo=BaseApplication.mCurrentUserInfo.getUserno();
+                        model.PostUser=BaseApplication.mCurrentUserInfo.getUserno();
                         model.Qty=num;
                         model.Vouchertype=CurrVoucherType;
                         model.Printername= UrlInfo.mOutStockPrintName;
@@ -404,6 +446,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     mAdapter = new SalesoutstockBoxAdapter(context, stockInfoModels);
                     mList.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
+                    CommonUtil.setEditFocus(sales_outstock_box_watercode);
                 }
                  if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_DEFAULT){
                      CommonUtil.setEditFocus(sales_outstock_box_watercode);
@@ -477,7 +520,18 @@ public  class SalesOutStockBox   extends BaseActivity {
                 return;
             }
             materialModle=returnMsgModel.getData();
-            inputTitleDialog("输入散件数量");
+           num=1f;
+            SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
+            model.Batchno = "";
+            model.Materialno = materialModle.Materialno;
+            model.Erpvoucherno = CurrOrder;
+            model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
+            model.Qty =1f;
+            model.Vouchertype = CurrVoucherType;
+            String modelJson = parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
+                    context, mHandler, RESULT_Saleoutstock_Box_Check_waterCode, null, info.SalesOutstock_Box_Batchno, modelJson, null);
+           // inputTitleDialog("输入散件数量");
 
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_box_watercode);
@@ -570,7 +624,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.Batchno = cities[which];
                         model.Materialno = boxno.split("%")[0];
                         model.Erpvoucherno = CurrOrder;
-                        model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                        model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Qty = Float.parseFloat(boxno.split("%")[2]);
                         model.Vouchertype = CurrVoucherType;
                         model.Printername= UrlInfo.mOutStockPrintName;
@@ -611,7 +665,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.Materialdesc=materialModle.Materialdesc;
                             model.Batchno=cities[which];
                             model.Erpvoucherno=CurrOrder;
-                            model.PostUserNo=BaseApplication.mCurrentUserInfo.getUserno();
+                            model.PostUser=BaseApplication.mCurrentUserInfo.getUserno();
                             model.Qty=num;
                             model.Printername=UrlInfo.mOutStockPrintName;
                             model.Printertype=UrlInfo.mOutStockPrintType;
@@ -681,7 +735,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.Batchno = "";
                             model.Materialno = materialModle.Materialno;
                             model.Erpvoucherno = CurrOrder;
-                            model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                            model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                             model.Qty =inputValue;
                             model.Vouchertype = CurrVoucherType;
                             String modelJson = parseModelToJson(model);

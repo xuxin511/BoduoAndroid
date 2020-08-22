@@ -91,7 +91,7 @@ public class PurchaseReturnReviewScan extends BaseActivity implements IPurchaseR
     }
 
     @Override
-    public void setSumScanQty(int outBoxQty, int EANQty) {
+    public void setSumScanQty(float outBoxQty, float EANQty) {
         mSumQty.setText("外箱数:" + outBoxQty + "     散件数:" + EANQty);
     }
 

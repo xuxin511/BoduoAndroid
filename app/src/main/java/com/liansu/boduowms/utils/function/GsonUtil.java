@@ -38,10 +38,18 @@ public class GsonUtil {
     }
 
     public static <T> String parseModelToJson(T TModel) {
-        Gson gson = new Gson();
-        String result = gson.toJson(TModel, new TypeToken<T>() {
-        }.getType());
-        return result;
+        try{
+
+            Gson gson = new Gson();
+            String result = gson.toJson(TModel, new TypeToken<T>() {
+            }.getType());
+            return result;
+
+        }catch (Exception ex){
+
+     String str=ex.toString();
+        }
+        return "";
     }
 
     public static <T> List<T> parseJsonArrayToModelList(String jsonData) {
