@@ -17,6 +17,19 @@
     <dimen name="base_order_label_print_margin_top">5dp</dimen>
     <dimen name="base_order_label_print_edit_text_height">40dp</dimen>
     <dimen name="activity_product_storage_scan_margin_top">2dp</dimen>
+    <dimen name="common_layout_height_first">35dp</dimen>
+    <dimen name="common_layout_height_second">30dp</dimen>
+    <dimen name="common_layout_height_third">25dp</dimen>
+    <dimen name="common_text_size_first">16sp</dimen>
+    <dimen name="common_text_size_second">15sp</dimen>
+    <dimen name="common_text_size_third">13sp</dimen>
+    <dimen name="common_text_size_fourth">12sp</dimen>
+    <dimen name="common_text_size_fifth">11sp</dimen>
+    <dimen name="common_text_size_sixth">14sp</dimen>
+    <dimen name="common_text_size_seventh">18sp</dimen>
+    <dimen name="common_margin_top_first">5dp</dimen>
+
+
 
 <!-- font size,you can add if there is no one -->
     <dimen name="sp_3">3sp</dimen>
@@ -52,4 +65,7 @@
 <dimen name="sp_40">40sp</dimen>
 <dimen name="sp_42">42sp</dimen>
 <dimen name="sp_48">48sp</dimen>
+    <dimen name="common_margin_left">8dp</dimen>
+    <dimen name="common_list_view_diver_height">2px</dimen>
+    <dimen name="common_list_view_divider_padding">10dp</dimen>
 </resources>

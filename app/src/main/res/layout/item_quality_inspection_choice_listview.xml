@@ -15,21 +15,21 @@
                 <TextView
                     android:id="@+id/txt_quality_no"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.65"
                     android:maxLines="1"
-                    android:textColor="@color/blueviolet"
-                    android:textSize="@dimen/activity_list_text_first" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/common_text_size_seventh" />
 
                 <TextView
-                    android:gravity="right"
+                    android:gravity="right|center_vertical"
                     android:id="@+id/txt_status"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.35"
                     android:maxLines="1"
                     android:textColor="@color/blueviolet"
-                    android:textSize="@dimen/activity_list_text_first" />
+                    android:textSize="@dimen/common_text_size_first" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/forth_layout"
@@ -42,22 +42,39 @@
                     android:id="@+id/txt_materialNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.35"
+                    android:layout_weight="0.6"
                     android:maxLines="2"
                     android:textColor="@color/mediumseagreen"
-                    android:textSize="@dimen/activity_list_text_size_third" />
+                    android:textSize="@dimen/common_text_size_first" />
 
 
                 <TextView
+                    android:gravity="right"
                     android:id="@+id/txt_voucherNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.65"
+                    android:maxLines="1"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/common_text_size_first" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fifth_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/txt_material_desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.35"
                     android:maxLines="2"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp" />
-
-
+                    android:textColor="@color/blueviolet"
+                    android:textSize="@dimen/common_text_size_first" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,7 +109,7 @@
                     android:layout_weight="1"
                     android:maxLines="1"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/activity_list_text_size_third" />
+                    android:textSize="@dimen/common_text_size_third" />
 
                 <TextView
                     android:id="@+id/txt_arrVoucherNo"
@@ -101,7 +118,7 @@
                     android:layout_weight="1"
                     android:maxLines="1"
                     android:textColor="@color/peru"
-                    android:textSize="@dimen/activity_list_text_size_third"  />
+                    android:textSize="@dimen/common_text_size_third"  />
 
         </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.instock.productStorage.printPalletScan;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -14,12 +15,16 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
+import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
+import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
-import com.liansu.boduowms.bean.paroductStorage.ProductDetailInfo;
+import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
+import com.liansu.boduowms.modules.print.PrintBusinessModel;
+import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseOrderLabelPrintDetailAdapter;
 import com.liansu.boduowms.ui.adapter.instock.productStorage.ProductScanDetailAdapter;
-import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
@@ -31,8 +36,11 @@ import org.xutils.x;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des: 产品入库托盘标签打印
@@ -60,7 +68,7 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
 //        closeKeyBoard(mBarcode);
@@ -100,7 +108,6 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
     }
 
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -110,16 +117,55 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
     @Override
     protected void onResume() {
         super.onResume();
+        if (mPresenter!=null){
+            if (mPresenter.getModel().getProductInfo()!=null){
+                onBarcodeFocus();
+            }else {
+                onErpVoucherNo();
+            }
+        }
 //        if (mPresenter != null) {
 //            mPresenter.getOrderDetailInfoList(mPresenter.getModel().getOrderHeaderInfo());
 //        }
     }
 
     @Override
-    public void bindListView(List<ProductDetailInfo> detailInfos) {
-        mAdapter = new ProductScanDetailAdapter(mContext, "", detailInfos);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    public void bindListView(List<OrderDetailInfo> detailInfos) {
+        if (mAdapter == null) {
+            mAdapter = new ProductScanDetailAdapter(mContext, "", detailInfos);
+            mAdapter.setRecyclerView(mRecyclerView);
+            mAdapter.setOnItemClickListener(new BaseOrderLabelPrintDetailAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
+                    if (data != null) {
+                        OutBarcodeInfo scanQRCode = null;
+                        BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(mBarcode.getText().toString());
+                        if (resultInfo.getHeaderStatus()) {
+                            scanQRCode = resultInfo.getInfo();
+                        } else {
+                            MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onBarcodeFocus();
+                                }
+                            });
+                            return;
+                        }
+                        if (scanQRCode != null && scanQRCode.getBatchno() != null && scanQRCode.getMaterialno() != null) {
+
+                            data.setBatchno(scanQRCode.getBatchno());
+                        }
+                        createDialog(data);
+                    }
+
+                }
+            });
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -136,7 +182,7 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
         {
             String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
             if (mPresenter != null) {
-                OrderHeaderInfo orderHeaderInfo=new OrderHeaderInfo();
+                OrderHeaderInfo orderHeaderInfo = new OrderHeaderInfo();
                 orderHeaderInfo.setErpvoucherno(erpVoucherNo);
                 mPresenter.getOrderDetailInfoList(orderHeaderInfo);
             }
@@ -187,13 +233,20 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
 
 
     @Override
-    public void createDialog(OutBarcodeInfo info) {
+    public void createDialog(OrderDetailInfo orderDetailInfo) {
         Intent intent = new Intent();
-        intent.setClass(mContext, MaterialInfoDialogActivity.class);
+        intent.setClass(PrintPalletScan.this, BaseOrderLabelPrint.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable("info", info);
+        bundle.putInt("PRINT_TYPE", PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO);
+        bundle.putParcelable("ORDER_DETAIL_INFO", orderDetailInfo);
         intent.putExtras(bundle);
-        startActivityForResult(intent, REQUEST_CODE_OK);
+        startActivityLeft(intent);
+//        Intent intent = new Intent();
+//        intent.setClass(mContext, MaterialInfoDialogActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable("info", info);
+//        intent.putExtras(bundle);
+//        startActivityForResult(intent, REQUEST_CODE_OK);
     }
 
     @Override
@@ -214,10 +267,10 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
                     break;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "从物料界面传递数据给入库扫描界面出现异常" + e.getMessage() );
+            MessageBox.Show(mContext, "从物料界面传递数据给入库扫描界面出现异常" + e.getMessage());
         }
-
-
     }
+
+
 
 }

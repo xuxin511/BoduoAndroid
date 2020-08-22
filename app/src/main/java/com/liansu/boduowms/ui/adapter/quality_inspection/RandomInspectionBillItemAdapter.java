@@ -79,7 +79,7 @@ public class RandomInspectionBillItemAdapter extends BaseAdapter {
             listItemView.txt_arrVoucherNo = (TextView) convertView.findViewById(R.id.txt_arrVoucherNo);
             listItemView.txt_voucher_qty = (TextView) convertView.findViewById(R.id.txt_voucher_qty);
             listItemView.txt_status=(TextView) convertView.findViewById(R.id.txt_status);
-            listItemView.txt_material_desc=(TextView) convertView.findViewById(R.id.txt_voucherNo);
+            listItemView.txt_material_desc=(TextView) convertView.findViewById(R.id.txt_material_desc);
             convertView.setTag(listItemView);
         } else {
             listItemView = (ListItemView) convertView.getTag();
@@ -98,7 +98,7 @@ public class RandomInspectionBillItemAdapter extends BaseAdapter {
         listItemView.txt_material_desc.setText(headerInfo.getMaterialdesc());
         listItemView.txt_quality_no.setText(headerInfo.getQualityno());
         listItemView.txt_arrVoucherNo.setText(headerInfo.getArrvoucherno());
-        listItemView.txt_voucher_qty.setText(headerInfo.getVoucherqty() + "");
+        listItemView.txt_voucherNo.setText("抽检数量:"+headerInfo.getSampqty() );
         return convertView;
     }
 

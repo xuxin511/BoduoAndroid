@@ -80,6 +80,11 @@ public class OrderBillChioceItemAdapter extends BaseAdapter {
 
         listItemView.txtTaskNo.setText(receiptModel.getErpvoucherno());
         listItemView.txtStrongHoldName.setText(receiptModel.getStrongholdName());
+        if (receiptModel.getStrongholdName()!=null && !receiptModel.getStrongholdName().equals("")){
+            listItemView.txtStrongHoldName.setVisibility(View.VISIBLE);
+        }else {
+            listItemView.txtStrongHoldName.setVisibility(View.GONE);
+        }
         listItemView.txt_department.setText(receiptModel.getDepartmentname());
 //        String supplierCode=receiptModel.getSuppliername()+"("+receiptModel.getSupplierno()+")";
         String supplierName=receiptModel.getSuppliername();

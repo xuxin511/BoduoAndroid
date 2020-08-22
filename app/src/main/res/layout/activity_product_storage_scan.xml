@@ -42,6 +42,7 @@
         android:layout_width="111dp"
         android:layout_height="wrap_content"
         android:text="@string/receipt_scan_bill_no"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="@+id/txt_VoucherNo"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/txt_VoucherNo" />
@@ -61,10 +62,12 @@
         android:id="@+id/txt_VoucherNo"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/common_text_size_first"
         android:layout_marginTop="@dimen/activity_product_storage_scan_margin_top"
-        android:gravity="left"
+        android:gravity="left|center_vertical"
         android:text=""
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -87,9 +90,10 @@
     <TextView
         android:id="@+id/receiption_scan_out_barcode_desc"
         style="@style/TextViewComminStyle"
-        android:layout_width="111dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/barcode"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="@+id/receiption_scan_out_barcode"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/receiption_scan_out_barcode" />
@@ -98,9 +102,11 @@
         android:id="@+id/receiption_scan_out_barcode"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/common_text_size_first"
         android:layout_marginTop="@dimen/activity_product_storage_scan_margin_top"
-        android:hint="@string/receipt_scan_hint_scan_barcode"
+        android:hint="@string/product_storage_scan_pallet_no_hint"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_area_no" />
@@ -120,10 +126,11 @@
     <TextView
         android:id="@+id/textView33"
         style="@style/TextViewComminStyle"
-        android:layout_width="111dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="@string/area_no"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="@+id/edt_area_no"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/edt_area_no" />
@@ -132,9 +139,11 @@
         android:id="@+id/edt_area_no"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/common_text_size_first"
         android:layout_marginTop="@dimen/activity_product_storage_scan_margin_top"
         android:hint="请扫描库位"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toTopOf="@+id/receiption_scan_out_barcode"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
@@ -157,6 +166,7 @@
         android:background="@drawable/bt_selector"
         android:text="@string/receipt_scan_combine_refer"
         android:textColor="@color/white"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_transfer_submission"
         app:layout_constraintStart_toStartOf="parent"
@@ -175,7 +185,6 @@
         app:layout_constraintTop_toBottomOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-
         android:id="@+id/lsv_ReceiptScan"
         android:layout_width="0dp"
         android:layout_height="0dp"

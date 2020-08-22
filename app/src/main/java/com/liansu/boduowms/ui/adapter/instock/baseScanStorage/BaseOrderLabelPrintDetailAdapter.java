@@ -44,7 +44,6 @@ public class BaseOrderLabelPrintDetailAdapter extends RecyclerView.Adapter<BaseO
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    private View.OnClickListener mOnClickListener;
 
     public BaseOrderLabelPrintDetailAdapter(Context context, String ReceiptType, List<OrderDetailInfo> receiptDetailModels) {
         this.context = context;
@@ -68,11 +67,12 @@ public class BaseOrderLabelPrintDetailAdapter extends RecyclerView.Adapter<BaseO
         OrderDetailInfo receiptDetailModel = mDetailList.get(position);
         holder.txtbarcode.setText(receiptDetailModel.getMaterialno());
 //        holder.txtBatchNo.setText("批次:" + receiptDetailModel.getBatchno());
-        holder.txtScanNum.setVisibility(View.INVISIBLE);
+//        holder.txtScanNum.setVisibility(View.INVISIBLE);
 //        holder.txtRemainQty.setVisibility(View.INVISIBLE);
-        holder.txtVoucherQty.setText("订单数:" + receiptDetailModel.getVoucherqty());
-        holder.txtScanNum.setText("已扫数：" + receiptDetailModel.getScanqty());
-        holder.txtRemainQty.setText("待收数：" + receiptDetailModel.getRemainqty());
+        holder.txtVoucherQty.setText("订单:" + receiptDetailModel.getVoucherqty());
+        holder.txtScanNum.setText("已扫:" + receiptDetailModel.getScanqty());
+        holder.txtRemainQty.setText("待收:" + receiptDetailModel.getRemainqty());
+
         holder.txtMaterialDesc.setText(receiptDetailModel.getMaterialdesc());
         if (receiptDetailModel.getRemainqty() != 0 && ArithUtil.sub(receiptDetailModel.getVoucherqty(), receiptDetailModel.getRemainqty()) > 0) {
             holder.rootView.setBackgroundResource(R.color.khaki);

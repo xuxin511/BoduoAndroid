@@ -80,7 +80,8 @@ public class QualityInspectionBillItemAdapter extends BaseAdapter {
             listItemView.txt_arrVoucherNo = (TextView) convertView.findViewById(R.id.txt_arrVoucherNo);
             listItemView.txt_voucher_qty = (TextView) convertView.findViewById(R.id.txt_voucher_qty);
             listItemView.txt_status= (TextView) convertView.findViewById(R.id.txt_status);
-            listItemView.txt_material_desc=(TextView) convertView.findViewById(R.id.txt_voucherNo);
+            listItemView.txt_material_desc=(TextView) convertView.findViewById(R.id.txt_material_desc);
+//            LinearLayout linearLayout=(LinearLayout) convertView.findViewById(R.id.fifth_layout);
             convertView.setTag(listItemView);
         } else {
             listItemView = (ListItemView) convertView.getTag();

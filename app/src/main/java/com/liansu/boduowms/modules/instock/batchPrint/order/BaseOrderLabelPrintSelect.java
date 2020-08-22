@@ -94,7 +94,19 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
         BaseApplication.isCloseActivity = false;
         initViewStatus(getPrintType());
         mRadioGroup.setOnCheckedChangeListener(this);
-
+        mErpVoucherNo.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP){
+                    if (mPresenter != null) {
+                        String voucherTypeName = getVoucherTypeName();
+                        String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
+                        mPresenter.getOrderDetailInfoList(voucherTypeName, erpVoucherNo);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -236,13 +248,13 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
         {
 
             switch (v.getId()) {
-                case R.id.base_order_label_print_select_erp_voucher_no:
-                    if (mPresenter != null) {
-                        String voucherTypeName = getVoucherTypeName();
-                        String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
-                        mPresenter.getOrderDetailInfoList(voucherTypeName, erpVoucherNo);
-                    }
-                    break;
+//                case R.id.base_order_label_print_select_erp_voucher_no:
+//                    if (mPresenter != null) {
+//                        String voucherTypeName = getVoucherTypeName();
+//                        String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
+//                        mPresenter.getOrderDetailInfoList(voucherTypeName, erpVoucherNo);
+//                    }
+//                    break;
                 case R.id.base_order_label_print_select_material_no:
                     if (mPresenter != null) {
                         String materialNo = mMaterialNo.getText().toString().trim();
@@ -348,6 +360,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (mPresenter != null) {
+
             mPresenter.onReset(true);
         }
 

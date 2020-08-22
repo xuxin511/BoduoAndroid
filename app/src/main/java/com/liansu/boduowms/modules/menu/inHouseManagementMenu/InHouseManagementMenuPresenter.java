@@ -7,6 +7,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
 import com.liansu.boduowms.bean.menu.MenuInfo;
 import com.liansu.boduowms.debug.DebugModuleData;
+import com.liansu.boduowms.modules.inHouseStock.adjustStock.AdjustStock;
 import com.liansu.boduowms.modules.inHouseStock.inventoryMovement.InventoryMovementScan;
 import com.liansu.boduowms.modules.menu.IMenuPresenter;
 import com.liansu.boduowms.modules.menu.IMenuView;
@@ -26,11 +27,11 @@ import java.util.Map;
 public class InHouseManagementMenuPresenter extends IMenuPresenter {
 
     IMenuView mMenuView;
-    Context mContext;
+    Context   mContext;
 
     public InHouseManagementMenuPresenter(IMenuView menuView, Context context) {
         mMenuView = menuView;
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -54,10 +55,9 @@ public class InHouseManagementMenuPresenter extends IMenuPresenter {
             }    //cion和iconName的长度是相同的，这里任选其一都可以
 
 
-
-     if(DebugModuleData.isDebugDataStatusOffline()){
-         DebugModuleData.loadInHouseManagementMenuList(mContext,itemIconList,itemNamesList);
-     }
+            if (DebugModuleData.isDebugDataStatusOffline()) {
+                DebugModuleData.loadInHouseManagementMenuList(mContext, itemIconList, itemNamesList);
+            }
             for (int i = 0; i < itemIconList.size(); i++) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("image", itemIconList.get(i));
@@ -74,16 +74,19 @@ public class InHouseManagementMenuPresenter extends IMenuPresenter {
         Intent intent = new Intent();
         if (moduleName.equals(mContext.getString(R.string.main_menu_item_set_tray))) { //组托
             intent.setClass(mContext, CombinPallet.class);
-        }  else if (moduleName.equals(mContext.getString(R.string.main_menu_item_remove_tray))) { //拆托
+        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_remove_tray))) { //拆托
             intent.setClass(mContext, DismantlePallet.class);
-        }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_mobile_warehouse_inventory))){
-                intent.setClass(mContext, InventoryMovementScan.class);
+        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_mobile_warehouse_inventory))) {
+            intent.setClass(mContext, InventoryMovementScan.class);
+        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_inventory_adjustment))) {
+            intent.setClass(mContext, AdjustStock.class);
         }
 
-        if (intent != null ) {
+        if (intent != null) {
             mMenuView.loadBusiness(intent);
         }
     }
+
     /**
      * @desc: 获取菜单入库模块
      * @param:

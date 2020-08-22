@@ -11,9 +11,8 @@ import com.liansu.boduowms.base.BaseModel;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
-import com.liansu.boduowms.bean.paroductStorage.ProductDetailInfo;
-import com.liansu.boduowms.bean.paroductStorage.ProductInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.modules.print.linkos.PrintType;
@@ -23,12 +22,14 @@ import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
+import com.liansu.boduowms.utils.function.ListUtils;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
@@ -41,15 +42,15 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
  * @time 2020/7/15 10:40
  */
 public class PrintPalletScanModel extends BaseModel {
-    public        String                  TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC        = "PrintPalletScanModel_GetT_WorkOrderHeadListADFAsync";
-    public        String                  TAG_CREATE_PALLET_NO_ADF_ASYNC                  = "PrintPalletScanModel_Create_PalletNoADFAsync";
-    private final int                     RESULT_TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC = 122;
-    private final int                     RESULT_TAG_CREATE_PALLET_NO_ADF_ASYNC           = 123;
-    protected     String                  mBusinessType                                   = "";
-    protected     OrderHeaderInfo         mOrderHeaderInfo                                = null;
-    protected     ProductInfo             mProductInfo                                    = null;
-    protected     ProductDetailInfo       mDetailInfo                                     = null;
-    protected     List<ProductDetailInfo> mOrderDetailList                                = new ArrayList<>();
+    public        String                TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC        = "PrintPalletScanModel_GetT_WorkOrderHeadListADFAsync";
+    public        String                TAG_CREATE_PALLET_NO_ADF_ASYNC                  = "PrintPalletScanModel_Create_PalletNoADFAsync";
+    private final int                   RESULT_TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC = 122;
+    private final int                   RESULT_TAG_CREATE_PALLET_NO_ADF_ASYNC           = 123;
+    protected     String                mBusinessType                                   = "";
+    protected     OrderHeaderInfo       mOrderHeaderInfo                                = null;
+    protected     OrderHeaderInfo       mProductInfo                                    = null;
+    protected     OrderDetailInfo       mDetailInfo                                     = null;
+    protected     List<OrderDetailInfo> mOrderDetailList                                = new ArrayList<>();
 
     public PrintPalletScanModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
@@ -92,40 +93,29 @@ public class PrintPalletScanModel extends BaseModel {
         this.mOrderHeaderInfo = mOrderHeaderInfo;
     }
 
-    public ProductInfo getProductInfo() {
+    public OrderHeaderInfo getProductInfo() {
         return mProductInfo;
     }
 
-    public void setProductInfo(ProductInfo mProductInfo) {
-        this.mProductInfo = mProductInfo;
+    public void setProductInfo(OrderHeaderInfo productInfo) {
+        this.mProductInfo = productInfo;
+        setOrderHeaderInfo(productInfo);
         mOrderDetailList.clear();
         if (mProductInfo != null && mProductInfo.getDetail() != null && mProductInfo.getDetail().size() > 0) {
-            mDetailInfo = mProductInfo.getDetail().get(0);
-            mDetailInfo.setMaterialno(mProductInfo.getMaterialno());
-            mDetailInfo.setMaterialdesc(mProductInfo.getMaterialdesc());
-            mDetailInfo.setErpvoucherno(mProductInfo.getErpvoucherno());
-            mDetailInfo.setVoucherqty(mProductInfo.getVoucherqty());
-            mDetailInfo.setVouchertype(mProductInfo.getVouchertype());
-            mDetailInfo.setStrongholdcode(mProductInfo.getStrongholdcode());
-            mDetailInfo.setStrongholdname(mProductInfo.getStrongholdname());
-            mDetailInfo.setCompanycode(mProductInfo.getCompanycode());
-            mDetailInfo.setSpec(mProductInfo.getSpec());
-            mDetailInfo.setUnitname(mProductInfo.getUnitname());
-            mDetailInfo.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
-            mOrderDetailList.add(mDetailInfo);
+            mOrderDetailList.addAll(mProductInfo.getDetail());
         }
     }
 
-    public ProductDetailInfo getDetailInfo() {
+    public OrderDetailInfo getDetailInfo() {
         return mDetailInfo;
     }
 
-    public void setDetailInfo(ProductDetailInfo mDetailInfo) {
+    public void setDetailInfo(OrderDetailInfo mDetailInfo) {
         this.mDetailInfo = mDetailInfo;
     }
 
 
-    public List<ProductDetailInfo> getOrderDetailList() {
+    public List<OrderDetailInfo> getOrderDetailList() {
         return mOrderDetailList;
     }
 
@@ -152,7 +142,7 @@ public class PrintPalletScanModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/3 16:47
      */
-    public void requestCombineAndReferPallet(ProductDetailInfo info, NetCallBackListener<String> callBackListener) {
+    public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_CREATE_PALLET_NO_ADF_ASYNC", callBackListener);
         String modelJson = parseModelToJson(info);
         LogUtil.WriteLog(PrintPalletScan.class, TAG_CREATE_PALLET_NO_ADF_ASYNC, parseModelToJson(info));
@@ -194,48 +184,32 @@ public class PrintPalletScanModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/1 14:16
      */
-    public BaseMultiResultInfo<Boolean, Void> findOutBarcodeInfoFromMaterial(OutBarcodeInfo info) {
-        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
-        ProductDetailInfo sMaterialInfo = null;
-
-        String barcodeBatchNo = info.getBatchno() != null ? info.getBatchno() : "";
+    public BaseMultiResultInfo<Boolean, List<OrderDetailInfo>> findOutBarcodeInfoFromMaterial(OutBarcodeInfo info) {
+        BaseMultiResultInfo<Boolean, List<OrderDetailInfo>> resultInfo = new BaseMultiResultInfo<>();
+        List<OrderDetailInfo> sMaterialInfoList = new ArrayList<>();
         String barcodeMaterialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
-        if (info.getBarcode() == null) {
-            resultInfo.setHeaderStatus(false);
-            resultInfo.setMessage("扫描的条码不能为空");
-            return resultInfo;
-        }
-
-        if (info.getBarcode().contains("%")) {
-            barcodeMaterialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
-        } else {
-            barcodeMaterialNo = info.getBarcode();
-        }
-
+        String barcodeBatchNo = info.getBatchno() != null ? info.getBatchno() : "";
         try {
 
 
             for (int i = 0; i < mOrderDetailList.size(); i++) {
-                ProductDetailInfo materialInfo = mOrderDetailList.get(i);
+                OrderDetailInfo materialInfo = mOrderDetailList.get(i);
                 if (materialInfo != null) {
                     String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
                     if (materialNo.trim().equals(barcodeMaterialNo.trim())) {
                         if (materialInfo.getRemainqty() != 0) {
-                            sMaterialInfo = materialInfo;
-                            info.setUnit(sMaterialInfo.getUnit());
-                            info.setMaterialno(sMaterialInfo.getMaterialno());
-                            info.setMaterialdesc(sMaterialInfo.getMaterialdesc());
-                            info.setRowno(sMaterialInfo.getRowno());
-                            info.setRownodel(sMaterialInfo.getRownodel());
-                            info.setVouchertype(sMaterialInfo.getVouchertype());
-                            info.setErpvoucherno(sMaterialInfo.getErpvoucherno());
-                            info.setStrongholdcode(sMaterialInfo.getStrongholdcode());
-                            info.setStrongholdname(sMaterialInfo.getStrongholdname());
-                            info.setCompanycode(sMaterialInfo.getCompanycode());
-                            info.setSpec(sMaterialInfo.getSpec());
-                            info.setPackqty(sMaterialInfo.getPackQty());
-                            info.setUnitname(sMaterialInfo.getUnitname());
-                            break;
+                            sMaterialInfoList.add(materialInfo);
+//                            info.setUnit(sMaterialInfo.getUnit());
+//                            info.setMaterialno(sMaterialInfo.getMaterialno());
+//                            info.setMaterialdesc(sMaterialInfo.getMaterialdesc());
+//                            info.setRowno(sMaterialInfo.getRowno());
+//                            info.setRownodel(sMaterialInfo.getRownodel());
+//                            info.setErpvoucherno(sMaterialInfo.getErpvoucherno());
+//                            info.setStrongholdcode(sMaterialInfo.getStrongholdcode());
+//                            info.setStrongholdname(sMaterialInfo.getStrongholdname());
+//                            info.setPackQty(sMaterialInfo.getPackQty());
+//                            info.setSpec(sMaterialInfo.getSpec());
+
                         }
 
 
@@ -243,11 +217,12 @@ public class PrintPalletScanModel extends BaseModel {
                 }
             }
 
-            if (sMaterialInfo != null) {
+            if (sMaterialInfoList != null && sMaterialInfoList.size() > 0) {
                 resultInfo.setHeaderStatus(true);
+                resultInfo.setInfo(sMaterialInfoList);
             } else {
                 resultInfo.setHeaderStatus(false);
-                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "],批次:[" + barcodeBatchNo + "]不在订单：" + mOrderDetailList.get(0).getErpvoucherno() + "中,不能组托");
+                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "]不在订单：" + mOrderHeaderInfo.getErpvoucherno() + "中,不能组托");
                 return resultInfo;
             }
 
@@ -268,9 +243,9 @@ public class PrintPalletScanModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/5 11:01
      */
-    public BaseMultiResultInfo<Boolean, ProductDetailInfo> findMaterialInfo(OutBarcodeInfo scanBarcode) {
-        BaseMultiResultInfo<Boolean, ProductDetailInfo> resultInfo = new BaseMultiResultInfo<>();
-        ProductDetailInfo sMaterialInfo = null;
+    public BaseMultiResultInfo<Boolean, OrderDetailInfo> findMaterialInfo(OutBarcodeInfo scanBarcode) {
+        BaseMultiResultInfo<Boolean, OrderDetailInfo> resultInfo = new BaseMultiResultInfo<>();
+        OrderDetailInfo sMaterialInfo = null;
         String barcodeMaterialNo = scanBarcode.getMaterialno() != null ? scanBarcode.getMaterialno() : "";
 //        String barcodeBatchNo = scanBarcode.getBatchno() != null ? scanBarcode.getBatchno() : "";
         String barcodeRowNo = scanBarcode.getRowno() != null ? scanBarcode.getRowno() : "";
@@ -293,7 +268,7 @@ public class PrintPalletScanModel extends BaseModel {
             }
             //查找和条码的 物料和批次匹配的订单明细行的数据，只查第一个
             for (int i = 0; i < mOrderDetailList.size(); i++) {
-                ProductDetailInfo materialInfo = mOrderDetailList.get(i);
+                OrderDetailInfo materialInfo = mOrderDetailList.get(i);
                 if (materialInfo != null) {
                     String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
 //                    String batchNo = materialInfo.getBatchno() != null ? materialInfo.getBatchno() : "";
@@ -329,7 +304,7 @@ public class PrintPalletScanModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/5 13:40
      */
-    public BaseMultiResultInfo<Boolean, Void> checkMaterialInfo(ProductDetailInfo detailInfo, OutBarcodeInfo scanBarcode, boolean isUpdate) {
+    public BaseMultiResultInfo<Boolean, Void> checkMaterialInfo(OrderDetailInfo detailInfo, OutBarcodeInfo scanBarcode, boolean isUpdate) {
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
         String barcodeMaterialNo = scanBarcode.getMaterialno() != null ? scanBarcode.getMaterialno() : "";
         String barcodeBatchNo = scanBarcode.getBatchno() != null ? scanBarcode.getBatchno() : "";
@@ -398,4 +373,47 @@ public class PrintPalletScanModel extends BaseModel {
         return resultInfo;
     }
 
+    /**
+     * @desc: 排序
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/18 16:09
+     */
+    public void sortDetailList(String materialNo) {
+        String[] sortNameArr = {"Materialno", "Remainqty"};
+        boolean[] isAscArr = {true, true};
+        ListUtils.sort(mOrderDetailList, sortNameArr, isAscArr);
+        List<OrderDetailInfo> taskDoneList = new ArrayList<>();
+        List<OrderDetailInfo> currentMaterialList = new ArrayList<>();
+        Iterator<OrderDetailInfo> it = mOrderDetailList.iterator();
+        while (it.hasNext()) {
+            OrderDetailInfo item = it.next();
+            String sMaterialNo = item.getMaterialno() != null ? item.getMaterialno() : "";
+            if (materialNo != null && materialNo.equals(sMaterialNo)) {
+                if (item.getRemainqty() > 0 && ArithUtil.sub(item.getVoucherqty(), item.getRemainqty()) > 0) {
+                    it.remove();
+                    currentMaterialList.add(item);
+                    continue;
+                }
+            }
+            //变绿的沉底
+            if (item.getRemainqty() == 0) {
+                it.remove();
+                taskDoneList.add(item);
+
+            }
+
+        }
+        //扫描完毕的沉底
+        if (taskDoneList.size() > 0) {
+            mOrderDetailList.addAll(taskDoneList);
+
+        }
+        //正在扫描的物料放在最前面
+        if (currentMaterialList.size() > 0) {
+            mOrderDetailList.addAll(0, currentMaterialList);
+        }
+
+    }
 }

@@ -86,10 +86,10 @@ public class DebugModuleData {
     public static void loadInHouseManagementMenuList(Context context, ArrayList<Integer> itemIconList, ArrayList<String> itemNamesList) {
         itemIconList.add(R.drawable.mobile_warehouse_inventory);
         itemNamesList.add(context.getString(R.string.main_menu_item_mobile_warehouse_inventory));
-        itemIconList.add(R.drawable.set_tray_and_remove_tray);
-        itemNamesList.add(context.getString(R.string.main_menu_item_set_tray));
-        itemIconList.add(R.drawable.set_tray_and_remove_tray);
-        itemNamesList.add(context.getString(R.string.main_menu_item_remove_tray));
+//        itemIconList.add(R.drawable.set_tray_and_remove_tray);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_set_tray));
+//        itemIconList.add(R.drawable.set_tray_and_remove_tray);
+//        itemNamesList.add(context.getString(R.string.main_menu_item_remove_tray));
         itemIconList.add(R.drawable.inventory_adjustment);
         itemNamesList.add(context.getString(R.string.main_menu_item_inventory_adjustment));
         itemIconList.add(R.drawable.inventory_scan);

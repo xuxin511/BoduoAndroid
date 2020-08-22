@@ -18,23 +18,25 @@
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/receipt_scan_bill_no"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_VoucherNo"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/txt_VoucherNo" />
 
     <EditText
         android:id="@+id/txt_VoucherNo"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
-        android:gravity="left"
+        android:gravity="left|center_vertical"
         android:text=""
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/product_storage_print_voucher_no_desc"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,8 +47,9 @@
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:text="@string/barcode"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="@+id/product_storage_print_out_barcode"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -57,11 +60,12 @@
         android:id="@+id/product_storage_print_out_barcode"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="8dp"
         android:hint="@string/receipt_scan_hint_scan_barcode"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toLeftOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_VoucherNo" />
@@ -76,10 +80,10 @@
         android:layout_marginBottom="-2dp"
         android:hint="@string/receipt_scan_hint_scan_pallet_no"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -91,13 +95,13 @@
 
 
     <Button
-        android:visibility="gone"
         android:id="@+id/btn_refer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bt_selector"
         android:text="@string/product_storage_print_jump_to_next_activity"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

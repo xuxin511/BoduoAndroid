@@ -128,4 +128,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         }
         return false;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle();
+    }
 }

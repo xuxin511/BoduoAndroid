@@ -85,6 +85,7 @@
         <activity android:name=".modules.instock.batchPrint.order.BaseOrderLabelPrintSelect" />
         <activity android:name=".modules.instock.batchPrint.print.BaseOrderLabelPrint" />
         <activity android:name=".modules.instock.transferToStorage.scan.TransferToStorageScan" />
+        <activity android:name=".modules.inHouseStock.adjustStock.AdjustStock" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
