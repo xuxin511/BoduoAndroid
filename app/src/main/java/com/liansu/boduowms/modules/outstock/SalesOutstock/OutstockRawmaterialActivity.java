@@ -192,6 +192,8 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             return true;
                         } else {
                           //先判断托盘是否存在
+                           //下架下的是原材料 所以可以先check所有的托盘物料是否已经超发过一次，或者
+
                             Outbarcode_Requery model = new Outbarcode_Requery();
                             model.Barcode = palletno;
                             model.Vouchertype = CurrVoucherType;
@@ -310,7 +312,8 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 String msg = "";
                 if (returnMsgModel.getData().size() > 0) {
                     for (OutStockOrderDetailInfo oderdetail : list) {
-                        BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateListViewItem(oderdetail);
+                        //可以超发，判断逻辑限定在最开始输入的时候
+                        BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateListViewItemcf(oderdetail);
                         mAdapter.notifyDataSetChanged();
                         if (!checkResult.getHeaderStatus()) {
                             msg = msg + "物料" + oderdetail.getMaterialno() + "批次" + oderdetail.getBatchno();
@@ -342,14 +345,37 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
+            //check 订单数量
             //region   托盘回车
             //找到单据数量 传过去
-//            String palletno = sales_outstock_material_pallettext.getText().toString().trim();
-//            String[] palletarr = palletno.split("%");
-          //  OutStockOrderDetailInfo model = stockorderdetail.get(palletarr[0] + palletarr[1]);
-           // if(model!=null){
-                inputTitleDialog("托盘数量");
-          //  }
+            String palletno = sales_outstock_material_pallettext.getText().toString().trim();
+            String[] palletarr = palletno.split("%");
+            //找到该托盘物料
+            OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
+            for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                if (item.getMaterialno().equals(palletarr[0])) {
+                    model = item;
+                }
+            }
+            //原材料可以混托下架吗
+            // OutStockOrderDetailInfo model = stockorderdetail.get(palletarr[0] + palletarr[1]);
+            if (model != null) {
+                Float arr = ArithUtil.sub(model.getVoucherqty(), model.getScanqty());
+                //  ArithUtil.mul()
+                if (arr < 0) {
+                    MessageBox.Show(context, "当前物料已经超发" + arr + ",请确认");
+                } else {
+                    //判断数量是否大于当前行
+//                    if(model.getRemainqty()>palletarr[0]){
+//
+//                    }
+
+                    inputTitleDialog("该物料行剩余数量为:" + model.getRemainqty());
+                }
+            } else {
+                MessageBox.Show(context, "当前订单不存在该托盘物料，请确认");
+                //  inputTitleDialog("托盘数量");
+            }
             //endregion
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_material_pallettext);

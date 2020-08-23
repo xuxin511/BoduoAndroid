@@ -530,7 +530,7 @@ public class BaseOutStockBusinessModel extends BaseModel {
 
     List<OutStockOrderDetailInfo> sortList=new ArrayList<OutStockOrderDetailInfo>();
 
-    //更新item
+    //更新item 不能超发
     public  BaseMultiResultInfo<Boolean,Void> UpdateListViewItem(OutStockOrderDetailInfo detailInfo){
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
         if(detailInfo!=null) {
@@ -573,6 +573,47 @@ public class BaseOutStockBusinessModel extends BaseModel {
         return resultInfo;
     }
 
+    //能超发
+    public  BaseMultiResultInfo<Boolean,Void> UpdateListViewItemcf(OutStockOrderDetailInfo detailInfo){
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        if(detailInfo!=null) {
+            sortList = new ArrayList<OutStockOrderDetailInfo>();
+            String materialno = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
+            String batchno = detailInfo.getBatchno() != null ? detailInfo.getBatchno() : "";
+            String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
+            String arrvoucherno = detailInfo.getArrvoucherNO() != null ? detailInfo.getArrvoucherNO() : "";
+            sortList = mOrderDetailList;
+            for (OutStockOrderDetailInfo info : mOrderDetailList) {
+                String smaterialno = info.getMaterialno() != null ? info.getMaterialno() : "";
+                String sbatchno = info.getBatchno() != null ? info.getBatchno() : "";
+                String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
+                String sarrvoucherno = info.getArrvoucherNO() != null ? info.getArrvoucherNO() : "";
+                if (smaterialno.equals(materialno) && batchno.equals(sbatchno) && sErpVoucherNo.equals(erpVoucherNo) && sarrvoucherno.equals(arrvoucherno)) {
+                    sortList.remove(info);
+                    if (erpVoucherNo.equals(sErpVoucherNo)) {
+                        info.setScanqty(detailInfo.getScanqty());
+                        Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
+                        //如果已经超发了
+                        if(arr<0) {
+                            arr = 0f;
+                        }
+                        info.setRemainqty(arr);
+                        if(arr==0){
+                            sortList.add(sortList.size(), info);
+                        }else
+                        {
+                            sortList.add(0, info);
+                        }
+
+                        resultInfo.setHeaderStatus(true);
+                        return resultInfo;
+                    }
+                }
+            }
+        }
+        resultInfo.setHeaderStatus(false);
+        return resultInfo;
+    }
 
 
 
