@@ -38,7 +38,6 @@ public class RandomInspectionBillPresenter {
         this.mContext = context;
         this.mView = view;
         this.mModel = new RandomInspectionBillModel(context, handler);
-
     }
 
     /**
@@ -49,6 +48,7 @@ public class RandomInspectionBillPresenter {
      * @time 2020/6/27 17:44
      */
     public void getQualityInsHeaderList(final QualityHeaderInfo headerInfo) {
+        mView.startRefreshProgress();
         headerInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         mModel.requestRandomInspectionBillInfoList(headerInfo, new NetCallBackListener<String>() {
             @Override
@@ -95,7 +95,6 @@ public class RandomInspectionBillPresenter {
 
             }}
         });
-
 
     }
 

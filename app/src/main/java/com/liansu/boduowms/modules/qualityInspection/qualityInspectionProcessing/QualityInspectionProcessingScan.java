@@ -330,7 +330,6 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     @Override
     public void setViewStatus() {
         if (mQualityType.equals("QUALIFIED")) {
-
             mOperationType.setVisibility(View.GONE);
             mRefer.setText("提交");
         } else if (mQualityType.equals("UNQUALIFIED")) {

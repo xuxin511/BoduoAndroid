@@ -46,15 +46,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
  * @time 2020/7/19 15:40
  */
 @ContentView(R.layout.activity_quality_inspection_bill_choice)
-public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, IRandomInspectionBillView , IUserSettingView {
+public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, IRandomInspectionBillView, IUserSettingView {
     /*业务类型 */
     String                        businesType = "";
     Context                       mContext    = RandomInspectionBill.this;
     RandomInspectionBillPresenter mPresenter;
     protected UserSettingPresenter mUserSettingPresenter;
+
     @Override
     public void onHandleMessage(Message msg) {
-        mSwipeLayout.setRefreshing(false);
+        stopRefreshProgress();
         if (mPresenter != null) {
             mPresenter.onHandleMessage(msg);
         }
@@ -76,7 +77,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
         BaseApplication.context = mContext;
         BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title_list_name) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
         x.view().inject(this);
-        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
+        mUserSettingPresenter = new UserSettingPresenter(mContext, this);
     }
 
     @Override
@@ -187,11 +188,11 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
 
     @Override
     public void bindListView(List<QualityHeaderInfo> receiptModels) {
-        if (mAdapter==null){
+        if (mAdapter == null) {
             mAdapter = new RandomInspectionBillItemAdapter(mContext, receiptModels);
             mAdapter.notifyDataSetChanged();
             mListView.setAdapter(mAdapter);
-        }else {
+        } else {
             mAdapter.notifyDataSetChanged();
         }
 
@@ -200,6 +201,29 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
     @Override
     public void onReset() {
         mEdtfilterContent.setText("");
+    }
+
+    @Override
+    public void stopRefreshProgress() {
+        //处理完业务后记得关闭，这里也得用post
+        mListView.setEnabled(true);
+        mSwipeLayout.post(new Runnable() {//刷新完成
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    @Override
+    public void startRefreshProgress() {
+        mListView.setEnabled(false);
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+            }
+        });
     }
 
     @Override
@@ -226,7 +250,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
 
     @Override
     public void setTitle() {
-        if (mPresenter!=null){
+        if (mPresenter != null) {
             getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
         }
 

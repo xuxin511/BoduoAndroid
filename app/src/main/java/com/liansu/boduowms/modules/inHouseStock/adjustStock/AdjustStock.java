@@ -92,8 +92,7 @@ public class AdjustStock extends BaseActivity {
     TextView btnDelete;
     @ViewInject(R.id.btn_Submit)
     TextView btnSubmit;
-    @ViewInject(R.id.edt_AdjustTraceNo)
-    EditText mTraceNo;
+
 
     StockInfo barcodeModel;
     String[]  QCStatus       = {"待检", "检验合格", "检验不合格"};
@@ -104,7 +103,7 @@ public class AdjustStock extends BaseActivity {
 
     int mYear, mMouth, mDay;
 
-    @Override
+      @Override
     protected void initViews() {
         super.initViews();
         BaseApplication.context = context;
@@ -149,16 +148,7 @@ public class AdjustStock extends BaseActivity {
 
     }
 
-    @Event(value = R.id.edt_AdjustTraceNo, type = View.OnKeyListener.class)
-    private boolean edtAdjustTraceNoClick(View v, int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
-        {
-            keyBoardCancle();
-            String barcode = mTraceNo.getText().toString().trim();
 
-        }
-        return false;
-    }
 
     @Event(value = R.id.edt_AdjustScanBarcode, type = View.OnKeyListener.class)
     private boolean edtAdjustScanBarcodeClick(View v, int keyCode, KeyEvent event) {

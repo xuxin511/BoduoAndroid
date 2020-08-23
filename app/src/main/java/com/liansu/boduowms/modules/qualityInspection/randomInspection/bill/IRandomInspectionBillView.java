@@ -13,4 +13,6 @@ public interface IRandomInspectionBillView {
     void onFilterContentFocus();
     void bindListView(List<QualityHeaderInfo> receiptModels);
     void onReset();
+    void stopRefreshProgress();
+    void startRefreshProgress();
 }

@@ -33,7 +33,7 @@
     <string name="Msg_Login">用户验证...</string>
     <string name="Msg_UploadLogFile">日志文件上传中...</string>
     <string name="LogUpload">日志上报</string>
-    <string name="activity_login_WareHousChoice">仓库选择：</string>
+    <string name="activity_login_WareHousChoice">仓库选择:</string>
     <string name="Msg_GetWareHouse">获取仓库信息...</string>
     <string name="Error_SubmitMore">操作过于频繁！</string>
     <string name="config">确定</string>
@@ -444,7 +444,13 @@
     //库存调整
     <string name="QCStatus">质检：</string>
     <string name="app_bar_title_inventory_adjustment">库存调整</string>
-    <string name="activity_adjust_stock">调整库位：</string>
-    <string name="activity_adjust_Number">调整数量：</string>
-    <string name="activity_adjust_trace_no">需求跟踪号：</string>
+    <string name="activity_adjust_stock">调整库位:</string>
+    <string name="activity_adjust_Number">调整数量:</string>
+    <string name="activity_adjust_trace_no">需求跟踪号:</string>
+    
+    //查询
+    <string name="material">物料</string>
+    <string name="query_content_hint"></string>
+    <string name="query_stock_area_no">库位</string>
+    <string name="app_bar_title_inventory_stock_query">库存查询</string>
 </resources>

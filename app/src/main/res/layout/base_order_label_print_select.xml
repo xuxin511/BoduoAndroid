@@ -29,7 +29,6 @@
 
 
     <EditText
-        android:imeOptions="actionNone"
         android:id="@+id/base_order_label_print_select_erp_voucher_no"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
@@ -45,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_select_order_type_desc" />
 
     <EditText
-        android:imeOptions="actionNone"
+
         android:id="@+id/base_order_label_print_select_material_no"
         style="@style/EditTextStyle"
         android:layout_width="0dp"

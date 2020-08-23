@@ -61,7 +61,7 @@ public class RandomInspectionBillModel extends BaseModel {
         mNetMap.put("TAG_GET_CHECK_QUALITY_HEAD_LIST_SYNC", callBackListener);
         String ModelJson = GsonUtil.parseModelToJson(headerInfo);
         LogUtil.WriteLog(QualityInspectionMainActivity.class, TAG_GET_CHECK_QUALITY_HEAD_LIST_SYNC, ModelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_CHECK_QUALITY_HEAD_LIST_SYNC, mContext.getString(R.string.Msg_GetT_InStockListADF), mContext, mHandler, RESULT_GET_T_CHECK_QUALITY_HEAD_LIST_SYNC, null, UrlInfo.getUrl().GetT_CheckQualityHeadListsync, ModelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_CHECK_QUALITY_HEAD_LIST_SYNC, mContext.getString(R.string.message_request_get_order_header_info), mContext, mHandler, RESULT_GET_T_CHECK_QUALITY_HEAD_LIST_SYNC, null, UrlInfo.getUrl().GetT_CheckQualityHeadListsync, ModelJson, null);
     }
 
     /**

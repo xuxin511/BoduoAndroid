@@ -11,12 +11,13 @@
         android:id="@+id/edt_filterContent"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="35dp"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:hint="@string/filter_content"
         android:inputType="textPersonName"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -63,6 +64,8 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ListView
+            android:dividerPadding="@dimen/common_list_view_divider_padding"
+            android:dividerHeight="@dimen/common_list_view_diver_height"
             android:id="@+id/lsvChoiceReceipt"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -75,6 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
         android:text="合计"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBaseline_toBaselineOf="@+id/edt_filterContent"
         app:layout_constraintRight_toRightOf="parent" />
 

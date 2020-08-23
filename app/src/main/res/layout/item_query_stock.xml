@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
+
+        <TextView
+            android:id="@+id/txt_material_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/common_text_size_first" />
+
+        <TextView
+            android:id="@+id/txt_batch_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/common_text_size_first" />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0">
+
+                <TextView
+                    android:id="@+id/txt_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/common_text_size_first" />
+
+                <TextView
+                    android:id="@+id/txt_area_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/common_text_size_first" />
+        </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_material_desc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:maxLines="2"
+        android:textColor="@color/peru"
+        android:textSize="@dimen/common_text_size_first" />
+
+
+</LinearLayout>

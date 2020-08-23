@@ -47,7 +47,7 @@ public class QualifiedBillPresenter {
      * @time 2020/6/27 17:44
      */
     public void getQualityInsHeaderList(final QualityHeaderInfo headerInfo) {
-//    mView.startRefreshProgress();
+    mView.startRefreshProgress();
         mModel.requestQualityInspectionBillInfoList(headerInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

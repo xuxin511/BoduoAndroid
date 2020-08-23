@@ -55,7 +55,7 @@ public class QualityInspectionBill extends BaseActivity implements SwipeRefreshL
 
     @ViewInject(R.id.lsvChoiceReceipt)
     ListView           mListView;
-    @ViewInject(R.id.mSwipeLayout)
+    @ViewInject(R.id.inspection_bill_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
     @ViewInject(R.id.edt_filterContent)
     EditText           mEdtfilterContent;

@@ -29,6 +29,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:text="据点"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp" />
@@ -42,6 +43,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="批次"
+        android:textSize="@dimen/common_text_size_first"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/txt_Company"
         app:layout_constraintLeft_toRightOf="@+id/txt_Company" />
@@ -54,6 +56,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:text="质检"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="@+id/txt_Company"
         app:layout_constraintLeft_toRightOf="@+id/txt_Batch" />
 
@@ -72,7 +75,7 @@
         android:text="物料名称"
         android:textAlignment="viewStart"
         android:textColor="@color/darkblue"
-        android:textSize="20sp"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_Company"

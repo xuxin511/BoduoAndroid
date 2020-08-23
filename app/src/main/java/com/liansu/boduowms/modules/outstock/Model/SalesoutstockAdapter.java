@@ -1,12 +1,15 @@
 package com.liansu.boduowms.modules.outstock.Model;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
+
 import java.util.List;
 
 public class SalesoutstockAdapter extends BaseAdapter {
@@ -32,7 +35,6 @@ public class SalesoutstockAdapter extends BaseAdapter {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
         this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
-
     }
 
     @Override

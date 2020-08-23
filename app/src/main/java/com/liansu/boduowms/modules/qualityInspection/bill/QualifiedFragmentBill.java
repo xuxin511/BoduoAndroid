@@ -60,7 +60,6 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSwipeLayout.setEnabled(false);
         mSwipeLayout.setOnRefreshListener(this); //下拉刷新
     }
 
@@ -89,6 +88,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
 
     @Override
     public void onHandleMessage(Message message) {
+        stopRefreshProgress();
         mPresenter.onHandleMessage(message);
     }
 
@@ -97,12 +97,11 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
      */
     @Event(value = R.id.lsvChoiceReceipt, type = AdapterView.OnItemClickListener.class)
     private void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        QualityHeaderInfo receiptModel = (QualityHeaderInfo) mAdapter.getItem(position);
-
         try {
+            QualityHeaderInfo receiptModel = (QualityHeaderInfo) mAdapter.getItem(position);
             StartScanIntent(receiptModel, null);
         } catch (Exception e) {
-            e.printStackTrace();
+            MessageBox.Show(mContext,e.getMessage());
         }
 
     }
@@ -116,7 +115,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
             if (code.equals("")) {
                 return true;
             }
-            if (code.length() < 20) {
+            if (code.length() < 25) {
                 QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
 //                receiptModel.setStatus(1);
 //                receiptModel.setErpVoucherNo(code);
@@ -167,6 +166,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
     @Override
     public void stopRefreshProgress() {
         //处理完业务后记得关闭，这里也得用post
+        mListView.setEnabled(true);
         mSwipeLayout.post(new Runnable() {//刷新完成
             @Override
             public void run() {
@@ -177,6 +177,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
 
     @Override
     public void startRefreshProgress() {
+        mListView.setEnabled(false);
         mSwipeLayout.post(new Runnable() {
             @Override
             public void run() {
