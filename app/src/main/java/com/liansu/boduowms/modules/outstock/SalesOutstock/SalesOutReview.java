@@ -321,7 +321,6 @@ public  class SalesOutReview extends BaseActivity {
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-                return;
             }
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
                 //   CommonUtil.setEditFocus(sales_outstock_);

@@ -102,6 +102,7 @@ public class UrlInfo {
 //    public String SalesOutstock_SacnningPallet    = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
 //    public String SalesOutstock_PlatForm          = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
 //    //拼箱
+
     public String SalesOutstock_Box_ScanningNo    = GetWCFAdress() + "OutStock/GetT_CheckOutStockStatusADFAsync"; //拼箱订单判断是否下架
     public String SalesOutstock_Box_Submit        = GetWCFAdress() + "OutStock/Package_CartonScanADFAsync";//拼箱提交
     public String SalesOutstock_Box_Batchno       = GetWCFAdress() + "OutStock/CheckPackageScan";//验证69吗/箱号/物料是否多批次
@@ -120,7 +121,7 @@ public class UrlInfo {
 
     public  void InitUrl(int type) {
         switch (type) {
-            case 29:
+            case 29://发货通知单
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
                 SalesOutstock_PlatForm = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
@@ -139,6 +140,11 @@ public class UrlInfo {
                 SalesOutstock__Review_configSaveOrder = GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
                 SalesOutstock__Review_configSelectOrder = GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单
                 break;
+            case  36://派车单
+                // GetT_OutStockDetailListADFAsync
+                SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckDispatchDetailListADFAsync";//获取复核单据
+                SalesOutstock_ScanningNo = GetWCFAdress() + "OutStock/GetT_DispatchkDetailListADFAsync"; //订单扫描
+                break;
             case 46://领料/原材料发货
                 SalesOutstock_ScanningNo = GetWCFAdress() + "RawMaterialOut/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "RawMaterialOut/SaveT_OutStockDetailADFAsync"; //托盘提交
@@ -154,6 +160,7 @@ public class UrlInfo {
             case 30://二阶段调拨
                 SalesOutstock_ScanningNo = GetWCFAdress() + "TransferTwoout/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "TransferTwoout/SaveT_OutStockDetailADFAsync"; //托盘提交
+                break;
             case 55://杂出
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OtherOut/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OtherOut/SaveT_OutStockDetailADFAsync"; //托盘提交

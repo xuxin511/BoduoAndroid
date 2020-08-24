@@ -120,7 +120,7 @@ public class OutboundBusinessSubMenuModel {
                 //派车单
                 MenuOutStockModel model=new MenuOutStockModel();
                 model.Title="派车单下架";
-                model.VoucherType="29";
+                model.VoucherType="36";
                 String json = GsonUtil.parseModelToJson(model);
                 Uri data = Uri.parse(json);
                 intent.setData(data);
@@ -149,7 +149,8 @@ public class OutboundBusinessSubMenuModel {
                 intent.setClass(mContext, SalesOutReview.class);
             }
             else if(businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER )){
-                Uri data = Uri.parse("29");
+                //派车单复核
+                Uri data = Uri.parse("36");
                 intent.setData(data);
                 intent.setClass(mContext, SalesOutReview.class);
             }
