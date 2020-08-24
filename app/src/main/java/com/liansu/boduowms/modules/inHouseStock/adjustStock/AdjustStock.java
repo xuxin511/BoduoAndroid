@@ -32,12 +32,12 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ContentView(R.layout.activity_adjust_stock)
-public class AdjustStock extends BaseActivity {
+public class AdjustStock extends BaseActivity implements  IAdjustStockView{
 
-    String TAG_GetWareHouse    = "AdjustStock_GetWareHouse";
     String TAG_GetInfoBySerial = "AdjustStock_GetInfoBySerial";
     String TAG_SaveInfo        = "AdjustStock_SaveInfo";
     private final int RESULT_GetWareHouse    = 101;
@@ -48,7 +48,7 @@ public class AdjustStock extends BaseActivity {
     public void onHandleMessage(Message msg) {
         switch (msg.what) {
             case RESULT_GetWareHouse:
-                AnalysisGetWareHouseJson((String) msg.obj);
+             
                 break;
             case RESULT_GetInfoBySerial:
                 AnalysisGetInfoBySerialJson((String) msg.obj);
@@ -64,97 +64,53 @@ public class AdjustStock extends BaseActivity {
 
 
     Context context = AdjustStock.this;
-
     @ViewInject(R.id.edt_AdjustScanBarcode)
-    EditText edtAdjustScanBarcode;
-    @ViewInject(R.id.edt_AdjustNum)
-    EditText edtAdjustNum;
-    @ViewInject(R.id.edt_AdjustStock)
-    EditText edtAdjustStock;
-    @ViewInject(R.id.edt_AdjustBatchNo)
-    EditText edtAdjustBatchNo;
+    EditText mBarcode;
+    @ViewInject(R.id.txt_material_no_desc)
+    TextView mMaterialDesc;
     @ViewInject(R.id.txt_QCStatus)
-    TextView txtQCStatus;
+    TextView mQCStatus;
     @ViewInject(R.id.txt_Warehouse)
-    TextView txtWarehouse;
-    @ViewInject(R.id.txt_changeEData)
-    TextView txtchangeEData;
+    TextView mWareHouseName;
     @ViewInject(R.id.txt_StrongHold)
-    TextView txtStrongHold;
-    @ViewInject(R.id.txt_Company)
-    TextView txtCompany;
-    @ViewInject(R.id.txt_Batch)
-    TextView txtBatch;
-    @ViewInject(R.id.txt_Status)
-    TextView txtStatus;
-    @ViewInject(R.id.txt_EDate)
-    TextView txtEDate;
-    @ViewInject(R.id.txt_MaterialName)
-    TextView txtMaterialName;
+    TextView mStrongHoldName;
+    @ViewInject(R.id.txt_area_no)
+    TextView mAreaNo;
+    @ViewInject(R.id.txt_changeEData)
+    TextView mEDate;
+    @ViewInject(R.id.edt_AdjustBatchNo)
+    EditText mBatchNo;
+    @ViewInject(R.id.edt_AdjustNum)
+    EditText mQty;
     @ViewInject(R.id.btn_Delete)
     TextView btnDelete;
     @ViewInject(R.id.btn_Submit)
     TextView btnSubmit;
 
-    StockInfo barcodeModel;
+    StockInfo mCurrentStockInfo;
     String[]  QCStatus       = {"待检", "检验合格", "检验不合格"};
     int[]     QCStatusType   = {1, 3, 4};
-    String[]  StrongHoldCode = {"CY1", "CX1", "FC1"};
-    String[]  StrongHoldName = {"上海创元", "上海创馨", "上海甫成"};
 
-
-    int mYear, mMouth, mDay;
 
     @Override
     protected void initViews() {
         super.initViews();
         BaseApplication.context = context;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.app_bar_title_inventory_adjustment), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.app_bar_title_inventory_adjustment)+ "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
-        barcodeModel = null;
+        mCurrentStockInfo = null;
     }
 
 
-    @Event(value = R.id.txt_Warehouse, type = View.OnClickListener.class)
-    private void txtSelectWohouseClick(View view) {
-        if (barcodeModel != null) {
-            LogUtil.WriteLog(AdjustStock.class, TAG_GetWareHouse, "");
-            final Map<String, String> params = new HashMap<>();
-            try {
-//                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GetWareHouse, getString(R.string.Msg_GetWareHouse), context, mHandler, RESULT_GetWareHouse, null, URLModel.GetURL().GetWareHouse, params, null);
-            } catch (Exception ex) {
-                MessageBox.Show(context, ex.getMessage());
-            }
-            CommonUtil.setEditFocus(edtAdjustScanBarcode);
-        }
-    }
 
-    @Event(value = R.id.txt_StrongHold, type = View.OnClickListener.class)
-    private void txtStrongHoldClick(View view) {
-        if (barcodeModel != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("选择据点");
-            builder.setCancelable(false);
-            builder.setItems(StrongHoldName, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    txtStrongHold.setText(StrongHoldName[which]);
-                    barcodeModel.setStrongholdcode(StrongHoldCode[which]);
-                    barcodeModel.setStrongholdname(StrongHoldName[which]);
-                }
-            });
-            builder.show();
-        }
-
-    }
 
     @Event(value = R.id.edt_AdjustScanBarcode, type = View.OnKeyListener.class)
-    private boolean edtAdjustScanBarcodeClick(View v, int keyCode, KeyEvent event) {
+    private boolean onBarcodeScan(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
             keyBoardCancle();
-            String barcode = edtAdjustScanBarcode.getText().toString().trim();
+            String barcode = mBarcode.getText().toString().trim();
             if (!barcode.equals("")) {
                 final Map<String, String> params = new HashMap<String, String>();
                 params.put("barcode", barcode);
@@ -184,86 +140,48 @@ public class AdjustStock extends BaseActivity {
 //        }
     }
 
-    @Event(value = R.id.txt_changeEData, type = View.OnClickListener.class)
-    private void txtProductStartTimeClick(View view) {
-//        if (barcodeModel != null) {
-//            if (barcodeModel.getEds() == null || barcodeModel.getEds().equals("")) {
-//                final Calendar ca = Calendar.getInstance();
-//                mYear = ca.get(Calendar.YEAR);
-//                mMouth = ca.get(Calendar.MONTH);
-//                mDay = ca.get(Calendar.DAY_OF_MONTH);
-//            } else {
-//                String[] date = barcodeModel.getEds().split("/");
-//                if (date.length >= 3) {
-//                    mYear = Integer.parseInt(date[0]);
-//                    mMouth = Integer.parseInt(date[1]) - 1;
-//                    mDay = Integer.parseInt(date[2]);
-//                }
-//            }
-//            new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-//                @Override
-//                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                    mYear = year;
-//                    mMouth = month + 1;
-//                    mDay = dayOfMonth;
-//                    txtchangeEData.setText(display());
-//                    barcodeModel.setEds(display1());
-//                }
-//            }, mYear, mMouth, mDay).show();
-//
-//        }
-    }
-
-
-    public String display() {
-        return new StringBuffer().append(mYear).append("-").append(mMouth).append("-").append(mDay).toString();
-    }
-
-    public String display1() {
-        return new StringBuffer().append(mYear).append("/").append(mMouth).append("/").append(mDay).toString();
-    }
 
 
     @Event(value = {R.id.btn_Delete, R.id.btn_Submit}, type = View.OnClickListener.class)
     private void btnDelete(View view) {
         boolean isBtnDelete = R.id.btn_Delete == view.getId();
-        if (barcodeModel != null) {
+        if (mCurrentStockInfo != null) {
             if (isBtnDelete) {
                 //                barcodeModel.setAllIn("2");
             }
 
-            String adjustBatchNo = edtAdjustBatchNo.getText().toString();
-            String adjustNum = edtAdjustNum.getText().toString();
-            String adjustStock = edtAdjustStock.getText().toString();
+            String adjustBatchNo = mBatchNo.getText().toString();
+            String adjustNum = mQty.getText().toString();
+//            String adjustStock = edtAdjustStock.getText().toString();
             if (!isBtnDelete) {
                 if (TextUtils.isEmpty(adjustBatchNo)) {
                     MessageBox.Show(context, getString(R.string.Error_BatchNoIsEmpty));
-                    CommonUtil.setEditFocus(edtAdjustBatchNo);
+                    CommonUtil.setEditFocus(mBatchNo);
                     return;
                 }
-                if (TextUtils.isEmpty(adjustStock)) {
-                    MessageBox.Show(context, getString(R.string.Error_StockIsEmpty));
-                    CommonUtil.setEditFocus(edtAdjustStock);
-                    return;
-                }
+//                if (TextUtils.isEmpty(adjustStock)) {
+//                    MessageBox.Show(context, getString(R.string.Error_StockIsEmpty));
+//                    CommonUtil.setEditFocus(edtAdjustStock);
+//                    return;
+//                }
                 if (!CommonUtil.isFloat(adjustNum)) {
                     MessageBox.Show(context, getString(R.string.Error_isnotnum));
-                    CommonUtil.setEditFocus(edtAdjustNum);
+                    CommonUtil.setEditFocus(mQty);
                     return;
                 }
                 if (Float.parseFloat(adjustNum) == 0f) {
                     MessageBox.Show(context, getString(R.string.Error_isnotzero));
-                    CommonUtil.setEditFocus(edtAdjustNum);
+                    CommonUtil.setEditFocus(mQty);
                     return;
                 }
             }
-            barcodeModel.setBatchno(adjustBatchNo);
-            barcodeModel.setAreano(adjustStock);
-            barcodeModel.setQty(Float.parseFloat(adjustNum));
-            barcodeModel.setEdate(CommonUtil.dateStrConvertDate(txtchangeEData.getText().toString()).toString());
+            mCurrentStockInfo.setBatchno(adjustBatchNo);
+//            mCurrentStockInfo.setAreano(adjustStock);
+//            mCurrentStockInfo.setQty(Float.parseFloat(adjustNum));
+//            mCurrentStockInfo.setEdate(CommonUtil.dateStrConvertDate(txtchangeEData.getText().toString()).toString());
 
             ArrayList<StockInfo> barcodeModels = new ArrayList<>();
-            barcodeModels.add(barcodeModel);
+            barcodeModels.add(mCurrentStockInfo);
             final Map<String, String> params = new HashMap<String, String>();
             String ModelJson = GsonUtil.parseModelToJson(barcodeModels);
             params.put("json", ModelJson);
@@ -271,7 +189,7 @@ public class AdjustStock extends BaseActivity {
             String para = (new JSONObject(params)).toString();
             LogUtil.WriteLog(AdjustStock.class, TAG_SaveInfo, para);
             if (isBtnDelete) {
-                new AlertDialog.Builder(context).setCancelable(false).setTitle("提示").setIcon(android.R.drawable.ic_dialog_info).setMessage("是否删除物料？\n" + barcodeModel.getBarcode())
+                new AlertDialog.Builder(context).setCancelable(false).setTitle("提示").setIcon(android.R.drawable.ic_dialog_info).setMessage("是否删除物料？\n" + mCurrentStockInfo.getBarcode())
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -288,39 +206,7 @@ public class AdjustStock extends BaseActivity {
     }
 
 
-    void AnalysisGetWareHouseJson(String result) {
-        try {
-//            LogUtil.WriteLog(AdjustStock.class, TAG_GetWareHouse, result);
-//            ReturnMsgModelList<WareHouseInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<ReturnMsgModelList<WareHouseInfo>>() {
-//            }.getType());
-//            if (returnMsgModel.getHeaderStatus().equals("S")) {
-//                final ArrayList<WareHouseInfo> wareHouseInfos = returnMsgModel.getModelJson();
-//                int size = wareHouseInfos.size();
-//                String[] wareHouseInfo = new String[size];
-//                for (int i = 0; i < size; i++) {
-//                    wareHouseInfo[i] = wareHouseInfos.get(i).getWareHouseNo() + wareHouseInfos.get(i).getWareHouseName();
-//                }
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setTitle("选择盘点所属仓库");
-//                builder.setCancelable(false);
-//                builder.setItems(wareHouseInfo, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        barcodeModel.setWarehouseno(wareHouseInfos.get(which).getWareHouseNo());
-//                        barcodeModel.setWarehousename(wareHouseInfos.get(which).getWareHouseName());
-//                        //   WareHouseNo=wareHouseInfos.get(which).getWareHouseNo();
-//                        //    WareHouseName= wareHouseInfos.get(which).getWareHouseName();
-//                        txtWarehouse.setText(wareHouseInfos.get(which).getWareHouseName());
-//                    }
-//                });
-//                builder.show();
-//                CommonUtil.setEditFocus(edtAdjustScanBarcode);
-//            } else
-//                MessageBox.Show(context, returnMsgModel.getMessage());
-        } catch (Exception ex) {
-            MessageBox.Show(context, ex.getMessage());
-        }
-    }
+
 
     void AnalysisGetInfoBySerialJson(String result) {
         try {
@@ -353,7 +239,7 @@ public class AdjustStock extends BaseActivity {
         } catch (Exception ex) {
             MessageBox.Show(context, ex.getMessage());
         }
-        CommonUtil.setEditFocus(edtAdjustScanBarcode);
+        CommonUtil.setEditFocus(mBarcode);
     }
 
     void AnalysisSaveInfoJson(String result) {
@@ -363,30 +249,30 @@ public class AdjustStock extends BaseActivity {
             }.getType());
             if (returnMsgModel.getResult()==BaseResultInfo.RESULT_TYPE_OK) {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-                barcodeModel = null;
-                edtAdjustScanBarcode.setText("");
-                edtAdjustStock.setText("");
-                edtAdjustBatchNo.setText("");
-                edtAdjustNum.setText("");
-                txtCompany.setText("");
-                txtBatch.setText("");
-                txtStatus.setText("");
-                txtEDate.setText("");
-                txtchangeEData.setText("");
-                txtMaterialName.setText("");
-                txtQCStatus.setText("");
-                txtWarehouse.setText("");
-                txtStrongHold.setText("");
-                txtStrongHold.setEnabled(true);
-                edtAdjustBatchNo.setEnabled(true);
-                edtAdjustNum.setEnabled(true);
+                mCurrentStockInfo = null;
+                mBarcode.setText("");
+//                edtAdjustStock.setText("");
+//                mBatchNo.setText("");
+//                mQty.setText("");
+//                txtCompany.setText("");
+//                txtBatch.setText("");
+//                txtStatus.setText("");
+//                txtEDate.setText("");
+//                txtchangeEData.setText("");
+//                txtMaterialName.setText("");
+                mQCStatus.setText("");
+                mWareHouseName.setText("");
+                mStrongHoldName.setText("");
+                mStrongHoldName.setEnabled(true);
+                mBatchNo.setEnabled(true);
+                mQty.setEnabled(true);
 
             } else
                 MessageBox.Show(context, returnMsgModel.getResultValue());
         } catch (Exception ex) {
             MessageBox.Show(context, ex.getMessage());
         }
-        CommonUtil.setEditFocus(edtAdjustScanBarcode);
+        CommonUtil.setEditFocus(mBarcode);
     }
 
     String getQCStrStatus(int status) {
@@ -406,4 +292,38 @@ public class AdjustStock extends BaseActivity {
     }
 
 
+    @Override
+    public void onBarcodeFocus() {
+        CommonUtil.setEditFocus(mBarcode);
+    }
+
+    @Override
+    public void onBatchNoFocus() {
+        CommonUtil.setEditFocus(mBatchNo);
+    }
+
+    @Override
+    public void onQtyFocus() {
+        CommonUtil.setEditFocus(mBarcode);
+    }
+
+    @Override
+    public void setStockInfo(StockInfo stockInfo) {
+       if (stockInfo!=null){
+           mMaterialDesc.setText(stockInfo.getMaterialdesc());
+           mQCStatus.setText(stockInfo.getStatus());
+       }else {
+           mMaterialDesc.setText("");
+       }
+    }
+
+    @Override
+    public void onReset() {
+
+    }
+
+    @Override
+    public void onQCStatusSelect(List<String> QCStatusList) {
+
+    }
 }

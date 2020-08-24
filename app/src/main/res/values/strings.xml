@@ -459,4 +459,5 @@
     <string name="Error_StockIsEmpty">库位不能为空！</string>
     <string name="Error_isnotzero">调整数量不能为0！</string>
     <string name="Msg_AdjustStockSubmit">提交库存调整信息...</string>
+    <string name="warehouse_name_desc">仓库:</string>
 </resources>

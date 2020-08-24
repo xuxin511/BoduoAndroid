@@ -50,10 +50,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
         return mContext.getResources().getString(R.string.appbar_title_active_other_bill_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 
-    @Override
-    protected void getOrderDetailInfoList() {
-        mView.onErpVoucherNoFocus();
-    }
+
 
     @Override
     protected void getOrderDetailInfoList(String erpVoucherNo) {
@@ -161,5 +158,9 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        mView.onErpVoucherNoFocus();
+    }
 }

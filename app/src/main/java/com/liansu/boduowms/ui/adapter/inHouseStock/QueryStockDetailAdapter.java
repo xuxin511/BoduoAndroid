@@ -62,16 +62,13 @@ public class QueryStockDetailAdapter extends RecyclerView.Adapter<QueryStockDeta
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StockInfo info = mStockList.get(position);
-        holder.txt_material_no.setText(info.getMaterialno());
+
+        holder.txt_material_no.setText("料号:"+info.getMaterialno());
         holder.txt_batch_no.setText("批次:"+info.getBatchno());
-        holder.txt_qty.setText("数量:"+info.getQty());
+        holder.txt_qty.setText("库存数量:"+info.getQty());
+        holder.txt_task_qty.setText("下架数量:"+info.getTaskQty());
         holder.txt_area_no.setText("库位:"+info.getAreano());
-        holder.txt_material_desc.setText(info.getMaterialdesc());
-//        holder.txt_material_no.setText("料号:"+info.getMaterialno());
-//        holder.txt_batch_no.setText("批次:"+info.getBatchno());
-//        holder.txt_qty.setText("数量:"+info.getQty());
-//        holder.txt_area_no.setText("库位:"+info.getAreano());
-//        holder.txt_material_desc.setText("品名:"+info.getMaterialdesc());
+        holder.txt_material_desc.setText("品名:"+info.getMaterialdesc());
 
 
 
@@ -106,6 +103,7 @@ public class QueryStockDetailAdapter extends RecyclerView.Adapter<QueryStockDeta
         public TextView txt_qty;
         public TextView txt_area_no;
         public TextView txt_material_desc;
+        public TextView txt_task_qty;
         public View     rootView;
 
         public ViewHolder(View itemView) {
@@ -115,6 +113,7 @@ public class QueryStockDetailAdapter extends RecyclerView.Adapter<QueryStockDeta
             txt_qty = (TextView) itemView.findViewById(R.id.txt_qty);
             txt_area_no = (TextView) itemView.findViewById(R.id.txt_area_no);
             txt_material_desc = (TextView) itemView.findViewById(R.id.txt_material_desc);
+            txt_task_qty = (TextView) itemView.findViewById(R.id.txt_task_qty);
             rootView = itemView;
         }
     }
