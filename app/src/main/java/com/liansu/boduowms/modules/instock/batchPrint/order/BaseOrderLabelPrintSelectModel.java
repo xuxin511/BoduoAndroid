@@ -157,7 +157,7 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
             case OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE:
                 ActiveOtherScanModel activeOtherScanModel = new ActiveOtherScanModel(mContext, mHandler);
                 mBaseModel = activeOtherScanModel;
-                OrderHeaderInfo postActiveOtherScanInfo = new OrderHeaderInfo();
+                OrderRequestInfo postActiveOtherScanInfo = new OrderRequestInfo();
                 postActiveOtherScanInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 postActiveOtherScanInfo.setVouchertype(voucherType);
                 activeOtherScanModel.requestActiveOtherDetail(postActiveOtherScanInfo, callBackListener);

@@ -198,5 +198,12 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mModel.getOrderRequestInfo()!=null){
+            getOrderDetailInfoList();
+        }
 
+    }
 }

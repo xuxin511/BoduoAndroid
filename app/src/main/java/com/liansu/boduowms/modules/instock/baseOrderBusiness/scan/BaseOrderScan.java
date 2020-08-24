@@ -96,7 +96,6 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
     public final int                    REQUEST_CODE_OK = 1;
     /*业务类型 */
     protected    String                 mBusinessType   = "";
-    private      int                    IS_START        = 1;
 
     @Override
     protected void initViews() {
@@ -128,7 +127,6 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
         mBusinessType = getIntent().getStringExtra("BusinessType").toString();
         if (mPresenter == null) {
             mPresenter = BasePresenterFactory.getBaseOrderScanPresenter(mContext, getIView(), mHandler, headerInfo, barCodeInfos, mBusinessType);
-
         }
 
 
@@ -167,10 +165,11 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
     @Override
     protected void onResume() {
         super.onResume();
-        if (IS_START == 1) {
-            mPresenter.getOrderDetailInfoList();
-            IS_START = -1;
+        if (mPresenter!=null){
+            mPresenter.onResume();
         }
+
+
         getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
     }
 

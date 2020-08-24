@@ -330,96 +330,6 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
 
     }
 
-//    /**
-//     * @desc: 提交组托信息
-//     * @param:
-//     * @return:
-//     * @author: Nietzsche
-//     * @time 2020/7/7 15:43
-//     */
-//    public void onCombinePalletRefer(final OutBarcodeInfo outBarcodeInfo) {
-//        if (outBarcodeInfo != null) {
-//            outBarcodeInfo.setAreano(mView.getAreaNo());
-//            outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
-//            outBarcodeInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-//            BaseMultiResultInfo<Boolean, OrderDetailInfo> detailResult = mModel.findMaterialInfo(outBarcodeInfo); //找到物料行
-//            if (detailResult.getHeaderStatus()) {
-//                final OrderDetailInfo orderDetailInfo = detailResult.getInfo();
-//                BaseMultiResultInfo<Boolean, Void> checkMaterialResult = mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, false); //校验条码是否匹配物料
-//                if (checkMaterialResult.getHeaderStatus()) {
-//                    orderDetailInfo.setSupplierno(mModel.getOrderHeaderInfo().getSupplierno());
-//                    orderDetailInfo.setSuppliername(mModel.getOrderHeaderInfo().getSuppliername());
-//                    orderDetailInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
-//                    orderDetailInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
-//                    if (UrlInfo.mInStockPrintType == PrintBusinessModel.PRINTER_TYPE_LASER) {
-//                        orderDetailInfo.setPrinterName(UrlInfo.mLaserPrinterAddress);
-//                    } else if (UrlInfo.mInStockPrintType == PrintBusinessModel.PRINTER_TYPE_DESKTOP) {
-//                        orderDetailInfo.setPrinterName(UrlInfo.mDesktopPrintAddress);
-//                    }
-//
-//                    orderDetailInfo.setPrinterType(UrlInfo.mInStockPrintType);
-//                    mModel.requestCombineAndReferPallet(orderDetailInfo, new NetCallBackListener<String>() {
-//                        @Override
-//                        public void onCallBack(String result) {
-//                            try {
-//                                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_COMBINE_AND_REFER_PALLET_SUB, result);
-//                                BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
-//                                }.getType());
-//                                if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-//                                    String barcode = returnMsgModel.getData();
-//                                    //返回的是物料标签条码，现在要打外箱码
-////                                    outBarcodeInfo.setBarcode(barcode);
-//                                    mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, true);
-//                                    mView.bindListView(mModel.getOrderDetailList());
-//                                    PrintInfo printInfo = mModel.getPrintModel(outBarcodeInfo);
-//                                    if (printInfo != null) {
-//                                        mPrintModel.onPrint(printInfo);
-//
-//                                    }
-//                                    mView.onBarcodeFocus();
-//                                } else {
-//                                    MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            mView.onBarcodeFocus();
-//                                        }
-//                                    });
-//                                }
-//                            } catch (Exception e) {
-//                                MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        mView.onBarcodeFocus();
-//                                    }
-//                                });
-//                            }
-//                        }
-//                    });
-//                } else {
-//                    MessageBox.Show(mContext, checkMaterialResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            mView.onBarcodeFocus();
-//                        }
-//                    });
-//                }
-//            } else {
-//                MessageBox.Show(mContext, detailResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        mView.onBarcodeFocus();
-//                    }
-//                });
-//            }
-//        } else {
-//            MessageBox.Show(mContext, "外箱信息不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    mView.onBarcodeFocus();
-//                }
-//            });
-//        }
-//    }
 
     /**
      * @desc: 提交组托信息
@@ -511,4 +421,98 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
         mModel.onReset();
         mView.onReset();
     }
+
+
+    public void onResume(){}
+
+//    /**
+//     * @desc: 提交组托信息
+//     * @param:
+//     * @return:
+//     * @author: Nietzsche
+//     * @time 2020/7/7 15:43
+//     */
+//    public void onCombinePalletRefer(final OutBarcodeInfo outBarcodeInfo) {
+//        if (outBarcodeInfo != null) {
+//            outBarcodeInfo.setAreano(mView.getAreaNo());
+//            outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+//            outBarcodeInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+//            BaseMultiResultInfo<Boolean, OrderDetailInfo> detailResult = mModel.findMaterialInfo(outBarcodeInfo); //找到物料行
+//            if (detailResult.getHeaderStatus()) {
+//                final OrderDetailInfo orderDetailInfo = detailResult.getInfo();
+//                BaseMultiResultInfo<Boolean, Void> checkMaterialResult = mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, false); //校验条码是否匹配物料
+//                if (checkMaterialResult.getHeaderStatus()) {
+//                    orderDetailInfo.setSupplierno(mModel.getOrderHeaderInfo().getSupplierno());
+//                    orderDetailInfo.setSuppliername(mModel.getOrderHeaderInfo().getSuppliername());
+//                    orderDetailInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+//                    orderDetailInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
+//                    if (UrlInfo.mInStockPrintType == PrintBusinessModel.PRINTER_TYPE_LASER) {
+//                        orderDetailInfo.setPrinterName(UrlInfo.mLaserPrinterAddress);
+//                    } else if (UrlInfo.mInStockPrintType == PrintBusinessModel.PRINTER_TYPE_DESKTOP) {
+//                        orderDetailInfo.setPrinterName(UrlInfo.mDesktopPrintAddress);
+//                    }
+//
+//                    orderDetailInfo.setPrinterType(UrlInfo.mInStockPrintType);
+//                    mModel.requestCombineAndReferPallet(orderDetailInfo, new NetCallBackListener<String>() {
+//                        @Override
+//                        public void onCallBack(String result) {
+//                            try {
+//                                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_COMBINE_AND_REFER_PALLET_SUB, result);
+//                                BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+//                                }.getType());
+//                                if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+//                                    String barcode = returnMsgModel.getData();
+//                                    //返回的是物料标签条码，现在要打外箱码
+////                                    outBarcodeInfo.setBarcode(barcode);
+//                                    mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, true);
+//                                    mView.bindListView(mModel.getOrderDetailList());
+//                                    PrintInfo printInfo = mModel.getPrintModel(outBarcodeInfo);
+//                                    if (printInfo != null) {
+//                                        mPrintModel.onPrint(printInfo);
+//
+//                                    }
+//                                    mView.onBarcodeFocus();
+//                                } else {
+//                                    MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            mView.onBarcodeFocus();
+//                                        }
+//                                    });
+//                                }
+//                            } catch (Exception e) {
+//                                MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        mView.onBarcodeFocus();
+//                                    }
+//                                });
+//                            }
+//                        }
+//                    });
+//                } else {
+//                    MessageBox.Show(mContext, checkMaterialResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            mView.onBarcodeFocus();
+//                        }
+//                    });
+//                }
+//            } else {
+//                MessageBox.Show(mContext, detailResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        mView.onBarcodeFocus();
+//                    }
+//                });
+//            }
+//        } else {
+//            MessageBox.Show(mContext, "外箱信息不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    mView.onBarcodeFocus();
+//                }
+//            });
+//        }
+//    }
 }

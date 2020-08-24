@@ -10,7 +10,7 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
-import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanModel;
@@ -72,10 +72,10 @@ public class ActiveOtherScanModel extends BaseOrderScanModel {
      * @author: Nietzsche
      * @time 2020/6/27 21:37
      */
-    public void requestActiveOtherDetail(OrderHeaderInfo orderHeaderInfo, NetCallBackListener<String> callBackListener) {
-        orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE);
+    public void requestActiveOtherDetail(OrderRequestInfo orderRequestInfo, NetCallBackListener<String> callBackListener) {
+        orderRequestInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE);
         mNetMap.put("TAG_GET_T_OTHER_DETAIL_LIST_ADF_ASYNC", callBackListener);
-        String modelJson = parseModelToJson(orderHeaderInfo);
+        String modelJson = parseModelToJson(orderRequestInfo);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_GET_T_OTHER_DETAIL_LIST_ADF_ASYNC, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_OTHER_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_get_order_detail), mContext, mHandler, RESULT_TAG_GET_T_OTHER_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_OtherDetailListADFAsync, modelJson, null);
     }

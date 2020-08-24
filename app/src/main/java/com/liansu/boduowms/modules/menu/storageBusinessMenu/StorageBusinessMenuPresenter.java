@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.menu.storageBusinessMenu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
@@ -9,6 +10,7 @@ import com.liansu.boduowms.bean.menu.MenuInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
+import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan;
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScan;
@@ -104,8 +106,12 @@ public class StorageBusinessMenuPresenter extends IMenuPresenter {
             intent.setClass(mContext, TransferToStorageScan.class);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_active_other_storage))) {
-            intent.setClass(mContext, BaseOrderBillChoice.class);
+            intent.setClass(mContext, BaseOrderScan.class);
+            Bundle bundle=new Bundle();
+            bundle.putParcelable("OrderHeaderInfo", null);
+            bundle.putParcelableArrayList("barCodeInfo", null);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE);
+            intent.putExtras(bundle);
         }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_production_storage))){
             intent.setClass(mContext, ProductStorageScan.class);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE);

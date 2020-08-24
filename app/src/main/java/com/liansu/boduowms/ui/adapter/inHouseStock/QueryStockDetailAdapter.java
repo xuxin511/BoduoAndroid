@@ -62,11 +62,17 @@ public class QueryStockDetailAdapter extends RecyclerView.Adapter<QueryStockDeta
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StockInfo info = mStockList.get(position);
-        holder.txt_material_no.setText("料号:"+info.getMaterialno());
+        holder.txt_material_no.setText(info.getMaterialno());
         holder.txt_batch_no.setText("批次:"+info.getBatchno());
-        holder.txt_qty.setText("数量:"+info.getBatchno());
+        holder.txt_qty.setText("数量:"+info.getQty());
         holder.txt_area_no.setText("库位:"+info.getAreano());
-        holder.txt_material_desc.setText("品名:"+info.getMaterialdesc());
+        holder.txt_material_desc.setText(info.getMaterialdesc());
+//        holder.txt_material_no.setText("料号:"+info.getMaterialno());
+//        holder.txt_batch_no.setText("批次:"+info.getBatchno());
+//        holder.txt_qty.setText("数量:"+info.getQty());
+//        holder.txt_area_no.setText("库位:"+info.getAreano());
+//        holder.txt_material_desc.setText("品名:"+info.getMaterialdesc());
+
 
 
     }

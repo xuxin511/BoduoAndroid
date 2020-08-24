@@ -8,9 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
-import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
-import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
@@ -45,7 +43,7 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_transfer_to_storage_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_transfer_to_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 
 
@@ -120,157 +118,13 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
      */
     @Override
     public void scanBarcode(String scanBarcode) {
-        try {
-            if (!mPrintModel.checkBluetoothSetting()) {
-                return;
-            }
-            OutBarcodeInfo scanQRCode = null;
-            if (scanBarcode.equals("")) return;
-            if (scanBarcode.contains("%")) {
-                BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(scanBarcode);
-                if (resultInfo.getHeaderStatus()) {
-                    scanQRCode = resultInfo.getInfo();
-                } else {
-                    MessageBox.Show(mContext, resultInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mView.onBarcodeFocus();
-                        }
-                    });
-                    return;
-                }
-
-            }
-            if (scanQRCode != null) {
-                mModel.requestBarcodeInfo(scanQRCode, new NetCallBackListener<String>() {
-                    @Override
-                    public void onCallBack(String result) {
-                        LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_SCAN_BARCODE_ADF_ASYNC, result);
-                        try {
-                            BaseResultInfo<OutBarcodeInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutBarcodeInfo>>() {
-                            }.getType());
-                            if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                                OutBarcodeInfo outBarcodeInfo = returnMsgModel.getData();
-                                if (outBarcodeInfo != null) {
-                                    onCombinePalletRefer(outBarcodeInfo);
-                                } else {
-                                    MessageBox.Show(mContext, "查询托盘码失败:获取的托盘数据为空," + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            mView.onBarcodeFocus();
-                                        }
-                                    });
-                                }
-                            } else {
-                                MessageBox.Show(mContext, "查询托盘码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        mView.onBarcodeFocus();
-                                    }
-                                });
-                            }
-
-                        } catch (Exception ex) {
-                            MessageBox.Show(mContext, "查询托盘码失败，出现预期之外的异常-" + ex.getMessage() + ",", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    mView.onBarcodeFocus();
-                                }
-                            });
-                        }
-                    }
-                });
-
-            } else {
-                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mView.onBarcodeFocus();
-                    }
-                });
-                return;
-            }
-        } catch (Exception e) {
-            MessageBox.Show(mContext, "查询条码失败，出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mView.onBarcodeFocus();
-                }
-            });
-            return;
-        }
+        super.scanBarcode(scanBarcode);
 
     }
 
     @Override
     public void onCombinePalletRefer(final OutBarcodeInfo outBarcodeInfo) {
-        outBarcodeInfo.setAreano(mView.getAreaNo());
-        outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
-        outBarcodeInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-        if (outBarcodeInfo != null) {
-            BaseMultiResultInfo<Boolean, OrderDetailInfo> detailResult = mModel.findMaterialInfo(outBarcodeInfo); //找到物料行
-            if (detailResult.getHeaderStatus()) {
-                final OrderDetailInfo orderDetailInfo = detailResult.getInfo();
-                BaseMultiResultInfo<Boolean, Void> checkMaterialResult = mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, false); //校验条码是否匹配物料
-                if (checkMaterialResult.getHeaderStatus()) {
-                    orderDetailInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
-                    orderDetailInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
-                    mModel.requestCombineAndReferPallet(orderDetailInfo, new NetCallBackListener<String>() {
-                        @Override
-                        public void onCallBack(String result) {
-                            try {
-                                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_COMBINE_AND_REFER_PALLET_SUB, result);
-                                BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
-                                }.getType());
-                                if (returnMsgModel.getResult() == 1) {
-                                    String barcode = returnMsgModel.getData();
-                                    outBarcodeInfo.setBarcode(barcode);
-                                    mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, true);
-                                    mView.bindListView(mModel.getOrderDetailList());
-                                    mView.onBarcodeFocus();
-                                } else {
-                                    MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            mView.onBarcodeFocus();
-                                        }
-                                    });
-
-                                }
-                            } catch (Exception e) {
-                                MessageBox.Show(mContext, "提交条码信息失败:出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        mView.onBarcodeFocus();
-                                    }
-                                });
-                            }
-                        }
-                    });
-                } else {
-                    MessageBox.Show(mContext, checkMaterialResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mView.onBarcodeFocus();
-                        }
-                    });
-                }
-            } else {
-                MessageBox.Show(mContext, detailResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mView.onBarcodeFocus();
-                    }
-                });
-            }
-        } else {
-            MessageBox.Show(mContext, "解析的外箱信息不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mView.onBarcodeFocus();
-                }
-            });
-        }
+        super.onCombinePalletRefer(outBarcodeInfo);
 
     }
 

@@ -2,24 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-
         android:id="@+id/menu_order_filter"
         android:orderInCategory="80"
         android:title="@string/compine_pallet"
+        android:visible="false"
         app:showAsAction="always" />
 
     <item
-
         android:id="@+id/menu_order_reprint"
         android:orderInCategory="100"
         android:title="@string/label_reprint"
+        android:visible="false"
         app:showAsAction="always" />
     <item
-        android:visible="false"
         android:id="@+id/menu_setting"
         android:orderInCategory="80"
         android:title="@string/setting"
-        app:showAsAction="never"/>
+        android:visible="false"
+        app:showAsAction="never" />
 
 
 </menu>

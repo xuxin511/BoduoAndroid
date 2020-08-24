@@ -286,7 +286,6 @@ public class PrintPalletScanPresenter {
      * @author: Nietzsche
      * @time 2020/7/23 16:30
      */
-
     public void onCombinePalletRefer(final OutBarcodeInfo outBarcodeInfo) {
         if (outBarcodeInfo != null) {
             outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());

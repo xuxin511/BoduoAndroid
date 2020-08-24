@@ -12,6 +12,8 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.IBaseOrderScanView;
@@ -35,7 +37,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
 
     public ActiveOtherScanPresenter(Context context, IBaseOrderScanView view, MyHandler<BaseActivity> handler, OrderHeaderInfo orderHeaderInfo, List<OutBarcodeInfo> barCodeInfos) {
         super(context, view, handler, orderHeaderInfo, barCodeInfos, new ActiveOtherScanModel(context, handler));
-        mView.setSecondLineInfo(null,null,false);
+        mView.setSecondLineInfo(null, null, false);
     }
 
     @Override
@@ -45,20 +47,22 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_active_other_bill_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_active_other_bill_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 
-
-    /**
-     * @desc: 获取有源杂入明细
-     * @param:
-     * @return:
-     * @author: Nietzsche
-     * @time 2020/7/13 22:33
-     */
     @Override
     protected void getOrderDetailInfoList() {
-        mModel.requestActiveOtherDetail(mModel.getOrderHeaderInfo(), new NetCallBackListener<String>() {
+        mView.onErpVoucherNoFocus();
+    }
+
+    @Override
+    protected void getOrderDetailInfoList(String erpVoucherNo) {
+        OrderRequestInfo postInfo = new OrderRequestInfo();
+        postInfo.setErpvoucherno(erpVoucherNo);
+        postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        postInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE);
+        mModel.setOrderRequestInfo(postInfo);
+        mModel.requestActiveOtherDetail(mModel.getOrderRequestInfo(), new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
                 LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_OTHER_DETAIL_LIST_ADF_ASYNC, result);
@@ -68,18 +72,19 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
                         if (orderHeaderInfo != null) {
+                            mModel.setOrderHeaderInfo(orderHeaderInfo);
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.onAreaNoFocus();
                             } else {
-                                MessageBox.Show(mContext, "获取单据失败:获取的表体数据为空",MEDIA_MUSIC_ERROR);
+                                MessageBox.Show(mContext, "获取单据失败:获取的表体数据为空", MEDIA_MUSIC_ERROR);
                             }
                         } else {
-                            MessageBox.Show(mContext, "获取单据失败:获取的表体数据为空",MEDIA_MUSIC_ERROR);
+                            MessageBox.Show(mContext, "获取单据失败:获取的表体数据为空", MEDIA_MUSIC_ERROR);
                         }
-                    }else {
-                        MessageBox.Show(mContext,"获取单据失败:"+returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    } else {
+                        MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -88,7 +93,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext,"获取单据失败:出现预期之外的异常,"+ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    MessageBox.Show(mContext, "获取单据失败:出现预期之外的异常," + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -141,11 +146,11 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                             MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE);
                         } else {
-                            MessageBox.Show(mContext,"提交订单失败:"+ returnMsgModel.getResultValue(),MessageBox.MEDIA_MUSIC_ERROR );
+                            MessageBox.Show(mContext, "提交订单失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR);
                         }
 
                     } catch (Exception ex) {
-                        MessageBox.Show(mContext, "提交订单失败:出现预期之外的异常"+ex.getMessage(),MessageBox.MEDIA_MUSIC_ERROR );
+                        MessageBox.Show(mContext, "提交订单失败:出现预期之外的异常" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR);
                     }
 
 

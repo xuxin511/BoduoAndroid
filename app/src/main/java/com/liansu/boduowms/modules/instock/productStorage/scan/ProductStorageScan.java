@@ -183,7 +183,6 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
                 }
             }
         });
-
     }
 
     /**
