@@ -77,10 +77,13 @@ public class SalesoutstockAdapter extends BaseAdapter {
         }
         final OutStockOrderDetailInfo mDetailInfo = outStockTaskDetailsInfoModels.get(selectID);
         listItemView.txt_voucherNo.setText(mDetailInfo.getMaterialno());
-//        if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
-//            listItemView.txt_reference_standard.setText("整件:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
-//        }
-    //    listItemView.txtstrong.setText("包装:"+String.valueOf(mDetailInfo.getPackQty()));
+        if(mDetailInfo.getVouchertype()!=46) { //不等于领料委外单的情况下显示  零头散件 包装量
+            if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
+                listItemView.txt_reference_standard.setText("整件:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
+            }
+            listItemView.txtstrong.setText("包装:" + String.valueOf(mDetailInfo.getPackQty()));
+        }
+
         listItemView.txtVoucherQty.setText("订单：" + mDetailInfo.getVoucherqty());
         listItemView.txtRemainQty.setText("剩余:" + mDetailInfo.getRemainqty());
         listItemView.txtScanQty.setText("已扫：" + mDetailInfo.getScanqty());

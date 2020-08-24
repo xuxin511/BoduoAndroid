@@ -41,6 +41,7 @@
         android:textSize="@dimen/sp_17"
         android:visibility="visible"
         android:selectAllOnFocus="true"
+        android:focusable="true"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintRight_toLeftOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
@@ -81,13 +82,26 @@
         android:layout_marginRight="8sp"
         android:saveEnabled="false"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
 
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toTopOf="@+id/outstock_rawmaterial_post"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sales_outstock_line2"
-        app:layout_constraintVertical_bias="0.39"></ListView>
+        app:layout_constraintVertical_bias="0.0"></ListView>
+
+    <Button
+        android:id="@+id/outstock_rawmaterial_post"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_30"
+        android:background="@drawable/bt_selector"
+        android:text="过账"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_left"

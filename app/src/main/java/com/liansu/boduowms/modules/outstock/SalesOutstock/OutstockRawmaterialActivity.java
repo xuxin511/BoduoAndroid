@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PostProcessor;
 import android.net.Uri;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -25,8 +27,12 @@ import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
+import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
+import com.liansu.boduowms.modules.outstock.Model.SalesoutStcokboxRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
+import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
+import com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
@@ -49,12 +55,16 @@ import java.util.Map;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_box;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannPalletNo;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SelectNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitPallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
+
 @ContentView(R.layout.activity_outstock_rawmaterial)
 public class OutstockRawmaterialActivity extends BaseActivity {
     Context context = OutstockRawmaterialActivity.this;
@@ -73,6 +83,10 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     @ViewInject(R.id.outstock_rawmaterial_ListView)
     ListView mList;
 
+
+    //过账按钮
+    @ViewInject(R.id.outstock_rawmaterial_post)
+    Button mButton;
 
     //listview    适配器
     SalesoutstockAdapter mAdapter;
@@ -119,12 +133,18 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         CurrOrderNO="";
         mModel= new PurchaseReturnOffScanModel(this,mHandler);
         CurrVoucherType= type; //
+        if(CurrVoucherType==46) {//领料 发料 派车单 自动过账  (开始隐藏按钮 失败后显示按钮)
+            //
+            mButton.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override
     protected void initData() {
         super.initData();
-        //重写路径
+
+        //隐藏过账按钮  失败了放出来
 
     }
 
@@ -203,6 +223,44 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 
 
 
+    //过账点击
+    @Event(value =R.id.outstock_rawmaterial_post)
+    private void  Click_post(View view) {
+        if (IsSacnningOrder()) {
+            //过账接口
+            if (CurrVoucherType == 46) {//领料发料
+                //有这个按钮说明就是已经提交过一次失败了
+                //直接访问后台接口
+                List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
+                SalesoustockReviewRequery model = new SalesoustockReviewRequery();
+                model.Erpvoucherno = CurrOrderNO;
+                model.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
+                model.Vouchertype = CurrVoucherType;
+                list.add(model);
+                String modelJson = parseModelToJson(list);
+                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
+                        context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
+            } else {//杂出
+                if (IsScanningOver()) {
+                    List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
+                    SalesoustockReviewRequery model = new SalesoustockReviewRequery();
+                    model.Erpvoucherno = CurrOrderNO;
+                    model.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.Vouchertype = CurrVoucherType;
+                    list.add(model);
+                    String modelJson = parseModelToJson(list);
+                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
+                            context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
+                } else {
+                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                    MessageBox.Show(context, "需要全部下架完成才能复核提交");
+                }
+            }
+        }
+    }
+
+
+
 
     //#endregion
 
@@ -221,6 +279,8 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             case  RESULT_Saleoutstock_barcodeisExist://判断托盘
                 BarcodeisExist((String) msg.obj);
                 break;
+            case RESULT_Saleoutstock_PostReview://过账
+                Post((String)msg.obj);
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____"+ msg.obj);
                 break;
@@ -230,6 +290,33 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 
 
     //region 方法
+    public  void Post(String result) {
+        try {
+            BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                return;
+            }
+            if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
+                mModel.getOrderDetailList().clear();
+                mAdapter.notifyDataSetChanged();
+                sales_outstock_material_pallettext.setText("");
+                CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
+                MessageBox.Show(context, "单号" + CurrOrderNO + "过账成功");
+                CurrOrderNO = "";
+                //this.closeActivity();
+                //跳到前一界面
+                //ISReturn();
+            }
+
+        } catch (Exception EX) {
+            MessageBox.Show(context, EX.toString());
+        }
+    }
+
+
     //扫描单号获取数据
     public  void SacnnNo(String result) {
         try {
@@ -246,12 +333,9 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             List<OutStockOrderDetailInfo> detailInfos = new ArrayList<OutStockOrderDetailInfo>();
             detailInfos = returnMsgModel.getData().getDetail();
              //存储单号对象
-//              for (OutStockOrderDetailInfo item:returnMsgModel.getData().getDetail()) {
-//                  String Batchno = "";
-//                  if (item.getBatchno() != null)
-//                      Batchno = item.getBatchno();
-//                  stockorderdetail.put(item.getMaterialno() + Batchno, item);
-//              }
+              for (OutStockOrderDetailInfo item:returnMsgModel.getData().getDetail()) {
+                item.setVouchertype(CurrVoucherType);
+              }
             if (detailInfos.size() > 0) {
                 //绑定
                 mModel.setOrderHeaderInfo(returnMsgModel.getData());
@@ -274,23 +358,32 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         try {
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
-            if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_POST_SUCCESS){
+            if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_POST_SUCCESS) {
                 //过账完成 更新listview
-                for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()){
-                    item.setScanqty(ArithUtil.add(item.getScanqty(),item.getRemainqty()));
+                for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                    item.setScanqty(ArithUtil.add(item.getScanqty(), item.getRemainqty()));
                     item.setRemainqty(0f);
                 }
-                mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
-                mList.setAdapter(mAdapter);
-                MessageBox.Show(context,"过账成功");
+//                mModel.getOrderDetailList().clear();
+//                mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
+                mModel.getOrderDetailList().clear();
+                mAdapter.notifyDataSetChanged();
+                sales_outstock_material_pallettext.setText("");
+                CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
+                MessageBox.Show(context, "单号"+CurrOrderNO+"过账成功");
+                CurrOrderNO = "";
                 return;
+            }if (returnMsgModel.getResult() ==returnMsgModel.RESULT_TYPE_POST_ERROR) {
+                //过账失败 显示过账按钮
+                mButton.setVisibility(View.VISIBLE);
             }
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
+
+
                 return;
-            }
-            else{
+            } else {
                 //实时更新
                 List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
                 list = returnMsgModel.getData();
@@ -349,11 +442,17 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 Float arr = ArithUtil.sub(model.getVoucherqty(), model.getScanqty());
                 //  ArithUtil.mul()
                 if (arr < 0) {
+                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                     MessageBox.Show(context, "当前物料已经超发" + arr + ",请确认");
+                    return;
                 } else {
+                    if(arr==0) {
+                        CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                        MessageBox.Show(context, palletarr[0]+"该物料已经扫描完成,请确认");
+                        return;
+                    }
                     //判断数量是否大于当前行
 //                    if(model.getRemainqty()>palletarr[0]){
-//
 //                    }
 
                     inputTitleDialog("该物料行剩余数量为:" + model.getRemainqty());
@@ -381,6 +480,17 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     //endregion
 
 
+
+    //判断是否全部复核完成
+    private boolean IsScanningOver() {
+        boolean istrue = true;
+        for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+            if (item.getRemainqty() != item.getScanqty()) {
+                istrue = false;
+            }
+        }
+        return istrue;
+    }
 
     //解析传入的格式是否符号当前扫描的类型
     public boolean Analysis(String str,String type) {

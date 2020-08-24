@@ -479,6 +479,9 @@ String  url;
             List<OutStockOrderDetailInfo> detailInfos = new ArrayList<OutStockOrderDetailInfo>();
             detailInfos = returnMsgModel.getData().getDetail();
             StrongholdcodeList.put("1", returnMsgModel.getData().getStrongholdcode());
+            for (OutStockOrderDetailInfo item:returnMsgModel.getData().getDetail()) {
+                item.setVouchertype(CurrVoucherType);
+            }
             for (OutStockOrderDetailInfo orderDetailInfo:detailInfos) {
                 //存储据点
                 StrongholdcodeList.put(orderDetailInfo.getMaterialno(), orderDetailInfo.getStrongholdcode());

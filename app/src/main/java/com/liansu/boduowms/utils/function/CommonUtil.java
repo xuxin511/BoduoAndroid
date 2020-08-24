@@ -13,6 +13,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.liansu.boduowms.R;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -314,6 +316,7 @@ public class CommonUtil {
         button.requestFocusFromTouch();
         button.findFocus();
     }
+
 
     /**
      * 如果字符串的长度不够，则补充空格输出
