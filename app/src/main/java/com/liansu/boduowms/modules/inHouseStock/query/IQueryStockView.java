@@ -12,4 +12,5 @@ public interface IQueryStockView {
      void bindListView(List<StockInfo> list);
      void onContentFocus();
      int getQueryType();
+     void onReset();
 }

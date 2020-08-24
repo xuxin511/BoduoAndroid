@@ -64,7 +64,7 @@ public class QualityDetailInfo  implements Parcelable {
     protected String               Printername; //打印机名称
     protected int                  Printertype; //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙
     protected String               Username;
-
+    private int    Towarehouseid;
     protected QualityDetailInfo(Parcel in) {
         Id = in.readInt();
         Headerid = in.readInt();
@@ -108,6 +108,7 @@ public class QualityDetailInfo  implements Parcelable {
         Printername = in.readString();
         Printertype = in.readInt();
         Username = in.readString();
+        Towarehouseid=in.readInt();
     }
 
     public static final Creator<QualityDetailInfo> CREATOR = new Creator<QualityDetailInfo>() {
@@ -171,6 +172,7 @@ public class QualityDetailInfo  implements Parcelable {
         dest.writeString(Printername);
         dest.writeInt(Printertype);
         dest.writeString(Username);
+        dest.writeInt(Towarehouseid);
     }
 
     public int getId() {
@@ -519,5 +521,13 @@ public class QualityDetailInfo  implements Parcelable {
 
     public static Creator<QualityDetailInfo> getCREATOR() {
         return CREATOR;
+    }
+
+    public int getTowarehouseid() {
+        return Towarehouseid;
+    }
+
+    public void setTowarehouseid(int towarehouseid) {
+        Towarehouseid = towarehouseid;
     }
 }

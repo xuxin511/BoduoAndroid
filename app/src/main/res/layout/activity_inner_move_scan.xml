@@ -16,99 +16,109 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView42" />
-
+        app:layout_constraintTop_toBottomOf="@+id/inner_move_barcode_scan" />
 
 
     <EditText
         android:id="@+id/inner_move_instock_area_no"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/common_margin_left"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="@string/activity_inventory_movement_instock_hint"
-        app:layout_constraintBottom_toBottomOf="@+id/textView46"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/textView46"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include5" />
 
     <EditText
         android:id="@+id/inner_move_barcode_scan"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/common_margin_left"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="请扫描条码"
-        app:layout_constraintBottom_toBottomOf="@+id/textView42"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/textView42"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline1" />
 
     <EditText
+
         android:id="@+id/inventory_movement_qty"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:visibility="visible"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/common_margin_left"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:hint="@string/activity_inventory_movement_qty_hint"
-        app:layout_constraintBottom_toBottomOf="@+id/inventory_movement_qty_desc"
+        android:textSize="@dimen/common_text_size_first"
+        android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="@+id/guideline10"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inner_move_out_stock_scan" />
 
     <TextView
         android:id="@+id/textView46"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/activity_inventory_movement_outstock"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/inner_move_instock_area_no"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline10"
-        app:layout_constraintTop_toBottomOf="@+id/include5" />
+        app:layout_constraintTop_toTopOf="@+id/inner_move_instock_area_no" />
+
     <TextView
         android:id="@+id/inner_move_out_stock_scan_desc"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/activity_inventory_movement_instock"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/inner_move_out_stock_scan"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline10"
-        app:layout_constraintTop_toBottomOf="@+id/textView46" />
+        app:layout_constraintTop_toTopOf="@+id/inner_move_out_stock_scan" />
+
     <EditText
         android:id="@+id/inner_move_out_stock_scan"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/common_margin_left"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="@string/activity_inventory_movement_outstock_hint"
-        app:layout_constraintBottom_toBottomOf="@+id/inner_move_out_stock_scan_desc"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/textView46"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inner_move_instock_area_no" />
+
     <TextView
         android:id="@+id/textView42"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/barcode"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/inner_move_barcode_scan"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline10"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/inner_move_barcode_scan" />
 
     <TextView
         android:id="@+id/inventory_movement_qty_desc"
@@ -116,11 +126,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/activity_inventory_movement_qty"
+        android:textSize="@dimen/common_text_size_first"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/inventory_movement_qty"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline10"
-        app:layout_constraintTop_toBottomOf="@+id/inner_move_out_stock_scan_desc" />
+        app:layout_constraintTop_toTopOf="@+id/inventory_movement_qty" />
+
     <ListView
         android:id="@+id/inventory_movement_list_view"
         android:layout_width="0dp"
@@ -133,14 +146,16 @@
         android:layout_marginBottom="8dp"
         android:focusableInTouchMode="false"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/inventory_movement_refer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inventory_movement_qty_desc"
-        app:layout_constraintBottom_toTopOf="@+id/inventory_movement_refer" />
+        app:layout_constraintTop_toBottomOf="@+id/inventory_movement_qty_desc" />
 
 
     <Button
+        android:textColor="@color/white"
+        android:textSize="@dimen/common_text_size_first"
         android:id="@+id/inventory_movement_refer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -155,14 +170,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.27"
-        tools:layout_editor_absoluteX="97dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintGuide_percent="0.27" />
 
-
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
 </androidx.constraintlayout.widget.ConstraintLayout>

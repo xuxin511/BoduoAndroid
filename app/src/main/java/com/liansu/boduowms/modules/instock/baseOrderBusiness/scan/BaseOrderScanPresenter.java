@@ -221,7 +221,6 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
 
     public void scanBarcode(String scanBarcode) {
         try {
-
             OutBarcodeInfo scanQRCode = null;
             if (scanBarcode.equals("")) return;
             if (scanBarcode.contains("%")) {

@@ -118,7 +118,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
             if (code.length() < 25) {
                 QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
 //                receiptModel.setStatus(1);
-//                receiptModel.setErpVoucherNo(code);
+                qualityHeaderInfo.setErpvoucherno(code);
                 if (mPresenter != null) {
                     mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
                 }

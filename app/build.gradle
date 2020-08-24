@@ -8,7 +8,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
-        versionName "1.00633"
+        versionName "1.00635"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,7 +30,6 @@ android {
         exclude 'META-INF/DEPENDENCIES'
     }
     dependencies {
-
         implementation fileTree(include: ['*.jar'], dir: 'libs')
         implementation "androidx.appcompat:appcompat:$rootProject.ext.appcompatVersion"
         implementation "com.google.android.material:material:$rootProject.ext.materialVersion"

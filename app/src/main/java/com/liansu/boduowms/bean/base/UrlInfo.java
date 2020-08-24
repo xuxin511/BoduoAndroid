@@ -36,6 +36,7 @@ public class UrlInfo {
     public String GetT_ScanBarcodeADFAsync          = GetWCFAdress() + "OutBarcode/GetT_ScanBarcodeADFAsync"; //获取扫描信息
     public String GetT_AreaModel                    = GetWCFAdress() + "Area/GetT_AreaModel"; //获取库位信息
     public String SelectMaterial                    = GetWCFAdress() + "Material/SelectMaterial"; //获取物料信息
+    public String GetT_StockList                    = GetWCFAdress() + "Stock/GetT_StockList"; //库存查询
     //模块方法
     //入库模块
     public String UserLogin                         = GetWCFAdress() + "user/userlogin"; //用户登录

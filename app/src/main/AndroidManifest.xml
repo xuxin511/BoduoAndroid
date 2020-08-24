@@ -87,6 +87,7 @@
         <activity android:name=".modules.instock.transferToStorage.scan.TransferToStorageScan" />
         <activity android:name=".modules.inHouseStock.adjustStock.AdjustStock" />
         <activity android:name=".modules.inHouseStock.query.QueryStock" />
+        <activity android:name=".modules.inHouseStock.inventoryMovement.InventoryMovementScan" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

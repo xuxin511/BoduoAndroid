@@ -77,10 +77,10 @@ public class PrintPalletScanPresenter {
             public void onCallBack(String result) {
                 LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC, result);
                 try {
-                    BaseResultInfo<List<OrderHeaderInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OrderHeaderInfo>>>() {
+                    BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        OrderHeaderInfo productInfo = returnMsgModel.getData().get(0);
+                        OrderHeaderInfo productInfo = returnMsgModel.getData();
                         if (productInfo != null) {
                             mModel.setProductInfo(productInfo);
                             if (mModel.getOrderDetailList().size() > 0) {
@@ -126,6 +126,72 @@ public class PrintPalletScanPresenter {
             }
         });
     }
+
+
+//
+//    /**
+//     * @desc: 获取报工单明细接口  原来的成品扫描接口
+//     * @param:
+//     * @return:
+//     * @author: Nietzsche
+//     * @time 2020/7/23 16:24
+//     */
+//    protected void getOrderDetailInfoList(OrderHeaderInfo info) {
+//        info.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
+//        mModel.requestOrderDetail(info, new NetCallBackListener<String>() {
+//            @Override
+//            public void onCallBack(String result) {
+//                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC, result);
+//                try {
+//                    BaseResultInfo<List<OrderHeaderInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OrderHeaderInfo>>>() {
+//                    }.getType());
+//                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+//                        OrderHeaderInfo productInfo = returnMsgModel.getData().get(0);
+//                        if (productInfo != null) {
+//                            mModel.setProductInfo(productInfo);
+//                            if (mModel.getOrderDetailList().size() > 0) {
+//                                mView.bindListView(mModel.getOrderDetailList());
+//                                mView.setErpVoucherNo(mModel.getOrderHeaderInfo().getErpvoucherno());
+//                                mView.onBarcodeFocus();
+//                            } else {
+//                                MessageBox.Show(mContext, "获取单据列表失败：" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        mView.onErpVoucherNo();
+//                                    }
+//                                });
+//
+//                            }
+//                        } else {
+//                            MessageBox.Show(mContext, "获取单据列表失败：" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    mView.onErpVoucherNo();
+//                                }
+//                            });
+//                        }
+//                    } else {
+//                        MessageBox.Show(mContext, "获取单据列表失败：" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                mView.onErpVoucherNo();
+//                            }
+//                        });
+//                    }
+//
+//                } catch (Exception ex) {
+//                    MessageBox.Show(mContext, "获取单据列表失败：" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            mView.onErpVoucherNo();
+//                        }
+//                    });
+//                }
+//
+//
+//            }
+//        });
+//    }
 
     /**
      * @desc: 扫描外箱条码

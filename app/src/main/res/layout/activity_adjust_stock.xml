@@ -11,16 +11,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="0dp"
         android:hint="点击选择有效期"
         android:textAlignment="viewStart"
         android:textColor="@color/green"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/textView84"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/guideline15"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_StrongHold" />
 
     <Button
         android:id="@+id/btn_Delete"
@@ -31,10 +31,10 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
+        android:textSize="@dimen/common_text_size_first"
+        android:textColor="@color/white"
         android:background="@drawable/bt_selector"
         android:text="删除记录"
-        android:textColor="@color/white"
-        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/guideline52"
         app:layout_constraintRight_toRightOf="parent" />
@@ -49,9 +49,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/bt_selector"
-        android:text="确认修改"
-        android:textColor="@color/white"
         android:textSize="@dimen/common_text_size_first"
+        android:textColor="@color/white"
+        android:text="确认修改"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline52" />
@@ -63,8 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:text="厂内批号:"
-        android:textSize="@dimen/common_text_size_first"
+        android:text="批号:"
         app:layout_constraintBottom_toBottomOf="@+id/edt_AdjustBatchNo"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -77,28 +76,30 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginRight="8dp"
         android:hint="点击选择据点"
         android:textAlignment="viewStart"
         android:textColor="@color/green"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/textView67"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/guideline15"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_Warehouse" />
 
     <TextView
         android:id="@+id/textView67"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:text="据点："
-        android:visibility="gone"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:text="据点:"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_StrongHold"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/textView64" />
+        app:layout_constraintTop_toTopOf="@+id/txt_StrongHold" />
 
     <TextView
         android:id="@+id/textView84"
@@ -106,32 +107,30 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="13dp"
         android:layout_marginRight="0dp"
-        android:text="有效期："
-        android:visibility="gone"
+        android:text="有效期:"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_changeEData"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/textView67" />
+        app:layout_constraintTop_toTopOf="@+id/txt_changeEData" />
 
     <TextView
         android:id="@+id/txt_Warehouse"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
-        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="0dp"
         android:hint="@string/Hit_Selectwohouse"
         android:textAlignment="viewStart"
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toLeftOf="@+id/guideline15"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include5" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_QCStatus" />
 
     <TextView
         android:id="@+id/textView64"
@@ -141,7 +140,6 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:text="@string/activity_login_WareHousChoice"
-        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="@+id/txt_Warehouse"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -153,28 +151,34 @@
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
         android:gravity="left"
         android:hint="点击选择质检状态"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/textView60"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/textView60"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include5" />
 
     <TextView
         android:id="@+id/textView60"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:text="@string/QCStatus"
-        android:visibility="gone"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_QCStatus"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline15"
-        app:layout_constraintTop_toBottomOf="@+id/include5" />
+        app:layout_constraintTop_toTopOf="@+id/txt_QCStatus" />
 
     <include
         android:id="@+id/include5"
@@ -187,7 +191,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView70" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_AdjustScanBarcode" />
 
     <TextView
         android:id="@+id/textView74"
@@ -197,7 +201,6 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:text="@string/activity_adjust_stock"
-        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="@+id/edt_AdjustStock"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -215,12 +218,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="0dp"
-        android:hint="请输入厂内批号"
+        android:hint="请输入批号"
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/textView68"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_Warehouse">
+        app:layout_constraintTop_toBottomOf="@+id/txt_changeEData">
 
         <requestFocus />
 
@@ -276,29 +279,27 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:text="@string/activity_adjust_Number"
-        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintBottom_toBottomOf="@+id/edt_AdjustNum"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline15"
+        app:layout_constraintTop_toBottomOf="@+id/textView68"
         app:layout_constraintTop_toTopOf="@+id/edt_AdjustNum" />
 
     <EditText
         android:id="@+id/edt_AdjustScanBarcode"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="0dp"
         android:hint="请扫描条码"
-        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintTop_toBottomOf="@+id/guideline2"
         app:layout_constraintLeft_toLeftOf="@+id/guideline15"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline1">
+        app:layout_constraintRight_toRightOf="parent">
 
         <requestFocus />
 
@@ -313,23 +314,25 @@
         android:layout_marginRight="0dp"
         android:text="@string/barcode"
         android:textSize="@dimen/common_text_size_first"
-        app:layout_constraintBottom_toBottomOf="@+id/edt_AdjustScanBarcode"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_AdjustScanBarcode"
         app:layout_constraintRight_toLeftOf="@+id/guideline15"
         app:layout_constraintTop_toTopOf="@+id/edt_AdjustScanBarcode" />
-    <GridLayout
-        android:id="@+id/guideline1"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></GridLayout>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.27" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline52"

@@ -10,49 +10,74 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        app:layout_constraintLeft_toRightOf="@+id/guideline1"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_h_1">
 
         <RadioButton
-            android:id="@+id/activity_query_stock_material"
+            android:id="@+id/activity_query_stock_barcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.76"
             android:checked="true"
-            android:text="@string/material"
+            android:text="@string/query_stock_all"
             android:textSize="@dimen/base_order_label_print_select_text_size" />
 
         <RadioButton
             android:layout_marginLeft="@dimen/common_margin_left"
+            android:id="@+id/activity_query_stock_material"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.76"
+            android:checked="false"
+            android:text="@string/material"
+            android:textSize="@dimen/base_order_label_print_select_text_size" />
+
+        <RadioButton
             android:id="@+id/activity_query_stock_batch_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_left"
             android:layout_weight="0.76"
             android:text="@string/batch_no"
             android:textSize="@dimen/base_order_label_print_select_text_size" />
 
         <RadioButton
-            android:layout_marginLeft="@dimen/common_margin_left"
             android:id="@+id/activity_query_stock_area_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_left"
             android:layout_weight="0.76"
             android:text="@string/query_stock_area_no"
             android:textSize="@dimen/base_order_label_print_select_text_size" />
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/textView70"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:text="@string/barcode"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_query_stock_content"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/activity_query_stock_content" />
+
     <EditText
         android:id="@+id/activity_query_stock_content"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="@dimen/common_layout_height_first"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginTop="@dimen/base_order_label_print_margin_top"
         android:layout_marginRight="8dp"
         android:ems="10"
         android:hint="@string/query_content_hint"
         android:textSize="@dimen/base_order_label_print_select_text_size"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@+id/guideline1"
+        app:layout_constraintLeft_toRightOf="@+id/guideline2"
         app:layout_constraintRight_toLeftOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/activity_query_stock_radio_group" />
 
@@ -80,12 +105,20 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1" />
 
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_h_1"
