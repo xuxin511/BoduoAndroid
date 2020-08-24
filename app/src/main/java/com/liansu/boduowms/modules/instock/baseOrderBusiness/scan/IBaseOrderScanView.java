@@ -18,7 +18,7 @@ public interface IBaseOrderScanView {
     void onBarcodeFocus();
 
     void onAreaNoFocus();
-
+    void  onErpVoucherNoFocus();
  
 
     void createDialog(OutBarcodeInfo info);

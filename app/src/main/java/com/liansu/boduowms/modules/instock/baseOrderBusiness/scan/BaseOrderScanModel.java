@@ -96,6 +96,17 @@ public abstract class BaseOrderScanModel extends BaseModel {
     }
 
     /**
+     * @desc: 保存请求列表接口的数据
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/24 14:57
+     */
+    public void setOrderRequestInfo(OrderRequestInfo info) {
+        this.mOrderRequestInfo = info;
+    }
+
+    /**
      * @desc: 获取库位信息
      * @param:
      * @return:
@@ -579,7 +590,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
      */
     public void sortDetailList(String materialNo) {
         String[] sortNameArr = {"Materialno", "Remainqty"};
-        boolean[] isAscArr = {true,true};
+        boolean[] isAscArr = {true, true};
         ListUtils.sort(mOrderDetailList, sortNameArr, isAscArr);
         List<OrderDetailInfo> taskDoneList = new ArrayList<>();
         List<OrderDetailInfo> currentMaterialList = new ArrayList<>();
@@ -587,7 +598,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
         while (it.hasNext()) {
             OrderDetailInfo item = it.next();
             String sMaterialNo = item.getMaterialno() != null ? item.getMaterialno() : "";
-            if (materialNo!=null &&materialNo.equals(sMaterialNo)) {
+            if (materialNo != null && materialNo.equals(sMaterialNo)) {
                 if (item.getRemainqty() > 0 && ArithUtil.sub(item.getVoucherqty(), item.getRemainqty()) > 0) {
                     it.remove();
                     currentMaterialList.add(item);
@@ -595,7 +606,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
                 }
             }
             //变绿的沉底
-            if ( item.getRemainqty() == 0) {
+            if (item.getRemainqty() == 0) {
                 it.remove();
                 taskDoneList.add(item);
 
@@ -608,9 +619,16 @@ public abstract class BaseOrderScanModel extends BaseModel {
 
         }
         //正在扫描的物料放在最前面
-        if (currentMaterialList.size()>0){
-            mOrderDetailList.addAll(0,currentMaterialList);
+        if (currentMaterialList.size() > 0) {
+            mOrderDetailList.addAll(0, currentMaterialList);
         }
 
+    }
+
+    public void onReset() {
+        mHeaderInfo = null;
+        setOrderRequestInfo(null);
+        setAreaInfo(null);
+        mOrderDetailList.clear();
     }
 }

@@ -13,6 +13,8 @@ import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.IBaseOrderScanView;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
@@ -68,31 +71,61 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
                         if (orderHeaderInfo != null) {
+                            mModel.setOrderHeaderInfo(orderHeaderInfo);
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
                                 mModel.sortDetailList(null);
+                                mView.setOrderHeaderInfo(orderHeaderInfo);
                                 mView.bindListView(mModel.getOrderDetailList());
                             } else {
-                                MessageBox.Show(mContext, "获取表体信息为空");
-                                mView.onAreaNoFocus();
+                                MessageBox.Show(mContext, "获取表体信息为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        onReset();
+                                    }
+                                });
+
                             }
                         } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue());
-                            mView.onAreaNoFocus();
+                            MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onReset();
+                                }
+                            });
+
                         }
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
-                        mView.onAreaNoFocus();
+                        MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onReset();
+                            }
+                        });
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage());
-                    mView.onAreaNoFocus();
+                    MessageBox.Show(mContext, "获取单据失败:" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onReset();
+                        }
+                    });
                 }
 
 
             }
         });
+    }
+
+    @Override
+    protected void getOrderDetailInfoList(String erpVoucherNo) {
+        OrderRequestInfo postInfo = new OrderRequestInfo();
+        postInfo.setErpvoucherno(erpVoucherNo);
+        postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        postInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE);
+        mModel.setOrderRequestInfo(postInfo);
+        getOrderDetailInfoList();
     }
 
     @Override

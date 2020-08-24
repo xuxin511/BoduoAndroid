@@ -40,7 +40,9 @@
         android:id="@+id/textView5"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" android:text="@string/receipt_scan_bill_no"
+        android:layout_height="wrap_content"
+        android:text="@string/receipt_scan_bill_no"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_VoucherNo"
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -62,15 +64,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/receiption_scan_out_barcode_desc" />
 
-    <TextView
+    <EditText
+
         android:layout_marginTop="@dimen/common_margin_top_first"
         android:id="@+id/txt_VoucherNo"
-        style="@style/TextViewComminStyle"
+        style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/common_margin_left"
         android:layout_marginRight="8dp"
-        android:gravity="left"
+        android:gravity="left|center_vertical"
         android:text=""
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintTop_toBottomOf="@+id/receiption_scan_module_type"

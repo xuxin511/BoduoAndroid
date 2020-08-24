@@ -52,7 +52,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.liansu.boduowms.modules.instock.combinePallet.InstockCombinePalletModel.COMBINE_PALLET_TYPE_RECEIPTION;
 
 
-
 @ContentView(R.layout.activity_receiption_scan)
 public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
     protected Context      mContext = BaseOrderScan.this;
@@ -61,11 +60,11 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
     @ViewInject(R.id.edt_RecScanBarcode)
     protected EditText     mPalletBarcode;
     @ViewInject(R.id.textView10)
-    protected TextView mPalletBarcodeDesc;
+    protected TextView     mPalletBarcodeDesc;
     @ViewInject(R.id.txt_VoucherNo)
-    protected TextView mOrderNo;
+    protected EditText     mOrderNo;
     @ViewInject(R.id.txt_Company)
-    protected TextView txtCompany;
+    protected TextView     txtCompany;
     @ViewInject(R.id.txt_Batch)
     protected TextView     txtBatch;
     @ViewInject(R.id.txt_Status)
@@ -91,7 +90,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
     @ViewInject(R.id.btn_refer)
     protected Button       mRefer;
     @ViewInject(R.id.txt_receiption_scan_supplier_name)
-    TextView  mSupplierNameDesc;
+    TextView mSupplierNameDesc;
     BaseScanDetailAdapter mAdapter;
     private      BaseOrderScanPresenter mPresenter;
     public final int                    REQUEST_CODE_OK = 1;
@@ -172,7 +171,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
             mPresenter.getOrderDetailInfoList();
             IS_START = -1;
         }
-       getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+        getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
     }
 
     @Event(value = R.id.edt_area_no, type = View.OnKeyListener.class)
@@ -191,6 +190,18 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
         return false;
     }
 
+    @Event(value = R.id.txt_VoucherNo, type = View.OnKeyListener.class)
+    private boolean scanVoucherNo(View v, int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
+        {
+            String erpVoucherNo = mOrderNo.getText().toString().trim();
+            if (mPresenter != null) {
+                mPresenter.getOrderDetailInfoList(erpVoucherNo);
+            }
+        }
+
+        return false;
+    }
 
     /**
      * @desc: 外箱码扫描
@@ -266,7 +277,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
 //        bundle.putParcelableArrayList("orderDetailList", mPresenter.getModel().getReceiptDetailModels());
             intent.putExtras(bundle);
             startActivityLeft(intent);
-        }else if (item.getItemId()==R.id.menu_setting){
+        } else if (item.getItemId() == R.id.menu_setting) {
             startActivityLeft(new Intent(mContext, SettingMainActivity.class));
         }
 
@@ -276,15 +287,35 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
 
     @Override
     public void bindListView(List<OrderDetailInfo> receiptDetailModels) {
-        mAdapter = new BaseScanDetailAdapter(mContext, "采购收货", receiptDetailModels);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (mAdapter == null) {
+            mAdapter = new BaseScanDetailAdapter(mContext, "采购收货", receiptDetailModels);
+            mAdapter.setRecyclerView(mRecyclerView);
+            mAdapter.setOnItemClickListener(new BaseScanDetailAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
+                    if (data != null) {
+                    }
+
+                }
+            });
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onReset() {
-
+        mOrderNo.setText("");
+        mSupplierName.setText("");
+        mAreaNo.setText("");
+        mOutBarcode.setText("");
+        onErpVoucherNoFocus();
+        if (mPresenter != null) {
+            bindListView(mPresenter.getModel().getOrderDetailList());
+        }
     }
 
     @Override
@@ -296,6 +327,11 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
     @Override
     public void onAreaNoFocus() {
         CommonUtil.setEditFocus(mAreaNo);
+    }
+
+    @Override
+    public void onErpVoucherNoFocus() {
+        CommonUtil.setEditFocus(mOrderNo);
     }
 
 
@@ -317,7 +353,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
                     break;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "从物料界面传递数据给入库扫描界面出现异常" + e.getMessage() );
+            MessageBox.Show(mContext, "从物料界面传递数据给入库扫描界面出现异常" + e.getMessage());
         }
 
 
@@ -349,14 +385,14 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
 
     @Override
     public void setSecondLineInfo(String desc, String name, boolean isVisibility) {
-        if (isVisibility){
+        if (isVisibility) {
             mSupplierName.setVisibility(View.VISIBLE);
             mSupplierNameDesc.setVisibility(View.VISIBLE);
-            if (desc!=null && name!=null ){
+            if (desc != null && name != null) {
                 mSupplierNameDesc.setText(desc);
                 mSupplierName.setText(name);
             }
-        }else {
+        } else {
             mSupplierName.setVisibility(View.GONE);
             mSupplierNameDesc.setVisibility(View.GONE);
         }
@@ -364,7 +400,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
 
     @Override
     public void onActivityFinish(String message) {
-        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(message+" 是否返回上一页面？")
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(message + " 是否返回上一页面？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -378,8 +414,9 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView {
     @Override
     public IBaseOrderScanView getIView() {
         return this;
-    };
+    }
 
+    ;
 
 
 }

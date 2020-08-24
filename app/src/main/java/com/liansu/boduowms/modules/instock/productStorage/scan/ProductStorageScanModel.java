@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
-import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 /**
  * @desc: 生产入库扫描
@@ -76,6 +75,11 @@ public class ProductStorageScanModel extends BaseOrderScanModel {
         super.onHandleMessage(msg);
     }
 
+    @Override
+    public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
+
+    }
+
     /**
      * @desc: 获取报工单明细
      * @param:
@@ -116,11 +120,11 @@ public class ProductStorageScanModel extends BaseOrderScanModel {
      */
 
     @Override
-    public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
+    public void requestCombineAndReferPallet(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB", callBackListener);
-        String modelJson = parseModelToJson(info);
-        LogUtil.WriteLog(BaseOrderScan.class, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, parseModelToJson(info));
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, mContext.getString(R.string.Msg_GetT_SerialNoByPalletADF), mContext, mHandler, RESULT_TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, null, UrlInfo.getUrl().Save_InStockWorkOrderListToDB, modelJson, null);
+        String modelJson = parseModelListToJsonArray(list);
+        LogUtil.WriteLog(BaseOrderScan.class, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, mContext.getString(R.string.message_request_barcode_refer), mContext, mHandler, RESULT_TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, null, UrlInfo.getUrl().Save_InStockWorkOrderListToDB, modelJson, null);
     }
 
     /**

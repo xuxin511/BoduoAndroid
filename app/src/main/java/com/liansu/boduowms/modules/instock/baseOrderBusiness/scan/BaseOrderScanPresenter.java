@@ -74,6 +74,9 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
 
     ;
 
+    protected void getOrderDetailInfoList(String erpVoucherNo) {
+    }
+
     /**
      * @desc: 单据过账
      * @param:
@@ -221,6 +224,15 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
 
     public void scanBarcode(String scanBarcode) {
         try {
+            if (mModel.getAreaInfo()==null){
+                MessageBox.Show(mContext, "校验库位失败:获取库位信息为空,请先扫描库位", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onAreaNoFocus();
+                    }
+                });
+                return;
+            }
             OutBarcodeInfo scanQRCode = null;
             if (scanBarcode.equals("")) return;
             if (scanBarcode.contains("%")) {
@@ -457,7 +469,7 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                                 }
                                 mModel.sortDetailList(resultList.get(0).getMaterialno());
                                 mView.bindListView(mModel.getOrderDetailList());
-                                Toast.makeText(mContext,returnMsgModel.getResultValue(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, returnMsgModel.getResultValue(), Toast.LENGTH_SHORT).show();
                                 mView.onBarcodeFocus();
                             } else {
                                 MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
@@ -486,5 +498,17 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                 }
             });
         }
+    }
+
+    /**
+     * @desc: 重置界面
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/24 15:43
+     */
+    public void onReset() {
+        mModel.onReset();
+        mView.onReset();
     }
 }
