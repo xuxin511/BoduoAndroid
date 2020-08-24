@@ -34,6 +34,7 @@ public class PurchaseInspectionBillItemAdapter extends BaseAdapter {
         public TextView txt_voucherNo;     //单据类型
         public TextView txt_arrVoucherNo;  //到货单号
         public TextView txt_voucher_qty;  //订单数量
+        public TextView txt_material_desc;
     }
 
     public PurchaseInspectionBillItemAdapter(Context context, List<OutStockOrderHeaderInfo> receiptModels) {
@@ -80,7 +81,9 @@ public class PurchaseInspectionBillItemAdapter extends BaseAdapter {
             listItemView.txt_voucher_qty = (TextView) convertView.findViewById(R.id.txt_voucher_qty);
             LinearLayout forth_layout = (LinearLayout) convertView.findViewById(R.id.forth_layout);
             LinearLayout second_layout = (LinearLayout) convertView.findViewById(R.id.second_layout);
+            listItemView.txt_material_desc = (TextView) convertView.findViewById(R.id.txt_material_desc);
             forth_layout.setVisibility(View.GONE);
+            listItemView.txt_material_desc.setVisibility(View.GONE);
 //            second_layout.setVisibility(View.GONE);
             convertView.setTag(listItemView);
         } else {
