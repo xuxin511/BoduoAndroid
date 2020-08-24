@@ -90,6 +90,7 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
 //        }
         Float QTY=ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty());
         listItemView.txtVoucherQty.setText("复核数量:" + mDetailInfo.getRemainqty());
+        // Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
         listItemView.txtRemainQty.setText("剩余数量:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty()));
         listItemView.txtScanQty.setText("已复核：" + mDetailInfo.getScanqty());
 //        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());

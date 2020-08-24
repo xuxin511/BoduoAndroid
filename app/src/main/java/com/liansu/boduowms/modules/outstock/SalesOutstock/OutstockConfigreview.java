@@ -541,7 +541,7 @@ public class OutstockConfigreview extends BaseActivity {
     private boolean IsScanningOver() {
         boolean istrue = true;
         for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-            if (item.getRemainqty()!=0){
+            if (ArithUtil.sub( item.getRemainqty(),item.getScanqty())!=0) {
                 istrue = false;
             }
         }

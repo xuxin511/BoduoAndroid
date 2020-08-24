@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
+import com.liansu.boduowms.utils.function.GsonUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SalesoutstockAdapter extends BaseAdapter {
@@ -34,6 +36,20 @@ public class SalesoutstockAdapter extends BaseAdapter {
     public SalesoutstockAdapter(Context context, List<OutStockOrderDetailInfo> outStockTaskDetailsInfoModels) {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
+        List<OutStockOrderDetailInfo> list=new ArrayList<OutStockOrderDetailInfo>();
+        String json = GsonUtil.parseModelToJson(outStockTaskDetailsInfoModels);
+      //  list= GsonUtil.parseJsonToModel(json,OutStockOrderDetailInfo.class);
+//        for (OutStockOrderDetailInfo item:outStockTaskDetailsInfoModels) {
+//            if (item.getRemainqty() == 0) {
+//                list.add(item);
+//                outStockTaskDetailsInfoModels.remove(item);
+//            }
+//        }
+//        int i=outStockTaskDetailsInfoModels.size();
+//        for (OutStockOrderDetailInfo item:list) {
+//            outStockTaskDetailsInfoModels.add(i, item);
+//            i++;
+//        }
         this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
     }
 

@@ -395,7 +395,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     model.Printername= UrlInfo.mOutStockPrintName;
                     model.Printertype= UrlInfo.mOutStockPrintType;
                     listmodel.add(model);
-                    String modelJson = parseModelToJson(list);
+                    String modelJson = parseModelToJson(listmodel);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
                             context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, info.SalesOutstock_Box_Submit, modelJson, null);
 //                    CommonUtil.setEditFocus(sales_outstock_box_watercode);
@@ -520,7 +520,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                 return;
             }
             materialModle=returnMsgModel.getData();
-           num=1f;
+             num=1f;
             SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
             model.Batchno = "";
             model.Materialno = materialModle.Materialno;

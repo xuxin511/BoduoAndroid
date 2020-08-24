@@ -179,7 +179,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     }
 
 
-
     //托盘回车事件
     @Event(value = R.id.sales_outstock_material_pallettext,type = EditText.OnKeyListener.class)
     private  boolean palletKeyDowm(View v, int keyCode, KeyEvent event) {

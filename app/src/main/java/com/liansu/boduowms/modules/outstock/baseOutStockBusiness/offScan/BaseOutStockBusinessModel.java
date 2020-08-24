@@ -493,7 +493,7 @@ public class BaseOutStockBusinessModel extends BaseModel {
                     //复核没有单号
 //                    if (erpVoucherNo.equals(sErpVoucherNo)) {
                     info.setScanqty(ArithUtil.add(info.getScanqty(), detailInfo.getScanqty()));
-                    Float arr = ArithUtil.sub(info.getRemainqty(), detailInfo.getScanqty());
+                    Float arr = ArithUtil.sub(info.getRemainqty(), info.getScanqty());
                     if (arr < 0) {
                         resultInfo.setHeaderStatus(false);
                         return resultInfo;

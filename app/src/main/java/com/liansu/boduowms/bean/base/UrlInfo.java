@@ -154,7 +154,7 @@ public class UrlInfo {
             case 30://二阶段调拨
                 SalesOutstock_ScanningNo = GetWCFAdress() + "TransferTwoout/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "TransferTwoout/SaveT_OutStockDetailADFAsync"; //托盘提交
-            case  55://杂出
+            case 55://杂出
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OtherOut/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OtherOut/SaveT_OutStockDetailADFAsync"; //托盘提交
                 break;

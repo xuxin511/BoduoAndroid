@@ -55,6 +55,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
         initData();
     }
 
+
+
+
+
     /**
      * 初始化控件
      */
@@ -166,6 +170,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
         super.onResume();
 
     }
+
 
     /**
      * 左右推动跳转
