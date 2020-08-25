@@ -92,14 +92,17 @@ public class DateUtil {
      * @time 2020/8/17 12:29
      */
     public static boolean isAfterToday(int year, int month, int day) {
+        Calendar myDate = Calendar.getInstance();
+        myDate.set(year, month, day);
         Calendar today = Calendar.getInstance();
         int currentDay = today.get(Calendar.DAY_OF_MONTH);
         int currentMonth = today.get(Calendar.MONTH) + 1;//Calendar里取出来的month比实际的月份少1，所以要加上
         int currentYear = today.get(Calendar.YEAR);
         today.set(currentYear, currentMonth, currentDay);
-        Calendar myDate = Calendar.getInstance();
-        myDate.set(year, month, day);
         if (myDate.before(today)) {
+            return false;
+        }
+        if (year==currentYear && month==currentMonth && day==currentDay){
             return false;
         }
         if (myDate.after(today)) {
