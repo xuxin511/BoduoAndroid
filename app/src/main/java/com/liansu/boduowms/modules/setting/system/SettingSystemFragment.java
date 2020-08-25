@@ -44,11 +44,16 @@ public class SettingSystemFragment extends BaseFragment implements ISettingSyste
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        initData();
+
     }
 
 

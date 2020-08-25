@@ -45,7 +45,6 @@ public class DateUtil {
     }
 
 
-
     /**
      * @desc: 校验日期超过当前日期
      * @param:
@@ -64,12 +63,12 @@ public class DateUtil {
             Calendar cal = Calendar.getInstance();
             cal.setTime(sDate);
             int day = cal.get(Calendar.DAY_OF_MONTH);
-            int month = cal.get(Calendar.MONTH)+1;//Calendar里取出来的month比实际的月份少1，所以要加上
+            int month = cal.get(Calendar.MONTH) + 1;//Calendar里取出来的month比实际的月份少1，所以要加上
             int year = cal.get(Calendar.YEAR);
             if (isAfterToday(year, month, day) == false) {
                 convertSuccess = true;
-            }else {
-                convertSuccess=false;
+            } else {
+                convertSuccess = false;
             }
         } catch (ParseException e) {
             // e.printStackTrace();
@@ -95,12 +94,12 @@ public class DateUtil {
     public static boolean isAfterToday(int year, int month, int day) {
         Calendar today = Calendar.getInstance();
         int currentDay = today.get(Calendar.DAY_OF_MONTH);
-        int currentMonth = today.get(Calendar.MONTH)+1;//Calendar里取出来的month比实际的月份少1，所以要加上
+        int currentMonth = today.get(Calendar.MONTH) + 1;//Calendar里取出来的month比实际的月份少1，所以要加上
         int currentYear = today.get(Calendar.YEAR);
-        today.set(currentYear,currentMonth,currentDay);
+        today.set(currentYear, currentMonth, currentDay);
         Calendar myDate = Calendar.getInstance();
         myDate.set(year, month, day);
-        if (myDate.before(today)){
+        if (myDate.before(today)) {
             return false;
         }
         if (myDate.after(today)) {

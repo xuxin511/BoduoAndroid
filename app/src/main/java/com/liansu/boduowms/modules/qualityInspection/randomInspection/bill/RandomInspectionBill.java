@@ -113,8 +113,10 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         if (mPresenter != null) {
+          final   String erpVoucherNo=mEdtfilterContent.getText().toString().trim();
             mPresenter.onReset();
             QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
+            qualityHeaderInfo.setErpvoucherno(erpVoucherNo);
             mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
         }
     }
@@ -200,7 +202,8 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
 
     @Override
     public void onReset() {
-        mEdtfilterContent.setText("");
+//        mEdtfilterContent.setText("");
+        onFilterContentFocus();
     }
 
     @Override
@@ -241,7 +244,8 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
                             if (mUserSettingPresenter != null) {
                                 mUserSettingPresenter.saveCurrentWareHouse(select_item);
                             }
-
+                            mEdtfilterContent.setText("");
+                            onRefresh();
                             dialog.dismiss();
                         }
                     }).show();

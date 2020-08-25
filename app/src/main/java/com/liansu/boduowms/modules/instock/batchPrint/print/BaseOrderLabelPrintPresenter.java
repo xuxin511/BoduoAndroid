@@ -172,16 +172,33 @@ public class BaseOrderLabelPrintPresenter {
                 return;
             }
             if (batchNo.equals("")) {
-                MessageBox.Show(mContext, "批次不能为空");
+                MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBatchNoFocus();
+                    }
+                });
                 return;
             }
-
+            if (mView.checkBatchNo(batchNo)==false){
+                return;
+            }
             if (palletQty <= 0) {
-                MessageBox.Show(mContext, "整托数量必须大于0");
+                MessageBox.Show(mContext, "整托数量必须大于0", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onPalletQtyFocus();
+                    }
+                });
                 return;
             }
             if (remainQty < palletQty) {
-                MessageBox.Show(mContext, "总数量必须大于等于可打印数");
+                MessageBox.Show(mContext, "总数量必须大于等于可打印数", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onOrderRemainQtyFocus();
+                    }
+                });
                 return;
             }
             OrderDetailInfo orderDetailInfo = mModel.getCurrentPrintInfo();

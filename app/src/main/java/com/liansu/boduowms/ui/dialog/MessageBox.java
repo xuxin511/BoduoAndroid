@@ -42,7 +42,7 @@ public class MessageBox {
         music = MediaPlayer.create(context,R.raw.error3);
         music.start();
 
-        new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", null).show();
+        new AlertDialog.Builder(context,R.style.ErrorDialogStyle).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", null).show();
     }
     /**
      * @desc: type 0 失败  1 成功
@@ -55,18 +55,25 @@ public class MessageBox {
         if (type == MEDIA_MUSIC_ERROR) {
             music = MediaPlayer.create(context, R.raw.error3);
             music.start();
+            new AlertDialog.Builder(context,R.style.ErrorDialogStyle).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", null).show();
+
+        }else {
+            new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", null).show();
+
         }
 
-        new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", null).show();
     }
 
     public static void Show(Context context, String message, int type, DialogInterface.OnClickListener listener) {
         if (type == MEDIA_MUSIC_ERROR) {
             music = MediaPlayer.create(context, R.raw.error3);
             music.start();
+            new AlertDialog.Builder(context,R.style.ErrorDialogStyle).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", listener).show();
+        }else {
+            new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", listener).show();
+
         }
 
-        new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", listener).show();
     }
 
     public static void Show(Context context, int resourceID) {

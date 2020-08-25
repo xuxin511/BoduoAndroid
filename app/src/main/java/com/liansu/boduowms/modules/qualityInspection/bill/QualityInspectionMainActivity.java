@@ -33,6 +33,7 @@ public class QualityInspectionMainActivity extends FragmentActivity implements I
     Context               mContext = QualityInspectionMainActivity.this;
     QualifiedFragmentBill mQualifiedFragmentBill;
     protected UserSettingPresenter mUserSettingPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +62,12 @@ public class QualityInspectionMainActivity extends FragmentActivity implements I
             public boolean onMenuItemClick(MenuItem menuItem) {
                 //利用colorFilter动态更改图标颜色
 //            menuItem.getIcon().setColorFilter(Color.parseColor("#223344"),PorterDuff.Mode.MULTIPLY);
-
                 switch (menuItem.getItemId()) {
                     case R.id.user_setting_warehouse_select:
                         if (mUserSettingPresenter != null) {
                             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
                         }
                         break;
-
                 }
                 return true;
             }
@@ -97,7 +96,7 @@ public class QualityInspectionMainActivity extends FragmentActivity implements I
                 super.onPageScrollStateChanged(state);
             }
         });
-        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
+        mUserSettingPresenter = new UserSettingPresenter(mContext, this);
         MyFragmentStateAdapter adapter = new MyFragmentStateAdapter(this, listFragments);
         viewPager2.setAdapter(adapter);
 
@@ -136,7 +135,6 @@ public class QualityInspectionMainActivity extends FragmentActivity implements I
         if (AppManager.getAppManager().GetActivityCount() != 0)
             BaseApplication.context = AppManager.getAppManager().currentActivity();
     }
-
 
 
     @Override
@@ -180,4 +178,23 @@ public class QualityInspectionMainActivity extends FragmentActivity implements I
     }
 
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            BackAlter();
+
+        }
+        return true;
+    }
+
+
+    public void BackAlter() {
+        new AlertDialog.Builder(QualityInspectionMainActivity.this).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage("是否返回上一页面？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       closeActivity();
+                    }
+                }).setNegativeButton("取消", null).show();
+    }
 }

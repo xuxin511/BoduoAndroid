@@ -43,6 +43,7 @@ public class OrderType {
     public final static String OUT_STOCK_ORDER_TYPE_REALLOCATION= "二阶段调拨出";
     public final static String OUT_STOCK_ORDER_TYPE_OTHEROUT= "杂出";
     //Sendcarsorder
-
+    public final static String IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT         = "库存调整";
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE         = 35;
 
 }

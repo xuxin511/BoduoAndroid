@@ -209,4 +209,5 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
         }
         return false;
     }
+
 }

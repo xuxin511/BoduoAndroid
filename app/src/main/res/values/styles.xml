@@ -90,7 +90,10 @@
         <!-- <item name="android:backgroundDimEnabled">false</item> -->
 
     </style>
-
+    <style name="ErrorDialogStyle" parent="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar.MinWidth">
+        <!--该行代码就是设置AlertDialog的背景-->
+        <item name="android:background">@color/pink</item>
+    </style>
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:colorControlActivated" tools:targetApi="lollipop">@color/colorAccent</item>
         <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/colorPrimary</item>

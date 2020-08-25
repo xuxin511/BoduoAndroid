@@ -60,10 +60,10 @@ public class RandomInspectionBillPresenter {
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         List<QualityHeaderInfo> list=returnMsgModel.getData();
                         mModel.setQualityInspectionInfoList(list);
-//
                         if (mModel.getQualityInspectionInfoList().size() != 0) {
                             mView.sumBillCount(mModel.getQualityInspectionInfoList().size());
                             mView.bindListView(mModel.getQualityInspectionInfoList());
+                            mView.onFilterContentFocus();
                         } else {
                             MessageBox.Show(mContext,"获取单据失败", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override

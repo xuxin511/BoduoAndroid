@@ -4,57 +4,60 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.StockInfo;
+import com.liansu.boduowms.modules.inHouseStock.query.QueryStock;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
+import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.CommonUtil;
+import com.liansu.boduowms.utils.function.DateUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.log.LogUtil;
 
-import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+
+import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
+import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 @ContentView(R.layout.activity_adjust_stock)
-public class AdjustStock extends BaseActivity implements  IAdjustStockView{
+public class AdjustStock extends BaseActivity implements IAdjustStockView {
 
-    String TAG_GetInfoBySerial = "AdjustStock_GetInfoBySerial";
-    String TAG_SaveInfo        = "AdjustStock_SaveInfo";
-    private final int RESULT_GetWareHouse    = 101;
-    private final int RESULT_GetInfoBySerial = 102;
-    private final int RESULT_SaveInfo        = 103;
+    String TAG_UPDATE_T_STOCK_ADJUST                   = "AdjustStock_UpdateT_StockAdjust"; // 库存调整提交
+    String TAG_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC = "AdjustStock_GetT_ScanStockADFAsync"; //库存调整托盘扫描
+    private final int RESULT_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC = 101;
+    private final int RESULT_UPDATE_T_STOCK_ADJUST                   = 102;
 
     @Override
     public void onHandleMessage(Message msg) {
         switch (msg.what) {
-            case RESULT_GetWareHouse:
-             
+            case RESULT_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC:
+                resultQueryPalletInfo((String) msg.obj);
                 break;
-            case RESULT_GetInfoBySerial:
-                AnalysisGetInfoBySerialJson((String) msg.obj);
-                break;
-            case RESULT_SaveInfo:
-                AnalysisSaveInfoJson((String) msg.obj);
+            case RESULT_UPDATE_T_STOCK_ADJUST:
+                resultUpdateStockInfo((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
@@ -63,7 +66,7 @@ public class AdjustStock extends BaseActivity implements  IAdjustStockView{
     }
 
 
-    Context context = AdjustStock.this;
+    Context mContext = AdjustStock.this;
     @ViewInject(R.id.edt_AdjustScanBarcode)
     EditText mBarcode;
     @ViewInject(R.id.txt_material_no_desc)
@@ -86,23 +89,22 @@ public class AdjustStock extends BaseActivity implements  IAdjustStockView{
     TextView btnDelete;
     @ViewInject(R.id.btn_Submit)
     TextView btnSubmit;
-
     StockInfo mCurrentStockInfo;
-    String[]  QCStatus       = {"待检", "检验合格", "检验不合格"};
-    int[]     QCStatusType   = {1, 3, 4};
+    String[]  QCStatus = {"待检", "合格"};
+    public final static int QC_STATUS_TYPE_PENDING_QUALITY_INSPECTION = 1;
+    public final static int QC_STATUS_TYPE_QUALIFIED                  = 3;
 
 
     @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.context = context;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.app_bar_title_inventory_adjustment)+ "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+        BaseApplication.context = mContext;
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.app_bar_title_inventory_adjustment) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mCurrentStockInfo = null;
+        onReset();
     }
-
-
 
 
     @Event(value = R.id.edt_AdjustScanBarcode, type = View.OnKeyListener.class)
@@ -112,11 +114,7 @@ public class AdjustStock extends BaseActivity implements  IAdjustStockView{
             keyBoardCancle();
             String barcode = mBarcode.getText().toString().trim();
             if (!barcode.equals("")) {
-                final Map<String, String> params = new HashMap<String, String>();
-                params.put("barcode", barcode);
-                String para = (new JSONObject(params)).toString();
-                LogUtil.WriteLog(AdjustStock.class, TAG_GetInfoBySerial, para);
-//                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GetInfoBySerial, getString(R.string.Msg_GetT_SerialNoByPalletADF), context, mHandler, RESULT_GetInfoBySerial, null, URLModel.GetURL().GetInfoBySerial, params, null);
+                requestQueryPalletInfo(barcode);
             }
         }
         return false;
@@ -124,157 +122,63 @@ public class AdjustStock extends BaseActivity implements  IAdjustStockView{
 
 
     @Event(value = R.id.txt_QCStatus, type = View.OnClickListener.class)
-    private void txtQCStatusClick(View view) {
-//        if (barcodeModel != null) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//            builder.setTitle("选择质检状态");
-//            builder.setCancelable(false);
-//            builder.setItems(QCStatus, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    txtQCStatus.setText(QCStatus[which]);
-//                    barcodeModel.setSTATUS(QCStatusType[which]);
-//                }
-//            });
-//            builder.show();
-//        }
-    }
+    private void onQCStatusClick(View view) {
+        if (mCurrentStockInfo != null) {
+            onQCStatusSelect(Arrays.asList(QCStatus));
+        }
 
+    }
 
 
     @Event(value = {R.id.btn_Delete, R.id.btn_Submit}, type = View.OnClickListener.class)
-    private void btnDelete(View view) {
+    private void onRefer(View view) {
         boolean isBtnDelete = R.id.btn_Delete == view.getId();
-        if (mCurrentStockInfo != null) {
+        final float qty = Float.parseFloat(mQty.getText().toString());
+        final String batchNo = mBatchNo.getText().toString().trim();
+        final String QCStatus = mQCStatus.getText().toString();
+        int QCStatusType = -1;
+        if (QCStatus.contains("待检")) {
+            QCStatusType = QC_STATUS_TYPE_PENDING_QUALITY_INSPECTION;
+        } else if (QCStatus.contains("合格")) {
+            QCStatusType = QC_STATUS_TYPE_QUALIFIED;
+        }
+        StockInfo checkInfo = new StockInfo();
+        checkInfo.setBatchno(batchNo);
+        checkInfo.setQty(qty);
+        //校验数据     成功给条码赋值,不成功报错
+        if (!checkBarcodeInfoRefer(checkInfo)) {
+            return;
+        } else {
             if (isBtnDelete) {
-                //                barcodeModel.setAllIn("2");
-            }
-
-            String adjustBatchNo = mBatchNo.getText().toString();
-            String adjustNum = mQty.getText().toString();
-//            String adjustStock = edtAdjustStock.getText().toString();
-            if (!isBtnDelete) {
-                if (TextUtils.isEmpty(adjustBatchNo)) {
-                    MessageBox.Show(context, getString(R.string.Error_BatchNoIsEmpty));
-                    CommonUtil.setEditFocus(mBatchNo);
-                    return;
-                }
-//                if (TextUtils.isEmpty(adjustStock)) {
-//                    MessageBox.Show(context, getString(R.string.Error_StockIsEmpty));
-//                    CommonUtil.setEditFocus(edtAdjustStock);
-//                    return;
-//                }
-                if (!CommonUtil.isFloat(adjustNum)) {
-                    MessageBox.Show(context, getString(R.string.Error_isnotnum));
-                    CommonUtil.setEditFocus(mQty);
-                    return;
-                }
-                if (Float.parseFloat(adjustNum) == 0f) {
-                    MessageBox.Show(context, getString(R.string.Error_isnotzero));
-                    CommonUtil.setEditFocus(mQty);
-                    return;
-                }
-            }
-            mCurrentStockInfo.setBatchno(adjustBatchNo);
-//            mCurrentStockInfo.setAreano(adjustStock);
-//            mCurrentStockInfo.setQty(Float.parseFloat(adjustNum));
-//            mCurrentStockInfo.setEdate(CommonUtil.dateStrConvertDate(txtchangeEData.getText().toString()).toString());
-
-            ArrayList<StockInfo> barcodeModels = new ArrayList<>();
-            barcodeModels.add(mCurrentStockInfo);
-            final Map<String, String> params = new HashMap<String, String>();
-            String ModelJson = GsonUtil.parseModelToJson(barcodeModels);
-            params.put("json", ModelJson);
-            params.put("man", BaseApplication.mCurrentUserInfo.getUserno());
-            String para = (new JSONObject(params)).toString();
-            LogUtil.WriteLog(AdjustStock.class, TAG_SaveInfo, para);
-            if (isBtnDelete) {
-                new AlertDialog.Builder(context).setCancelable(false).setTitle("提示").setIcon(android.R.drawable.ic_dialog_info).setMessage("是否删除物料？\n" + mCurrentStockInfo.getBarcode())
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO 自动生成的方法
-//                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveInfo, getString(R.string.Msg_AdjustStockSubmit), context, mHandler, RESULT_SaveInfo, null, URLModel.GetURL().SaveInfo, params, null);
-                            }
-                        }).setNegativeButton("取消", null).show();
+                mCurrentStockInfo.setQty(0);
             } else {
-//                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveInfo, getString(R.string.Msg_AdjustStockSubmit), context, mHandler, RESULT_SaveInfo, null, URLModel.GetURL().SaveInfo, params, null);
-
+                mCurrentStockInfo.setQty(qty);
             }
+            mCurrentStockInfo.setBatchno(batchNo);
+            mCurrentStockInfo.setStatus(QCStatusType);
+            mCurrentStockInfo.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE);
         }
-
+        if (isBtnDelete) {
+            new AlertDialog.Builder(mContext).setCancelable(false).setTitle("提示").setIcon(android.R.drawable.ic_dialog_info).setMessage("是否删除库存？\n" + mCurrentStockInfo.getBarcode())
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestUpdateStockInfo(mCurrentStockInfo);
+                        }
+                    }).setNegativeButton("取消", null).show();
+        } else {
+            requestUpdateStockInfo(mCurrentStockInfo);
+        }
     }
 
 
-
-
-    void AnalysisGetInfoBySerialJson(String result) {
-        try {
-//            LogUtil.WriteLog(AdjustStock.class, TAG_GetWareHouse, result);
-//            ReturnMsgModelList<Barcode_Model> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<ReturnMsgModelList<Barcode_Model>>() {
-//            }.getType());
-//            if (returnMsgModel.getHeaderStatus().equals("S")) {
-//                ArrayList<Barcode_Model> barcodeModels = returnMsgModel.getModelJson();
-//                if (barcodeModels != null && barcodeModels.size() != 0) {
-//                    barcodeModel = barcodeModels.get(0);
-//                    txtCompany.setText(barcodeModel.getStrongHoldName());
-//                    txtBatch.setText(barcodeModel.getBatchNo());
-//                    txtStatus.setText("");
-//                    txtEDate.setText(barcodeModel.getEds());
-//                    txtMaterialName.setText(barcodeModel.getMaterialDesc());
-//                    txtStrongHold.setText(barcodeModel.getStrongHoldName());
-//                    edtAdjustBatchNo.setText(barcodeModel.getBatchNo());
-//                    edtAdjustNum.setText(barcodeModel.getQty() + "");
-//                    txtchangeEData.setText(barcodeModel.getEds());
-//                    txtQCStatus.setText(getQCStrStatus(barcodeModel.getSTATUS()));
-//                    txtWarehouse.setText(barcodeModel.getWarehousename());
-//                    edtAdjustStock.setText(barcodeModel.getAreano());
-//                    boolean isInsert = barcodeModel.getAllIn().equals("0");
-//                    txtStrongHold.setEnabled(!isInsert);
-//                    edtAdjustBatchNo.setEnabled(!isInsert);
-//                    edtAdjustNum.setEnabled(!isInsert);
-//                }
-//            } else
-//                MessageBox.Show(context, returnMsgModel.getMessage());
-        } catch (Exception ex) {
-            MessageBox.Show(context, ex.getMessage());
-        }
-        CommonUtil.setEditFocus(mBarcode);
-    }
-
-    void AnalysisSaveInfoJson(String result) {
-        try {
-            LogUtil.WriteLog(AdjustStock.class, TAG_SaveInfo, result);
-            BaseResultInfo<StockInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<StockInfo> >() {
-            }.getType());
-            if (returnMsgModel.getResult()==BaseResultInfo.RESULT_TYPE_OK) {
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-                mCurrentStockInfo = null;
-                mBarcode.setText("");
-//                edtAdjustStock.setText("");
-//                mBatchNo.setText("");
-//                mQty.setText("");
-//                txtCompany.setText("");
-//                txtBatch.setText("");
-//                txtStatus.setText("");
-//                txtEDate.setText("");
-//                txtchangeEData.setText("");
-//                txtMaterialName.setText("");
-                mQCStatus.setText("");
-                mWareHouseName.setText("");
-                mStrongHoldName.setText("");
-                mStrongHoldName.setEnabled(true);
-                mBatchNo.setEnabled(true);
-                mQty.setEnabled(true);
-
-            } else
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-        } catch (Exception ex) {
-            MessageBox.Show(context, ex.getMessage());
-        }
-        CommonUtil.setEditFocus(mBarcode);
-    }
-
+    /**
+     * @desc: 获取质检状态名称
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/25 14:13
+     */
     String getQCStrStatus(int status) {
         String QCStaatus = "";
         switch (status) {
@@ -284,9 +188,7 @@ public class AdjustStock extends BaseActivity implements  IAdjustStockView{
             case 3:
                 QCStaatus = QCStatus[1];
                 break;
-            case 4:
-                QCStaatus = QCStatus[2];
-                break;
+
         }
         return QCStaatus;
     }
@@ -304,26 +206,242 @@ public class AdjustStock extends BaseActivity implements  IAdjustStockView{
 
     @Override
     public void onQtyFocus() {
-        CommonUtil.setEditFocus(mBarcode);
+        CommonUtil.setEditFocus(mQty);
     }
 
     @Override
     public void setStockInfo(StockInfo stockInfo) {
-       if (stockInfo!=null){
-           mMaterialDesc.setText(stockInfo.getMaterialdesc());
-           mQCStatus.setText(stockInfo.getStatus());
-       }else {
-           mMaterialDesc.setText("");
-       }
+        if (stockInfo != null) {
+            mMaterialDesc.setText(stockInfo.getMaterialdesc());
+            mQCStatus.setText(getQCStrStatus(stockInfo.getStatus()));
+            mWareHouseName.setText(stockInfo.getTowarehouseno());
+            mStrongHoldName.setText(stockInfo.getStrongholdname() + "(" + stockInfo.getStrongholdcode() + ")");
+            mAreaNo.setText(stockInfo.getAreano());
+            mEDate.setText(stockInfo.getEdate());
+            mBatchNo.setText(stockInfo.getBatchno());
+            mQty.setText(stockInfo.getQty() + "");
+        } else {
+            mMaterialDesc.setText("");
+            mQCStatus.setText("");
+            mWareHouseName.setText("");
+            mStrongHoldName.setText("");
+            mAreaNo.setText("");
+            mEDate.setText("");
+            mBatchNo.setText("");
+            mQty.setText("0");
+        }
     }
 
     @Override
     public void onReset() {
-
+        mCurrentStockInfo=null;
+        setStockInfo(null);
+        onBarcodeFocus();
     }
 
     @Override
     public void onQCStatusSelect(List<String> QCStatusList) {
+        if (QCStatusList != null && QCStatusList.size() > 0) {
+            final String[] items = QCStatusList.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_adjust_select_qc_status))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String select_item = items[which].toString();
+                            mQCStatus.setText(select_item);
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+
+    /**
+     * @desc: 查询托盘条码
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/25 10:09
+     */
+    public void requestQueryPalletInfo(String barcode) {
+        StockInfo stockInfo = new StockInfo();
+        stockInfo.setBarcode(barcode);
+        stockInfo.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE);
+        stockInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        stockInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+        String modelJson = parseModelToJson(stockInfo);
+        LogUtil.WriteLog(AdjustStock.class, TAG_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC, mContext.getString(R.string.activity_adjust_request_pallet_info), mContext, mHandler, RESULT_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC, null, UrlInfo.getUrl().AdjustStockGetT_ScanStockADFAsync, modelJson, null);
+
+    }
+
+    /**
+     * @desc: 查询托盘条码返回结果
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/25 10:23
+     */
+    public void resultQueryPalletInfo(String result) {
+        LogUtil.WriteLog(QueryStock.class, TAG_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC, result);
+        try {
+            BaseResultInfo<StockInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<StockInfo>>() {
+            }.getType());
+            if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                StockInfo data = returnMsgModel.getData();
+                if (data != null) {
+                    mCurrentStockInfo = data;
+                    setStockInfo(mCurrentStockInfo);
+                    onBatchNoFocus();
+
+                } else {
+                    MessageBox.Show(mContext, "查询的库存信息为空:", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onBarcodeFocus();
+                        }
+                    });
+
+                }
+            } else {
+                MessageBox.Show(mContext, "查询的库存信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onBarcodeFocus();
+                    }
+                });
+
+            }
+
+        } catch (Exception ex) {
+            MessageBox.Show(mContext, "查询的库存信息失败,出现预期之外的异常，" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBarcodeFocus();
+                }
+            });
+
+        }
+    }
+
+    /**
+     * @desc: 保存库存信息
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/25 15:18
+     */
+    public void requestUpdateStockInfo(StockInfo stockInfo) {
+        String modelJson = parseModelToJson(stockInfo);
+        LogUtil.WriteLog(AdjustStock.class, TAG_UPDATE_T_STOCK_ADJUST, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_UPDATE_T_STOCK_ADJUST, mContext.getString(R.string.activity_adjust_request_save_pallet_info), mContext, mHandler, RESULT_UPDATE_T_STOCK_ADJUST, null, UrlInfo.getUrl().UpdateT_StockAdjust, modelJson, null);
+
+    }
+
+    /**
+     * @desc: 保存库存信息返回结果
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/25 15:26
+     */
+    public void resultUpdateStockInfo(String result) {
+        LogUtil.WriteLog(AdjustStock.class, TAG_UPDATE_T_STOCK_ADJUST, result);
+        try {
+            BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+            }.getType());
+            if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onReset();
+                    }
+                });
+
+            } else {
+                MessageBox.Show(mContext, "保存库存信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onBarcodeFocus();
+                    }
+                });
+            }
+
+        } catch (Exception ex) {
+            MessageBox.Show(mContext, "保存库存信息失败:出现预期之外的异常," + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBarcodeFocus();
+                }
+            });
+        }
+
+
+    }
+
+    /**
+     * @desc: 提交库存调整时校验托盘信息
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/25 14:45
+     */
+    public boolean checkBarcodeInfoRefer(StockInfo stockInfo) {
+        try {
+            if (mCurrentStockInfo == null) {
+                MessageBox.Show(mContext, "校验托盘信息失败:托盘数据不能为空,请扫描托盘码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onBarcodeFocus();
+                    }
+                });
+                return false;
+            }
+            String batchNo = stockInfo.getBatchno();
+            if (batchNo.equals("")) {
+                MessageBox.Show(mContext, "校验托盘信息失败:批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onBarcodeFocus();
+                    }
+                });
+            }
+
+            if (!DateUtil.isBeforeOrCompareToday(batchNo.trim(), "yyyyMMdd")) {
+                MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onBatchNoFocus();
+                    }
+                });
+                return false;
+            }
+            float qty = stockInfo.getQty();
+            if (qty < 0) {
+                MessageBox.Show(mContext, "数量必须大于等于0", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onQtyFocus();
+                    }
+                });
+                return false;
+            }
+
+
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "校验托盘信息出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBarcodeFocus();
+                }
+            });
+            return false;
+        }
+
+
+        return true;
 
     }
 }
