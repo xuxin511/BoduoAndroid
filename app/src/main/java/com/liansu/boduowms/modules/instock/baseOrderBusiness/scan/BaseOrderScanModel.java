@@ -16,9 +16,7 @@ import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
-import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
-import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
@@ -74,9 +72,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
             case RESULT_TAG_GET_T_AREA_MODEL:
                 listener = mNetMap.get("TAG_GET_T_AREA_MODEL");
                 break;
-            case NetworkError.NET_ERROR_CUSTOM:
-                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj);
-                break;
+
 
         }
         if (listener != null) {
@@ -631,4 +627,34 @@ public abstract class BaseOrderScanModel extends BaseModel {
         setAreaInfo(null);
         mOrderDetailList.clear();
     }
+
+    /**
+     * @desc: 是否订单已扫描完毕
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/8 11:38
+     */
+    public   BaseMultiResultInfo<Boolean, Void>  isOrderScanFinished(){
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        boolean IS_ORDER_FINISHED=true;
+        for (OrderDetailInfo info:mOrderDetailList){
+            if (info!=null){
+                if (info.getRemainqty()!=0){
+                    IS_ORDER_FINISHED=false;
+                    break;
+                }
+            }
+        }
+        if (IS_ORDER_FINISHED){
+            resultInfo.setHeaderStatus(true);
+            resultInfo.setMessage("订单已扫描完毕!");
+        }else {
+            resultInfo.setHeaderStatus(false);
+
+        }
+        return resultInfo;
+    }
+
+
 }

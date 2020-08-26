@@ -12,6 +12,8 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -32,8 +34,8 @@ import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
  */
 public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<TransferToStorageScanView, TransferToStorageScanModel> {
 
-    public TransferToStorageScanPresenter(Context context, TransferToStorageScanView view, MyHandler<BaseActivity> handler, OrderHeaderInfo orderHeaderInfo, List<OutBarcodeInfo> barCodeInfos) {
-        super(context, view, handler, orderHeaderInfo, barCodeInfos, new TransferToStorageScanModel(context, handler));
+    public TransferToStorageScanPresenter(Context context, TransferToStorageScanView view, MyHandler<BaseActivity> handler, OrderHeaderInfo orderHeaderInfo, List<OutBarcodeInfo> barCodeInfos, int voucherType) {
+        super(context, view, handler, orderHeaderInfo, barCodeInfos, new TransferToStorageScanModel(context, handler, voucherType));
     }
 
     @Override
@@ -43,7 +45,13 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_transfer_to_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        String title = "";
+        if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE) {
+            title = mContext.getResources().getString(R.string.main_menu_item_two_stage_transfer_to_storage) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        } else if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE) {
+            title = mContext.getResources().getString(R.string.main_menu_item_one_stage_transfer_to_storage) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        }
+        return title;
     }
 
 
@@ -55,17 +63,19 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
      * @time 2020/7/13 22:33
      */
 
-    protected void getOrderDetailInfoList(OrderHeaderInfo orderHeaderInfo) {
+    protected void getOrderDetailInfoList(OrderRequestInfo orderHeaderInfo, int voucherType) {
+        orderHeaderInfo.setVouchertype(voucherType);
         mModel.requestOrderDetail(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
-                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, result);
+                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC, result);
                 try {
                     BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
                         if (orderHeaderInfo != null) {
+                            mModel.setOrderHeaderInfo(orderHeaderInfo);
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
                                 mView.bindListView(mModel.getOrderDetailList());
@@ -143,13 +153,14 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
             OrderDetailInfo postInfo = new OrderDetailInfo();
             postInfo.setErpvoucherno(firstDetailInfo.getErpvoucherno());
             postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+            postInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
             postInfo.setVouchertype(firstDetailInfo.getVouchertype());
             List<OrderDetailInfo> list = new ArrayList<>();
             list.add(postInfo);
             mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
                 @Override
                 public void onCallBack(String result) {
-                    LogUtil.WriteLog(TransferToStorageScan.class, mModel.TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, result);
+                    LogUtil.WriteLog(TransferToStorageScan.class, mModel.TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC, result);
                     try {
                         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
 //                        BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {

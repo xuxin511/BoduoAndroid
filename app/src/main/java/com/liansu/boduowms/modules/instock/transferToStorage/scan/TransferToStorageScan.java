@@ -23,6 +23,7 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
@@ -78,6 +79,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
 
     TransferToStorageScanPresenter mPresenter;
     protected UserSettingPresenter mUserSettingPresenter;
+    int mVoucherType=-1;
     @Override
     protected void initViews() {
         super.initViews();
@@ -110,6 +112,9 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     protected void onStart() {
         super.onStart();
         mPresenter=getPresenter();
+        if (mPresenter!=null){
+            setTitle(mPresenter.getTitle());
+        }
 
 
     }
@@ -126,7 +131,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
 
 
     protected void initTitle() {
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_transfer_to_storage_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle("", true);
 
     }
 
@@ -149,10 +154,11 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
         {
             String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
             if (mPresenter != null) {
-                OrderHeaderInfo orderHeaderInfo=new OrderHeaderInfo();
+                OrderRequestInfo orderHeaderInfo=new OrderRequestInfo();
                 orderHeaderInfo.setErpvoucherno(erpVoucherNo);
                 orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
-                mPresenter.getOrderDetailInfoList(orderHeaderInfo);
+                orderHeaderInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                mPresenter.getOrderDetailInfoList(orderHeaderInfo,mVoucherType);
             }
         }
 
@@ -164,9 +170,10 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     @Override
     protected void initData() {
         super.initData();
+        mVoucherType=getIntent().getIntExtra("VoucherType",-1);
         mBusinessType = getIntent().getStringExtra("BusinessType").toString();
         if (mPresenter == null) {
-            mPresenter = new TransferToStorageScanPresenter(mContext, this, mHandler, null, null);
+            mPresenter = new TransferToStorageScanPresenter(mContext, this, mHandler, null, null,mVoucherType);
         }
         mUserSettingPresenter=new UserSettingPresenter(mContext,this);
     }
@@ -193,7 +200,6 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     public <T extends BaseOrderScanPresenter> T getPresenter() {
         return (T) mPresenter;
     }
-
 
 
     @Override

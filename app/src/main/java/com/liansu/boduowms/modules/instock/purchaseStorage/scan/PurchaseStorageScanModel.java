@@ -8,7 +8,6 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
-import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
@@ -162,31 +161,5 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
 
 
     }
-    /**
-     * @desc: 是否订单已扫描完毕
-     * @param:
-     * @return:
-     * @author: Nietzsche
-     * @time 2020/8/8 11:38
-     */
-    public   BaseMultiResultInfo<Boolean, Void>  isOrderScanFinished(){
-        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
-        boolean IS_ORDER_FINISHED=true;
-        for (OrderDetailInfo info:mOrderDetailList){
-            if (info!=null){
-                if (info.getRemainqty()!=0){
-                    IS_ORDER_FINISHED=false;
-                    break;
-                }
-            }
-        }
-        if (IS_ORDER_FINISHED){
-            resultInfo.setHeaderStatus(true);
-            resultInfo.setMessage("订单已扫描完毕!");
-        }else {
-            resultInfo.setHeaderStatus(false);
 
-        }
-        return resultInfo;
-    }
 }

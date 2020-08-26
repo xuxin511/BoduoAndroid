@@ -97,6 +97,15 @@ public class ActiveOtherScanModel extends BaseOrderScanModel {
 
     }
 
+
+    @Override
+    public void requestCombineAndReferPallet(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_SAVE_T_OTHER_DETAIL_ADF_ASYNC", callBackListener);
+        String modelJson = parseModelListToJsonArray(list);
+        LogUtil.WriteLog(BaseOrderScan.class, TAG_SAVE_T_OTHER_DETAIL_ADF_ASYNC, parseModelToJson(modelJson));
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_T_OTHER_DETAIL_ADF_ASYNC, mContext.getString(R.string.message_request_refer_barcode_info), mContext, mHandler, RESULT_TAG_SAVE_T_OTHER_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().SaveT_OtherDetailADFAsync, modelJson, null);
+    }
+
     /**
      * @desc: 过账
      * @param:

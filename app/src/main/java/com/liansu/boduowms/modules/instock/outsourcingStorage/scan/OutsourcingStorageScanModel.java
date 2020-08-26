@@ -6,11 +6,15 @@ import android.os.Message;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
-import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanModel;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.hander.MyHandler;
+
+import java.util.List;
+
+import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
 
 /**
  * @ Des:
@@ -55,7 +59,7 @@ public class OutsourcingStorageScanModel extends BaseOrderScanModel {
      * @author: Nietzsche
      * @time 2020/7/13 23:22
      */
-    public void requestOutSourcingStorageDetail(OrderHeaderInfo receiptModel, NetCallBackListener<String> callBackListener) {
+    public void requestOutSourcingStorageDetail(OrderRequestInfo receiptModel, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_GetT_InStockDetailListByHeaderIDADF", callBackListener);
 //        final ReceiptDetail_Model receiptDetailModel = new ReceiptDetail_Model();
 //        receiptDetailModel.setHeaderID(receiptModel.getId());
@@ -77,15 +81,39 @@ public class OutsourcingStorageScanModel extends BaseOrderScanModel {
      * @time 2020/7/3 16:47
      */
     public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
-        mNetMap.put("TAG_GetT_PalletDetailByBarCodeADF", callBackListener);
-//        final Map<String, String> params = new HashMap<String, String>();
-//        params.put("BarCode", parseModelToJson(info));
-////        params.put("UserJson", parseModelToJson(BaseApplication.mCurrentUserInfo));
-//        LogUtil.WriteLog(BaseOrderScan.class, TAG_GetT_PalletDetailByBarCodeADF, parseModelToJson(info));
-//        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GetT_PalletDetailByBarCodeADF, mContext.getString(R.string.Msg_GetT_SerialNoByPalletADF), mContext, mHandler, RESULT_Msg_GetT_PalletDetailByBarCode, null, URLModel.GetURL().GetT_PalletDetailByBarCodeADF, params, null);
+
+    }
+    /**
+     * @desc: 过账
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/15 18:46
+     */
+
+    public void requestOrderRefer(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC", callBackListener);
+        String modelJson = parseModelListToJsonArray(list);
+//        LogUtil.WriteLog(BaseOrderScan.class, TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, modelJson);
+//        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, mContext.getString(R.string.Msg_order_refer), mContext, mHandler, RESULT_TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().PostT_WorkOrderDetailADFAsync, modelJson, null);
 
     }
 
+    /**
+     * @desc: 组托并提交入库
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/3 16:47
+     */
+
+    @Override
+    public void requestCombineAndReferPallet(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB", callBackListener);
+        String modelJson = parseModelListToJsonArray(list);
+//        LogUtil.WriteLog(BaseOrderScan.class, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, modelJson);
+//        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, mContext.getString(R.string.message_request_barcode_refer), mContext, mHandler, RESULT_TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, null, UrlInfo.getUrl().Save_InStockWorkOrderListToDB, modelJson, null);
+    }
     @Override
     protected PrintInfo getPrintModel(OutBarcodeInfo outBarcodeInfo) {
         return null;

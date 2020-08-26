@@ -58,7 +58,9 @@ public class DebugModuleData {
         itemIconList.add(R.drawable.production_returns);
         itemNamesList.add(context.getString(R.string.main_menu_item_production_returns));
         itemIconList.add(R.drawable.transfer_to_storage);
-        itemNamesList.add(context.getString(R.string.main_menu_item_transfer_to_storage));
+        itemNamesList.add(context.getString(R.string.main_menu_item_two_stage_transfer_to_storage));
+        itemIconList.add(R.drawable.transfer_to_storage);
+        itemNamesList.add(context.getString(R.string.main_menu_item_one_stage_transfer_to_storage));
         itemIconList.add(R.drawable.outsourcing);
         itemNamesList.add(context.getString(R.string.main_menu_item_outsourcing));
         itemIconList.add(R.drawable.active_other_storage);

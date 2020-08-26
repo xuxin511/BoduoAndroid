@@ -111,8 +111,6 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     protected void onStart() {
         super.onStart();
         mPresenter = getPresenter();
-
-
     }
 
     @Override

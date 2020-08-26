@@ -98,9 +98,13 @@ public class OrderDetailInfo implements Parcelable {
     protected String               Printername; //打印机名称
     protected int                  Printertype; //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙
     protected String               Username;
-    protected float  Printqty;   //托盘打印功能 剩余数量
-    protected String Departmentcode;
-    protected String Departmentname;
+    protected float                Printqty;   //托盘打印功能 剩余数量
+    protected String               Departmentcode;
+    protected String               Departmentname;
+    protected String               FromCompanyCode; //拨出据点
+    protected String               ToCompanyCode;//拨入据点
+    protected String               Fromwarehouseno;
+    protected String               OnwayWarehouse;  // 在途仓
 
     public OrderDetailInfo() {
     }
@@ -147,10 +151,14 @@ public class OrderDetailInfo implements Parcelable {
         Towarehouseno = in.readString();
         Printername = in.readString();
         Printertype = in.readInt();
-        Username=in.readString();
-        Printqty=in.readFloat();
-        Departmentcode=in.readString();
-        Departmentname=in.readString();
+        Username = in.readString();
+        Printqty = in.readFloat();
+        Departmentcode = in.readString();
+        Departmentname = in.readString();
+        FromCompanyCode = in.readString();
+        ToCompanyCode = in.readString();
+        Fromwarehouseno = in.readString();
+        OnwayWarehouse = in.readString();
     }
 
     public static final Creator<OrderDetailInfo> CREATOR = new Creator<OrderDetailInfo>() {
@@ -549,6 +557,38 @@ public class OrderDetailInfo implements Parcelable {
         Departmentname = departmentname;
     }
 
+    public String getFromCompanyCode() {
+        return FromCompanyCode;
+    }
+
+    public void setFromCompanyCode(String fromCompanyCode) {
+        FromCompanyCode = fromCompanyCode;
+    }
+
+    public String getToCompanyCode() {
+        return ToCompanyCode;
+    }
+
+    public void setToCompanyCode(String toCompanyCode) {
+        ToCompanyCode = toCompanyCode;
+    }
+
+    public String getFromwarehouseno() {
+        return Fromwarehouseno;
+    }
+
+    public void setFromwarehouseno(String fromwarehouseno) {
+        Fromwarehouseno = fromwarehouseno;
+    }
+
+    public String getOnwayWarehouse() {
+        return OnwayWarehouse;
+    }
+
+    public void setOnwayWarehouse(String onwayWarehouse) {
+        OnwayWarehouse = onwayWarehouse;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -612,7 +652,10 @@ public class OrderDetailInfo implements Parcelable {
         dest.writeFloat(Printqty);
         dest.writeString(Departmentcode);
         dest.writeString(Departmentname);
-
+        dest.writeString(FromCompanyCode);
+        dest.writeString(ToCompanyCode);
+        dest.writeString(Fromwarehouseno);
+        dest.writeString(OnwayWarehouse);
     }
 
 

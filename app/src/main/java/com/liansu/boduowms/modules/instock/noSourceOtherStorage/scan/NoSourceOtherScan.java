@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,6 +62,12 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
     TextView     mMaterialNo;
     @ViewInject(R.id.outbarcode_info_batch_no)
     TextView     mBatchNo;
+    @ViewInject(R.id.include5)
+    ConstraintLayout mConstraintLayout;
+    @ViewInject(R.id.outbarcode_info_random_inspection_qty_desc)
+    TextView  mERPVoucherNoQtyDesc;
+    @ViewInject(R.id.outbarcode_info_random_inspection_qty)
+    TextView  mERPVoucherNoQty;
     NoSourceScanDetailAdapter  mAdapter;
     NoSourceOtherScanPresenter mPresenter;
     ArrayAdapter               mInstockTypeArrayAdapter;
@@ -75,7 +82,8 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
         BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_no_source_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
-
+        mERPVoucherNoQtyDesc.setVisibility(View.GONE);
+        mERPVoucherNoQty.setVisibility(View.GONE);
     }
 
 

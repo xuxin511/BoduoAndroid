@@ -68,6 +68,11 @@ public class UrlInfo {
     public String GetT_SaleReturnDetailListADFAsync = GetWCFAdress() + "SaleReturn/GetT_SaleReturnDetailListADFAsync"; //销售退货打印获取物料批次
     public String Print_PalletNo                    = GetWCFAdress() + "OutBarcode/Print_PalletNo"; //销售退货打印托盘号
     public String GetT_ParameterList                = GetWCFAdress() + "Parameter/GetT_ParameterList"; //获取入库打印单据
+    //调拨入库
+    public String GetT_TransferInDetailListADFAsync                = GetWCFAdress() + "Transferin/GetT_TransferInDetailListADFAsync"; //获取调拨入库单据
+    public String SaveT_TransferInDetailADFAsync                = GetWCFAdress() + "Transferin/SaveT_TransferInDetailADFAsync"; //调拨入库实时提交
+    public String PostT_TransferInDetailADFAsync                = GetWCFAdress() + "Transferin/PostT_TransferInDetailADFAsync"; //调拨入库过账
+
 
 
     //出库模块

@@ -116,7 +116,8 @@
     <string name="main_menu_item_production_storage">成品入库</string>
     <string name="main_menu_item_production_storage_pallet_no_print">成品托盘打印</string>
     <string name="main_menu_item_production_returns">生产退货</string>
-    <string name="main_menu_item_transfer_to_storage">调拨入库</string>
+    <string name="main_menu_item_two_stage_transfer_to_storage">二阶段调拨入库</string>
+    <string name="main_menu_item_one_stage_transfer_to_storage">一阶段调拨入库</string>
     <string name="main_menu_item_outsourcing">委外入库</string>
     <string name="main_menu_item_active_other_storage">有源杂入</string>
     <string name="main_menu_item_active_scan_other_storage">无源杂入</string>
@@ -455,7 +456,7 @@
     <string name="material">物料</string>
     <string name="query_content_hint"></string>
     <string name="query_stock_area_no">库位</string>
-    <string name="query_stock_all">全部</string>
+    <string name="query_stock_pallet">托盘</string>
     <string name="app_bar_title_inventory_stock_query">库存查询</string>
     <string name="query_stock_request_stock_info_list">正在查询库存信息...</string>
     <string name="Error_BatchNoIsEmpty">厂内批次不能为空！</string>

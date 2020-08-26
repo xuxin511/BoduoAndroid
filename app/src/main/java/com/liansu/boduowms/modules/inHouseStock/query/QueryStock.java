@@ -53,7 +53,7 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
  * @ Created by yangyiqing on 2020/8/23.
  */
 @ContentView(R.layout.activity_query_stock)
-public class QueryStock extends BaseActivity implements IQueryStockView, RadioGroup.OnCheckedChangeListener , IUserSettingView {
+public class QueryStock extends BaseActivity implements IQueryStockView, RadioGroup.OnCheckedChangeListener, IUserSettingView {
     Context mContext = QueryStock.this;
     @ViewInject(R.id.activity_query_stock_radio_group)
     RadioGroup   mRadioGroup;
@@ -78,16 +78,17 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     private final       int    RESULT_TAG_GET_STOCK_INFO_LIST = 103;
     private final       int    RESULT_TAG_GET_T_STOCK_LIST    = 104;
     public static final int    QUERY_TYPE_NONE                = -1;
-    public static final int    QUERY_TYPE_ALL                 = 1;
+    public static final int    QUERY_TYPE_PALLET              = 1;
     public static final int    QUERY_TYPE_MATERIAL            = 2;
     public static final int    QUERY_TYPE_BATCH_NO            = 3;
     public static final int    QUERY_TYPE_AREA_NO             = 4;
-    public static final String QUERY_TYPE_ALL_NAME            = "全部";
+    public static final String QUERY_TYPE_PALLET_NAME         = "托盘";
     public static final String QUERY_TYPE_MATERIAL_NAME       = "物料";
     public static final String QUERY_TYPE_BATCH_NO_NAME       = "批次";
     public static final String QUERY_TYPE_AREA_NO_NAME        = "库位";
     List<StockInfo> mStockList = new ArrayList<>();
     protected UserSettingPresenter mUserSettingPresenter;
+
     @Override
     public void onHandleMessage(Message msg) {
         switch (msg.what) {
@@ -118,7 +119,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
         BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.app_bar_title_inventory_stock_query) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
-        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
+        mUserSettingPresenter = new UserSettingPresenter(mContext, this);
     }
 
     @Override
@@ -158,8 +159,8 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
                 break;
             }
         }
-        if (value.equals(QUERY_TYPE_ALL_NAME)) {
-            type = QUERY_TYPE_ALL;
+        if (value.equals(QUERY_TYPE_PALLET_NAME)) {
+            type = QUERY_TYPE_PALLET;
         } else if (value.equals(QUERY_TYPE_MATERIAL_NAME)) {
             type = QUERY_TYPE_MATERIAL;
         } else if (value.equals(QUERY_TYPE_BATCH_NO_NAME)) {
@@ -297,7 +298,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
         StockInfo stockInfo = new StockInfo();
         stockInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
         stockInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-        if (queryType == QUERY_TYPE_ALL) {
+        if (queryType == QUERY_TYPE_PALLET) {
             stockInfo.setBarcode(content);
         } else if (queryType == QUERY_TYPE_MATERIAL) {
             stockInfo.setMaterialno(content);

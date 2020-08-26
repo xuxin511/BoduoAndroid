@@ -11,8 +11,8 @@ import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
-import com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan;
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
+import com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScan;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
 import com.liansu.boduowms.modules.instock.productionReturnsStorage.print.ProductionReturnsPrint;
@@ -100,10 +100,19 @@ public class StorageBusinessMenuPresenter extends IMenuPresenter {
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_quality_inspection))) {
             intent.setClass(mContext, QualityInspectionMainActivity.class);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsourcing))) {
-            intent.setClass(mContext, BaseOrderBillChoice.class);
+            intent.setClass(mContext, BaseOrderScan.class);
+            Bundle bundle=new Bundle();
+            bundle.putParcelable("OrderHeaderInfo", null);
+            bundle.putParcelableArrayList("barCodeInfo", null);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_OUTSOURCING_STORAGE);
-        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_transfer_to_storage))) {
+            intent.putExtras(bundle);
+        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_two_stage_transfer_to_storage))) {
             intent.setClass(mContext, TransferToStorageScan.class);
+            intent.putExtra("VoucherType",OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE);
+            intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
+        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_one_stage_transfer_to_storage))) {
+            intent.setClass(mContext, TransferToStorageScan.class);
+            intent.putExtra("VoucherType",OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_active_other_storage))) {
             intent.setClass(mContext, BaseOrderScan.class);

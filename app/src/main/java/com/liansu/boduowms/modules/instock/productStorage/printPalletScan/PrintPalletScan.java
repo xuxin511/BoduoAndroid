@@ -1,12 +1,15 @@
 package com.liansu.boduowms.modules.instock.productStorage.printPalletScan;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +26,8 @@ import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseOrderLabelPrintDetailAdapter;
 import com.liansu.boduowms.ui.adapter.instock.productStorage.ProductScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -48,7 +53,7 @@ import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
  */
 
 @ContentView(R.layout.activity_product_storage_print_scan)
-public class PrintPalletScan extends BaseActivity implements IPrintPalletScanView {
+public class PrintPalletScan extends BaseActivity implements IPrintPalletScanView, IUserSettingView {
     @ViewInject(R.id.product_storage_print_out_barcode)
     EditText     mBarcode;
     @ViewInject(R.id.txt_VoucherNo)
@@ -63,10 +68,11 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
     protected    String mBusinessType   = "";
     public final int    REQUEST_CODE_OK = 1;
     ProductScanDetailAdapter mAdapter;
-
+    protected UserSettingPresenter mUserSettingPresenter;
     @Override
     protected void initViews() {
         super.initViews();
+        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         BaseApplication.context = mContext;
         BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         BaseApplication.isCloseActivity = false;
@@ -213,7 +219,10 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
 
     @Override
     public void onReset() {
-
+         mBarcode.setText("");
+         mErpVoucherNo.setText("");
+         onErpVoucherNo();
+         bindListView(mPresenter.getModel().getOrderDetailList());
     }
 
     @Override
@@ -271,6 +280,51 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
         }
     }
 
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
+                            if (mPresenter!=null){
+                                mPresenter.onReset();
+                            }
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
 
+    @Override
+    public void setTitle() {
+        if (mPresenter!=null){
+            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }
+        return false;
+    }
 
 }

@@ -10,7 +10,7 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
-import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanModel;
@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
-import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 /**
  * @desc: 调拨入库扫描
@@ -37,35 +36,34 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
  * @time 2020/7/15 10:40
  */
 public class TransferToStorageScanModel extends BaseOrderScanModel {
-    String TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB    = "ProductStorageScanModel_Save_InStockWorkOrderListToDB";  //实时提交
-    String TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC     = "ProductStorageScanModel_TAG_PostT_WorkOrderDetailADFAsync";  //过账
-    String TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC = "ProductStorageScanModel_GetT_WorkOrderDetailListADFAsync"; // 获取表体
-    private final int RESULT_Msg_GetT_InStockDetailListByHeaderIDADF    = 112;
-    private final int RESULT_Msg_SaveT_PurchaseDetailADFAsync           = 113;
-    private final int RESULT_TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB    = 123;
-    private final int RESULT_TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC     = 124;
-    private final int RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC = 125;
-
+    String TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC     = "TransferToStorageScanModel_SaveT_TransferInDetailADFAsync";  //实时提交
+    String TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC     = "TransferToStorageScanModel_PostT_TransferInDetailADFAsync";  //过账
+    String TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC = "TransferToStorageScanModel_GetT_TransferInDetailListADFAsync"; // 调拨入库获取单
+    private final int RESULT_TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC = 126;
+    private final int RESULT_TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC     = 127;
+    private final int RESULT_TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC     = 128;
+    private int mVoucherType=-1;
     public TransferToStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
     }
-
+    public TransferToStorageScanModel(Context context, MyHandler<BaseActivity> handler,int voucherType) {
+        super(context, handler);
+        mVoucherType=voucherType;
+    }
     @Override
     public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
         switch (msg.what) {
-            case RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC:
-                listener = mNetMap.get("TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC");
+            case RESULT_TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC:
+                listener = mNetMap.get("TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC");
                 break;
-            case RESULT_Msg_SaveT_PurchaseDetailADFAsync:
-                listener = mNetMap.get("TAG_SaveT_PurchaseDetailADFAsync");
+            case RESULT_TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC:
+                listener = mNetMap.get("TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC");
                 break;
-            case RESULT_TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB:
-                listener = mNetMap.get("TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB");
+            case RESULT_TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC:
+                listener = mNetMap.get("TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC");
                 break;
-            case RESULT_TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC:
-                listener = mNetMap.get("TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC");
-                break;
+
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
                 break;
@@ -76,6 +74,12 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
         super.onHandleMessage(msg);
     }
 
+
+    @Override
+    public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
+
+    }
+
     /**
      * @desc: 获取调拨入库单
      * @param:
@@ -83,11 +87,11 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
      * @author: Nietzsche
      * @time 2020/6/27 21:37
      */
-    public void requestOrderDetail(OrderHeaderInfo orderHeaderInfo, NetCallBackListener<String> callBackListener) {
-        mNetMap.put("TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC", callBackListener);
-        String ModelJson = GsonUtil.parseModelToJson(orderHeaderInfo);
-        LogUtil.WriteLog(BaseOrderBillChoice.class, TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, ModelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.request_order_detail_info), mContext, mHandler, RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_WorkOrderDetailListADFAsync, ModelJson, null);
+    public void requestOrderDetail(OrderRequestInfo orderRequestInfo, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC", callBackListener);
+        String ModelJson = GsonUtil.parseModelToJson(orderRequestInfo);
+        LogUtil.WriteLog(BaseOrderBillChoice.class, TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC, ModelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.request_order_detail_info), mContext, mHandler, RESULT_TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_TransferInDetailListADFAsync, ModelJson, null);
 
     }
 
@@ -100,10 +104,10 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
      */
 
     public void requestOrderRefer(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
-        mNetMap.put("TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC", callBackListener);
+        mNetMap.put("TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC", callBackListener);
         String modelJson = parseModelListToJsonArray(list);
-        LogUtil.WriteLog(BaseOrderScan.class, TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, mContext.getString(R.string.Msg_order_refer), mContext, mHandler, RESULT_TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().PostT_WorkOrderDetailADFAsync, modelJson, null);
+        LogUtil.WriteLog(BaseOrderScan.class, TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC, mContext.getString(R.string.Msg_order_refer), mContext, mHandler, RESULT_TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().PostT_TransferInDetailADFAsync, modelJson, null);
 
     }
 
@@ -114,13 +118,12 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
      * @author: Nietzsche
      * @time 2020/7/3 16:47
      */
-
     @Override
-    public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
-        mNetMap.put("TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB", callBackListener);
-        String modelJson = parseModelToJson(info);
-        LogUtil.WriteLog(BaseOrderScan.class, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, parseModelToJson(info));
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, mContext.getString(R.string.Msg_GetT_SerialNoByPalletADF), mContext, mHandler, RESULT_TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, null, UrlInfo.getUrl().Save_InStockWorkOrderListToDB, modelJson, null);
+    public void requestCombineAndReferPallet(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC", callBackListener);
+        String modelJson = parseModelListToJsonArray(list);
+        LogUtil.WriteLog(BaseOrderScan.class, TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC, mContext.getString(R.string.message_request_refer_barcode_info), mContext, mHandler, RESULT_TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().SaveT_TransferInDetailADFAsync, modelJson, null);
     }
 
     /**
@@ -156,7 +159,7 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
                 OrderDetailInfo materialInfo = mOrderDetailList.get(i);
                 if (materialInfo != null) {
                     String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
-                    if (materialNo.trim().equals(barcodeMaterialNo.trim()) ) {
+                    if (materialNo.trim().equals(barcodeMaterialNo.trim())) {
                         sMaterialInfo = materialInfo;
                         break;
                     }
@@ -265,5 +268,13 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
         return resultInfo;
     }
 
+
+    public void setVoucherType(int voucherType){
+        mVoucherType=voucherType;
+    }
+
+    public int  getVoucherType(){
+        return mVoucherType;
+    }
 
 }

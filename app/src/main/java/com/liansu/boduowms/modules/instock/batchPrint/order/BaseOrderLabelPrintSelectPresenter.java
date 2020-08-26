@@ -121,15 +121,6 @@ public class BaseOrderLabelPrintSelectPresenter {
             });
             return;
         }
-        if (voucherTypeName.contains("调拨")) {
-            MessageBox.Show(mContext, "获取单据失败", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mView.onErpVoucherNoFocus();
-                }
-            });
-            return;
-        }
         int voucherType = mModel.getVoucherType(voucherTypeName);
         OrderRequestInfo postInfo = new OrderRequestInfo();
         postInfo.setErpvoucherno(erpVoucherNo);

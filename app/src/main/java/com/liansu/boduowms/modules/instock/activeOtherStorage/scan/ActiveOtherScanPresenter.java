@@ -51,6 +51,15 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
     }
 
 
+    @Override
+    public void getAreaInfo(String areaNo) {
+        super.getAreaInfo(areaNo);
+    }
+
+    @Override
+    public void scanBarcode(String scanBarcode) {
+        super.scanBarcode(scanBarcode);
+    }
 
     @Override
     protected void getOrderDetailInfoList(String erpVoucherNo) {

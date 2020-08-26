@@ -80,7 +80,7 @@
         <activity
             android:name=".modules.outstock.SalesOutstock.SalesOutReview"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint" />
+        <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint_1" />
         <activity android:name=".modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan" />
         <activity android:name=".modules.instock.batchPrint.order.BaseOrderLabelPrintSelect" />
         <activity android:name=".modules.instock.batchPrint.print.BaseOrderLabelPrint" />
@@ -88,6 +88,7 @@
         <activity android:name=".modules.inHouseStock.adjustStock.AdjustStock" />
         <activity android:name=".modules.inHouseStock.query.QueryStock" />
         <activity android:name=".modules.inHouseStock.inventoryMovement.InventoryMovementScan" />
+        <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -194,7 +194,7 @@ public class PrintPalletScanPresenter {
 //    }
 
     /**
-     * @desc: 扫描外箱条码
+     * @desc: 托盘扫描
      * @param:
      * @return:
      * @author: Nietzsche
@@ -363,5 +363,15 @@ public class PrintPalletScanPresenter {
         }
     }
 
-
+    /**
+     * @desc: 重置数据
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/26 15:19
+     */
+    public void  onReset(){
+        mModel.onReset();
+        mView.onReset();
+    }
 }

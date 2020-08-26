@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.76"
             android:checked="true"
-            android:text="@string/query_stock_all"
+            android:text="@string/query_stock_pallet"
             android:textSize="@dimen/base_order_label_print_select_text_size" />
 
         <RadioButton

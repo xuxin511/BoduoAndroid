@@ -6,6 +6,7 @@ import android.os.Message;
 import com.android.volley.Request;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
+import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.BaseModel;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
@@ -18,6 +19,7 @@ import com.liansu.boduowms.bean.order.VoucherTypeInfo;
 import com.liansu.boduowms.modules.instock.activeOtherStorage.scan.ActiveOtherScanModel;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScanModel;
 import com.liansu.boduowms.modules.instock.purchaseStorage.scan.PurchaseStorageScanModel;
+import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScanModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -162,8 +164,14 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 postActiveOtherScanInfo.setVouchertype(voucherType);
                 activeOtherScanModel.requestActiveOtherDetail(postActiveOtherScanInfo, callBackListener);
                 break;
-            case OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE_VALUE:
-
+            case OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE:
+                TransferToStorageScanModel transferToStorageScanModel=new TransferToStorageScanModel(mContext,mHandler);
+                mBaseModel = transferToStorageScanModel;
+                OrderRequestInfo postTransferToStorageScanModelScanInfo = new OrderRequestInfo();
+                postTransferToStorageScanModelScanInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
+                postTransferToStorageScanModelScanInfo.setVouchertype(voucherType);
+                postTransferToStorageScanModelScanInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                transferToStorageScanModel.requestOrderDetail(postTransferToStorageScanModelScanInfo,callBackListener);
                 break;
 
 

@@ -60,6 +60,7 @@ public class OrderHeaderInfo implements Parcelable {
     protected String                Strongholdcode;
     protected String                StrongholdName;
     protected List<OrderDetailInfo> Detail;
+    protected String OnwayWarehouse;  // 在途仓
 
     public OrderHeaderInfo() {
     }
@@ -87,7 +88,7 @@ public class OrderHeaderInfo implements Parcelable {
         Strongholdcode = in.readString();
         StrongholdName = in.readString();
         Detail = in.createTypedArrayList(OrderDetailInfo.CREATOR);
-
+        OnwayWarehouse=in.readString();
     }
 
     public static final Creator<OrderHeaderInfo> CREATOR = new Creator<OrderHeaderInfo>() {
@@ -278,6 +279,14 @@ public class OrderHeaderInfo implements Parcelable {
         Id = id;
     }
 
+    public String getOnwayWarehouse() {
+        return OnwayWarehouse;
+    }
+
+    public void setOnwayWarehouse(String onwayWarehouse) {
+        OnwayWarehouse = onwayWarehouse;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -307,5 +316,6 @@ public class OrderHeaderInfo implements Parcelable {
         dest.writeString(Strongholdcode);
         dest.writeString(StrongholdName);
         dest.writeTypedList(Detail);
+        dest.writeString(OnwayWarehouse);
     }
 }
