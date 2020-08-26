@@ -133,10 +133,10 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         CurrOrderNO="";
         mModel= new PurchaseReturnOffScanModel(this,mHandler);
         CurrVoucherType= type; //
-        if(CurrVoucherType==46) {//领料 发料 派车单 自动过账  (开始隐藏按钮 失败后显示按钮)
-            //
-            mButton.setVisibility(View.INVISIBLE);
-        }
+//        if(CurrVoucherType==46) {//领料 发料 派车单 自动过账  (开始隐藏按钮 失败后显示按钮)
+//            //
+//            mButton.setVisibility(View.INVISIBLE);
+//        }
 
     }
 
@@ -280,6 +280,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 break;
             case RESULT_Saleoutstock_PostReview://过账
                 Post((String)msg.obj);
+                break;
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____"+ msg.obj);
                 break;
@@ -365,12 +366,12 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 }
 //                mModel.getOrderDetailList().clear();
 //                mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
-                mModel.getOrderDetailList().clear();
-                mAdapter.notifyDataSetChanged();
-                sales_outstock_material_pallettext.setText("");
-                CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
-                MessageBox.Show(context, "单号"+CurrOrderNO+"过账成功");
-                CurrOrderNO = "";
+                  mModel.getOrderDetailList().clear();
+                 mAdapter.notifyDataSetChanged();
+                 sales_outstock_material_pallettext.setText("");
+                 CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
+                 MessageBox.Show(context, "单号"+CurrOrderNO+"过账成功");
+                 CurrOrderNO = "";
                 return;
             }if (returnMsgModel.getResult() ==returnMsgModel.RESULT_TYPE_POST_ERROR) {
                 //过账失败 显示过账按钮
@@ -379,8 +380,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-
-
                 return;
             } else {
                 //实时更新
@@ -478,13 +477,11 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 
     //endregion
 
-
-
     //判断是否全部复核完成
     private boolean IsScanningOver() {
         boolean istrue = true;
         for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-            if (item.getRemainqty() != item.getScanqty()) {
+            if (item.getRemainqty()!= 0) {
                 istrue = false;
             }
         }

@@ -247,6 +247,15 @@ String  url;
                 }
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_order);
+                //据点集合
+                StrongholdcodeList=new HashMap<>();
+                //存储类
+                mModel= new PurchaseReturnOffScanModel(context, mHandler);
+                mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
+                mList.setAdapter(mAdapter);
+                //散件类
+                materialModle=new MaterialResponseModel();
+                CurrOrderNO="";
                 MessageBox.Show(context, ex.getMessage());
                 return true;
             }
@@ -364,14 +373,16 @@ String  url;
                         }
                         if (OutStock_Type.equals(OutStock_Submit_type_parts)) {
                             if (!Analysis(boxNo, OutStock_Submit_type_parts)) {
-                                MessageBox.Show(context, "请输入或扫描正确69码或者物料号");
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
+                                MessageBox.Show(context, "请输入或扫描正确69码或者物料号");
+                                return true;
+
                             } else {
-                            //检验是否存在
-                            String modelJson = parseModelToJson(boxNo);
-                            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts, "检验是否存在",
-                                    context, mHandler, RESULT_Saleoutstock_ScannParts, null, info.SelectMaterial, modelJson, null);
-                            return true;
+                                //检验是否存在
+                                String modelJson = parseModelToJson(boxNo);
+                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts, "检验是否存在",
+                                        context, mHandler, RESULT_Saleoutstock_ScannParts, null, info.SelectMaterial, modelJson, null);
+                                return true;
                             }
                         }
 
@@ -466,7 +477,18 @@ String  url;
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_order);
+                //清空所有数据
+                //据点集合
+                   StrongholdcodeList=new HashMap<>();
+                //存储类
+                mModel= new PurchaseReturnOffScanModel(context, mHandler);
+                mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
+                mList.setAdapter(mAdapter);
+                //散件类
+                materialModle=new MaterialResponseModel();
+                CurrOrderNO="";
                 MessageBox.Show(context, returnMsgModel.getResultValue());
+
                 return;
             }
             CurrOrderNO = sales_outstock_order.getText().toString().trim();
@@ -744,7 +766,7 @@ String  url;
 
                             if(ArithUtil.sub(inputNum,packqty)>=0) {
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
-                                MessageBox.Show(context, "不能大于" + packqty + "包装量");
+                                MessageBox.Show(context, "输入的包装量需要小于" + packqty );
                                 return;
                             }
                             //提交散件

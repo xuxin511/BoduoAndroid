@@ -326,16 +326,18 @@ public class OutstockConfigreview extends BaseActivity {
                 // MessageBox.Show(context, returnMsgModel.getResultValue());
                 //清空
               //  MessageBox.Show(context, returnMsgModel.getResultValue());
-                outstock_sales_boxcount.setText("0");
-                outstock_sales_boxscanning.setText("0");
+
 //                outstock_sales_jiancount.setText("0");
 //                outstock_sales_jianscanning.setText("0");
-                mModel = new PurchaseReturnOffScanModel(context, mHandler);
-                CurrOrderNO = "";
-                materialModle = new MaterialResponseModel();
-                mAdapter = new SalesoutstockreviewAdapter(context, mModel.getOrderDetailList());
-                mList.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
+                //清空
+//                outstock_sales_boxcount.setText("0");
+//                outstock_sales_boxscanning.setText("0");
+//                mModel = new PurchaseReturnOffScanModel(context, mHandler);
+//                CurrOrderNO = "";
+//                materialModle = new MaterialResponseModel();
+//                mAdapter = new SalesoutstockreviewAdapter(context, mModel.getOrderDetailList());
+//                mList.setAdapter(mAdapter);
+//                mAdapter.notifyDataSetChanged();
                 //this.closeActivity();
                 //跳到前一界面
                 ISReturn();
@@ -502,6 +504,14 @@ public class OutstockConfigreview extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //点击取消触发的事件
+                        //再次访问订单信息
+                        SalesoutstockRequery model = new SalesoutstockRequery();
+                        model.Erpvoucherno = CurrOrderNO;
+                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+                        model.Vouchertype = CurrvoucherType;
+                        String json = GsonUtil.parseModelToJson(model);
+                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
+                                context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
                     }
                 }).show();
     }
@@ -541,7 +551,7 @@ public class OutstockConfigreview extends BaseActivity {
     private boolean IsScanningOver() {
         boolean istrue = true;
         for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-            if (ArithUtil.sub( item.getRemainqty(),item.getScanqty())!=0) {
+            if (ArithUtil.sub(item.getRemainqty(),item.getScanqty())!=0) {
                 istrue = false;
             }
         }

@@ -271,10 +271,12 @@ public class OutstockSalesConfig extends BaseActivity {
                 awyBll.BusinessType=Integer.parseInt(ywpair.value);
                 awyBll.CostCalMethod=Integer.parseInt(fypair.value);
                 awyBll.Vouchertype=CurrVoucherType;
+                awyBll.WayBillNo=outstock_sales_config_order.getText().toString().trim();
                 awyBll.Trackingnumber=sales_outstock_wlOrder.getText().toString().trim();
                 awyBll.Address= outstock_config_address.getText().toString().trim();
-                awyBll.SendAddress= outstock_config_address.getText().toString().trim();
+              //  awyBll.SendAddress= outstock_config_address.getText().toString().trim();
                 awyBll.Contacts=outstock_config_creater.getText().toString().trim();
+                awyBll.Creater=BaseApplication.mCurrentUserInfo.getUserno(); //当前登录的人
                 //awyBll.Customerno= outstock_config_creater.getText().toString().trim();
                // awyBll.InsuranceCost= Float.parseFloat(sales_outstock_configbj_text.getText().toString().trim());
                 awyBll.LogisticsCompany= mfhSpinner.getText().toString().trim();
@@ -425,6 +427,11 @@ public class OutstockSalesConfig extends BaseActivity {
             awyBll.Customername=returnMsgModel.getData().getCustomername();
             awyBll.Tel=returnMsgModel.getData().getTel();
             awyBll.LogisticsCompany=returnMsgModel.getData().getLogisticsCompany();
+            awyBll.WeightTotal=returnMsgModel.getData().getWeightTotal();
+            awyBll.OutCostTotal=returnMsgModel.getData().getOutCostTotal();
+            awyBll.CostTotal=returnMsgModel.getData().getCostTotal();
+           // awyBll.IsStockCombine=returnMsgModel.getData().
+            //赋值给
             model.Address = returnMsgModel.getData().getAddress();
             model.Customerno = returnMsgModel.getData().getCustomerno();
             String json = GsonUtil.parseModelToJson(model);

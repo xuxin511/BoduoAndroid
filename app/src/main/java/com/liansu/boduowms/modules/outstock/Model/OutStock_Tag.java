@@ -70,4 +70,7 @@ public class OutStock_Tag {
     public static String  TAG_Saleoutstock_ConfigSaveOrderDetail ="Sales_outstock_ConfigSaveOrderDetail";    // 获取托运单明细
     public static   final int   RESULT_Saleoutstock_ConfigSaveOrderDetail=142;
 
+       public static String  TAG_Saleoutstock_GETBOXlIST ="Sales_outstock_GetBoxList";    // 获取托运单明细
+    public static   final int   RESULT_Saleoutstock_GETBOXlISTl=143;
+
 }

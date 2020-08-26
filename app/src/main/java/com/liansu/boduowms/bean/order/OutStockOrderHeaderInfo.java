@@ -103,7 +103,7 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         dest.writeString(Contacts);
         dest.writeString(Erpstatus);
         dest.writeString(Erpnote);
-        dest.writeDouble(WeightTotal);
+        dest.writeFloat(WeightTotal);
         dest.writeFloat(CostTotal);
         dest.writeFloat(OutCostTotal);
         dest.writeFloat(OrderCartonNum);
@@ -196,7 +196,7 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         this.Erpnote = Erpnote;
     }
 
-    public double getWeightTotal() {
+    public Float getWeightTotal() {
         return WeightTotal;
     }
 

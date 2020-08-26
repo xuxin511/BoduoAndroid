@@ -203,6 +203,7 @@ public  class SalesOutReview extends BaseActivity {
             try {
                 if (IsSacnningOrder()) {
                 if(IsScanningOver()) {
+                    CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
                     MessageBox.Show(context, "已经全部复核完成");
                     return true;
                 }
@@ -265,6 +266,7 @@ public  class SalesOutReview extends BaseActivity {
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
                 MessageBox.Show(context, "字符格式出错");
+                return true;
             }
         }
         return false;
@@ -449,34 +451,37 @@ public  class SalesOutReview extends BaseActivity {
 
         //提交返回值
     public  void  BarcodeSubmit(String result) {
-            try {
-                BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
-                }.getType());
-                if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                    MessageBox.Show(context, returnMsgModel.getResultValue());
-                    return;
-                }
-                List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
-                list = returnMsgModel.getData();
-                //成功需要更新listView 怎么更新
-                String msg = "";
-                if (returnMsgModel.getData().size() > 0) {
-                    for (OutStockOrderDetailInfo oderdetail : list) {
-                        BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateMaterialInfo(oderdetail);
-                        mAdapter.notifyDataSetChanged();
-                        if (!checkResult.getHeaderStatus()) {
-                            msg = msg + "项次" + oderdetail.getRowno() + "项序" + oderdetail.getRownodel();
-                        }
+        try {
+            BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                return;
+            }
+            List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
+            list = returnMsgModel.getData();
+            //成功需要更新listView 怎么更新
+            String msg = "";
+            if (returnMsgModel.getData().size() > 0) {
+                for (OutStockOrderDetailInfo oderdetail : list) {
+                    BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateMaterialInfo(oderdetail);
+                    mAdapter.notifyDataSetChanged();
+                    if (!checkResult.getHeaderStatus()) {
+                        msg = msg + "项次" + oderdetail.getRowno() + "项序" + oderdetail.getRownodel();
                     }
                 }
-                if (!msg.equals("")) {
-                    MessageBox.Show(context, msg + "更新失败");
-                }
-
-            } catch (Exception EX) {
-                MessageBox.Show(context, EX.toString());
             }
+            if (!msg.equals("")) {
+                MessageBox.Show(context, msg + "更新失败");
+            }
+            CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+        } catch (Exception EX) {
+            CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+            MessageBox.Show(context, EX.toString());
         }
+
+    }
 
 
 

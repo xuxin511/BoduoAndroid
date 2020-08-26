@@ -528,6 +528,49 @@ public class BaseOutStockBusinessModel extends BaseModel {
     }
 
 
+     //拼箱 根据物料批次来判断物料行
+    public BaseMultiResultInfo<Boolean, Void> UpdateMaterialItem(OutStockOrderDetailInfo detailInfo) {
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        if (detailInfo != null) {
+            sortList = new ArrayList<OutStockOrderDetailInfo>();
+            String rowMaterialno = detailInfo.getMaterialno() != null ? detailInfo.getMaterialno() : "";
+      //      String rowBatchno = detailInfo.getBatchno() != null ? detailInfo.getBatchno() : "";
+            String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
+            boolean isexits = false;
+            sortList = mOrderDetailList;
+            for (OutStockOrderDetailInfo info : mOrderDetailList) {
+                String sMaterialno = info.getMaterialno() != null ? info.getMaterialno() : "";
+                //        String sBatchno = info.getBatchno() != null ? info.getBatchno() : "";
+                String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
+                if (sMaterialno.equals(rowMaterialno)) {
+                    sortList.remove(info);
+                    isexits = true;
+                    Float ReviewQty = ArithUtil.add(info.getReviewQty(), detailInfo.getReviewQty());//当前已拼
+                    info.setReviewQty(ReviewQty);
+                    Float remainQty = ArithUtil.sub(info.getPackageNum(), ReviewQty);//剩余拼箱
+                    info.setRemainqty(remainQty);
+                    Float arr = remainQty;
+                    if (arr == 0) {
+                        sortList.add(sortList.size(), info);
+                    } else {
+                        sortList.add(0, info);
+                    }
+                    mOrderDetailList = sortList;
+                    resultInfo.setHeaderStatus(true);
+                    break;
+                }
+            }
+            if (!isexits) {
+                resultInfo.setHeaderStatus(false);
+                return resultInfo;
+            }
+        } else {
+            resultInfo.setHeaderStatus(false);
+            return resultInfo;
+        }
+        return resultInfo;
+    }
+
     List<OutStockOrderDetailInfo> sortList=new ArrayList<OutStockOrderDetailInfo>();
 
     //更新item 不能超发

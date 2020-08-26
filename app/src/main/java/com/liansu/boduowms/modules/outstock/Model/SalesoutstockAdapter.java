@@ -36,8 +36,9 @@ public class SalesoutstockAdapter extends BaseAdapter {
     public SalesoutstockAdapter(Context context, List<OutStockOrderDetailInfo> outStockTaskDetailsInfoModels) {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
-        List<OutStockOrderDetailInfo> list=new ArrayList<OutStockOrderDetailInfo>();
-        String json = GsonUtil.parseModelToJson(outStockTaskDetailsInfoModels);
+        this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
+      //  List<OutStockOrderDetailInfo> list=new ArrayList<OutStockOrderDetailInfo>();
+       // String json = GsonUtil.parseModelToJson(outStockTaskDetailsInfoModels);
       //  list= GsonUtil.parseJsonToModel(json,OutStockOrderDetailInfo.class);
 //        for (OutStockOrderDetailInfo item:outStockTaskDetailsInfoModels) {
 //            if (item.getRemainqty() == 0) {
@@ -50,7 +51,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
 //            outStockTaskDetailsInfoModels.add(i, item);
 //            i++;
 //        }
-        this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
+
     }
 
     @Override
@@ -93,7 +94,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
         }
         final OutStockOrderDetailInfo mDetailInfo = outStockTaskDetailsInfoModels.get(selectID);
         listItemView.txt_voucherNo.setText(mDetailInfo.getMaterialno());
-        if(mDetailInfo.getVouchertype()!=46) { //不等于领料委外单的情况下显示  零头散件 包装量
+        if(mDetailInfo.getVouchertype()!=46 && mDetailInfo.getVouchertype()!=30 & mDetailInfo.getVouchertype()!=25& mDetailInfo.getVouchertype()!=55) { //不等于领料委外单的情况下显示  零头散件 包装量
             if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
                 listItemView.txt_reference_standard.setText("整件:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
             }

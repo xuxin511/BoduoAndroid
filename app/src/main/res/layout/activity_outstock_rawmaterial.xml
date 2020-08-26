@@ -26,12 +26,12 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-
+        android:background="@drawable/et_selector"
         android:id="@+id/sales_outstock_rawmaterial_order"
         android:layout_width="0dp"
         android:layout_height="@dimen/sp_30"
         android:layout_marginTop="2sp"
-        android:background="@color/white"
+
         android:gravity="left|center_vertical"
         android:hint="扫描单号"
         android:paddingLeft="@dimen/sp_7"
@@ -51,7 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/sp_30"
         android:layout_marginTop="2sp"
-        android:background="@color/white"
+        android:background="@drawable/et_selector"
         android:gravity="left|center_vertical"
         android:hint="扫描托盘"
         android:selectAllOnFocus="true"
@@ -75,6 +75,7 @@
 
     <ListView
         android:id="@+id/outstock_rawmaterial_ListView"
+
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="8sp"
@@ -95,7 +96,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/sp_30"
         android:background="@drawable/bt_selector"
-        android:text="过账"
+        android:text="提交"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_15"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"

@@ -39,8 +39,8 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private String Spec;
     private String Unitname;
     private String Erpnote;
-    private Float    MaterialCartonNum;
-    private Float    MaterialPartNum;
+    private float    MaterialCartonNum;
+    private float    MaterialPartNum;
     private float    ReviewQty;
     private int    Headerid;
     private int    Id;
@@ -66,8 +66,35 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private String Towarehouseno;
     private String Printername;
     private int  Printertype;
-    private  Float Qty;//下架数量
+    private  float Qty;//下架数量
     private  String Arrvoucherno;
+    private   String PostUser;
+    private   int  IsStockCombine;//非库存拼箱
+    private  float PackageNum;//拼箱数量
+
+    public Float getPackageNum() {
+        return PackageNum;
+    }
+
+    public void setPackageNum(Float packageNum) {
+        PackageNum = packageNum;
+    }
+
+    public int getIsStockCombine() {
+        return IsStockCombine;
+    }
+
+    public void setIsStockCombine(int isStockCombine) {
+        IsStockCombine = isStockCombine;
+    }
+
+    public String getPostUser() {
+        return PostUser;
+    }
+
+    public void setPostUser(String postUser) {
+        PostUser = postUser;
+    }
 
     public String getArrvoucherNO() {
         return Arrvoucherno;
@@ -122,6 +149,9 @@ public class OutStockOrderDetailInfo implements Parcelable {
         Printertype=in.readInt();
         Qty=in.readFloat();
         Arrvoucherno=in.readString();
+        PostUser=in.readString();
+        IsStockCombine=in.readInt();
+        PackageNum = in.readFloat();
     }
 
     @Override
@@ -159,7 +189,9 @@ public class OutStockOrderDetailInfo implements Parcelable {
         dest.writeInt(Printertype);
         dest.writeFloat(Qty);
         dest.writeString(Arrvoucherno);
-
+        dest.writeString(PostUser);
+        dest.writeInt(IsStockCombine);
+        dest.writeFloat(PackageNum);
     }
 
     @Override

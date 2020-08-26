@@ -5,6 +5,8 @@ public  class AwyBll {
     public  int Id ;
     public String Creater ;
 
+     public  String WayBillNo;
+
     public String Modifyer ;
     public String Trackingnumber;
     public String Voucherno ;
@@ -20,6 +22,14 @@ public  class AwyBll {
 
     public void setIsStockCombine(int isStockCombine) {
         IsStockCombine = isStockCombine;
+    }
+
+    public String getWayBillNo() {
+        return WayBillNo;
+    }
+
+    public void setWayBillNo(String wayBillNo) {
+        WayBillNo = wayBillNo;
     }
 
     /// <summary>

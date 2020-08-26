@@ -108,11 +108,13 @@ public class UrlInfo {
 //    public String SalesOutstock_PlatForm          = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
 //    //拼箱
 
-    public String SalesOutstock_Box_ScanningNo                  = GetWCFAdress() + "OutStock/GetT_CheckOutStockStatusADFAsync"; //拼箱订单判断是否下架
-    public String SalesOutstock_Box_Submit                      = GetWCFAdress() + "OutStock/Package_CartonScanADFAsync";//拼箱提交
-    public String SalesOutstock_Box_Batchno                     = GetWCFAdress() + "OutStock/CheckPackageScan";//验证69吗/箱号/物料是否多批次
-    public String SalesOutstock_GetBoxList                      = GetWCFAdress() + "OutStock/GetPackage_CartonScanADFAsync";//获取拼箱列表
-    public String SalesOutstock_DelBox                          = GetWCFAdress() + "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
+    public String SalesOutstock_Box_ScanningNo    = GetWCFAdress() + "OutStock/GetT_CheckOutStockStatusADFAsync"; //拼箱订单判断是否下架
+    public String SalesOutstock_Box_Submit        = GetWCFAdress() + "OutStock/Package_CartonScanADFAsync";//拼箱提交
+    public String SalesOutstock_Box_Batchno       = GetWCFAdress() + "OutStock/CheckPackageScan";//验证69吗/箱号/物料是否多批次
+    public String SalesOutstock_GetBoxList        = GetWCFAdress() + "OutStock/GetPackage_CartonScanADFAsync";//获取拼箱列表
+    public String SalesOutstock_DelBox            = GetWCFAdress() + "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
+    public String SalesOutstock_BoxList            = GetWCFAdress() + "OutStock/GetPackage_CartonDetail";//获取订单拼箱列表
+
     //复核
     public String SalesOutstock_Review_ScanningNo               = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
     public String SalesOutstock_JudgeStock                      = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
@@ -148,27 +150,33 @@ public class UrlInfo {
             case 36://派车单
                 // GetT_OutStockDetailListADFAsync
                 SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckDispatchDetailListADFAsync";//获取复核单据
-                SalesOutstock_ScanningNo = GetWCFAdress() + "OutStock/GetT_DispatchkDetailListADFAsync"; //订单扫描
+                SalesOutstock_ScanningNo = GetWCFAdress() + "OutStock/GetT_DispatchkDetailListADFAsync"; //下架获取订单数据
+                SalesOutstock__Review_Submit = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 46://领料/原材料发货
                 SalesOutstock_ScanningNo = GetWCFAdress() + "RawMaterialOut/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "RawMaterialOut/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() + "RawMaterialOut/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 57://委外工单
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OutWork/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OutWork/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() + "OutWork/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 25://一阶段调拨
                 SalesOutstock_ScanningNo = GetWCFAdress() + "Transferout/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "Transferout/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() + "Transferout/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 30://二阶段调拨
                 SalesOutstock_ScanningNo = GetWCFAdress() + "TransferTwoout/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "TransferTwoout/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() + "TransferTwoout/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 55://杂出
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OtherOut/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OtherOut/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() + "OtherOut/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
         }
 

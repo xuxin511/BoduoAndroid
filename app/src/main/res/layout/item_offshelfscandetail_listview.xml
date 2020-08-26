@@ -96,7 +96,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_weight="0.8"
+            android:layout_weight="1"
             android:maxLines="2"
             android:textColor="@color/peru"
             android:textSize="@dimen/activity_list_text_size_third"
@@ -116,6 +116,11 @@
             app:layout_constraintTop_toBottomOf="@+id/txtMaterialDesc">
 
                 <TextView
+                    android:layout_margin="3dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
                     android:id="@+id/txt_recommended_location"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
