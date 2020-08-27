@@ -8,4 +8,5 @@ import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.IBaseOrderScan
  */
 public interface IProductReturnStorageScanView extends IBaseOrderScanView {
     void onErpVoucherNoFocus();
+
 }

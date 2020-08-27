@@ -170,6 +170,9 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
             if (mListView.getVisibility() != View.GONE) {
                 mListView.setVisibility(View.GONE);
             }
+            if (mAdapter!=null){
+                mAdapter.notifyDataSetChanged();
+            }
         }
 
     }
@@ -194,7 +197,10 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
         mAreaNo.setText("");
         onAreaNoFocus();
         setPalletNoInfo(null);
-        bindListView(null);
+        if (mPresenter!=null){
+            bindListView(mPresenter.getModel().getList());
+        }
+       onPalletNoFocus();
     }
 
     @Override

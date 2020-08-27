@@ -9,9 +9,11 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
@@ -48,7 +51,7 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProduct
 
 
     /**
-     * @desc: 获取采购订单明细
+     * @desc: 获取成品入库明细
      * @param:
      * @return:
      * @author: Nietzsche
@@ -137,6 +140,15 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProduct
      */
     @Override
     protected void onOrderRefer() {
+        if (mModel.getOrderDetailList() == null) {
+            MessageBox.Show(mContext, "校验单据信息失败:单据信息为空,请先扫描单据", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onErpVoucherNoFocus();
+                }
+            });
+            return;
+        }
         OrderDetailInfo firstDetailInfo = mModel.getOrderDetailList().get(0);
         if (firstDetailInfo != null) {
             OrderDetailInfo postInfo = new OrderDetailInfo();
@@ -154,12 +166,27 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProduct
 //                        BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                         }.getType());
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                            BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
+                            if (!checkResult.getHeaderStatus()) {
+                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        OrderHeaderInfo orderHeaderInfo = new OrderHeaderInfo();
+                                        orderHeaderInfo.setErpvoucherno(mView.getErpVoucherNo());
+                                        orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
+                                        getOrderDetailInfoList(orderHeaderInfo);
+                                    }
+                                });
+                            } else {
+                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        onReset();
+                                    }
+                                });
+//                                mView.onActivityFinish(checkResult.getMessage());
+                            }
 
-                                }
-                            });
 
                         } else {
                             MessageBox.Show(mContext, "提交单据信息失败:" + returnMsgModel.getResultValue());

@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.instock.productionReturnsStorage.scan;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
@@ -8,6 +9,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
@@ -20,6 +22,9 @@ import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.List;
+
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -182,6 +187,15 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
      */
     @Override
     protected void onOrderRefer() {
+        if (mModel.getOrderDetailList() == null) {
+            MessageBox.Show(mContext, "校验单据信息失败:单据信息为空,请先扫描单据", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onErpVoucherNoFocus();
+                }
+            });
+            return;
+        }
         List<OrderDetailInfo>  list=mModel.getOrderDetailList();
         if (list!=null){
             for (int i=0;i<list.size();i++){
@@ -196,8 +210,24 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
                 try {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<  BaseResultInfo<String>>() {
                     }.getType());
-                    if (returnMsgModel.getResult()==1) {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                    if (returnMsgModel.getResult()==BaseResultInfo.RESULT_TYPE_OK) {
+                        BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
+                        if (!checkResult.getHeaderStatus()) {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getOrderDetailInfoList(mView.getErpVoucherNo());
+                                }
+                            });
+                        } else {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onReset();
+                                }
+                            });
+//                                mView.onActivityFinish(checkResult.getMessage());
+                        }
                     }else {
                         MessageBox.Show(mContext, returnMsgModel.getResultValue() );
                     }

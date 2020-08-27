@@ -388,20 +388,14 @@ public class BaseOrderLabelPrintSelectPresenter {
             mView.onMaterialFocus();
             List<OrderDetailInfo> list = resultInfo.getInfo();
             if (list != null && list.size() == 1) {
-                if (scanQRCode.getBatchno()!=null){
-                    list.get(0).setBatchno(scanQRCode.getBatchno());
-                }
-
+                list.get(0).setBatchno(scanQRCode.getBatchno());
                 mView.StartScanIntent(list.get(0));
             } else if (list != null && list.size() > 1) {
                 if (mModel.getOrderDetailList().size() > 0) {
                     //订单无批次,用外箱的
-                    if (scanQRCode.getBatchno()!=null){
-                        for (OrderDetailInfo info:list){
-                            info.setBatchno(scanQRCode.getBatchno());
-                        }
+                    for (OrderDetailInfo info:list){
+                        info.setBatchno(scanQRCode.getBatchno());
                     }
-
 
                     mModel.sortDetailList(list.get(0).getMaterialno());
                     mView.bindListView(mModel.getOrderDetailList());

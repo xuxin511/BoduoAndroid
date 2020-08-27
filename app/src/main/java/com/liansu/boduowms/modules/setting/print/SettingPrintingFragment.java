@@ -87,7 +87,9 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View rootView=super.onCreateView(inflater, container, savedInstanceState);
+        initData();
+        return rootView;
 
     }
 
@@ -204,13 +206,19 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (mPresenter != null) {
             mPresenter.getPrinterAddressList();
 
         }
-        initData();
+
     }
 
     /**

@@ -281,6 +281,11 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
     }
 
     @Override
+    public String getErpVoucherNo() {
+        return mErpVoucherNo.getText().toString().trim();
+    }
+
+    @Override
     public void onActivityFinish(String title) {
         new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(title + " 是否返回上一页面？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {

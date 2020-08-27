@@ -249,8 +249,12 @@ public class SalesReturnStorageScanPresenter {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        onReset();
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(),MEDIA_MUSIC_NONE);
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onReset();
+                            }
+                        });
                     } else {
                         MessageBox.Show(mContext, returnMsgModel.getResultValue());
                     }
@@ -273,8 +277,9 @@ public class SalesReturnStorageScanPresenter {
      * @time 2020/8/2 11:28
      */
     public void onReset() {
-        mView.onReset();
         mModel.onReset();
+        mView.onReset();
+
     }
 
 

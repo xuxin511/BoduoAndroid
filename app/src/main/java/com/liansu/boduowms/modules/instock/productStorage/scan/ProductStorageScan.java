@@ -119,6 +119,11 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     }
 
     @Override
+    public String getErpVoucherNo() {
+        return mErpVoucherNo.getText().toString().trim();
+    }
+
+    @Override
     public void onErpVoucherNoFocus() {
         CommonUtil.setEditFocus(mErpVoucherNo);
     }
@@ -302,7 +307,14 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
     @Override
     public void onReset() {
-
+         mErpVoucherNo.setText("");
+        mSupplierName.setText("");
+        mAreaNo.setText("");
+        mOutBarcode.setText("");
+        onErpVoucherNoFocus();
+        if (mPresenter != null) {
+            bindListView(mPresenter.getModel().getOrderDetailList());
+        }
     }
 
     @Override

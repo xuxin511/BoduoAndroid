@@ -88,14 +88,7 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
     protected void getOrderDetailInfoList(String erpVoucherNo) {
     }
 
-    /**
-     * @desc: 单据过账
-     * @param:
-     * @return:
-     * @author: Nietzsche
-     * @time 2020/7/13 22:37
-     */
-    protected abstract void onOrderRefer();
+
 
     /**
      * @desc: 获取库位信息
@@ -156,6 +149,15 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
 
     }
 
+
+    /**
+     * @desc: 单据过账
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/13 22:37
+     */
+    protected  void onOrderRefer(){}
 
 //    /**
 //     * @desc: 扫描外箱条码

@@ -27,6 +27,6 @@ public interface IBaseOrderScanView {
    void  setOrderHeaderInfo(OrderHeaderInfo info);
      <T extends IBaseOrderScanView > T getIView();
      void setSecondLineInfo(String desc,String name,boolean isVisibility);
-
+    String getErpVoucherNo();
      void onActivityFinish(String title) ;
 }

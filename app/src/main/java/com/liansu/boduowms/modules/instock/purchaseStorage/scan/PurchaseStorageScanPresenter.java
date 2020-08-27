@@ -147,6 +147,15 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
      */
     @Override
     protected void onOrderRefer() {
+        if (mModel.getOrderDetailList() == null) {
+            MessageBox.Show(mContext, "校验单据信息失败:单据信息为空,请先扫描单据", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onErpVoucherNoFocus();
+                }
+            });
+            return;
+        }
         OrderDetailInfo firstDetailInfo = mModel.getOrderDetailList().get(0);
         if (firstDetailInfo != null) {
             OrderDetailInfo postInfo = new OrderDetailInfo();
@@ -174,11 +183,17 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
                                 MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        getOrderDetailInfoList();
+                                        getOrderDetailInfoList(mView.getErpVoucherNo());
                                     }
                                 });
                             } else {
-                                mView.onActivityFinish(checkResult.getMessage());
+                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        onReset();
+                                    }
+                                });
+//                                mView.onActivityFinish(checkResult.getMessage());
                             }
 
 
@@ -201,7 +216,7 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
     @Override
     public void onResume() {
         super.onResume();
-        if (mModel.getOrderRequestInfo()!=null){
+        if (mModel.getOrderRequestInfo() != null) {
             getOrderDetailInfoList();
         }
 

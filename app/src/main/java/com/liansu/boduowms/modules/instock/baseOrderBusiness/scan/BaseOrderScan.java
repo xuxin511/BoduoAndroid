@@ -404,6 +404,11 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
     }
 
     @Override
+    public String getErpVoucherNo() {
+        return mOrderNo.getText().toString().trim();
+    }
+
+    @Override
     public void onActivityFinish(String message) {
         new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage(message + " 是否返回上一页面？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {

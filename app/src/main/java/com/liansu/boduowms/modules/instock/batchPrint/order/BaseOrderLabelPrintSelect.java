@@ -216,9 +216,10 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
                             });
                             return;
                         }
-                        if (scanQRCode != null && scanQRCode.getBatchno() != null &&scanQRCode.getMaterialno()!=null ) {
-
+                        if (scanQRCode != null &&scanQRCode.getMaterialno()!=null && data.getMaterialno().equals(scanQRCode.getMaterialno())) {
                             data.setBatchno(scanQRCode.getBatchno());
+                        }else {
+                            data.setBatchno(null);
                         }
                         StartScanIntent(data);
                     }
