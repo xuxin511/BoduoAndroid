@@ -154,6 +154,7 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 OrderHeaderInfo postInfo = new OrderHeaderInfo();
                 postInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 postInfo.setVouchertype(voucherType);
+                postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 printPalletScanModel.requestOrderDetail(postInfo, callBackListener);
                 break;
             case OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE:
@@ -162,6 +163,7 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 OrderRequestInfo postActiveOtherScanInfo = new OrderRequestInfo();
                 postActiveOtherScanInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 postActiveOtherScanInfo.setVouchertype(voucherType);
+                postActiveOtherScanInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 activeOtherScanModel.requestActiveOtherDetail(postActiveOtherScanInfo, callBackListener);
                 break;
             case OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE:
@@ -174,7 +176,15 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 transferToStorageScanModel.requestOrderDetail(postTransferToStorageScanModelScanInfo,callBackListener);
                 break;
 
-
+            case OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE:
+                TransferToStorageScanModel transferToStorageScanModel2=new TransferToStorageScanModel(mContext,mHandler);
+                mBaseModel = transferToStorageScanModel2;
+                OrderRequestInfo postTransferToStorageScanModelScanInfo2 = new OrderRequestInfo();
+                postTransferToStorageScanModelScanInfo2.setErpvoucherno(orderRequestInfo.getErpvoucherno());
+                postTransferToStorageScanModelScanInfo2.setVouchertype(voucherType);
+                postTransferToStorageScanModelScanInfo2.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                transferToStorageScanModel2.requestOrderDetail(postTransferToStorageScanModelScanInfo2,callBackListener);
+                break;
         }
     }
 

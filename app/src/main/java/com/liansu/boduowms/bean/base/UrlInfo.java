@@ -69,10 +69,9 @@ public class UrlInfo {
     public String Print_PalletNo                    = GetWCFAdress() + "OutBarcode/Print_PalletNo"; //销售退货打印托盘号
     public String GetT_ParameterList                = GetWCFAdress() + "Parameter/GetT_ParameterList"; //获取入库打印单据
     //调拨入库
-    public String GetT_TransferInDetailListADFAsync                = GetWCFAdress() + "Transferin/GetT_TransferInDetailListADFAsync"; //获取调拨入库单据
-    public String SaveT_TransferInDetailADFAsync                = GetWCFAdress() + "Transferin/SaveT_TransferInDetailADFAsync"; //调拨入库实时提交
-    public String PostT_TransferInDetailADFAsync                = GetWCFAdress() + "Transferin/PostT_TransferInDetailADFAsync"; //调拨入库过账
-
+    public String GetT_TransferInDetailListADFAsync = GetWCFAdress() + "Transferin/GetT_TransferInDetailListADFAsync"; //获取调拨入库单据
+    public String SaveT_TransferInDetailADFAsync    = GetWCFAdress() + "Transferin/SaveT_TransferInDetailADFAsync"; //调拨入库实时提交
+    public String PostT_TransferInDetailADFAsync    = GetWCFAdress() + "Transferin/PostT_TransferInDetailADFAsync"; //调拨入库过账
 
 
     //出库模块
@@ -108,12 +107,12 @@ public class UrlInfo {
 //    public String SalesOutstock_PlatForm          = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
 //    //拼箱
 
-    public String SalesOutstock_Box_ScanningNo    = GetWCFAdress() + "OutStock/GetT_CheckOutStockStatusADFAsync"; //拼箱订单判断是否下架
-    public String SalesOutstock_Box_Submit        = GetWCFAdress() + "OutStock/Package_CartonScanADFAsync";//拼箱提交
-    public String SalesOutstock_Box_Batchno       = GetWCFAdress() + "OutStock/CheckPackageScan";//验证69吗/箱号/物料是否多批次
-    public String SalesOutstock_GetBoxList        = GetWCFAdress() + "OutStock/GetPackage_CartonScanADFAsync";//获取拼箱列表
-    public String SalesOutstock_DelBox            = GetWCFAdress() + "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
-    public String SalesOutstock_BoxList            = GetWCFAdress() + "OutStock/GetPackage_CartonDetail";//获取订单拼箱列表
+    public String SalesOutstock_Box_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckOutStockStatusADFAsync"; //拼箱订单判断是否下架
+    public String SalesOutstock_Box_Submit     = GetWCFAdress() + "OutStock/Package_CartonScanADFAsync";//拼箱提交
+    public String SalesOutstock_Box_Batchno    = GetWCFAdress() + "OutStock/CheckPackageScan";//验证69吗/箱号/物料是否多批次
+    public String SalesOutstock_GetBoxList     = GetWCFAdress() + "OutStock/GetPackage_CartonScanADFAsync";//获取拼箱列表
+    public String SalesOutstock_DelBox         = GetWCFAdress() + "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
+    public String SalesOutstock_BoxList        = GetWCFAdress() + "OutStock/GetPackage_CartonDetail";//获取订单拼箱列表
 
     //复核
     public String SalesOutstock_Review_ScanningNo               = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
@@ -126,8 +125,17 @@ public class UrlInfo {
     public String SalesOutstock__Review_configSelectOrderDetial = GetWCFAdress() + "WayBill/Get_WayBillDetail"; //获取托运单明细
     //endregion
 
+    //入库，出库 条码回退
+    public String GetT_DetailSubAsync    = "";//  获取暂存数据
+    public String DeleteT_DetailSubAsync = ""; // 删除暂存数据
+
+
     public void InitUrl(int type) {
         switch (type) {
+            case 22:
+                GetT_DetailSubAsync = GetWCFAdress() + "Purchase/GetT_PurchaseDetailSubAsync"; //获取采购暂存数据
+                DeleteT_DetailSubAsync=GetWCFAdress()+"Purchase/DeleteT_PurchaseDetailSubAsync"; //删除采购暂存数据
+                break;
             case 29://发货通知单
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
@@ -192,6 +200,6 @@ public class UrlInfo {
     public String CreateT_OutBarcodeADFAsync        = GetWCFAdress() + "OutBarcode/CreateT_OutBarcodeADFAsync"; //批量生成条码
     //库存调整
     public String AdjustStockGetT_ScanStockADFAsync = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync"; // 出库扫描获取托盘
-    public String UpdateT_StockAdjust = GetWCFAdress() + "Stock/UpdateT_StockAdjust"; //库存调整提交
+    public String UpdateT_StockAdjust               = GetWCFAdress() + "Stock/UpdateT_StockAdjust"; //库存调整提交
 
 }

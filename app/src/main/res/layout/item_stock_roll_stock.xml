@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:minHeight="80dp"
+    android:weightSum="4"
+    android:background="@color/white"
+    >
+        <TextView
+            android:id="@+id/txt_barcode"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:maxLines="2"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/common_text_size_first" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0">
+
+                <TextView
+                    android:id="@+id/txt_material_no"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/mediumseagreen"
+                    android:textSize="@dimen/common_text_size_first" />
+
+                <TextView
+                    android:id="@+id/txt_batch_no"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/common_text_size_first" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/txt_material_desc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:maxLines="2"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/common_text_size_first" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0">
+
+                <TextView
+                    android:id="@+id/txt_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/common_text_size_first" />
+
+                <TextView
+                    android:id="@+id/txt_task_qty"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/common_text_size_first" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0">
+                <TextView
+                    android:id="@+id/txt_area_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/common_text_size_first" />
+        </LinearLayout>
+
+
+
+</LinearLayout>

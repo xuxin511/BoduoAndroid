@@ -40,6 +40,7 @@ import org.xutils.x;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,14 +63,10 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     protected TextView     txtCompany;
     @ViewInject(R.id.edt_area_no)
     protected EditText     mAreaNo;
-    @ViewInject(R.id.receiption_scan_supplier_name)
-    protected TextView     mSupplierName;
     @ViewInject(R.id.receiption_scan_out_barcode)
     protected EditText     mOutBarcode;
     @ViewInject(R.id.btn_refer)
     protected Button       mRefer;
-    @ViewInject(R.id.txt_receiption_scan_supplier_name)
-    TextView mSupplierNameDesc;
     BaseScanDetailAdapter mAdapter;
     public final int    REQUEST_CODE_OK = 1;
     /*业务类型 */
@@ -300,15 +297,42 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
     @Override
     public void bindListView(List<OrderDetailInfo> receiptDetailModels) {
-        mAdapter = new BaseScanDetailAdapter(mContext, "", receiptDetailModels);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (mAdapter == null) {
+            mAdapter = new BaseScanDetailAdapter(mContext, "", receiptDetailModels);
+//            mAdapter.setRecyclerView(mRecyclerView);
+            mAdapter.setOnItemClickListener(new BaseScanDetailAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
+                    if (data != null) {
+                    }
+
+                }
+            });
+            mAdapter.setOnItemLongClickListener(new BaseScanDetailAdapter.OnItemLongClickListener() {
+                @Override
+                public void onItemLongClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
+                    if (data!=null){
+                        OrderHeaderInfo  orderHeaderInfo=mPresenter.getModel().getOrderHeaderInfo();
+                        if (orderHeaderInfo!=null){
+                            startRollBackActivity(orderHeaderInfo.getErpvoucherno(),orderHeaderInfo.getVouchertype(),mPresenter.getTitle());
+                        }
+
+
+
+                    }
+                }
+            });
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onReset() {
          mErpVoucherNo.setText("");
-        mSupplierName.setText("");
         mAreaNo.setText("");
         mOutBarcode.setText("");
         onErpVoucherNoFocus();
@@ -372,24 +396,14 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     public void setOrderHeaderInfo(OrderHeaderInfo info) {
         if (info != null) {
             mErpVoucherNo.setText(info.getErpvoucherno());
-            mSupplierName.setText(info.getSuppliername());
+        ;
         }
 
     }
 
     @Override
     public void setSecondLineInfo(String desc, String name, boolean isVisibility) {
-        if (isVisibility) {
-            mSupplierName.setVisibility(View.VISIBLE);
-            mSupplierNameDesc.setVisibility(View.VISIBLE);
-            if (desc != null && name != null) {
-                mSupplierNameDesc.setText(desc);
-                mSupplierName.setText(name);
-            }
-        } else {
-            mSupplierName.setVisibility(View.GONE);
-            mSupplierNameDesc.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
@@ -402,6 +416,11 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
                         closeActivity();
                     }
                 }).setNegativeButton("取消", null).show();
+    }
+
+    @Override
+    public void startRollBackActivity(String erpVoucherNo, int voucherType, String title) {
+
     }
 
     @Override

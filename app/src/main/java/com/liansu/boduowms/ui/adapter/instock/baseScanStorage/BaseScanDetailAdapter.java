@@ -20,12 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
  * Created by GHOST on 2017/1/13.
  */
 
-public class BaseScanDetailAdapter extends RecyclerView.Adapter<BaseScanDetailAdapter.ViewHolder> implements View.OnClickListener{
+public class BaseScanDetailAdapter extends RecyclerView.Adapter<BaseScanDetailAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
     private Context               context; // 运行上下文
     private List<OrderDetailInfo> receiptDetailModels; // 信息集合
     private LayoutInflater        listContainer; // 视图容器
     private String                receiptType = "";
     private RecyclerView          mRecyclerView;
+
+
+    public interface OnItemLongClickListener {
+        void onItemLongClick(RecyclerView parent, View view, int position, OrderDetailInfo data);
+    }
 
     public interface OnItemClickListener {//也可以不在这个activity或者是fragment中来声明接口，可以在项目中单独创建一个interface，就改成static就OK
 
@@ -33,15 +38,20 @@ public class BaseScanDetailAdapter extends RecyclerView.Adapter<BaseScanDetailAd
         void onItemClick(RecyclerView parent, View view, int position, OrderDetailInfo data);
     }
 
-    public void setRecyclerView(RecyclerView recyclerView) {
-        mRecyclerView = recyclerView;
-    }
+//    public void setRecyclerView(RecyclerView recyclerView) {
+//        mRecyclerView = recyclerView;
+//    }
 
     private OnItemClickListener mOnItemClickListener;//声明一下这个接口
+    private OnItemLongClickListener mOnItemLongClickListener;
 
     //提供setter方法
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public  void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener){
+        this.mOnItemLongClickListener=onItemLongClickListener;
     }
     public BaseScanDetailAdapter(Context context, String ReceiptType, List<OrderDetailInfo> receiptDetailModels) {
         this.context = context;
@@ -56,6 +66,7 @@ public class BaseScanDetailAdapter extends RecyclerView.Adapter<BaseScanDetailAd
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_receiptscandetail_listview, parent, false);
         view.setOnClickListener(this);//设置监听器
+        view.setOnLongClickListener(this);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -99,6 +110,16 @@ public class BaseScanDetailAdapter extends RecyclerView.Adapter<BaseScanDetailAd
         }
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+        //程序执行到此，会去执行具体实现的onItemClick()方法
+        if (mOnItemLongClickListener != null && mRecyclerView != null) {
+            //根据RecyclerView获得当前View的位置
+            int position = mRecyclerView.getChildAdapterPosition(v);
+            mOnItemLongClickListener.onItemLongClick(mRecyclerView, v, position, receiptDetailModels.get(position));
+        }
+        return false;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -120,6 +141,18 @@ public class BaseScanDetailAdapter extends RecyclerView.Adapter<BaseScanDetailAd
             txtVoucherQty = (TextView) itemView.findViewById(R.id.txtVoucherQty);
             rootView = itemView;
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        this.mRecyclerView = null;
     }
 
 }

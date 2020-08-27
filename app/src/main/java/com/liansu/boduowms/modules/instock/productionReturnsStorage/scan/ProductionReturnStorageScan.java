@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -24,6 +25,7 @@ import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.IBaseOrderScanView;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
+import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
@@ -295,6 +297,17 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
                         closeActivity();
                     }
                 }).setNegativeButton("取消", null).show();
+    }
+
+    @Override
+    public void startRollBackActivity(String erpVoucherNo, int voucherType, String title) {
+        Intent intent = new Intent(mContext, StockRollBack.class);
+        Bundle bundle = new Bundle();
+        intent.putExtra("ErpVoucherNo", erpVoucherNo);
+        intent.putExtra("VoucherType", voucherType);
+        intent.putExtra("Title", title);
+        intent.putExtras(bundle);
+        startActivityLeft(intent);
     }
 
 

@@ -32,6 +32,7 @@ import com.liansu.boduowms.modules.print.LabelReprint.LabelReprintScan;
 import com.liansu.boduowms.modules.setting.SettingMainActivity;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
+import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -294,13 +295,27 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
     public void bindListView(List<OrderDetailInfo> receiptDetailModels) {
         if (mAdapter == null) {
             mAdapter = new BaseScanDetailAdapter(mContext, "采购收货", receiptDetailModels);
-            mAdapter.setRecyclerView(mRecyclerView);
+//            mAdapter.setRecyclerView(mRecyclerView);
             mAdapter.setOnItemClickListener(new BaseScanDetailAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
                     if (data != null) {
                     }
 
+                }
+            });
+            mAdapter.setOnItemLongClickListener(new BaseScanDetailAdapter.OnItemLongClickListener() {
+                @Override
+                public void onItemLongClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
+                     if (data!=null){
+                         OrderHeaderInfo  orderHeaderInfo=mPresenter.getModel().getOrderHeaderInfo();
+                         if (orderHeaderInfo!=null){
+                             startRollBackActivity(orderHeaderInfo.getErpvoucherno(),orderHeaderInfo.getVouchertype(),mPresenter.getTitle());
+                         }
+
+
+
+                     }
                 }
             });
             mRecyclerView.setAdapter(mAdapter);
@@ -419,6 +434,18 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
                     }
                 }).setNegativeButton("取消", null).show();
     }
+
+    @Override
+    public void startRollBackActivity(String erpVoucherNo, int voucherType, String title) {
+        Intent intent = new Intent(mContext, StockRollBack.class);
+        Bundle bundle = new Bundle();
+        intent.putExtra("ErpVoucherNo", erpVoucherNo);
+        intent.putExtra("VoucherType", voucherType);
+        intent.putExtra("Title", title);
+        intent.putExtras(bundle);
+        startActivityLeft(intent);
+    }
+
 
 
     @Override

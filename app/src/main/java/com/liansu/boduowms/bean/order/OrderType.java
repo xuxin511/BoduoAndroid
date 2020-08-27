@@ -46,6 +46,6 @@ public class OrderType {
     public final static String IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT          = "库存调整";
     public final static int    IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE    = 35;
     public final static int    IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE = 24;  //二阶段调拨入库
-    public final static int    IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE = 25;  //一阶段调拨入库
+    public final static int    IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE = 58;  //一阶段调拨入库
 
 }
