@@ -307,14 +307,7 @@ public  class SalesOutStockBox   extends BaseActivity {
     private void  Click_DelBox(View view) {
         if (IsSacnningOrder()) {
             if (stockInfoModels.size() > 0) {
-                materialModle = new MaterialResponseModel();
-                stockInfoModels = new ArrayList<OutStockOrderDetailInfo>();
-                mAdapter = new SalesoutstockBoxAdapter(context, stockInfoModels);
-                responseList=new ArrayList<OutStockOrderDetailInfo>();
-                modelIsExits = new HashMap<String, String>();
-                mList.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
-                CommonUtil.setEditFocus(sales_outstock_box_watercode);
+                del();
                 MessageBox.Show(context, "删除成功");
 
             } else {
@@ -322,6 +315,17 @@ public  class SalesOutStockBox   extends BaseActivity {
                 MessageBox.Show(context, "当前无数据可删除");
             }
         }
+    }
+
+    public  void del(){
+        materialModle = new MaterialResponseModel();
+        stockInfoModels = new ArrayList<OutStockOrderDetailInfo>();
+        mAdapter = new SalesoutstockBoxAdapter(context, stockInfoModels);
+        responseList=new ArrayList<OutStockOrderDetailInfo>();
+        modelIsExits = new HashMap<String, String>();
+        mList.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+        CommonUtil.setEditFocus(sales_outstock_box_order);
     }
 
 
@@ -384,14 +388,34 @@ public  class SalesOutStockBox   extends BaseActivity {
         }.getType());
         if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
             CommonUtil.setEditFocus(sales_outstock_box_order);
+            del();
             MessageBox.Show(context, returnMsgModel.getResultValue());
             return;
         }
+        //先判断是否有非库存拼箱 如果有加入到扫描的集合中
+        // OutStockOrderDetailInfo model=modelIsExits.get("非库存拼箱");
+//        if(istrue){
+//            returnMsgModel.getData().add(model);
+//        }
+// OutStockOrderDetailInfo model=new OutStockOrderDetailInfo();
+        boolean istrue=false;
+        for( OutStockOrderDetailInfo item:stockInfoModels) {
+            if(item.getMaterialdesc().equals("非库存拼箱")){
+               // m//odel = item;
+                istrue=true;
+            }
+        }
+        checkBox.setChecked(false);
+        stockInfoModels=new ArrayList<OutStockOrderDetailInfo>();
         mModel.setOrderDetailList(returnMsgModel.getData());
         mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
         mList.setAdapter(mAdapter);
         CommonUtil.setEditFocus(sales_outstock_box_watercode);
         CurrOrder = sales_outstock_box_order.getText().toString().trim();
+        if(istrue){
+            checkBox.setChecked(true);
+        }
+
     }
 
 
@@ -570,6 +594,7 @@ public  class SalesOutStockBox   extends BaseActivity {
         }.getType());
         if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
             CommonUtil.setEditFocus(sales_outstock_box_order);
+            del();
             MessageBox.Show(context, returnMsgModel.getResultValue());
             return;
         }

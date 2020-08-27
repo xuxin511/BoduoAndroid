@@ -126,39 +126,43 @@
 
     <RadioGroup
         android:id="@+id/sales_outstock_radiogroup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3sp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/outstock_sales_shelf_name"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintLeft_toRightOf="@+id/guideline_left"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/outstock_sales_shelf_name">
+
         <RadioButton
-            android:buttonTint="@color/white"
-            android:textColor="@color/white"
-            android:checked="true"
+            android:layout_width="100sp"
             android:id="@+id/sales_outstock_rediobutton_pallet"
-            android:layout_width="wrap_content"
             android:layout_height="@dimen/sp_20"
+            android:buttonTint="@color/white"
+            android:checked="true"
             android:text="整托"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <RadioButton
-            android:buttonTint="@color/white"
-            android:textColor="@color/white"
+            android:layout_width="100sp"
+            android:layout_gravity="center"
             android:id="@+id/sales_outstock_rediobutton_box"
-            android:layout_width="wrap_content"
             android:layout_height="@dimen/sp_20"
-            android:text="整箱"
-            android:textSize="16sp" />
-        <RadioButton
             android:buttonTint="@color/white"
+            android:text="整箱"
             android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:layout_width="100sp"
+            android:layout_gravity="right"
             android:id="@+id/sales_outstock_rediobutton_san"
-            android:layout_width="wrap_content"
             android:layout_height="@dimen/sp_20"
+            android:buttonTint="@color/white"
             android:text="散件"
-            android:textSize="16sp"/>
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </RadioGroup>
 

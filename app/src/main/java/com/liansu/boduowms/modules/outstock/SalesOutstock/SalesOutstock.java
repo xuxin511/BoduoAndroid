@@ -256,6 +256,9 @@ String  url;
                 //散件类
                 materialModle=new MaterialResponseModel();
                 CurrOrderNO="";
+                sales_outstock_address.setText("无");
+                outstock_sales_shelf.setText("0");
+                outstock_sales_boxnum.setText("0");
                 MessageBox.Show(context, ex.getMessage());
                 return true;
             }
@@ -304,6 +307,7 @@ String  url;
                             model.Barcode = palletno;
                             model.Vouchertype = CurrVoucherType;
                             model.Towarehouseid = BaseApplication.mCurrentWareHouseInfo.getId();
+                            model.Towarehouseno= BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                             // model.Vouchertype=0;
                             String json = GsonUtil.parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
@@ -487,8 +491,10 @@ String  url;
                 //散件类
                 materialModle=new MaterialResponseModel();
                 CurrOrderNO="";
+                sales_outstock_address.setText("无");
+                outstock_sales_shelf.setText("0");
+                outstock_sales_boxnum.setText("0");
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-
                 return;
             }
             CurrOrderNO = sales_outstock_order.getText().toString().trim();

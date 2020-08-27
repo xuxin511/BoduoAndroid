@@ -63,7 +63,7 @@
                     android:id="@+id/txtVoucherQty"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:textColor="@color/mediumpurple"
                     android:textSize="@dimen/activity_list_text_size_third" />
@@ -72,7 +72,7 @@
                     android:id="@+id/txtRemainQty"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:textColor="@color/red"
                     android:textSize="@dimen/activity_list_text_size_third" />
@@ -81,7 +81,7 @@
                     android:id="@+id/txtScanQty"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="3dp"
+                    android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:textColor="@color/red"
                     android:textSize="@dimen/activity_list_text_size_third" />

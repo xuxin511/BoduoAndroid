@@ -4,6 +4,15 @@ public class Outbarcode_Requery {
    public  String  Barcode;
     public  int        Vouchertype;
     public  int    Towarehouseid;
+    public  String Towarehouseno;
+
+    public String getTowarehouseno() {
+        return Towarehouseno;
+    }
+
+    public void setTowarehouseno(String towarehouseno) {
+        Towarehouseno = towarehouseno;
+    }
 
     public int getTowarehouseid() {
         return Towarehouseid;

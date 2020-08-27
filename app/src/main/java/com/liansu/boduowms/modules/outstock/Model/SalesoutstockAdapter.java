@@ -99,6 +99,8 @@ public class SalesoutstockAdapter extends BaseAdapter {
                 listItemView.txt_reference_standard.setText("整件:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
             }
             listItemView.txtstrong.setText("包装:" + String.valueOf(mDetailInfo.getPackQty()));
+        }else {
+            listItemView.txt_reference_standard.setText("规格型号:" + mDetailInfo.getSpec());
         }
 
         listItemView.txtVoucherQty.setText("订单：" + mDetailInfo.getVoucherqty());

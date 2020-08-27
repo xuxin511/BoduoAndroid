@@ -121,7 +121,7 @@ public  class SalesOutReview extends BaseActivity {
     ListView mList;
 
     //散件类
-    private  MaterialResponseModel   materialModle;
+    private MaterialResponseModel materialModle;
 
 
     //endregion
@@ -132,14 +132,12 @@ public  class SalesOutReview extends BaseActivity {
     String CurrOrderNO;
 
 
-
-
     //据点集合
-    Map<String,String> StrongholdcodeList=new HashMap<>();
+    Map<String, String> StrongholdcodeList = new HashMap<>();
 
     //存储类
     private PurchaseReturnOffScanModel mModel;
-    UrlInfo info=new UrlInfo();
+    UrlInfo info = new UrlInfo();
 
     @Override
     protected void initViews() {
@@ -148,12 +146,12 @@ public  class SalesOutReview extends BaseActivity {
         x.view().inject(this);
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
-        int type=Integer.parseInt(data.toString());
+        int type = Integer.parseInt(data.toString());
         info.InitUrl(type);
-        CurrvoucherType=type;
-        CurrOrderNO="";
-        mModel= new PurchaseReturnOffScanModel(context, mHandler);
-        materialModle=new MaterialResponseModel();
+        CurrvoucherType = type;
+        CurrOrderNO = "";
+        mModel = new PurchaseReturnOffScanModel(context, mHandler);
+        materialModle = new MaterialResponseModel();
 
     }
 
@@ -166,8 +164,8 @@ public  class SalesOutReview extends BaseActivity {
     //region 绑定事件
 
     //订单回车事件
-    @Event(value = R.id.sales_outstock_revieworder,type = EditText.OnKeyListener.class)
-    private  boolean orderKeyDowm(View v, int keyCode, KeyEvent event) {
+    @Event(value = R.id.sales_outstock_revieworder, type = EditText.OnKeyListener.class)
+    private boolean orderKeyDowm(View v, int keyCode, KeyEvent event) {
         View vFocus = v.findFocus();
         int etid = vFocus.getId();
         //如果是扫描
@@ -186,6 +184,7 @@ public  class SalesOutReview extends BaseActivity {
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_revieworder);
                 MessageBox.Show(context, ex.getMessage());
+                del();
                 return true;
             }
         }
@@ -194,19 +193,19 @@ public  class SalesOutReview extends BaseActivity {
 
 
     //条码回车
-    @Event(value = R.id.sales_outstock_reviewbarcode,type = EditText.OnKeyListener.class)
-    private  boolean barocodeKeyDowm(View v, int keyCode, KeyEvent event) {
+    @Event(value = R.id.sales_outstock_reviewbarcode, type = EditText.OnKeyListener.class)
+    private boolean barocodeKeyDowm(View v, int keyCode, KeyEvent event) {
         View vFocus = v.findFocus();
         int etid = vFocus.getId();
         //如果是扫描
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == sales_outstock_reviewbarcode.getId()) {
             try {
                 if (IsSacnningOrder()) {
-                if(IsScanningOver()) {
-                    CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                    MessageBox.Show(context, "已经全部复核完成");
-                    return true;
-                }
+                    if (IsScanningOver()) {
+                        CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                        MessageBox.Show(context, "已经全部复核完成");
+                        return true;
+                    }
                     String barcode = sales_outstock_reviewbarcode.getText().toString().trim();
                     String type = Analysis(barcode);
                     //无效
@@ -222,6 +221,7 @@ public  class SalesOutReview extends BaseActivity {
                         model.Barcode = barcode;
                         model.Vouchertype = CurrvoucherType;
                         model.Towarehouseid = BaseApplication.mCurrentWareHouseInfo.getId();
+                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         // model.Vouchertype=0;
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
@@ -239,7 +239,7 @@ public  class SalesOutReview extends BaseActivity {
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Vouchertype = CurrvoucherType;
                         model.MaterialNo = barcode;
-                        if( barcode.split("%").length!=2){
+                        if (barcode.split("%").length != 2) {
                             model.ScanQty = Float.parseFloat(strPallet[2]);
                         }
                         String json = GsonUtil.parseModelToJson(model);
@@ -273,10 +273,9 @@ public  class SalesOutReview extends BaseActivity {
     }
 
 
-
     //提交
-    @Event(value =R.id.outstock_sales_button_reviewsubmit)
-    private void   Sales_outstock_review_Submit(View view) {
+    @Event(value = R.id.outstock_sales_button_reviewsubmit)
+    private void Sales_outstock_review_Submit(View view) {
         if (IsSacnningOrder()) {
             if (!IsScanningOver()) {
                 //CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
@@ -311,51 +310,58 @@ public  class SalesOutReview extends BaseActivity {
                 PostReview((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____"+ msg.obj);
+                ToastUtil.show("获取请求失败_____" + msg.obj);
                 break;
 
         }
     }
-    public  void   PostReview(String  result) {
+
+    public void PostReview(String result) {
         try {
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                CommonUtil.setEditFocus(sales_outstock_revieworder);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
             }
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
                 //   CommonUtil.setEditFocus(sales_outstock_);
                 // MessageBox.Show(context, returnMsgModel.getResultValue());
                 //清空
+                CommonUtil.setEditFocus(sales_outstock_revieworder);
+                del();
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-                sales_outstock_driver.setText("");
-                sales_outstock_reviewbarcode.setText("");
-                sales_outstock_address.setText("无");
-                sales_outstock_revieworder.setText("");
-                outstock_sales_boxnum.setText("0");
-                outstock_sales_reviewsan.setText("0");
-                out_stock_sales_reviewusername.setText("无");
-                mModel = new PurchaseReturnOffScanModel(context, mHandler);
-                CurrOrderNO = "";
-                materialModle = new MaterialResponseModel();
-                mAdapter = new SalesoutstockreviewAdapter(context, mModel.getOrderDetailList());
-                mList.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
                 //this.closeActivity();
             }
 
         } catch (Exception EX) {
+            CommonUtil.setEditFocus(sales_outstock_revieworder);
             MessageBox.Show(context, EX.toString());
         }
 
     }
 
+    public void del() {
 
+        sales_outstock_driver.setText("");
+        sales_outstock_reviewbarcode.setText("");
+        sales_outstock_address.setText("无");
+        //sales_outstock_revieworder.setText("");
+        outstock_sales_boxnum.setText("0");
+        outstock_sales_reviewsan.setText("0");
+        out_stock_sales_reviewusername.setText("无");
+        mModel = new PurchaseReturnOffScanModel(context, mHandler);
+        CurrOrderNO = "";
+        materialModle = new MaterialResponseModel();
+        mAdapter = new SalesoutstockreviewAdapter(context, mModel.getOrderDetailList());
+        mList.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+
+    }
 
 
     //扫描物料或者69码获取对象
-    public  void   ScannParts(String  result) {
+    public void ScannParts(String result) {
         try {
             BaseResultInfo<MaterialResponseModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<MaterialResponseModel>>() {
             }.getType());
@@ -365,7 +371,7 @@ public  class SalesOutReview extends BaseActivity {
                 return;
             }
             //库存输入散件
-          //  inputTitleDialog("输入散件数量");
+            //  inputTitleDialog("输入散件数量");
             //直接提交一件
             materialModle = returnMsgModel.getData();
             SalesoutstockRequery model = new SalesoutstockRequery();
@@ -387,70 +393,71 @@ public  class SalesOutReview extends BaseActivity {
     }
 
 
-
-       //判断托盘是否存在库存
-         public  void  PallExits(String result) {
-             try {
-                 BaseResultInfo<Outbarcode_Requery> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<Outbarcode_Requery>>() {
-                 }.getType());
-                 if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                     CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                     MessageBox.Show(context, returnMsgModel.getResultValue());
-                     return;
-                 }
-                 String palletno = sales_outstock_reviewbarcode.getText().toString().trim();
-                 if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
-                     //判断是否成功 直接提交
-                     String[] strPallet = palletno.split("%");
-                     SalesoutstockRequery model = new SalesoutstockRequery();
-                     model.Erpvoucherno = CurrOrderNO;
-                     model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
-                     model.Vouchertype = CurrvoucherType;
-                     model.MaterialNo = palletno;
-                     model.ScanQty = Float.parseFloat(strPallet[2]);
-                     String json = GsonUtil.parseModelToJson(model);
-                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
-                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
-                 }
-             } catch (Exception ex) {
-                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                 MessageBox.Show(context, ex.toString());
-             }
-         }
-
-           //扫描单号获取数据
-        public  void SacnnNo(String result) {
-            try {
-                BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
-                }.getType());
-                if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                    CommonUtil.setEditFocus(sales_outstock_revieworder);
-                    MessageBox.Show(context, returnMsgModel.getResultValue());
-                    return;
-                }
-                CurrOrderNO = sales_outstock_revieworder.getText().toString().trim();
-                sales_outstock_address.setText(returnMsgModel.getData().getAddress());
-                out_stock_sales_reviewusername.setText(returnMsgModel.getData().getContacts());
-                Float cartonnum = returnMsgModel.getData().getOrderCartonNum();
-                outstock_sales_boxnum.setText(String.valueOf(cartonnum));
-                Float OrderScanCartonNum = returnMsgModel.getData().getOrderScanCartonNum();
-                outstock_sales_reviewsan.setText(String.valueOf(OrderScanCartonNum));
-                //绑定
-                mModel.setOrderHeaderInfo(returnMsgModel.getData());
-                mModel.setOrderDetailList(returnMsgModel.getData().getDetail());
-                mAdapter = new SalesoutstockreviewAdapter(context, mModel.getOrderDetailList());
-                mList.setAdapter(mAdapter);
+    //判断托盘是否存在库存
+    public void PallExits(String result) {
+        try {
+            BaseResultInfo<Outbarcode_Requery> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<Outbarcode_Requery>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-            } catch (Exception ex) {
-                CommonUtil.setEditFocus(sales_outstock_revieworder);
-                MessageBox.Show(context, "数据解析报错");
-
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                return;
             }
+            String palletno = sales_outstock_reviewbarcode.getText().toString().trim();
+            if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
+                //判断是否成功 直接提交
+                String[] strPallet = palletno.split("%");
+                SalesoutstockRequery model = new SalesoutstockRequery();
+                model.Erpvoucherno = CurrOrderNO;
+                model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                model.Vouchertype = CurrvoucherType;
+                model.MaterialNo = palletno;
+                model.ScanQty = Float.parseFloat(strPallet[2]);
+                String json = GsonUtil.parseModelToJson(model);
+                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
+                        context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+            }
+        } catch (Exception ex) {
+            CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+            MessageBox.Show(context, ex.toString());
         }
+    }
+
+    //扫描单号获取数据
+    public void SacnnNo(String result) {
+        try {
+            BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                CommonUtil.setEditFocus(sales_outstock_revieworder);
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                del();
+                return;
+            }
+            CurrOrderNO = sales_outstock_revieworder.getText().toString().trim();
+            sales_outstock_address.setText(returnMsgModel.getData().getAddress());
+            out_stock_sales_reviewusername.setText(returnMsgModel.getData().getContacts());
+            Float cartonnum = returnMsgModel.getData().getOrderCartonNum();
+            outstock_sales_boxnum.setText(String.valueOf(cartonnum));
+            Float OrderScanCartonNum = returnMsgModel.getData().getOrderScanCartonNum();
+            outstock_sales_reviewsan.setText(String.valueOf(OrderScanCartonNum));
+            //绑定
+            mModel.setOrderHeaderInfo(returnMsgModel.getData());
+            mModel.setOrderDetailList(returnMsgModel.getData().getDetail());
+            mAdapter = new SalesoutstockreviewAdapter(context, mModel.getOrderDetailList());
+            mList.setAdapter(mAdapter);
+            CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+        } catch (Exception ex) {
+            CommonUtil.setEditFocus(sales_outstock_revieworder);
+            del();
+            MessageBox.Show(context, "数据解析报错");
+
+        }
+    }
 
 
-        //提交返回值
-    public  void  BarcodeSubmit(String result) {
+    //提交返回值
+    public void BarcodeSubmit(String result) {
         try {
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
@@ -472,10 +479,12 @@ public  class SalesOutReview extends BaseActivity {
                     }
                 }
             }
+            CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
             if (!msg.equals("")) {
+                CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
                 MessageBox.Show(context, msg + "更新失败");
             }
-            CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
             MessageBox.Show(context, EX.toString());
@@ -484,8 +493,7 @@ public  class SalesOutReview extends BaseActivity {
     }
 
 
-
-        //散件输入数量
+    //散件输入数量
     private void inputTitleDialog(String name) {
         final EditText inputServer = new EditText(this);
         inputServer.setFocusable(true);
@@ -528,7 +536,7 @@ public  class SalesOutReview extends BaseActivity {
 
 
     //是否扫描过单号
-    public  boolean IsSacnningOrder() {
+    public boolean IsSacnningOrder() {
         if (CurrOrderNO.equals("")) {
             CommonUtil.setEditFocus(sales_outstock_revieworder);
             MessageBox.Show(context, "请先扫描单号");
@@ -566,7 +574,7 @@ public  class SalesOutReview extends BaseActivity {
             if (strarr[3].equals(OutStock_Submit_type_box))//拼箱
                 return OutStock_Submit_type_box;
         }
-        if(strarr.length==2){
+        if (strarr.length == 2) {
             if (strarr[1].equals(OutStock_Submit_type_ppallet))
                 return OutStock_Submit_type_box;
         }
@@ -575,7 +583,6 @@ public  class SalesOutReview extends BaseActivity {
         }
         return OutStock_Submit_type_none;
     }
-
 
 
     //判断是否全部复核完成
@@ -590,19 +597,18 @@ public  class SalesOutReview extends BaseActivity {
     }
 
 
-
     public void ISSubmit(String name) {
         new AlertDialog.Builder(this).setTitle(name)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //点击确定触发的事件
-                         List<SalesoustockReviewRequery> list=new ArrayList<SalesoustockReviewRequery>();
-                        SalesoustockReviewRequery model=new SalesoustockReviewRequery();
-                        model.Erpvoucherno=CurrOrderNO;
-                        model.Scanuserno=BaseApplication.mCurrentUserInfo.getUserno();
-                        model.Vouchertype=CurrvoucherType;
-                        model.Dirver=sales_outstock_driver.getText().toString().trim();
+                        List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
+                        SalesoustockReviewRequery model = new SalesoustockReviewRequery();
+                        model.Erpvoucherno = CurrOrderNO;
+                        model.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
+                        model.Vouchertype = CurrvoucherType;
+                        model.Dirver = sales_outstock_driver.getText().toString().trim();
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",
@@ -617,7 +623,6 @@ public  class SalesOutReview extends BaseActivity {
                     }
                 }).show();
     }
-
 
 
 }

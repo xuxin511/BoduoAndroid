@@ -133,6 +133,9 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         CurrOrderNO="";
         mModel= new PurchaseReturnOffScanModel(this,mHandler);
         CurrVoucherType= type; //
+        if(CurrVoucherType==25) {
+            mButton.setVisibility(View.INVISIBLE);
+        }
 //        if(CurrVoucherType==46) {//领料 发料 派车单 自动过账  (开始隐藏按钮 失败后显示按钮)
 //            //
 //            mButton.setVisibility(View.INVISIBLE);
@@ -203,6 +206,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             model.Barcode = palletno;
                             model.Vouchertype = CurrVoucherType;
                             model.Towarehouseid = BaseApplication.mCurrentWareHouseInfo.getId();
+                            model.Towarehouseno= BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                             // model.Vouchertype=0;
                             String json = GsonUtil.parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",

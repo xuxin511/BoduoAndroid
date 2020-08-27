@@ -209,6 +209,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.Barcode = barcode;
                         model.Vouchertype = CurrvoucherType;
                         model.Towarehouseid = BaseApplication.mCurrentWareHouseInfo.getId();
+                        model.Towarehouseno= BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         // model.Vouchertype=0;
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",

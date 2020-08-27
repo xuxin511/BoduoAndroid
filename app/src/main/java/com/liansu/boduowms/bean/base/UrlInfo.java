@@ -172,9 +172,9 @@ public class UrlInfo {
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OutWork/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 25://一阶段调拨
-                SalesOutstock_ScanningNo = GetWCFAdress() + "Transferout/GetT_OutStockDetailListADFAsync"; //订单扫描
-                SalesOutstock_SacnningPallet = GetWCFAdress() + "Transferout/SaveT_OutStockDetailADFAsync"; //托盘提交
-                SalesOutstock__Review_Submit = GetWCFAdress() + "Transferout/PostT_OutStockDetailADFAsync"; //复核过账
+                SalesOutstock_ScanningNo = GetWCFAdress() +"Transferout/GetT_OutStockDetailListADFAsync"; //订单扫描
+                SalesOutstock_SacnningPallet = GetWCFAdress() +"Transferout/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() +"Transferout/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 30://二阶段调拨
                 SalesOutstock_ScanningNo = GetWCFAdress() + "TransferTwoout/GetT_OutStockDetailListADFAsync"; //订单扫描
@@ -185,6 +185,13 @@ public class UrlInfo {
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OtherOut/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OtherOut/SaveT_OutStockDetailADFAsync"; //托盘提交
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OtherOut/PostT_OutStockDetailADFAsync"; //复核过账
+                break;
+            case 27://仓退
+                SalesOutstock_Review_ScanningNo   = GetWCFAdress() +"PurchaseReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
+                SalesOutstock__SubmitBarcode = GetWCFAdress() + "PurchaseReturn/SubmitReviewScanADFAsync"; //复核条码提交
+                SalesOutstock_ScanningNo = GetWCFAdress() + "PurchaseReturn/GetT_OutStockDetailListADFAsync"; //订单扫描
+                SalesOutstock_SacnningPallet = GetWCFAdress() +"PurchaseReturn/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() +"PurchaseReturn/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
         }
 

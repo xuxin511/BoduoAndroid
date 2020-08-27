@@ -106,7 +106,14 @@ public class OutboundBusinessSubMenuModel {
             if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
                 intent.setClass(mContext, PurchaseInspectionBill.class);
             } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)){
-                intent.setClass(mContext, PurchaseReturnOffScan.class);
+               // intent.setClass(mContext, PurchaseReturnOffScan.class);//仓退
+                MenuOutStockModel model=new MenuOutStockModel();
+                model.Title="采购退货下架";
+                model.VoucherType="27";
+                String json = GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
+                intent.setData(data);
+                intent.setClass(mContext, SalesOutstock.class);
             }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
                 //销售出库下架
                 MenuOutStockModel model=new MenuOutStockModel();
@@ -137,18 +144,18 @@ public class OutboundBusinessSubMenuModel {
             }
 
             intent.putExtra("BusinessType", businessType);
-        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
-          //市内装车
-          //  intent = intent.setClass(mContext, BaseReviewScan.class);
-            if  (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
+        }
+        else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
+            //市内装车
+            //  intent = intent.setClass(mContext, BaseReviewScan.class);
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
                 intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-            }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
+            } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
                 //销售出库复核PackingScanAdapter
                 Uri data = Uri.parse("29");
                 intent.setData(data);
                 intent.setClass(mContext, SalesOutReview.class);
-            }
-            else if(businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER )){
+            } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER)) {
                 //派车单复核
                 Uri data = Uri.parse("36");
                 intent.setData(data);
@@ -171,7 +178,8 @@ public class OutboundBusinessSubMenuModel {
             intent = intent.setClass(mContext, BaseReviewScan.class);
             intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
 
-        }else if(moduleName.equals((mContext.getString(((R.string.main_menu_item_loading_truck)))))) {
+        }
+        else if(moduleName.equals((mContext.getString(((R.string.main_menu_item_loading_truck)))))) {
             //发货装车
             //销售出库装车
             if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
@@ -179,10 +187,16 @@ public class OutboundBusinessSubMenuModel {
                 intent.setData(data);
                 intent.setClass(mContext, OutstockSalesConfig.class);
             }
-            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)){
+           else  if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)){
+               //采购验退
                 intent = intent.setClass(mContext, BaseReviewScan.class);
                 intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-
+            }
+            else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)) {
+                //仓退复核
+                Uri data = Uri.parse("27");
+                intent.setData(data);
+                intent.setClass(mContext, SalesOutReview.class);
             }
             intent.putExtra("BusinessType", businessType);
         }
