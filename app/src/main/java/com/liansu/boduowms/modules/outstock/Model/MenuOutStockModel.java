@@ -10,6 +10,16 @@ public class MenuOutStockModel {
 
     public   String VoucherType;
 
+    public  String ErpVoucherNo;
+
+    public String getErpVoucherNo() {
+        return ErpVoucherNo;
+    }
+
+    public void setErpVoucherNo(String erpVoucherNo) {
+        ErpVoucherNo = erpVoucherNo;
+    }
+
     public String getTitle() {
         return Title;
     }

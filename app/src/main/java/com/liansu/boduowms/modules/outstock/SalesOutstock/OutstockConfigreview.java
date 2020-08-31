@@ -530,6 +530,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.Erpvoucherno=CurrOrderNO;
                         model.Scanuserno=BaseApplication.mCurrentUserInfo.getUserno();
                         model.Vouchertype=CurrvoucherType;
+                        model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",

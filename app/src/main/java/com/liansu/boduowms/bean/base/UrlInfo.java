@@ -193,10 +193,20 @@ public class UrlInfo {
                 SalesOutstock_SacnningPallet = GetWCFAdress() +"PurchaseReturn/SaveT_OutStockDetailADFAsync"; //托盘提交
                 SalesOutstock__Review_Submit = GetWCFAdress() +"PurchaseReturn/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
+            case 28://销退
+                SalesOutstock_Review_ScanningNo   = GetWCFAdress() +"InspecReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
+                SalesOutstock__SubmitBarcode = GetWCFAdress() + "InspecReturn/SubmitReviewScanADFAsync"; //复核条码提交
+                SalesOutstock_ScanningNo = GetWCFAdress() + "InspecReturn/GetT_OutStockDetailListADFAsync"; //订单扫描
+                SalesOutstock_SacnningPallet = GetWCFAdress() + "InspecReturn/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() + "InspecReturn/PostT_OutStockDetailADFAsync"; //复核过账
+                break;
         }
 
     }
 
+   //盘点
+
+    public String Inventory_Head_GetCheckList = GetWCFAdress() + "Check/GetAndroidT_Check"; //获取盘点明细
 
 //    public String SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
 //    public String SalesOutstock_JudgeStock        = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存

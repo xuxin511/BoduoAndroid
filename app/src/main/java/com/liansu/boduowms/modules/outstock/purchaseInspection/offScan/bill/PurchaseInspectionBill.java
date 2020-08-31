@@ -19,6 +19,7 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan;
 import com.liansu.boduowms.ui.adapter.outstock.purchaseInspection.PurchaseInspectionBillItemAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -125,9 +126,18 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
     @Event(value = R.id.lsvChoiceReceipt, type = AdapterView.OnItemClickListener.class)
     private void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         OutStockOrderHeaderInfo receiptModel = (OutStockOrderHeaderInfo) mAdapter.getItem(position);
-
         try {
-            StartScanIntent(receiptModel, null);
+            Intent intent = new Intent();
+            MenuOutStockModel model=new MenuOutStockModel();
+            model.Title="采购验退下架";
+            model.VoucherType="28";
+            model.ErpVoucherNo=receiptModel.getErpvoucherno();
+            String json = GsonUtil.parseModelToJson(model);
+            Uri data = Uri.parse(json);
+            intent.setData(data);
+            intent.setClass(this, OutstockRawmaterialActivity.class);
+            startActivity(intent);
+          //  StartScanIntent(receiptModel, null);
         } catch (Exception e) {
             e.printStackTrace();
         }

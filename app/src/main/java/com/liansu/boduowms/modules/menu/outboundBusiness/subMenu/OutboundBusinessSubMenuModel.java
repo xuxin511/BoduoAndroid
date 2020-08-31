@@ -104,7 +104,8 @@ public class OutboundBusinessSubMenuModel {
         Intent intent = new Intent();
         if (moduleName.equals(mContext.getString(R.string.main_menu_item_off_shelf_scan))) { //下架扫描
             if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
-                intent.setClass(mContext, PurchaseInspectionBill.class);
+                intent.setClass(mContext, PurchaseInspectionBill.class); //验退单
+
             } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)){
                // intent.setClass(mContext, PurchaseReturnOffScan.class);//仓退
                 MenuOutStockModel model=new MenuOutStockModel();
@@ -148,9 +149,7 @@ public class OutboundBusinessSubMenuModel {
         else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
             //市内装车
             //  intent = intent.setClass(mContext, BaseReviewScan.class);
-            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
-                intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-            } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
                 //销售出库复核PackingScanAdapter
                 Uri data = Uri.parse("29");
                 intent.setData(data);
@@ -189,8 +188,11 @@ public class OutboundBusinessSubMenuModel {
             }
            else  if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)){
                //采购验退
-                intent = intent.setClass(mContext, BaseReviewScan.class);
-                intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
+//                intent = intent.setClass(mContext, BaseReviewScan.class);
+//                intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
+                Uri data = Uri.parse("28");
+                intent.setData(data);
+                intent.setClass(mContext, SalesOutReview.class);
             }
             else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)) {
                 //仓退复核

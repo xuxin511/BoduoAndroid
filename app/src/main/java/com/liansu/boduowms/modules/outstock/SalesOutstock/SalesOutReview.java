@@ -245,6 +245,7 @@ public  class SalesOutReview extends BaseActivity {
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+                        return true;
                     }
                     if (type.equals(OutStock_Submit_type_parts)) {
                         //散件
@@ -262,7 +263,7 @@ public  class SalesOutReview extends BaseActivity {
                         MessageBox.Show(context, "该托盘是拼托,请确认");
                         return true;
                     }
-                }
+                }else{return  true;}
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
                 MessageBox.Show(context, "字符格式出错");

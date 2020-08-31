@@ -407,6 +407,7 @@ public  class SalesOutStockBox   extends BaseActivity {
         }
         checkBox.setChecked(false);
         stockInfoModels=new ArrayList<OutStockOrderDetailInfo>();
+        modelIsExits = new HashMap<String, String>();
         mModel.setOrderDetailList(returnMsgModel.getData());
         mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
         mList.setAdapter(mAdapter);
@@ -540,7 +541,6 @@ public  class SalesOutStockBox   extends BaseActivity {
                      MessageBox.Show(context, returnMsgModel.getResultValue());
                  }
             }
-            return;
         } catch (Exception ex) {
             CommonUtil.setEditFocus(sales_outstock_box_watercode);
             MessageBox.Show(context, ex.toString());

@@ -159,6 +159,10 @@ public class SalesOutstock  extends BaseActivity  {
     //散件类
     private  MaterialResponseModel   materialModle;
 
+
+    //托盘是否可用
+    boolean  palletIsTrue=false;
+
     //region 初始化
     @Override
     protected void initViews() {
@@ -179,9 +183,9 @@ public class SalesOutstock  extends BaseActivity  {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 //托盘框获取焦点
-                CommonUtil.setEditFocus(sales_outstock_pallettext);
                 switch (checkedId) {
                     case R.id.sales_outstock_rediobutton_pallet:
+                        CommonUtil.setEditFocus(sales_outstock_pallettext);
                         sales_outstock_boxtext.setVisibility(View.INVISIBLE);
                         sales_outstock_boxtext.setText("");
                         OutStock_Type=OutStock_Submit_type_pallet;
@@ -193,6 +197,9 @@ public class SalesOutstock  extends BaseActivity  {
                         sales_outstock_boxtext.setHint("扫描箱号");
                         sales_outstock_boxtext.setText("");
                         materialModle=new  MaterialResponseModel();
+                        if(palletIsTrue){
+                            CommonUtil.setEditFocus(sales_outstock_boxtext);
+                        }
                         break;
                     case R.id.sales_outstock_rediobutton_san:
                         sales_outstock_boxtext.setHint("扫描69码/物料");
@@ -200,6 +207,9 @@ public class SalesOutstock  extends BaseActivity  {
                         sales_outstock_boxtext.setText("");
                         sales_outstock_boxtext.setVisibility(View.VISIBLE);
                         materialModle=new  MaterialResponseModel();
+                        if(palletIsTrue){
+                            CommonUtil.setEditFocus(sales_outstock_boxtext);
+                        }
                         break;
                 }
             }
@@ -292,6 +302,7 @@ String  url;
                             CommonUtil.setEditFocus(sales_outstock_pallettext);
                             MessageBox.Show(context, "请输入或扫描正确托盘号");
                             CommonUtil.setEditFocus(sales_outstock_pallettext);
+                            palletIsTrue=false;
                             return true;
                         } else {
                             if(OutStock_Type.equals(OutStock_Submit_type_pallet)){
@@ -299,6 +310,7 @@ String  url;
                                     CommonUtil.setEditFocus(sales_outstock_pallettext);
                                     MessageBox.Show(context, "该托盘是拼托,请选择其它模式下架");
                                     CommonUtil.setEditFocus(sales_outstock_pallettext);
+                                    palletIsTrue=false;
                                     return true;
                                 }
                             }
@@ -315,9 +327,13 @@ String  url;
                             return true;
                         }
                     }
+                }else
+                {
+                    return true;
                 }
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_pallettext);
+                palletIsTrue=false;
                 MessageBox.Show(context, ex.getMessage());
                 return true;
             }
@@ -391,6 +407,8 @@ String  url;
                         }
 
                     }
+                }else{
+                    return true;
                 }
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_boxtext);
@@ -605,6 +623,7 @@ String  url;
 
 
 
+
     //先判断托盘是否存在   再处理逻辑
     public  void   BarcodeisExist(String result){
         try {
@@ -613,8 +632,10 @@ String  url;
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_pallettext);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
+                palletIsTrue=false;
                 return;
             }
+            palletIsTrue=true;
             //region   托盘回车
             //判断是否是提交托盘还是箱号
             String palletno = sales_outstock_pallettext.getText().toString().trim();
@@ -650,7 +671,7 @@ String  url;
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_pallettext);
             MessageBox.Show(context, EX.toString());
-
+            palletIsTrue=false;
             return;
         }
     }

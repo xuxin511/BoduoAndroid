@@ -278,7 +278,7 @@ public class OutstockSalesConfig extends BaseActivity {
                 awyBll.Contacts=outstock_config_creater.getText().toString().trim();
                 awyBll.Creater=BaseApplication.mCurrentUserInfo.getUserno(); //当前登录的人
                 //awyBll.Customerno= outstock_config_creater.getText().toString().trim();
-               // awyBll.InsuranceCost= Float.parseFloat(sales_outstock_configbj_text.getText().toString().trim());
+                awyBll.InsuranceCost= Float.parseFloat(sales_outstock_configbj_text.getText().toString().trim());
                 awyBll.LogisticsCompany= mfhSpinner.getText().toString().trim();
                 if(pair.value.equals("2")) {
                     awyBll.OutCostTotal= Float.parseFloat(sales_outstock_configsm_text.getText().toString().trim());

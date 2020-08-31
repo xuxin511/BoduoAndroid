@@ -8,6 +8,7 @@ import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
 import com.liansu.boduowms.bean.menu.MenuInfo;
 import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.inHouseStock.adjustStock.AdjustStock;
+import com.liansu.boduowms.modules.inHouseStock.inventory.InventoryHead;
 import com.liansu.boduowms.modules.inHouseStock.inventoryMovement.InventoryMovementScan;
 import com.liansu.boduowms.modules.inHouseStock.query.QueryStock;
 import com.liansu.boduowms.modules.menu.IMenuPresenter;
@@ -83,6 +84,9 @@ public class InHouseManagementMenuPresenter extends IMenuPresenter {
             intent.setClass(mContext, AdjustStock.class);
         }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_inventory_inquiry))){
             intent.setClass(mContext, QueryStock.class);
+        }else if(moduleName.equals(mContext.getString(R.string.main_menu_item_inventory_scan))){
+           //盘点
+            intent.setClass(mContext, InventoryHead.class);
         }
 
         if (intent != null) {

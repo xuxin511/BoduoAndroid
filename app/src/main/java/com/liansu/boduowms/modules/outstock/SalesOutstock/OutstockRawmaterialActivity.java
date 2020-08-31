@@ -133,14 +133,26 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         CurrOrderNO="";
         mModel= new PurchaseReturnOffScanModel(this,mHandler);
         CurrVoucherType= type; //
-        if(CurrVoucherType==25) {
+        if(CurrVoucherType==25 || CurrVoucherType==28) {
             mButton.setVisibility(View.INVISIBLE);
+        }
+        if(type==28)//验退需要立即查询单号
+        {
+            sales_outstock_rawmaterial_order.setText(model.ErpVoucherNo);
+          //  CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
+            SalesoutstockRequery salesoutstockRequery = new SalesoutstockRequery();
+            salesoutstockRequery.Erpvoucherno = model.ErpVoucherNo;
+            salesoutstockRequery.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+            salesoutstockRequery.Creater = BaseApplication.mCurrentUserInfo.getUsername();
+            String json = GsonUtil.parseModelToJson(salesoutstockRequery);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
+                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+
         }
 //        if(CurrVoucherType==46) {//领料 发料 派车单 自动过账  (开始隐藏按钮 失败后显示按钮)
 //            //
 //            mButton.setVisibility(View.INVISIBLE);
 //        }
-
     }
 
     @Override
@@ -214,6 +226,8 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             return true;
                         }
                     }
+                }else{
+                    return true;
                 }
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_material_pallettext);
@@ -231,19 +245,19 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     private void  Click_post(View view) {
         if (IsSacnningOrder()) {
             //过账接口
-            if (CurrVoucherType == 46) {//领料发料
-                //有这个按钮说明就是已经提交过一次失败了
-                //直接访问后台接口
-                List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
-                SalesoustockReviewRequery model = new SalesoustockReviewRequery();
-                model.Erpvoucherno = CurrOrderNO;
-                model.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
-                model.Vouchertype = CurrVoucherType;
-                list.add(model);
-                String modelJson = parseModelToJson(list);
-                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
-                        context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
-            } else {//杂出
+//            if (CurrVoucherType == 46) {//领料发料
+//                //有这个按钮说明就是已经提交过一次失败了
+//                //直接访问后台接口
+//                List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
+//                SalesoustockReviewRequery model = new SalesoustockReviewRequery();
+//                model.Erpvoucherno = CurrOrderNO;
+//                model.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
+//                model.Vouchertype = CurrVoucherType;
+//                list.add(model);
+//                String modelJson = parseModelToJson(list);
+//                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
+//                        context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
+//            } else {//杂出
                 if (IsScanningOver()) {
                     List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
                     SalesoustockReviewRequery model = new SalesoustockReviewRequery();
@@ -258,7 +272,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                     MessageBox.Show(context, "需要全部下架完成才能复核提交");
                 }
-            }
+          //  }
         }
     }
 
