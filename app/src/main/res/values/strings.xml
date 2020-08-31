@@ -374,7 +374,9 @@
     <string name="return_storage_scan_print_query_date_time_hint"></string>
     <string name="return_storage_scan_print_material_desc">物料名称:</string>
     <string name="return_storage_scan_print_pack_qty">包装量:</string>
-    <string name="return_storage_scan_print_qty">总数量:</string>
+    <string name="return_storage_scan_print_count">张数:</string>
+    <string name="return_storage_scan_print_receipt_qty">待收数:</string>
+    <string name="return_storage_scan_print_pallet_qty">整托数:</string>
     <string name="return_storage_scan_print_button">打印</string>
     <string name="return_storage_scan_print_batch_no">批次:</string>
     <string name="return_storage_scan_print_batch_no_select">选择</string>

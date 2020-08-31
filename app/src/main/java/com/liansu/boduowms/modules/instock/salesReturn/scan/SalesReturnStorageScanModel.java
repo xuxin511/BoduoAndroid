@@ -162,6 +162,7 @@ public class SalesReturnStorageScanModel extends BaseOrderScanModel {
             String serialNo = scanBarcode.getSerialno();
             String materialNo = scanBarcode.getMaterialno();
             String batchNo = scanBarcode.getBatchno();
+            String customerCode=scanBarcode.getCustomerno()!=null?scanBarcode.getCustomerno():"";
             float qty = scanBarcode.getQty();
             //校验物料编号
             if (materialNo == null) {
@@ -187,6 +188,16 @@ public class SalesReturnStorageScanModel extends BaseOrderScanModel {
                 resultInfo.setHeaderStatus(false);
                 resultInfo.setMessage("校验条码失败:数量必须大于0");
                 return resultInfo;
+            }
+            if (mList.size()>0){
+                String sCustomerCode=mList.get(0).getCustomerno();
+                if (sCustomerCode!=null){
+                   if (!sCustomerCode.equals(customerCode)){
+                       resultInfo.setHeaderStatus(false);
+                       resultInfo.setMessage("校验条码失败:条码["+scanBarcode.getBarcode()+"]的客户编码["+scanBarcode.getCustomerno()+"]和第一个条码的客户编码["+sCustomerCode+"]不一致");
+                       return resultInfo;
+                   }
+                }
             }
 
             //校验条码重复

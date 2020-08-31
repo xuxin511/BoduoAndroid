@@ -16,13 +16,17 @@ public interface ISalesReturnPrintView {
     void onEndTimeFocus();
     void onMaterialNoFocus();
     void onPackQtyFocus();
-    void onPrintQtyFocus();
+    void onPrintCountFocus();
+    void onRemainQtyFocus();
+    void onPalletQtyFocus();
     void setMaterialInfo(OrderDetailInfo orderDetailInfo);
     void setSpinnerData(List<String> list);
     void createCalendarDialog(EditText editText);
     void setPackQty(float packQty);
     void setPackQtyEnable(boolean isEnable);
     void onReset();
+    float getPalletRemainQty();
+    float getPalletQty();
 
 
 }

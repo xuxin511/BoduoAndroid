@@ -10,24 +10,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/return_storage_scan_print_customer_code"
         android:textColor="@color/black"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/return_sales_print_customer_code"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintTop_toTopOf="@+id/logistics_loading_settings_guideline_h_1" />
+        app:layout_constraintTop_toTopOf="@+id/return_sales_print_customer_code" />
 
     <EditText
         android:id="@+id/return_sales_print_customer_code"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginRight="8dp"
         android:ems="10"
         android:hint="@string/return_storage_scan_print_customer_code_hint"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
         app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
@@ -35,10 +37,10 @@
 
 
     <ImageView
-        android:src="@drawable/picker_view"
         android:id="@+id/return_storage_scan_print_query_date_time_select"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:src="@drawable/picker_view"
         android:text="@string/return_storage_scan_print_batch_no_select"
         app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_query_start_date_time"
         app:layout_constraintRight_toRightOf="parent"
@@ -50,12 +52,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/return_storage_scan_print_query_date_time"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_query_start_date_time"
         app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintTop_toBottomOf="@+id/return_sales_print_customer_code_desc" />
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_query_start_date_time" />
 
     <TextView
 
@@ -64,45 +66,48 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/return_storage_scan_print_query_end_date_time"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_query_end_date_time"
         app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_query_date_time_desc" />
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_query_end_date_time" />
 
     <EditText
         android:id="@+id/return_storage_scan_print_query_start_date_time"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginRight="8dp"
         android:ems="10"
-        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_query_date_time_desc"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select" />
+        app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
+        app:layout_constraintTop_toBottomOf="@+id/return_sales_print_customer_code" />
 
     <EditText
         android:id="@+id/return_storage_scan_print_query_end_date_time"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginRight="8dp"
         android:ems="10"
-        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_query_end_date_time_desc"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select" />
+        app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
+        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_query_start_date_time" />
 
     <ImageView
-        android:src="@drawable/picker_view"
         android:id="@+id/return_storage_scan_print_query_end_date_time_select"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:src="@drawable/picker_view"
         app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_query_end_date_time"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_query_end_date_time" />
@@ -113,29 +118,29 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/return_storage_scan_print_material_no"
-
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_material_no"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_query_end_date_time_desc" />
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_material_no" />
 
     <EditText
         android:id="@+id/return_storage_scan_print_material_no"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginRight="8dp"
         android:ems="10"
         android:hint="@string/return_storage_scan_print_material_no_hint"
-        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_material_no_desc"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select" />
+        app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
+        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_query_end_date_time" />
 
     <TextView
         android:id="@+id/return_storage_scan_print_material_desc"
@@ -143,30 +148,30 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/return_storage_scan_print_material_desc"
-
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_material_name"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_material_no_desc" />
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_material_name" />
 
 
     <TextView
-        android:gravity="left"
         android:id="@+id/return_storage_scan_print_material_name"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginRight="8dp"
         android:ems="10"
+        android:gravity="left"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
         app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_material_no_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_material_no" />
 
 
     <TextView
@@ -175,24 +180,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/return_storage_scan_print_batch_no"
         android:textColor="@color/black"
-
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_batch_no"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_material_desc" />
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_batch_no" />
 
     <Spinner
         android:id="@+id/return_storage_scan_print_batch_no"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
+        android:minHeight="@dimen/common_layout_height_second"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
         app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_material_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_material_name" />
 
     <TextView
         android:id="@+id/return_storage_scan_print_pack_qty_desc"
@@ -200,59 +205,113 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/return_storage_scan_print_pack_qty"
         android:textColor="@color/black"
-
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_pack_qty"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_batch_no_desc" />
+        app:layout_constraintLeft_toLeftOf="@+id/return_storage_scan_print_material_desc"
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_pack_qty" />
 
     <EditText
-        android:inputType="numberDecimal"
         android:id="@+id/return_storage_scan_print_pack_qty"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
+        android:inputType="numberDecimal"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_batch_no_desc" />
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_3"
+        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_batch_no" />
 
     <TextView
-        android:id="@+id/return_storage_scan_print_qty_desc"
+        android:id="@+id/return_storage_scan_print_count_desc"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/return_storage_scan_print_qty"
+        android:text="@string/return_storage_scan_print_count"
         android:textColor="@color/black"
-
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_pack_qty"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_pack_qty" />
+        app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_3"
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_pack_qty" />
+
 
     <EditText
+        android:id="@+id/return_storage_scan_print_count"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:inputType="numberDecimal"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintLeft_toRightOf="@+id/return_storage_scan_print_count_desc"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_5"
+        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_batch_no" />
+
+    <TextView
+        android:id="@+id/return_storage_scan_print_receipt_qty_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/return_storage_scan_print_receipt_qty"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_qty"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/return_storage_scan_print_material_desc"
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_qty" />
+
+    <TextView
+        android:id="@+id/return_storage_scan_print_pallet_qty_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/return_storage_scan_print_pallet_qty"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_qty"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/return_storage_scan_print_qty"
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_qty" />
+    <EditText
+        android:id="@+id/return_storage_scan_print_pallet_qty"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
+        android:layout_marginTop="@dimen/common_margin_top_first"
+        android:inputType="numberDecimal"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintLeft_toRightOf="@+id/return_storage_scan_print_pallet_qty_desc"
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_5"
+        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_pack_qty"></EditText>
+
+    <EditText
         android:id="@+id/return_storage_scan_print_qty"
         style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
-        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_qty_desc"
+        android:layout_marginTop="@dimen/common_margin_top_first"
+        android:inputType="numberDecimal"
+        android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
-        app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
-        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_qty_desc">
+        app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_3"
+        app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_pack_qty">
 
     </EditText>
 
 
     <Button
-        android:textColor="@color/white"
         android:id="@+id/return_storage_scan_print_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -263,6 +322,7 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/bt_selector"
         android:text="@string/logistics_loading_settings_confirm"
+        android:textColor="@color/white"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -280,14 +340,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.02" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/logistics_loading_settings_guideline_v_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.55" />
+        app:layout_constraintGuide_percent="0.54" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/logistics_loading_settings_guideline_v_4"
@@ -295,7 +355,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.9" />
-
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/logistics_loading_settings_guideline_v_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/logistics_loading_settings_guideline_h_2"
         android:layout_width="wrap_content"

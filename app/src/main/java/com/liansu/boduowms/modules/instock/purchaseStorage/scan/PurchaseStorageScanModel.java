@@ -140,7 +140,7 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
             String materialNo = outBarcodeInfo.getMaterialno() != null ? outBarcodeInfo.getMaterialno() : "";
             String batchNo = outBarcodeInfo.getBatchno() != null ? outBarcodeInfo.getBatchno() : "";
             int barcodeQty = (int) outBarcodeInfo.getQty();
-            int packQty=outBarcodeInfo.getPackqty();
+            float packQty=outBarcodeInfo.getPackqty();
             String QRBarcode = materialNo+"%"+batchNo+"%"+packQty+"%"+1;
             printInfo.setMaterialNo(materialNo);
             printInfo.setMaterialDesc(outBarcodeInfo.getMaterialdesc());

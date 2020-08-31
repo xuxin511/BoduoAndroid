@@ -251,17 +251,17 @@ public class BaseOrderLabelPrintSelectPresenter {
      */
     public void onScan(String materialNo, int printType) {
         try {
-            if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
-                if (mModel.getOrderDetailList().size() == 0) {
-                    MessageBox.Show(mContext, "校验单据信息失败：获取的单据信息为空，请先扫描单据号", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mView.onErpVoucherNoFocus();
-                        }
-                    });
-                    return;
-                }
-            }
+//            if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
+//                if (mModel.getOrderDetailList().size() == 0) {
+//                    MessageBox.Show(mContext, "校验单据信息失败：获取的单据信息为空，请先扫描单据号", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            mView.onErpVoucherNoFocus();
+//                        }
+//                    });
+//                    return;
+//                }
+//            }
             OutBarcodeInfo scanQRCode = null;
             if (materialNo.equals("")) return;
             BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(materialNo);
@@ -328,7 +328,12 @@ public class BaseOrderLabelPrintSelectPresenter {
                         if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
                             onScanByOuterBoxPrintType(scanQRCode);
                         } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
-                            onScanByPalletNoPrintType(scanQRCode);
+                            if (mModel.getOrderDetailList().size()>0){
+                                onScanByPalletNoPrintType(scanQRCode);
+                            }else {
+                                onScanByPalletNoPrintTypeWithNoOrder(scanQRCode);
+                            }
+
                         }
 
                     } else {
@@ -375,6 +380,16 @@ public class BaseOrderLabelPrintSelectPresenter {
 
     }
 
+    /**
+     * @desc:  托盘无订单扫描方式 ,直接扫描物料后跳转
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/28 12:36
+     */
+    public void onScanByPalletNoPrintTypeWithNoOrder(OutBarcodeInfo scanQRCode) {
+        onScanByOuterBoxPrintType(scanQRCode);
+    }
     /**
      * @desc: 打印托盘方式的扫描
      * @param:

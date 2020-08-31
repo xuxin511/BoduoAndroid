@@ -200,7 +200,7 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
         if (mPresenter!=null){
             bindListView(mPresenter.getModel().getList());
         }
-       onPalletNoFocus();
+       onAreaNoFocus();
     }
 
     @Override

@@ -39,6 +39,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -48,12 +49,12 @@ import java.util.List;
  * @ Created by yangyiqing on 2020/7/17.
  */
 @ContentView(R.layout.return_sales_print)
-public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintView , IUserSettingView {
+public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintView, IUserSettingView {
     Context mContext = SalesReturnPrint.this;
     @ViewInject(R.id.return_sales_print_customer_code)
     EditText  mCustomerCode;
     @ViewInject(R.id.return_storage_scan_print_query_start_date_time)
-    EditText mStartDateTime;
+    EditText  mStartDateTime;
     @ViewInject(R.id.return_storage_scan_print_query_end_date_time)
     EditText  mEndDateTime;
     @ViewInject(R.id.return_storage_scan_print_query_date_time_select)
@@ -61,21 +62,26 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     @ViewInject(R.id.return_storage_scan_print_query_end_date_time_select)
     ImageView mEndDateTimeSelect;
     @ViewInject(R.id.return_storage_scan_print_material_no)
-    EditText mMaterialNo;
+    EditText  mMaterialNo;
     @ViewInject(R.id.return_storage_scan_print_material_name)
-    TextView mMaterialName;
+    TextView  mMaterialName;
     @ViewInject(R.id.return_storage_scan_print_batch_no)
-    Spinner  mBatchNoSpinner;
+    Spinner   mBatchNoSpinner;
     @ViewInject(R.id.return_storage_scan_print_pack_qty)
-    EditText mPackQty;
+    EditText  mPackQty;
+    @ViewInject(R.id.return_storage_scan_print_count)
+    EditText  mOuterBoxPrintCount;
     @ViewInject(R.id.return_storage_scan_print_qty)
-    EditText mSumPalletQty;
+    EditText  mPalletRemainQty;
+    @ViewInject(R.id.return_storage_scan_print_pallet_qty)
+    EditText  mPalletQty;
     @ViewInject(R.id.return_storage_scan_print_button)
-    Button   mPrintButton;
+    Button    mPrintButton;
     ArrayAdapter              mBatchNoArrayAdapter;
     SalesReturnPrintPresenter mPresenter;
-    TimePickerView pvCustomLunar;
+    TimePickerView            pvCustomLunar;
     protected UserSettingPresenter mUserSettingPresenter;
+
     @Override
     protected void initViews() {
         super.initViews();
@@ -92,7 +98,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     protected void initData() {
         super.initData();
         mPresenter = new SalesReturnPrintPresenter(mContext, this, mHandler);
-        mUserSettingPresenter=new UserSettingPresenter(mContext,this);
+        mUserSettingPresenter = new UserSettingPresenter(mContext, this);
 
     }
 
@@ -123,12 +129,50 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
     @Override
     public void onPackQtyFocus() {
-        CommonUtil.setEditFocus(mPackQty);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mPackQty);
+            }
+        }, 200);
+
+
     }
 
     @Override
-    public void onPrintQtyFocus() {
-        CommonUtil.setEditFocus(mSumPalletQty);
+    public void onPrintCountFocus() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mOuterBoxPrintCount);
+            }
+        }, 200);
+
+    }
+
+    @Override
+    public void onRemainQtyFocus() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mPalletRemainQty);
+            }
+        }, 200);
+
+
+
+    }
+
+    @Override
+    public void onPalletQtyFocus() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mPalletQty);
+            }
+        }, 200);
+
+
     }
 
     @Override
@@ -142,6 +186,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                 setPackQtyEnable(true);
             }
         } else {
+            setPackQtyEnable(true);
             mMaterialName.setText("");
         }
     }
@@ -149,14 +194,17 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     @Override
     public void setSpinnerData(List<String> list) {
         if (list == null || list.size() == 0) {
-            if (mBatchNoSpinner.getVisibility() != View.GONE) {
-                mBatchNoSpinner.setVisibility(View.GONE);
-            }
-            return;
-        } else {
-            if (mBatchNoSpinner.getVisibility() != View.VISIBLE) {
-                mBatchNoSpinner.setVisibility(View.VISIBLE);
-            }
+            list = new ArrayList<>();
+            list.add(" ");
+        }
+//            if (mBatchNoSpinner.getVisibility() != View.GONE) {
+//                mBatchNoSpinner.setVisibility(View.GONE);
+//            }
+//            return;
+//        } else {
+//            if (mBatchNoSpinner.getVisibility() != View.VISIBLE) {
+//                mBatchNoSpinner.setVisibility(View.VISIBLE);
+//            }
 
             // 设置spinner，不用管什么作用
             mBatchNoArrayAdapter = new ArrayAdapter<String>(this,
@@ -176,11 +224,11 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
                 }
             });// 添加监听
-        }
+
 
     }
 
-    @Event(value = {R.id.return_sales_print_customer_code, R.id.return_storage_scan_print_query_start_date_time, R.id.return_storage_scan_print_query_end_date_time, R.id.return_storage_scan_print_material_no}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.return_sales_print_customer_code, R.id.return_storage_scan_print_query_start_date_time, R.id.return_storage_scan_print_query_end_date_time, R.id.return_storage_scan_print_material_no, R.id.return_storage_scan_print_pack_qty, R.id.return_storage_scan_print_count, R.id.return_storage_scan_print_qty, R.id.return_storage_scan_print_pallet_qty}, type = View.OnKeyListener.class)
     private boolean edtStockScanClick(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
@@ -223,7 +271,17 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                         onMaterialNoFocus();
                     }
                     break;
-
+                case R.id.return_storage_scan_print_pack_qty:
+                    onPrintCountFocus();
+                    break;
+                case R.id.return_storage_scan_print_count:
+                    onRemainQtyFocus();
+                    break;
+                case R.id.return_storage_scan_print_qty:
+                    onPalletQtyFocus();
+                    break;
+                case R.id.return_storage_scan_print_pallet_qty:
+                    break;
             }
 
         }
@@ -269,6 +327,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
     @Override
     public void onReset() {
+        setMaterialInfo(null);
         mCustomerCode.setText("");
         mStartDateTime.setText("");
         mEndDateTime.setText("");
@@ -276,11 +335,23 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         mMaterialNo.setText("");
         mMaterialName.setText("");
         setPackQty(0);
-        mSumPalletQty.setText(0 + "");
-
-
+        mPalletRemainQty.setText(0 + "");
+        mPackQty.setText("0");
+        mOuterBoxPrintCount.setText("0");
+        mPalletRemainQty.setText("0");
+        mPalletQty.setText("0");
+        onCustomerNoFocus();
     }
 
+    @Override
+    public float getPalletRemainQty() {
+        return Float.parseFloat(mPalletRemainQty.getText().toString().trim());
+    }
+
+    @Override
+    public float getPalletQty() {
+        return Float.parseFloat(mPalletQty.getText().toString().trim());
+    }
 
 
     @Event(R.id.return_storage_scan_print_button)
@@ -293,14 +364,14 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                 batchNo = mBatchNoSpinner.getSelectedItem().toString();
             }
             float packQty = Float.parseFloat(mPackQty.getText().toString().trim());
-            float sumPalletQty = Float.parseFloat(mSumPalletQty.getText().toString().trim());
-            mPresenter.onPrint(materialNo, materialName, batchNo, packQty, sumPalletQty);
+            float packCount = Float.parseFloat(mOuterBoxPrintCount.getText().toString().trim());
+            mPresenter.onPrint(materialNo, materialName, batchNo, packQty, packCount);
         }
     }
 
-    @Event(value ={R.id.return_storage_scan_print_query_date_time_select,R.id.return_storage_scan_print_query_end_date_time_select})
+    @Event(value = {R.id.return_storage_scan_print_query_date_time_select, R.id.return_storage_scan_print_query_end_date_time_select})
     private void onTimePickerViewClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.return_storage_scan_print_query_date_time_select:
                 createCalendarDialog(mStartDateTime);
                 break;
@@ -310,7 +381,6 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         }
 
     }
-
 
 
     @Override
@@ -362,7 +432,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
     @Override
     public void setTitle() {
-        if (mPresenter!=null){
+        if (mPresenter != null) {
             getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
         }
 
@@ -373,8 +443,6 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         getMenuInflater().inflate(R.menu.mednu_sale_return, menu);
         return true;
     }
-
-
 
 
 }

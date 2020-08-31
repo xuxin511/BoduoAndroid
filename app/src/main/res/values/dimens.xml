@@ -11,7 +11,7 @@
     <dimen name="activity_list_text_size_second">14sp</dimen>
     <dimen name="activity_list_text_size_third">13sp</dimen>
     <dimen name="activity_purchase_inspection_text_size">16sp</dimen>
-    <dimen name="activity_return_sales_print_margin_left">8dp</dimen>
+    <dimen name="activity_return_sales_print_margin_left">2dp</dimen>
     <dimen name="activity_random_inspection_margin_top">3dp</dimen>
     <dimen name="base_order_label_print_select_text_size">16sp</dimen>
     <dimen name="base_order_label_print_margin_top">5dp</dimen>
@@ -28,6 +28,7 @@
     <dimen name="common_text_size_sixth">14sp</dimen>
     <dimen name="common_text_size_seventh">18sp</dimen>
     <dimen name="common_margin_top_first">5dp</dimen>
+    <dimen name="common_margin_top_second">8dp</dimen>
 
 
 

@@ -83,7 +83,7 @@ public class OrderDetailInfo implements Parcelable {
     protected String               Scanuserno;
     protected String               Supplierno;
     protected String               Suppliername;
-    protected int                  PackQty;   /// 包装规格
+    protected float                  PackQty;   /// 包装规格
     protected List<OutBarcodeInfo> LstBarCode;
     protected float                Outstockqty;
     /// <summary>
@@ -105,7 +105,7 @@ public class OrderDetailInfo implements Parcelable {
     protected String               ToCompanyCode;//拨入据点
     protected String               Fromwarehouseno;
     protected String               OnwayWarehouse;  // 在途仓
-
+    protected String  Customerno;
     public OrderDetailInfo() {
     }
 
@@ -141,7 +141,7 @@ public class OrderDetailInfo implements Parcelable {
         Scanuserno = in.readString();
         Supplierno = in.readString();
         Suppliername = in.readString();
-        PackQty = in.readInt();
+        PackQty = in.readFloat();
         LstBarCode = in.createTypedArrayList(OutBarcodeInfo.CREATOR);
         Outstockqty = in.readFloat();
         Spec = in.readString();
@@ -159,6 +159,7 @@ public class OrderDetailInfo implements Parcelable {
         ToCompanyCode = in.readString();
         Fromwarehouseno = in.readString();
         OnwayWarehouse = in.readString();
+        Customerno=in.readString();
     }
 
     public static final Creator<OrderDetailInfo> CREATOR = new Creator<OrderDetailInfo>() {
@@ -429,11 +430,11 @@ public class OrderDetailInfo implements Parcelable {
         Suppliername = suppliername;
     }
 
-    public int getPackQty() {
+    public float getPackQty() {
         return PackQty;
     }
 
-    public void setPackQty(int packQty) {
+    public void setPackQty(float packQty) {
         PackQty = packQty;
     }
 
@@ -589,6 +590,14 @@ public class OrderDetailInfo implements Parcelable {
         OnwayWarehouse = onwayWarehouse;
     }
 
+    public String getCustomerno() {
+        return Customerno;
+    }
+
+    public void setCustomerno(String customerno) {
+        Customerno = customerno;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -638,7 +647,7 @@ public class OrderDetailInfo implements Parcelable {
         dest.writeString(Scanuserno);
         dest.writeString(Supplierno);
         dest.writeString(Suppliername);
-        dest.writeInt(PackQty);
+        dest.writeFloat(PackQty);
         dest.writeTypedList(LstBarCode);
         dest.writeFloat(Outstockqty);
         dest.writeString(Spec);
@@ -656,6 +665,7 @@ public class OrderDetailInfo implements Parcelable {
         dest.writeString(ToCompanyCode);
         dest.writeString(Fromwarehouseno);
         dest.writeString(OnwayWarehouse);
+        dest.writeString(Customerno);
     }
 
 

@@ -102,12 +102,32 @@ public class DateUtil {
         if (myDate.before(today)) {
             return false;
         }
-        if (year==currentYear && month==currentMonth && day==currentDay){
+        if (year == currentYear && month == currentMonth && day == currentDay) {
             return false;
         }
         if (myDate.after(today)) {
             return true;
         }
         return false;
+    }
+
+
+    public static boolean isStartTimeBeforeEndTime(String startTime, String endTime) throws ParseException {
+        boolean result = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = sdf.parse(startTime);
+        Date endDate = sdf.parse(endTime);
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        start.setTime(startDate);
+        end.setTime(endDate);
+        if (start.before(end)) {
+            result= true;
+        } else if (start.equals(end)) {
+            result= false;
+        } else if (start.after(end)) {
+            result= false;
+        }
+        return result;
     }
 }

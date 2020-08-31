@@ -90,6 +90,19 @@ public class SaleReturnPrintModel extends BaseModel {
     }
 
     /**
+     * @desc: 清空
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/31 16:48
+     */
+    public void onReset() {
+        mCustomerCode = null;
+        mOrderDetailsList.clear();
+        mCurrentMaterialDetailsList.clear();
+    }
+
+    /**
      * @desc: 保存当前物料的批次信息
      * @param:
      * @return:
@@ -181,11 +194,11 @@ public class SaleReturnPrintModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/15 18:46
      */
-    public void requestPrint(OutBarcodeInfo outBarcodeInfo, NetCallBackListener<String> callBackListener) {
+    public void requestPrint(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_PRINT_PALLET_NO", callBackListener);
-        String modelJson = parseModelToJson(outBarcodeInfo);
+        String modelJson = parseModelToJson(info);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_PRINT_PALLET_NO, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_PRINT_PALLET_NO, mContext.getString(R.string.message_request_print), mContext, mHandler, RESULT_TAG_PRINT_PALLET_NO, null, UrlInfo.getUrl().Print_PalletNo, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_PRINT_PALLET_NO, mContext.getString(R.string.message_request_print), mContext, mHandler, RESULT_TAG_PRINT_PALLET_NO, null, UrlInfo.getUrl().CreateT_OutBarcodeADFAsync, modelJson, null);
 
     }
 
