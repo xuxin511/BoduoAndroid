@@ -111,6 +111,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
                 }
             }
         });
+        closeKeyBoard(mBarcode,mQty,mFatherBarcode);
 
     }
 

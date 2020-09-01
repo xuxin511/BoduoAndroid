@@ -46,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //屏幕保持竖屏
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         AppManager.getAppManager().addActivity(this); //添加当前Activity到avtivity管理类
         mHandler = new MyHandler<>(this);
         BaseApplication.isCloseActivity = true;
@@ -54,9 +54,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
         initViews(); //自定义的方法
         initData();
     }
-
-
-
 
 
     /**
@@ -171,6 +168,49 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
 
     }
 
+    /**
+     * @desc: 隐藏软键盘
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/23 15:02
+     */
+    public void closeKeyBoard(EditText view) {
+        if (android.os.Build.VERSION.SDK_INT <= 10) {
+            view.setInputType(InputType.TYPE_NULL);
+        } else {
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            try {
+                Class<EditText> cls = EditText.class;
+                Method setSoftInputShownOnFocus;
+                setSoftInputShownOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
+                setSoftInputShownOnFocus.setAccessible(true);
+                setSoftInputShownOnFocus.invoke(view, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * @desc: 批量关闭软键盘
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/1 9:27
+     */
+    public void closeKeyBoard(EditText... editTexts) {
+        if (editTexts.length > 0) {
+            for (EditText editText : editTexts) {
+                if (editText != null) {
+                    closeKeyBoard(editText);
+                }
+
+            }
+
+        }
+
+    }
 
     /**
      * 左右推动跳转
@@ -252,36 +292,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
 
 
     /**
-     * @desc: 隐藏软键盘
+     * @desc:
      * @param:
      * @return:
      * @author: Nietzsche
-     * @time 2020/7/23 15:02
+     * @time 2020/7/28 17:11
      */
-    public void closeKeyBoard(EditText view) {
-        if (android.os.Build.VERSION.SDK_INT <= 10) {
-            view.setInputType(InputType.TYPE_NULL);
-        } else {
-            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-            try {
-                Class<EditText> cls = EditText.class;
-                Method setSoftInputShownOnFocus;
-                setSoftInputShownOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
-                setSoftInputShownOnFocus.setAccessible(true);
-                setSoftInputShownOnFocus.invoke(view, false);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-   /**
-    * @desc:
-    * @param:
-    * @return:
-    * @author: Nietzsche
-    * @time 2020/7/28 17:11
-    */
     public static void setToolbarTitleViewTextSize(AppCompatActivity activity, Toolbar toolbar) {
         ActionBar actionBar = activity.getSupportActionBar();
         CharSequence actionbarTitle = null;
@@ -297,13 +313,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
                 CharSequence title = t.getText();
                 t.setTextSize(activity.getResources().getDimension(R.dimen.activity_app_bar_text_size));
 
-                }
             }
         }
+    }
 
 
-
-      public ToolBarHelper  getToolBarHelper(){
-        return  mToolBarHelper;
-      }
+    public ToolBarHelper getToolBarHelper() {
+        return mToolBarHelper;
+    }
 }

@@ -47,6 +47,8 @@ public class DebugModuleData {
      * @time 2020/6/25 19:50
      */
     public static void loadStorageBusinessMenuList(Context context, ArrayList<Integer> itemIconList, ArrayList<String> itemNamesList) {
+        itemIconList.add(R.drawable.production_storage);
+        itemNamesList.add(context.getString(R.string.main_menu_item_batch_printing));
         itemIconList.add(R.drawable.purchase_storage_icon);
         itemNamesList.add(context.getString(R.string.main_menu_item_purchase_storage));
         itemIconList.add(R.drawable.spot_check_icon);
@@ -73,8 +75,7 @@ public class DebugModuleData {
         itemNamesList.add(context.getString(R.string.main_menu_item_quality_inspection));
         itemIconList.add(R.drawable.production_storage);
         itemNamesList.add(context.getString(R.string.main_menu_item_product_return_print_storage));
-        itemIconList.add(R.drawable.production_storage);
-        itemNamesList.add(context.getString(R.string.main_menu_item_batch_printing));
+
 
     }
 

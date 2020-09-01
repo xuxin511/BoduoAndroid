@@ -36,7 +36,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 /**
- * @ Des: 标签打印
+ * @ Des: 标签打印  已废弃  ，用 批量打印类代替
  * @ Created by yangyiqing on 2020/7/15.
  */
 

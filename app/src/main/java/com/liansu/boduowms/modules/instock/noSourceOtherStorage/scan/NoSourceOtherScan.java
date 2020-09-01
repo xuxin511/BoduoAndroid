@@ -84,6 +84,7 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
         x.view().inject(this);
         mERPVoucherNoQtyDesc.setVisibility(View.GONE);
         mERPVoucherNoQty.setVisibility(View.GONE);
+        closeKeyBoard(mAreaNo,mBarcode);
     }
 
 

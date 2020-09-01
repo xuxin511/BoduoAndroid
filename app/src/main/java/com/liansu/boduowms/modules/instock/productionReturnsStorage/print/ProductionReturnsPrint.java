@@ -74,7 +74,7 @@ public class ProductionReturnsPrint extends BaseActivity implements IProductionR
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);
-//        closeKeyBoard(mBarcode);
+        closeKeyBoard(mErpVoucherNo,mBarcode);
 //        mErpVoucherNoDesc.setVisibility(View.GONE);
 //        mErpVoucherNo.setVisibility(View.GONE);
     }

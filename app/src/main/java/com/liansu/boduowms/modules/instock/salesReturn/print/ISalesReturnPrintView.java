@@ -27,6 +27,8 @@ public interface ISalesReturnPrintView {
     void onReset();
     float getPalletRemainQty();
     float getPalletQty();
+    String getStartTime();
+    String getEndTime();
 
 
 }

@@ -77,7 +77,7 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
         BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
-//        closeKeyBoard(mBarcode);
+        closeKeyBoard(mBarcode,mErpVoucherNo);
 
     }
 

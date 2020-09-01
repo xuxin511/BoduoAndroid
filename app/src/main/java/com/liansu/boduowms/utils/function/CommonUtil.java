@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.liansu.boduowms.R;
+import com.liansu.boduowms.base.BaseApplication;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

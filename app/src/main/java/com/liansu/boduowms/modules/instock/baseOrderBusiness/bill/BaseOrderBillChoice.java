@@ -97,6 +97,7 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
         mSwipeLayout.setEnabled(false);
         mEdtfilterContent.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
         mSupplierNoFilter.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
+        closeKeyBoard(mEdtfilterContent,mSupplierNoFilter);
     }
 
     @Override

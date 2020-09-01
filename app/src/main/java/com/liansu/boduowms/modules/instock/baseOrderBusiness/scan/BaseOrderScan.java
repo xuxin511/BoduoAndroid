@@ -107,8 +107,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
         BaseApplication.context = mContext;
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
-//        closeKeyBoard(mOutBarcode);
-//        closeKeyBoard(mAreaNo);
+        closeKeyBoard(mOrderNo,mOutBarcode,mAreaNo,mPalletBarcode);
         initListener();
         onAreaNoFocus();
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);

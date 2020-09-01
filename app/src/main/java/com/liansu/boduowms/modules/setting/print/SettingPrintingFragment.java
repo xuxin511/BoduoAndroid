@@ -89,6 +89,7 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView=super.onCreateView(inflater, container, savedInstanceState);
         initData();
+        closeKeyBoard(mLaserPrinter,mDesktopPrinter,mBluetoothPrinter);
         return rootView;
 
     }

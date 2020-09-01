@@ -20,10 +20,12 @@ import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.function.DateUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,48 +65,58 @@ public class SalesReturnPrintPresenter {
      * @time 2020/8/2 10:10
      */
     public void getMaterialNoBatchList(final String materialNo, String startTime, String endTime, final String customerNo) {
-        if (materialNo.equals("")) {
-            MessageBox.Show(mContext, "物料信息不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+        try {
+            if (materialNo.equals("")) {
+                MessageBox.Show(mContext, "物料信息不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onMaterialNoFocus();
+                    }
+                });
+                return;
+            }
+            if (!DateUtil.isStartTimeBeforeEndTime(startTime, endTime)) {
+                MessageBox.Show(mContext, "校验时间失败:开始时间[" + mView.getStartTime() + "]必须小于结束时间[" + mView.getEndTime() + "]", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onEndTimeFocus();
+                    }
+                });
+                return;
+            }
+            OrderRequestInfo orderRequestInfo = new OrderRequestInfo();
+            orderRequestInfo.setMaterialno(materialNo);
+            orderRequestInfo.setDateFrom(startTime);
+            orderRequestInfo.setDateTo(endTime);
+            orderRequestInfo.setCustomerno(customerNo);
+            orderRequestInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+            mModel.requestMaterialBatchNoListInfo(orderRequestInfo, new NetCallBackListener<String>() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mView.onMaterialNoFocus();
-                }
-            });
-            return;
-        }
-        OrderRequestInfo orderRequestInfo = new OrderRequestInfo();
-        orderRequestInfo.setMaterialno(materialNo);
-        orderRequestInfo.setDateFrom(startTime);
-        orderRequestInfo.setDateTo(endTime);
-        orderRequestInfo.setCustomerno(customerNo);
-        orderRequestInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-        mModel.requestMaterialBatchNoListInfo(orderRequestInfo, new NetCallBackListener<String>() {
-            @Override
-            public void onCallBack(String result) {
-                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_SALE_RETURN_DETAIL_LIST_ADF_ASYNC, result);
-                try {
-                    BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
-                    }.getType());
-                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
-                        if (orderHeaderInfo != null) {
-                            mModel.setCustomerCode(customerNo);
-                            mModel.setMaterialDetailsList(orderHeaderInfo.getDetail());
-                            BaseMultiResultInfo<Boolean, List<String>> checkResult = mModel.getMaterialBatchNoList(mModel.getMaterialDetailsList(), materialNo);
-                            if (checkResult.getHeaderStatus()) {
-                                mView.setMaterialInfo(mModel.getMaterialDetailsList().get(0));
-                                mView.setSpinnerData(checkResult.getInfo());
-                                mView.onPackQtyFocus();
-                            } else {
-                                MessageBox.Show(mContext, checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        mView.onMaterialNoFocus();
-                                    }
-                                });
-                            }
+                public void onCallBack(String result) {
+                    LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_SALE_RETURN_DETAIL_LIST_ADF_ASYNC, result);
+                    try {
+                        BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
+                        }.getType());
+                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                            OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
+                            if (orderHeaderInfo != null) {
+                                mModel.setCustomerCode(customerNo);
+                                mModel.setMaterialDetailsList(orderHeaderInfo.getDetail());
+                                BaseMultiResultInfo<Boolean, List<String>> checkResult = mModel.getMaterialBatchNoList(mModel.getMaterialDetailsList(), materialNo);
+                                if (checkResult.getHeaderStatus()) {
+                                    mView.setMaterialInfo(mModel.getMaterialDetailsList().get(0));
+                                    mView.setSpinnerData(checkResult.getInfo());
+                                    mView.onPackQtyFocus();
+                                } else {
+                                    MessageBox.Show(mContext, checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onMaterialNoFocus();
+                                        }
+                                    });
+                                }
 
-                        }
+                            }
 //                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1, new DialogInterface.OnClickListener() {
 //                            @Override
 //                            public void onClick(DialogInterface dialog, int which) {
@@ -112,8 +124,17 @@ public class SalesReturnPrintPresenter {
 //                            }
 //                        });
 
-                    } else {
-                        MessageBox.Show(mContext, "获取物料批次信息失败:"+returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        } else {
+                            MessageBox.Show(mContext, "获取物料批次信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onMaterialNoFocus();
+                                }
+                            });
+                        }
+
+                    } catch (Exception ex) {
+                        MessageBox.Show(mContext, "获取物料批次信息失败,出现预期之外的异常:" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mView.onMaterialNoFocus();
@@ -121,18 +142,12 @@ public class SalesReturnPrintPresenter {
                         });
                     }
 
-                } catch (Exception ex) {
-                    MessageBox.Show(mContext, "获取物料批次信息失败,出现预期之外的异常:"+ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mView.onMaterialNoFocus();
-                        }
-                    });
+
                 }
+            });
+        } catch (ParseException e) {
 
-
-            }
-        });
+        }
 
 
     }
@@ -146,57 +161,100 @@ public class SalesReturnPrintPresenter {
      */
     public void onPrint(final String materialNo, final String materialName, final String batchNo, final float packQty, float packCount) {
         OrderDetailInfo orderDetailInfo = null;
-        if (!mPrintModel.checkBluetoothSetting()) {
+        try {
+            if (!mPrintModel.checkBluetoothSetting()) {
+                return;
+            }
+            if (mModel.getMaterialDetailsList() != null && mModel.getMaterialDetailsList().size() > 0) {
+                orderDetailInfo = mModel.getMaterialDetailsList().get(0);
+            }
+
+            if (orderDetailInfo == null) {
+                MessageBox.Show(mContext, "物料数据类不能为空,请扫描物料编码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onMaterialNoFocus();
+                    }
+                });
+                return;
+            }
+            if (materialNo.equals("")) {
+                MessageBox.Show(mContext, "物料编号不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onMaterialNoFocus();
+                    }
+                });
+                return;
+            }
+            if (batchNo.equals("")) {
+                MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                return;
+            }
+            if (!DateUtil.isStartTimeBeforeEndTime(mView.getStartTime(), mView.getEndTime())) {
+                MessageBox.Show(mContext, "校验时间失败:开始时间[" + mView.getStartTime() + "]必须小于结束时间[" + mView.getEndTime() + "]");
+                return;
+            }
+
+            if (packQty <= 0) {
+                MessageBox.Show(mContext, "包装数量必须大于0", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onPackQtyFocus();
+                    }
+                });
+                return;
+            }
+            if (packCount <= 0) {
+                MessageBox.Show(mContext, "外箱的打印张数必须大于0", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onPrintCountFocus();
+                    }
+                });
+                return;
+            }
+
+            if (mModel.getCustomerCode() == null) {
+                MessageBox.Show(mContext, "客户编码不存在或为校验:请扫描客户编码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onCustomerNoFocus();
+                    }
+                });
+                return;
+            }
+            List<PrintInfo> printInfoList = new ArrayList<>();
+            for (int i = 0; i < packCount; i++) {
+                PrintInfo info = new PrintInfo();
+                info.setMaterialNo(materialNo);
+                info.setMaterialDesc(materialName);
+                info.setBatchNo(batchNo);
+                info.setSpec(orderDetailInfo.getSpec());
+                info.setPackQty(packQty);
+                printInfoList.add(mModel.getPrintModel(info));
+
+            }
+
+            if (printInfoList.size() > 0) {
+                mPrintModel.onPrint(printInfoList);
+            }
+
+            onPalletInfoBatchPrint(materialNo, batchNo, mView.getPalletRemainQty(), mView.getPalletQty());
+        } catch (ParseException e) {
+            MessageBox.Show(mContext, "校验日期失败:出现预期之外的异常," + e.getMessage());
             return;
-        }
-        if (mModel.getMaterialDetailsList() != null && mModel.getMaterialDetailsList().size() > 0) {
-            orderDetailInfo = mModel.getMaterialDetailsList().get(0);
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "出现预期之外的异常," + e.getMessage());
+            return;
         }
 
-        if (orderDetailInfo == null) {
-            MessageBox.Show(mContext, "物料数据类不能为空,请扫描物料编码");
-            return;
-        }
-        if (materialNo.equals("")) {
-            MessageBox.Show(mContext, "物料编号不能为空");
-            return;
-        }
-        if (batchNo.equals("")) {
-            MessageBox.Show(mContext, "批次不能为空");
-            return;
-        }
-//        if (DateUtil.isStartTimeBeforeEndTime())
 
-        if (packQty <= 0) {
-            MessageBox.Show(mContext, "包装数量必须大于0");
-            return;
-        }
-        if (packCount<=0) {
-            MessageBox.Show(mContext, "外箱的打印张数必须大于0");
-            return;
-        }
-
-        if (mModel.getCustomerCode() == null) {
-            MessageBox.Show(mContext, "客户编码不存在或为校验:请扫描物料编号");
-            return;
-        }
-        List<PrintInfo> printInfoList = new ArrayList<>();
-        for (int i = 0; i < packCount; i++) {
-            PrintInfo info = new PrintInfo();
-            info.setMaterialNo(materialNo);
-            info.setMaterialDesc(materialName);
-            info.setBatchNo(batchNo);
-            info.setSpec(orderDetailInfo.getSpec());
-            info.setPackQty(packQty);
-            printInfoList.add(mModel.getPrintModel(info));
-
-        }
-
-        if (printInfoList.size() > 0) {
-            mPrintModel.onPrint(printInfoList);
-        }
-
-        onPalletInfoBatchPrint(materialNo,batchNo,mView.getPalletRemainQty(),mView.getPalletQty());
 //        OutBarcodeInfo postBarcodeInfo = new OutBarcodeInfo();
 //        postBarcodeInfo.setMaterialno(materialNo);
 //        postBarcodeInfo.setMaterialdesc(materialName);
@@ -272,7 +330,7 @@ public class SalesReturnPrintPresenter {
      * @author: Nietzsche
      * @time 2020/8/14 16:58
      */
-    public void onPalletInfoBatchPrint(final String materialNo, final String batchNo,final  float remainQty,final float palletQty) {
+    public void onPalletInfoBatchPrint(final String materialNo, final String batchNo, final float remainQty, final float palletQty) {
         OrderDetailInfo orderDetailInfo = null;
         if (mModel.getMaterialDetailsList() != null && mModel.getMaterialDetailsList().size() > 0) {
             orderDetailInfo = mModel.getMaterialDetailsList().get(0);
@@ -295,12 +353,12 @@ public class SalesReturnPrintPresenter {
             MessageBox.Show(mContext, "待收数量必须大于0");
             return;
         }
-        if (palletQty<=0) {
+        if (palletQty <= 0) {
             MessageBox.Show(mContext, "整托数量必须大于0");
             return;
         }
 
-        if (palletQty>remainQty){
+        if (palletQty > remainQty) {
             MessageBox.Show(mContext, "待收数量必须大于托盘数量");
             return;
         }
@@ -358,7 +416,7 @@ public class SalesReturnPrintPresenter {
         return mContext.getResources().getString(R.string.appbar_title_sales_return_storage_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 
-    public void  onReset(){
+    public void onReset() {
         mModel.onReset();
         mView.onReset();
     }

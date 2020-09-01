@@ -76,7 +76,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
         BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
-
+        closeKeyBoard(mBatchNo,mRemainQty,mPackQty,mPalletQty,mPrintCount);
 
     }
 

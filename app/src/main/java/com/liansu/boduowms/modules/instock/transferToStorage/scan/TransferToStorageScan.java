@@ -84,7 +84,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
 //        closeKeyBoard(mAreaNo);
         initListener();
         setTransferSubmissionStatus();
-
+        closeKeyBoard(mPalletBarcode,mErpVoucherNo,mAreaNo,mOutBarcode);
     }
 
     @Override

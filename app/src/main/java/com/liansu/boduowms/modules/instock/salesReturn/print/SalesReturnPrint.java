@@ -30,7 +30,9 @@ import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.modules.instock.salesReturn.scan.SalesReturnStorageScan;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
+import com.liansu.boduowms.utils.function.DateUtil;
 import com.liansu.boduowms.utils.function.DoubleClickCheck;
 
 import org.xutils.view.annotation.ContentView;
@@ -38,6 +40,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,7 +93,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         onReset();
-
+        closeKeyBoard(mCustomerCode,mStartDateTime,mEndDateTime,mMaterialNo,mPackQty,mOuterBoxPrintCount,mPalletRemainQty,mPalletQty);
     }
 
 
@@ -119,12 +122,25 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
     @Override
     public void onEndTimeFocus() {
-        CommonUtil.setEditFocus(mEndDateTime);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mEndDateTime);
+            }
+        }, 200);
+
+
     }
 
     @Override
     public void onMaterialNoFocus() {
-        CommonUtil.setEditFocus(mMaterialNo);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mMaterialNo);
+            }
+        }, 200);
+
     }
 
     @Override
@@ -300,6 +316,32 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
                 editText.setText(getTime(date));
+                if (editText.getId()==R.id.return_storage_scan_print_query_start_date_time){
+                   onEndTimeFocus();
+                }else if (editText.getId()==R.id.return_storage_scan_print_query_end_date_time){
+                    try {
+                        if (!DateUtil.isStartTimeBeforeEndTime(getStartTime(), getEndTime())) {
+                            MessageBox.Show(mContext, "校验时间失败:开始时间[" + getStartTime() + "]必须小于结束时间[" + getEndTime() + "]", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onEndTimeFocus();
+                                }
+                            });
+                            return;
+                        }else {
+                            onMaterialNoFocus();
+                        }
+                    } catch (ParseException e) {
+                        MessageBox.Show(mContext, "校验日期出现预期之外的异常:"+e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onStartTimeFocus();
+                            }
+                        });
+                        return;
+                    }
+
+                }
 //                Toast.makeText(SalesReturnPrint.this, getTime(date), Toast.LENGTH_SHORT).show();
             }
         })
@@ -353,6 +395,16 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         return Float.parseFloat(mPalletQty.getText().toString().trim());
     }
 
+    @Override
+    public String getStartTime() {
+        return mStartDateTime.getText().toString().trim();
+    }
+
+    @Override
+    public String getEndTime() {
+        return mEndDateTime.getText().toString().trim();
+    }
+
 
     @Event(R.id.return_storage_scan_print_button)
     private void btnCombinePalletClick(View view) {
@@ -371,13 +423,18 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
     @Event(value = {R.id.return_storage_scan_print_query_date_time_select, R.id.return_storage_scan_print_query_end_date_time_select})
     private void onTimePickerViewClick(View view) {
-        switch (view.getId()) {
-            case R.id.return_storage_scan_print_query_date_time_select:
-                createCalendarDialog(mStartDateTime);
-                break;
-            case R.id.return_storage_scan_print_query_end_date_time_select:
-                createCalendarDialog(mEndDateTime);
-                break;
+        try {
+            switch (view.getId()) {
+                case R.id.return_storage_scan_print_query_date_time_select:
+                    createCalendarDialog(mStartDateTime);
+                    break;
+                case R.id.return_storage_scan_print_query_end_date_time_select:
+                    createCalendarDialog(mEndDateTime);
+                    break;
+            }
+
+        }catch (Exception e){
+            MessageBox.Show(mContext,"选择日期出现预期之外的异常,"+e.getMessage());
         }
 
     }

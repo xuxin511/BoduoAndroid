@@ -48,6 +48,7 @@ public class SettingSystemFragment extends BaseFragment implements ISettingSyste
     public void onStart() {
         super.onStart();
         initData();
+        closeKeyBoard(edtIPAdress,edtPort,edtTimeOut);
     }
 
     @Override

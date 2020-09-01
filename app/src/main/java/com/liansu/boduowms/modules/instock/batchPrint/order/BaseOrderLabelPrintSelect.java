@@ -107,6 +107,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
                 return false;
             }
         });
+        closeKeyBoard(mErpVoucherNo,mMaterialNo);
     }
 
     @Override

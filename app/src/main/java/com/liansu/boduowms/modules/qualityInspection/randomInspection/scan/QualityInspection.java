@@ -78,8 +78,7 @@ public class QualityInspection extends BaseActivity implements IQualityInspectio
         mRandomInspectionQtyDesc.setText("送检数:");
         mRandomInspectionQtyDesc.setVisibility(View.GONE);
         mRandomInspectionQty.setVisibility(View.GONE);
-//        closeKeyBoard(mAreaNo);
-//        closeKeyBoard(mBarcode);
+        closeKeyBoard(mAreaNo,mBarcode,mQty);
     }
 
     @Override

@@ -65,6 +65,8 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         onAreaNoFocus();
+        closeKeyBoard(mPalletNo,mAreaNo);
+
     }
 
     @Override

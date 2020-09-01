@@ -83,6 +83,7 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         initListener();
+        closeKeyBoard(mPalletBarcode,mErpVoucherNo,mAreaNo,mOutBarcode);
 //        setTransferSubmissionStatus();
 
     }

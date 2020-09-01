@@ -49,9 +49,8 @@ public class StockRollBack extends BaseActivity implements IStockRollBackView {
         BaseApplication.context = mContext;
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
+        closeKeyBoard(mPalletNo);
 
-//        closeKeyBoard(mOutBarcode);
-//        closeKeyBoard(mAreaNo);
     }
 
 

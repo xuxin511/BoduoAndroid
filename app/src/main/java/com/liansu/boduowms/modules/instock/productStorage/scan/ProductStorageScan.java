@@ -89,7 +89,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 //        closeKeyBoard(mAreaNo);
         initListener();
         setTransferSubmissionStatus();
-
+        closeKeyBoard(mPalletBarcode,mErpVoucherNo,mAreaNo,mOutBarcode);
     }
 
     @Override
