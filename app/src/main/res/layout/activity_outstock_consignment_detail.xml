@@ -49,7 +49,6 @@
         android:text="无"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
-        app:layout_constraintLeft_toRightOf="@+id/combine_pallet_worker_order_text"
         app:layout_constraintStart_toStartOf="@+id/guideline_middle"
         app:layout_constraintTop_toBottomOf="@+id/combine_pallet_toolbar" />
 

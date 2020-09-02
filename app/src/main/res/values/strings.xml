@@ -100,6 +100,7 @@
     <string name="setting_print_bluetooth_printer_desc">蓝牙打印机:</string>
     <string name="setting_print_in_stock_printer_type">入库打印方式:</string>
     <string name="setting_print_out_stock_printer_type">出库打印方式:</string>
+    <string name="setting_print_out_stock_packing_box_printer_type">出库拼箱打印方式:</string>
     <string name="setting_print_laser_printer">激光打印机</string>
     <string name="setting_print_desktop_printer">台式打印机</string>
     <string name="setting_print_printer_name_hint">请选择或输入打印机名称</string>

@@ -220,6 +220,9 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
                             if (mUserSettingPresenter != null) {
                                 mUserSettingPresenter.saveCurrentWareHouse(select_item);
                             }
+                            if (mPresenter!=null){
+                                mPresenter.onReset();
+                            }
 
                             dialog.dismiss();
                         }

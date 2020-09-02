@@ -14,6 +14,7 @@ public class UrlInfo {
 
     public static String  IPAdress                    = "172.19.106.230";//"wmstest.beukay.com";
     public static int     Port                        = 5001;//9000;
+    public static int     mUpdatePort                 = 8022;//9000;  //版本更新端口号 如果能在一个端口下更新就不用这个字段 用Port
     public static String  LastContent                 = "api/";
     public static String  PrintIP                     = "10.2.32.192";
     public static String  ElecIP                      = "10.2.32.244";
@@ -24,8 +25,11 @@ public class UrlInfo {
     public static String  mLaserPrinterAddress        = "";  //激光打印机名称
     public static int     mInStockPrintType           = -1; //入库打印机选择
     public static int     mOutStockPrintType          = -1; //出库打印机选择
+    public static int     mOutStockPackingBoxPrintType          = -1; //出库拼箱打印机选择
     public static String  mInStockPrintName           = ""; //入库打印名称
     public static String  mOutStockPrintName          = ""; //出库打印名称
+    public static String  mOutStockPackingBoxPrintName          = ""; //出库拼箱打印名称
+
 
 
     String GetWCFAdress() {
@@ -134,7 +138,7 @@ public class UrlInfo {
         switch (type) {
             case 22:
                 GetT_DetailSubAsync = GetWCFAdress() + "Purchase/GetT_PurchaseDetailSubAsync"; //获取采购暂存数据
-                DeleteT_DetailSubAsync=GetWCFAdress()+"Purchase/DeleteT_PurchaseDetailSubAsync"; //删除采购暂存数据
+                DeleteT_DetailSubAsync = GetWCFAdress() + "Purchase/DeleteT_PurchaseDetailSubAsync"; //删除采购暂存数据
                 break;
             case 29://发货通知单
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
@@ -172,9 +176,9 @@ public class UrlInfo {
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OutWork/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 25://一阶段调拨
-                SalesOutstock_ScanningNo = GetWCFAdress() +"Transferout/GetT_OutStockDetailListADFAsync"; //订单扫描
-                SalesOutstock_SacnningPallet = GetWCFAdress() +"Transferout/SaveT_OutStockDetailADFAsync"; //托盘提交
-                SalesOutstock__Review_Submit = GetWCFAdress() +"Transferout/PostT_OutStockDetailADFAsync"; //复核过账
+                SalesOutstock_ScanningNo = GetWCFAdress() + "Transferout/GetT_OutStockDetailListADFAsync"; //订单扫描
+                SalesOutstock_SacnningPallet = GetWCFAdress() + "Transferout/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() + "Transferout/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 30://二阶段调拨
                 SalesOutstock_ScanningNo = GetWCFAdress() + "TransferTwoout/GetT_OutStockDetailListADFAsync"; //订单扫描
@@ -187,14 +191,14 @@ public class UrlInfo {
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OtherOut/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 27://仓退
-                SalesOutstock_Review_ScanningNo   = GetWCFAdress() +"PurchaseReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
+                SalesOutstock_Review_ScanningNo = GetWCFAdress() + "PurchaseReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
                 SalesOutstock__SubmitBarcode = GetWCFAdress() + "PurchaseReturn/SubmitReviewScanADFAsync"; //复核条码提交
                 SalesOutstock_ScanningNo = GetWCFAdress() + "PurchaseReturn/GetT_OutStockDetailListADFAsync"; //订单扫描
-                SalesOutstock_SacnningPallet = GetWCFAdress() +"PurchaseReturn/SaveT_OutStockDetailADFAsync"; //托盘提交
-                SalesOutstock__Review_Submit = GetWCFAdress() +"PurchaseReturn/PostT_OutStockDetailADFAsync"; //复核过账
+                SalesOutstock_SacnningPallet = GetWCFAdress() + "PurchaseReturn/SaveT_OutStockDetailADFAsync"; //托盘提交
+                SalesOutstock__Review_Submit = GetWCFAdress() + "PurchaseReturn/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 28://销退
-                SalesOutstock_Review_ScanningNo   = GetWCFAdress() +"InspecReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
+                SalesOutstock_Review_ScanningNo = GetWCFAdress() + "InspecReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
                 SalesOutstock__SubmitBarcode = GetWCFAdress() + "InspecReturn/SubmitReviewScanADFAsync"; //复核条码提交
                 SalesOutstock_ScanningNo = GetWCFAdress() + "InspecReturn/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "InspecReturn/SaveT_OutStockDetailADFAsync"; //托盘提交
@@ -204,7 +208,7 @@ public class UrlInfo {
 
     }
 
-   //盘点
+    //盘点
 
     public String Inventory_Head_GetCheckList = GetWCFAdress() + "Check/GetAndroidT_Check"; //获取盘点明细
 

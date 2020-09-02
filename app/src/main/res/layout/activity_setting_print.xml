@@ -43,6 +43,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/guideline87" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/setting_print_bluetooth_printer_test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -210,6 +211,44 @@
 
                 <RadioButton
                     android:id="@+id/setting_print_out_stock_select_desktop_printer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.65"
+                    android:text="@string/setting_print_desktop_printer"
+                    android:textSize="18sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/setting_print_out_stock_packing_box_printer_type"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_print_out_stock_packing_box_printer_type"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_radio_group" />
+
+            <RadioGroup
+                android:id="@+id/setting_print_out_stock_packing_box_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="@+id/setting_print_in_stock_printer_type"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_packing_box_printer_type">
+
+                <RadioButton
+                    android:checked="true"
+                    android:id="@+id/setting_print_out_stock_packing_box_select_laser_printer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.76"
+                    android:text="@string/setting_print_laser_printer"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/setting_print_out_stock_packing_box_select_desktop_printer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.65"

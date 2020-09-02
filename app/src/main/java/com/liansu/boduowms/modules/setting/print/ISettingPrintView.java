@@ -15,4 +15,5 @@ import java.util.List;
     String getDesktopPrintAddress();
     String getBluetoothPrinterMacAddress();
     void createPrintAddressListDialog(List<String> list, EditText editText);
+   int getOutStockPackingBoxPrintType();
 }

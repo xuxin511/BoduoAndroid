@@ -82,9 +82,11 @@ public class SettingPrintingPresenter {
             String desktopPrintAddress = mView.getDesktopPrintAddress();
             String inStockPrintAddress = "";
             String outStockPrintAddress = "";
+            String outStockPackingBoxPrintAddress = "";
             String bluetoothPrinterMacAddress = mView.getBluetoothPrinterMacAddress();
             int inStockPrintType = mView.getInStockPrintType();
             int outStockPrintType = mView.getOutStockPrintType();
+            int outStockPackingBoxPrintType=mView.getOutStockPackingBoxPrintType();
             if (inStockPrintType == PrintBusinessModel.PRINTER_TYPE_LASER) {
                 inStockPrintAddress = laserPrinterAddress;
             } else if (inStockPrintType == PrintBusinessModel.PRINTER_TYPE_DESKTOP) {
@@ -95,10 +97,14 @@ public class SettingPrintingPresenter {
             } else if (outStockPrintType == PrintBusinessModel.PRINTER_TYPE_DESKTOP) {
                 outStockPrintAddress = desktopPrintAddress;
             }
-
+            if (outStockPackingBoxPrintType == PrintBusinessModel.PRINTER_TYPE_LASER) {
+                outStockPackingBoxPrintAddress = laserPrinterAddress;
+            } else if (outStockPackingBoxPrintType == PrintBusinessModel.PRINTER_TYPE_DESKTOP) {
+                outStockPackingBoxPrintAddress = desktopPrintAddress;
+            }
             setPrinterAddressShare(mContext, laserPrinterAddress, desktopPrintAddress);
             setBluetoothPrinterMacAddressShare(mContext, bluetoothPrinterMacAddress);
-            setBusinessPrinterType(mContext, inStockPrintType, inStockPrintAddress, outStockPrintType, outStockPrintAddress);
+            setBusinessPrinterType(mContext, inStockPrintType, inStockPrintAddress, outStockPrintType, outStockPrintAddress,outStockPackingBoxPrintType,outStockPackingBoxPrintAddress);
             MessageBox.Show(mContext, "保存成功", MEDIA_MUSIC_NONE);
         } catch (Exception e) {
             MessageBox.Show(mContext, "保存打印设置出现预期之外的异常:" + e.getMessage());

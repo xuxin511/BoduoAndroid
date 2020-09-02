@@ -79,7 +79,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
         android:background="@color/trans"
-        android:drawableLeft="@drawable/setting_selector"
         android:text="@string/login_setting"
         android:textColor="@color/black"
         app:layout_constraintRight_toRightOf="parent"

@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.liansu.boduowms.BuildConfig;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseApplication;
-
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.ParseXmlService;
@@ -47,9 +46,8 @@ public class UpdateVersionService {
     private              HashMap<String, String> hashMap;// 存储跟心版本的xml信息
     private              String                  fileSavePath;// 下载新apk的厨房地点
     // private static final String UPDATEVERSIONXMLPATH = UserConfigModel.UPDATEURL+"version.xml";
-    public final static  String                  LastContent = "downfiles.aspx?filename=version.xml";
-
-    public static String UPDATEVERSIONXMLPATH() {
+    public final static  String                  LastContent = "/AppData/version.xml";
+    public static String UP_DATE_VERSION_XML_PATH() {
         return "http://" + UrlInfo.IPAdress + ":" + UrlInfo.Port + "/" + LastContent;
     }
 
@@ -180,7 +178,7 @@ public class UpdateVersionService {
         double versionCode = getVersionCode(BaseApplication.context);
         try {
             // 把version.xml放到网络上，然后获取文件信息
-            URL url = new URL(UPDATEVERSIONXMLPATH());
+            URL url = new URL(UP_DATE_VERSION_XML_PATH());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(5 * 1000);
             conn.setRequestMethod("GET");// 必须要大写

@@ -75,6 +75,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
     protected float  Printqty;   //托盘打印功能 剩余数量
     protected String Watercode;
     protected String Customerno;
+    protected int  Areaid;
     public OutBarcodeInfo() {
     }
 
@@ -120,6 +121,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         Printqty=in.readFloat();
         Watercode=in.readString();
         Customerno=in.readString();
+        Areaid=in.readInt();
     }
 
     @NonNull
@@ -463,6 +465,14 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         Customerno = customerno;
     }
 
+    public int getAreaid() {
+        return Areaid;
+    }
+
+    public void setAreaid(int areaid) {
+        Areaid = areaid;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -510,6 +520,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         dest.writeString(Unitname);
         dest.writeString(Watercode);
         dest.writeString(Customerno);
+        dest.writeInt(Areaid);
     }
 
 //    @Override

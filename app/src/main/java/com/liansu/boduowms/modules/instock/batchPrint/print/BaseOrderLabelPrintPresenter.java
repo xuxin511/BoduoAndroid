@@ -158,7 +158,6 @@ public class BaseOrderLabelPrintPresenter {
      * @time 2020/8/14 16:58
      */
     public void onPalletInfoBatchPrint() {
-        if (mPrintModel.checkBluetoothSetting() == false) return;
         OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
         if (printInfo != null) {
             String materialNo = printInfo.getMaterialno();
@@ -180,7 +179,7 @@ public class BaseOrderLabelPrintPresenter {
                 });
                 return;
             }
-            if (mView.checkBatchNo(batchNo)==false){
+            if (mView.checkBatchNo(batchNo) == false) {
                 return;
             }
             if (palletQty <= 0) {
@@ -201,6 +200,7 @@ public class BaseOrderLabelPrintPresenter {
                 });
                 return;
             }
+
             OrderDetailInfo orderDetailInfo = mModel.getCurrentPrintInfo();
             orderDetailInfo.setScanqty(palletQty);
             orderDetailInfo.setPrintqty(remainQty);
@@ -208,6 +208,10 @@ public class BaseOrderLabelPrintPresenter {
             orderDetailInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
             orderDetailInfo.setPrinterType(UrlInfo.mInStockPrintType);
             orderDetailInfo.setPrinterName(UrlInfo.mInStockPrintName);
+            //如果是无订单 托盘打印,订单数量赋值成待收数量
+            if (orderDetailInfo.getErpvoucherno() == null || orderDetailInfo.getErpvoucherno().equals("")) {
+                orderDetailInfo.setVoucherqty(remainQty);
+            }
             mModel.requestCreateBatchPalletInfo(orderDetailInfo, new NetCallBackListener<String>() {
                 @Override
                 public void onCallBack(String result) {

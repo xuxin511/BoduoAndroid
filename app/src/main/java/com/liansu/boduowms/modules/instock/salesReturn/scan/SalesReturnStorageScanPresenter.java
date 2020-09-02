@@ -237,7 +237,7 @@ public class SalesReturnStorageScanPresenter {
      */
     protected void onOrderRefer() {
         List<OutBarcodeInfo> list = mModel.getList();
-        if (list == null) {
+        if (list == null ||list.size()==0) {
             MessageBox.Show(mContext, "扫描数据为空!请先进行扫描操作");
             return;
         }

@@ -137,18 +137,22 @@ public class SharePreferUtil {
      * @author: Nietzsche
      * @time 2020/7/30 15:01
      */
-    public static void setBusinessPrinterType(Context context, int inStockPrintType, String inStockPrintAddress, int outStockPrintType, String outStockPrintAddress) {
+    public static void setBusinessPrinterType(Context context, int inStockPrintType, String inStockPrintAddress, int outStockPrintType, String outStockPrintAddress,int outStockPackingBoxPrintType, String outStockPackingBoxPrintAddress) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putInt("InStockPrintType", inStockPrintType);
         edit.putInt("OutStockPrintType", outStockPrintType);
+        edit.putInt("OutStockPackingBoxPrintType", outStockPackingBoxPrintType);
         edit.putString("InStockPrintAddress", inStockPrintAddress);
         edit.putString("OutStockPrintAddress", outStockPrintAddress);
+        edit.putString("OutStockPackingBoxPrintAddress", outStockPackingBoxPrintAddress);
         edit.commit();
         UrlInfo.mInStockPrintType = inStockPrintType;
         UrlInfo.mOutStockPrintType = outStockPrintType;
+        UrlInfo.mOutStockPackingBoxPrintType = outStockPackingBoxPrintType;
         UrlInfo.mInStockPrintName = inStockPrintAddress;
         UrlInfo.mOutStockPrintName = outStockPrintAddress;
+        UrlInfo.mOutStockPackingBoxPrintName=outStockPackingBoxPrintAddress;
     }
 
     public static void setBluetoothPrinterMacAddressShare(Context context, String macAddress) {
@@ -182,8 +186,10 @@ public class SharePreferUtil {
             UrlInfo.mDesktopPrintAddress = sharedPreferences.getString("DesktopPrintAddress", "1.1.1.1");
             UrlInfo.mInStockPrintType = sharedPreferences.getInt("InStockPrintType", -1);
             UrlInfo.mOutStockPrintType = sharedPreferences.getInt("OutStockPrintType", -1);
+            UrlInfo.mOutStockPackingBoxPrintType = sharedPreferences.getInt("OutStockPackingBoxPrintType", -1);
             UrlInfo.mInStockPrintName=sharedPreferences.getString("InStockPrintAddress", "");
             UrlInfo.mOutStockPrintName=sharedPreferences.getString("OutStockPrintAddress", "");
+            UrlInfo.mOutStockPackingBoxPrintName=sharedPreferences.getString("OutStockPackingBoxPrintAddress", "");
 
         }
     }

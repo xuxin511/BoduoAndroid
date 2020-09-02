@@ -1,6 +1,5 @@
 package com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,7 +26,6 @@ import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.NoSourceScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
-import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -38,7 +36,6 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -189,29 +186,7 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        try {
-            switch (requestCode) {
-                case REQUEST_CODE_OK: //返回的结果是来自于Activity B
-                    if (resultCode == Activity.RESULT_OK) {
-                        OutBarcodeInfo info = data.getParcelableExtra("resultInfo");
-                        if (info != null) {
-                            mPresenter.onScan(info);
-                        }
 
-                    }
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception e) {
-            MessageBox.Show(mContext, "从物料界面传递数据给入库扫描界面出现异常" + e.getMessage() );
-        }
-
-
-    }
 
     @Override
     public void createDialog(OutBarcodeInfo info) {

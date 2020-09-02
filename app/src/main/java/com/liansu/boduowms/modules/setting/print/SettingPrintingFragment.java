@@ -63,6 +63,8 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
     RadioGroup  mInStockRadioGroup;
     @ViewInject(R.id.setting_print_out_stock_radio_group)
     RadioGroup  mOutStockRadioGroup;
+    @ViewInject(R.id.setting_print_out_stock_packing_box_radio_group)
+    RadioGroup  mOutStockPackingRadioGroup;
     @ViewInject(R.id.setting_print_in_stock_select_laser_printer)
     RadioButton mInStockSelectLaserPrinter;
     @ViewInject(R.id.setting_print_in_stock_select_desktop_printer)
@@ -71,6 +73,10 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
     RadioButton mOutStockSelectLaserPrLaserPrinter;
     @ViewInject(R.id.setting_print_out_stock_select_desktop_printer)
     RadioButton mOutStockSelectDesktopPrLaserPrinter;
+    @ViewInject(R.id.setting_print_out_stock_packing_box_select_laser_printer)
+    RadioButton mOutStockPackingBoxSelectLaserPrLaserPrinter;
+    @ViewInject(R.id.setting_print_out_stock_packing_box_select_desktop_printer)
+    RadioButton mOutStockPackingBoxSelectDesktopPrLaserPrinter;
     QualityInspectionBillItemAdapter mAdapter;
     SettingPrintingPresenter         mPresenter;
 
@@ -179,6 +185,11 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
         }
     }
 
+    @Override
+    public int getOutStockPackingBoxPrintType() {
+        return  getPrintType(mOutStockPackingRadioGroup);
+    }
+
     /**
      * @desc: 获取打印类型
      * @param:
@@ -250,7 +261,14 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
             mOutStockSelectLaserPrLaserPrinter.setChecked(false);
             mOutStockSelectDesktopPrLaserPrinter.setChecked(true);
         }
-
+        // 出库拼箱扫描方式赋值
+        if (UrlInfo.mOutStockPackingBoxPrintType == PrintBusinessModel.PRINTER_TYPE_LASER) {
+            mOutStockPackingBoxSelectLaserPrLaserPrinter.setChecked(true);
+            mOutStockPackingBoxSelectDesktopPrLaserPrinter.setChecked(false);
+        } else if (UrlInfo.mOutStockPackingBoxPrintType == PrintBusinessModel.PRINTER_TYPE_DESKTOP) {
+            mOutStockPackingBoxSelectLaserPrLaserPrinter.setChecked(false);
+            mOutStockPackingBoxSelectDesktopPrLaserPrinter.setChecked(true);
+        }
 
     }
     @Override

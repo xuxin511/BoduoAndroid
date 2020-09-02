@@ -25,8 +25,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
-
-public class QualityInspectionMainActivity extends FragmentActivity implements IUserSettingView {
+/**
+ * @desc: 质检合格处理
+ * @param:
+ * @return:
+ * @author: Nietzsche
+ * @time 2020/9/1 13:48
+ */public class QualityInspectionMainActivity extends FragmentActivity implements IUserSettingView {
 
     TabLayout             tabLayout;
     Toolbar               mToolBar;
