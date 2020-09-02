@@ -26,11 +26,15 @@ import java.util.List;
 
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
+
+
+
 /**
  * @ Des:
  * @ Created by yangyiqing on 2020/6/27.
  */
 public class PurchaseInspectionBillModel extends BaseModel {
+    public  int  CurrVouchertpe;
     public String TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC    = "PurchaseInspectionBillModel_GetT_InspecReturnListADFAsync";  //采购验退
     public String TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC = "PurchaseInspectionProcessingModel_InspecReturn_GetT_OutStockDetailListADFAsync";  //采购验退获取表体
     ArrayList<OutStockOrderHeaderInfo> mQualityOrderList = new ArrayList<>();//单据信息
@@ -38,8 +42,12 @@ public class PurchaseInspectionBillModel extends BaseModel {
     private final int RESULT_TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC = 221;
     private final int RESULT_TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC    = 301;
 
-    public PurchaseInspectionBillModel(Context context, MyHandler<BaseActivity> handler) {
+    UrlInfo urlInfo=new UrlInfo();
+
+    public PurchaseInspectionBillModel(Context context, MyHandler<BaseActivity> handler,int type) {
         super(context, handler);
+        CurrVouchertpe=type;
+        urlInfo.InitUrl(type);
     }
 
 
@@ -73,7 +81,7 @@ public class PurchaseInspectionBillModel extends BaseModel {
         mNetMap.put("TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC", callBackListener);
         String ModelJson = GsonUtil.parseModelToJson(headerInfo);
         LogUtil.WriteLog(QualityInspectionMainActivity.class, TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC, ModelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC, mContext.getString(R.string.quality_inspection_list_query), mContext, mHandler, RESULT_TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC, null, UrlInfo.getUrl().InspecReturn_GetT_InspecReturnListADFAsync, ModelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC, "获取验退列表中", mContext, mHandler, RESULT_TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC, null, urlInfo.InspecReturn_GetT_InspecReturnListADFAsync, ModelJson, null);
     }
 
     /**
@@ -115,7 +123,7 @@ public class PurchaseInspectionBillModel extends BaseModel {
         mNetMap.put("TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC", callBackListener);
         String modelJson = parseModelToJson(headerInfo);
         LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_purchase_inspection_detail), mContext, mHandler, RESULT_TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().InspecReturn_GetT_OutStockDetailListADFAsync, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, "正在获取验退单信息", mContext, mHandler, RESULT_TAG_GET_T_OUT_STOCK_DETAIL_LIST_ADF_ASYNC, null, urlInfo.InspecReturn_GetT_OutStockDetailListADFAsync, modelJson, null);
     }
 
 }

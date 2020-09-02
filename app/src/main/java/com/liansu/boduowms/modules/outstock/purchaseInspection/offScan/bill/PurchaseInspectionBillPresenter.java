@@ -35,10 +35,10 @@ public class PurchaseInspectionBillPresenter {
         mModel.onHandleMessage(msg);
     }
 
-    public PurchaseInspectionBillPresenter(Context context, IPurchaseInspectionBillView view, MyHandler<BaseActivity> handler) {
+    public PurchaseInspectionBillPresenter(Context context, IPurchaseInspectionBillView view, MyHandler<BaseActivity> handler,int type) {
         this.mContext = context;
         this.mView = view;
-        this.mModel = new PurchaseInspectionBillModel(context, handler);
+        this.mModel = new PurchaseInspectionBillModel(context, handler,type);
 
     }
 
@@ -104,10 +104,12 @@ public class PurchaseInspectionBillPresenter {
      * @author: Nietzsche
      * @time 2020/7/12 18:11
      */
-    public void getQualityInspectionDetailList(String erpVoucherNo) {
+    public void getQualityInspectionDetailList(String erpVoucherNo,int type) {
         mView.startRefreshProgress();
         OrderRequestInfo info = new OrderRequestInfo();
         info.setErpvoucherno(erpVoucherNo);
+        info.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+        info.setVouchertype(type);
         info.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         mModel.requestQualityInspectionDetail(info, new NetCallBackListener<String>() {
             @Override

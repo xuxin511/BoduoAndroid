@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.liansu.boduowms.R;
@@ -68,12 +69,21 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
     TextView           mSumBillCount;
     PurchaseInspectionBillItemAdapter mAdapter;
 
+    public  int Currvouchertype;
+
     @Override
     protected void initViews() {
         super.initViews();
         BaseApplication.context = context;
-        initTitle();
-
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+        MenuOutStockModel model = new MenuOutStockModel();
+        String arr=data.toString();
+        model = GsonUtil.parseJsonToModel(arr,MenuOutStockModel.class);
+        Currvouchertype=Integer.parseInt(model.VoucherType);
+        //info.InitUrl(type);
+    //    initTitle();
+        BaseApplication.toolBarTitle = new ToolBarTitle(model.Title, true);
         x.view().inject(this);
         mSwipeLayout.setOnRefreshListener(this); //下拉刷新
     }
@@ -88,7 +98,7 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
     protected void onResume() {
         super.onResume();
         if (mPresenter == null) {
-            mPresenter = new PurchaseInspectionBillPresenter(context, this, mHandler);
+            mPresenter = new PurchaseInspectionBillPresenter(context, this, mHandler,Currvouchertype);
         }
         onRefresh();
 
@@ -115,8 +125,27 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
         if (mPresenter != null) {
             mPresenter.onReset();
             OutStockOrderHeaderInfo qualityHeaderInfo = new OutStockOrderHeaderInfo();
+            qualityHeaderInfo.setVouchertype(Currvouchertype);
+            qualityHeaderInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
             mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
         }
+    }
+
+    public  String loadString(){
+        String name="";
+        switch(Currvouchertype)
+        {
+            case 28:
+                name="采购验退下架";
+                    break;
+            case 61:
+                name="成品验退下架";
+                break;
+            case 62:
+                name="销售验退下架";
+                break;
+        }
+        return name;
     }
 
 
@@ -129,8 +158,8 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
         try {
             Intent intent = new Intent();
             MenuOutStockModel model=new MenuOutStockModel();
-            model.Title="采购验退下架";
-            model.VoucherType="28";
+            model.Title=loadString();
+            model.VoucherType=String.valueOf(Currvouchertype);
             model.ErpVoucherNo=receiptModel.getErpvoucherno();
             String json = GsonUtil.parseModelToJson(model);
             Uri data = Uri.parse(json);
@@ -155,7 +184,7 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
             }
             if (code.length() < 25) {
                 if (mPresenter != null) {
-                    mPresenter.getQualityInspectionDetailList(code);
+                    mPresenter.getQualityInspectionDetailList(code, Currvouchertype);
                 }
 
             } else {

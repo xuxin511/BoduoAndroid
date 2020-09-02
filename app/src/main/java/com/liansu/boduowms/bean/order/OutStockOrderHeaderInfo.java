@@ -57,6 +57,16 @@ public class OutStockOrderHeaderInfo implements Parcelable {
     private String                        Purchaseno;
     private String      Qualityno;
     private  String    LogisticsCompany;
+
+    public String getTowarehouseno() {
+        return Towarehouseno;
+    }
+
+    public void setTowarehouseno(String towarehouseno) {
+        Towarehouseno = towarehouseno;
+    }
+
+    private String Towarehouseno;
     public OutStockOrderHeaderInfo() {
     }
 
@@ -84,6 +94,7 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         Purchaseno = in.readString();
         Qualityno=in.readString();
         LogisticsCompany=in.readString();
+        Towarehouseno=in.readString();
     }
 
     public String getLogisticsCompany() {
@@ -119,8 +130,7 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         dest.writeString(Purchaseno);
         dest.writeString(Qualityno);
         dest.writeString(LogisticsCompany);
-
-
+        dest.writeString(Towarehouseno);
     }
 
     @Override

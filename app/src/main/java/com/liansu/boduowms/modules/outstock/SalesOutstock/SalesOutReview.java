@@ -610,6 +610,8 @@ public  class SalesOutReview extends BaseActivity {
                         model.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Vouchertype = CurrvoucherType;
                         model.Dirver = sales_outstock_driver.getText().toString().trim();
+                        model.Printername= UrlInfo.mOutStockPrintName;
+                        model.Printertype= UrlInfo.mOutStockPrintType;
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -35,6 +36,7 @@ import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -89,20 +91,54 @@ public class InventoryHead extends BaseActivity {
             }
         });
         InventoryModel inventoryModel = new InventoryModel();
+        inventoryModel.Warehouseno=BaseApplication.mCurrentWareHouseInfo.Warehouseno;
         String modelJson = parseModelToJson(inventoryModel);
         //加载访问所有盘点信息
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryHead_SelectLit, "获取盘点列表",
                 context, mHandler, RESULT_InventoryHead_SelectLit, null, UrlInfo.getUrl().Inventory_Head_GetCheckList, modelJson, null);
     }
 
+
+
     @Override
     protected void initData() {
         super.initData();
     }
 
+
+    //单号回车
+    @Event(value = R.id.inventory_Head_orderText,type = EditText.OnKeyListener.class)
+    private  boolean boxKeyDowm(View v, int keyCode, KeyEvent event) {
+
+        View vFocus = v.findFocus();
+        int etid = vFocus.getId();
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == inventory_Head_orderText.getId()) {
+            try {
+                String erpvoucherno=inventory_Head_orderText.getText().toString().trim();
+                if(!erpvoucherno.equals("")) {
+                    InventoryModel inventoryModel = new InventoryModel();
+                    inventoryModel.Erpvoucherno = erpvoucherno;
+                    inventoryModel.Warehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+                    String modelJson = parseModelToJson(inventoryModel);
+                    //加载访问所有盘点信息
+                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryHead_SelectLit, "获取盘点列表",
+                            context, mHandler, RESULT_InventoryHead_SelectLit, null, UrlInfo.getUrl().Inventory_Head_GetCheckList, modelJson, null);
+                }
+            } catch (Exception ex) {
+                CommonUtil.setEditFocus(inventory_Head_orderText);
+                MessageBox.Show(context, ex.toString());
+                return true
+                        ;
+            }
+        }
+        return false;
+    }
+
+
     public void onHandleMessage(Message msg) {
         switch (msg.what) {
             case RESULT_Saleoutstock_SalesNO:
+            case RESULT_InventoryHead_SelectLit:
                 SelectList((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:

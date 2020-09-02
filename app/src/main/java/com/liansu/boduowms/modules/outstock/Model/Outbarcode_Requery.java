@@ -6,6 +6,32 @@ public class Outbarcode_Requery {
     public  int    Towarehouseid;
     public  String Towarehouseno;
 
+    /// <summary>
+    /// 到货单
+    /// </summary>
+
+    public String Arrvoucherno ;
+
+    /// <summary>
+    /// 质检单
+    /// </summary>
+    public String Qualityno ;
+    public String getArrvoucherno() {
+        return Arrvoucherno;
+    }
+
+    public String getQualityno() {
+        return Qualityno;
+    }
+
+    public void setQualityno(String qualityno) {
+        Qualityno = qualityno;
+    }
+
+    public void setArrvoucherno(String arrvoucherno) {
+        Arrvoucherno = arrvoucherno;
+    }
+
     public String getTowarehouseno() {
         return Towarehouseno;
     }

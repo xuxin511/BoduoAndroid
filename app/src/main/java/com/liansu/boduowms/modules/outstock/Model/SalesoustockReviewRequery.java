@@ -11,6 +11,33 @@ public class SalesoustockReviewRequery {
     public  String  Dirver;//司机
     public  String  LogisticsCompany;//物料公司
 
+    public  String Printername;
+    public  int Printertype;
+    public  String Fromwarehouseno;
+
+    public String getFromwarehouseno() {
+        return Fromwarehouseno;
+    }
+
+    public void setFromwarehouseno(String fromwarehouseno) {
+        Fromwarehouseno = fromwarehouseno;
+    }
+
+    public String getPrinterName() {
+        return Printername;
+    }
+
+    public void setPrinterName(String printerName) {
+        Printername = printerName;
+    }
+
+    public int getPrintType() {
+        return Printertype;
+    }
+
+    public void setPrintType(int printType) {
+        Printertype = printType;
+    }
 
     public String getDirver() {
         return Dirver;

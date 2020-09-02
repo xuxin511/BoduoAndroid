@@ -31,7 +31,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/sp_30"
         android:layout_marginTop="2sp"
-
         android:gravity="left|center_vertical"
         android:hint="扫描单号"
         android:paddingLeft="@dimen/sp_7"
