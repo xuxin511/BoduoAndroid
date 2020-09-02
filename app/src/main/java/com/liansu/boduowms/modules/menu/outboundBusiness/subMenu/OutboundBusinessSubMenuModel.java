@@ -82,7 +82,6 @@ public class OutboundBusinessSubMenuModel {
             mItemIconList.add(R.drawable.other_outbound);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
         }
-
         for (int i = 0; i < mItemIconList.size(); i++) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("image", mItemIconList.get(i));
@@ -104,8 +103,13 @@ public class OutboundBusinessSubMenuModel {
         Intent intent = new Intent();
         if (moduleName.equals(mContext.getString(R.string.main_menu_item_off_shelf_scan))) { //下架扫描
             if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
+                MenuOutStockModel model=new MenuOutStockModel();
+                model.Title="采购验退扫描";
+                model.VoucherType="28";
+                String json = GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
+                intent.setData(data);
                 intent.setClass(mContext, PurchaseInspectionBill.class); //验退单
-
             } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)){
                // intent.setClass(mContext, PurchaseReturnOffScan.class);//仓退
                 MenuOutStockModel model=new MenuOutStockModel();
@@ -143,7 +147,6 @@ public class OutboundBusinessSubMenuModel {
 //                intent.setData(data);
 //                intent.setClass(mContext, SalesOutstock.class);
             }
-
             intent.putExtra("BusinessType", businessType);
         }
         else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {

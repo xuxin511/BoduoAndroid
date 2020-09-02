@@ -144,6 +144,8 @@
     <string name="main_menu_item_delivery_lcl">发货拼箱</string>
     <string name="main_menu_item_loading_truck_setting">装车设置</string>
     <string name="main_menu_item_purchase_inspection">采购验退</string>
+    <string name="main_menu_item_purchase_sale">销售验退</string>
+    <string name="main_menu_item_purchase_product">成品验退</string>
     <string name="main_menu_item_purchase_return">采购退货</string>
     //组托
     <string name="combine_pallet_hint_barcode">请扫描箱码或托盘码</string>

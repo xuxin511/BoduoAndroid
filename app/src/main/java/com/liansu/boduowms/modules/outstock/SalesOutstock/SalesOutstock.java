@@ -29,9 +29,11 @@ import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
+import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
+import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.scan.PurchaseInspectionProcessingModel;
@@ -60,6 +62,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_S
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PlatForm;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannBoxNo;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannPalletNo;
@@ -67,6 +70,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Sal
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PlatForm;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SelectNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitBox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitPallet;
@@ -220,12 +224,13 @@ public class SalesOutstock  extends BaseActivity  {
         CurrOrderNO="";
         mModel= new PurchaseReturnOffScanModel(context, mHandler);
         materialModle=new  MaterialResponseModel();
-         CurrVoucherType= type; //
+         CurrVoucherType= type;
+
 
     }
 
     UrlInfo info=new UrlInfo();
-String  url;
+    String  url;
     @Override
     protected void initData() {
         super.initData();
@@ -255,7 +260,7 @@ String  url;
                             context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
                     return true;
                 }
-            } catch (Exception ex) {
+            }catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_order);
                 //据点集合
                 StrongholdcodeList=new HashMap<>();
@@ -802,7 +807,7 @@ String  url;
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                                 model.Strongholdcode=GetStrongholdcode(materialModle.getMaterialno());
-                                model.Batchno =  "";
+                                model.Batchno =palletno.split("%")[1];
                                 model.PalletNo = palletno;
                                 model.Vouchertype=CurrVoucherType;
                                 model.MaterialNo = materialModle.getMaterialno();
@@ -908,14 +913,10 @@ String  url;
                     MessageBox.Show(context, "系统出现异常请重新扫描");
 
                 }
-
             }
         });
         builder.show();
     }
-
-
-
 
 
 

@@ -67,7 +67,6 @@ public class SalesOutStockBoxList extends BaseActivity {
     @ViewInject(R.id.sales_outstock_boxlist_order)
     EditText sales_outstock_boxlist_order;
 
-
     //列表框
     @ViewInject(R.id.out_stock_sales_box_ListView)
     ListView mList;

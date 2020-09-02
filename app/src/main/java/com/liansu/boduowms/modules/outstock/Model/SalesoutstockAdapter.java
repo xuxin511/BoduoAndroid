@@ -29,6 +29,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
         public TextView txtMaterialDesc;//
         public TextView txt_recommended_location;
         public TextView txtstrong;
+        public TextView txtbatchno;
 
 
     }
@@ -87,6 +88,8 @@ public class SalesoutstockAdapter extends BaseAdapter {
             listItemView.txtRemainQty = (TextView) convertView.findViewById(R.id.txtRemainQty);
             listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
             listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.txtMaterialDesc);
+            listItemView.txtbatchno = (TextView) convertView.findViewById(R.id.txt_batch_no);
+
             listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
             convertView.setTag(listItemView);
         } else {
@@ -102,7 +105,10 @@ public class SalesoutstockAdapter extends BaseAdapter {
         }else {
             listItemView.txt_reference_standard.setText("规格型号:" + mDetailInfo.getSpec());
         }
-
+        String batchno="";
+        if(mDetailInfo.getBatchno()!=null)
+            batchno=mDetailInfo.getBatchno();
+        listItemView.txtbatchno.setText("批次:" +batchno);
         listItemView.txtVoucherQty.setText("订单：" + mDetailInfo.getVoucherqty());
         listItemView.txtRemainQty.setText("剩余:" + mDetailInfo.getRemainqty());
         listItemView.txtScanQty.setText("已扫：" + mDetailInfo.getScanqty());

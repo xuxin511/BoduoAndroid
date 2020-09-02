@@ -19,6 +19,8 @@ public class OrderType {
     public final static String OUT_STOCK_ORDER_TYPE_CITY_DELIVERY_AND_LOADING        = "市区发货装车";
     public final static String OUT_STOCK_ORDER_TYPE_OTHER_DELIVERY_AND_LOADING       = "其它发货装车";
     public final static String OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION              = "采购验退";
+    public final static String OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT           = "成品验退";
+    public final static String OUT_STOCK_ORDER_TYPE_PURCHASE_SALE = "销售验退";
     public final static String OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN                  = "采购退货";
     public final static int    IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE            = 22;
     public final static int    IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE             = 45;
