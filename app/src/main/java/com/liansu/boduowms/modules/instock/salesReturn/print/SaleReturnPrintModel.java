@@ -41,6 +41,7 @@ public class SaleReturnPrintModel extends BaseModel {
     List<OrderDetailInfo> mCurrentMaterialDetailsList = new ArrayList<>();
     OutBarcodeInfo        mCurrentMaterialInfo;
     String                mCustomerCode               = null;
+    List<String>          mCurrentBatchNoList         = new ArrayList<>();
 
     public SaleReturnPrintModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
@@ -89,6 +90,24 @@ public class SaleReturnPrintModel extends BaseModel {
         }
     }
 
+    public void setCurrentBatchNoList(List<String> list) {
+        mCurrentBatchNoList.clear();
+        if (list != null && list.size() > 0) {
+            mCurrentBatchNoList.addAll(list);
+        }
+    }
+
+    /**
+     * @desc: 获取当前批次
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/2 14:05
+     */
+    public List<String> getCurrentBatchNoList() {
+        return mCurrentBatchNoList;
+    }
+
     /**
      * @desc: 清空
      * @param:
@@ -97,6 +116,7 @@ public class SaleReturnPrintModel extends BaseModel {
      * @time 2020/8/31 16:48
      */
     public void onReset() {
+        mCurrentBatchNoList.clear();
         mCustomerCode = null;
         mOrderDetailsList.clear();
         mCurrentMaterialDetailsList.clear();
@@ -134,11 +154,11 @@ public class SaleReturnPrintModel extends BaseModel {
             String batchNo = info.getBatchNo() != null ? info.getBatchNo() : "";
             String spec = info.getSpec() != null ? info.getSpec() : "";
             int barcodeQty = (int) info.getQty();
-            String QRBarcode = materialNo + "%" + batchNo + "%" + barcodeQty + "%" + PrintType.PRINT_LABEL_TYPE_RAW_MATERIAL;
+            String QRBarcode = materialNo + "%" + batchNo + "%" + info.getPackQty() + "%" + PrintType.PRINT_LABEL_TYPE_RAW_MATERIAL;
             info.setMaterialNo(materialNo);
             info.setMaterialDesc(info.getMaterialDesc());
             info.setBatchNo(batchNo);
-            info.setQty(barcodeQty);
+            info.setQty(info.getPackQty());
             info.setQRCode(QRBarcode);
             info.setSpec(spec);
             info.setPrintType(PrintType.PRINT_TYPE_RAW_MATERIAL_STYLE);

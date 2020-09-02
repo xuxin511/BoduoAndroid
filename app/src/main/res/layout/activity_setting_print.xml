@@ -30,7 +30,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/setting_print_bluetooth_printer_desc" />
 
             <Button
-
                 android:id="@+id/setting_print_bluetooth_printer_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

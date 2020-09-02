@@ -200,6 +200,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
      * @time 2020/9/1 9:27
      */
     public void closeKeyBoard(EditText... editTexts) {
+        boolean isDebug=true;
+        if (isDebug)  return;
         if (editTexts.length > 0) {
             for (EditText editText : editTexts) {
                 if (editText != null) {

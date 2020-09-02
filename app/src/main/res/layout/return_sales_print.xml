@@ -188,16 +188,30 @@
         app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_1"
         app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_batch_no" />
 
-    <Spinner
+    <EditText
         android:id="@+id/return_storage_scan_print_batch_no"
+        style="@style/EditTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
         android:layout_marginTop="@dimen/common_margin_top_first"
-        android:minHeight="@dimen/common_layout_height_second"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
         app:layout_constraintRight_toLeftOf="@+id/return_storage_scan_print_query_date_time_select"
         app:layout_constraintTop_toBottomOf="@+id/return_storage_scan_print_material_name" />
+
+    <Button
+        android:id="@+id/return_storage_scan_batch_no_select"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bt_selector"
+        android:text="@string/choice"
+        android:textColor="@color/white"
+        android:textSize="@dimen/activity_setting_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/return_storage_scan_print_batch_no"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/return_storage_scan_print_batch_no"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_batch_no" />
 
     <TextView
         android:id="@+id/return_storage_scan_print_pack_qty_desc"
@@ -220,7 +234,7 @@
         android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
         android:layout_marginTop="@dimen/common_margin_top_first"
-        android:inputType="numberDecimal"
+        android:inputType="number"
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/logistics_loading_settings_guideline_v_1"
         app:layout_constraintRight_toLeftOf="@+id/logistics_loading_settings_guideline_v_3"
@@ -282,6 +296,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/return_storage_scan_print_qty"
         app:layout_constraintTop_toTopOf="@+id/return_storage_scan_print_qty" />
+
     <EditText
         android:id="@+id/return_storage_scan_print_pallet_qty"
         style="@style/EditTextStyle"
@@ -350,17 +365,26 @@
         app:layout_constraintGuide_percent="0.54" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/logistics_loading_settings_guideline_v_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/logistics_loading_settings_guideline_v_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.9" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/logistics_loading_settings_guideline_v_5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/logistics_loading_settings_guideline_h_2"
         android:layout_width="wrap_content"

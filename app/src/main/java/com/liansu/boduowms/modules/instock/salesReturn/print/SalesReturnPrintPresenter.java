@@ -105,7 +105,8 @@ public class SalesReturnPrintPresenter {
                                 BaseMultiResultInfo<Boolean, List<String>> checkResult = mModel.getMaterialBatchNoList(mModel.getMaterialDetailsList(), materialNo);
                                 if (checkResult.getHeaderStatus()) {
                                     mView.setMaterialInfo(mModel.getMaterialDetailsList().get(0));
-                                    mView.setSpinnerData(checkResult.getInfo());
+                                    mModel.setCurrentBatchNoList(checkResult.getInfo());
+//                                    mView.setSpinnerData(checkResult.getInfo());
                                     mView.onPackQtyFocus();
                                 } else {
                                     MessageBox.Show(mContext, checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
@@ -187,15 +188,25 @@ public class SalesReturnPrintPresenter {
                 });
                 return;
             }
-            if (batchNo.equals("")) {
-                MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+
+            if (!DateUtil.isValidDate(batchNo.trim(), "yyyyMMdd") && !batchNo.equals("")) {
+                MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                       mView.onBatchNoFocus();
                     }
                 });
-                return;
             }
+
+//            if (batchNo.equals("")) {
+//                MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+//                return;
+//            }
             if (!DateUtil.isStartTimeBeforeEndTime(mView.getStartTime(), mView.getEndTime())) {
                 MessageBox.Show(mContext, "校验时间失败:开始时间[" + mView.getStartTime() + "]必须小于结束时间[" + mView.getEndTime() + "]");
                 return;

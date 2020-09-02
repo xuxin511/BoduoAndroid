@@ -19,6 +19,7 @@ public interface ISalesReturnPrintView {
     void onPrintCountFocus();
     void onRemainQtyFocus();
     void onPalletQtyFocus();
+    void onBatchNoFocus();
     void setMaterialInfo(OrderDetailInfo orderDetailInfo);
     void setSpinnerData(List<String> list);
     void createCalendarDialog(EditText editText);

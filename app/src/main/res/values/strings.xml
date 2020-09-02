@@ -381,6 +381,7 @@
     <string name="return_storage_scan_print_button">打印</string>
     <string name="return_storage_scan_print_batch_no">批次:</string>
     <string name="return_storage_scan_print_batch_no_select">选择</string>
+    <string name="return_storage_scan_print_batch_no_select_title">请选择批次</string>
     <string name="return_storage_scan_print_batch_no_select_desc">选择开始批次日期</string>
     <string name="sales_return_scan_pallet_no_desc">托盘号:</string>
     <string name="sales_return_scan_pallet_no_hint"></string>

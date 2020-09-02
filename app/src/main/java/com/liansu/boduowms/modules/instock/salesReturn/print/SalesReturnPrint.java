@@ -11,12 +11,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
@@ -42,7 +40,6 @@ import org.xutils.x;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -69,7 +66,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     @ViewInject(R.id.return_storage_scan_print_material_name)
     TextView  mMaterialName;
     @ViewInject(R.id.return_storage_scan_print_batch_no)
-    Spinner   mBatchNoSpinner;
+    EditText  mBatchNoSpinner;
     @ViewInject(R.id.return_storage_scan_print_pack_qty)
     EditText  mPackQty;
     @ViewInject(R.id.return_storage_scan_print_count)
@@ -80,6 +77,8 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     EditText  mPalletQty;
     @ViewInject(R.id.return_storage_scan_print_button)
     Button    mPrintButton;
+    @ViewInject(R.id.return_storage_scan_batch_no_select)
+    Button    mBatchNoSelect;
     ArrayAdapter              mBatchNoArrayAdapter;
     SalesReturnPrintPresenter mPresenter;
     TimePickerView            pvCustomLunar;
@@ -93,7 +92,13 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         onReset();
-        closeKeyBoard(mCustomerCode,mStartDateTime,mEndDateTime,mMaterialNo,mPackQty,mOuterBoxPrintCount,mPalletRemainQty,mPalletQty);
+        closeKeyBoard(mCustomerCode, mStartDateTime, mEndDateTime, mMaterialNo, mPackQty, mOuterBoxPrintCount, mPalletRemainQty, mPalletQty);
+        mBatchNoSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSpinnerData(mPresenter.getModel().getCurrentBatchNoList());
+            }
+        });
     }
 
 
@@ -176,7 +181,6 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         }, 200);
 
 
-
     }
 
     @Override
@@ -188,6 +192,17 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
             }
         }, 200);
 
+
+    }
+
+    @Override
+    public void onBatchNoFocus() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CommonUtil.setEditFocus(mBatchNoSpinner);
+            }
+        }, 200);
 
     }
 
@@ -210,9 +225,34 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     @Override
     public void setSpinnerData(List<String> list) {
         if (list == null || list.size() == 0) {
-            list = new ArrayList<>();
-            list.add(" ");
+//            list = new ArrayList<>();
+//            list.add(" ");
+            return;
         }
+
+        final String[] items = list.toArray(new String[0]);
+        new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.return_storage_scan_print_batch_no_select_title))// 设置对话框标题
+                .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                .setCancelable(false)
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO 自动生成的方法存根
+                        String select_item = items[which].toString();
+                        mBatchNoSpinner.setText(select_item);
+                        if (!select_item.equals("")) {
+                            if (!DateUtil.isValidDate(select_item.trim(), "yyyyMMdd")) {
+                                MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        onBatchNoFocus();
+                                    }
+                                });
+                            }
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
 //            if (mBatchNoSpinner.getVisibility() != View.GONE) {
 //                mBatchNoSpinner.setVisibility(View.GONE);
 //            }
@@ -222,24 +262,24 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 //                mBatchNoSpinner.setVisibility(View.VISIBLE);
 //            }
 
-            // 设置spinner，不用管什么作用
-            mBatchNoArrayAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, list);
-            mBatchNoArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// 设置下拉风格
-            mBatchNoSpinner.setAdapter(mBatchNoArrayAdapter); // 将adapter 添加到spinner中
-            mBatchNoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
-            ) {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });// 添加监听
+        // 设置spinner，不用管什么作用
+//            mBatchNoArrayAdapter = new ArrayAdapter<String>(this,
+//                    android.R.layout.simple_spinner_item, list);
+//            mBatchNoArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// 设置下拉风格
+//            mBatchNoSpinner.setAdapter(mBatchNoArrayAdapter); // 将adapter 添加到spinner中
+//            mBatchNoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
+//            ) {
+//                @Override
+//                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//
+//                }
+//
+//                @Override
+//                public void onNothingSelected(AdapterView<?> parent) {
+//
+//                }
+//            });// 添加监听
 
 
     }
@@ -316,9 +356,9 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
                 editText.setText(getTime(date));
-                if (editText.getId()==R.id.return_storage_scan_print_query_start_date_time){
-                   onEndTimeFocus();
-                }else if (editText.getId()==R.id.return_storage_scan_print_query_end_date_time){
+                if (editText.getId() == R.id.return_storage_scan_print_query_start_date_time) {
+                    onEndTimeFocus();
+                } else if (editText.getId() == R.id.return_storage_scan_print_query_end_date_time) {
                     try {
                         if (!DateUtil.isStartTimeBeforeEndTime(getStartTime(), getEndTime())) {
                             MessageBox.Show(mContext, "校验时间失败:开始时间[" + getStartTime() + "]必须小于结束时间[" + getEndTime() + "]", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
@@ -328,11 +368,11 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                                 }
                             });
                             return;
-                        }else {
+                        } else {
                             onMaterialNoFocus();
                         }
                     } catch (ParseException e) {
-                        MessageBox.Show(mContext, "校验日期出现预期之外的异常:"+e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "校验日期出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 onStartTimeFocus();
@@ -412,9 +452,11 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
             String materialNo = mMaterialNo.getText().toString().trim();
             String materialName = mMaterialName.getText().toString().trim();
             String batchNo = "";
-            if (mBatchNoArrayAdapter != null) {
-                batchNo = mBatchNoSpinner.getSelectedItem().toString();
-            }
+//            if (mBatchNoArrayAdapter != null) {
+////                batchNo = mBatchNoSpinner.getSelectedItem().toString();
+//                batchNo = mBatchNoSpinner.getText().toString();
+//            }
+            batchNo = mBatchNoSpinner.getText().toString();
             float packQty = Float.parseFloat(mPackQty.getText().toString().trim());
             float packCount = Float.parseFloat(mOuterBoxPrintCount.getText().toString().trim());
             mPresenter.onPrint(materialNo, materialName, batchNo, packQty, packCount);
@@ -433,8 +475,8 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                     break;
             }
 
-        }catch (Exception e){
-            MessageBox.Show(mContext,"选择日期出现预期之外的异常,"+e.getMessage());
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "选择日期出现预期之外的异常," + e.getMessage());
         }
 
     }

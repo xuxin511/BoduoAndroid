@@ -23,10 +23,12 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.ParseXmlService;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -46,7 +48,9 @@ public class UpdateVersionService {
     private              HashMap<String, String> hashMap;// 存储跟心版本的xml信息
     private              String                  fileSavePath;// 下载新apk的厨房地点
     // private static final String UPDATEVERSIONXMLPATH = UserConfigModel.UPDATEURL+"version.xml";
-    public final static  String                  LastContent = "/AppData/version.xml";
+//    public final static  String                  LastContent = "/AppData/version.xml";
+    public final static  String                  LastContent = "/AppData/version.json";
+
     public static String UP_DATE_VERSION_XML_PATH() {
         return "http://" + UrlInfo.IPAdress + ":" + UrlInfo.Port + "/" + LastContent;
     }
@@ -182,10 +186,20 @@ public class UpdateVersionService {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(5 * 1000);
             conn.setRequestMethod("GET");// 必须要大写
+            conn.connect();
             InputStream inputStream = conn.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "GB2312"));
+            String strRead = null;
+            StringBuffer sbf = new StringBuffer();
+            while ((strRead = reader.readLine()) != null) {
+                sbf.append(strRead);
+                sbf.append("\r\n");
+            }
+            reader.close();
+            String result = sbf.toString();
             // 解析XML文件。
             ParseXmlService service = new ParseXmlService();
-            hashMap = service.parseXml(inputStream);
+            hashMap = service.parseJson(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -257,7 +271,7 @@ public class UpdateVersionService {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 _Intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 _uri = FileProvider.getUriForFile(BaseApplication.context, BaseApplication.context.getPackageName() + ".fileProvider", apkfile);
-            }else {
+            } else {
                 _uri = Uri.fromFile(apkfile);
                 _Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
@@ -266,8 +280,8 @@ public class UpdateVersionService {
 
 //        context.startActivity(intent);
             android.os.Process.killProcess(android.os.Process.myPid());// 如果不加上这句的话在apk安装完成之后点击单开会崩溃
-        }catch (Exception e){
-            MessageBox.Show(BaseApplication.context,"安装APK出现预期之外的异常:"+e.getMessage() );
+        } catch (Exception e) {
+            MessageBox.Show(BaseApplication.context, "安装APK出现预期之外的异常:" + e.getMessage());
         }
     }
 
