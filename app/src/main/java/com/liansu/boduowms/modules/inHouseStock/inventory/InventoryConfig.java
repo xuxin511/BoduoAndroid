@@ -2,16 +2,21 @@ package com.liansu.boduowms.modules.inHouseStock.inventory;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.telephony.MbmsGroupCallSession;
+import android.util.ArrayMap;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -34,10 +39,12 @@ import com.liansu.boduowms.modules.inHouseStock.inventory.Model.T_Parameter;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.Pair;
 import com.liansu.boduowms.modules.outstock.Model.PairAdapter;
+import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
+import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
@@ -46,7 +53,10 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetBarcodeInfo;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetWarehouse;
@@ -56,7 +66,10 @@ import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.Inventory
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_Project_GetParameter;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts_Submit;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 //盘点配置页面
@@ -76,6 +89,15 @@ public class InventoryConfig extends BaseActivity {
     @ViewInject(R.id.inventory__config_barcode)
     EditText inventory__config_barcode;
 
+
+    //托盘过账
+    @ViewInject(R.id.inventory_config_post)
+    Button inventory_config_post;
+
+    //托盘明细
+    @ViewInject(R.id.inventory_config_detail)
+    Button inventory_config_detail;
+
     //下拉框
     @ViewInject(R.id.inventory__config_status)
     Spinner mSpinner;
@@ -85,30 +107,55 @@ public class InventoryConfig extends BaseActivity {
     @ViewInject(R.id.inventory__config_list)
     ListView mList;
 
+    List<InventoryModel> listModel=new ArrayList<InventoryModel>();
     //适配器
     InventoryConfigAdapter mAdapter;
 
     //当前库位
-    String CurrAreano;
+    String CurrAreano="";
 
+    String Currerpvoucherno="";
+
+    //下拉框列表
+    Map downList=new HashMap<>();
+
+    InventoryModel mInventory; //当前盘点对象
 
     @Override
     protected void initViews() {
         super.initViews();
+        BaseApplication.context = context;
         BaseApplication.toolBarTitle = new ToolBarTitle("盘点单扫描", true);
         x.view().inject(this);
+        BaseApplication.isCloseActivity = false;
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
         InventoryModel model = new InventoryModel();
         String arr = data.toString();
         model = GsonUtil.parseJsonToModel(arr, InventoryModel.class);
         inventory__config_order.setText(model.Erpvoucherno);
-        T_Parameter parameter=new T_Parameter();
-        parameter.Groupname="Stock_Status";
+        Currerpvoucherno = model.Erpvoucherno;
+        mInventory = new InventoryModel();
+        CurrAreano = "";
+        T_Parameter parameter = new T_Parameter();
+        parameter.Groupname = "Stock_Status";
         String modelJson = parseModelToJson(parameter);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Project_GetParameter, "获取质检属性",
                 context, mHandler, RESULT_Project_GetParameter, null, UrlInfo.getUrl().Project_GetParameter, modelJson, null);
 
+
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                InventoryModel inventoryModel = (InventoryModel) listModel.get(i);
+                if (inventoryModel != null) {
+                    //输入数量
+                    mInventory = inventoryModel;
+                    updateCheckNum(mInventory.getMaterialno() + "可盘数量为" +mInventory.getQty());
+                }
+                //   Toast.makeText(ListViewActivity.this,book.toString(),Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -124,21 +171,25 @@ public class InventoryConfig extends BaseActivity {
         int etid = vFocus.getId();
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == inventory__config_barcode.getId()) {
             try {
-                if(CurrAreano.equals("")) {
+                if (CurrAreano.equals("")) {
                     CommonUtil.setEditFocus(inventory__config_warehouse);
                     MessageBox.Show(context, "请先扫描库位");
+                    return true;
                 }
-                String barcode=inventory__config_barcode.getText().toString().trim();
-                if(!barcode.split("%")[4].equals("4")){
+                String barcode = inventory__config_barcode.getText().toString().trim();
+                if (!barcode.split("%")[4].equals("2")) {
                     CommonUtil.setEditFocus(inventory__config_barcode);
                     MessageBox.Show(context, "请扫描正确托盘条码");
+                    return true;
                 }
-                OutBarcodeInfo model=new OutBarcodeInfo();
+                OutBarcodeInfo model = new OutBarcodeInfo();
                 model.setBarcode(barcode);
                 model.setSerialno(barcode.split("%")[3]);
+                model.setAreano(CurrAreano);
+                model.setErpvoucherno(Currerpvoucherno);
                 String modelJson = parseModelToJson(model);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryConfig_GetBarcodeInfo, "获取条码信息",
-                context, mHandler, RESULT_InventoryConfig_GetBarcodeInfo, null, UrlInfo.getUrl().Inventory_Config_GetScanInfo, modelJson, null);
+                        context, mHandler, RESULT_InventoryConfig_GetBarcodeInfo, null, UrlInfo.getUrl().Inventory_Config_GetScanInfo, modelJson, null);
 
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(inventory__config_barcode);
@@ -173,6 +224,37 @@ public class InventoryConfig extends BaseActivity {
     }
 
 
+    //托盘提交
+    @Event(value =R.id.inventory_config_post)
+    private void  inventory_submit(View view) {
+
+
+
+    }
+
+
+    //托盘明细
+    @Event(value =R.id.inventory_config_detail)
+    private void  inventory_detail(View view) {
+        if (Currerpvoucherno.equals("")) {
+            MessageBox.Show(context, "请先选择单号");
+            return;
+        }
+        InventoryModel model = new InventoryModel();
+        model.Erpvoucherno = Currerpvoucherno;
+        //选择调页面
+        Intent intent = new Intent();
+        //intent.setData(data);
+        //本地单号传过去
+        String json = GsonUtil.parseModelToJson(model);
+        Uri data = Uri.parse(json);
+        intent.setData(data);
+        intent.setClass(context, InventoryDetail.class);
+        startActivity(intent);
+    }
+
+
+
 
 
     public void onHandleMessage(Message msg) {
@@ -193,8 +275,10 @@ public class InventoryConfig extends BaseActivity {
     }
 
 
+
     //加载下拉框
     public  void  LoadSpinner(String result) {
+        downList=new HashMap();
         try {
             BaseResultInfo<List<T_Parameter>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<T_Parameter>>>() {
             }.getType());
@@ -208,6 +292,7 @@ public class InventoryConfig extends BaseActivity {
                 int i = 1;
                 for (T_Parameter item : returnMsgModel.getData()) {
                     fydapter.addPairs(i, String.valueOf(item.Parameterid), item.Parametername, fydapter.pairs);
+                    downList.put(item.Parameterid, i);
                     i++;
                 }
                 fydapter.bindAdapter(mShstatusAdapter, mSpinner, fydapter.pairs, context);
@@ -243,26 +328,102 @@ public class InventoryConfig extends BaseActivity {
 
     //获取条码信息
     public  void GetBarcode(String result) {
+        listModel=new ArrayList<InventoryModel>();
         try {
-            BaseResultInfo<List<StockInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<StockInfo>>>() {
+            BaseResultInfo<List<InventoryModel>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<InventoryModel>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(inventory__config_barcode);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-                return;
             } else {
+                listModel=returnMsgModel.getData();
                 //更新列表
-                mAdapter = new InventoryConfigAdapter(context, returnMsgModel.getData());
-                mList.setAdapter(mAdapter);
                 //更新下拉框
-                mSpinner.setSelection(returnMsgModel.getData().get(0).getStatus());
+                int type=returnMsgModel.getData().get(0).getStatus();
+                int index=Integer.parseInt(downList.get(type).toString());
+                mSpinner.setSelection(index-1);
             }
         } catch (Exception ex) {
             CommonUtil.setEditFocus(inventory__config_barcode);
             MessageBox.Show(context, ex.toString());
         }
+        mAdapter = new InventoryConfigAdapter(context, listModel);
+        mList.setAdapter(mAdapter);
+
     }
 
+
+
+    //扫描或者输入数量
+    private void updateCheckNum(String name) {
+        final EditText inputServer = new EditText(this);
+        inputServer.setMaxLines(1);
+        inputServer.setFocusable(true);
+        inputServer.setHint("请输入本次已盘数量");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //注册回车事件
+        if(mInventory.ScannQty!=0 &&mInventory.ScannQty!=null) {
+            inputServer.setText(mInventory.ScannQty.toString());
+        }
+
+        builder.setTitle(name).setIcon(
+                null).setView(inputServer).setNegativeButton(
+                "取消", null);
+        builder.setPositiveButton("确认",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            String Value = inputServer.getText().toString();
+                            Float inputValue = Float.parseFloat(Value);
+                            if(ArithUtil.sub(mInventory.Qty,inputValue)<0) {
+                                MessageBox.Show(context, "盘点数量不能大于该物料可盘数量");
+                                return;
+                            }
+                            for (InventoryModel item:  listModel){
+                                if(item==mInventory) {
+                                    item.ScannQty = inputValue;
+                                }
+                            }
+                            mAdapter = new InventoryConfigAdapter(context, listModel);
+                            mList.setAdapter(mAdapter);
+                        } catch (Exception ex) {
+                            MessageBox.Show(context, "请输入正确的数量");
+                        }
+                    }
+                });
+        builder.show();
+//        inputServer.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View view, int keyCode, KeyEvent event) {
+//                View vFocus = view.findFocus();
+//                int etid = vFocus.getId();
+//                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == inputServer.getId()) {
+//                    try {
+                      //  builder.i
+//                        String Value = inputServer.getText().toString().trim();
+//                        Float inputValue = Float.parseFloat(Value);
+//                        if(ArithUtil.sub(mInventory.Qty,inputValue)<0) {
+//                            MessageBox.Show(context, "盘点数量不能大于该物料可盘数量");
+//                            return true;
+//                        }
+//                        for (InventoryModel item:  listModel){
+//                            if(item==mInventory) {
+//                                item.ScannQty = inputValue;
+//                            }
+//                        }
+//                        mAdapter = new InventoryConfigAdapter(context, listModel);
+//                        mList.setAdapter(mAdapter);
+//                        android.os.Process.killProcess(android.os.Process.myPid());
+//                        System.exit(0);
+//                    } catch (Exception ex) {
+//                        MessageBox.Show(context, "请输入正确的数量");
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            }
+//        });
+    }
 
 
 

@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -28,12 +30,14 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutStcokboxRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.outstock.packing.PackingScanAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
@@ -129,64 +133,97 @@ public  class SalesOutStockBox   extends BaseActivity {
     private  int CurrVoucherType;
 
     private  int Scanningtype;
-    UrlInfo info=new UrlInfo();
+
+    private   UrlInfo info=new UrlInfo();
+
+    private   MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
     //endregion
+
+    @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.toolBarTitle = new ToolBarTitle("拼箱", true);
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+        String arr=data.toString();
+        menuOutStockModel = GsonUtil.parseJsonToModel(arr,MenuOutStockModel.class);
+        int type=Integer.parseInt(menuOutStockModel.VoucherType);
+        info.InitUrl(type);
+        BaseApplication.context=context;
+        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
+        BaseApplication.isCloseActivity=false;
         CurrOrder = "";
         materialModle = new MaterialResponseModel();
         stockInfoModels = new ArrayList<OutStockOrderDetailInfo>();
         //重写路径
-        Intent intentMain = getIntent();
-        Uri data = intentMain.getData();
-        int type = Integer.parseInt(data.toString());
-        info.InitUrl(type);
-        CurrVoucherType = type;
+        CurrVoucherType = Integer.parseInt( menuOutStockModel.getVoucherType());
         modelIsExits = new HashMap<String, String>();
         Scanningtype = 0;
-        responseList = new ArrayList<OutStockOrderDetailInfo>();
-        mModel=new PurchaseReturnOffScanModel(context, mHandler);
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                // TODO Auto-generated method stub
-                if (isChecked) {
-                    // editText1.setText(buttonView.getText()+"选中");
-                    OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
-                    model.setMaterialdesc("非库存拼箱");
-                    model.setBatchno("");
-                    model.setErpvoucherno(CurrOrder);
-                    model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
-                    model.setQTY(1f);
-                    model.setIsStockCombine(1);
-                    model.setVouchertype(CurrVoucherType);
-                    model.setPrintername(UrlInfo.mOutStockPrintName);
-                    model.setPrintertype(UrlInfo.mOutStockPrintType);
-                    stockInfoModels.add(model);
-                    mModel.getOrderDetailList().add(model);
-                } else {
-                    for (OutStockOrderDetailInfo infos : stockInfoModels) {
-                        if (infos.getMaterialdesc().equals("非库存拼箱")) {
-                            stockInfoModels.remove(infos);
-                            mModel.getOrderDetailList().remove(infos);
-                        }
-                    }
-                }
-                mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
-                mList.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
+//        responseList = new ArrayList<OutStockOrderDetailInfo>();
+//        mModel=new PurchaseReturnOffScanModel(context, mHandler);
+//        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView,
+//                                         boolean isChecked) {
+//                // TODO Auto-generated method stub
+//                if (isChecked) {
+//                    // editText1.setText(buttonView.getText()+"选中");
+//                    OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
+//                    model.setMaterialdesc("非库存拼箱");
+//                    model.setBatchno("");
+//                    model.setErpvoucherno(CurrOrder);
+//                    model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
+//                    model.setQTY(1f);
+//                    model.setIsStockCombine(1);
+//                    model.setVouchertype(CurrVoucherType);
+//                    model.setPrintername(UrlInfo.mOutStockPrintName);
+//                    model.setPrintertype(UrlInfo.mOutStockPrintType);
+//                    stockInfoModels.add(model);
+//                    mModel.getOrderDetailList().add(model);
+//                } else {
+//                    for (OutStockOrderDetailInfo infos : stockInfoModels) {
+//                        if (infos.getMaterialdesc().equals("非库存拼箱")) {
+//                            stockInfoModels.remove(infos);
+//                            mModel.getOrderDetailList().remove(infos);
+//                        }
+//                    }
+//                }
+//                mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
+//                mList.setAdapter(mAdapter);
+//                mAdapter.notifyDataSetChanged();
+//            }
+//        });
 
     }
+
+    @Override
     protected void initData() {
         super.initData();
 
+    }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+    protected UserSettingPresenter mUserSettingPresenter;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(this);
+
+        }
+        return false;
+    }
+
+    @Override
+    public void getToolTitle() {
+        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+        //清空列表//切换仓库后需要重新扫描
+        del();
     }
 
     //region 事件
@@ -317,11 +354,12 @@ public  class SalesOutStockBox   extends BaseActivity {
         }
     }
 
-    public  void del(){
+    public  void del() {
+        sales_outstock_box_watercode.setText("");
         materialModle = new MaterialResponseModel();
         stockInfoModels = new ArrayList<OutStockOrderDetailInfo>();
         mAdapter = new SalesoutstockBoxAdapter(context, stockInfoModels);
-        responseList=new ArrayList<OutStockOrderDetailInfo>();
+        responseList = new ArrayList<OutStockOrderDetailInfo>();
         modelIsExits = new HashMap<String, String>();
         mList.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();

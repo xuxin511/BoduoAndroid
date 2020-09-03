@@ -128,6 +128,9 @@ public class UrlInfo {
     public String SalesOutstock__Review_configSelectOrder       = GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单表头
     public String SalesOutstock__Review_configSelectOrderDetial = GetWCFAdress() + "WayBill/Get_WayBillDetail"; //获取托运单明细
     //endregion
+    //二阶段回调订单访问
+    public String SalesOutstock__Toutstock_Callback = GetWCFAdress() + "TransferOut/Get_TransferoutInfoBack";
+    public String SalesOutstock__Toutstock_Callback_Submit = GetWCFAdress() + "TransferOut/Post_TransferoutInfoBackADFAsync";
 
     //入库，出库 条码回退
     public String GetT_DetailSubAsync    = "";//  获取暂存数据
@@ -220,7 +223,7 @@ public class UrlInfo {
     public String Inventory_Config_AreanobyCheckno = GetWCFAdress() + "Check/GetT_AreanobyCheckno"; //获取库位信息
     public String Inventory_Config_GetScanInfo = GetWCFAdress() + "Check/GetScanInfo"; //获取条码信息
     public String Project_GetParameter = GetWCFAdress() + "Parameter/GetT_ParameterList"; //获取配置表信息
-
+    public String Inventory_Detail_GetDetail = GetWCFAdress() + "Check/Get_CheckDetail"; //获取盘点明细
 //    public String SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
 //    public String SalesOutstock_JudgeStock        = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
 //    public String SalesOutstock__SubmitBarcode    = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交

@@ -1,6 +1,8 @@
 package com.liansu.boduowms.base;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -18,7 +20,9 @@ import android.widget.TextView;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.CheckNumRefMaterial;
+import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
+import com.liansu.boduowms.utils.SharePreferUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.hander.IHandleMessage;
 import com.liansu.boduowms.utils.hander.MyHandler;
@@ -26,6 +30,7 @@ import com.liansu.boduowms.utils.updateversion.UpdateVersionService;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -117,6 +122,50 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
                     BackAlter();
             }
         });
+    }
+
+
+    public  Context context;
+    public void selectWareHouse(Activity activity) {
+        context = activity;
+        final String[] items = new String[BaseApplication.mCurrentUserInfo.getModelListWarehouse().size()];
+        int i = 0;
+        for (WareHouseInfo info : BaseApplication.mCurrentUserInfo.getModelListWarehouse()) {
+            items[i] = info.Warehouseno;
+            i++;
+        }
+        new AlertDialog.Builder(activity).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                .setCancelable(false)
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO 自动生成的方法存根
+                        String select_item = items[which].toString();
+                        if (BaseApplication.mCurrentWareHouseInfo.Warehouseno != null) {
+                            // mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            for (WareHouseInfo info : BaseApplication.mCurrentUserInfo.getModelListWarehouse()) {
+                                String sWareHouseName = info.getWarehousename() != null ? info.getWarehousename() : "";
+                                if (sWareHouseName.trim().equals(select_item)) {
+                                    BaseApplication.mCurrentWareHouseInfo = info;
+                                    SharePreferUtil.SetWareHouseInfoShare(context, BaseApplication.mCurrentWareHouseInfo);
+                                    // BaseApplication.toolBarTitle = new ToolBarTitle("1234", true);
+                                 //   getToolBarHelper().getToolBar().setTitle(getToolBarHelper().getToolBar().getTitle() + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+                                    getToolTitle();
+                                }
+                            }
+                        }
+
+                        dialog.dismiss();
+                    }
+                }).show();
+
+    }
+
+
+    //会写表头
+    public void getToolTitle() {
+
     }
 
 

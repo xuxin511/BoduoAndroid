@@ -7,6 +7,7 @@ public class SalesoutstockRequery {
 
     public String  Towarehouseno;
     public String  Creater;
+    public String  Scanuserno;
 
 
     public String getCreater() {
@@ -34,6 +35,14 @@ public class SalesoutstockRequery {
     public String  PalletNo;
     public int  BarcodeType;
     public int  Vouchertype;
+
+    public String getScanuserno() {
+        return Scanuserno;
+    }
+
+    public void setScanuserno(String scanuserno) {
+        Scanuserno = scanuserno;
+    }
 
     public String getTowarehouseno() {
         return Towarehouseno;
