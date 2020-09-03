@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,11 +30,13 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.AwyBll;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Pair;
 import com.liansu.boduowms.modules.outstock.Model.PairAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutStcokboxRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -138,55 +142,70 @@ public class OutstockSalesConfig extends BaseActivity {
 
     private int CurrVoucherType;
 
-    UrlInfo info = new UrlInfo();
+    private  UrlInfo info = new UrlInfo();
 
     private  String CurrVoucherNo;//当前单号
+    private  MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
+
+
+
     @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.toolBarTitle = new ToolBarTitle("物流装车设置", true);
+        BaseApplication.context = context;
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+        String arr = data.toString();
+        menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
+        int type = Integer.parseInt(menuOutStockModel.VoucherType);
+        CurrVoucherType=type;
+        info.InitUrl(type);
+        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
-        mshSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
-        ) {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              //TextView tv = (TextView) view;
-               // tv.setTextColor(getResources().getColor(R.color.black));
-              //  tv.setGravity(Gravity.CENTER);*/
-                if(position==1){//送货上门
-                    sales_outstock_configsm_text.setVisibility(View.VISIBLE);//显示
-                    CommonUtil.setEditFocus(sales_outstock_configsm_text);
-                }else{
-                    sales_outstock_configsm_text.setVisibility(View.INVISIBLE);//隐藏
-                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        BaseApplication.isCloseActivity = false;
+//        mshSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
+//        ) {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (position == 1) {//送货上门
+//                    sales_outstock_configsm_text.setVisibility(View.VISIBLE);//显示
+//                    CommonUtil.setEditFocus(sales_outstock_configsm_text);
+//                } else {
+//                    sales_outstock_configsm_text.setVisibility(View.INVISIBLE);//隐藏
+//                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+//
+//        mfySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
+//        ) {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                if (position == 0) {//重量
+//                    sales_outstock_configdj_text.setVisibility(View.INVISIBLE);// 隐藏
+//                } else {
+//                    sales_outstock_configdj_text.setVisibility(View.VISIBLE);//显示
+//                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
 
-        mfySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
-        ) {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //TextView tv = (TextView) view;
-                // tv.setTextColor(getResources().getColor(R.color.black));
-                //  tv.setGravity(Gravity.CENTER);*/
-                if(position==0){//重量
-                    sales_outstock_configdj_text.setVisibility(View.INVISIBLE);// 隐藏
-                 //   CommonUtil.setEditFocus(sales_outstock_configsm_text);
-                }else{
-                    sales_outstock_configdj_text.setVisibility(View.VISIBLE);//显示
-                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        CommonUtil.setEditFocus(sales_outstock_wlOrder);
+
+
+        //    CommonUtil.setEditFocus(sales_outstock_wlOrder);
     }
+
+
+
 
 
     @Override
@@ -226,6 +245,46 @@ public class OutstockSalesConfig extends BaseActivity {
         fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
         CommonUtil.setEditFocus(sales_outstock_wlOrder);
     }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+    protected UserSettingPresenter mUserSettingPresenter;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(this);
+
+        }
+        return false;
+    }
+
+    @Override
+    public void getToolTitle() {
+        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+        //清空列表//切换仓库后需要重新扫描
+        awyBll = new AwyBll();
+        awyBllList = new ArrayList<AwyBll>();
+        CurrVoucherNo = "";
+        outstock_sales_config_order.setText("");
+        sales_outstock_wlOrder.setText("");
+        outstock_config_address.setText("");
+        outstock_config_creater.setText("");
+        mfhSpinner.setText("");
+        sales_outstock_configbj_text.setText("");
+        sales_outstock_configsm_text.setText("");
+        sales_outstock_configdj_text.setText("");
+        sales_outstock_configOrder.setText("");
+        CommonUtil.setEditFocus(sales_outstock_configOrder);
+    }
+
+
+
 
     //确认按钮
     @Event(value = R.id.sales_outstock_button_configsubmit)

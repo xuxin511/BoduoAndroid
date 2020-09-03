@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,6 +29,7 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
@@ -34,6 +37,7 @@ import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxListRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -139,27 +143,54 @@ public  class SalesOutReview extends BaseActivity {
     private PurchaseReturnOffScanModel mModel;
     UrlInfo info = new UrlInfo();
 
+    MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
+
     @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.toolBarTitle = new ToolBarTitle("市内发货装车", true);
-        x.view().inject(this);
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
-        int type = Integer.parseInt(data.toString());
+        String arr=data.toString();
+        menuOutStockModel = GsonUtil.parseJsonToModel(arr,MenuOutStockModel.class);
+        int type=Integer.parseInt(menuOutStockModel.VoucherType);
+        CurrvoucherType= type;
         info.InitUrl(type);
-        CurrvoucherType = type;
+        BaseApplication.context=context;
+        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+        x.view().inject(this);
+        BaseApplication.isCloseActivity=false;
         CurrOrderNO = "";
         mModel = new PurchaseReturnOffScanModel(context, mHandler);
         materialModle = new MaterialResponseModel();
-
     }
 
     @Override
     protected void initData() {
         super.initData();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
 
+    protected UserSettingPresenter mUserSettingPresenter;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(this);
+
+        }
+        return false;
+    }
+
+    @Override
+    public void getToolTitle() {
+        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+        //清空列表//切换仓库后需要重新扫描
+        del();
+        CommonUtil.setEditFocus(sales_outstock_revieworder);
+    }
 
     //region 绑定事件
 
@@ -343,7 +374,6 @@ public  class SalesOutReview extends BaseActivity {
     }
 
     public void del() {
-
         sales_outstock_driver.setText("");
         sales_outstock_reviewbarcode.setText("");
         sales_outstock_address.setText("无");
@@ -357,7 +387,6 @@ public  class SalesOutReview extends BaseActivity {
         mAdapter = new SalesoutstockreviewAdapter(context, mModel.getOrderDetailList());
         mList.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-
     }
 
 

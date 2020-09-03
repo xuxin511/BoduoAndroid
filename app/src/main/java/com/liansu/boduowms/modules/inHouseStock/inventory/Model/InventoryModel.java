@@ -1,5 +1,7 @@
 package com.liansu.boduowms.modules.inHouseStock.inventory.Model;
 
+import java.sql.Time;
+
 public class InventoryModel {
     public  int Id ;
     public String Erpvoucherno;//单号
@@ -16,10 +18,191 @@ public class InventoryModel {
     public String Warehouseno ; //仓库编号
 
     public String Warehousename ;
-
     public int Headerid ;
-
     public int Areaid ;
+    public  Float Qty;
+    public String Materialdesc ;
+    public String Materialno ;
+    public String Strongholdcode ;
+
+    public String Serialno;
+
+    public int Materialid;
+
+    public int Status ;
+
+    public String Barcode ;
+    public String Batchno ;
+
+    public String Unit ;
+
+    public String Supplierno ;
+    public String Suppliername;
+    public String Watercode ;
+
+    public String Companycode ;
+
+    public String Strongholdname ;
+
+    public String Creater;
+
+    public String Modifyer;
+
+    public Time Modifytime;
+
+    public  Float  ScannQty;
+
+    public Float getScannQty() {
+        return ScannQty;
+    }
+
+    public void setScannQty(Float scannQty) {
+        ScannQty = scannQty;
+    }
+
+    public String getSerialno() {
+        return Serialno;
+    }
+
+    public void setSerialno(String serialno) {
+        Serialno = serialno;
+    }
+
+    public int getMaterialid() {
+        return Materialid;
+    }
+
+    public void setMaterialid(int materialid) {
+        Materialid = materialid;
+    }
+
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
+    }
+
+    public String getBarcode() {
+        return Barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        Barcode = barcode;
+    }
+
+    public String getBatchno() {
+        return Batchno;
+    }
+
+    public void setBatchno(String batchno) {
+        Batchno = batchno;
+    }
+
+    public String getUnit() {
+        return Unit;
+    }
+
+    public void setUnit(String unit) {
+        Unit = unit;
+    }
+
+    public String getSupplierno() {
+        return Supplierno;
+    }
+
+    public void setSupplierno(String supplierno) {
+        Supplierno = supplierno;
+    }
+
+    public String getSuppliername() {
+        return Suppliername;
+    }
+
+    public void setSuppliername(String suppliername) {
+        Suppliername = suppliername;
+    }
+
+    public String getWatercode() {
+        return Watercode;
+    }
+
+    public void setWatercode(String watercode) {
+        Watercode = watercode;
+    }
+
+    public String getCompanycode() {
+        return Companycode;
+    }
+
+    public void setCompanycode(String companycode) {
+        Companycode = companycode;
+    }
+
+    public String getStrongholdname() {
+        return Strongholdname;
+    }
+
+    public void setStrongholdname(String strongholdname) {
+        Strongholdname = strongholdname;
+    }
+
+    public String getCreater() {
+        return Creater;
+    }
+
+    public void setCreater(String creater) {
+        Creater = creater;
+    }
+
+    public String getModifyer() {
+        return Modifyer;
+    }
+
+    public void setModifyer(String modifyer) {
+        Modifyer = modifyer;
+    }
+
+    public Time getModifytime() {
+        return Modifytime;
+    }
+
+    public void setModifytime(Time modifytime) {
+        Modifytime = modifytime;
+    }
+
+    public Float getQty() {
+        return Qty;
+    }
+
+    public void setQty(Float qty) {
+        Qty = qty;
+    }
+
+    public String getMaterialdesc() {
+        return Materialdesc;
+    }
+
+    public void setMaterialdesc(String materialdesc) {
+        Materialdesc = materialdesc;
+    }
+
+    public String getMaterialno() {
+        return Materialno;
+    }
+
+    public void setMaterialno(String materialno) {
+        Materialno = materialno;
+    }
+
+    public String getStrongholdcode() {
+        return Strongholdcode;
+    }
+
+    public void setStrongholdcode(String strongholdcode) {
+        Strongholdcode = strongholdcode;
+    }
 
     public int getHeaderid() {
         return Headerid;

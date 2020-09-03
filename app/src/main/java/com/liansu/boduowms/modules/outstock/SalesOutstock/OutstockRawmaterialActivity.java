@@ -8,6 +8,8 @@ import android.graphics.PostProcessor;
 import android.net.Uri;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +37,7 @@ import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -118,7 +121,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     private MaterialResponseModel materialModle;
 
     UrlInfo info = new UrlInfo();
-
+    MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
     //region 初始化
     @Override
     protected void initViews() {
@@ -127,13 +130,15 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         //  mBusinessType = getIntent().getStringExtra("BusinessType").toString();
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
-        MenuOutStockModel model = new MenuOutStockModel();
+
         String arr = data.toString();
-        model = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
-        int type = Integer.parseInt(model.VoucherType);
+        menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
+        int type = Integer.parseInt(menuOutStockModel.VoucherType);
         info.InitUrl(type);
-        BaseApplication.toolBarTitle = new ToolBarTitle(model.Title, true);
+        BaseApplication.context=context;
+        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
+        BaseApplication.isCloseActivity=false;
         //默认是托盘提交  隐藏箱号框
         CurrOrderNO = "";
         mModel = new PurchaseReturnOffScanModel(this, mHandler);
@@ -143,10 +148,10 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         }
         if (type == 28 || type == 61 || type == 62)//采购，销售，成品 验退需要立即查询单号
         {
-            sales_outstock_rawmaterial_order.setText(model.ErpVoucherNo);
+            sales_outstock_rawmaterial_order.setText(menuOutStockModel.ErpVoucherNo);
             //  CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
             SalesoutstockRequery salesoutstockRequery = new SalesoutstockRequery();
-            salesoutstockRequery.Erpvoucherno = model.ErpVoucherNo;
+            salesoutstockRequery.Erpvoucherno = menuOutStockModel.ErpVoucherNo;
             salesoutstockRequery.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
             salesoutstockRequery.Vouchertype = CurrVoucherType;
             salesoutstockRequery.Creater = BaseApplication.mCurrentUserInfo.getUsername();
@@ -169,6 +174,39 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         //隐藏过账按钮  失败了放出来
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+    protected UserSettingPresenter mUserSettingPresenter;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(this);
+
+        }
+        return false;
+    }
+
+    @Override
+    public void getToolTitle() {
+        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+        //清空列表//切换仓库后需要重新扫描
+        CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
+        //存储类
+        stockorderdetail = new HashMap<String, OutStockOrderDetailInfo>();
+        sales_outstock_material_pallettext.setText("");
+        mModel = new PurchaseReturnOffScanModel(context, mHandler);
+        mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
+        mList.setAdapter(mAdapter);
+        //散件类
+        materialModle = new MaterialResponseModel();
+        CurrOrderNO = "";
+    }
+
 
     //#region 事件
 
@@ -465,12 +503,19 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             //找到单据数量 传过去
             String palletno = sales_outstock_material_pallettext.getText().toString().trim();
             String[] palletarr = palletno.split("%");
+            boolean   isExist=false;
             //找到该托盘物料
             OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
             for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
                 if (item.getMaterialno().equals(palletarr[0])) {
+                    isExist=true;
                     model = item;
                 }
+            }
+            if(!isExist){
+                CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                MessageBox.Show(context, "扫描托盘对应的物料不在订单中,请确认");
+                return;
             }
             //原材料可以混托下架吗
             // OutStockOrderDetailInfo model = stockorderdetail.get(palletarr[0] + palletarr[1]);

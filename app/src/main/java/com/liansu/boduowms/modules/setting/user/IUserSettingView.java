@@ -10,3 +10,4 @@ public  interface IUserSettingView {
     void selectWareHouse(List<String> list);
     void setTitle();
 }
+

@@ -14,6 +14,7 @@ import com.liansu.boduowms.modules.menu.IMenuView;
 import com.liansu.boduowms.modules.menu.outboundBusiness.subMenu.OutboundBusinessSubMenu;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockCallback;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
 import com.liansu.boduowms.modules.outstock.offScan.DistributionOffShelf;
@@ -31,7 +32,6 @@ import java.util.Map;
  * @ Created by yangyiqing on 2020/6/25.
  */
 public class OutboundBusinessMenuPresenter extends IMenuPresenter {
-
 
     IMenuView mMenuView;
     Context   mContext;
@@ -144,6 +144,8 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
 //          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_reallocation))) {
             //二阶段调
+//            intent.setClass(mContext, OutboundBusinessSubMenu.class);
+//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION);
             MenuOutStockModel model = new MenuOutStockModel();
             model.Title = "二阶段调拨下架";
             model.VoucherType = "30";
@@ -151,9 +153,6 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
             Uri data = Uri.parse(json);
             intent.setData(data);
             intent.setClass(mContext, OutstockRawmaterialActivity.class);
-            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION);
-            //   intent.setClass(mContext, OutboundBusinessSubMenu.class);
-            // intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_otherout))) {
             //杂出
 //          intent.setClass(mContext, OutboundBusinessSubMenu.class);
@@ -187,7 +186,16 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
             intent.setData(data);
             intent.setClass(mContext, PurchaseInspectionBill.class); //验退单
             intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALE);
+        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_reallocation_callback)) ){
+            MenuOutStockModel model = new MenuOutStockModel();
+            model.Title = "二阶段回调确认";
+            model.VoucherType = "63";
+            String json = GsonUtil.parseModelToJson(model);
+            Uri data = Uri.parse(json);
+            intent.setData(data);
+            intent.setClass(mContext, SalesOutStockCallback.class);
         }
+
         if (intent != null) {
             mMenuView.loadBusiness(intent);
         }

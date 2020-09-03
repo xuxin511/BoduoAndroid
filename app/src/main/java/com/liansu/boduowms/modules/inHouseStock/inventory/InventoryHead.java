@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -28,6 +30,7 @@ import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBoxList;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -40,6 +43,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryHead_SelectLit;
@@ -73,8 +77,10 @@ public class InventoryHead extends BaseActivity {
     @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.toolBarTitle = new ToolBarTitle("盘点单选择", true);
+        BaseApplication.context=context;
+        BaseApplication.toolBarTitle = new ToolBarTitle("盘点单选择-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
+        BaseApplication.isCloseActivity=false;
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -164,6 +170,29 @@ public class InventoryHead extends BaseActivity {
             CommonUtil.setEditFocus(inventory_Head_orderText);
             MessageBox.Show(context, ex.toString());
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+    protected UserSettingPresenter mUserSettingPresenter;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(this);
+
+        }
+        return false;
+    }
+
+    @Override
+    public void getToolTitle() {
+        getToolBarHelper().getToolBar().setTitle("盘点单选择--" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+         //清空列表
     }
 
 

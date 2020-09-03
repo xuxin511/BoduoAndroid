@@ -19,7 +19,7 @@ public class InventoryConfigAdapter extends BaseAdapter {
 
 
     private Context mContext; // 运行上下文
-    private List<StockInfo> stockInfoModels; // 信息集合
+    private List<InventoryModel> stockInfoModels; // 信息集合
     private LayoutInflater listContainer; // 视图容器
     public final class ListItemView { // 自定义控件集合
         public TextView txt_voucherNo; //单号
@@ -33,7 +33,7 @@ public class InventoryConfigAdapter extends BaseAdapter {
         public TextView txtbatchno;
     }
 
-    public InventoryConfigAdapter(Context mContext, List<StockInfo> stockInfoModels) {
+    public InventoryConfigAdapter(Context mContext, List<InventoryModel> stockInfoModels) {
         this.mContext = mContext;
         listContainer = LayoutInflater.from(mContext); // 创建视图容器并设置上下文
         this.stockInfoModels = stockInfoModels;
@@ -64,26 +64,30 @@ public class InventoryConfigAdapter extends BaseAdapter {
         com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter.ListItemView listItemView = null;
         if (convertView == null) {
             // 获取list_item布局文件的视图
+            listItemView = new com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter.ListItemView();
             convertView = listContainer.inflate(R.layout.item_offshelfscandetail_listview, null);
-            listItemView.txtstrong = (TextView) convertView.findViewById(R.id.txt_strongcode);
+         //   listItemView.txtstrong = (TextView) convertView.findViewById(R.id.txt_strongcode);
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
             listItemView.txt_reference_standard = (TextView) convertView.findViewById(R.id.txt_reference_standard);
             listItemView.txtVoucherQty = (TextView) convertView.findViewById(R.id.txtVoucherQty);
-            listItemView.txtRemainQty = (TextView) convertView.findViewById(R.id.txtRemainQty);
-            listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
+           // listItemView.txtRemainQty = (TextView) convertView.findViewById(R.id.txtRemainQty);
+         //   listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
             listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.txtMaterialDesc);
-            listItemView.txtbatchno = (TextView) convertView.findViewById(R.id.txt_batch_no);
+           listItemView.txtbatchno = (TextView) convertView.findViewById(R.id.txt_batch_no);
             listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
             convertView.setTag(listItemView);
         } else {
             listItemView = (com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter.ListItemView) convertView.getTag();
         }
-        final StockInfo mDetailInfo = stockInfoModels.get(selectID);
+        final InventoryModel mDetailInfo = stockInfoModels.get(selectID);
         listItemView.txt_voucherNo.setText(mDetailInfo.getMaterialno());
-        listItemView.txt_reference_standard.setText("批次：" + mDetailInfo.getBatchno());
-        listItemView.txtVoucherQty.setText("数量：" + mDetailInfo.getQty());
+      //  listItemView.txt_reference_standard.setText("批次：" + mDetailInfo.getBatchno());
+        listItemView.txtVoucherQty.setText("数量：" + mDetailInfo.getQty()+mDetailInfo.getUnit());
         listItemView.txtMaterialDesc.setText(mDetailInfo.getMaterialdesc());
         listItemView.txt_recommended_location.setText("货位" + mDetailInfo.getAreano());
+        if(mDetailInfo.ScannQty==null)
+            mDetailInfo.ScannQty=0f;
+        listItemView.txt_reference_standard.setText("当前已盘：" + mDetailInfo.ScannQty);
         return convertView;
     }
 

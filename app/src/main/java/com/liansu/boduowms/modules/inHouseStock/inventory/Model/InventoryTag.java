@@ -15,4 +15,8 @@ package com.liansu.boduowms.modules.inHouseStock.inventory.Model;
      public static String  TAG_Project_GetParameter ="Project_GetParameter";    //获取parame信息
      public static   final int   RESULT_Project_GetParameter=123;
 
+
+     public static String  TAG_InventoryDetail_GetIDetail ="Project_GetInventoryDetail";    //获取盘点明细
+     public static   final int   RESULT_InventoryDetail_GetIDetail=124;
+
 }

@@ -126,8 +126,10 @@ public class OutstockConfigreview extends BaseActivity {
     @Override
     protected void initViews() {
         super.initViews();
+        BaseApplication.context=context;
         BaseApplication.toolBarTitle = new ToolBarTitle("物流装车扫描", true);
         x.view().inject(this);
+        BaseApplication.isCloseActivity=false;
         awyBll = new AwyBll();
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
@@ -155,6 +157,8 @@ public class OutstockConfigreview extends BaseActivity {
         super.initData();
 
     }
+
+
 
 
     //提交过账

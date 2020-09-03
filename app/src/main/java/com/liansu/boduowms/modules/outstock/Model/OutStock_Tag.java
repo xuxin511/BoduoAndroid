@@ -73,4 +73,12 @@ public class OutStock_Tag {
        public static String  TAG_Saleoutstock_GETBOXlIST ="Sales_outstock_GetBoxList";    // 获取托运单明细
     public static   final int   RESULT_Saleoutstock_GETBOXlISTl=143;
 
+    public static String  TAG_outstock_Callback ="Sales_outstock_Callback";    // 二阶段挑拨订单访问
+    public static   final int   RESUL_Toutstock_Callback=144;
+
+    public static String  TAG_outstock_Callback_Submit ="Sales_outstock_Callback_Submit";    // 二阶段挑拨订单访问
+    public static   final int   RESUL_Toutstock_Callback_Submit=145;
+
+
+
 }

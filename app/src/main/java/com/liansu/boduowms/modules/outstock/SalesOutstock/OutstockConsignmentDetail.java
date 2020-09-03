@@ -61,8 +61,10 @@ public class OutstockConsignmentDetail extends BaseActivity {
     @Override
     protected void initViews() {
         super.initViews();
+        BaseApplication.context=context;
         BaseApplication.toolBarTitle = new ToolBarTitle("托运单明细", true);
         x.view().inject(this);
+        BaseApplication.isCloseActivity=false;
         awyBll = new AwyBll();
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();

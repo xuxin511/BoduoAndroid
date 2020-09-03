@@ -112,6 +112,7 @@ public class WareHouseInfo implements Parcelable {
     }
 
 
+
 //    @Override
 //    public int hashCode() {
 //        return Objects.hash(Warehousename);
