@@ -21,7 +21,6 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
-import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
@@ -147,7 +146,6 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
             if (mPresenter != null) {
                 OrderRequestInfo orderHeaderInfo=new OrderRequestInfo();
                 orderHeaderInfo.setErpvoucherno(erpVoucherNo);
-                orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
                 orderHeaderInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 mPresenter.getOrderDetailInfoList(orderHeaderInfo,mVoucherType);
             }

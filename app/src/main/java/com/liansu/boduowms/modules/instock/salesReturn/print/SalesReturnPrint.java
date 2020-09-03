@@ -99,6 +99,63 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                 setSpinnerData(mPresenter.getModel().getCurrentBatchNoList());
             }
         });
+//        case R.id.return_storage_scan_print_pack_qty:
+//
+//        break;
+//        case R.id.return_storage_scan_print_count:
+//        onRemainQtyFocus();
+//        break;
+//        case R.id.return_storage_scan_print_qty:
+//        onPalletQtyFocus();
+//        break;
+//        case R.id.return_storage_scan_print_pallet_qty:
+//        break;
+        mPackQty.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                onPrintCountFocus();
+                return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
+            }
+        });
+        mOuterBoxPrintCount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                onRemainQtyFocus();
+                return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
+            }
+        });
+
+        mPalletRemainQty.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                onPalletQtyFocus();
+                return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
+            }
+        });
+        mBatchNoSpinner.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                String batchNo = mBatchNoSpinner.getText().toString();
+                if (!batchNo.trim().equals("")) {
+                    if (!DateUtil.isValidDate(batchNo.trim(), "yyyyMMdd") && !batchNo.equals("")) {
+                        MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onBatchNoFocus();
+
+                            }
+                        });
+                    } else {
+                        onPackQtyFocus();
+                    }
+                } else {
+                    onPackQtyFocus();
+                }
+                return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
+            }
+        });
+
     }
 
 
@@ -153,7 +210,13 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                CommonUtil.setEditFocus(mPackQty);
+                float packQty = Float.parseFloat(mPackQty.getText().toString().trim());
+                if (packQty > 0) {
+                    onPrintCountFocus();
+                } else {
+                    CommonUtil.setEditFocus(mPackQty);
+                }
+
             }
         }, 200);
 
@@ -240,16 +303,21 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                         // TODO 自动生成的方法存根
                         String select_item = items[which].toString();
                         mBatchNoSpinner.setText(select_item);
-                        if (!select_item.equals("")) {
+                        if (!select_item.trim().equals("")) {
                             if (!DateUtil.isValidDate(select_item.trim(), "yyyyMMdd")) {
                                 MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        onBatchNoFocus();
+
                                     }
                                 });
+                            } else {
+                                onBatchNoFocus();
                             }
+                        } else {
+                            onBatchNoFocus();
                         }
+
                         dialog.dismiss();
                     }
                 }).show();
@@ -284,7 +352,8 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
     }
 
-    @Event(value = {R.id.return_sales_print_customer_code, R.id.return_storage_scan_print_query_start_date_time, R.id.return_storage_scan_print_query_end_date_time, R.id.return_storage_scan_print_material_no, R.id.return_storage_scan_print_pack_qty, R.id.return_storage_scan_print_count, R.id.return_storage_scan_print_qty, R.id.return_storage_scan_print_pallet_qty}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.return_storage_scan_print_batch_no, R.id.return_sales_print_customer_code, R.id.return_storage_scan_print_query_start_date_time, R.id.return_storage_scan_print_query_end_date_time, R.id.return_storage_scan_print_material_no}, type = View.OnKeyListener.class)
+//    @Event(value = {R.id.return_storage_scan_print_batch_no, R.id.return_sales_print_customer_code, R.id.return_storage_scan_print_query_start_date_time, R.id.return_storage_scan_print_query_end_date_time, R.id.return_storage_scan_print_material_no, R.id.return_storage_scan_print_pack_qty, R.id.return_storage_scan_print_count, R.id.return_storage_scan_print_qty, R.id.return_storage_scan_print_pallet_qty}, type = View.OnKeyListener.class)
     private boolean edtStockScanClick(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
@@ -293,7 +362,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
             switch (v.getId()) {
                 case R.id.return_sales_print_customer_code:
                     String customerCode = mCustomerCode.getText().toString().trim();
-                    if (!customerCode.equals("")) {
+                    if (!customerCode.trim().equals("")) {
                         onStartTimeFocus();
                     } else {
                         onCustomerNoFocus();
@@ -302,7 +371,16 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                     break;
                 case R.id.return_storage_scan_print_query_start_date_time:
                     String startDateTime = mStartDateTime.getText().toString().trim();
-                    if (!startDateTime.equals("")) {
+                    if (!startDateTime.trim().equals("")) {
+                        if (!DateUtil.isValidDate(startDateTime.trim(), "yyyy-MM-dd")) {
+                            MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onStartTimeFocus();
+                                }
+                            });
+                            return false;
+                        }
                         onEndTimeFocus();
                     } else {
                         onStartTimeFocus();
@@ -310,7 +388,16 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                     break;
                 case R.id.return_storage_scan_print_query_end_date_time:
                     String endDateTime = mEndDateTime.getText().toString().trim();
-                    if (!endDateTime.equals("")) {
+                    if (!endDateTime.trim().equals("")) {
+                        if (!DateUtil.isValidDate(endDateTime.trim(), "yyyy-MM-dd")) {
+                            MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onEndTimeFocus();
+                                }
+                            });
+                            return false;
+                        }
                         onMaterialNoFocus();
                     } else {
                         onEndTimeFocus();
@@ -321,23 +408,42 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                     String customerCode2 = mCustomerCode.getText().toString().trim();
                     String endDateTime2 = mEndDateTime.getText().toString().trim();
                     String startDateTime2 = mStartDateTime.getText().toString().trim();
-                    if (!materialNo.equals("")) {
+                    if (!materialNo.trim().equals("")) {
                         mPresenter.getMaterialNoBatchList(materialNo, startDateTime2, endDateTime2, customerCode2);
                     } else {
                         onMaterialNoFocus();
                     }
                     break;
-                case R.id.return_storage_scan_print_pack_qty:
-                    onPrintCountFocus();
-                    break;
-                case R.id.return_storage_scan_print_count:
-                    onRemainQtyFocus();
-                    break;
-                case R.id.return_storage_scan_print_qty:
-                    onPalletQtyFocus();
-                    break;
-                case R.id.return_storage_scan_print_pallet_qty:
-                    break;
+//                case R.id.return_storage_scan_print_batch_no:
+//
+//                    String batchNo = mBatchNoSpinner.getText().toString();
+//                    if (!batchNo.trim().equals("")) {
+//                        if (!DateUtil.isValidDate(batchNo.trim(), "yyyyMMdd") && !batchNo.equals("")) {
+//                            MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    onBatchNoFocus();
+//
+//                                }
+//                            });
+//                        } else {
+//                            onPackQtyFocus();
+//                        }
+//                    } else {
+//                        onPackQtyFocus();
+//                    }
+//                    break;
+//                case R.id.return_storage_scan_print_pack_qty:
+//                    onPrintCountFocus();
+//                    break;
+//                case R.id.return_storage_scan_print_count:
+//                    onRemainQtyFocus();
+//                    break;
+//                case R.id.return_storage_scan_print_qty:
+//                    onPalletQtyFocus();
+//                    break;
+//                case R.id.return_storage_scan_print_pallet_qty:
+//                    break;
             }
 
         }
@@ -360,7 +466,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
                     onEndTimeFocus();
                 } else if (editText.getId() == R.id.return_storage_scan_print_query_end_date_time) {
                     try {
-                        if (!DateUtil.isStartTimeBeforeEndTime(getStartTime(), getEndTime())) {
+                        if (!DateUtil.isStartTimeBeforeAndEqualsEndTime(getStartTime(), getEndTime())) {
                             MessageBox.Show(mContext, "校验时间失败:开始时间[" + getStartTime() + "]必须小于结束时间[" + getEndTime() + "]", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -409,6 +515,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
     @Override
     public void onReset() {
+        mBatchNoSpinner.setText("");
         setMaterialInfo(null);
         mCustomerCode.setText("");
         mStartDateTime.setText("");
@@ -423,6 +530,18 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
         mPalletRemainQty.setText("0");
         mPalletQty.setText("0");
         onCustomerNoFocus();
+        List<String> dateList = DateUtil.getDateStringFromSpecifyMonthsAgoOrAfter(-3, "yyyy-MM-dd");
+        for (int i=0;i<dateList.size();i++){
+            String date=dateList.get(i);
+            if (date!=null){
+                if (i==0){
+                    mEndDateTime.setText(date);
+                }else if (i==1){
+                    mStartDateTime.setText(date);
+                }
+            }
+
+        }
     }
 
     @Override
@@ -433,6 +552,11 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     @Override
     public float getPalletQty() {
         return Float.parseFloat(mPalletQty.getText().toString().trim());
+    }
+
+    @Override
+    public String getCustomerNo() {
+        return mCustomerCode.getText().toString().trim();
     }
 
     @Override

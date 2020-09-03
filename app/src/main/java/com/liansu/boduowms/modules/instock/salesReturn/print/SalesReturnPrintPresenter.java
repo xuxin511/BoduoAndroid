@@ -75,7 +75,7 @@ public class SalesReturnPrintPresenter {
                 });
                 return;
             }
-            if (!DateUtil.isStartTimeBeforeEndTime(startTime, endTime)) {
+            if (!DateUtil.isStartTimeBeforeAndEqualsEndTime(startTime, endTime)) {
                 MessageBox.Show(mContext, "校验时间失败:开始时间[" + mView.getStartTime() + "]必须小于结束时间[" + mView.getEndTime() + "]", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -107,7 +107,7 @@ public class SalesReturnPrintPresenter {
                                     mView.setMaterialInfo(mModel.getMaterialDetailsList().get(0));
                                     mModel.setCurrentBatchNoList(checkResult.getInfo());
 //                                    mView.setSpinnerData(checkResult.getInfo());
-                                    mView.onPackQtyFocus();
+                                    mView.onBatchNoFocus();
                                 } else {
                                     MessageBox.Show(mContext, checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
@@ -170,6 +170,15 @@ public class SalesReturnPrintPresenter {
                 orderDetailInfo = mModel.getMaterialDetailsList().get(0);
             }
 
+            if (mModel.getCustomerCode() == null) {
+                MessageBox.Show(mContext, "客户编码不存在或为校验:请扫描客户编码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onCustomerNoFocus();
+                    }
+                });
+                return;
+            }
             if (orderDetailInfo == null) {
                 MessageBox.Show(mContext, "物料数据类不能为空,请扫描物料编码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
@@ -179,7 +188,8 @@ public class SalesReturnPrintPresenter {
                 });
                 return;
             }
-            if (materialNo.equals("")) {
+
+            if (materialNo.trim().equals("")) {
                 MessageBox.Show(mContext, "物料编号不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -189,13 +199,14 @@ public class SalesReturnPrintPresenter {
                 return;
             }
 
-            if (!DateUtil.isValidDate(batchNo.trim(), "yyyyMMdd") && !batchNo.equals("")) {
+            if (!DateUtil.isValidDate(batchNo.trim(), "yyyyMMdd") && !batchNo.trim().equals("")) {
                 MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                        mView.onBatchNoFocus();
                     }
                 });
+                return;
             }
 
 //            if (batchNo.equals("")) {
@@ -207,7 +218,7 @@ public class SalesReturnPrintPresenter {
 //                });
 //                return;
 //            }
-            if (!DateUtil.isStartTimeBeforeEndTime(mView.getStartTime(), mView.getEndTime())) {
+            if (!DateUtil.isStartTimeBeforeAndEqualsEndTime(mView.getStartTime(), mView.getEndTime())) {
                 MessageBox.Show(mContext, "校验时间失败:开始时间[" + mView.getStartTime() + "]必须小于结束时间[" + mView.getEndTime() + "]");
                 return;
             }
@@ -231,15 +242,7 @@ public class SalesReturnPrintPresenter {
                 return;
             }
 
-            if (mModel.getCustomerCode() == null) {
-                MessageBox.Show(mContext, "客户编码不存在或为校验:请扫描客户编码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mView.onCustomerNoFocus();
-                    }
-                });
-                return;
-            }
+
             List<PrintInfo> printInfoList = new ArrayList<>();
             for (int i = 0; i < packCount; i++) {
                 PrintInfo info = new PrintInfo();
@@ -351,14 +354,7 @@ public class SalesReturnPrintPresenter {
             MessageBox.Show(mContext, "物料数据类不能为空,请扫描物料编码");
             return;
         }
-        if (materialNo.equals("")) {
-            MessageBox.Show(mContext, "物料编号不能为空");
-            return;
-        }
-        if (batchNo.equals("")) {
-            MessageBox.Show(mContext, "批次不能为空");
-            return;
-        }
+
 
         if (remainQty <= 0) {
             MessageBox.Show(mContext, "待收数量必须大于0");
@@ -374,10 +370,7 @@ public class SalesReturnPrintPresenter {
             return;
         }
 
-        if (mModel.getCustomerCode() == null || mModel.getCustomerCode().equals("")) {
-            MessageBox.Show(mContext, "客户编码不存在或为校验:请扫描物料编号");
-            return;
-        }
+
         if (orderDetailInfo != null) {
             orderDetailInfo.setCustomerno(mModel.getCustomerCode());
             orderDetailInfo.setVoucherqty(remainQty);

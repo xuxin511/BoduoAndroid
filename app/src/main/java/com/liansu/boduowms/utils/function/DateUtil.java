@@ -2,8 +2,10 @@ package com.liansu.boduowms.utils.function;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ Des:
@@ -112,7 +114,7 @@ public class DateUtil {
     }
 
 
-    public static boolean isStartTimeBeforeEndTime(String startTime, String endTime) throws ParseException {
+    public static boolean isStartTimeBeforeAndEqualsEndTime(String startTime, String endTime) throws ParseException {
         boolean result = false;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = sdf.parse(startTime);
@@ -122,12 +124,31 @@ public class DateUtil {
         start.setTime(startDate);
         end.setTime(endDate);
         if (start.before(end)) {
-            result= true;
+            result = true;
         } else if (start.equals(end)) {
-            result= false;
+            result = true;
         } else if (start.after(end)) {
-            result= false;
+            result = false;
         }
         return result;
+    }
+
+    /**
+     * @desc: 获取当前时间和指定在当期之间多久之前的时间
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/3 10:58
+     */
+    public static List<String> getDateStringFromSpecifyMonthsAgoOrAfter(int specifyMonth, String dateFormat) {
+        List<String> mDateList = new ArrayList<>();
+        Calendar now = Calendar.getInstance();
+        SimpleDateFormat sdf=new SimpleDateFormat(dateFormat);
+        String startDate = sdf.format(now.getTime());
+        now.add(Calendar.MONTH, specifyMonth);
+        String endDate = sdf.format(now.getTime());
+        mDateList.add(startDate);
+        mDateList.add(endDate);
+        return mDateList;
     }
 }

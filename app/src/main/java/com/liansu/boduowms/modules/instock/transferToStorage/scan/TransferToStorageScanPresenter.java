@@ -1,5 +1,6 @@
 package com.liansu.boduowms.modules.instock.transferToStorage.scan;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Message;
@@ -58,7 +59,7 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
 
 
     /**
-     * @desc: 获取采购订单明细
+     * @desc: 获取调拨单明细
      * @param:
      * @return:
      * @author: Nietzsche
@@ -159,6 +160,51 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
             });
             return;
         }
+        BaseMultiResultInfo<Boolean, Void> isOrderFinished = mModel.isOrderScanFinished();
+        if (!isOrderFinished.getHeaderStatus()) {
+            if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE) {
+                new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage("单据未全部扫描完毕,是否继续提交?")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                orderRefer();
+                            }
+                        }).setNegativeButton("取消", null).show();
+            } else if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE) {
+                MessageBox.Show(mContext, "校验单据信息失败:单据未全部扫描完毕,请扫描完成后再提交", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
+                return;
+            }
+        } else {
+            orderRefer();
+        }
+
+
+    }
+
+    /**
+     * @desc: 调拨接口
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/16 16:11
+     */
+    public void onTransferSubmissionRefer() {
+
+    }
+
+    /**
+     * @desc: 提交前校验订单
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/3 14:14
+     */
+    public void orderRefer() {
         OrderDetailInfo firstDetailInfo = mModel.getOrderDetailList().get(0);
         if (firstDetailInfo != null) {
             OrderDetailInfo postInfo = new OrderDetailInfo();
@@ -207,17 +253,6 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
                 }
             });
         }
-    }
-
-    /**
-     * @desc: 调拨接口
-     * @param:
-     * @return:
-     * @author: Nietzsche
-     * @time 2020/7/16 16:11
-     */
-    public void onTransferSubmissionRefer() {
-
     }
 
 

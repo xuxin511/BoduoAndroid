@@ -13,6 +13,9 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
+import com.liansu.boduowms.bean.QRCodeFunc;
+import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -113,6 +116,14 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                             });
                             return false;
                         }
+                        if (batchNo.contains("%")){
+                            BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(batchNo);
+                            if (resultInfo.getHeaderStatus()) {
+                                batchNo = resultInfo.getInfo().getBatchno();
+                                mBatchNo.setText(batchNo);
+                            }
+                        }
+
                         if (!DateUtil.isBeforeOrCompareToday(batchNo.trim(), "yyyyMMdd")) {
                             MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
@@ -334,7 +345,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
     @Override
     public boolean checkBatchNo(String batchNo) {
         if (!DateUtil.isBeforeOrCompareToday(batchNo.trim(), "yyyyMMdd")) {
-            MessageBox.Show(mContext, "校验日期格式失败:[" + batchNo + "]" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "校验日期格式失败:[" + batchNo + "]" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     onBatchNoFocus();

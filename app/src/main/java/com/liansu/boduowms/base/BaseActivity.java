@@ -1,14 +1,17 @@
 package com.liansu.boduowms.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -17,6 +20,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.CheckNumRefMaterial;
@@ -27,11 +31,15 @@ import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.hander.IHandleMessage;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.updateversion.UpdateVersionService;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.runtime.Permission;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -42,10 +50,11 @@ import androidx.appcompat.widget.Toolbar;
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements IHandleMessage {
-    private             ToolBarHelper           mToolBarHelper;
-    public              Toolbar                 toolbar;
-    public static final String                  ACTION_UPDATEUI = "action.updateUI";
-    public              MyHandler<BaseActivity> mHandler;
+    private              ToolBarHelper           mToolBarHelper;
+    public               Toolbar                 toolbar;
+    public static final  String                  ACTION_UPDATEUI          = "action.updateUI";
+    public               MyHandler<BaseActivity> mHandler;
+    private static final int                     REQUEST_CODE_APP_INSTALL = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +81,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
      * 初始化数据
      */
     protected void initData() {
-        if (BaseApplication.isCloseActivity) {
-            checkUpdate();
-        }
+//        if (BaseApplication.isCloseActivity) {
+//            checkUpdate();
+//        }
     }
 
 
@@ -214,7 +223,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
     @Override
     protected void onResume() {
         super.onResume();
-
+        if (BaseApplication.isCloseActivity) {
+            checkUpdate();
+        }
     }
 
     /**
@@ -249,8 +260,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
      * @time 2020/9/1 9:27
      */
     public void closeKeyBoard(EditText... editTexts) {
-        boolean isDebug=true;
-        if (isDebug)  return;
+        boolean isDebug = false;
+        if (isDebug) return;
         if (editTexts.length > 0) {
             for (EditText editText : editTexts) {
                 if (editText != null) {
@@ -333,7 +344,26 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    updateVersionService.showDownloadDialog();
+                    //适配Android8.0以上
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        boolean hasInstallPermission = isHasInstallPermissionWithO(BaseActivity.this);
+                        if (!hasInstallPermission) {
+                            showRequestPermissionDialog();
+                        } else {
+                            if (AndPermission.hasPermissions(BaseActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                                //下载apk
+                                updateVersionService.showDownloadDialog();
+                            }else {
+                                initPermission();
+                            }
+
+                        }
+                    } else {
+                        //Android8.0以下
+                        //下载apk
+                        updateVersionService.showDownloadDialog();
+                    }
+
                     break;
             }
         }
@@ -371,5 +401,88 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
 
     public ToolBarHelper getToolBarHelper() {
         return mToolBarHelper;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean isHasInstallPermissionWithO(Context context) {
+        if (context == null) {
+            return false;
+        }
+        return context.getPackageManager().canRequestPackageInstalls();
+    }
+
+    /**
+     * 开启设置安装未知来源应用权限界面
+     *
+     * @param context
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startInstallPermissionSettingActivity(Context context) {
+        if (context == null) {
+            return;
+        }
+        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+        startActivityForResult(intent, REQUEST_CODE_APP_INSTALL);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_APP_INSTALL:
+                    updateVersionService.showDownloadDialog();
+                    break;
+            }
+        }
+    }
+
+
+    private void initPermission() {
+        AndPermission.with(this)
+                .runtime()
+                .permission(Permission.WRITE_EXTERNAL_STORAGE
+                )
+
+                .onGranted(new Action<List<String>>() {
+                    @Override
+                    public void onAction(List<String> data) {
+//                        if (BaseApplication.isCloseActivity) {
+//                            checkUpdate();
+//                        }
+                    }
+                })
+                .onDenied(new Action<List<String>>() {
+                    @Override
+                    public void onAction(List<String> data) {
+                        /**
+                         * 当用户没有允许该权限时，回调该方法
+                         */
+                        Toast.makeText(BaseActivity.this, "没有获取相关权限，可能导致相关功能无法使用", Toast.LENGTH_SHORT).show();
+                        /**
+                         * 判断用户是否点击了禁止后不再询问，AndPermission.hasAlwaysDeniedPermission(MainActivity.this, data)
+                         */
+                        if (AndPermission.hasAlwaysDeniedPermission(BaseActivity.this, data)) {
+                            //true，弹窗再次向用户索取权限
+                        }
+                    }
+                }).start();
+    }
+
+
+    private void showRequestPermissionDialog() {
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage("您还没有允许应用安装未知应用权限,是否去允许?")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO 自动生成的方法
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            //跳转页面判断允许安卓位置应用权限
+                            startInstallPermissionSettingActivity(BaseActivity.this);
+                        }
+                    }
+
+                }).setNegativeButton("取消", null).show();
     }
 }

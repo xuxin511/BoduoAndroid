@@ -99,6 +99,9 @@
         <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/colorPrimary</item>
     </style>
 
-
+    <style name="FullHeightDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
 
 </resources>

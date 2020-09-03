@@ -89,7 +89,6 @@
         android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginTop="@dimen/base_order_label_print_margin_top"
         android:hint="@string/dialog_material_info_batch_no_hint"
-        android:inputType="time"
         android:textSize="@dimen/base_order_label_print_select_text_size"
         app:layout_constraintLeft_toRightOf="@+id/guideline6"
         app:layout_constraintRight_toLeftOf="@+id/guideline7"
