@@ -73,7 +73,6 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 @ContentView(R.layout.activity_outstock_sales_config)
 public class OutstockSalesConfig extends BaseActivity {
     Context context = OutstockSalesConfig.this;
-
     //发货物流
     @ViewInject(R.id.outstock_down_fahuo)
     TextView mfhSpinner;
@@ -148,64 +147,59 @@ public class OutstockSalesConfig extends BaseActivity {
     private  MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
 
 
-
     @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.context = context;
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
         String arr = data.toString();
-        menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
-        int type = Integer.parseInt(menuOutStockModel.VoucherType);
-        CurrVoucherType=type;
+    //    menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
+        // int type = Integer.parseInt(menuOutStockModel.VoucherType);
+        int type = Integer.parseInt(arr);
+        CurrVoucherType = type;
         info.InitUrl(type);
-        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+        BaseApplication.context = context;
+        BaseApplication.toolBarTitle = new ToolBarTitle("复核装车"+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+     //    BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
-//        mshSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
-//        ) {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == 1) {//送货上门
-//                    sales_outstock_configsm_text.setVisibility(View.VISIBLE);//显示
-//                    CommonUtil.setEditFocus(sales_outstock_configsm_text);
-//                } else {
-//                    sales_outstock_configsm_text.setVisibility(View.INVISIBLE);//隐藏
-//                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-//
-//        mfySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
-//        ) {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                if (position == 0) {//重量
-//                    sales_outstock_configdj_text.setVisibility(View.INVISIBLE);// 隐藏
-//                } else {
-//                    sales_outstock_configdj_text.setVisibility(View.VISIBLE);//显示
-//                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
+        mshSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
+        ) {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {//送货上门
+                    sales_outstock_configsm_text.setVisibility(View.VISIBLE);//显示
+                    CommonUtil.setEditFocus(sales_outstock_configsm_text);
+                } else {
+                    sales_outstock_configsm_text.setVisibility(View.INVISIBLE);//隐藏
+                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
+        mfySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
+        ) {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        //    CommonUtil.setEditFocus(sales_outstock_wlOrder);
+                if (position == 0) {//重量
+                    sales_outstock_configdj_text.setVisibility(View.INVISIBLE);// 隐藏
+                } else {
+                    sales_outstock_configdj_text.setVisibility(View.VISIBLE);//显示
+                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        CommonUtil.setEditFocus(sales_outstock_wlOrder);
     }
-
-
-
 
 
     @Override
@@ -248,41 +242,40 @@ public class OutstockSalesConfig extends BaseActivity {
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_setting, menu);
-        return true;
-    }
-
-    protected UserSettingPresenter mUserSettingPresenter;
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(this);
-
-        }
-        return false;
-    }
-
-    @Override
-    public void getToolTitle() {
-        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
-        //清空列表//切换仓库后需要重新扫描
-        awyBll = new AwyBll();
-        awyBllList = new ArrayList<AwyBll>();
-        CurrVoucherNo = "";
-        outstock_sales_config_order.setText("");
-        sales_outstock_wlOrder.setText("");
-        outstock_config_address.setText("");
-        outstock_config_creater.setText("");
-        mfhSpinner.setText("");
-        sales_outstock_configbj_text.setText("");
-        sales_outstock_configsm_text.setText("");
-        sales_outstock_configdj_text.setText("");
-        sales_outstock_configOrder.setText("");
-        CommonUtil.setEditFocus(sales_outstock_configOrder);
-    }
-
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_setting, menu);
+//        return true;
+//    }
+//
+//    protected UserSettingPresenter mUserSettingPresenter;
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+//            selectWareHouse(this);
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public void getToolTitle() {
+//        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+//        //清空列表//切换仓库后需要重新扫描
+//        awyBll = new AwyBll();
+//        awyBllList = new ArrayList<AwyBll>();
+//        CurrVoucherNo = "";
+//        outstock_sales_config_order.setText("");
+//        sales_outstock_wlOrder.setText("");
+//        outstock_config_address.setText("");
+//        outstock_config_creater.setText("");
+//        mfhSpinner.setText("");
+//        sales_outstock_configbj_text.setText("");
+//        sales_outstock_configsm_text.setText("");
+//        sales_outstock_configdj_text.setText("");
+//        sales_outstock_configOrder.setText("");
+//        CommonUtil.setEditFocus(sales_outstock_configOrder);
+//    }
+//
 
 
 

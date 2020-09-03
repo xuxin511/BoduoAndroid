@@ -206,12 +206,12 @@ public class OutboundBusinessSubMenuModel {
         else if(moduleName.equals((mContext.getString(((R.string.main_menu_item_loading_truck)))))) {
             //发货装车
             //销售出库装车
-            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
-                MenuOutStockModel model = new MenuOutStockModel();
-                model.Title = "销售出库复核";
-                model.VoucherType = "29";
-                String json = GsonUtil.parseModelToJson(model);
-                Uri data = Uri.parse(json);
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
+               // MenuOutStockModel model = new MenuOutStockModel();
+               // model.Title = "销售出库复核";
+             //   model.VoucherType = "29";
+            //    String json = GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse("29");
                 intent.setData(data);
                 intent.setClass(mContext, OutstockSalesConfig.class);
             }

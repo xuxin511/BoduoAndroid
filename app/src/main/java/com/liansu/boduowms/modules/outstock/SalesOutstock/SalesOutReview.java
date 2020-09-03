@@ -168,29 +168,29 @@ public  class SalesOutReview extends BaseActivity {
     protected void initData() {
         super.initData();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_setting, menu);
-        return true;
-    }
-
-    protected UserSettingPresenter mUserSettingPresenter;
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(this);
-
-        }
-        return false;
-    }
-
-    @Override
-    public void getToolTitle() {
-        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
-        //清空列表//切换仓库后需要重新扫描
-        del();
-        CommonUtil.setEditFocus(sales_outstock_revieworder);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_setting, menu);
+//        return true;
+//    }
+//
+//    protected UserSettingPresenter mUserSettingPresenter;
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+//            selectWareHouse(this);
+//
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public void getToolTitle() {
+//        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+//        //清空列表//切换仓库后需要重新扫描
+//        del();
+//        CommonUtil.setEditFocus(sales_outstock_revieworder);
+//    }
 
     //region 绑定事件
 
