@@ -192,7 +192,15 @@ public class InventoryHead extends BaseActivity {
     @Override
     public void getToolTitle() {
         getToolBarHelper().getToolBar().setTitle("盘点单选择--" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
-         //清空列表
+        //清空列表
+        inventory_Head_orderText.setText("");
+        InventoryModel inventoryModel = new InventoryModel();
+        inventoryModel.Warehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+        String modelJson = parseModelToJson(inventoryModel);
+        //加载访问所有盘点信息
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryHead_SelectLit, "获取盘点列表",
+                context, mHandler, RESULT_InventoryHead_SelectLit, null, UrlInfo.getUrl().Inventory_Head_GetCheckList, modelJson, null);
+
     }
 
 

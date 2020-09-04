@@ -19,4 +19,9 @@ package com.liansu.boduowms.modules.inHouseStock.inventory.Model;
      public static String  TAG_InventoryDetail_GetIDetail ="Project_GetInventoryDetail";    //获取盘点明细
      public static   final int   RESULT_InventoryDetail_GetIDetail=124;
 
-}
+
+     public static String  TAG_InventoryDetail_Save_CheckDetail ="Project_GetInventoryDetail_Save_CheckDetail";    //保存盘点单
+     public static   final int   RESULT_InventoryDetail_Save_CheckDetail=125;
+
+
+ }

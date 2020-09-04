@@ -60,10 +60,12 @@ import java.util.Map;
 
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetBarcodeInfo;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetWarehouse;
+import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryDetail_Save_CheckDetail;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_Project_GetParameter;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetBarcodeInfo;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetWarehouse;
+import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryDetail_Save_CheckDetail;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_Project_GetParameter;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
@@ -227,9 +229,42 @@ public class InventoryConfig extends BaseActivity {
     //托盘提交
     @Event(value =R.id.inventory_config_post)
     private void  inventory_submit(View view) {
+        if (CurrAreano.equals("")) {
+            CommonUtil.setEditFocus(inventory__config_warehouse);
+            MessageBox.Show(context, "请先扫描库位");
+            return;
+        }
+        if (listModel.size() == 0) {
+            CommonUtil.setEditFocus(inventory__config_barcode);
+            MessageBox.Show(context, "请先扫描扫描条码");
+            return;
+        }
+        boolean issacnning = false;
+        for (InventoryModel item : listModel) {
+            if (item.ScannQty > 0) {
+                issacnning = true;
+            }
+        }
+//        if (!issacnning) {
+//            CommonUtil.setEditFocus(inventory__config_barcode);
+//            MessageBox.Show(context, "请先点击列表进行盘点");
+//            return;
+//        }
 
-
-
+        List<InventoryModel> postModel = new ArrayList<InventoryModel>();
+        String modelJson = parseModelToJson(listModel);
+        postModel = GsonUtil.getGsonUtil().fromJson(modelJson, new TypeToken<List<InventoryModel>>() {
+        }.getType());
+        Pair ywpair = (Pair) mSpinner.getSelectedItem();
+        for (InventoryModel item : postModel) {
+            item.setQty(item.ScannQty);
+            item.setErpvoucherno(Currerpvoucherno);
+            item.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
+            item.setStatus(Integer.parseInt(ywpair.value));
+        }
+        modelJson = parseModelToJson(postModel);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryDetail_Save_CheckDetail, "获取库位信息",
+                context, mHandler, RESULT_InventoryDetail_Save_CheckDetail, null, UrlInfo.getUrl().Inventory_Detail_Save_CheckDetail, modelJson, null);
     }
 
 
@@ -268,9 +303,36 @@ public class InventoryConfig extends BaseActivity {
             case RESULT_Project_GetParameter:
                 LoadSpinner((String) msg.obj);
                 break;
+            case RESULT_InventoryDetail_Save_CheckDetail:
+                    SaveDetail((String) msg.obj);
+                break;
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
                 break;
+        }
+    }
+
+
+    //保存盘点信息
+    public  void SaveDetail(String result) {
+        try {
+            BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                CommonUtil.setEditFocus(inventory__config_barcode);
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                return;
+            } else {
+                List<InventoryModel> listModel = new ArrayList<InventoryModel>();
+                mAdapter = new InventoryConfigAdapter(context, listModel);
+                mList.setAdapter(mAdapter);
+                CommonUtil.setEditFocus(inventory__config_barcode);
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                return;
+            }
+        } catch (Exception ex) {
+            CommonUtil.setEditFocus(inventory__config_barcode);
+            MessageBox.Show(context, ex.toString());
         }
     }
 
@@ -392,14 +454,15 @@ public class InventoryConfig extends BaseActivity {
                     }
                 });
         builder.show();
-//        inputServer.setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View view, int keyCode, KeyEvent event) {
-//                View vFocus = view.findFocus();
-//                int etid = vFocus.getId();
-//                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == inputServer.getId()) {
+        inputServer.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent event) {
+                View vFocus = view.findFocus();
+                int etid = vFocus.getId();
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == inputServer.getId()) {
+                    return  false;
 //                    try {
-                      //  builder.i
+//                        builder.i
 //                        String Value = inputServer.getText().toString().trim();
 //                        Float inputValue = Float.parseFloat(Value);
 //                        if(ArithUtil.sub(mInventory.Qty,inputValue)<0) {
@@ -419,10 +482,10 @@ public class InventoryConfig extends BaseActivity {
 //                        MessageBox.Show(context, "请输入正确的数量");
 //                        return true;
 //                    }
-//                }
-//                return false;
-//            }
-//        });
+                }
+                return false;
+            }
+        });
     }
 
 

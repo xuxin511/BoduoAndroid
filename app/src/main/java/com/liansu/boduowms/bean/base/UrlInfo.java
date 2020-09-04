@@ -224,6 +224,7 @@ public class UrlInfo {
     public String Inventory_Config_GetScanInfo = GetWCFAdress() + "Check/GetScanInfo"; //获取条码信息
     public String Project_GetParameter = GetWCFAdress() + "Parameter/GetT_ParameterList"; //获取配置表信息
     public String Inventory_Detail_GetDetail = GetWCFAdress() + "Check/Get_CheckDetail"; //获取盘点明细
+    public String Inventory_Detail_Save_CheckDetail = GetWCFAdress() + "Check/Save_CheckDetail"; //保存盘点单
 //    public String SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
 //    public String SalesOutstock_JudgeStock        = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
 //    public String SalesOutstock__SubmitBarcode    = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
