@@ -84,7 +84,7 @@ public class InventoryConfigAdapter extends BaseAdapter {
       //  listItemView.txt_reference_standard.setText("批次：" + mDetailInfo.getBatchno());
         listItemView.txtVoucherQty.setText("数量：" + mDetailInfo.getQty()+mDetailInfo.getUnit());
         listItemView.txtMaterialDesc.setText(mDetailInfo.getMaterialdesc());
-        listItemView.txt_recommended_location.setText("货位" + mDetailInfo.getAreano());
+        listItemView.txt_recommended_location.setText("批次:" + mDetailInfo.getBatchno());
         if(mDetailInfo.ScannQty==null)
             mDetailInfo.ScannQty=0f;
         listItemView.txt_reference_standard.setText("当前已盘：" + mDetailInfo.ScannQty);

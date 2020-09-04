@@ -72,7 +72,7 @@ public class InventoryDetailAdapter extends BaseAdapter {
         listItemView.txtOneLeft.setText(stockInfoModel.Materialno);
         listItemView.txtOneRight.setText("数量:" + stockInfoModel.Qty);
         listItemView.txtTwoCenter.setText(stockInfoModel.Materialdesc);
-        listItemView.txtThreeCenter.setText("库位:" + stockInfoModel.getAreano());
+        listItemView.txtThreeCenter.setText("批次:" + stockInfoModel.getBatchno());
         //     listItemView.txtOneLeft.setText("单号" + stockInfoModel.Erpvoucherno );
         //listItemView.txtOneLeft.setText("单号" + stockInfoModel.Erpvoucherno );
         return convertView;
