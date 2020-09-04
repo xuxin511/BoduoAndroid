@@ -12,23 +12,23 @@ public class UrlInfo {
         return new UrlInfo();
     }
 
-    public static String  IPAdress                    = "172.19.106.230";//"wmstest.beukay.com";
-    public static int     Port                        = 5001;//9000;
-    public static int     mUpdatePort                 = 8022;//9000;  //版本更新端口号 如果能在一个端口下更新就不用这个字段 用Port
-    public static String  LastContent                 = "api/";
-    public static String  PrintIP                     = "10.2.32.192";
-    public static String  ElecIP                      = "10.2.32.244";
-    public static Boolean isWMS                       = true;
-    public static boolean isSupplier                  = false;
-    public static String  mBluetoothPrinterMacAddress = "AC3FA45B9232"; //蓝牙打印地址
-    public static String  mDesktopPrintAddress        = "";  //桌面打印机名称
-    public static String  mLaserPrinterAddress        = "";  //激光打印机名称
-    public static int     mInStockPrintType           = -1; //入库打印机选择
-    public static int     mOutStockPrintType          = -1; //出库打印机选择
-    public static int     mOutStockPackingBoxPrintType          = -1; //出库拼箱打印机选择
-    public static String  mInStockPrintName           = ""; //入库打印名称
-    public static String  mOutStockPrintName          = ""; //出库打印名称
-    public static String  mOutStockPackingBoxPrintName          = ""; //出库拼箱打印名称
+    public static String  IPAdress                     = "172.19.106.230";//"wmstest.beukay.com";
+    public static int     Port                         = 5001;//9000;
+    public static int     mUpdatePort                  = 8022;//9000;  //版本更新端口号 如果能在一个端口下更新就不用这个字段 用Port
+    public static String  LastContent                  = "api/";
+    public static String  PrintIP                      = "10.2.32.192";
+    public static String  ElecIP                       = "10.2.32.244";
+    public static Boolean isWMS                        = true;
+    public static boolean isSupplier                   = false;
+    public static String  mBluetoothPrinterMacAddress  = "AC3FA45B9232"; //蓝牙打印地址
+    public static String  mDesktopPrintAddress         = "";  //桌面打印机名称
+    public static String  mLaserPrinterAddress         = "";  //激光打印机名称
+    public static int     mInStockPrintType            = -1; //入库打印机选择
+    public static int     mOutStockPrintType           = -1; //出库打印机选择
+    public static int     mOutStockPackingBoxPrintType = -1; //出库拼箱打印机选择
+    public static String  mInStockPrintName            = ""; //入库打印名称
+    public static String  mOutStockPrintName           = ""; //出库打印名称
+    public static String  mOutStockPackingBoxPrintName = ""; //出库拼箱打印名称
 
 
 
@@ -143,6 +143,18 @@ public class UrlInfo {
                 GetT_DetailSubAsync = GetWCFAdress() + "Purchase/GetT_PurchaseDetailSubAsync"; //获取采购暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "Purchase/DeleteT_PurchaseDetailSubAsync"; //删除采购暂存数据
                 break;
+            case 24:
+                GetT_DetailSubAsync = GetWCFAdress() + "Transferin/GetT_TransferInDetailSubAsync"; //获取调拨入库暂存数据
+                DeleteT_DetailSubAsync = GetWCFAdress() + "Transferin/DeleteT_TransferInDetailSubAsync"; //删除调拨入库暂存数据
+                break;
+            case 45:
+                GetT_DetailSubAsync = GetWCFAdress() + "WorkOrder/GetT_WorkOrderDetailSubAsync"; //获取成品暂存数据
+                DeleteT_DetailSubAsync = GetWCFAdress() + "WorkOrder/DeleteT_WorkOrderDetailSubAsync"; //删除成品暂存数据
+                break;
+            case 52:
+                GetT_DetailSubAsync = GetWCFAdress() + "WorkOrderReturn/GetT_WorkOrderReturnDetailSubAsync"; //获取工单退料暂存数据
+                DeleteT_DetailSubAsync = GetWCFAdress() + "WorkOrderReturn/DeleteT_WorkOrderReturnDetailSubAsync"; //删除工单退料暂存数据
+                break;
             case 29://发货通知单
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
@@ -231,9 +243,13 @@ public class UrlInfo {
 //    public String SalesOutstock__Review_Submit    = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
 
     //批量打印
-    public String CreateT_OutBarcodeADFAsync        = GetWCFAdress() + "OutBarcode/CreateT_OutBarcodeADFAsync"; //批量生成条码
+    public String CreateT_OutBarcodeADFAsync          = GetWCFAdress() + "OutBarcode/CreateT_OutBarcodeADFAsync"; //批量生成条码
     //库存调整
-    public String AdjustStockGetT_ScanStockADFAsync = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync"; // 出库扫描获取托盘
-    public String UpdateT_StockAdjust               = GetWCFAdress() + "Stock/UpdateT_StockAdjust"; //库存调整提交
+    public String AdjustStockGetT_ScanStockADFAsync   = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync"; // 出库扫描获取托盘
+    public String UpdateT_StockAdjust                 = GetWCFAdress() + "Stock/UpdateT_StockAdjust"; //库存调整提交
+    //工单退料
+    public String SaveT_WorkOrderReturnDetailADFAsync = GetWCFAdress() + "WorkOrderReturn/SaveT_WorkOrderReturnDetailADFAsync"; //工单退料实时提交
+    public String PostT_WorkOrderReturnDetailADFAsync = GetWCFAdress() + "WorkOrderReturn/PostT_WorkOrderReturnDetailADFAsync"; //工单退料过账
+
 
 }

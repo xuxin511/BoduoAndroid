@@ -18,6 +18,7 @@ import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.order.VoucherTypeInfo;
 import com.liansu.boduowms.modules.instock.activeOtherStorage.scan.ActiveOtherScanModel;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScanModel;
+import com.liansu.boduowms.modules.instock.productionReturnsStorage.print.ProductionReturnsModel;
 import com.liansu.boduowms.modules.instock.purchaseStorage.scan.PurchaseStorageScanModel;
 import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScanModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -184,6 +185,15 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 postTransferToStorageScanModelScanInfo2.setVouchertype(voucherType);
                 postTransferToStorageScanModelScanInfo2.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 transferToStorageScanModel2.requestOrderDetail(postTransferToStorageScanModelScanInfo2,callBackListener);
+                break;
+            case OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE:
+                ProductionReturnsModel productionReturnsModel = new ProductionReturnsModel(mContext, mHandler);
+                mBaseModel = productionReturnsModel;
+                OrderRequestInfo productionReturnsScanInfo = new OrderRequestInfo();
+                productionReturnsScanInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
+                productionReturnsScanInfo.setVouchertype(voucherType);
+                productionReturnsScanInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                productionReturnsModel.requestOrderDetail(productionReturnsScanInfo, callBackListener);
                 break;
         }
     }

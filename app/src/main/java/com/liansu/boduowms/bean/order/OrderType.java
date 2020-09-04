@@ -11,7 +11,7 @@ public class OrderType {
     public final static String IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE              = "有源杂入";
     public final static String IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE                   = "产品入库";
     public final static String IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE              = "销售退货";
-    public final static String IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE        = "生产退货";
+    public final static String IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE        = "工单退料";
     public final static String IN_STOCK_ORDER_TYPE_BATCH_PRINTING                    = "批量打印";
     public final static String OUT_STOCK_ORDER_TYPE_QUALITY_INSPECTION               = "质检";
     public final static String OUT_STOCK_ORDER_TYPE_PICKING_OFF_THE_SHELF            = "拣货下架";
@@ -49,5 +49,6 @@ public class OrderType {
     public final static int    IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE    = 35;
     public final static int    IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE = 24;  //二阶段调拨入库
     public final static int    IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE = 58;  //一阶段调拨入库
+    public final static int    IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE = 52;  //工单退料入库
 
 }

@@ -8,6 +8,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseModel;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.stock.VoucherDetailSubInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
+import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 /**
  * @ Des:
@@ -105,9 +107,10 @@ public class StockRollBackModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/6/27 21:37
      */
-    public void requestTemporaryDetailList(String erpVoucherNo, NetCallBackListener<String> callBackListener) {
+    public void requestTemporaryDetailList(OrderRequestInfo orderRequestInfo, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_GET_T_DETAIL_SUB_ASYNC", callBackListener);
-        String modelJson = "{\"Erpvoucherno\":\"" + erpVoucherNo + "\"}";
+//        String modelJson = "{\"Erpvoucherno\":\"" + erpVoucherNo + "\"}";
+        String modelJson = parseModelToJson(orderRequestInfo);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_GET_T_DETAIL_SUB_ASYNC, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_DETAIL_SUB_ASYNC, mContext.getString(R.string.stock_roll_back_request_temporary_data), mContext, mHandler, RESULT_TAG_GET_T_DETAIL_SUB_ASYNC, null,mUrlInfo.GetT_DetailSubAsync, modelJson, null);
     }

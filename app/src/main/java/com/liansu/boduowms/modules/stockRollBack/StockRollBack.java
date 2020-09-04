@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.stockRollBack;
 
 import android.content.Context;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -53,6 +54,12 @@ public class StockRollBack extends BaseActivity implements IStockRollBackView {
 
     }
 
+    @Override
+    public void onHandleMessage(Message msg) {
+        if (mPresenter!=null){
+            mPresenter.onHandleMessage(msg);
+        }
+    }
 
     /**
      * @desc: 外箱码扫描

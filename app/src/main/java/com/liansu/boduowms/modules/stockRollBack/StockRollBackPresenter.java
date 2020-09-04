@@ -1,15 +1,18 @@
 package com.liansu.boduowms.modules.stockRollBack;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.base.BaseActivity;
+import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.stock.VoucherDetailSubInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -133,7 +136,10 @@ public class StockRollBackPresenter {
             MessageBox.Show(mContext, "获取订单暂存数据失败：从上页面传入的订单号不能为空", MEDIA_MUSIC_ERROR);
             return;
         }
-        mModel.requestTemporaryDetailList(mModel.getErpVoucherNo(), new NetCallBackListener<String>() {
+        OrderRequestInfo postInfo=new OrderRequestInfo();
+        postInfo.setVouchertype(mModel.getVoucherType());
+        postInfo.setErpvoucherno(mModel.getErpVoucherNo());
+        mModel.requestTemporaryDetailList(postInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
                 LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_DETAIL_SUB_ASYNC, result);
@@ -187,7 +193,7 @@ public class StockRollBackPresenter {
      * @author: Nietzsche
      * @time 2020/8/27 15:09
      */
-    public void onDeleteTemporaryDataRefer(VoucherDetailSubInfo deleteInfo) {
+    public void onDeleteTemporaryDataRefer(final VoucherDetailSubInfo deleteInfo) {
         if (deleteInfo == null) {
             MessageBox.Show(mContext, "校验回退数据失败:提交的回退条码数据不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
@@ -196,40 +202,49 @@ public class StockRollBackPresenter {
                 }
             });
         }
-        List<VoucherDetailSubInfo> postList = new ArrayList<>();
-        postList.add(deleteInfo);
-        mModel.requestDeleteTemporaryDetail(postList, new NetCallBackListener<String>() {
-            @Override
-            public void onCallBack(String result) {
-                try {
-                    LogUtil.WriteLog(StockRollBack.class, mModel.TAG_DELETE_T_DETAIL_SUB_ASYNC, result);
-                    BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
-                    }.getType());
-                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+
+        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage("是否删除托盘:"+deleteInfo.getBarcode()+"?")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        List<VoucherDetailSubInfo> postList = new ArrayList<>();
+                        postList.add(deleteInfo);
+                        mModel.requestDeleteTemporaryDetail(postList, new NetCallBackListener<String>() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                getTemporaryDetailList();
+                            public void onCallBack(String result) {
+                                try {
+                                    LogUtil.WriteLog(StockRollBack.class, mModel.TAG_DELETE_T_DETAIL_SUB_ASYNC, result);
+                                    BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                                    }.getType());
+                                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                getTemporaryDetailList();
+                                            }
+                                        });
+                                    } else {
+                                        MessageBox.Show(mContext, "条码回退失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                mView.onBarcodeFocus();
+                                            }
+                                        });
+                                    }
+                                } catch (Exception e) {
+                                    MessageBox.Show(mContext, "条码回退失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
+                                }
                             }
                         });
-                    } else {
-                        MessageBox.Show(mContext, "条码回退失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mView.onBarcodeFocus();
-                            }
-                        });
+
                     }
-                } catch (Exception e) {
-                    MessageBox.Show(mContext, "条码回退失败,出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mView.onBarcodeFocus();
-                        }
-                    });
-                }
-            }
-        });
+                }).setNegativeButton("取消", null).show();
+
     }
 
 }

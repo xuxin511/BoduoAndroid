@@ -10,8 +10,7 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
-import com.liansu.boduowms.bean.order.OrderHeaderInfo;
-import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanModel;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.modules.print.linkos.PrintType;
@@ -32,15 +31,12 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
  * @ Created by yangyiqing on 2020/6/27.
  */
 public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
-    String TAG_GetT_PurchaseOrderListADFAsync = "PurchaseStorageScanModel_TAG_GetT_PurchaseOrderListADFAsync";
-    String TAG_GetT_PalletDetailByBarCodeADF  = "ReceiptionScan_GetT_PalletDetailByBarCodeADF";
-    String TAG_SaveT_PurchaseDetailADFAsync   = "PurchaseStorageScanModel_TAG_SaveT_PurchaseDetailADFAsync";
-    String TAG_PostT_PurchaseDetailADFAsync   = "PurchaseStorageScanModel_PurchaseDetailADFAsync";
-    private final int RESULT_Msg_GetT_InStockDetailListByHeaderIDADF = 112;
-    private final int RESULT_Msg_GetT_PalletDetailByBarCode          = 102;
-    private final int RESULT_Msg_SaveT_PurchaseDetailADFAsync        = 113;
-    private final int RESULT_Msg_GetAreaModelADF                     = 104;
-    private final int RESULT_Msg_PostT_PurchaseDetailADFAsync        = 114;
+    public String TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC    = "ProductionReturnsStorageScanModel_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC";  // 获取工单明细
+    public String TAG_SAVE_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC = "ProductionReturnsStorageScanModel_TAG_SaveT_WorkOrderReturnDetailADFAsync";
+    String TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC = "ProductionReturnsStorageScanModel_TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC";
+    private final int RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC    = 121;
+    private final int RESULT_TAG_SAVE_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC = 122;
+    private final int RESULT_TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC = 123;
 
     public ProductionReturnsStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
@@ -50,14 +46,14 @@ public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
     public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
         switch (msg.what) {
-            case RESULT_Msg_GetT_InStockDetailListByHeaderIDADF:
-                listener = mNetMap.get("TAG_GetT_PurchaseOrderListADFAsync");
+            case RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC:
+                listener = mNetMap.get("TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC");
                 break;
-            case RESULT_Msg_SaveT_PurchaseDetailADFAsync:
-                listener = mNetMap.get("TAG_SaveT_PurchaseDetailADFAsync");
+            case RESULT_TAG_SAVE_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC:
+                listener = mNetMap.get("TAG_SAVE_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC");
                 break;
-            case RESULT_Msg_PostT_PurchaseDetailADFAsync:
-                listener = mNetMap.get("TAG_PostT_PurchaseDetailADFAsync");
+            case RESULT_TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC:
+                listener = mNetMap.get("TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC");
                 break;
         }
         if (listener != null) {
@@ -73,11 +69,11 @@ public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
      * @author: Nietzsche
      * @time 2020/6/27 21:37
      */
-    public void requestOrderDetail(OrderHeaderInfo receiptModel, NetCallBackListener<String> callBackListener) {
-        mNetMap.put("TAG_GetT_PurchaseOrderListADFAsync", callBackListener);
-        String modelJson = parseModelToJson(receiptModel);
-        LogUtil.WriteLog(BaseOrderScan.class, TAG_GetT_InStockDetailListByHeaderIDADF, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GetT_PurchaseOrderListADFAsync, mContext.getString(R.string.Msg_GetT_InStockDetailListByHeaderIDADF), mContext, mHandler, RESULT_Msg_GetT_InStockDetailListByHeaderIDADF, null, UrlInfo.getUrl().GetT_PurchaseOrderListADFAsync, modelJson, null);
+    public void requestOrderDetail(OrderRequestInfo orderRequestInfo, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC", callBackListener);
+        String modelJson = parseModelToJson(orderRequestInfo);
+        LogUtil.WriteLog(ProductionReturnStorageScan.class, TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_production_return_detail), mContext, mHandler, RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_WorkOrderDetailListADFAsync, modelJson, null);
     }
 
 
@@ -89,11 +85,21 @@ public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
      * @time 2020/7/3 16:47
      */
     public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
-        mNetMap.put("TAG_SaveT_PurchaseDetailADFAsync", callBackListener);
-        String modelJson = parseModelToJson(info);
-        LogUtil.WriteLog(BaseOrderScan.class, TAG_SaveT_PurchaseDetailADFAsync, parseModelToJson(info));
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveT_PurchaseDetailADFAsync, mContext.getString(R.string.Msg_GetT_SerialNoByPalletADF), mContext, mHandler, RESULT_Msg_SaveT_PurchaseDetailADFAsync, null, UrlInfo.getUrl().SaveT_PurchaseDetailADFAsync, modelJson, null);
+    }
 
+    /**
+     * @desc: 组托并提交入库
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/3 16:47
+     */
+    @Override
+    public void requestCombineAndReferPallet(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_SAVE_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC", callBackListener);
+        String modelJson = parseModelListToJsonArray(list);
+        LogUtil.WriteLog(ProductionReturnStorageScan.class, TAG_SAVE_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC, mContext.getString(R.string.message_request_refer_barcode_info), mContext, mHandler, RESULT_TAG_SAVE_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().SaveT_WorkOrderReturnDetailADFAsync, modelJson, null);
     }
 
     /**
@@ -104,10 +110,10 @@ public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
      * @time 2020/7/15 18:46
      */
     public void requestOrderRefer(List<OrderDetailInfo> list, NetCallBackListener<String> callBackListener) {
-        mNetMap.put("TAG_PostT_PurchaseDetailADFAsync", callBackListener);
+        mNetMap.put("TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC", callBackListener);
         String modelJson = parseModelListToJsonArray(list);
-        LogUtil.WriteLog(BaseOrderScan.class, TAG_PostT_PurchaseDetailADFAsync, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_PostT_PurchaseDetailADFAsync, mContext.getString(R.string.Msg_order_refer), mContext, mHandler, RESULT_Msg_PostT_PurchaseDetailADFAsync, null, UrlInfo.getUrl().PostT_PurchaseDetailADFAsync, modelJson, null);
+        LogUtil.WriteLog(ProductionReturnStorageScan.class, TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC, mContext.getString(R.string.Msg_order_refer), mContext, mHandler, RESULT_TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().PostT_WorkOrderReturnDetailADFAsync, modelJson, null);
 
     }
 
@@ -119,7 +125,7 @@ public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
             String materialNo = outBarcodeInfo.getMaterialno() != null ? outBarcodeInfo.getMaterialno() : "";
             String batchNo = outBarcodeInfo.getBatchno() != null ? outBarcodeInfo.getBatchno() : "";
             int barcodeQty = (int) outBarcodeInfo.getQty();
-            String QRBarcode = materialNo + "%" + batchNo + "%" + barcodeQty + "%" + 2;
+            String QRBarcode = materialNo + "%" + batchNo + "%" + outBarcodeInfo.getPackqty() + "%" + 2;
             printInfo.setMaterialNo(materialNo);
             printInfo.setMaterialDesc(outBarcodeInfo.getMaterialdesc());
             printInfo.setBatchNo(batchNo);

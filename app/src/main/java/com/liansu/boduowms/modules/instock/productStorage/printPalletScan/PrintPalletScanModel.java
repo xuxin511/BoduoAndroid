@@ -131,7 +131,6 @@ public class PrintPalletScanModel extends BaseModel {
         mNetMap.put("TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC", callBackListener);
         String ModelJson = GsonUtil.parseModelToJson(orderHeaderInfo);
         LogUtil.WriteLog(BaseOrderBillChoice.class, TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC, ModelJson);
-//        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC, mContext.getString(R.string.MSG_GET_FINISHED_PRODUCT), mContext, mHandler, RESULT_TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_WorkOrderHeadListADFAsync, ModelJson, null); //原来的成品列表接口调用
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC, mContext.getString(R.string.MSG_GET_FINISHED_PRODUCT), mContext, mHandler, RESULT_TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_WorkOrderDetailListADFAsync, ModelJson, null);
     }
 

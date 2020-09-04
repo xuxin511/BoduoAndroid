@@ -90,6 +90,7 @@ public class UpdateVersionService {
         // this.context = context;
     }
 
+
     /**
      * 检测是否可更新
      *
@@ -265,21 +266,34 @@ public class UpdateVersionService {
                 return;
             }
 
-            Intent _Intent = new Intent();
-            _Intent.setAction(Intent.ACTION_VIEW);
-            Uri _uri;
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            Uri url;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                _Intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                _uri = FileProvider.getUriForFile(BaseApplication.context, BaseApplication.context.getPackageName() + ".fileProvider", apkfile);
+                // Android7.0及以上版本
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                url = FileProvider.getUriForFile(BaseApplication.context, BaseApplication.context.getPackageName() + ".fileProvider", apkfile);
             } else {
-                _uri = Uri.fromFile(apkfile);
-                _Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
-            _Intent.setDataAndType(_uri, "application/vnd.android.package-archive");
-            BaseApplication.context.startActivity(_Intent);
+                url = Uri.fromFile(apkfile);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+            }
+            intent.setDataAndType(url, "application/vnd.android.package-archive");
+            BaseApplication.context.startActivity(intent);
+            //最后杀死进程
+            if (handler != null) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    }
+                }, 200);
+            }
 //        context.startActivity(intent);
-            android.os.Process.killProcess(android.os.Process.myPid());// 如果不加上这句的话在apk安装完成之后点击单开会崩溃
+//            android.os.Process.killProcess(android.os.Process.myPid());// 如果不加上这句的话在apk安装完成之后点击单开会崩溃
         } catch (Exception e) {
             MessageBox.Show(BaseApplication.context, "安装APK出现预期之外的异常:" + e.getMessage());
         }

@@ -88,6 +88,7 @@
     <string name="message_request_quality_un_inspection_refer">正在提交单据信息...</string>
     <string name="message_request_barcode_refer">正在提交条码信息...</string>
     <string name="message_request_purchase_inspection_detail">正在获取采购验退单表体信息....</string>
+    <string name="message_request_production_return_detail">正在获取工单退料表体信息....</string>
     //错误提示
     <string name="Error_UpshelfQtyBiger">扫描数量超过上架数量！</string>
     <string name="Error_BarcodeScaned">该条码已扫描！</string>
@@ -117,14 +118,14 @@
     <string name="main_menu_item_upshelf">上架</string>
     <string name="main_menu_item_production_storage">成品入库</string>
     <string name="main_menu_item_production_storage_pallet_no_print">成品托盘打印</string>
-    <string name="main_menu_item_production_returns">生产退货</string>
+    <string name="main_menu_item_production_returns">工单退料</string>
     <string name="main_menu_item_two_stage_transfer_to_storage">二阶段调拨入库</string>
     <string name="main_menu_item_one_stage_transfer_to_storage">一阶段调拨入库</string>
     <string name="main_menu_item_outsourcing">委外入库</string>
     <string name="main_menu_item_active_other_storage">有源杂入</string>
     <string name="main_menu_item_active_scan_other_storage">无源杂入</string>
-    <string name="main_menu_item_product_return_print_storage">生产退货打印</string>
-    <string name="main_menu_item_product_return_scan_storage">生产退货扫描</string>
+    <string name="main_menu_item_product_return_print_storage">工单退料打印</string>
+    <string name="main_menu_item_product_return_scan_storage">工单退料扫描</string>
     <string name="main_menu_item_active_sales_return">销售退货</string>
     <string name="main_menu_item_quality_inspection">质检处理</string>
     <string name="main_menu_item_mobile_warehouse_inventory">移库</string>
@@ -391,10 +392,10 @@
     <string name="sales_return_scan_pallet_no_hint"></string>
 
 
-    //生产退货
-    <string name="appbar_title_production_returns_bill">生产退货列表</string>
-    <string name="appbar_title_production_returns_print">生产退货打印</string>
-    <string name="appbar_title_production_returns_scan">生产退货扫描</string>
+    //工单退料
+    <string name="appbar_title_production_returns_bill">工单退料列表</string>
+    <string name="appbar_title_production_returns_print">工单退料打印</string>
+    <string name="appbar_title_production_returns_scan">工单退料</string>
     //无源杂入
     <string name="appbar_title_no_source_scan">无源杂入</string>
     <string name="no_source_scan_instock_type">入库方式:</string>

@@ -13,7 +13,8 @@ import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
-import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
+import com.liansu.boduowms.bean.order.OrderRequestInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -21,8 +22,10 @@ import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
@@ -43,7 +46,7 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_production_returns_scan)+ "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_production_returns_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
     }
 
 
@@ -56,38 +59,53 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
      */
     @Override
     protected void getOrderDetailInfoList(String erpVoucherNo) {
-        OrderHeaderInfo orderHeaderInfo=new OrderHeaderInfo();
-        orderHeaderInfo.setErpvoucherno(erpVoucherNo);
-//        orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
-        mModel.requestOrderDetail(mModel.getOrderHeaderInfo(), new NetCallBackListener<String>() {
+        OrderRequestInfo orderRequestInfo = new OrderRequestInfo();
+        orderRequestInfo.setErpvoucherno(erpVoucherNo);
+        orderRequestInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE);
+        orderRequestInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        mModel.requestOrderDetail(orderRequestInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
-                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GetT_PurchaseOrderListADFAsync, result);
+                LogUtil.WriteLog(ProductionReturnStorageScan.class, mModel.TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, result);
                 try {
-                    BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<  BaseResultInfo<OrderHeaderInfo>>() {
+
+                    BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                     }.getType());
-                    if (returnMsgModel.getResult()==1) {
-                        OrderHeaderInfo orderHeaderInfo=returnMsgModel.getData();
-                        if (orderHeaderInfo!=null){
+                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
+                        if (orderHeaderInfo != null) {
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
+                            mModel.setOrderHeaderInfo(orderHeaderInfo);
                             if (mModel.getOrderDetailList().size() > 0) {
                                 mView.bindListView(mModel.getOrderDetailList());
+                                mView.onAreaNoFocus();
                             } else {
-                                MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                                mView.onErpVoucherNoFocus();
+                                MessageBox.Show(mContext, "获取单据失败:获取表体信息为空");
+
                             }
-                        }else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                        } else {
+                            mView.onErpVoucherNoFocus();
+                            MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue());
+
                         }
-                        }
+                    } else {
+                        mView.onErpVoucherNoFocus();
+                        MessageBox.Show(mContext, "获取单据失败:" + returnMsgModel.getResultValue());
+
+                    }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
+                    mView.onErpVoucherNoFocus();
+                    MessageBox.Show(mContext, "获取单据失败:出现预期之外的异常-" + ex.getMessage());
+
                 }
 
 
             }
         });
     }
+
     @Override
     public void onCombinePalletRefer(final OutBarcodeInfo outBarcodeInfo) {
         super.onCombinePalletRefer(outBarcodeInfo);
@@ -179,7 +197,7 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
 //    }
 
     /**
-     * @desc: 采购订单过账
+     * @desc: 生产退料过账
      * @param:
      * @return:
      * @author: Nietzsche
@@ -196,49 +214,52 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
             });
             return;
         }
-        List<OrderDetailInfo>  list=mModel.getOrderDetailList();
-        if (list!=null){
-            for (int i=0;i<list.size();i++){
-                OrderDetailInfo info=list.get(i);
-                info.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
-            }
-        }
-        mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
-            @Override
-            public void onCallBack(String result) {
-                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_PostT_PurchaseDetailADFAsync, result);
-                try {
-                    BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<  BaseResultInfo<String>>() {
-                    }.getType());
-                    if (returnMsgModel.getResult()==BaseResultInfo.RESULT_TYPE_OK) {
-                        BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
-                        if (!checkResult.getHeaderStatus()) {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getOrderDetailInfoList(mView.getErpVoucherNo());
-                                }
-                            });
-                        } else {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    onReset();
-                                }
-                            });
+        OrderDetailInfo firstDetailInfo = mModel.getOrderDetailList().get(0);
+        if (firstDetailInfo != null) {
+            OrderDetailInfo postInfo = new OrderDetailInfo();
+            postInfo.setErpvoucherno(firstDetailInfo.getErpvoucherno());
+            postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+            postInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
+            postInfo.setVouchertype(firstDetailInfo.getVouchertype());
+            List<OrderDetailInfo> list = new ArrayList<>();
+            list.add(postInfo);
+            mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
+                @Override
+                public void onCallBack(String result) {
+                    LogUtil.WriteLog(ProductionReturnStorageScan.class, mModel.TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC, result);
+                    try {
+                        BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                        }.getType());
+                        if (returnMsgModel.getResult() == BaseResultInfo.RESULT_TYPE_OK) {
+                            BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
+                            if (!checkResult.getHeaderStatus()) {
+                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getOrderDetailInfoList(mView.getErpVoucherNo());
+                                    }
+                                });
+                            } else {
+                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        onReset();
+                                    }
+                                });
 //                                mView.onActivityFinish(checkResult.getMessage());
+                            }
+                        } else {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue());
                         }
-                    }else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+
+                    } catch (Exception ex) {
+                        MessageBox.Show(mContext, ex.getMessage());
                     }
 
-                } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
+
                 }
-
-
-            }
-        });
+            });
+        }
     }
 
     @Override

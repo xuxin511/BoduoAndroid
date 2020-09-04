@@ -28,6 +28,7 @@ import static com.liansu.boduowms.base.BaseApplication.getRequestQueue;
 public class RequestHandler {
 
     public static int SOCKET_TIMEOUT = 180000;
+
     private static void addRequest(
             int method, String tag,
             final Handler handler, final int what,
@@ -59,6 +60,7 @@ public class RequestHandler {
         JsonRequest.setRetryPolicy(getRetryPolicy());
         getRequestQueue().add(JsonRequest);
     }
+
     public static void addRequestWithDialog(
             final int method, final String tag, final String LoadText, Context context, final Handler handler, final int what, final Bundle bundle,
             final String url, final String params, final Map<String, String> header) {
@@ -66,6 +68,7 @@ public class RequestHandler {
 
         });
     }
+
     private static void addRequest(
             int method, String tag,
             final Handler handler, final int what,
@@ -224,7 +227,7 @@ public class RequestHandler {
     }
 
     static RetryPolicy getRetryPolicy() {
-        // RetryPolicy retryPolicy = new DefaultRetryPolicy(SOCKET_TIMEOUT, DefaultDialogRequestListener.MAX_RETRY_TIME, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//         RetryPolicy retryPolicy = new DefaultRetryPolicy(SOCKET_TIMEOUT, DefaultDialogRequestListener.MAX_RETRY_TIME, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         RetryPolicy retryPolicy = new DefaultRetryPolicy(SOCKET_TIMEOUT, DEFAULT_MAX_RETRIES, 0f);
         return retryPolicy;
     }

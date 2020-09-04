@@ -115,5 +115,16 @@ public class StockRollBackAdapter extends RecyclerView.Adapter<StockRollBackAdap
             rootView = itemView;
         }
     }
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        this.mRecyclerView = null;
+    }
 
 }

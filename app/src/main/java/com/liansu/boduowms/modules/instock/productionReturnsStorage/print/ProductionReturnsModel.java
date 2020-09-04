@@ -12,7 +12,7 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
-import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.modules.print.linkos.PrintType;
@@ -33,13 +33,13 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
  * @ Created by yangyiqing on 2020/7/17.
  */
 public class ProductionReturnsModel extends BaseModel {
-    public String TAG_GET_T_SALE_RETURN_DETAIL_LIST_ADF_ASYNC = "SaleReturnPrintModel_Post_GetT_SaleReturnDetailListADFAsync";  // 获取物料批次
+    public String TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC = "ProductionReturnsModel_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC";  // 获取工单明细
     public String TAG_PRINT_PALLET_NO = "SalesReturnStorageScanModel_Print_PalletNo";  //销售退货打印获取托盘
     String TAG_SELECT_MATERIAL = "ProductionReturnsModel_SelectMaterial";  //获取物料信息
     private final int                   RESULT_TAG_SELECT_MATERIAL                         = 10001;
-    private final int                   RESULT_TAG_PRINT_PALLET_NO                         = 124;
-    private final int                   RESULT_TAG_GET_T_SALE_RETURN_DETAIL_LIST_ADF_ASYNC = 121;
-    protected     OrderHeaderInfo       mOrderHeaderInfo                                   = null;
+    private final int             RESULT_TAG_PRINT_PALLET_NO                        = 124;
+    private final int             RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC = 121;
+    protected     OrderHeaderInfo mOrderHeaderInfo                                  = null;
     protected     List<OrderDetailInfo> mOrderDetailList                                   = new ArrayList<>();
 
     public ProductionReturnsModel(Context context, MyHandler<BaseActivity> handler) {
@@ -53,8 +53,8 @@ public class ProductionReturnsModel extends BaseModel {
             case RESULT_TAG_SELECT_MATERIAL:
                 listener = mNetMap.get("TAG_SELECT_MATERIAL");
                 break;
-            case RESULT_TAG_GET_T_SALE_RETURN_DETAIL_LIST_ADF_ASYNC:
-                listener = mNetMap.get("TAG_GET_T_SALE_RETURN_DETAIL_LIST_ADF_ASYNC");
+            case RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC:
+                listener = mNetMap.get("TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC");
                 break;
             case RESULT_TAG_PRINT_PALLET_NO:
                 listener = mNetMap.get("TAG_PRINT_PALLET_NO");
@@ -134,11 +134,10 @@ public class ProductionReturnsModel extends BaseModel {
      * @time 2020/6/27 21:37
      */
     public void requestOrderDetail(OrderRequestInfo orderRequestInfo, NetCallBackListener<String> callBackListener) {
-        orderRequestInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE);
-        mNetMap.put("TAG_GetT_PurchaseOrderListADFAsync", callBackListener);
+        mNetMap.put("TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC", callBackListener);
         String modelJson = parseModelToJson(orderRequestInfo);
-//        LogUtil.WriteLog(BaseOrderScan.class, TAG_GetT_InStockDetailListByHeaderIDADF, modelJson);
-//        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GetT_PurchaseOrderListADFAsync, mContext.getString(R.string.Msg_GetT_InStockDetailListByHeaderIDADF), mContext, mHandler, RESULT_Msg_GetT_InStockDetailListByHeaderIDADF, null, UrlInfo.getUrl().GetT_PurchaseOrderListADFAsync, modelJson, null);
+        LogUtil.WriteLog(BaseOrderScan.class, TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_production_return_detail), mContext, mHandler, RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_WorkOrderDetailListADFAsync, modelJson, null);
     }
 
     /**
