@@ -22,6 +22,7 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.NoSourceScanDetailAdapter;
@@ -269,6 +270,10 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_setting, menu);
+        MenuItem menuItem=menu.findItem(R.id.menu_order_reprint);
+        if (menuItem!=null){
+            menuItem.setVisible(true);
+        }
         return true;
     }
 
@@ -277,6 +282,10 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }else if (item.getItemId() == R.id.menu_order_reprint){
+            Intent intent = new Intent();
+            intent.setClass(NoSourceOtherScan.this, BaseOrderLabelPrintSelect.class);
+            startActivityLeft(intent);
         }
         return false;
     }

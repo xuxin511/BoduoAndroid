@@ -49,7 +49,7 @@
     <string name="AllEAN">EAN</string>
     <string name="unboxing">整箱/散件(点击切换操作模式)</string>
     <string name="compine_pallet">组托</string>
-    <string name="label_reprint">补打</string>
+    <string name="label_reprint">打印</string>
     <string name="spare_parts">散件</string>
     <string name="combine_trays">拼托</string>
     <string name="balcony">月台</string>

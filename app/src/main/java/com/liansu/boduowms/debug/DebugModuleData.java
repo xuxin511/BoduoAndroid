@@ -47,17 +47,17 @@ public class DebugModuleData {
      * @time 2020/6/25 19:50
      */
     public static void loadStorageBusinessMenuList(Context context, ArrayList<Integer> itemIconList, ArrayList<String> itemNamesList) {
-        itemIconList.add(R.drawable.production_storage);
+        itemIconList.add(R.drawable.batch_print);
         itemNamesList.add(context.getString(R.string.main_menu_item_batch_printing));
         itemIconList.add(R.drawable.purchase_storage_icon);
         itemNamesList.add(context.getString(R.string.main_menu_item_purchase_storage));
         itemIconList.add(R.drawable.spot_check_icon);
         itemNamesList.add(context.getString(R.string.main_menu_item_spot_check));
-        itemIconList.add(R.drawable.production_storage);
+        itemIconList.add(R.drawable.instock);
         itemNamesList.add(context.getString(R.string.main_menu_item_production_storage));
-        itemIconList.add(R.drawable.production_storage);
+        itemIconList.add(R.drawable.batch_print);
         itemNamesList.add(context.getString(R.string.main_menu_item_production_storage_pallet_no_print));
-        itemIconList.add(R.drawable.production_returns);
+        itemIconList.add(R.drawable.work_order_return);
         itemNamesList.add(context.getString(R.string.main_menu_item_production_returns));
         itemIconList.add(R.drawable.transfer_to_storage);
         itemNamesList.add(context.getString(R.string.main_menu_item_two_stage_transfer_to_storage));
@@ -65,13 +65,13 @@ public class DebugModuleData {
         itemNamesList.add(context.getString(R.string.main_menu_item_one_stage_transfer_to_storage));
         itemIconList.add(R.drawable.outsourcing);
         itemNamesList.add(context.getString(R.string.main_menu_item_outsourcing));
-        itemIconList.add(R.drawable.active_other_storage);
+        itemIconList.add(R.drawable.instock);
         itemNamesList.add(context.getString(R.string.main_menu_item_active_other_storage));
         itemIconList.add(R.drawable.scan_other_storage);
         itemNamesList.add(context.getString(R.string.main_menu_item_active_scan_other_storage));
         itemIconList.add(R.drawable.sales_return);
         itemNamesList.add(context.getString(R.string.main_menu_item_active_sales_return));
-        itemIconList.add(R.drawable.scan_other_storage);
+        itemIconList.add(R.drawable.qualified);
         itemNamesList.add(context.getString(R.string.main_menu_item_quality_inspection));
 //        itemIconList.add(R.drawable.production_storage);
 //        itemNamesList.add(context.getString(R.string.main_menu_item_product_return_print_storage));
@@ -121,11 +121,11 @@ public class DebugModuleData {
 //        itemNamesList.add(context.getString(R.string.main_menu_item_other_outbound));
 //        itemIconList.add(R.drawable.other_outbound);
         itemNamesList.add(context.getString(R.string.main_menu_item_purchase_inspection));
-        itemIconList.add(R.drawable.other_outbound);
+        itemIconList.add(R.drawable.outstock_return);
         itemNamesList.add(context.getString(R.string.main_menu_item_purchase_sale));
-        itemIconList.add(R.drawable.other_outbound);
+        itemIconList.add(R.drawable.outstock_return);
         itemNamesList.add(context.getString(R.string.main_menu_item_purchase_product));
-        itemIconList.add(R.drawable.other_outbound);
+        itemIconList.add(R.drawable.outstock_return);
         itemNamesList.add(context.getString(R.string.main_menu_item_purchase_return));
         itemIconList.add(R.drawable.outsourcing_dispatch);
 //        itemNamesList.add(context.getString(R.string.main_menu_item_outsourcing_dispatch));

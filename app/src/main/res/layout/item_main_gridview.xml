@@ -8,6 +8,8 @@
     android:padding="10dp"
     >
     <ImageView
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:id="@+id/ItemImage"
         android:layout_width="60dp"
         android:layout_height="60dp"/>

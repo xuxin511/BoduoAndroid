@@ -3,6 +3,7 @@ package com.liansu.boduowms.modules.instock.transferToStorage.scan;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -22,6 +23,7 @@ import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
+import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
@@ -428,6 +430,10 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_setting, menu);
+        MenuItem menuItem=menu.findItem(R.id.menu_order_reprint);
+        if (menuItem!=null){
+            menuItem.setVisible(true);
+        }
         return true;
     }
 
@@ -436,6 +442,10 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }else if (item.getItemId() == R.id.menu_order_reprint){
+            Intent intent = new Intent();
+            intent.setClass(TransferToStorageScan.this, BaseOrderLabelPrintSelect.class);
+            startActivityLeft(intent);
         }
         return false;
     }

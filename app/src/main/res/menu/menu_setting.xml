@@ -9,6 +9,11 @@
         android:orderInCategory="80"
         android:title="@string/setting_user_select_warehouse_no"
         app:showAsAction="ifRoom" />
-
+    <item
+        android:id="@+id/menu_order_reprint"
+        android:orderInCategory="100"
+        android:title="@string/label_reprint"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
 </menu>

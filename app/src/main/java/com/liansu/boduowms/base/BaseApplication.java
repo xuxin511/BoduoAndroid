@@ -63,7 +63,6 @@ public class BaseApplication extends Application {
 //        mRequestQueue = Volley.newRequestQueue(this, new OkHttpStack(okHttpClient));
 
         mRequestQueue = Volley.newRequestQueue(this, mStack);
-
         MultiDex.install(this);
         // ErrorCodeParser.init();
     }

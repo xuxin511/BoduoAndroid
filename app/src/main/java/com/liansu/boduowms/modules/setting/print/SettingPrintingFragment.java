@@ -134,6 +134,7 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
 
     @Event(R.id.setting_print_save_setting)
     private void onSave(View view) {
+        MessageBox.Show(mContext);
         mPresenter.onSave();
     }
 

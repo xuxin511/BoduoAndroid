@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.view.View;
 import android.widget.EditText;
 
@@ -19,7 +22,13 @@ public class MessageBox {
     public static  final  int MEDIA_MUSIC_NONE=1;
     public static  final  int MEDIA_MUSIC_SUCCESS=2;
 
+    public static void Show(Context context) {
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone r = RingtoneManager.getRingtone(context, notification);
+        r.play();
 
+    }
     /**
      * 弹出默认提示框
      *  @param context 上下文
@@ -27,7 +36,11 @@ public class MessageBox {
      * @param listener
      */
     public static void Show(Context context, String message, View.OnClickListener listener) {
-        music = MediaPlayer.create(context, R.raw.error3);
+//        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        Ringtone r = RingtoneManager.getRingtone(context, notification);
+//        r.play();
+//        music = MediaPlayer.create(context, R.raw.error3);
+        music = MediaPlayer.create(context, R.raw.error_first);
         music.start();
 
         new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", null).show();
@@ -39,9 +52,11 @@ public class MessageBox {
      * @param message 需要弹出的消息
      */
     public static void Show(Context context, String message) {
-        music = MediaPlayer.create(context,R.raw.error3);
+        music = MediaPlayer.create(context,R.raw.error_first);
         music.start();
-
+//        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        Ringtone r = RingtoneManager.getRingtone(context, notification);
+//        r.play();
         new AlertDialog.Builder(context,R.style.ErrorDialogStyle).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", null).show();
     }
     /**
@@ -53,8 +68,11 @@ public class MessageBox {
      */
     public static void Show(Context context, String message, int type) {
         if (type == MEDIA_MUSIC_ERROR) {
-            music = MediaPlayer.create(context, R.raw.error3);
+            music = MediaPlayer.create(context, R.raw.error_first);
             music.start();
+//            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//            Ringtone r = RingtoneManager.getRingtone(context, notification);
+//            r.play();
             new AlertDialog.Builder(context,R.style.ErrorDialogStyle).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", null).show();
 
         }else {
@@ -66,8 +84,11 @@ public class MessageBox {
 
     public static void Show(Context context, String message, int type, DialogInterface.OnClickListener listener) {
         if (type == MEDIA_MUSIC_ERROR) {
-            music = MediaPlayer.create(context, R.raw.error3);
+            music = MediaPlayer.create(context, R.raw.error_first);
             music.start();
+//            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//            Ringtone r = RingtoneManager.getRingtone(context, notification);
+//            r.play();
             new AlertDialog.Builder(context,R.style.ErrorDialogStyle).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", listener).show();
         }else {
             new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", listener).show();

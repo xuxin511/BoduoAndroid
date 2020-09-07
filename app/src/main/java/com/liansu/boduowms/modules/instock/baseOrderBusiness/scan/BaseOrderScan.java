@@ -27,8 +27,8 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.debug.DebugModuleData;
+import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.instock.combinePallet.InstockCombinePallet;
-import com.liansu.boduowms.modules.print.LabelReprint.LabelReprintScan;
 import com.liansu.boduowms.modules.setting.SettingMainActivity;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
@@ -272,20 +272,19 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
             startActivityLeft(intent);
         } else if (item.getItemId() == R.id.menu_order_reprint) {
             Intent intent = new Intent();
-            intent.setClass(BaseOrderScan.this, LabelReprintScan.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt("inStockType", COMBINE_PALLET_TYPE_RECEIPTION);
-            bundle.putParcelable("orderHeader", mPresenter.getModel().getOrderHeaderInfo());
-            bundle.putParcelableArrayList("orderDetailList", (ArrayList<? extends Parcelable>) DebugModuleData.loadReceiptScanDetailList());
-//        bundle.putParcelableArrayList("orderDetailList", mPresenter.getModel().getReceiptDetailModels());
-            intent.putExtras(bundle);
+            intent.setClass(BaseOrderScan.this, BaseOrderLabelPrintSelect.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("inStockType", COMBINE_PALLET_TYPE_RECEIPTION);
+//            bundle.putParcelable("orderHeader", mPresenter.getModel().getOrderHeaderInfo());
+//            bundle.putParcelableArrayList("orderDetailList", (ArrayList<? extends Parcelable>) DebugModuleData.loadReceiptScanDetailList());
+////        bundle.putParcelableArrayList("orderDetailList", mPresenter.getModel().getReceiptDetailModels());
+//            intent.putExtras(bundle);
             startActivityLeft(intent);
         } else if (item.getItemId() == R.id.menu_setting) {
             startActivityLeft(new Intent(mContext, SettingMainActivity.class));
         } else if (item.getItemId() == R.id.user_setting_warehouse_select) {
             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
         }
-
         return false;
     }
 
