@@ -14,20 +14,24 @@ import java.util.Date;
 public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
 
     /// 合格数量
-    public float  Qualityqty;
-    public float  Unqualityqty;
+    public  float  Qualityqty;
+    public  float  Unqualityqty;
     /// 单据数量
-    public String Erpstatuscode;
-    public Date   erpqualitydatetime;
-    public String Qualityno;
+    public  String Erpstatuscode;
+    public  Date   erpqualitydatetime;
+    public  String Qualityno;
     // public string Arrvoucherno ;
-    public String Orowno;
-    public String Orownodel;
-    public String Ylinestatus;
-    public String  Areano;
-   private  float  Sampqty;
-   private  String Erpvoucherdesc;
-   private String Erpstatuscodedesc;
+    public  String Orowno;
+    public  String Orownodel;
+    public  String Ylinestatus;
+    public  String Areano;
+    private float  Sampqty;
+    private String Erpvoucherdesc;
+    private String Erpstatuscodedesc;
+    private String ToCompanyCode;
+    private String ToCompanyName;
+    private String Fromwarehouseno;
+    private int    Fromwarehouseid;
 
 
     public QualityHeaderInfo() {
@@ -77,13 +81,17 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
         Outstockqty = in.readFloat();
         Spec = in.readString();
         Isquality = in.readInt();
-        Areano=in.readString();
-        Towarehouseno=in.readString();
-        Companycode=in.readString();
-        Arrvoucherno =in.readString();
-        Sampqty =in.readFloat();
-        Erpvoucherdesc=in.readString();
-        Erpstatuscodedesc=in.readString();
+        Areano = in.readString();
+        Towarehouseno = in.readString();
+        Companycode = in.readString();
+        Arrvoucherno = in.readString();
+        Sampqty = in.readFloat();
+        Erpvoucherdesc = in.readString();
+        Erpstatuscodedesc = in.readString();
+        ToCompanyCode = in.readString();
+        ToCompanyName = in.readString();
+        Fromwarehouseno = in.readString();
+        Fromwarehouseid = in.readInt();
     }
 
     public static final Creator<QualityHeaderInfo> CREATOR = new Creator<QualityHeaderInfo>() {
@@ -202,6 +210,38 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
         Erpstatuscodedesc = erpstatuscodedesc;
     }
 
+    public String getToCompanyCode() {
+        return ToCompanyCode;
+    }
+
+    public void setToCompanyCode(String toCompanyCode) {
+        ToCompanyCode = toCompanyCode;
+    }
+
+    public String getToCompanyName() {
+        return ToCompanyName;
+    }
+
+    public void setToCompanyName(String toCompanyName) {
+        ToCompanyName = toCompanyName;
+    }
+
+    public String getFromwarehouseno() {
+        return Fromwarehouseno;
+    }
+
+    public void setFromwarehouseno(String fromwarehouseno) {
+        Fromwarehouseno = fromwarehouseno;
+    }
+
+    public int getFromwarehouseid() {
+        return Fromwarehouseid;
+    }
+
+    public void setFromwarehouseid(int fromwarehouseid) {
+        Fromwarehouseid = fromwarehouseid;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -259,6 +299,9 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
         dest.writeFloat(Sampqty);
         dest.writeString(Erpvoucherdesc);
         dest.writeString(Erpstatuscodedesc);
-
+        dest.writeString(ToCompanyCode);
+        dest.writeString(ToCompanyName);
+        dest.writeString(Fromwarehouseno);
+        dest.writeInt(Fromwarehouseid);
     }
 }

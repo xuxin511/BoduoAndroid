@@ -24,7 +24,6 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
-import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.order.VoucherTypeInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
@@ -330,6 +329,10 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
         } else if (queryType == QUERY_TYPE_AREA_NO) {
             stockInfo.setAreano(content);
         }
+        String statusName=mQRStatusTypeNameSpinner.getSelectedItem().toString().trim();
+        if (statusName!=null && !statusName.equals("")){
+            stockInfo.setStatus(mQRStatusTypeMap.get(statusName));
+        }
         requestQueryStockInfo(stockInfo);
 
     }
@@ -423,7 +426,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
      * @time 2020/8/17 13:38
      */
     public void requestQRStatusQuery() {
-        String modelJson = "{\"Groupname\":\"TstockStatus\"}";
+        String modelJson = "{\"Groupname\":\"StockQuery_Status\"}";
         LogUtil.WriteLog(BaseOrderLabelPrintSelect.class, TAG_GET_T_PARAMETER_LIST, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_PARAMETER_LIST, mContext.getString(R.string.message_request_qr_status_info_query), mContext, mHandler, RESULT_TAG_GET_T_PARAMETER_LIST, null, UrlInfo.getUrl().GetT_ParameterList, modelJson, null);
     }
@@ -644,11 +647,12 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
 //        list.add(ORDER_TYPE_NONE);
         for (String key : mQRStatusTypeMap.keySet()) {
             if (!list.contains(key)) {
-                if (mQRStatusTypeMap.get(key) == OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
-                    list.add(0, key);
-                } else {
+                if (key.contains("所有")){
+                    list.add(0,key);
+                }else {
                     list.add(key);
                 }
+
 
             }
 

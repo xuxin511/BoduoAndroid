@@ -34,6 +34,7 @@
     <string name="Msg_UploadLogFile">日志文件上传中...</string>
     <string name="LogUpload">日志上报</string>
     <string name="activity_login_WareHousChoice">仓库选择:</string>
+    <string name="activity_select_transfer_wareHouse_choice">请选择要调拨的仓库</string>
     <string name="Msg_GetWareHouse">获取仓库信息...</string>
     <string name="Error_SubmitMore">操作过于频繁！</string>
     <string name="config">确定</string>
@@ -85,6 +86,7 @@
     <string name="message_request_material_info">正在获取物料信息...</string>
     <string name="message_request_print">正在提交打印信息...</string>
     <string name="message_request_quality_inspection_refer">正在提交质检合格信息...</string>
+    <string name="message_request_quality_inspection_transfer_refer">正在提交生成二阶段调拨信息...</string>
     <string name="message_request_quality_un_inspection_refer">正在提交单据信息...</string>
     <string name="message_request_barcode_refer">正在提交条码信息...</string>
     <string name="message_request_purchase_inspection_detail">正在获取采购验退单表体信息....</string>
@@ -253,6 +255,7 @@
     <string name="quality_inspection_scan_un_qualified_barcode_qty">数量:</string>
     <string name="quality_inspection_scan_un_qualified_father_barcode">托盘码</string>
     <string name="quality_inspection_scan_area_no">库位:</string>
+    <string name="quality_inspection_create_second_transfer">生成二阶段调拨</string>
     //采购验退列表
     <string name="purchase_inspection_processing_title">采购验退列表</string>
     <string name="purchase_inspection_processing_scan">采购验退扫描</string>

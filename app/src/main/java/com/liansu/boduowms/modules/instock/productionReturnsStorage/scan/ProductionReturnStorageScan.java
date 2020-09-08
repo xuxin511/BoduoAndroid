@@ -38,6 +38,7 @@ import org.xutils.x;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -224,9 +225,37 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
 
     @Override
     public void bindListView(List<OrderDetailInfo> receiptDetailModels) {
-        mAdapter = new BaseScanDetailAdapter(mContext, "", receiptDetailModels);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (mAdapter == null) {
+            mAdapter = new BaseScanDetailAdapter(mContext, "采购收货", receiptDetailModels);
+//            mAdapter.setRecyclerView(mRecyclerView);
+            mAdapter.setOnItemClickListener(new BaseScanDetailAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
+                    if (data != null) {
+                    }
+
+                }
+            });
+            mAdapter.setOnItemLongClickListener(new BaseScanDetailAdapter.OnItemLongClickListener() {
+                @Override
+                public void onItemLongClick(RecyclerView parent, View view, int position, OrderDetailInfo data) {
+                    if (data!=null){
+                        OrderHeaderInfo  orderHeaderInfo=mPresenter.getModel().getOrderHeaderInfo();
+                        if (orderHeaderInfo!=null){
+                            startRollBackActivity(orderHeaderInfo.getErpvoucherno(),orderHeaderInfo.getVouchertype(),mPresenter.getTitle());
+                        }
+
+
+
+                    }
+                }
+            });
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

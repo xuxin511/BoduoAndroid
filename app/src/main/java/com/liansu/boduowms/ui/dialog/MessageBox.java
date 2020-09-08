@@ -29,6 +29,13 @@ public class MessageBox {
         r.play();
 
     }
+    public static void Show2(Context context,int type) {
+        Uri notification = RingtoneManager.getDefaultUri(type);
+//        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Ringtone r = RingtoneManager.getRingtone(context, notification);
+        r.play();
+
+    }
     /**
      * 弹出默认提示框
      *  @param context 上下文

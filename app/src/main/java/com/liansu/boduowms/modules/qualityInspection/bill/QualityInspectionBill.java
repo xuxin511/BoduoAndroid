@@ -208,6 +208,11 @@ public class QualityInspectionBill extends BaseActivity implements SwipeRefreshL
         });
     }
 
+    @Override
+    public String getErpVoucherNo() {
+        return null;
+    }
+
     public void initTitle(){
         BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_processing_title), false);
     }

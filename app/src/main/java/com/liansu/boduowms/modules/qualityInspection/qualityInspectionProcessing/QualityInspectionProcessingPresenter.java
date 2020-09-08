@@ -11,6 +11,7 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
+import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -75,16 +76,16 @@ public class QualityInspectionProcessingPresenter {
                             mModel.setQualityInspectionDetailList(list);
                             mView.setOrderDetailInfo(mModel.getQualityInspectionDetailList().get(0));
                         } else {
-                            MessageBox.Show(mContext, "获取质检明细为空" );
+                            MessageBox.Show(mContext, "获取质检明细为空");
                             mView.onAreaNoFocus();
                         }
 
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
                         mView.onAreaNoFocus();
                     }
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
+                    MessageBox.Show(mContext, ex.getMessage());
                     mView.onAreaNoFocus();
                 }
 
@@ -114,16 +115,16 @@ public class QualityInspectionProcessingPresenter {
                             mModel.setQualityInspectionDetailList(list);
                             mView.setOrderDetailInfo(mModel.getQualityInspectionDetailList().get(0));
                         } else {
-                            MessageBox.Show(mContext, "获取质检明细为空" );
+                            MessageBox.Show(mContext, "获取质检明细为空");
                             mView.onAreaNoFocus();
                         }
 
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
                         mView.onAreaNoFocus();
                     }
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage() );
+                    MessageBox.Show(mContext, ex.getMessage());
                     mView.onAreaNoFocus();
                 }
 
@@ -131,7 +132,6 @@ public class QualityInspectionProcessingPresenter {
             }
         });
     }
-
 
 
     /**
@@ -184,7 +184,7 @@ public class QualityInspectionProcessingPresenter {
                 if (resultInfo.getHeaderStatus()) {
                     scanQRCode = resultInfo.getInfo();
                 } else {
-                    MessageBox.Show(mContext, resultInfo.getMessage() );
+                    MessageBox.Show(mContext, resultInfo.getMessage());
                     return;
                 }
 
@@ -195,12 +195,12 @@ public class QualityInspectionProcessingPresenter {
 //                mView.createDialog(scanQRCode);
                 mView.onQtyFocus();
             } else {
-                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode );
+                MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode);
                 mView.onBarcodeFocus();
                 return;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, e.getMessage() );
+            MessageBox.Show(mContext, e.getMessage());
             mView.onBarcodeFocus();
             return;
         }
@@ -233,6 +233,7 @@ public class QualityInspectionProcessingPresenter {
 //        outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
 //        list.add(outBarcodeInfo);
 //        info.setLstBarCode(list);
+        final int isTransfer=BaseApplication.mCurrentWareHouseInfo.getIstransfer();
         mModel.requestQualifiedRefer(info, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -241,12 +242,17 @@ public class QualityInspectionProcessingPresenter {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                        mView.onActivityFinish(returnMsgModel.getResultValue());
-                    }else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue(),1);
+                        if (isTransfer!=2){
+                            mView.onActivityFinish(returnMsgModel.getResultValue());
+                        }else {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE,null);
+                        }
+
+                    } else {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
                     }
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage() );
+                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
                 }
             }
         });
@@ -263,7 +269,7 @@ public class QualityInspectionProcessingPresenter {
     public void onUnQualifiedOrderRefer() {
         String areaNo = mView.getAreaNo();
         if (areaNo == null || areaNo.equals("")) {
-            MessageBox.Show(mContext, "库位号不能为空" );
+            MessageBox.Show(mContext, "库位号不能为空");
             return;
         }
         QualityHeaderInfo info = new QualityHeaderInfo();
@@ -285,10 +291,10 @@ public class QualityInspectionProcessingPresenter {
 //                        mModel.checkMaterialInfo(orderDetailInfo, outBarcodeInfo, true);
 //                        mView.bindListView(mModel.getQualityInspectionDetailList());
 //                        mView.onBarcodeFocus();
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue() );
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
                     }
                 } catch (Exception e) {
-                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage() );
+                    MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
                 }
             }
         });
@@ -324,20 +330,81 @@ public class QualityInspectionProcessingPresenter {
 
                                 }
                             } catch (Exception e) {
-                                MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage() );
+                                MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
                             }
                         }
                     });
                 } else {
-                    MessageBox.Show(mContext, checkMaterialResult.getMessage() );
+                    MessageBox.Show(mContext, checkMaterialResult.getMessage());
                 }
             } else {
-                MessageBox.Show(mContext, detailResult.getMessage() );
+                MessageBox.Show(mContext, detailResult.getMessage());
             }
         } else {
-            MessageBox.Show(mContext, "外箱信息不能为空" );
+            MessageBox.Show(mContext, "外箱信息不能为空");
         }
     }
 
+    /**
+     * @desc: 生成二阶段调拨
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/8 15:01
+     */
+    public void onTransferRefer(WareHouseInfo wareHouseInfo) {
+        try {
+            if (wareHouseInfo==null){
+                MessageBox.Show(mContext, "获取所选择的仓库信息不能为空!");
+                return;
+            }
+            String areaNo = wareHouseInfo.getAreano();
+            if (areaNo == null || areaNo.equals("")) {
+                MessageBox.Show(mContext, "选择的仓库["+wareHouseInfo.getWarehousename()+"]的默认库位号不能为空!");
+                return;
+            }
+            int isTransfer=BaseApplication.mCurrentWareHouseInfo.getIstransfer();
+            if (isTransfer!=2){
+                MessageBox.Show(mContext, "当前仓库的调拨属性["+isTransfer+"]不正确,不能调拨!");
+                return;
+            }
+            QualityHeaderInfo info = mModel.getQualityHeaderInfo();
+            if (info == null || info.getQualityno()==null ||info.getQualityno().equals("")) {
+                MessageBox.Show(mContext, "当前质检单信息不存在");
+                return;
+            }
+            QualityHeaderInfo postInfo = new QualityHeaderInfo();
+            postInfo.setQualityno(info.getQualityno());
+            postInfo.setToCompanyName(wareHouseInfo.getStrongholdname());
+            postInfo.setToCompanyCode(wareHouseInfo.getStrongholdcode());
+            postInfo.setFromwarehouseno(wareHouseInfo.getWarehouseno());
+            postInfo.setFromwarehouseid(wareHouseInfo.getId());
+            postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+            postInfo.setVouchertype(info.getVouchertype());
+            postInfo.setAreano(areaNo);
+            mModel.requestQualifiedTransferRefer(postInfo, new NetCallBackListener<String>() {
+                @Override
+                public void onCallBack(String result) {
+                    try {
+                        LogUtil.WriteLog(QualityInspectionProcessingScan.class, mModel.TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC, result);
+                        BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                        }.getType());
+                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(),MessageBox.MEDIA_MUSIC_NONE,null);
+//                            mView.onActivityFinish(returnMsgModel.getResultValue());
+                        } else {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
+                        }
+                    } catch (Exception e) {
+                        MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    }
+                }
+            });
 
+
+        } catch (Exception e) {
+
+        }
+
+    }
 }

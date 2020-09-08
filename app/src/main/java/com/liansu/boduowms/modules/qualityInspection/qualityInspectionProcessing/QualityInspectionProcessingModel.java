@@ -40,12 +40,14 @@ public class QualityInspectionProcessingModel extends BaseModel {
     String TAG_GetAreaModelADF                     = "ReceiptionScan_GetAreaModelADF";
     String TAG_GetT_QualityDetailListsync          = "QualityInspectionProcessingModel_GetT_QualityDetailListsync";
     String TAG_PostT_QualityADFAsync               = "QualityInspectionProcessingModel_PostT_QualityADFAsync"; //质检合格提交
+    String TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC             = "QualityInspectionProcessingModel_PostT_QualityTransferTwoADFAsync"; //生成二阶段调拨提交
     private final int RESULT_Msg_GetT_InStockDetailListByHeaderIDADF = 101;
     private final int RESULT_Msg_GetT_PalletDetailByBarCode          = 102;
     private final int RESULT_Msg_SaveT_InStockDetailADF              = 103;
     private final int RESULT_Msg_GetAreaModelADF                     = 104;
     private final int RESULT_MSG_GET_QUALITY_DETAIL_LIST_SYNC        = 117;
     private final int RESULT_MSG_TAG_POST_QUALITY_ADF_ASYNC         = 118;
+    private final int RESULT_MSG_TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC         = 119;
     List<QualityHeaderInfo> mQualityInspectionDetailList = new ArrayList<>();
     List<OutBarcodeInfo>    mBarCodeInfos                = new ArrayList<>();
     QualityHeaderInfo       mQualityHeaderInfo           = null;
@@ -68,8 +70,8 @@ public class QualityInspectionProcessingModel extends BaseModel {
             case RESULT_Msg_GetT_InStockDetailListByHeaderIDADF:
                 listener = mNetMap.get("TAG_GetT_InStockDetailListByHeaderIDADF");
                 break;
-            case RESULT_Msg_GetT_PalletDetailByBarCode:
-
+            case RESULT_MSG_TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC:
+                listener = mNetMap.get("TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC");
                 break;
             case RESULT_MSG_GET_QUALITY_DETAIL_LIST_SYNC:
                 listener = mNetMap.get("TAG_GetT_QualityDetailListsync");
@@ -169,6 +171,21 @@ public class QualityInspectionProcessingModel extends BaseModel {
         String modelJson= parseModelToJson(info);
         LogUtil.WriteLog(QualityInspectionProcessingScan.class, TAG_PostT_QualityADFAsync, parseModelToJson(info));
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_PostT_QualityADFAsync, mContext.getString(R.string.message_request_quality_inspection_refer), mContext, mHandler, RESULT_MSG_TAG_POST_QUALITY_ADF_ASYNC, null, UrlInfo.getUrl().PostT_QualityADFAsync, modelJson, null);
+
+    }
+
+    /**
+     * @desc: 质检合格生成二阶段调拨提交
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/20 15:11
+     */
+    public void requestQualifiedTransferRefer(QualityHeaderInfo info, NetCallBackListener<String> callBackListener) {
+        mNetMap.put("TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC", callBackListener);
+        String modelJson= parseModelToJson(info);
+        LogUtil.WriteLog(QualityInspectionProcessingScan.class, TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC, parseModelToJson(info));
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC, mContext.getString(R.string.message_request_quality_inspection_transfer_refer), mContext, mHandler, RESULT_MSG_TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC, null, UrlInfo.getUrl().PostT_QualityTransferTwoADFAsync, modelJson, null);
 
     }
 

@@ -49,6 +49,7 @@ public class QualifiedBillPresenter {
      */
     public void getQualityInsHeaderList(final QualityHeaderInfo headerInfo) {
         try {
+            onReset();
             mView.startRefreshProgress();
             headerInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
             headerInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
@@ -117,4 +118,6 @@ public class QualifiedBillPresenter {
         mView.onReset();
         mModel.onReset();
     }
+
+
 }

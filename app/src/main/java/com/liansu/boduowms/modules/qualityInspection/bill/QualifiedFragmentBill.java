@@ -132,6 +132,11 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
         return false;
     }
 
+    public QualifiedBillPresenter  getPresenter(){
+        return  mPresenter;
+    }
+
+
 
     void StartScanIntent(QualityHeaderInfo headerInfo, ArrayList<OutBarcodeInfo> barCodeInfo) {
         Intent intent = new Intent(mContext, QualityInspectionProcessingScan.class);
@@ -185,6 +190,11 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
                 mSwipeLayout.setRefreshing(true);
             }
         });
+    }
+
+    @Override
+    public String getErpVoucherNo() {
+        return mEdtfilterContent.getText().toString().trim();
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

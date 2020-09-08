@@ -167,4 +167,9 @@ public class UnQualifiedFragmentBill extends BaseFragment implements SwipeRefres
             }
         });
     }
+
+    @Override
+    public String getErpVoucherNo() {
+        return null;
+    }
 }

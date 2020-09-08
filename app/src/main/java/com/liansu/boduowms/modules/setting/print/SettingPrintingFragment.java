@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -135,6 +136,7 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
     @Event(R.id.setting_print_save_setting)
     private void onSave(View view) {
         MessageBox.Show(mContext);
+        MessageBox.Show2(mContext, RingtoneManager.TYPE_NOTIFICATION);
         mPresenter.onSave();
     }
 

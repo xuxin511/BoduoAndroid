@@ -15,4 +15,5 @@ public interface IQualityInspectionBillView {
     void onReset();
     void stopRefreshProgress();
     void startRefreshProgress();
+    String getErpVoucherNo();
 }
