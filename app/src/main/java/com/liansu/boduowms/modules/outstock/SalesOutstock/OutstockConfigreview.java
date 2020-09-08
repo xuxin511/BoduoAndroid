@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
+import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -142,14 +144,26 @@ public class OutstockConfigreview extends BaseActivity {
         sales_outstock_order.setText(awyBll.LinkVoucherNo);
         mModel = new PurchaseReturnOffScanModel(context, mHandler);
         materialModle = new MaterialResponseModel();
+        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(context, StockRollBack.class);
+                Bundle bundle = new Bundle();
+                intent.putExtra("ErpVoucherNo", CurrOrderNO);
+                intent.putExtra("VoucherType", CurrvoucherType);
+                intent.putExtra("Title", "物流装车删除");
+                intent.putExtras(bundle);
+                startActivityLeft(intent);
+                return false;
+            }
+        });
         //直接访问订单信息
-        SalesoutstockRequery model = new SalesoutstockRequery();
-        model.Erpvoucherno = CurrOrderNO;
-        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-        model.Vouchertype = CurrvoucherType;
-        String json = GsonUtil.parseModelToJson(model);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
-                context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
+//        SalesoutstockRequery model = new SalesoutstockRequery();
+//        model.Erpvoucherno = CurrOrderNO;
+//        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+//        model.Vouchertype = CurrvoucherType;
+//        String json = GsonUtil.parseModelToJson(model);
+//        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
+//                context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
     }
 
     @Override
@@ -159,6 +173,21 @@ public class OutstockConfigreview extends BaseActivity {
     }
 
 
+    //当上一个界面返回后会触发这个方法
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!CurrOrderNO.equals("")){
+            SalesoutstockRequery model = new SalesoutstockRequery();
+            model.Erpvoucherno = CurrOrderNO;
+            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+            model.Vouchertype = CurrvoucherType;
+            String json = GsonUtil.parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
+                    context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
+
+        }
+    }
 
 
     //提交过账
@@ -457,6 +486,7 @@ public class OutstockConfigreview extends BaseActivity {
      //散件输入
     private void inputTitleDialog(String name) {
         final EditText inputServer = new EditText(this);
+        inputServer.setSingleLine(true);
         inputServer.setFocusable(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(name).setIcon(

@@ -159,40 +159,40 @@ public  class SalesOutStockBox   extends BaseActivity {
         CurrVoucherType = Integer.parseInt( menuOutStockModel.getVoucherType());
         modelIsExits = new HashMap<String, String>();
         Scanningtype = 0;
-//        responseList = new ArrayList<OutStockOrderDetailInfo>();
-//        mModel=new PurchaseReturnOffScanModel(context, mHandler);
-//        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView,
-//                                         boolean isChecked) {
-//                // TODO Auto-generated method stub
-//                if (isChecked) {
-//                    // editText1.setText(buttonView.getText()+"选中");
-//                    OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
-//                    model.setMaterialdesc("非库存拼箱");
-//                    model.setBatchno("");
-//                    model.setErpvoucherno(CurrOrder);
-//                    model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
-//                    model.setQTY(1f);
-//                    model.setIsStockCombine(1);
-//                    model.setVouchertype(CurrVoucherType);
-//                    model.setPrintername(UrlInfo.mOutStockPrintName);
-//                    model.setPrintertype(UrlInfo.mOutStockPrintType);
-//                    stockInfoModels.add(model);
-//                    mModel.getOrderDetailList().add(model);
-//                } else {
-//                    for (OutStockOrderDetailInfo infos : stockInfoModels) {
-//                        if (infos.getMaterialdesc().equals("非库存拼箱")) {
-//                            stockInfoModels.remove(infos);
-//                            mModel.getOrderDetailList().remove(infos);
-//                        }
-//                    }
-//                }
-//                mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
-//                mList.setAdapter(mAdapter);
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        });
+        responseList = new ArrayList<OutStockOrderDetailInfo>();
+        mModel=new PurchaseReturnOffScanModel(context, mHandler);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                // TODO Auto-generated method stub
+                if (isChecked) {
+                    // editText1.setText(buttonView.getText()+"选中");
+                    OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
+                    model.setMaterialdesc("非库存拼箱");
+                    model.setBatchno("");
+                    model.setErpvoucherno(CurrOrder);
+                    model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
+                    model.setQTY(1f);
+                    model.setIsStockCombine(1);
+                    model.setVouchertype(CurrVoucherType);
+                    model.setPrintername(UrlInfo.mOutStockPrintName);
+                    model.setPrintertype(UrlInfo.mOutStockPrintType);
+                    stockInfoModels.add(model);
+                    mModel.getOrderDetailList().add(model);
+                } else {
+                    for (OutStockOrderDetailInfo infos : stockInfoModels) {
+                        if (infos.getMaterialdesc().equals("非库存拼箱")) {
+                            stockInfoModels.remove(infos);
+                            mModel.getOrderDetailList().remove(infos);
+                        }
+                    }
+                }
+                mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
+                mList.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -725,6 +725,7 @@ public  class SalesOutStockBox   extends BaseActivity {
             if(IsSacnningOrder()){
                 final EditText inputServer = new EditText(this);
                 inputServer.setFocusable(true);
+                inputServer.setSingleLine(true);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(name).setIcon(
                         null).setView(inputServer).setNegativeButton(
@@ -877,6 +878,7 @@ public  class SalesOutStockBox   extends BaseActivity {
         String boxNo = sales_outstock_box_watercode.getText().toString().trim();
         final EditText inputServer = new EditText(this);
         inputServer.setFocusable(true);
+        inputServer.setSingleLine(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(name).setIcon(
                 null).setView(inputServer).setNegativeButton(

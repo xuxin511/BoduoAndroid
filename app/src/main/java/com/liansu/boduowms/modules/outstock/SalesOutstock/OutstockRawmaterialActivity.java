@@ -6,11 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PostProcessor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,6 +40,7 @@ import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
+import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -160,6 +163,18 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
 
         }
+        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(context, StockRollBack.class);
+                Bundle bundle = new Bundle();
+                intent.putExtra("ErpVoucherNo", CurrOrderNO);
+                intent.putExtra("VoucherType", CurrVoucherType);
+                intent.putExtra("Title", menuOutStockModel+"删除");
+                intent.putExtras(bundle);
+                startActivityLeft(intent);
+                return false;
+            }
+        });
 
 //        if(CurrVoucherType==46) {//领料 发料 派车单 自动过账  (开始隐藏按钮 失败后显示按钮)
 //            //
@@ -207,6 +222,23 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         CurrOrderNO = "";
     }
 
+
+    //当上一个界面返回后会触发这个方法
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!CurrOrderNO.equals("")){
+            SalesoutstockRequery model = new SalesoutstockRequery();
+            model.Erpvoucherno = CurrOrderNO;
+            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+            model.Vouchertype = CurrVoucherType;
+            model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
+            String json = GsonUtil.parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
+                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+
+        }
+    }
 
     //#region 事件
 
@@ -259,7 +291,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                         } else {
                             //先判断托盘是否存在
                             //下架下的是原材料 所以可以先check所有的托盘物料是否已经超发过一次，或者
-
                             Outbarcode_Requery model = new Outbarcode_Requery();
                             model.Barcode = palletno;
                             model.Vouchertype = CurrVoucherType;
@@ -450,6 +481,11 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             }
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                if(returnMsgModel.getResultValue().equals("")) {
+                    String json = GsonUtil.parseModelToJson(returnMsgModel);
+                    MessageBox.Show(context, "操作失败" + json);
+                    return;
+                }
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             } else {
@@ -617,6 +653,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         }
 
         final EditText inputServer = new EditText(this);
+        inputServer.setSingleLine(true);
         inputServer.setHint("请输入托盘数量");
         inputServer.setFocusable(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -661,6 +698,10 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     }
                 });
         builder.show();
+
+
+
+
     }
 
 

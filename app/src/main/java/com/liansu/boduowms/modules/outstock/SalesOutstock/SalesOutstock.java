@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Message;
 import android.provider.ContactsContract;
 import android.util.ArrayMap;
@@ -12,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -41,6 +43,7 @@ import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.scan.PurchaseInspectionProcessingModel;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
+import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.outstock.offscan.BaseOffShelfScanDetailAdapter;
 import com.liansu.boduowms.ui.adapter.outstock.offscan.OffShelfScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -229,6 +232,19 @@ public class SalesOutstock  extends BaseActivity  {
         mModel= new PurchaseReturnOffScanModel(context, mHandler);
         materialModle=new  MaterialResponseModel();
          CurrVoucherType= type;
+
+         mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(context, StockRollBack.class);
+                Bundle bundle = new Bundle();
+                intent.putExtra("ErpVoucherNo", CurrOrderNO);
+                intent.putExtra("VoucherType", CurrVoucherType);
+                intent.putExtra("Title", menuOutStockModel+"删除");
+                intent.putExtras(bundle);
+                startActivityLeft(intent);
+                return false;
+            }
+        });
     }
 
     UrlInfo info=new UrlInfo();
@@ -274,6 +290,21 @@ public class SalesOutstock  extends BaseActivity  {
         sales_outstock_address.setText("无");
         outstock_sales_shelf.setText("0");
         outstock_sales_boxnum.setText("0");
+    }
+
+    //当上一个界面返回后会触发这个方法
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!CurrOrderNO.equals("")){
+            SalesoutstockRequery model = new SalesoutstockRequery();
+            model.Erpvoucherno = CurrOrderNO;
+            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+            model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
+            String json = GsonUtil.parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
+                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+        }
     }
 
     //#region 事件
@@ -821,6 +852,7 @@ public class SalesOutstock  extends BaseActivity  {
         }
         final EditText inputServer = new EditText(this);
         inputServer.setFocusable(true);
+        inputServer.setSingleLine(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(name).setIcon(
                 null).setView(inputServer).setNegativeButton(

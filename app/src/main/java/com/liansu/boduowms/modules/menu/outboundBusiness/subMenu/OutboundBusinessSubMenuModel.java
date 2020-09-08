@@ -7,6 +7,7 @@ import android.net.Uri;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockOrderColse;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockSalesConfig;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutReview;
@@ -66,6 +67,8 @@ public class OutboundBusinessSubMenuModel {
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_delivery_lcl));
             mItemIconList.add(R.drawable.loading_truck);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_loading_truck));
+            mItemIconList.add(R.drawable.purchase_returns);
+            mItemNamesList.add(mContext.getString(R.string.main_menu_item_outstock_lock));
 
         } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK)) {
             mItemIconList.add(R.drawable.other_outbound);
@@ -239,7 +242,7 @@ public class OutboundBusinessSubMenuModel {
             }
             intent.putExtra("BusinessType", businessType);
         }
-        else  if(moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck_callback))) {
+        else if(moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck_callback))) {
             //二阶段回调
             if (businessType.equals((OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION))) {
                 MenuOutStockModel model = new MenuOutStockModel();
@@ -256,6 +259,18 @@ public class OutboundBusinessSubMenuModel {
             }
             intent.putExtra("BusinessType", businessType);
         }
+        else if(moduleName.equals(mContext.getString((R.string.main_menu_item_outstock_lock)))) {
+            MenuOutStockModel model = new MenuOutStockModel();
+            model.Title = "发货结案";
+            model.VoucherType = "29";
+            String json = GsonUtil.parseModelToJson(model);
+            Uri data = Uri.parse(json);
+            intent.setData(data);
+            intent.setClass(mContext, OutstockOrderColse.class);
+            intent.putExtra("BusinessType", businessType);
+        }
+
+
         else {
             intent = null;
         }

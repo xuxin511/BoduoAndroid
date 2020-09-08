@@ -154,6 +154,8 @@ public class DebugModuleData {
         itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_otherout));
         itemIconList.add(R.drawable.transfer_to_storage);
         itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_reallocation_callback));
+        itemIconList.add(R.drawable.sales_return);
+        itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_adcollection));
     }
 
     /**

@@ -109,10 +109,10 @@ public class SalesoutstockAdapter extends BaseAdapter {
         if(mDetailInfo.getBatchno()!=null)
             batchno=mDetailInfo.getBatchno();
         listItemView.txtbatchno.setText("批次:" +batchno);
-        listItemView.txtVoucherQty.setText("下架量：" + mDetailInfo.getVoucherqty());
-        listItemView.txtRemainQty.setText("剩余量:" + mDetailInfo.getRemainqty());
-        listItemView.txtScanQty.setText("已下架：" + mDetailInfo.getScanqty());
-        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
+        listItemView.txtVoucherQty.setText("下架量:" + mDetailInfo.getVoucherqty()+mDetailInfo.getUnit());
+        listItemView.txtRemainQty.setText("剩余量:" + mDetailInfo.getRemainqty()+mDetailInfo.getUnit());
+        listItemView.txtScanQty.setText("已下架:" + mDetailInfo.getScanqty()+mDetailInfo.getUnit());
+        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano()+mDetailInfo.getUnit());
         listItemView.txtMaterialDesc.setText(mDetailInfo.getMaterialdesc());
 
 

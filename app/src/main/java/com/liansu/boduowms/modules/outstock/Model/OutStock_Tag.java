@@ -80,5 +80,7 @@ public class OutStock_Tag {
     public static   final int   RESUL_Toutstock_Callback_Submit=145;
 
 
+    public static String  TAG_outstock_Ordercolose_Submit ="Sales_outstock_Ordercolose_Submit";    // 提交结案数据
+    public static   final int   RESUL_Toutstock_Ordercolose_Submit=146;
 
 }

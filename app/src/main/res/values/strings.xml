@@ -150,6 +150,7 @@
     <string name="main_menu_item_purchase_sale">销售验退</string>
     <string name="main_menu_item_purchase_product">成品验退</string>
     <string name="main_menu_item_purchase_return">采购退货</string>
+    <string name="main_menu_item_outstock_lock">发货结案</string>
     //组托
     <string name="combine_pallet_hint_barcode">请扫描箱码或托盘码</string>
     <string name="combine_pallet_create_new_tray_no">生成</string>
@@ -432,6 +433,7 @@
     <string name="main_menu_item_outsotck_reallocation">二阶段调拨出</string>
     <string name="main_menu_item_outsotck_reallocation_callback">二阶段回调确认</string>
     <string name="main_menu_item_outsotck_otherout">杂出</string>
+    <string name="main_menu_item_outsotck_adcollection">行政领用单</string>
     //入库打印订单选择基类
     <string name="print_type_desc">打印类型:</string>
     <string name="print_type_pallet_no_print_desc">托盘标签</string>

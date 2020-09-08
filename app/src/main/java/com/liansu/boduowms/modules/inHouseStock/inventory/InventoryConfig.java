@@ -115,6 +115,7 @@ public class InventoryConfig extends BaseActivity {
 
     //当前库位
     String CurrAreano="";
+    int CurrAreaid;
 
     String Currerpvoucherno="";
 
@@ -261,6 +262,8 @@ public class InventoryConfig extends BaseActivity {
             item.setErpvoucherno(Currerpvoucherno);
             item.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
             item.setStatus(Integer.parseInt(ywpair.value));
+            item.setAreaid(CurrAreaid);
+            item.setAreano(CurrAreano);
         }
         modelJson = parseModelToJson(postModel);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryDetail_Save_CheckDetail, "获取库位信息",
@@ -304,7 +307,7 @@ public class InventoryConfig extends BaseActivity {
                 LoadSpinner((String) msg.obj);
                 break;
             case RESULT_InventoryDetail_Save_CheckDetail:
-                    SaveDetail((String) msg.obj);
+                SaveDetail((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
@@ -377,6 +380,7 @@ public class InventoryConfig extends BaseActivity {
                 return;
             } else {
                 CurrAreano = inventory__config_warehouse.getText().toString().trim();
+                CurrAreaid=returnMsgModel.getData().get(0).getAreaid();
 //                mAdapter = new InventoryHeadAdapter(context, returnMsgModel.getData());
 //                mList.setAdapter(mAdapter);
                 CommonUtil.setEditFocus(inventory__config_barcode);
@@ -419,7 +423,8 @@ public class InventoryConfig extends BaseActivity {
     //扫描或者输入数量
     private void updateCheckNum(String name) {
         final EditText inputServer = new EditText(this);
-        inputServer.setMaxLines(1);
+       inputServer.setMaxLines(1);
+        inputServer.setSingleLine(true);
         inputServer.setFocusable(true);
         inputServer.setHint("请输入本次已盘数量");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -460,7 +465,8 @@ public class InventoryConfig extends BaseActivity {
                 View vFocus = view.findFocus();
                 int etid = vFocus.getId();
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == inputServer.getId()) {
-                    return  false;
+                    return  true;
+                  //  builder.
 //                    try {
 //                        builder.i
 //                        String Value = inputServer.getText().toString().trim();

@@ -194,6 +194,16 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
             Uri data = Uri.parse(json);
             intent.setData(data);
             intent.setClass(mContext, SalesOutStockCallback.class);
+        }else if(moduleName.equals( mContext.getString(R.string.main_menu_item_outsotck_adcollection))) {//行政领用单
+            //main_menu_item_outsotck_adcollection
+            MenuOutStockModel model = new MenuOutStockModel();
+            model.Title = "行政领用单下架";
+            model.VoucherType = "56";
+            String json = GsonUtil.parseModelToJson(model);
+            Uri data = Uri.parse(json);
+            intent.setData(data);
+            intent.setClass(mContext, OutstockRawmaterialActivity.class);
+            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION);
         }
 
         if (intent != null) {

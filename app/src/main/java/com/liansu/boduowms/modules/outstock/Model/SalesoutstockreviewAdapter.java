@@ -89,10 +89,10 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
 //            listItemView.txt_reference_standard.setText("外箱:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
 //        }
         Float QTY=ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty());
-        listItemView.txtVoucherQty.setText("验退数量:" + mDetailInfo.getRemainqty());
+        listItemView.txtVoucherQty.setText("验退量:" + mDetailInfo.getRemainqty()+mDetailInfo.getUnit());
         // Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
-        listItemView.txtRemainQty.setText("剩余验退:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty()));
-        listItemView.txtScanQty.setText("已验退：" + mDetailInfo.getScanqty());
+        listItemView.txtRemainQty.setText("剩余量:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty())+mDetailInfo.getUnit());
+        listItemView.txtScanQty.setText("已验退：" + mDetailInfo.getScanqty()+mDetailInfo.getUnit());
 //        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
         if (QTY>0&&QTY<mDetailInfo.getRemainqty()) {//已扫数量
