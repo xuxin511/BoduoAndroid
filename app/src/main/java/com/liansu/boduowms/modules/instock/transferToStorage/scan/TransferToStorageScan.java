@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -26,6 +27,7 @@ import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanP
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
+import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
@@ -196,7 +198,13 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     @Override
     protected void onResume() {
         super.onResume();
-
+        String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
+        if (mPresenter != null && !erpVoucherNo.equals("")) {
+            OrderRequestInfo orderHeaderInfo=new OrderRequestInfo();
+            orderHeaderInfo.setErpvoucherno(erpVoucherNo);
+            orderHeaderInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+            mPresenter.getOrderDetailInfoList(orderHeaderInfo,mVoucherType);
+        }
     }
 
     @Event(value = R.id.edt_area_no, type = View.OnKeyListener.class)
@@ -393,7 +401,13 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
 
     @Override
     public void startRollBackActivity(String erpVoucherNo, int voucherType, String title) {
-
+        Intent intent = new Intent(mContext, StockRollBack.class);
+        Bundle bundle = new Bundle();
+        intent.putExtra("ErpVoucherNo", erpVoucherNo);
+        intent.putExtra("VoucherType", voucherType);
+        intent.putExtra("Title", title);
+        intent.putExtras(bundle);
+        startActivityLeft(intent);
     }
 
 

@@ -147,6 +147,10 @@ public class UrlInfo {
                 GetT_DetailSubAsync = GetWCFAdress() + "Transferin/GetT_TransferInDetailSubAsync"; //获取调拨入库暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "Transferin/DeleteT_TransferInDetailSubAsync"; //删除调拨入库暂存数据
                 break;
+            case 58:
+                GetT_DetailSubAsync = GetWCFAdress() + "Transferin/GetT_TransferInDetailSubAsync"; //获取一阶段调拨入库暂存数据
+                DeleteT_DetailSubAsync = GetWCFAdress() + "Transferin/DeleteT_TransferInDetailSubAsync"; //删除一阶段调拨入库暂存数据
+                break;
             case 45:
                 GetT_DetailSubAsync = GetWCFAdress() + "WorkOrder/GetT_WorkOrderDetailSubAsync"; //获取成品暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "WorkOrder/DeleteT_WorkOrderDetailSubAsync"; //删除成品暂存数据

@@ -25,9 +25,10 @@ import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
-import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
+import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScan;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
+import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -201,7 +202,13 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     @Override
     protected void onResume() {
         super.onResume();
-
+        String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
+        if (mPresenter != null && !erpVoucherNo.equals("")) {
+            OrderHeaderInfo orderHeaderInfo = new OrderHeaderInfo();
+            orderHeaderInfo.setErpvoucherno(erpVoucherNo);
+            orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
+            mPresenter.getOrderDetailInfoList(orderHeaderInfo);
+        }
 
     }
 
@@ -421,7 +428,13 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
     @Override
     public void startRollBackActivity(String erpVoucherNo, int voucherType, String title) {
-
+        Intent intent = new Intent(mContext, StockRollBack.class);
+        Bundle bundle = new Bundle();
+        intent.putExtra("ErpVoucherNo", erpVoucherNo);
+        intent.putExtra("VoucherType", voucherType);
+        intent.putExtra("Title", title);
+        intent.putExtras(bundle);
+        startActivityLeft(intent);
     }
 
     @Override
@@ -471,7 +484,8 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
         }else if (item.getItemId() == R.id.menu_order_reprint){
             Intent intent = new Intent();
-            intent.setClass(ProductStorageScan.this, BaseOrderLabelPrintSelect.class);
+            intent.setClass(ProductStorageScan.this, PrintPalletScan.class);
+            intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE);
             startActivityLeft(intent);
         }
         return false;

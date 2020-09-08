@@ -59,6 +59,7 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
      */
     @Override
     protected void getOrderDetailInfoList(String erpVoucherNo) {
+        onReset();
         OrderRequestInfo orderRequestInfo = new OrderRequestInfo();
         orderRequestInfo.setErpvoucherno(erpVoucherNo);
         orderRequestInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE);
@@ -77,6 +78,7 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             mModel.setOrderHeaderInfo(orderHeaderInfo);
                             if (mModel.getOrderDetailList().size() > 0) {
+                                mView.setOrderHeaderInfo(orderHeaderInfo);
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.onAreaNoFocus();
                             } else {

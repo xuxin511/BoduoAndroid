@@ -23,10 +23,10 @@
             android:textSize="@dimen/base_order_label_print_select_text_size" />
 
         <RadioButton
-            android:layout_marginLeft="@dimen/common_margin_left"
             android:id="@+id/activity_query_stock_material"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_left"
             android:layout_weight="0.76"
             android:checked="false"
             android:text="@string/material"
@@ -50,6 +50,28 @@
             android:text="@string/query_stock_area_no"
             android:textSize="@dimen/base_order_label_print_select_text_size" />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/query_stock_select_qr_status_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/qr_status_type_desc"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/query_stock_select_qr_status_spinner"
+        app:layout_constraintBottom_toBottomOf="@+id/query_stock_select_qr_status_spinner"
+         />
+
+
+    <Spinner
+        android:id="@+id/query_stock_select_qr_status_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
+        android:layout_marginTop="@dimen/common_margin_top_first"
+        app:layout_constraintLeft_toRightOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/activity_query_stock_radio_group" />
 
     <TextView
         android:id="@+id/textView70"
@@ -79,7 +101,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/guideline2"
         app:layout_constraintRight_toLeftOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/activity_query_stock_radio_group" />
+        app:layout_constraintTop_toBottomOf="@+id/query_stock_select_qr_status_desc" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -111,7 +133,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

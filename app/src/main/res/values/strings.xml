@@ -437,6 +437,7 @@
     <string name="print_type_pallet_no_print_desc">托盘标签</string>
     <string name="print_type_outer_box_print_desc">外箱标签</string>
     <string name="order_type_desc">订单类型:</string>
+    <string name="qr_status_type_desc">质检状态:</string>
     <string name="order_no_desc">单据编号:</string>
     <string name="order_no_desc_hint">请扫描或输入单据编号</string>
     <string name="material_no_desc_hint">请扫描外箱或输入料号</string>
@@ -451,6 +452,7 @@
     <string name="dialog_material_info_remain_qty_hint">请输入打印次数</string>
     <string name="main_menu_item_batch_printing">批量打印</string>
     <string name="message_request_voucher_info_query">正在获取单据类型信息....</string>
+    <string name="message_request_qr_status_info_query">正在获取质检状态类型信息....</string>
 
     //库存调整
     <string name="QCStatus">质检:</string>

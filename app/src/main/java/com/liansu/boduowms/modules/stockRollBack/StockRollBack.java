@@ -56,7 +56,7 @@ public class StockRollBack extends BaseActivity implements IStockRollBackView {
 
     @Override
     public void onHandleMessage(Message msg) {
-        if (mPresenter!=null){
+        if (mPresenter != null) {
             mPresenter.onHandleMessage(msg);
         }
     }
@@ -88,10 +88,14 @@ public class StockRollBack extends BaseActivity implements IStockRollBackView {
         mErpVoucherNo = getIntent().getStringExtra("ErpVoucherNo");
         mVoucherType = getIntent().getIntExtra("VoucherType", -1);
         mTitle = getIntent().getStringExtra("Title");
-        mPresenter=new StockRollBackPresenter(mContext,this,mHandler,mErpVoucherNo,mVoucherType,mTitle);
-        if (mPresenter!=null){
-            setTitle(mPresenter.getTitle());
+        if (mTitle != null && mTitle.contains("-")) {
+            String[] partList = mTitle.split("-");
+            if (partList.length > 1) {
+                mTitle = partList[0] + "回退-" + partList[1];
+            }
         }
+        mPresenter = new StockRollBackPresenter(mContext, this, mHandler, mErpVoucherNo, mVoucherType, mTitle);
+
     }
 
 
@@ -139,8 +143,8 @@ public class StockRollBack extends BaseActivity implements IStockRollBackView {
     @Override
     protected void onResume() {
         super.onResume();
-
         if (mPresenter != null) {
+            setTitle(mPresenter.getTitle());
             mPresenter.getTemporaryDetailList();
         }
     }

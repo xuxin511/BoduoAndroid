@@ -8,9 +8,12 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
@@ -21,8 +24,11 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.bean.order.VoucherTypeInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
+import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.inHouseStock.QueryStockDetailAdapter;
@@ -39,7 +45,9 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,27 +75,34 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     EditText     mContent;
     @ViewInject(R.id.activity_query_stock_recyclerView)
     RecyclerView mRecyclerView;
+    @ViewInject(R.id.query_stock_select_qr_status_spinner)
+    Spinner      mQRStatusTypeNameSpinner;
+    ArrayAdapter            mQRStatusTypeNameArrayAdapter;
     QueryStockDetailAdapter mAdapter;
-    public String TAG_SELECT_MATERIAL     = "QueryStock_SelectMaterial";  //获取物料信息
-    public String TAG_GET_T_AREA_MODEL    = "QueryStock_GetT_AreaModel";  //获取库位信息
-    public String TAG_GET_STOCK_INFO_LIST = "QueryStock_GetT_AreaModel";  //获取库位信息
-    public String TAG_GetT_StockList      = "QueryStock_TAG_GetT_StockList";  //库存查询
+    public String TAG_SELECT_MATERIAL      = "QueryStock_SelectMaterial";  //获取物料信息
+    public String TAG_GET_T_AREA_MODEL     = "QueryStock_GetT_AreaModel";  //获取库位信息
+    public String TAG_GET_STOCK_INFO_LIST  = "QueryStock_GetT_AreaModel";  //获取库位信息
+    public String TAG_GetT_StockList       = "QueryStock_TAG_GetT_StockList";  //库存查询
+    public String TAG_GET_T_PARAMETER_LIST = "QueryStock_TAG_GetT_ParameterList";  //获取质检状态
 
-    private final       int    RESULT_TAG_SELECT_MATERIAL     = 101;
-    private final       int    RESULT_TAG_GET_T_AREA_MODEL    = 102;
-    private final       int    RESULT_TAG_GET_STOCK_INFO_LIST = 103;
-    private final       int    RESULT_TAG_GET_T_STOCK_LIST    = 104;
-    public static final int    QUERY_TYPE_NONE                = -1;
-    public static final int    QUERY_TYPE_PALLET              = 1;
-    public static final int    QUERY_TYPE_MATERIAL            = 2;
-    public static final int    QUERY_TYPE_BATCH_NO            = 3;
-    public static final int    QUERY_TYPE_AREA_NO             = 4;
-    public static final String QUERY_TYPE_PALLET_NAME         = "托盘";
-    public static final String QUERY_TYPE_MATERIAL_NAME       = "物料";
-    public static final String QUERY_TYPE_BATCH_NO_NAME       = "批次";
-    public static final String QUERY_TYPE_AREA_NO_NAME        = "库位";
-    List<StockInfo> mStockList = new ArrayList<>();
-    protected UserSettingPresenter mUserSettingPresenter;
+    private final       int    RESULT_TAG_SELECT_MATERIAL      = 101;
+    private final       int    RESULT_TAG_GET_T_AREA_MODEL     = 102;
+    private final       int    RESULT_TAG_GET_STOCK_INFO_LIST  = 103;
+    private final       int    RESULT_TAG_GET_T_STOCK_LIST     = 104;
+    private final       int    RESULT_TAG_GET_T_PARAMETER_LIST = 105;
+    public static final int    QUERY_TYPE_NONE                 = -1;
+    public static final int    QUERY_TYPE_PALLET               = 1;
+    public static final int    QUERY_TYPE_MATERIAL             = 2;
+    public static final int    QUERY_TYPE_BATCH_NO             = 3;
+    public static final int    QUERY_TYPE_AREA_NO              = 4;
+    public static final String QUERY_TYPE_PALLET_NAME          = "托盘";
+    public static final String QUERY_TYPE_MATERIAL_NAME        = "物料";
+    public static final String QUERY_TYPE_BATCH_NO_NAME        = "批次";
+    public static final String QUERY_TYPE_AREA_NO_NAME         = "库位";
+    List<StockInfo>      mStockList       = new ArrayList<>();
+    Map<String, Integer> mQRStatusTypeMap = new HashMap<>();
+    private   List<VoucherTypeInfo> mQRStatusTypeList = new ArrayList<>();
+    protected UserSettingPresenter  mUserSettingPresenter;
 
     @Override
     public void onHandleMessage(Message msg) {
@@ -103,6 +118,9 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
                 break;
             case RESULT_TAG_GET_T_STOCK_LIST:
                 resultQueryStockInfo((String) msg.obj);
+                break;
+            case RESULT_TAG_GET_T_PARAMETER_LIST:
+                resultQRStatusInfo((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
                 MessageBox.Show(mContext, "获取请求失败_____" + msg.obj);
@@ -188,6 +206,11 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
         bindListView(mStockList);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestQRStatusQuery();
+    }
 
     /**
      * @desc: 订单号
@@ -391,6 +414,56 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SELECT_MATERIAL, mContext.getString(R.string.Msg_GetT_SerialNoByPalletADF), mContext, mHandler, RESULT_TAG_SELECT_MATERIAL, null, UrlInfo.getUrl().SelectMaterial, modelJson, null);
     }
 
+
+    /**
+     * @desc: 正在获取质检类型
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/17 13:38
+     */
+    public void requestQRStatusQuery() {
+        String modelJson = "{\"Groupname\":\"TstockStatus\"}";
+        LogUtil.WriteLog(BaseOrderLabelPrintSelect.class, TAG_GET_T_PARAMETER_LIST, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_PARAMETER_LIST, mContext.getString(R.string.message_request_qr_status_info_query), mContext, mHandler, RESULT_TAG_GET_T_PARAMETER_LIST, null, UrlInfo.getUrl().GetT_ParameterList, modelJson, null);
+    }
+
+    /**
+     * @desc: 质检类型返回结果
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/7 18:27
+     */
+    public void resultQRStatusInfo(String result) {
+        LogUtil.WriteLog(BaseOrderLabelPrintSelect.class, TAG_GET_T_PARAMETER_LIST, result);
+        try {
+            BaseResultInfo<List<VoucherTypeInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<VoucherTypeInfo>>>() {
+            }.getType());
+            if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                List<VoucherTypeInfo> list = returnMsgModel.getData();
+                if (list != null && list.size() > 0) {
+                    setQRStatusTypeList(list);
+                    List<String> QRStatusNameList = getQRStatusNameList();
+                    if (QRStatusNameList != null && QRStatusNameList.size() > 0) {
+                        setSpinnerData(QRStatusNameList);
+                    }
+                } else {
+                    MessageBox.Show(mContext, "获取单据类型失败:获取的单据类型集合为空" + returnMsgModel.getResultValue());
+
+                }
+            } else {
+                MessageBox.Show(mContext, "获取单据类型失败:获取的单据类型集合为空" + returnMsgModel.getResultValue());
+
+            }
+
+
+        } catch (Exception ex) {
+            MessageBox.Show(mContext, "获取单据类型失败:出现预期之外的异常-" + ex.getMessage());
+
+        }
+    }
+
     /**
      * @desc: 物料查询返回结果
      * @param:
@@ -499,7 +572,6 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
 
     }
 
-
     @Override
     public void selectWareHouse(List<String> list) {
         if (list != null && list.size() > 0) {
@@ -540,5 +612,89 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
         }
         return false;
+    }
+
+
+    public void setQRStatusTypeList(List<VoucherTypeInfo> voucherTypeList) {
+        mQRStatusTypeList.clear();
+        mQRStatusTypeMap.clear();
+        if (voucherTypeList != null && voucherTypeList.size() > 0) {
+            mQRStatusTypeList.addAll(voucherTypeList);
+            setQRStatusTypeMap(mQRStatusTypeList);
+        }
+
+    }
+
+    public void setQRStatusTypeMap(List<VoucherTypeInfo> voucherTypeList) {
+        for (VoucherTypeInfo info : voucherTypeList) {
+            mQRStatusTypeMap.put(info.getParametername(), info.getParameterid());
+        }
+
+    }
+
+    /**
+     * @desc: 获取托盘名称
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/14 13:59
+     */
+    public List<String> getQRStatusNameList() {
+        List<String> list = new ArrayList<>();
+//        list.add(ORDER_TYPE_NONE);
+        for (String key : mQRStatusTypeMap.keySet()) {
+            if (!list.contains(key)) {
+                if (mQRStatusTypeMap.get(key) == OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
+                    list.add(0, key);
+                } else {
+                    list.add(key);
+                }
+
+            }
+
+        }
+        return list;
+    }
+
+    public void setSpinnerData(List<String> list) {
+        if (list == null || list.size() == 0) {
+            if (mQRStatusTypeNameSpinner.getVisibility() != View.GONE) {
+                mQRStatusTypeNameSpinner.setVisibility(View.GONE);
+            }
+            return;
+        } else {
+            if (mQRStatusTypeNameSpinner.getVisibility() != View.VISIBLE) {
+                mQRStatusTypeNameSpinner.setVisibility(View.VISIBLE);
+            }
+
+            mQRStatusTypeNameArrayAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, list);
+            mQRStatusTypeNameArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);// 设置下拉风格
+            mQRStatusTypeNameSpinner.setAdapter(mQRStatusTypeNameArrayAdapter); // 将adapter 添加到spinner中
+            mQRStatusTypeNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
+            ) {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });// 添加监听
+        }
+
+    }
+
+    /**
+     * @desc: 获取订单类型
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/14 10:51
+     */
+    public int getQRStatusType(String statusName) {
+        return mQRStatusTypeMap.get(statusName);
     }
 }

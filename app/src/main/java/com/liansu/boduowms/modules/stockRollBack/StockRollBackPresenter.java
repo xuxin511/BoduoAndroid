@@ -154,19 +154,25 @@ public class StockRollBackPresenter {
                             mView.setErpVoucherNo(mModel.getErpVoucherNo());
                             mView.onBarcodeFocus();
                         } else {
-                            MessageBox.Show(mContext, "获取订单号[" + mModel.getErpVoucherNo() + "]的暂存信息为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    mModel.getTemporaryList().clear();
-                                    mView.bindRecycleView(mModel.getTemporaryList());
-                                }
-                            });
+                            mModel.getTemporaryList().clear();
+                            mView.bindRecycleView(mModel.getTemporaryList());
+                            mView.onBarcodeFocus();
+//                            MessageBox.Show(mContext, "获取订单号[" + mModel.getErpVoucherNo() + "]的暂存信息为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    mModel.getTemporaryList().clear();
+//                                    mView.bindRecycleView(mModel.getTemporaryList());
+//                                    mView.onBarcodeFocus();
+//                                }
+//                            });
                         }
                     } else {
                         MessageBox.Show(mContext, "获取订单号[" + mModel.getErpVoucherNo() + "]的暂存信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                mModel.getTemporaryList().clear();
+                                mView.bindRecycleView(mModel.getTemporaryList());
+                                mView.onBarcodeFocus();
                             }
                         });
                     }
@@ -175,7 +181,9 @@ public class StockRollBackPresenter {
                     MessageBox.Show(mContext, "获取订单号[" + mModel.getErpVoucherNo() + "]的暂存信息失败:" + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            mModel.getTemporaryList().clear();
+                            mView.bindRecycleView(mModel.getTemporaryList());
+                            mView.onBarcodeFocus();
                         }
                     });
                 }

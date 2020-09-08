@@ -178,6 +178,10 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
     @Override
     protected void onResume() {
         super.onResume();
+        String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
+        if (mPresenter != null && !erpVoucherNo.equals("")) {
+            mPresenter.getOrderDetailInfoList(erpVoucherNo);
+        }
     }
 
     @Event(value = R.id.edt_area_no, type = View.OnKeyListener.class)

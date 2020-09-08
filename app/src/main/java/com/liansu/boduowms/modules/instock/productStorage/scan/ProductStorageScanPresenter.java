@@ -59,6 +59,7 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProduct
      */
 
     protected void getOrderDetailInfoList(OrderHeaderInfo orderHeaderInfo) {
+        mModel.onReset();
         mModel.requestOrderDetail(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -72,6 +73,7 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProduct
                             mModel.setOrderHeaderInfo(orderHeaderInfo);
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
+                                mView.setOrderHeaderInfo(orderHeaderInfo);
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.onAreaNoFocus();
                             } else {
