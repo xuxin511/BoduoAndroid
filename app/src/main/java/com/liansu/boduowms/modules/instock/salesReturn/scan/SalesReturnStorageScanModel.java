@@ -42,7 +42,7 @@ public class SalesReturnStorageScanModel extends BaseOrderScanModel {
     public        String TAG_PRINT_PALLET_NO                          = "SalesReturnStorageScanModel_Print_PalletNo";  //打印
     private final int    RESULT_TAG_GET_T_AREA_MODEL                  = 121;
     private final int    RESULT_TAG_GET_T_SCAN_BARCODE_ADF_ASYNC      = 122;
-    private final int    RESULT_TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC = 123;
+    protected final int    RESULT_TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC = 123;
     private final int    RESULT_TAG_PRINT_PALLET_NO                   = 124;
     AreaInfo             mAreaInfo;
     OutBarcodeInfo       mCurrentPalletInfo;
@@ -144,7 +144,7 @@ public class SalesReturnStorageScanModel extends BaseOrderScanModel {
         mNetMap.put("TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC", callBackListener);
         String modelJson = parseModelListToJsonArray(list);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, mContext.getString(R.string.Msg_order_refer), mContext, mHandler, RESULT_TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().Post_SaleReturnDetailADFasync, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, mContext.getString(R.string.message_request_refer_barcode_info), mContext, mHandler, RESULT_TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().Post_SaleReturnDetailADFasync, modelJson, null);
 
     }
 

@@ -12,11 +12,13 @@ import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -35,7 +37,6 @@ import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
  * @time 2020/7/18 19:24
  */
 public class NoSourceOtherScanPresenter {
-
     protected Context                       mContext;
     protected NoSourceOtherStorageScanModel mModel;
     protected INoSourceOtherScanView        mView;
@@ -43,6 +44,16 @@ public class NoSourceOtherScanPresenter {
 
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
+        switch (msg.what){
+            case NetworkError.NET_ERROR_CUSTOM:
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                break;
+        }
     }
 
     public NoSourceOtherScanPresenter(Context context, INoSourceOtherScanView view, MyHandler<BaseActivity> handler) {
@@ -171,6 +182,9 @@ public class NoSourceOtherScanPresenter {
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                                 OutBarcodeInfo outBarcodeInfo = returnMsgModel.getData();
                                 if (outBarcodeInfo != null) {
+                                    outBarcodeInfo.setStrongholdname(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
+                                    outBarcodeInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+                                    outBarcodeInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE);
                                     outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
                                     outBarcodeInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                                     outBarcodeInfo.setAreano(mModel.getAreaInfo().getAreano());

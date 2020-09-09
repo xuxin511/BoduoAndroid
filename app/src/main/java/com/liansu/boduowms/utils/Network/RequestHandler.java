@@ -16,7 +16,6 @@ import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.Map;
 
-import static com.android.volley.DefaultRetryPolicy.DEFAULT_MAX_RETRIES;
 import static com.liansu.boduowms.base.BaseApplication.context;
 import static com.liansu.boduowms.base.BaseApplication.getRequestQueue;
 
@@ -27,7 +26,7 @@ import static com.liansu.boduowms.base.BaseApplication.getRequestQueue;
 
 public class RequestHandler {
 
-    public static int SOCKET_TIMEOUT = 180000;
+    public static int SOCKET_TIMEOUT = 90000;
 
     private static void addRequest(
             int method, String tag,
@@ -228,7 +227,8 @@ public class RequestHandler {
 
     static RetryPolicy getRetryPolicy() {
 //         RetryPolicy retryPolicy = new DefaultRetryPolicy(SOCKET_TIMEOUT, DefaultDialogRequestListener.MAX_RETRY_TIME, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        RetryPolicy retryPolicy = new DefaultRetryPolicy(SOCKET_TIMEOUT, DEFAULT_MAX_RETRIES, 0f);
+//        RetryPolicy retryPolicy = new DefaultRetryPolicy(SOCKET_TIMEOUT, DEFAULT_MAX_RETRIES, 0f);
+        RetryPolicy retryPolicy = new DefaultRetryPolicy(SOCKET_TIMEOUT,  DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         return retryPolicy;
     }
 

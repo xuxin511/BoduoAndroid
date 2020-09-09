@@ -77,7 +77,8 @@ public class UrlInfo {
     public String GetT_TransferInDetailListADFAsync = GetWCFAdress() + "Transferin/GetT_TransferInDetailListADFAsync"; //获取调拨入库单据
     public String SaveT_TransferInDetailADFAsync    = GetWCFAdress() + "Transferin/SaveT_TransferInDetailADFAsync"; //调拨入库实时提交
     public String PostT_TransferInDetailADFAsync    = GetWCFAdress() + "Transferin/PostT_TransferInDetailADFAsync"; //调拨入库过账
-
+   //无源杂入
+   public String Create_OtherInDetailADFasync    = GetWCFAdress() + "OtherIn/Create_OtherInDetailADFasync"; //无源杂入生单
 
     //出库模块
     public String GetT_OutStockDetailListADFAsync = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //配货下架获取发货通知单
