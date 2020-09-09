@@ -134,7 +134,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         //  mBusinessType = getIntent().getStringExtra("BusinessType").toString();
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
-
         String arr = data.toString();
         menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
         int type = Integer.parseInt(menuOutStockModel.VoucherType);
@@ -237,7 +236,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             String json = GsonUtil.parseModelToJson(model);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
                     context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
-
         }
     }
 

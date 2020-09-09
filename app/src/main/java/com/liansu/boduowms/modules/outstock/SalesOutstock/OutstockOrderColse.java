@@ -121,8 +121,8 @@ public class OutstockOrderColse extends BaseActivity {
         //如果是扫描
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == outstock_ordercolse_order.getId()) {
             try {
-                String order=outstock_ordercolse_order.getText().toString().trim();
-                if(order.equals("")) {
+                String order = outstock_ordercolse_order.getText().toString().trim();
+                if (order.equals("")) {
                     MessageBox.Show(context, "青先输入或扫描单号");
                     return true
                             ;
@@ -130,7 +130,7 @@ public class OutstockOrderColse extends BaseActivity {
                 SalesoutstockRequery model = new SalesoutstockRequery();
                 model.Erpvoucherno = order;
                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-                model.Creater=BaseApplication.mCurrentUserInfo.getUsername();
+                model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
                 String json = GsonUtil.parseModelToJson(model);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
                         context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
@@ -149,6 +149,11 @@ public class OutstockOrderColse extends BaseActivity {
     //提交
     @Event(value =R.id.outstock_ordercolse_button)
     private void  outstock_ordercolse_Submit(View view) {
+        if (CurrOrderNO.equals("")) {
+            CommonUtil.setEditFocus(outstock_ordercolse_order);
+            MessageBox.Show(context, "请先输入或扫描单号");
+            return;
+        }
         ISdel();
     }
 

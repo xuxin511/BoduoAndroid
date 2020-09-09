@@ -186,19 +186,19 @@ public  class SalesOutReview extends BaseActivity {
     }
 
 
-    //当上一个界面返回后会触发这个方法
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!CurrOrderNO.equals("")){
-            SalesoutstockRequery model = new SalesoutstockRequery();
-            model.Erpvoucherno = CurrOrderNO;
-            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-            String json = GsonUtil.parseModelToJson(model);
-            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
-                    context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
-        }
-    }
+//    //当上一个界面返回后会触发这个方法
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(!CurrOrderNO.equals("")){
+//            SalesoutstockRequery model = new SalesoutstockRequery();
+//            model.Erpvoucherno = CurrOrderNO;
+//            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+//            String json = GsonUtil.parseModelToJson(model);
+//            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
+//                    context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
+//        }
+//    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
