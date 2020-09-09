@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.liansu.boduowms.bean.menu.MenuInfo;
 import com.liansu.boduowms.bean.user.UserInfo;
@@ -12,9 +11,6 @@ import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
 
 import org.xutils.x;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import androidx.multidex.MultiDex;
@@ -42,15 +38,15 @@ public class BaseApplication extends Application {
 
     public static int       mDebugDataStatus = -1;
     //取消Volley 断线重连
-    static        HurlStack mStack           = new HurlStack() {
-        @Override
-        protected HttpURLConnection createConnection(URL url) throws IOException {
-            HttpURLConnection con = super.createConnection(url);
-            //主要是这行代码, 貌似是因为HttpClient的bug
-            con.setChunkedStreamingMode(0);
-            return con;
-        }
-    };
+//    static        HurlStack mStack           = new HurlStack() {
+//        @Override
+//        protected HttpURLConnection createConnection(URL url) throws IOException {
+//            HttpURLConnection con = super.createConnection(url);
+//            //主要是这行代码, 貌似是因为HttpClient的bug
+//            con.setChunkedStreamingMode(0);
+//            return con;
+//        }
+//    };
 
     @Override
     public void onCreate() {
@@ -62,7 +58,8 @@ public class BaseApplication extends Application {
 //        okHttpClient.networkInterceptors().add(new StethoInterceptor());
 //        mRequestQueue = Volley.newRequestQueue(this, new OkHttpStack(okHttpClient));
 
-        mRequestQueue = Volley.newRequestQueue(this, mStack);
+//        mRequestQueue = Volley.newRequestQueue(this, mStack);
+        mRequestQueue = Volley.newRequestQueue(this);
         MultiDex.install(this);
         // ErrorCodeParser.init();
     }

@@ -163,7 +163,7 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
         setSpinnerData();
         setCurrentBarcodeInfo(null);
         bindListView(null);
-        onBarcodeFocus();
+        onAreaNoFocus();
     }
 
     @Override
