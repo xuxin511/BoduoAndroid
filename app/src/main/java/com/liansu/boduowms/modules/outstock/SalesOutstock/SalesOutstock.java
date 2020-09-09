@@ -239,7 +239,7 @@ public class SalesOutstock  extends BaseActivity  {
                 Bundle bundle = new Bundle();
                 intent.putExtra("ErpVoucherNo", CurrOrderNO);
                 intent.putExtra("VoucherType", CurrVoucherType);
-                intent.putExtra("Title", menuOutStockModel+"删除");
+                intent.putExtra("Title", menuOutStockModel.Title+"删除");
                 intent.putExtras(bundle);
                 startActivityLeft(intent);
                 return false;

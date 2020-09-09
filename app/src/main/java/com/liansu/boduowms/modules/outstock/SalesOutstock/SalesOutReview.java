@@ -172,7 +172,7 @@ public  class SalesOutReview extends BaseActivity {
                 Bundle bundle = new Bundle();
                 intent.putExtra("ErpVoucherNo", CurrOrderNO);
                 intent.putExtra("VoucherType", CurrvoucherType);
-                intent.putExtra("Title", menuOutStockModel+"删除");
+                intent.putExtra("Title", menuOutStockModel.Title+"删除");
                 intent.putExtras(bundle);
                 startActivityLeft(intent);
                 return false;

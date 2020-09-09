@@ -223,7 +223,6 @@ public class OutstockOrderColse extends BaseActivity {
             String json = GsonUtil.parseModelToJson(model);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
                     context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
-
         } catch (Exception ex) {
             CommonUtil.setEditFocus(outstock_ordercolse_order);
             MessageBox.Show(context, ex.toString());

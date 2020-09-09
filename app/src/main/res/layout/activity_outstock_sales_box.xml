@@ -132,6 +132,7 @@
             />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/outstock_sales_deletebuttonp"
         android:layout_width="120sp"
         android:layout_height="@dimen/sp_30"

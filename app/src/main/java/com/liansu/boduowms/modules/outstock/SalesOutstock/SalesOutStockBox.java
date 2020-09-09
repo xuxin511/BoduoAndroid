@@ -223,6 +223,9 @@ public  class SalesOutStockBox   extends BaseActivity {
     public void getToolTitle() {
         getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
         //清空列表//切换仓库后需要重新扫描
+        mModel=new PurchaseReturnOffScanModel(context, mHandler);
+        checkBox.setChecked(false);
+        //stockInfoModels = new ArrayList<OutStockOrderDetailInfo>();
         del();
     }
 
