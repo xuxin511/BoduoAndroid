@@ -32,6 +32,7 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
     private String ToCompanyName;
     private String Fromwarehouseno;
     private int    Fromwarehouseid;
+    private int Istransfer;
 
 
     public QualityHeaderInfo() {
@@ -92,6 +93,7 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
         ToCompanyName = in.readString();
         Fromwarehouseno = in.readString();
         Fromwarehouseid = in.readInt();
+        Istransfer=in.readInt();
     }
 
     public static final Creator<QualityHeaderInfo> CREATOR = new Creator<QualityHeaderInfo>() {
@@ -242,6 +244,14 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
         Fromwarehouseid = fromwarehouseid;
     }
 
+    public int getIstransfer() {
+        return Istransfer;
+    }
+
+    public void setIstransfer(int istransfer) {
+        Istransfer = istransfer;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -303,5 +313,6 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
         dest.writeString(ToCompanyName);
         dest.writeString(Fromwarehouseno);
         dest.writeInt(Fromwarehouseid);
+        dest.writeInt(Istransfer);
     }
 }

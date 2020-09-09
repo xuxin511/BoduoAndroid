@@ -65,6 +65,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
 
     @Override
     protected void getOrderDetailInfoList(String erpVoucherNo) {
+        onReset();
         OrderRequestInfo postInfo = new OrderRequestInfo();
         postInfo.setErpvoucherno(erpVoucherNo);
         postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
@@ -83,6 +84,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
                             mModel.setOrderHeaderInfo(orderHeaderInfo);
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {
+                                mView.setOrderHeaderInfo(orderHeaderInfo);
                                 mView.bindListView(mModel.getOrderDetailList());
                                 mView.onAreaNoFocus();
                             } else {
@@ -199,5 +201,9 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
     public void onResume() {
         super.onResume();
         mView.onErpVoucherNoFocus();
+        final String erpVoucherNo = mView.getErpVoucherNo();
+        if (erpVoucherNo != null && !erpVoucherNo.equals("")) {
+            getOrderDetailInfoList(erpVoucherNo);
+        }
     }
 }

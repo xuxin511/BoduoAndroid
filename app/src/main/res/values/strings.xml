@@ -82,7 +82,7 @@
     <string name="Msg_order_refer">正在提交订单明细...</string>
     <string name="message_request_get_order_detail">正在获取单据明细...</string>
     <string name="message_request_refer_barcode_info">正在提交条码信息...</string>
-    <string name="message_request_system_refer">正在信息过账操作...</string>
+    <string name="message_request_system_refer">正在提交过账操作...</string>
     <string name="message_request_material_info">正在获取物料信息...</string>
     <string name="message_request_print">正在提交打印信息...</string>
     <string name="message_request_quality_inspection_refer">正在提交质检合格信息...</string>
