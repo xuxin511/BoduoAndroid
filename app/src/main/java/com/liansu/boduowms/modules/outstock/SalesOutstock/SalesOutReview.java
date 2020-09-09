@@ -280,15 +280,29 @@ public  class SalesOutReview extends BaseActivity {
                     if (type.equals(OutStock_Submit_type_pallet)) {
                         //托盘
                         //先判断托盘是否存在
-                        Outbarcode_Requery model = new Outbarcode_Requery();
-                        model.Barcode = barcode;
+//                        Outbarcode_Requery model = new Outbarcode_Requery();
+//                        model.Barcode = barcode;
+//                        model.Vouchertype = CurrvoucherType;
+//                        model.Towarehouseid = BaseApplication.mCurrentWareHouseInfo.getId();
+//                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+//                        // model.Vouchertype=0;
+//                        String json = GsonUtil.parseModelToJson(model);
+//                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
+//                                context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, info.SalesOutstock_JudgeStock, json, null);
+                        //直接提交
+                        //判断是否成功 直接提交
+                        String palletno = sales_outstock_reviewbarcode.getText().toString().trim();
+                        String[] strPallet = palletno.split("%");
+                        SalesoutstockRequery model = new SalesoutstockRequery();
+                        model.Erpvoucherno = CurrOrderNO;
+                        model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Vouchertype = CurrvoucherType;
-                        model.Towarehouseid = BaseApplication.mCurrentWareHouseInfo.getId();
-                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
-                        // model.Vouchertype=0;
+                        model.MaterialNo = palletno;
+                        model.ScanQty = Float.parseFloat(strPallet[2]);
                         String json = GsonUtil.parseModelToJson(model);
-                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
-                                context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, info.SalesOutstock_JudgeStock, json, null);
+                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
+                                context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+
                         return true;
                     }
                     if (type.equals(OutStock_Submit_type_box)) {

@@ -140,17 +140,17 @@ public class SalesOutStockCallback extends BaseActivity {
     @Event(value =R.id.outstock_callback_submit)
     private void  Click_Submit(View view) {
         try {
-         if(CurrErpvoucherno.equals("")){
-             CommonUtil.setEditFocus(sales_outstock_callback_order);
-             MessageBox.Show(context, "请先扫描单号");
-             return;
-           }
-         List<SalesoutstockRequery>  Llist=new ArrayList<SalesoutstockRequery>();
+            if (CurrErpvoucherno.equals("")) {
+                CommonUtil.setEditFocus(sales_outstock_callback_order);
+                MessageBox.Show(context, "请先扫描单号");
+                return;
+            }
+            List<SalesoutstockRequery> Llist = new ArrayList<SalesoutstockRequery>();
             SalesoutstockRequery salesoutstockRequery = new SalesoutstockRequery();
             salesoutstockRequery.Erpvoucherno = CurrErpvoucherno;
             salesoutstockRequery.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
-            salesoutstockRequery.Vouchertype=CurrVoucherType;
-            salesoutstockRequery.Strongholdcode=Strongholdcode;
+            salesoutstockRequery.Vouchertype = CurrVoucherType;
+            salesoutstockRequery.Strongholdcode = Strongholdcode;
             Llist.add(salesoutstockRequery);
             String json = GsonUtil.parseModelToJson(Llist);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_outstock_Callback_Submit, "提交单据数据",

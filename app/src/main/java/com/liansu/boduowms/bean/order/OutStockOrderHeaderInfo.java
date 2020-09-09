@@ -57,6 +57,15 @@ public class OutStockOrderHeaderInfo implements Parcelable {
     private String                        Purchaseno;
     private String      Qualityno;
     private  String    LogisticsCompany;
+    private  int  IsGenReturnOrder; //二阶段调拨用
+
+    public int getIsGenReturnOrder() {
+        return IsGenReturnOrder;
+    }
+
+    public void setIsGenReturnOrder(int isGenReturnOrder) {
+        IsGenReturnOrder = isGenReturnOrder;
+    }
 
     public String getTowarehouseno() {
         return Towarehouseno;
@@ -95,6 +104,7 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         Qualityno=in.readString();
         LogisticsCompany=in.readString();
         Towarehouseno=in.readString();
+        IsGenReturnOrder= in.readInt();
     }
 
     public String getLogisticsCompany() {
@@ -131,6 +141,8 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         dest.writeString(Qualityno);
         dest.writeString(LogisticsCompany);
         dest.writeString(Towarehouseno);
+        dest.writeInt(IsGenReturnOrder);
+
     }
 
     @Override

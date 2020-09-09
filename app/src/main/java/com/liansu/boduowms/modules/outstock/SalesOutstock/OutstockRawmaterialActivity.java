@@ -124,6 +124,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     private MaterialResponseModel materialModle;
 
     UrlInfo info = new UrlInfo();
+
     MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
     //region 初始化
     @Override
@@ -334,12 +335,27 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 //                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
 //                        context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
 //            } else {//杂出
-            if (IsScanningOver()) {
+            //二阶段调拨 IsGenReturnOrder==2  可以部分过账
+            if(CurrVoucherType==30) {
+                if (mModel.getOrderHeaderInfo().getIsGenReturnOrder() == 2) {
+                    List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
+                    SalesoustockReviewRequery model = new SalesoustockReviewRequery();
+                    model.Erpvoucherno = CurrOrderNO;
+                    model.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.Vouchertype = CurrVoucherType;
+                    model.Printername = UrlInfo.mOutStockPrintName;
+                    model.Printertype = UrlInfo.mOutStockPrintType;
+                    list.add(model);
+                    String modelJson = parseModelToJson(list);
+                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
+                            context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
 
+                }
+            }
+            else if (IsScanningOver()) {
                 if (CurrVoucherType == 61) {
                     //成品销售验退需要选择不良品仓库
                     Selectwarehouse();
-
                 } else {
                     List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
                     SalesoustockReviewRequery model = new SalesoustockReviewRequery();
@@ -417,6 +433,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             MessageBox.Show(context, EX.toString());
         }
     }
+
 
 
     //扫描单号获取数据
@@ -589,7 +606,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 
     //endregion
 
-    //判断是否全部复核完成
+    //判断是否全部下架完成
     private boolean IsScanningOver() {
         boolean istrue = true;
         for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
