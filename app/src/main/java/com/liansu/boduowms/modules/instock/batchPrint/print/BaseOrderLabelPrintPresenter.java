@@ -79,7 +79,7 @@ public class BaseOrderLabelPrintPresenter {
         int printType = mModel.getPrintType();
         if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
             onOuterBoxInfoBatchPrint();
-        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
+        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO ||printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
             onPalletInfoBatchPrint();
         }
     }
@@ -98,6 +98,7 @@ public class BaseOrderLabelPrintPresenter {
             if (mPrintModel.checkBluetoothSetting() == false) return;
             OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
             if (printInfo != null) {
+                String erpVoucherNo=printInfo.getErpvoucherno()!=null?printInfo.getErpvoucherno():"";
                 String materialNo = printInfo.getMaterialno();
                 String materialDesc = printInfo.getMaterialdesc();
                 String spec = printInfo.getSpec();
@@ -128,6 +129,7 @@ public class BaseOrderLabelPrintPresenter {
                 List<PrintInfo> printInfoList = new ArrayList<>();
                 for (int i = 0; i < printCount; i++) {
                     PrintInfo info = new PrintInfo();
+                    info.setErpVoucherNo(erpVoucherNo);
                     info.setMaterialNo(materialNo);
                     info.setMaterialDesc(materialDesc);
                     info.setBatchNo(batchNo);

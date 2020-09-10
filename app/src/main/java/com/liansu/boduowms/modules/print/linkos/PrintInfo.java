@@ -19,6 +19,7 @@ public class PrintInfo {
     private String QRCode;  //二维码
     private String spec;//规格
     private float PackQty; // 包装规格
+    private String erpVoucherNo;// ERP订单号
 
     public String getPrintType() {
         return printType;
@@ -106,5 +107,13 @@ public class PrintInfo {
 
     public void setPackQty(float packQty) {
         PackQty = packQty;
+    }
+
+    public String getErpVoucherNo() {
+        return erpVoucherNo;
+    }
+
+    public void setErpVoucherNo(String erpVoucherNo) {
+        this.erpVoucherNo = erpVoucherNo;
     }
 }

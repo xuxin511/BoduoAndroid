@@ -33,18 +33,20 @@ import static com.liansu.boduowms.utils.SharePreferUtil.readBluetoothPrinterMacA
  * @ Created by yangyiqing on 2020/7/7.
  */
 public class PrintBusinessModel extends BaseModel {
-    public              String                mMac                         = "";
+    public              String                mMac                                   = "";
     private             PrintCallBackListener mPrintListener;
     //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙 -1 未选择
-    public static final int                   PRINTER_TYPE_LASER           = 1;
-    public static final int                   PRINTER_TYPE_DESKTOP         = 2;
-    public static final int                   PRINTER_TYPE_BLUETOOTH       = 3;
-    public static final int                   PRINTER_TYPE_NONE            = -1;
-    public static final int                   PRINTER_LABEL_TYPE_OUTER_BOX = 1;
-    public static final int                   PRINTER_LABEL_TYPE_PALLET_NO = 2;
-    public static final int                   PRINTER_LABEL_TYPE_NONE      = -1;
-    public static final String                PRINTER_LABEL_NAME_PALLET_NO = "托盘标签";
-    public static final String                PRINTER_LABEL_NAME_OUTER_BOX = "外箱标签";
+    public static final int                   PRINTER_TYPE_LASER                     = 1;
+    public static final int                   PRINTER_TYPE_DESKTOP                   = 2;
+    public static final int                   PRINTER_TYPE_BLUETOOTH                 = 3;
+    public static final int                   PRINTER_TYPE_NONE                      = -1;
+    public static final int                   PRINTER_LABEL_TYPE_OUTER_BOX           = 1;
+    public static final int                   PRINTER_LABEL_TYPE_PALLET_NO           = 2;
+    public static final int                   PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO = 3;
+    public static final int                   PRINTER_LABEL_TYPE_NONE                = -1;
+    public static final String                PRINTER_LABEL_NAME_PALLET_NO           = "托盘标签";
+    public static final String                PRINTER_LABEL_NAME_NO_SOURCE_PALLET_NO = "无源托盘标签";
+    public static final String                PRINTER_LABEL_NAME_OUTER_BOX           = "外箱标签";
 
     @Override
     public void onHandleMessage(Message msg) {
@@ -161,7 +163,7 @@ public class PrintBusinessModel extends BaseModel {
                 MessageBox.Show(mContext, "蓝牙地址不存在，是否已保存?");
                 return false;
             }
-            if (list == null ||list.size()==0) {
+            if (list == null || list.size() == 0) {
                 MessageBox.Show(mContext, "打印的数据信息不能为空");
                 return false;
             }
@@ -180,7 +182,7 @@ public class PrintBusinessModel extends BaseModel {
                 mPrintListener.afterPrint();
             }
         } catch (ConnectionException e) {
-            MessageBox.Show(mContext,"连接蓝牙失败:"+ e.getMessage());
+            MessageBox.Show(mContext, "连接蓝牙失败:" + e.getMessage());
             return false;
         } catch (ZebraPrinterLanguageUnknownException e) {
             MessageBox.Show(mContext, e.getMessage());
@@ -313,6 +315,67 @@ public class PrintBusinessModel extends BaseModel {
         return command;
     }
 
+    /**
+     * @desc: 原料标签样式 带ERP订单号的原料标签
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/15 21:53
+     */
+    public String getRawMaterialWithERPVoucherNoLabelStyle(PrintInfo info) {
+        int maxSingleLength = 10;
+        String erpVoucherNo = info.getErpVoucherNo() != null ? info.getErpVoucherNo() : "";
+        String materialNo = info.getMaterialNo() != null ? info.getMaterialNo() : "";
+        String materialDesc = info.getMaterialDesc() != null ? info.getMaterialDesc() : "";
+        String batchNo = info.getBatchNo() != null ? info.getBatchNo() : "";
+        String spec = info.getSpec() != null ? info.getSpec() : "";
+        int barcodeQty = (int) info.getQty();
+        float packQty = info.getPackQty();
+
+        String QRCode = info.getQRCode() != null ? info.getQRCode() : "";
+        String materialDesc1 = "";
+        String materialDesc2 = "";
+        if (!materialDesc.equals("")) {
+
+            if (materialDesc.length() > maxSingleLength) {
+                materialDesc1 = materialDesc.substring(0, maxSingleLength);
+                materialDesc2 = materialDesc.substring(maxSingleLength, materialDesc.length());
+            } else {
+                materialDesc1 = materialDesc;
+            }
+        }
+        String part1 = "! 0 200 200 400 1\r\n" +
+                "ENCODING GB18030\r\n" +
+                "B QR 390 15 M 2 U 4\r\n" +
+                "MM,B0050X_QR_CODE\r\n" +
+                "ENDQR\r\n" +
+                "T GBUNSG24.CPF 0 70 15 料号:X_MATERIAL_NO\r\n";
+
+        String part2 = "";
+        if (materialDesc2.equals("")) {
+
+            part2 = "T GBUNSG24.CPF 0 70 50 品名:X_MATERIAL_DESC\r\n" ;
+        } else {
+            part2 = "T GBUNSG24.CPF 0 70 50 品名:X_MATERIAL_DESC\r\n" +
+                    "T GBUNSG24.CPF 0 120 80  SECOND_MATERIAL_DESC \r\n" ;
+
+        }
+  //一行加35
+        String part4 = "T GBUNSG24.CPF 0 190 150 规格:X_SPEC\r\n" +
+                "B QR 70 140 M 2 U 4\r\n" +
+                "MM,B0050X_QR_ERP_CODE\r\n" +
+                "ENDQR\r\n";
+        String part3 = "T GBUNSG24.CPF 0 190 185 批次:X_BATCH_NO\r\n" +
+                "T GBUNSG24.CPF 0 190 220 数量:X_QTY\r\n" +
+                "PRINT\r\n";
+        String command = part1 + part2 + part4 + part3;
+
+
+        command = command.replace("X_MATERIAL_NO", materialNo).replace("X_MATERIAL_DESC", materialDesc1).replace("SECOND_MATERIAL_DESC", materialDesc2)
+                .replace("X_SPEC", spec).replace("X_BATCH_NO", batchNo)
+                .replace("X_QTY", packQty + "").replace("X_QR_CODE", QRCode).replace("X_QR_ERP_CODE", erpVoucherNo);
+        return command;
+    }
 
     private void createDemoFile(ZebraPrinter printer, String fileName) throws IOException {
 
@@ -347,7 +410,13 @@ public class PrintBusinessModel extends BaseModel {
                 if (printType.equals(PrintType.PRINT_TYPE_PALLET_STYLE)) {
                     command = getPalletLabelStyle(printInfo);
                 } else if (printType.equals(PrintType.PRINT_TYPE_RAW_MATERIAL_STYLE)) {
-                    command = getRawMaterialLabelStyle(printInfo);
+                    String erpVoucherNo = printInfo.getErpVoucherNo() != null ? printInfo.getErpVoucherNo() : "";
+                    if (erpVoucherNo.equals("")) {
+                        command = getRawMaterialLabelStyle(printInfo);
+                    } else {
+                        command = getRawMaterialWithERPVoucherNoLabelStyle(printInfo);
+                    }
+
                 }
             }
         }

@@ -524,8 +524,9 @@ public class DebugModuleData {
 
       public  static  List<PrintInfo>  getRawMaterialLabelList(){
         List<PrintInfo>  list=new ArrayList<>();
-          for (int i=0;i<4;i++){
+          for (int i=0;i<1;i++){
               PrintInfo printInfo = new PrintInfo();
+              printInfo.setErpVoucherNo("2102-M500-2009100002");
               printInfo.setMaterialNo("130100002-测试数据"+i);
               printInfo.setMaterialDesc("百香果风味饮料（博多家园）-测试数据"+i);
               printInfo.setBatchNo("20200717-测试数据"+i);

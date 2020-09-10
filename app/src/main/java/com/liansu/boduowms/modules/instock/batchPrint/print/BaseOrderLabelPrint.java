@@ -2,8 +2,11 @@ package com.liansu.boduowms.modules.instock.batchPrint.print;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +21,7 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
+import com.liansu.boduowms.modules.setting.SettingMainActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.DateUtil;
@@ -79,7 +83,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
         BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
-        closeKeyBoard(mBatchNo,mRemainQty,mPackQty,mPalletQty,mPrintCount);
+        closeKeyBoard(mBatchNo, mRemainQty, mPackQty, mPalletQty, mPrintCount);
 
     }
 
@@ -116,7 +120,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                             });
                             return false;
                         }
-                        if (batchNo.contains("%")){
+                        if (batchNo.contains("%")) {
                             BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(batchNo);
                             if (resultInfo.getHeaderStatus()) {
                                 batchNo = resultInfo.getInfo().getBatchno();
@@ -244,7 +248,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                 }
 
                 mPrintCount.setText("0");
-            } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
+            } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO || printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
                 mPalletQty.setText("0");
             }
             onBatchNoFocus();
@@ -261,7 +265,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
             mMaterialDesc.setText(printInfoData.getMaterialdesc());
             mBatchNo.setText(printInfoData.getBatchno());
             mRemainQty.setText(printInfoData.getRemainqty() + "");
-
+            mErpVoucherNo.setText(printInfoData.getErpvoucherno());
             if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
                 if (printInfoData.getPackQty() > 0) {
                     mPackQty.setEnabled(false);
@@ -270,8 +274,8 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                 }
                 mPackQty.setText(printInfoData.getPackQty() + "");
                 mPrintCount.setText("0");
-            } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
-                mErpVoucherNo.setText(printInfoData.getErpvoucherno());
+            } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO || printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
+//                mErpVoucherNo.setText(printInfoData.getErpvoucherno());
                 mPalletQty.setText("0");
             }
             onBatchNoFocus();
@@ -292,8 +296,10 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
     @Override
     public void setViewStatus(int printType) {
         if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
-            mErpVoucherNoDesc.setVisibility(View.GONE);
-            mErpVoucherNo.setVisibility(View.GONE);
+//            mErpVoucherNoDesc.setVisibility(View.GONE);
+//            mErpVoucherNo.setVisibility(View.GONE);
+            mErpVoucherNoDesc.setVisibility(View.VISIBLE);
+            mErpVoucherNo.setVisibility(View.VISIBLE);
             mPackQtyDesc.setVisibility(View.VISIBLE);
             mPackQty.setVisibility(View.VISIBLE);
             mPalletNoDesc.setVisibility(View.GONE);
@@ -302,7 +308,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
             mPrintCount.setVisibility(View.VISIBLE);
             mRemainQtyDesc.setVisibility(View.GONE);
             mRemainQty.setVisibility(View.GONE);
-        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
+        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO || printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
             mErpVoucherNoDesc.setVisibility(View.VISIBLE);
             mErpVoucherNo.setVisibility(View.VISIBLE);
             mPackQtyDesc.setVisibility(View.GONE);
@@ -354,5 +360,20 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
             return false;
         }
         return true;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_settings) {
+            startActivityLeft(new Intent(mContext, SettingMainActivity.class));
+        }
+        return false;
     }
 }

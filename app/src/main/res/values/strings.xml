@@ -440,6 +440,7 @@
     //入库打印订单选择基类
     <string name="print_type_desc">打印类型:</string>
     <string name="print_type_pallet_no_print_desc">托盘标签</string>
+    <string name="print_type_no_source_pallet_no_print_desc">无源托盘标签</string>
     <string name="print_type_outer_box_print_desc">外箱标签</string>
     <string name="order_type_desc">订单类型:</string>
     <string name="qr_status_type_desc">质检状态:</string>

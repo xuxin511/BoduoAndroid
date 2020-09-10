@@ -169,6 +169,8 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
             type = PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO;
         } else if (value.equals(PrintBusinessModel.PRINTER_LABEL_NAME_OUTER_BOX)) {
             type = PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX;
+        }else if (value.equals(PrintBusinessModel.PRINTER_LABEL_NAME_NO_SOURCE_PALLET_NO)){
+            type=PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO;
         }
 
         return type;
@@ -336,15 +338,22 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     @Override
     public void initViewStatus(int printType) {
         if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
-            if (mErpVoucherNoDesc.getVisibility() != View.GONE) {
-                mErpVoucherNoDesc.setVisibility(View.GONE);
-                mErpVoucherNo.setVisibility(View.GONE);
-                mOrderTypeDesc.setVisibility(View.GONE);
-                mVoucherTypeNameSpinner.setVisibility(View.GONE);
+            if (mErpVoucherNoDesc.getVisibility() != View.VISIBLE) {
+                mErpVoucherNoDesc.setVisibility(View.VISIBLE);
+                mErpVoucherNo.setVisibility(View.VISIBLE);
+                mOrderTypeDesc.setVisibility(View.VISIBLE);
+                mVoucherTypeNameSpinner.setVisibility(View.VISIBLE);
             }
+//            if (mErpVoucherNoDesc.getVisibility() != View.GONE) {
+//                mErpVoucherNoDesc.setVisibility(View.GONE);
+//                mErpVoucherNo.setVisibility(View.GONE);
+//                mOrderTypeDesc.setVisibility(View.GONE);
+//                mVoucherTypeNameSpinner.setVisibility(View.GONE);
+//            }
             mErpVoucherNo.setText("");
             mMaterialNo.setText("");
-            onMaterialFocus();
+            onErpVoucherNoFocus();
+//            onMaterialFocus();
         } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
             if (mErpVoucherNoDesc.getVisibility() != View.VISIBLE) {
                 mErpVoucherNoDesc.setVisibility(View.VISIBLE);
@@ -355,6 +364,17 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
             mErpVoucherNo.setText("");
             mMaterialNo.setText("");
             onErpVoucherNoFocus();
+
+        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
+            if (mErpVoucherNoDesc.getVisibility() != View.GONE) {
+                mErpVoucherNoDesc.setVisibility(View.GONE);
+                mErpVoucherNo.setVisibility(View.GONE);
+                mOrderTypeDesc.setVisibility(View.GONE);
+                mVoucherTypeNameSpinner.setVisibility(View.GONE);
+            }
+            mErpVoucherNo.setText("");
+            mMaterialNo.setText("");
+            onMaterialFocus();
 
         }
     }

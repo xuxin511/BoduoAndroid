@@ -12,7 +12,9 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
+import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
+import com.liansu.boduowms.ui.adapter.instock.NoSourceScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.DoubleClickCheck;
@@ -21,6 +23,11 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -33,10 +40,10 @@ import org.xutils.x;
 @ContentView(R.layout.activity_inner_move_scan)
 public class InventoryMovementScan extends BaseActivity implements IInventoryMovementView {
     @ViewInject(R.id.inner_move_barcode_scan)
-    EditText mBarcode;
-    @ViewInject(R.id.inner_move_instock_area_no)
+    EditText     mBarcode;
+    @ViewInject(R.id.inner_move_in_stock_scan)
     EditText mMoveInAreaNo;
-    @ViewInject(R.id.inner_move_out_stock_scan)
+    @ViewInject(R.id.inner_move_out_stock_area_no)
     EditText mMoveOutAreaNo;
     @ViewInject(R.id.inventory_movement_qty)
     EditText mQty;
@@ -49,10 +56,12 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
     @ViewInject(R.id.txt_MaterialName)
     TextView mMaterialName;
     @ViewInject(R.id.inventory_movement_refer)
-    Button   mRefer;
+    Button       mRefer;
+    @ViewInject(R.id.inventory_movement_list_view)
+    RecyclerView mRecyclerView;
     Context                    mContext = InventoryMovementScan.this;
     InventoryMovementPresenter mPresenter;
-
+    NoSourceScanDetailAdapter  mAdapter;
     @Override
     public void onHandleMessage(Message msg) {
         super.onHandleMessage(msg);
@@ -62,6 +71,17 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
 
     }
 
+    public void bindListView(List<OutBarcodeInfo> materialItemList) {
+        if (materialItemList!=null && materialItemList.size()>0){
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mAdapter = new NoSourceScanDetailAdapter(mContext, materialItemList);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        }else {
+            mRecyclerView.setVisibility(View.INVISIBLE);
+        }
+
+    }
 
     @Override
     protected void initViews() {
@@ -79,7 +99,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
         onClear();
     }
 
-    @Event(value = {R.id.inner_move_barcode_scan, R.id.inner_move_instock_area_no, R.id.inner_move_out_stock_scan, R.id.inventory_movement_qty}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.inner_move_barcode_scan, R.id.inner_move_in_stock_scan, R.id.inner_move_out_stock_area_no, R.id.inventory_movement_qty}, type = View.OnKeyListener.class)
     private boolean barcodeScan(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
@@ -89,11 +109,11 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
                     String barcode = mBarcode.getText().toString().trim();
                     mPresenter.scanBarcode(barcode);
                     break;
-                case R.id.inner_move_instock_area_no:
+                case R.id.inner_move_in_stock_scan:
                     String moveInAreaNo = mMoveInAreaNo.getText().toString().trim();
                     mPresenter.scanMoveInAreaInfo(moveInAreaNo);
                     break;
-                case R.id.inner_move_out_stock_scan:
+                case R.id.inner_move_out_stock_area_no:
                     String moveOutAreaNo = mMoveOutAreaNo.getText().toString().trim();
                     mPresenter.scanMoveOutAreaInfo(moveOutAreaNo);
                     break;

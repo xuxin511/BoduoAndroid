@@ -49,9 +49,7 @@ public class LoginModel extends BaseModel {
             case RESULT_TAG_GET_MENU_INFO:
                 listener = mNetMap.get("TAG_GET_MENU_INFO");
                 break;
-            case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
-                break;
+
         }
         if (listener != null) {
             listener.onCallBack(msg.obj.toString());

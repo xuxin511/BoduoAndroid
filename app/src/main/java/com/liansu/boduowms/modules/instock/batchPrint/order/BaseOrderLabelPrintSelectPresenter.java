@@ -326,14 +326,20 @@ public class BaseOrderLabelPrintSelectPresenter {
                             scanQRCode.setUnitname(materialInfo.getUnitname());
                         }
                         if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
-                            onScanByOuterBoxPrintType(scanQRCode);
-                        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
-                            if (mModel.getOrderDetailList().size()>0){
+                            //   现在的外箱需要订单号，直接用托盘的方式
+                            if (mModel.getOrderDetailList().size() > 0) {
                                 onScanByPalletNoPrintType(scanQRCode);
-                            }else {
+                            }
+//                            onScanByOuterBoxPrintType(scanQRCode);
+                        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
+                            if (mModel.getOrderDetailList().size() > 0) {
+                                onScanByPalletNoPrintType(scanQRCode);
+                            } else {
                                 onScanByPalletNoPrintTypeWithNoOrder(scanQRCode);
                             }
 
+                        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
+                            onScanByPalletNoPrintTypeWithNoOrder(scanQRCode);
                         }
 
                     } else {
@@ -381,7 +387,7 @@ public class BaseOrderLabelPrintSelectPresenter {
     }
 
     /**
-     * @desc:  托盘无订单扫描方式 ,直接扫描物料后跳转
+     * @desc: 托盘无订单扫描方式 ,直接扫描物料后跳转
      * @param:
      * @return:
      * @author: Nietzsche
@@ -390,6 +396,7 @@ public class BaseOrderLabelPrintSelectPresenter {
     public void onScanByPalletNoPrintTypeWithNoOrder(OutBarcodeInfo scanQRCode) {
         onScanByOuterBoxPrintType(scanQRCode);
     }
+
     /**
      * @desc: 打印托盘方式的扫描
      * @param:
@@ -408,7 +415,7 @@ public class BaseOrderLabelPrintSelectPresenter {
             } else if (list != null && list.size() > 1) {
                 if (mModel.getOrderDetailList().size() > 0) {
                     //订单无批次,用外箱的
-                    for (OrderDetailInfo info:list){
+                    for (OrderDetailInfo info : list) {
                         info.setBatchno(scanQRCode.getBatchno());
                     }
 
