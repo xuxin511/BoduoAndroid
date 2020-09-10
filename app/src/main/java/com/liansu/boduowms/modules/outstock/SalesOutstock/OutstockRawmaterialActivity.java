@@ -288,6 +288,20 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             // CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                             return true;
                         } else {
+                            String materino=palletno.split("%")[0];
+                            String batchno=palletno.split("%")[1];
+
+                            boolean batchnoisTrue=false;
+                            for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()) {
+                                if (item.getBatchno().equals(batchno) && item.getMaterialno().equals(materino)) {
+                                    batchnoisTrue=true;
+                                }
+                            }
+                            if(!batchnoisTrue) {
+                                CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                                MessageBox.Show(context, "请确认,扫描的托盘批次或者物料不存在列表中");
+                                return true;
+                            }
                             //先判断托盘是否存在
                             //下架下的是原材料 所以可以先check所有的托盘物料是否已经超发过一次，或者
                             Outbarcode_Requery model = new Outbarcode_Requery();
@@ -295,6 +309,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             model.Vouchertype = CurrVoucherType;
                             model.Towarehouseid = BaseApplication.mCurrentWareHouseInfo.getId();
                             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+
                             // model.Vouchertype=0;
                             String json = GsonUtil.parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",

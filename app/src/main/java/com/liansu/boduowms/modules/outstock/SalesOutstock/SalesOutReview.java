@@ -47,6 +47,7 @@ import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
+import com.liansu.boduowms.utils.log.LogUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -187,18 +188,18 @@ public  class SalesOutReview extends BaseActivity {
 
 
 //    //当上一个界面返回后会触发这个方法
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(!CurrOrderNO.equals("")){
-//            SalesoutstockRequery model = new SalesoutstockRequery();
-//            model.Erpvoucherno = CurrOrderNO;
-//            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-//            String json = GsonUtil.parseModelToJson(model);
-//            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
-//                    context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
-//        }
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!CurrOrderNO.equals("")) {
+            SalesoutstockRequery model = new SalesoutstockRequery();
+            model.Erpvoucherno = CurrOrderNO;
+            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+            String json = GsonUtil.parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
+                    context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
+        }
+    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
@@ -535,6 +536,9 @@ public  class SalesOutReview extends BaseActivity {
     //提交返回值
     public void BarcodeSubmit(String result) {
         try {
+            //返回
+            LogUtil.WriteLog(SalesOutReview.class, "返回", result);
+
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -600,6 +604,7 @@ public  class SalesOutReview extends BaseActivity {
                             ;
                             model.ScanQty = inputValue;
                             String json = GsonUtil.parseModelToJson(model);
+                            LogUtil.WriteLog(SalesOutReview.class, "散件提交",json );
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                                     context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         } catch (Exception ex) {
