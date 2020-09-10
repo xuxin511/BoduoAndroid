@@ -3,7 +3,9 @@ package com.liansu.boduowms.modules.outstock.Model;
 
 //物料返回类
  public   class MaterialResponseModel {
+
     public  int Id ;
+    public  String Batchno;
     public String Materialno;
     public String Materialdescen ;
     public String Materialdesc ;
@@ -74,6 +76,14 @@ package com.liansu.boduowms.modules.outstock.Model;
 
 
     public String Modifyer ;
+
+    public String getBatchno() {
+        return Batchno;
+    }
+
+    public void setBatchno(String batchno) {
+        Batchno = batchno;
+    }
 
     public String getCompanycode() {
         return Companycode;

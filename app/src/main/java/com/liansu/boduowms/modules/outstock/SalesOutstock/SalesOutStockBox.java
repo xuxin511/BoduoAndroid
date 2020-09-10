@@ -451,7 +451,10 @@ public  class SalesOutStockBox   extends BaseActivity {
         modelIsExits = new HashMap<String, String>();
         mModel.setOrderDetailList(returnMsgModel.getData());
         mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
-        mList.setAdapter(mAdapter);
+//         for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()) {
+//             stockInfoModels.add(item);
+//         }
+         mList.setAdapter(mAdapter);
         CommonUtil.setEditFocus(sales_outstock_box_watercode);
         CurrOrder = sales_outstock_box_order.getText().toString().trim();
         if(istrue){
@@ -536,7 +539,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     List<OutStockOrderDetailInfo>list= returnMsgModel.getData();
                   //只有一个批次
                   //直接刷新listView
-                    String name = modelIsExits.get(materialModle.Materialno);
+                    String name = modelIsExits.get(materialModle.Materialno+materialModle.getBatchno());
                     if (name==null||name.equals("")) {
                         //不存在
                         //添加到ListView
@@ -551,7 +554,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.setVouchertype(CurrVoucherType);
                         model.setPrintername(UrlInfo.mOutStockPrintName);
                         model.setPrintertype(UrlInfo.mOutStockPrintType);
-                        modelIsExits.put(materialModle.Materialno,materialModle.Materialno);
+                        modelIsExits.put(materialModle.Materialno+materialModle.getBatchno(),materialModle.Materialno);
                         stockInfoModels.add(model);
                         //加到listview
                         mModel.UpdateMaterialItem(model);
@@ -560,7 +563,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     } else {
                         //存在
                         for (OutStockOrderDetailInfo infos : stockInfoModels) {
-                            if (infos.getMaterialno().equals(materialModle.Materialno) ) {
+                            if (infos.getMaterialno().equals(materialModle.Materialno) && infos.getBatchno().equals(materialModle.getBatchno())) {
                                 Float reviewqty =ArithUtil.add(infos.getReviewQty() ,1f);//已拼
                                 Float remainqty =ArithUtil.sub( reviewqty,1f);//未拼
                                 mModel.UpdateMaterialItem(infos);
@@ -809,28 +812,33 @@ public  class SalesOutStockBox   extends BaseActivity {
                                 context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, info.SalesOutstock_Box_Submit, modelJson, null);
                     }else
                     {
-                        //先找到返回的对象
-                        OutStockOrderDetailInfo detailinfo=new OutStockOrderDetailInfo();
-                        for (OutStockOrderDetailInfo item:responseList) {
-                            if (item.getMaterialno().equals(materialModle.Materialno) && item.getBatchno().equals(cities[which])) {
-                                detailinfo = item;
-                            }
-                        }
-                        //再找到存在的对象
-                        for (OutStockOrderDetailInfo item:stockInfoModels) {
-                            if (item.getMaterialno().equals(materialModle.Materialno) && item.getBatchno().equals(cities[which])) {
-                                //判断是否大于下架量/包装量
-                                Float value = ArithUtil.add(item.getQty(), num);
-                                if (ArithUtil.sub(detailinfo.getQty(), value) < 0) {
-                                    MessageBox.Show(context, "该散件的数量已经大于下架数" + detailinfo.getQty());
-                                    return;
-                                }
-                            }
-                        }
-                        List<OutStockOrderDetailInfo> listModel=new ArrayList<OutStockOrderDetailInfo>();
-                        listModel=stockInfoModels;
-                        //散件  刷新界面
-                        String name = modelIsExits.get(materialModle.Materialno+ cities[which]);
+//                        //先找到返回的对象
+//                        OutStockOrderDetailInfo detailinfo=new OutStockOrderDetailInfo();
+//                        for (OutStockOrderDetailInfo item:responseList) {
+//                            if (item.getMaterialno().equals(materialModle.Materialno) && item.getBatchno().equals(cities[which])) {
+//                                detailinfo = item;
+//                            }
+//                        }
+//                        //再找到存在的对象
+//                        for (OutStockOrderDetailInfo item:stockInfoModels) {
+//                            if (item.getMaterialno().equals(materialModle.Materialno) && item.getBatchno().equals(cities[which])) {
+//                                //判断是否大于下架量/包装量
+//                                Float value = ArithUtil.add(item.getQty(), 1f);
+//                                if (ArithUtil.sub(detailinfo.getQty(), value) < 0) {
+//                                    MessageBox.Show(context, "该散件的数量已经大于下架数" + detailinfo.getQty());
+//                                    return;
+//                                }
+//                            }
+//                        }
+//                        List<OutStockOrderDetailInfo> listModel=new ArrayList<OutStockOrderDetailInfo>();
+//                        String detailinfoModel = parseModelToJson(stockInfoModels);
+//                        listModel=  GsonUtil.getGsonUtil().fromJson(detailinfoModel, new TypeToken<List<OutStockOrderDetailInfo>>() {
+//                        }.getType());
+//                        //散件  刷新界面
+//                        String name = modelIsExits.get(materialModle.Materialno+ cities[which]);
+
+                        String name = modelIsExits.get(materialModle.Materialno+cities[which]);
+                         //判断这个有没有
                         if (name==null||name.equals("")) {
                             //不存在
                             //添加到ListView
@@ -840,33 +848,90 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.setBatchno(cities[which]);
                             model.setErpvoucherno(CurrOrder);
                             model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
-                            model.setQTY(num);
+                            model.setQTY(1f);
+                            model.setReviewQty(1f);
+                            model.setVouchertype(CurrVoucherType);
                             model.setPrintername(UrlInfo.mOutStockPrintName);
                             model.setPrintertype(UrlInfo.mOutStockPrintType);
-                            model.setVouchertype(CurrVoucherType);
                             modelIsExits.put(materialModle.Materialno+cities[which],materialModle.Materialno);
-                            listModel.add(0,model);
+                            stockInfoModels.add(model);
+                            //加到listview
+                            mModel.UpdateMaterialItem(model);
+                            //      mList.setAdapter(mAdapter);
+                            mAdapter.notifyDataSetChanged();
                         } else {
-                            listModel=stockInfoModels;
                             //存在
                             for (OutStockOrderDetailInfo infos : stockInfoModels) {
-                                if (infos.getMaterialno().equals(materialModle.Materialno) && infos.getBatchno().equals(cities[which])) {
-                                    listModel.remove(infos);
-                                    Float value =ArithUtil.add(infos.getQty() , num);
-                                    infos.setQTY(value);
-                                    listModel.add(0,infos);
+                                if (infos.getMaterialno().equals(materialModle.Materialno)&&infos.getBatchno().equals(cities[which])  ) {
+                                    Float reviewqty =ArithUtil.add(infos.getReviewQty() ,1f);//已拼
+                                    Float remainqty =ArithUtil.sub( reviewqty,1f);//未拼
+                                    mModel.UpdateMaterialItem(infos);
+                                    mList.setAdapter(mAdapter);
+                                    mAdapter.notifyDataSetChanged();
+                                    infos.setQTY(ArithUtil.add(infos.getQty(),1f));
+                                    infos.setReviewQty(reviewqty);
+                                    infos.setReviewQty(remainqty);
                                 }
                             }
                         }
-                        stockInfoModels=listModel;
-                        mAdapter = new SalesoutstockBoxAdapter(context, listModel);
-                        mList.setAdapter(mAdapter);
-                        mAdapter.notifyDataSetChanged();
+//                        //先找到返回的对象
+//                        OutStockOrderDetailInfo detailinfo=new OutStockOrderDetailInfo();
+//                        for (OutStockOrderDetailInfo item:responseList) {
+//                            if (item.getMaterialno().equals(materialModle.Materialno) && item.getBatchno().equals(cities[which])) {
+//                                detailinfo = item;
+//                            }
+//                        }
+//                        //再找到存在的对象
+//                        for (OutStockOrderDetailInfo item:stockInfoModels) {
+//                            if (item.getMaterialno().equals(materialModle.Materialno) && item.getBatchno().equals(cities[which])) {
+//                                //判断是否大于下架量/包装量
+//                                Float value = ArithUtil.add(item.getQty(), 1f);
+//                                if (ArithUtil.sub(detailinfo.getQty(), value) < 0) {
+//                                    MessageBox.Show(context, "该散件的数量已经大于下架数" + detailinfo.getQty());
+//                                    return;
+//                                }
+//                            }
+//                        }
+//                        List<OutStockOrderDetailInfo> listModel=new ArrayList<OutStockOrderDetailInfo>();
+//                        String detailinfoModel = parseModelToJson(stockInfoModels);
+//                        listModel=  GsonUtil.getGsonUtil().fromJson(detailinfoModel, new TypeToken<List<OutStockOrderDetailInfo>>() {
+//                        }.getType());
+//                        //散件  刷新界面
+//                        String name = modelIsExits.get(materialModle.Materialno+ cities[which]);
+//                        if (name==null||name.equals("")) {
+//                            //不存在
+//                            //添加到ListView
+//                            OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
+//                            model.setMaterialno(materialModle.Materialno);
+//                            model.setMaterialdesc(materialModle.Materialdesc);
+//                            model.setBatchno(cities[which]);
+//                            model.setErpvoucherno(CurrOrder);
+//                            model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
+//                            model.setQTY(1f);
+//                            model.setPrintername(UrlInfo.mOutStockPrintName);
+//                            model.setPrintertype(UrlInfo.mOutStockPrintType);
+//                            model.setVouchertype(CurrVoucherType);
+//                            modelIsExits.put(materialModle.Materialno+cities[which],materialModle.Materialno);
+//                            listModel.add(0,model);
+//                        } else {
+//                        //    listModel=stockInfoModels;
+//                            //存在
+//                            for (OutStockOrderDetailInfo infos : listModel) {
+//                                if (infos.getMaterialno().equals(materialModle.Materialno) && infos.getBatchno().equals(cities[which])) {
+//                                    listModel.remove(infos);
+//                                    Float value =ArithUtil.add(infos.getQty() , 1f);
+//                                    infos.setQTY(value);
+//                                    listModel.add(0,infos);
+//                                }
+//                            }
+//                        }
+//                        stockInfoModels=listModel;
+//                        mAdapter = new SalesoutstockBoxAdapter(context, listModel);
+//                        mList.setAdapter(mAdapter);
+//                        mAdapter.notifyDataSetChanged();
                     }
-                }catch (Exception ex){
-
-                    MessageBox.Show(context, "系统出现异常请重新扫描");
-
+                }catch (Exception ex) {
+                    MessageBox.Show(context, ex.toString());
                 }
             }
         });

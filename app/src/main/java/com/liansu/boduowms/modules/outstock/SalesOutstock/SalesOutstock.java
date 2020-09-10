@@ -988,7 +988,7 @@ public class SalesOutstock  extends BaseActivity  {
 
                 }catch (Exception ex){
                     CommonUtil.setEditFocus(sales_outstock_boxtext);
-                    MessageBox.Show(context, "系统出现异常请重新扫描");
+                    MessageBox.Show(context,ex.toString());
 
                 }
             }
