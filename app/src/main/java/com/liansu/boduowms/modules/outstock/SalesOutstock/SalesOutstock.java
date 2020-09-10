@@ -701,7 +701,7 @@ public class SalesOutstock  extends BaseActivity  {
     //先判断托盘是否存在   再处理逻辑
     public  void   BarcodeisExist(String result){
         try {
-            BaseResultInfo<Outbarcode_Requery> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<Outbarcode_Requery>>() {
+            BaseResultInfo<List<Outbarcode_Requery>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<Outbarcode_Requery>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_pallettext);
@@ -709,10 +709,17 @@ public class SalesOutstock  extends BaseActivity  {
                 palletIsTrue=false;
                 return;
             }
+            if(returnMsgModel.getData().size()>1) {
+                CommonUtil.setEditFocus(sales_outstock_pallettext);
+                MessageBox.Show(context, "该托盘为混托，请选择其它模式下架");
+                palletIsTrue = false;
+                return;
+            }
+            Outbarcode_Requery palletmodel=returnMsgModel.getData().get(0);
             palletIsTrue=true;
             //region   托盘回车
             //判断是否是提交托盘还是箱号
-            String palletno = sales_outstock_pallettext.getText().toString().trim();
+            String palletno =palletmodel.Barcode;
             if (OutStock_Type.equals(OutStock_Submit_type_pallet)) {
                 //调用方法
                 //  MessageBox.Show(context, "是托盘");

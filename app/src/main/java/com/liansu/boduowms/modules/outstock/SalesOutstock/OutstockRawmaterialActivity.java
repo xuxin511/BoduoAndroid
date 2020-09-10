@@ -288,20 +288,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             // CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                             return true;
                         } else {
-                            String materino=palletno.split("%")[0];
-                            String batchno=palletno.split("%")[1];
 
-                            boolean batchnoisTrue=false;
-                            for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()) {
-                                if (item.getBatchno().equals(batchno) && item.getMaterialno().equals(materino)) {
-                                    batchnoisTrue=true;
-                                }
-                            }
-                            if(!batchnoisTrue) {
-                                CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                                MessageBox.Show(context, "请确认,扫描的托盘批次或者物料不存在列表中");
-                                return true;
-                            }
                             //先判断托盘是否存在
                             //下架下的是原材料 所以可以先check所有的托盘物料是否已经超发过一次，或者
                             Outbarcode_Requery model = new Outbarcode_Requery();
@@ -545,44 +532,64 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         }
     }
 
+    //输入数量的托盘对象
+    Outbarcode_Requery palletModel=new  Outbarcode_Requery();
 
     //先判断托盘是否存在   再处理逻辑
     public void BarcodeisExist(String result) {
         try {
-            BaseResultInfo<Outbarcode_Requery> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<Outbarcode_Requery>>() {
+            palletModel=new  Outbarcode_Requery();
+            BaseResultInfo<List<Outbarcode_Requery>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<Outbarcode_Requery>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-            //check到货单号
+            //混托报错
+            if(returnMsgModel.getData().size()>1) {
+                CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                MessageBox.Show(context, "检测到该托盘是混托，不能混托下架");
+                return;
+            }
+            //托盘对象
+            palletModel=returnMsgModel.getData().get(0);
+            //check到货单号  验退（成品，采购，销售）
             if (CurrVoucherType == 28 || CurrVoucherType == 61 || CurrVoucherType == 62) {
-                if (!CurrOrderNO.equals(returnMsgModel.getData().Qualityno)) {
+                if (!CurrOrderNO.equals(palletModel.Qualityno)) {
                     CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                     MessageBox.Show(context, "该托盘号对应的质检单跟单据不一致");
                     return;
                 }
             }
-            //check 订单数量
-            //region   托盘回车
-            //找到单据数量 传过去
-            String palletno = sales_outstock_material_pallettext.getText().toString().trim();
-            String[] palletarr = palletno.split("%");
-            boolean   isExist=false;
+            String materino=palletModel.getMaterialno();
+            String batchno=palletModel.getBatchno();
             //找到该托盘物料
             OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
-            for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-                if (item.getMaterialno().equals(palletarr[0])) {
-                    isExist=true;
-                    model = item;
+            boolean batchnoisTrue=false;
+            //check批次  验退（成品，采购，销售） 仓退
+            if(CurrVoucherType==27||CurrVoucherType==28||CurrVoucherType==61||CurrVoucherType==62){//验退
+
+                for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                    if (item.getBatchno().equals(batchno) && item.getMaterialno().equals(materino)) {
+                        batchnoisTrue = true;
+                        model = item;
+                    }
+                }
+            }else {
+                for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                    if (item.getMaterialno().equals(materino)) {
+                        batchnoisTrue = true;
+                        model = item;
+                    }
                 }
             }
-            if(!isExist){
+            if(!batchnoisTrue) {
                 CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                MessageBox.Show(context, "扫描托盘对应的物料不在订单中,请确认");
+                MessageBox.Show(context, "请确认,扫描的托盘对应的批次或者物料不存在当前列表中");
                 return;
             }
+
             //原材料可以混托下架吗
             // OutStockOrderDetailInfo model = stockorderdetail.get(palletarr[0] + palletarr[1]);
             if (model != null) {
@@ -595,14 +602,28 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 } else {
                     if (arr == 0) {
                         CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                        MessageBox.Show(context, palletarr[0] + "该物料已经扫描完成,请确认");
+                        MessageBox.Show(context, model.getMaterialno() + "该物料已经扫描完成,请确认");
                         return;
                     }
                     //判断数量是否大于当前行
-//                    if(model.getRemainqty()>palletarr[0]){
-//                    }
-
-                    inputTitleDialog("该物料行剩余数量为:" + model.getRemainqty());
+                    if(ArithUtil.sub(model.getRemainqty(),returnMsgModel.getData().get(0).getQty())>0) {
+                        SalesoutstockRequery modelRequery = new SalesoutstockRequery();
+                        modelRequery.Erpvoucherno = CurrOrderNO;
+                        modelRequery.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+                        modelRequery.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                        modelRequery.PalletNo = palletModel.getBarcode();
+                        String[] strPallet = modelRequery.PalletNo.split("%");
+                        modelRequery.Vouchertype = CurrVoucherType;
+                        modelRequery.MaterialNo = strPallet[0];
+                        modelRequery.Batchno = strPallet[1];
+                        modelRequery.BarcodeType = 3;
+                        modelRequery.ScanQty =palletModel.getQty() ;
+                        String json = GsonUtil.parseModelToJson(modelRequery);
+                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitPallet, "托盘提交中",
+                                context, mHandler, RESULT_Saleoutstock_ScannPalletNo, null, info.SalesOutstock_SacnningPallet, json, null);
+                    }else{
+                        inputTitleDialog("该物料行剩余数量为:" + model.getRemainqty());
+                    }
                 }
             } else {
                 MessageBox.Show(context, "当前订单不存在该托盘物料，请确认");
@@ -670,18 +691,10 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 
     //扫描或者输入数量
     private void inputTitleDialog(String name) {
-
-        final String palletno = sales_outstock_material_pallettext.getText().toString().trim();
+        final String palletno = palletModel.Barcode;
         if (!IsSacnningOrder()) {
             return;
         }
-        if (palletno.equals("")) {
-            CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-            MessageBox.Show(context, "托盘号不能为空");
-
-            return;
-        }
-
         final EditText inputServer = new EditText(this);
         inputServer.setSingleLine(true);
         inputServer.setHint("请输入托盘数量");
@@ -702,7 +715,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                         try {
                             Float inputValue = Float.parseFloat(Value);
                             inputNum = inputValue;
-                            String palletno = sales_outstock_material_pallettext.getText().toString().trim();
+                            String palletno = palletModel.Barcode;
                             String[] strPallet = palletno.split("%");
                             SalesoutstockRequery model = new SalesoutstockRequery();
                             model.Erpvoucherno = CurrOrderNO;
@@ -718,8 +731,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitPallet, "托盘提交中",
                                     context, mHandler, RESULT_Saleoutstock_ScannPalletNo, null, info.SalesOutstock_SacnningPallet, json, null);
                             //}
-
-
                         } catch (Exception ex) {
                             CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                             MessageBox.Show(context, "请输入正确的数量");

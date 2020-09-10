@@ -538,7 +538,6 @@ public  class SalesOutReview extends BaseActivity {
         try {
             //返回
             LogUtil.WriteLog(SalesOutReview.class, "返回", result);
-
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {

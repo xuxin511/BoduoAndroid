@@ -5,8 +5,32 @@ public class Outbarcode_Requery {
     public  int        Vouchertype;
     public  int    Towarehouseid;
     public  String Towarehouseno;
+    public   Float Qty;
 
-    /// <summary>
+    public  String Materialno;
+
+    public String  Batchno;
+
+
+
+
+    public String getMaterialno() {
+        return Materialno;
+    }
+
+    public void setMaterialno(String materialno) {
+        Materialno = materialno;
+    }
+
+    public String getBatchno() {
+        return Batchno;
+    }
+
+    public void setBatchno(String batchno) {
+        Batchno = batchno;
+    }
+
+/// <summary>
     /// 到货单
     /// </summary>
 
@@ -16,6 +40,15 @@ public class Outbarcode_Requery {
     /// 质检单
     /// </summary>
     public String Qualityno ;
+
+    public Float getQty() {
+        return Qty;
+    }
+
+    public void setQty(Float qty) {
+        Qty = qty;
+    }
+
     public String getArrvoucherno() {
         return Arrvoucherno;
     }
