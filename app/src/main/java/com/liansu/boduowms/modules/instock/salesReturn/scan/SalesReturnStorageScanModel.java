@@ -48,8 +48,8 @@ public class SalesReturnStorageScanModel extends BaseOrderScanModel {
     OutBarcodeInfo       mCurrentPalletInfo;
     List<OutBarcodeInfo> mList = new ArrayList<>();
 
-    public SalesReturnStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
-        super(context, handler);
+    public SalesReturnStorageScanModel(Context context, MyHandler<BaseActivity> handler,int voucherType) {
+        super(context, handler,voucherType);
     }
 
     @Override

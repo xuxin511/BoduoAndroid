@@ -459,6 +459,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
         }else if (item.getItemId() == R.id.menu_order_reprint){
             Intent intent = new Intent();
             intent.setClass(TransferToStorageScan.this, BaseOrderLabelPrintSelect.class);
+            intent.putExtra("VOUCHER_TYPE",mPresenter.getModel().getVoucherType());
             startActivityLeft(intent);
         }
         return false;

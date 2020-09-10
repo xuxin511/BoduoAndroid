@@ -12,6 +12,7 @@ import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -42,7 +43,7 @@ public class SalesReturnStorageScanPresenter {
     public SalesReturnStorageScanPresenter(Context context, ISalesReturnStorageScanView view, MyHandler<BaseActivity> handler) {
         this.mContext = context;
         this.mView = view;
-        this.mModel = new SalesReturnStorageScanModel(context, handler);
+        this.mModel = new SalesReturnStorageScanModel(context, handler, OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE);
 
     }
 

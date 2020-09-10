@@ -55,8 +55,9 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
     protected     OrderHeaderInfo            mHeaderInfo                     = null;
     protected     OrderDetailInfo            mCurrentDetailInfo              = null;
     BaseModel mBaseModel; //所有订单类型的model 类基类
-    public final String                ORDER_TYPE_NONE  = "请选择";
-    private      List<VoucherTypeInfo> mVoucherTypeList = new ArrayList<>();
+    public final String                ORDER_TYPE_NONE   = "请选择";
+    private      List<VoucherTypeInfo> mVoucherTypeList  = new ArrayList<>();
+    public final int                   VOUCHER_TYPE_NONE = -1; //未选择单据类型
 
     public BaseOrderLabelPrintSelectModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
@@ -168,23 +169,23 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 activeOtherScanModel.requestActiveOtherDetail(postActiveOtherScanInfo, callBackListener);
                 break;
             case OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE:
-                TransferToStorageScanModel transferToStorageScanModel=new TransferToStorageScanModel(mContext,mHandler);
+                TransferToStorageScanModel transferToStorageScanModel = new TransferToStorageScanModel(mContext, mHandler);
                 mBaseModel = transferToStorageScanModel;
                 OrderRequestInfo postTransferToStorageScanModelScanInfo = new OrderRequestInfo();
                 postTransferToStorageScanModelScanInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 postTransferToStorageScanModelScanInfo.setVouchertype(voucherType);
                 postTransferToStorageScanModelScanInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-                transferToStorageScanModel.requestOrderDetail(postTransferToStorageScanModelScanInfo,callBackListener);
+                transferToStorageScanModel.requestOrderDetail(postTransferToStorageScanModelScanInfo, callBackListener);
                 break;
 
             case OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE:
-                TransferToStorageScanModel transferToStorageScanModel2=new TransferToStorageScanModel(mContext,mHandler);
+                TransferToStorageScanModel transferToStorageScanModel2 = new TransferToStorageScanModel(mContext, mHandler);
                 mBaseModel = transferToStorageScanModel2;
                 OrderRequestInfo postTransferToStorageScanModelScanInfo2 = new OrderRequestInfo();
                 postTransferToStorageScanModelScanInfo2.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 postTransferToStorageScanModelScanInfo2.setVouchertype(voucherType);
                 postTransferToStorageScanModelScanInfo2.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-                transferToStorageScanModel2.requestOrderDetail(postTransferToStorageScanModelScanInfo2,callBackListener);
+                transferToStorageScanModel2.requestOrderDetail(postTransferToStorageScanModelScanInfo2, callBackListener);
                 break;
             case OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE:
                 ProductionReturnsModel productionReturnsModel = new ProductionReturnsModel(mContext, mHandler);
@@ -268,8 +269,8 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 if (materialInfo != null) {
                     String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
                     if (materialNo.trim().equals(barcodeMaterialNo.trim())) {
-                        if (materialInfo.getRemainqty() != 0) {
-                            sMaterialInfoList.add(materialInfo);
+//                        if (materialInfo.getRemainqty() != 0) {
+                        sMaterialInfoList.add(materialInfo);
 //                            info.setUnit(sMaterialInfo.getUnit());
 //                            info.setMaterialno(sMaterialInfo.getMaterialno());
 //                            info.setMaterialdesc(sMaterialInfo.getMaterialdesc());
@@ -281,14 +282,14 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
 //                            info.setPackQty(sMaterialInfo.getPackQty());
 //                            info.setSpec(sMaterialInfo.getSpec());
 
-                        }
+//                        }
 
 
                     }
                 }
             }
 
-            if (sMaterialInfoList != null && sMaterialInfoList.size()>0) {
+            if (sMaterialInfoList != null && sMaterialInfoList.size() > 0) {
                 resultInfo.setHeaderStatus(true);
                 resultInfo.setInfo(sMaterialInfoList);
             } else {
@@ -314,17 +315,22 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/8/14 13:59
      */
-    public List<String> getVoucherTypeNameList() {
+    public List<String> getVoucherTypeNameList(int voucherType) {
         List<String> list = new ArrayList<>();
 //        list.add(ORDER_TYPE_NONE);
         for (String key : mVoucherTypeMap.keySet()) {
             if (!list.contains(key)) {
-                if (mVoucherTypeMap.get(key)==OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE){
-                    list.add(0,key);
-                }else {
+                if (mVoucherTypeMap.get(key) == voucherType || voucherType == VOUCHER_TYPE_NONE) {
+                    if (voucherType != VOUCHER_TYPE_NONE) {
+                        list.add(0, key);
+                    } else {
+                        if (mVoucherTypeMap.get(key) == IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
+                            list.add(0, key);
+                        }
+                    }
+                } else {
                     list.add(key);
                 }
-
             }
 
         }
@@ -361,7 +367,7 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
      */
     public void sortDetailList(String materialNo) {
         String[] sortNameArr = {"Materialno", "Remainqty"};
-        boolean[] isAscArr = {true,true};
+        boolean[] isAscArr = {true, true};
         ListUtils.sort(mOrderDetailList, sortNameArr, isAscArr);
         List<OrderDetailInfo> taskDoneList = new ArrayList<>();
         List<OrderDetailInfo> currentMaterialList = new ArrayList<>();
@@ -369,7 +375,7 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
         while (it.hasNext()) {
             OrderDetailInfo item = it.next();
             String sMaterialNo = item.getMaterialno() != null ? item.getMaterialno() : "";
-            if (materialNo!=null &&materialNo.equals(sMaterialNo)) {
+            if (materialNo != null && materialNo.equals(sMaterialNo)) {
                 if (item.getRemainqty() > 0 && ArithUtil.sub(item.getVoucherqty(), item.getRemainqty()) > 0) {
                     it.remove();
                     currentMaterialList.add(item);
@@ -377,7 +383,7 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 }
             }
             //变绿的沉底
-            if ( item.getRemainqty() == 0) {
+            if (item.getRemainqty() == 0) {
                 it.remove();
                 taskDoneList.add(item);
 
@@ -390,8 +396,8 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
 
         }
         //正在扫描的物料放在最前面
-        if (currentMaterialList.size()>0){
-            mOrderDetailList.addAll(0,currentMaterialList);
+        if (currentMaterialList.size() > 0) {
+            mOrderDetailList.addAll(0, currentMaterialList);
         }
 
     }

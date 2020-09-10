@@ -42,7 +42,7 @@ public class ActiveOtherScanModel extends BaseOrderScanModel {
     private final int RESULT_TAG_POST_T_OTHER_DETAIL_ADF_ASYNC     = 112;
 
     public ActiveOtherScanModel(Context context, MyHandler<BaseActivity> handler) {
-        super(context, handler);
+        super(context, handler,OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE);
     }
 
     @Override

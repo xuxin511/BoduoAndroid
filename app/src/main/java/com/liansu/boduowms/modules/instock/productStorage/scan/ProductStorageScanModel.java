@@ -11,6 +11,7 @@ import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanModel;
@@ -46,7 +47,7 @@ public class ProductStorageScanModel extends BaseOrderScanModel {
     private final int RESULT_TAG_GET_T_WORK_ORDER_DETAIL_LIST_ADF_ASYNC = 125;
 
     public ProductStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
-        super(context, handler);
+        super(context, handler, OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
     }
 
     @Override

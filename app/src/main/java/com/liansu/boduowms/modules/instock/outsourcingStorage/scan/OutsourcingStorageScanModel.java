@@ -7,6 +7,7 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanModel;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -31,7 +32,7 @@ public class OutsourcingStorageScanModel extends BaseOrderScanModel {
     private final int RESULT_Msg_GetAreaModelADF                     = 104;
 
     public OutsourcingStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
-        super(context, handler);
+        super(context, handler, OrderType.IN_STOCK_ORDER_TYPE_OUTSOURCING_STORAGE_VALUE);
     }
 
     @Override
@@ -83,6 +84,7 @@ public class OutsourcingStorageScanModel extends BaseOrderScanModel {
     public void requestCombineAndReferPallet(OrderDetailInfo info, NetCallBackListener<String> callBackListener) {
 
     }
+
     /**
      * @desc: 过账
      * @param:
@@ -114,10 +116,13 @@ public class OutsourcingStorageScanModel extends BaseOrderScanModel {
 //        LogUtil.WriteLog(BaseOrderScan.class, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, modelJson);
 //        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, mContext.getString(R.string.message_request_barcode_refer), mContext, mHandler, RESULT_TAG_SAVE_IN_STOCK_WORK_ORDER_LIST_TO_DB, null, UrlInfo.getUrl().Save_InStockWorkOrderListToDB, modelJson, null);
     }
+
     @Override
     protected PrintInfo getPrintModel(OutBarcodeInfo outBarcodeInfo) {
         return null;
     }
+
+
 
 
 }

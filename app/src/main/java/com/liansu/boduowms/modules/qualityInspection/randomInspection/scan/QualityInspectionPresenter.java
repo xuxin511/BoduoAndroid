@@ -11,6 +11,7 @@ import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
@@ -184,47 +185,57 @@ public class QualityInspectionPresenter {
                 }
 
             }
+
             if (scanQRCode != null) {
                 OutBarcodeInfo postInfo = new OutBarcodeInfo();
                 postInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
                 postInfo.setBarcode(scanQRCode.getBarcode());
-                postInfo.setVouchertype(47);
+                postInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE);
                 scanQRCode.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
-                scanQRCode.setVouchertype(47);
+                scanQRCode.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE);
                 mModel.requestPalletInfoFromStockQuery2(postInfo, new NetCallBackListener<String>() {
                     @Override
                     public void onCallBack(String result) {
                         try {
                             LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_CHECK_T_PALLET_BARCODE_SYNC, result);
-                            BaseResultInfo<StockInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<StockInfo>>() {
+                            BaseResultInfo<List<StockInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<StockInfo>>>() {
                             }.getType());
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                                StockInfo stockInfo = returnMsgModel.getData();
-                                if (stockInfo != null) {
-                                    BaseMultiResultInfo<Boolean, QualityHeaderInfo> resultInfo = mModel.findAndCheckMaterialInfo(stockInfo);
-                                    if (resultInfo.getHeaderStatus()) {
-                                        QualityHeaderInfo materialInfo = resultInfo.getInfo();
-                                        if (materialInfo != null) {
-                                            mModel.setCurrentBarcodeInfo(stockInfo);
-                                            float qty = stockInfo.getQty();
-                                           float scannedQty = mModel.getScannedQty();
-                                            float remainWty = mModel.getCurrentDetailInfo().getRemainqty();
-                                            float remainQty = ArithUtil.sub(remainWty, scannedQty);
-                                            if (remainQty >= qty && qty <= remainWty) {
-                                                mView.setQty(qty + "");
+                                if (returnMsgModel.getData() != null && returnMsgModel.getData().size() > 0) {
+                                    StockInfo stockInfo = returnMsgModel.getData().get(0);
+                                    if (stockInfo != null) {
+                                        BaseMultiResultInfo<Boolean, QualityHeaderInfo> resultInfo = mModel.findAndCheckMaterialInfo(stockInfo);
+                                        if (resultInfo.getHeaderStatus()) {
+                                            QualityHeaderInfo materialInfo = resultInfo.getInfo();
+                                            if (materialInfo != null) {
+                                                mModel.setCurrentBarcodeInfo(stockInfo);
+                                                float qty = stockInfo.getQty();
+                                                float scannedQty = mModel.getScannedQty();
+                                                float remainWty = mModel.getCurrentDetailInfo().getRemainqty();
+                                                float remainQty = ArithUtil.sub(remainWty, scannedQty);
+                                                if (remainQty >= qty && qty <= remainWty) {
+                                                    mView.setQty(qty + "");
+                                                }
+
+
                                             }
-
-
+                                        } else {
+                                            MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    mView.onBarcodeFocus();
+                                                }
+                                            });
+                                            return;
                                         }
-                                    } else {
-                                        MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                mView.onBarcodeFocus();
-                                            }
-                                        });
-                                        return;
                                     }
+                                } else {
+                                    MessageBox.Show(mContext, "查询条码失败:获取条码信息为空" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
                                 }
 
 
@@ -337,9 +348,9 @@ public class QualityInspectionPresenter {
             });
             return;
         }
-        float remainQty=ArithUtil.sub(mModel.getCurrentDetailInfo().getVoucherqty(),mModel.getCurrentDetailInfo().getSampqty());
-        if (qty>remainQty){
-            MessageBox.Show(mContext, "抽检数量["+qty+"]不能大于剩余抽检数量["+remainQty+"]", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+        float remainQty = ArithUtil.sub(mModel.getCurrentDetailInfo().getVoucherqty(), mModel.getCurrentDetailInfo().getSampqty());
+        if (qty > remainQty) {
+            MessageBox.Show(mContext, "抽检数量[" + qty + "]不能大于剩余抽检数量[" + remainQty + "]", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onQtyFocus();
@@ -426,7 +437,7 @@ public class QualityInspectionPresenter {
 
     }
 
-    public void onReset(){
+    public void onReset() {
         mModel.onReset();
         mView.onReset();
     }

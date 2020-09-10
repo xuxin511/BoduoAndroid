@@ -11,6 +11,7 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanModel;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.modules.print.linkos.PrintType;
@@ -39,7 +40,7 @@ public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
     private final int RESULT_TAG_POST_T_WORK_ORDER_RETURN_DETAIL_ADF_ASYNC = 123;
 
     public ProductionReturnsStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
-        super(context, handler);
+        super(context, handler, OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE);
     }
 
     @Override
@@ -143,4 +144,6 @@ public class ProductionReturnsStorageScanModel extends BaseOrderScanModel {
 
 
     }
+
+
 }

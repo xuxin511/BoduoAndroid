@@ -42,14 +42,16 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
     private final int RESULT_TAG_GET_T_TRANSFER_IN_DETAIL_LIST_ADF_ASYNC = 126;
     private final int RESULT_TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC     = 127;
     private final int RESULT_TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC     = 128;
-    private int mVoucherType=-1;
+
     public TransferToStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
     }
-    public TransferToStorageScanModel(Context context, MyHandler<BaseActivity> handler,int voucherType) {
+
+    public TransferToStorageScanModel(Context context, MyHandler<BaseActivity> handler, int voucherType) {
         super(context, handler);
-        mVoucherType=voucherType;
+        mVoucherType = voucherType;
     }
+
     @Override
     public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
@@ -269,12 +271,5 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
     }
 
 
-    public void setVoucherType(int voucherType){
-        mVoucherType=voucherType;
-    }
-
-    public int  getVoucherType(){
-        return mVoucherType;
-    }
 
 }

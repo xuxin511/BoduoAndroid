@@ -51,5 +51,9 @@ public class OrderType {
     public final static int    IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE = 58;  //一阶段调拨入库
     public final static int    IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE = 52;  //工单退料入库
     public final static int    IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE = 66;  //无源入库
+    public final static int    IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE = 47;  //到货抽检
+    public final static int    IN_STOCK_ORDER_TYPE_OUTSOURCING_STORAGE_VALUE = -1;  //委外入库
+
+
 
 }

@@ -68,7 +68,7 @@ public class BaseOrderLabelPrintSelectPresenter {
      * @author: Nietzsche
      * @time 2020/8/14 14:05
      */
-    public void getVoucherTypeList() {
+    public void getVoucherTypeList(final int voucherType) {
         mModel.requestVoucherInfoQuery(new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -80,7 +80,7 @@ public class BaseOrderLabelPrintSelectPresenter {
                         List<VoucherTypeInfo> list = returnMsgModel.getData();
                         if (list != null && list.size() > 0) {
                             mModel.setVoucherTypeList(list);
-                            List<String> voucherTypeNameList = mModel.getVoucherTypeNameList();
+                            List<String> voucherTypeNameList = mModel.getVoucherTypeNameList(voucherType);
                             if (voucherTypeNameList != null && voucherTypeNameList.size() > 0) {
                                 mView.setSpinnerData(voucherTypeNameList);
                             }
@@ -141,6 +141,7 @@ public class BaseOrderLabelPrintSelectPresenter {
                                 mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                                 mModel.setOrderHeaderInfo(orderHeaderInfo);
                                 if (mModel.getOrderDetailList().size() > 0) {
+                                    mView.setErpVoucherNo(orderHeaderInfo.getErpvoucherno());
                                     mView.bindListView(mModel.getOrderDetailList());
                                     mView.onMaterialFocus();
                                 } else {
@@ -329,8 +330,10 @@ public class BaseOrderLabelPrintSelectPresenter {
                             //   现在的外箱需要订单号，直接用托盘的方式
                             if (mModel.getOrderDetailList().size() > 0) {
                                 onScanByPalletNoPrintType(scanQRCode);
+                            }else {
+                                onScanByOuterBoxPrintType(scanQRCode);
                             }
-//                            onScanByOuterBoxPrintType(scanQRCode);
+                                //
                         } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO) {
                             if (mModel.getOrderDetailList().size() > 0) {
                                 onScanByPalletNoPrintType(scanQRCode);

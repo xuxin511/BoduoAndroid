@@ -167,7 +167,6 @@ public class QualityInspectionModel extends BaseModel {
         String modelJson=parseModelToJson(info);
         LogUtil.WriteLog(QualityInspection.class, TAG_GET_T_PURCHASE_ORDER_LIST_ADF, parseModelToJson(info));
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_PURCHASE_ORDER_LIST_ADF, "正在查询托盘信息...", mContext, mHandler, RESULT_TAG_GET_T_PURCHASE_ORDER_LIST_ADF, null, UrlInfo.getUrl().GetT_ScanStockADFAsync, modelJson, null);
-
     }
 
 

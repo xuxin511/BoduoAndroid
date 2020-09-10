@@ -45,7 +45,7 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
     private final int RESULT_Msg_PostT_PurchaseDetailADFAsync        = 114;
 
     public PurchaseStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
-        super(context, handler);
+        super(context, handler,OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE);
     }
 
     @Override
@@ -161,5 +161,6 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
 
 
     }
+
 
 }

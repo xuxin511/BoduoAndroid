@@ -77,7 +77,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     BaseOrderLabelPrintDetailAdapter   mAdapter;
     ArrayAdapter                       mVoucherTypeNameArrayAdapter;
     protected UserSettingPresenter mUserSettingPresenter;
-
+    int mVoucherType=-1;
     @Override
     public void onHandleMessage(Message msg) {
         if (mPresenter != null) {
@@ -113,6 +113,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     @Override
     protected void initData() {
         super.initData();
+        mVoucherType=getIntent().getIntExtra("VOUCHER_TYPE",-1);
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);
     }
 
@@ -315,7 +316,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
         super.onResume();
         if (mPresenter == null) {
             mPresenter = new BaseOrderLabelPrintSelectPresenter(mContext, this, mHandler);
-            mPresenter.getVoucherTypeList();
+            mPresenter.getVoucherTypeList(mVoucherType);
             initViewStatus(getPrintType());
         } else {
             mPresenter.onReset(false);
@@ -377,6 +378,11 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
             onMaterialFocus();
 
         }
+    }
+
+    @Override
+    public void setErpVoucherNo(String erpVoucherNo) {
+        mErpVoucherNo.setText(erpVoucherNo);
     }
 
     @Override

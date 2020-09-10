@@ -8,6 +8,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.salesReturn.scan.SalesReturnStorageScanModel;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -26,7 +27,7 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonAr
 public class NoSourceOtherStorageScanModel extends SalesReturnStorageScanModel {
 
     public NoSourceOtherStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
-        super(context, handler);
+        super(context, handler, OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE);
     }
 
     @Override

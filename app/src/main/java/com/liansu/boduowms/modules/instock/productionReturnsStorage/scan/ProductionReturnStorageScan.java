@@ -395,6 +395,7 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
         }else if (item.getItemId() == R.id.menu_order_reprint){
             Intent intent = new Intent();
             intent.setClass(ProductionReturnStorageScan.this, BaseOrderLabelPrintSelect.class);
+            intent.putExtra("VOUCHER_TYPE",mPresenter.getModel().getVoucherType());
             startActivityLeft(intent);
         }
         return false;

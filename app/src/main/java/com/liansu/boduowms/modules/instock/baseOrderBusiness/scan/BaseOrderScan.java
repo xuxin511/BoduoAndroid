@@ -125,6 +125,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
     @Override
     protected void initData() {
         super.initData();
+
         OrderHeaderInfo headerInfo = getIntent().getParcelableExtra("OrderHeaderInfo");
         List<OutBarcodeInfo> barCodeInfos = getIntent().getParcelableArrayListExtra("barCodeInfo");
         mBusinessType = getIntent().getStringExtra("BusinessType").toString();
@@ -273,6 +274,10 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
         } else if (item.getItemId() == R.id.menu_order_reprint) {
             Intent intent = new Intent();
             intent.setClass(BaseOrderScan.this, BaseOrderLabelPrintSelect.class);
+            if (mPresenter!=null){
+                intent.putExtra("VOUCHER_TYPE",mPresenter.getModel().getVoucherType());
+            }
+
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("inStockType", COMBINE_PALLET_TYPE_RECEIPTION);
 //            bundle.putParcelable("orderHeader", mPresenter.getModel().getOrderHeaderInfo());
@@ -485,6 +490,8 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
         }
 
     }
+
+
 
 
 }

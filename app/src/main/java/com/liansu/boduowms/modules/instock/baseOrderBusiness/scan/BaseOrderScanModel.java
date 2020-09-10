@@ -51,12 +51,15 @@ public abstract class BaseOrderScanModel extends BaseModel {
     protected       OrderHeaderInfo            mHeaderInfo                                    = null;
     protected       AreaInfo                   mAreaInfo;
     protected       OrderRequestInfo           mOrderRequestInfo;
-
+    protected int mVoucherType=-1;
 
     public BaseOrderScanModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
     }
-
+    public BaseOrderScanModel(Context context, MyHandler<BaseActivity> handler,int voucherType) {
+        super(context, handler);
+        setVoucherType(voucherType);
+    }
     @Override
     public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
@@ -589,6 +592,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
         boolean[] isAscArr = {true, true};
         ListUtils.sort(mOrderDetailList, sortNameArr, isAscArr);
         List<OrderDetailInfo> taskDoneList = new ArrayList<>();
+        List<OrderDetailInfo> taskDoingList = new ArrayList<>();
         List<OrderDetailInfo> currentMaterialList = new ArrayList<>();
         Iterator<OrderDetailInfo> it = mOrderDetailList.iterator();
         while (it.hasNext()) {
@@ -601,19 +605,30 @@ public abstract class BaseOrderScanModel extends BaseModel {
                     continue;
                 }
             }
+            //正在扫描的物料行
+            if (item.getRemainqty() > 0 && ArithUtil.sub(item.getVoucherqty(), item.getRemainqty()) > 0) {
+                it.remove();
+                taskDoingList.add(item);
+                continue;
+            }
             //变绿的沉底
             if (item.getRemainqty() == 0) {
                 it.remove();
                 taskDoneList.add(item);
-
+                continue;
             }
 
+        }
+        //扫描中的物料（不包含当前扫描的）
+        if (taskDoingList.size() > 0) {
+            mOrderDetailList.addAll(0, taskDoingList);
         }
         //扫描完毕的沉底
         if (taskDoneList.size() > 0) {
             mOrderDetailList.addAll(taskDoneList);
 
         }
+
         //正在扫描的物料放在最前面
         if (currentMaterialList.size() > 0) {
             mOrderDetailList.addAll(0, currentMaterialList);
@@ -635,25 +650,40 @@ public abstract class BaseOrderScanModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/8/8 11:38
      */
-    public   BaseMultiResultInfo<Boolean, Void>  isOrderScanFinished(){
+    public BaseMultiResultInfo<Boolean, Void> isOrderScanFinished() {
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
-        boolean IS_ORDER_FINISHED=true;
-        for (OrderDetailInfo info:mOrderDetailList){
-            if (info!=null){
-                if (info.getRemainqty()!=0){
-                    IS_ORDER_FINISHED=false;
+        boolean IS_ORDER_FINISHED = true;
+        for (OrderDetailInfo info : mOrderDetailList) {
+            if (info != null) {
+                if (info.getRemainqty() != 0) {
+                    IS_ORDER_FINISHED = false;
                     break;
                 }
             }
         }
-        if (IS_ORDER_FINISHED){
+        if (IS_ORDER_FINISHED) {
             resultInfo.setHeaderStatus(true);
             resultInfo.setMessage("订单已扫描完毕!");
-        }else {
+        } else {
             resultInfo.setHeaderStatus(false);
 
         }
         return resultInfo;
+    }
+
+
+    public void setVoucherType(int voucherType){
+        mVoucherType=voucherType;
+    }
+    /**
+     * @desc: 获取单据类型
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/10 17:58
+     */
+    public int  getVoucherType(){
+        return mVoucherType;
     }
 
 
