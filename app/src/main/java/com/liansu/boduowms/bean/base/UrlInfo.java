@@ -121,6 +121,8 @@ public class UrlInfo {
     public String SalesOutstock_GetBoxList     = GetWCFAdress() + "OutStock/GetPackage_CartonScanADFAsync";//获取拼箱列表
     public String SalesOutstock_DelBox         = GetWCFAdress() + "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
     public String SalesOutstock_BoxList        = GetWCFAdress() + "OutStock/GetPackage_CartonDetail";//获取订单拼箱列表
+    public String SalesOutstock_PrintBox       = GetWCFAdress() + "OutStock/PrintPackage_CartonScanADFAsync";//打印拼箱
+
 
     //复核
     public String SalesOutstock_Review_ScanningNo               = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据

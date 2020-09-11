@@ -499,10 +499,10 @@ public class SalesOutstock  extends BaseActivity  {
 //    private void  sales_buttonp_Submit(View view) {
 //        inputTitleDialog("输入散件数量");
 //    }
-//    @Event(value =R.id.outstock_sales_buttonyue)
-//    private void  yuetai_buttonp_Submit(View view) {
-//        inputYUETAIDialog("输入月台");
-//    }
+    @Event(value =R.id.outstock_sales_buttonyue)
+    private void  yuetai_buttonp_Submit(View view) {
+        inputYUETAIDialog("输入月台");
+    }
 
 
 
@@ -677,6 +677,19 @@ public class SalesOutstock  extends BaseActivity  {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
+
+            boolean ispalletexits=false;
+            for (Outbarcode_Requery item:palletList) {
+                if (item.getMaterialno().equals(returnMsgModel.getData().Materialno)) {
+                    ispalletexits=true;
+                }
+            }
+            if(!ispalletexits) {
+                CommonUtil.setEditFocus(sales_outstock_boxtext);
+                MessageBox.Show(context, "扫描的散件或者物料不在该托盘下");
+                return;
+            }
+
             materialModle = returnMsgModel.getData();
             //如果包装量等于1
             Float packqty = Float.parseFloat(materialModle.Packqty);
@@ -696,11 +709,12 @@ public class SalesOutstock  extends BaseActivity  {
     }
 
 
-
+    List<Outbarcode_Requery> palletList=new ArrayList<Outbarcode_Requery>();
 
     //先判断托盘是否存在   再处理逻辑
     public  void   BarcodeisExist(String result){
         try {
+            palletList=    new ArrayList<Outbarcode_Requery>();
             BaseResultInfo<List<Outbarcode_Requery>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<Outbarcode_Requery>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -715,6 +729,7 @@ public class SalesOutstock  extends BaseActivity  {
                 palletIsTrue = false;
                 return;
             }
+            palletList=returnMsgModel.getData();
             Outbarcode_Requery palletmodel=returnMsgModel.getData().get(0);
             palletIsTrue=true;
             //region   托盘回车
@@ -909,30 +924,55 @@ public class SalesOutstock  extends BaseActivity  {
 
     private   String inputYuetai;
 
-//    //扫描或者输入月台
-//    private void inputYUETAIDialog(String name) {
-//        if(IsSacnningOrder()){
-//        final EditText inputServer = new EditText(this);
-//        inputServer.setFocusable(true);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle(name).setIcon(
-//                null).setView(inputServer).setNegativeButton(
-//                "取消", null);
-//        builder.setPositiveButton("确认提交月台",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        inputYuetai = inputServer.getText().toString();
-//                        Platform model=new Platform();
-//                        model.Erpvoucherno=CurrOrderNO;
-//                        model.Platform=inputYuetai;
-//                        String json = GsonUtil.parseModelToJson(model);
-//                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
-//                                context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
-//                    }
-//                });
-//        builder.show();
-//        }
-//    }
+    //扫描或者输入月台
+    private void inputYUETAIDialog(String name) {
+        if(IsSacnningOrder()){
+        final EditText inputServer = new EditText(this);
+        inputServer.setFocusable(true);
+        inputServer.setSingleLine(true);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(name).setIcon(
+                null).setView(inputServer).setNegativeButton(
+                "取消", null);
+        builder.setPositiveButton("确认提交月台",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        inputYuetai = inputServer.getText().toString();
+                        Platform model=new Platform();
+                        model.Erpvoucherno=CurrOrderNO;
+                        model.Platform=inputYuetai;
+                        String json = GsonUtil.parseModelToJson(model);
+                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
+                                context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
+                    }
+                });
+        builder.show();
+        }
+    }
+
+    //月台类
+    public  class   Platform{
+
+        public  String  Platform;
+
+        public  String  Erpvoucherno;
+
+        public String getPlatform() {
+            return Platform;
+        }
+
+        public void setPlatform(String platform) {
+            Platform = platform;
+        }
+
+        public String getErpvoucherno() {
+            return Erpvoucherno;
+        }
+
+        public void setErpvoucherno(String erpvoucherno) {
+            Erpvoucherno = erpvoucherno;
+        }
+    }
 
     //选择多批次
     private void SelectBatchno( List<OutStockOrderDetailInfo> list)

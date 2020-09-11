@@ -77,6 +77,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleou
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_Box_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_GETBOXlIST;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PlatForm;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SelectNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_barcodeisExist;
@@ -227,6 +228,20 @@ public  class SalesOutStockBox   extends BaseActivity {
         checkBox.setChecked(false);
         //stockInfoModels = new ArrayList<OutStockOrderDetailInfo>();
         del();
+    }
+
+    //当上一个界面返回后会触发这个方法
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!CurrOrder.equals("")) {
+            SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
+            model.Erpvoucherno = CurrOrder;
+            model.Vouchertype = CurrVoucherType;
+            String modelJson = parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_SelectNO, "订单提交中",
+                    context, mHandler, RESULT_Saleoutstock_Box_SelectNO, null, info.SalesOutstock_Box_ScanningNo, modelJson, null);
+        }
     }
 
     //region 事件
@@ -539,13 +554,13 @@ public  class SalesOutStockBox   extends BaseActivity {
                     List<OutStockOrderDetailInfo>list= returnMsgModel.getData();
                   //只有一个批次
                   //直接刷新listView
-                    String name = modelIsExits.get(materialModle.Materialno+materialModle.getBatchno());
+                    String name = modelIsExits.get(list.get(0).getMaterialno()+list.get(0).getBatchno());
                     if (name==null||name.equals("")) {
                         //不存在
                         //添加到ListView
                         OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
-                        model.setMaterialno(materialModle.Materialno);
-                        model.setMaterialdesc(materialModle.Materialdesc);
+                        model.setMaterialno(list.get(0).getMaterialno());
+                        model.setMaterialdesc(list.get(0).getMaterialdesc());
                         model.setBatchno(list.get(0).getBatchno());
                         model.setErpvoucherno(CurrOrder);
                         model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
@@ -554,7 +569,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.setVouchertype(CurrVoucherType);
                         model.setPrintername(UrlInfo.mOutStockPrintName);
                         model.setPrintertype(UrlInfo.mOutStockPrintType);
-                        modelIsExits.put(materialModle.Materialno+materialModle.getBatchno(),materialModle.Materialno);
+                        modelIsExits.put(list.get(0).getMaterialno()+list.get(0).getBatchno(),list.get(0).getMaterialno());
                         stockInfoModels.add(model);
                         //加到listview
                         mModel.UpdateMaterialItem(model);
@@ -563,7 +578,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     } else {
                         //存在
                         for (OutStockOrderDetailInfo infos : stockInfoModels) {
-                            if (infos.getMaterialno().equals(materialModle.Materialno) && infos.getBatchno().equals(materialModle.getBatchno())) {
+                            if (infos.getMaterialno().equals(returnMsgModel.getData().get(0).getMaterialno()) && infos.getBatchno().equals(returnMsgModel.getData().get(0).getBatchno())) {
                                 Float reviewqty =ArithUtil.add(infos.getReviewQty() ,1f);//已拼
                                 Float remainqty =ArithUtil.sub( reviewqty,1f);//未拼
                                 mModel.UpdateMaterialItem(infos);

@@ -18,10 +18,13 @@ public class SalesoutsotckBxoListAdapter extends BaseAdapter {
     private LayoutInflater listContainer; // 视图容器
 
     public final class ListItemView { // 自定义控件集合
-        public TextView txtMaterialNo;
-        public TextView txtMaterialDesc;
-        public TextView txtQty;
-        public TextView txtBatchNo;
+        public TextView one;
+        public TextView oneright;
+        public TextView er;
+        public TextView erright;
+        public TextView san;
+        public TextView si;
+        public TextView wu;
     }
 
     public SalesoutsotckBxoListAdapter(Context mContext, List<SalesoutstockBoxListRequery> stockInfoModels) {
@@ -56,21 +59,31 @@ public class SalesoutsotckBxoListAdapter extends BaseAdapter {
         if (convertView == null) {
             listItemView = new com.liansu.boduowms.modules.outstock.Model.SalesoutsotckBxoListAdapter.ListItemView();
             // 获取list_item布局文件的视图
-           convertView = listContainer.inflate(R.layout.item_quality_inspection_listview, null);
-            listItemView.txtMaterialNo = (TextView)convertView.findViewById(R.id.item_quality_inspection_material_no);
-        //    listItemView.txtBatchNo = (TextView) convertView.findViewById(R.id.item_quality_inspection_batch_no);
-            listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.item_quality_inspection_material_desc);
-         //   listItemView.txtQty = (TextView) convertView.findViewById(R.id.item_quality_inspection_qty);
+           convertView = listContainer.inflate(R.layout.item_outstock_pboxlist, null);
+            listItemView.one = (TextView)convertView.findViewById(R.id.outstock_pboxlist_yi);
+            listItemView.oneright = (TextView)convertView.findViewById(R.id.outstock_pboxlist_yi_right);
+            listItemView.er = (TextView)convertView.findViewById(R.id.outstock_pboxlist_er);
+            listItemView.erright = (TextView)convertView.findViewById(R.id.outstock_pboxlist_er_right);
+            listItemView.san = (TextView)convertView.findViewById(R.id.outstock_pboxlist_san);
+            listItemView.si = (TextView)convertView.findViewById(R.id.outstock_pboxlist_si);
+            listItemView.wu = (TextView)convertView.findViewById(R.id.outstock_pboxlist_wu);
             convertView.setTag(listItemView);
         } else {
             listItemView = (com.liansu.boduowms.modules.outstock.Model.SalesoutsotckBxoListAdapter.ListItemView) convertView.getTag();
         }
         SalesoutstockBoxListRequery stockInfoModel = stockInfoModels.get(selectID);
-        listItemView.txtMaterialNo.setText("箱号" + stockInfoModel.PackageSeq );
-        // listItemView.txtQty.setText(mContext.getString(R.string.packing_scan_qty) + stockInfoModel.getQty());
-//        listItemView.txtQty.setText("取样数："+(stockInfoModel.getPickModel()==3?stockInfoModel.getAmountQty():stockInfoModel.getQty()));
-        listItemView.txtMaterialDesc.setText("物流码" + stockInfoModel.PackageCode );
-        //   listItemView.txtBatchNo.setText(stockInfoModel.getBatchno());
+        listItemView.one.setText( "箱号:"+stockInfoModel.PackageSeq );
+        listItemView.oneright.setText("数量:"+ stockInfoModel.getQty() );
+        listItemView.er.setText( stockInfoModel.Materialno );
+        listItemView.erright.setText("规格:"+ stockInfoModel.spec);
+        listItemView.san.setText( stockInfoModel.getMaterialdesc());
+        listItemView.si.setText("据点:"+ stockInfoModel.Strongholdname);
+        listItemView.wu.setText("单位:"+ stockInfoModel.getUnit());
+        if (stockInfoModel.isSelected) {
+            convertView.setBackgroundResource(R.color.springgreen);
+        } else {
+            convertView.setBackgroundResource(R.color.trans);
+        }
         return convertView;
     }
 }

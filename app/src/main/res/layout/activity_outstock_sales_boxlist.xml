@@ -50,6 +50,7 @@
         app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
         app:layout_constraintRight_toLeftOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/combine_pallet_toolbar"
         />
     <TextView
         android:layout_height="@dimen/sp_16"
@@ -58,6 +59,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toBottomOf="@+id/sales_outstock_boxlist_order"
         />
+
     <ListView
         android:id="@+id/out_stock_sales_box_ListView"
         android:layout_width="0dp"
@@ -67,12 +69,42 @@
         android:layout_marginRight="8sp"
         android:saveEnabled="false"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/untie_carton_list_edit_text_background"
         app:layout_constraintVertical_bias="1.0"></ListView>
+
+
+    <Button
+        android:id="@+id/outstock_plist_del"
+        android:layout_width="140sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sp_7"
+        android:layout_marginLeft="@dimen/sp_7"
+        android:background="@drawable/bt_selector"
+        android:text="删除拼箱"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/out_stock_sales_box_ListView" />
+
+    <Button
+        android:id="@+id/outstock_plist_print"
+        android:layout_width="140sp"
+        android:layout_marginRight="@dimen/sp_7"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sp_20"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/bt_selector"
+        android:text="打印拼箱"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/out_stock_sales_box_ListView" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_left"
         android:layout_width="wrap_content"

@@ -55,6 +55,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_S
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_none;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pbox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_ppallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ReviewOrder;
@@ -639,7 +640,7 @@ public class OutstockConfigreview extends BaseActivity {
                 return OutStock_Submit_type_box;
         }
         if(strarr.length==2){
-            if (strarr[1].equals(OutStock_Submit_type_ppallet))
+            if (strarr[1].equals(OutStock_Submit_type_pbox))
                 return OutStock_Submit_type_box;
         }
         if (strarr.length == 1) {

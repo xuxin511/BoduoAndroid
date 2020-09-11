@@ -232,10 +232,12 @@ public class OutstockSalesConfig extends BaseActivity {
         jsdapter.bindAdapter(mJstypeAdapter, mjsSpinner, jsdapter.pairs, context);
         //费用计算方式
         PairAdapter fydapter = new PairAdapter();
-        fydapter.pairs = new Pair[3];
+        fydapter.pairs = new Pair[5];
         fydapter.addPairs(1, "1", "重量", fydapter.pairs);
         fydapter.addPairs(2, "2", "件数", fydapter.pairs);
         fydapter.addPairs(3, "3", "体积", fydapter.pairs);
+        fydapter.addPairs(4, "4", "整车", fydapter.pairs);
+        fydapter.addPairs(5, "5", "新店", fydapter.pairs);
         fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
         CommonUtil.setEditFocus(sales_outstock_wlOrder);
     }
@@ -338,10 +340,12 @@ public class OutstockSalesConfig extends BaseActivity {
                 if(!fypair.value.equals("1")){
                     awyBll.PrePrice=Float.parseFloat(sales_outstock_configdj_text.getText().toString().trim());
                 }
+                if(fypair.value.equals("4")||fypair.value.equals("5")){
+                    awyBll.CostTotal=Float.parseFloat(sales_outstock_configdj_text.getText().toString().trim());
+                }
                 String json = GsonUtil.parseModelToJson(awyBll);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ConfigSaveOrder, "保存托运单号",
                         context, mHandler, RESULT_Saleoutstock_ConfigSaveOrder, null, info.SalesOutstock__Review_configSaveOrder, json, null);
-
             } else {
                 CommonUtil.setEditFocus(sales_outstock_configOrder);
                 MessageBox.Show(context, "请先扫描单号");

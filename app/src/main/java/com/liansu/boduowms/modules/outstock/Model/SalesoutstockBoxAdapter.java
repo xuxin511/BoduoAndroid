@@ -31,6 +31,7 @@ import java.util.List;
             public TextView txtMaterialDesc;//
             public TextView txt_recommended_location;
             public TextView txtstrong;
+            public TextView txt_batch_no;
 
         }
 
@@ -75,6 +76,9 @@ import java.util.List;
                 listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
                 listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.txtMaterialDesc);
                 listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
+                listItemView.txt_batch_no = (TextView) convertView.findViewById(R.id.txt_batch_no);
+                listItemView.txt_recommended_location.setVisibility(View.GONE);
+                listItemView.txt_batch_no.setVisibility(View.GONE);
                 convertView.setTag(listItemView);
             } else {
                 listItemView = (com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter.ListItemView) convertView.getTag();

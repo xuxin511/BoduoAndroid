@@ -51,6 +51,8 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/combine_pallet_toolbar" />
 
+
+
     <EditText
         android:id="@+id/sales_outstock_revieworder"
         android:layout_width="0dp"
@@ -72,59 +74,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/sales_outstock_driver" />
-    <TextView
-        android:layout_marginTop="3sp"
-        android:id="@+id/out_stock_sales_reviewuserno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="收货人："
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_17"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_revieworder"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_left"
-        />
-    //sales_outstock_order
-    //收货人
-    <TextView
-        android:layout_marginTop="3sp"
-        android:id="@+id/out_stock_sales_reviewusername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="无"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_14"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_revieworder"
-        app:layout_constraintLeft_toRightOf="@+id/combine_pallet_worker_order_text"
-        />
 
-    <TextView
-        android:layout_marginTop="3sp"
-        android:id="@+id/combine_pallet_worker_order_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="收货地址："
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_17"
-        app:layout_constraintTop_toBottomOf="@+id/out_stock_sales_reviewusername"
-        app:layout_constraintLeft_toRightOf="@+id/guideline_left"
-        />
-    //sales_outstock_order
-    //地址
-    <TextView
-        android:layout_marginTop="3sp"
-        android:id="@+id/sales_outstock_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="无"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_14"
-        app:layout_constraintTop_toBottomOf="@+id/out_stock_sales_reviewusername"
-        app:layout_constraintLeft_toRightOf="@+id/combine_pallet_worker_order_text"
-        />
 
     <EditText
         android:layout_marginTop="3sp"
@@ -146,7 +96,63 @@
         app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
         app:layout_constraintRight_toLeftOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_address" />
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_revieworder" />
+
+    <TextView
+        android:layout_marginTop="3sp"
+        android:id="@+id/out_stock_sales_reviewuserno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="收货人："
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_reviewbarcode"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_left"
+        />
+    //sales_outstock_order
+    //收货人
+    <TextView
+        android:layout_marginTop="3sp"
+        android:id="@+id/out_stock_sales_reviewusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="无"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_reviewbarcode"
+        app:layout_constraintLeft_toRightOf="@+id/combine_pallet_worker_order_text"
+        />
+
+    <TextView
+        android:layout_marginTop="3sp"
+        android:id="@+id/combine_pallet_worker_order_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="收货地址："
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintTop_toBottomOf="@+id/out_stock_sales_reviewuserno"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_left"
+        />
+    //sales_outstock_order
+    //地址
+    <TextView
+        android:layout_marginTop="3sp"
+        android:id="@+id/sales_outstock_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="无"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintTop_toBottomOf="@+id/out_stock_sales_reviewuserno"
+        app:layout_constraintLeft_toRightOf="@+id/combine_pallet_worker_order_text"
+        />
+
+
     //整箱数
     <TextView
         android:layout_marginTop="3sp"
@@ -157,7 +163,7 @@
         android:text="整箱数："
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_reviewbarcode"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_address"
         app:layout_constraintLeft_toRightOf="@+id/guideline_left"
         />
     <TextView
@@ -169,7 +175,7 @@
         android:text="0"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_reviewbarcode"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_address"
         app:layout_constraintLeft_toRightOf="@+id/combine_pallet_worker_order_text"
         />
     //散件数
@@ -183,7 +189,7 @@
         android:text="散件数："
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_reviewbarcode"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_address"
         app:layout_constraintLeft_toRightOf="@+id/outstock_sales_boxnum"
         />
     <TextView
@@ -195,7 +201,7 @@
         android:text="0"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_reviewbarcode"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_address"
         app:layout_constraintLeft_toRightOf="@+id/outstock_sales_shelf_name"
         />
     //最后的间隙

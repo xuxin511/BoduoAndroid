@@ -29,6 +29,7 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
         public TextView txtScanQty;
         public TextView txtMaterialDesc;//
         public TextView txt_recommended_location;
+        public TextView   txt_batch_no;
 
     }
 
@@ -73,12 +74,15 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
             // 获取list_item布局文件的视图
             convertView = listContainer.inflate(R.layout.item_offshelfscandetail_listview, null);
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
-            //   listItemView.txt_reference_standard = (TextView) convertView.findViewById(R.id.txt_reference_standard);
+              listItemView.txt_reference_standard = (TextView) convertView.findViewById(R.id.txt_reference_standard);
             listItemView.txtVoucherQty = (TextView) convertView.findViewById(R.id.txtVoucherQty);
             listItemView.txtRemainQty = (TextView) convertView.findViewById(R.id.txtRemainQty);
             listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
             listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.txtMaterialDesc);
-            //     listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
+            listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
+            listItemView.txt_batch_no= (TextView) convertView.findViewById(R.id.txt_batch_no);
+            listItemView.txt_batch_no.setVisibility(View.GONE);
+            listItemView.txt_recommended_location.setVisibility(View.GONE);
             convertView.setTag(listItemView);
         } else {
             listItemView = (com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter.ListItemView) convertView.getTag();
@@ -95,6 +99,8 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
         listItemView.txtScanQty.setText("已装车:" + mDetailInfo.getScanqty()+mDetailInfo.getUnit());
 //        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
+        listItemView.txt_recommended_location.setText("供应商:" + mDetailInfo.getSupplierName());
+        listItemView.txt_batch_no.setText("批次:"+mDetailInfo.getBatchno());
         if (QTY>0&&QTY<mDetailInfo.getRemainqty()) {//已扫数量
             convertView.setBackgroundResource(R.color.khaki);
         } else if ( ArithUtil.sub( mDetailInfo.getRemainqty() ,mDetailInfo.getScanqty())==0) {

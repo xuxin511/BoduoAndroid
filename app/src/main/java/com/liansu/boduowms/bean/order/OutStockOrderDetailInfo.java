@@ -71,6 +71,15 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private   String PostUser;
     private   int  IsStockCombine;//非库存拼箱
     private  float PackageNum;//拼箱数量
+    private   String supplierName;
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
 
     public Float getPackageNum() {
         return PackageNum;
