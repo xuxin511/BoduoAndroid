@@ -2,26 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/gridviewitem_bg_layout"
-    android:padding="10dp"
-    >
-    <ImageView
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:id="@+id/ItemImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:background="@drawable/blue_background"
+            android:id="@+id/item_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            app:layout_constraintRight_toRightOf="@+id/item_background"
+            app:layout_constraintLeft_toLeftOf="@+id/item_background"
+            app:layout_constraintBottom_toBottomOf="@+id/item_background"
+            app:layout_constraintTop_toTopOf="@+id/item_background"
+            android:id="@+id/ItemImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <TextView
         android:id="@+id/ItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:layout_width="wrap_content"
-        android:textSize="15sp"
-        android:layout_height="40dp"
-        android:textColor="@color/black"
         android:text="文字"
-        />
+        android:textColor="@color/black"
+        android:textSize="15sp" />
 </LinearLayout>

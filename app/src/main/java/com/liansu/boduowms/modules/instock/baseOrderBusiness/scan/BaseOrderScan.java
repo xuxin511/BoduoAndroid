@@ -52,8 +52,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.liansu.boduowms.modules.instock.combinePallet.InstockCombinePalletModel.COMBINE_PALLET_TYPE_RECEIPTION;
-
 
 @ContentView(R.layout.activity_receiption_scan)
 public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, IUserSettingView {
@@ -265,7 +263,6 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
             Intent intent = new Intent();
             intent.setClass(BaseOrderScan.this, InstockCombinePallet.class);
             Bundle bundle = new Bundle();
-            bundle.putInt("inStockType", COMBINE_PALLET_TYPE_RECEIPTION);
             bundle.putParcelable("orderHeader", mPresenter.getModel().getOrderHeaderInfo());
             bundle.putParcelableArrayList("orderDetailList", (ArrayList<? extends Parcelable>) DebugModuleData.loadReceiptScanDetailList());
 //        bundle.putParcelableArrayList("orderDetailList", mPresenter.getModel().getReceiptDetailModels());

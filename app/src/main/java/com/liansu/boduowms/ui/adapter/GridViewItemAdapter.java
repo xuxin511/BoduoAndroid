@@ -19,17 +19,22 @@ import com.liansu.boduowms.R;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.DrawableRes;
+
 
 public class GridViewItemAdapter extends BaseAdapter {
 
     private Context                   context;
     private List<Map<String, Object>> listitem;
-
+    private  int mBackgroundColor=-1;
     public GridViewItemAdapter(Context context, List<Map<String, Object>> listitem) {
         this.context = context;
         this.listitem = listitem;
     }
 
+    public void setBackgroundColor(@DrawableRes int id ){
+        mBackgroundColor=id;
+    }
     @Override
     public int getCount() {
         return listitem == null ? 0 : listitem.size();
@@ -53,6 +58,7 @@ public class GridViewItemAdapter extends BaseAdapter {
 
         final ImageView imageView = (ImageView) convertView.findViewById(R.id.ItemImage);
         TextView textView = (TextView) convertView.findViewById(R.id.ItemText);
+        ImageView backImage=(ImageView)convertView.findViewById(R.id.item_background);
         Map<String, Object> map = listitem.get(position);
         int iconId = (Integer) map.get("image");
 //        imageView.setImageResource((Integer) map.get("image"));
@@ -100,6 +106,12 @@ public class GridViewItemAdapter extends BaseAdapter {
                 .into(imageView);
 
         textView.setText(map.get("text") + "");
+//        if (mBackgroundColor!=-1){
+//            backImage.setImageDrawable(context.getResources().getDrawable(mBackgroundColor));
+//        }else {
+//            backImage.setImageDrawable(context.getResources().getDrawable(R.drawable.blue_background));
+//
+//        }
         return convertView;
     }
 

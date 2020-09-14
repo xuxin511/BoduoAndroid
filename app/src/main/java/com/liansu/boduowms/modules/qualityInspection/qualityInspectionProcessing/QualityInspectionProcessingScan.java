@@ -95,6 +95,8 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     TextView     mQualifiedQty;
     @ViewInject(R.id.quality_inspection_scan_sampqty_qty)
     TextView     mSampQty;
+    @ViewInject(R.id.quality_inspection_scan_erp_voucher_no)
+    TextView  mErpVoucherNoDesc;
     QualityInspectionScanAdapter         mAdapter;
     QualityInspectionProcessingPresenter mPresenter;
     public final int REQUEST_CODE_OK = 1;
@@ -126,7 +128,8 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
             }
         });
         closeKeyBoard(mBarcode, mQty, mFatherBarcode);
-
+        mArrVoucherNoDesc.setText("创建人:");
+        mErpVoucherNoDesc.setText("创建日期:");
     }
 
     @Override
@@ -250,8 +253,10 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     public void setOrderInfo(QualityHeaderInfo headerInfo) {
         if (headerInfo != null) {
             mStrongHoldNo.setText(headerInfo.getStrongholdcode() + "");
-            mReceiptVoucherNo.setText(headerInfo.getArrvoucherno() + "");
-            mErpVoucherNo.setText(headerInfo.getQualityno() + "");
+//            mReceiptVoucherNo.setText(headerInfo.getArrvoucherno() + "");
+            mReceiptVoucherNo.setText(headerInfo.getCreater() + "");
+            mErpVoucherNo.setText(headerInfo.getStrcreatetime() + "");
+//            mErpVoucherNo.setText(headerInfo.getQualityno() + "");
             mPurchaseNo.setText(headerInfo.getErpvoucherno());
             mMaterialDesc.setText(headerInfo.getMaterialdesc());
             mVoucherQty.setText(headerInfo.getVoucherqty() + "");
@@ -259,11 +264,12 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
             mSampQty.setText(headerInfo.getSampqty() + "");
             if (headerInfo.getVouchertype() == 47) {
                 mPurchaseOrderNoDesc.setText("采购单号:");
-                mArrVoucherNoDesc.setText("到货单号:");
+//                mArrVoucherNoDesc.setText("到货单号:");
             } else if (headerInfo.getVouchertype() == 48) {
                 mPurchaseOrderNoDesc.setText("工单号:");
-                mArrVoucherNoDesc.setText("完工单号:");
+//                mArrVoucherNoDesc.setText("完工单号:");
             }
+
             mVoucherNoDesc.setText(headerInfo.getErpvoucherdesc() + "  " + headerInfo.getErpstatuscodedesc());
             mErpVoucherName.setTextColor(getResources().getColor(R.color.colorPrimary));
             mPurchaseNo.setTextColor(getResources().getColor(R.color.colorPrimary));

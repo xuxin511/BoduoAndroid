@@ -34,13 +34,14 @@
         app:layout_constraintTop_toTopOf="@+id/edt_Pallet" />
 
     <TextView
-        app:layout_constraintLeft_toLeftOf="parent"
         android:id="@+id/instock_combine_pallet_erp_voucher_no_desc"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/instock_pallet_erp_voucher_no_desc"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline11"
         app:layout_constraintTop_toBottomOf="@+id/SW_Pallet"></TextView>
 
@@ -54,6 +55,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="@string/instock_pallet_erp_voucher_no_hint"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/instock_combine_pallet_erp_voucher_no_desc"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/instock_combine_pallet_erp_voucher_no_desc"
@@ -79,30 +81,31 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="@string/combine_pallet_tray_no_scan"
         android:imeOptions="actionSearch"
-        app:layout_constraintBottom_toBottomOf="@+id/textView47"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/textView47"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instock_combine_pallet_erp_voucher_no_desc">
 
 
     </EditText>
 
     <TextView
-
         android:id="@+id/textView47"
         style="@style/TextViewComminStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/barcode"
+        android:layout_height="0dp"
+        android:text="@string/palletNo"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_Barcode"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/instock_combine_pallet_erp_voucher_no_desc" />
+        app:layout_constraintTop_toTopOf="@+id/edt_Barcode" />
 
 
     <Switch
@@ -123,6 +126,7 @@
         android:textOn="@string/activity_pallet_On"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:checked="false" />
@@ -165,6 +169,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_Pallet">
 
         <include
+            android:visibility="gone"
             android:id="@+id/include4"
             layout="@layout/material_info"
             app:layout_constraintLeft_toLeftOf="parent"

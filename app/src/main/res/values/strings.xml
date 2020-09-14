@@ -62,7 +62,8 @@
     <string name="batch_no">批次</string>
     <string name="material_desc">名称</string>
     <string name="supplier">供应商：</string>
-    <string name="palletNo">托盘:</string>
+    <string name="palletNo">托盘号:</string>
+    <string name="outer_box">外箱码:</string>
     <string name="outerBoxOrSpareParts">整箱或散件:</string>
     <string name="offScan">下架扫描</string>
     <string name="name">品名:</string>
@@ -489,4 +490,6 @@
     <string name="stock_roll_back_pallet_no_hint">请输入或扫描托盘号</string>
     <string name="stock_roll_back_request_temporary_data">正在获取单据的暂存数据...</string>
     <string name="stock_roll_back_request_delete_temporary_data">正在提交回退信息...</string>
+    //拼托
+    <string name="in_stock_combine_pallet_title">拼托扫描</string>
 </resources>

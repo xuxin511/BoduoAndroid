@@ -8,7 +8,6 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockOrderColse;
-import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockSalesConfig;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutReview;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBox;
@@ -16,8 +15,6 @@ import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockCallback;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
-import com.liansu.boduowms.modules.outstock.purchaseInspection.reviewScan.PurchaseInspectionReviewScan;
-import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScan;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
 import java.util.ArrayList;
@@ -56,39 +53,39 @@ public class OutboundBusinessSubMenuModel {
         mMenuList.clear();
         // "采购验退"   ||采购退货
         if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION) || businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)) {
-            mItemIconList.add(R.drawable.other_outbound);
+            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-            mItemIconList.add(R.drawable.loading_truck);
+            mItemIconList.add(R.drawable.b_loading_truck);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_loading_truck));
         } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
-            mItemIconList.add(R.drawable.other_outbound);
+            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-            mItemIconList.add(R.drawable.set_tray_and_remove_tray);
+            mItemIconList.add(R.drawable.b_set_tray_and_remove_tray);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_delivery_lcl));
-            mItemIconList.add(R.drawable.loading_truck);
+            mItemIconList.add(R.drawable.b_loading_truck);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_loading_truck));
-            mItemIconList.add(R.drawable.purchase_returns);
+            mItemIconList.add(R.drawable.b_shipment_approval);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_outstock_lock));
 
         } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK)) {
-            mItemIconList.add(R.drawable.other_outbound);
+            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
         }
         else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK)) {//委外发料  二级菜单加载
-            mItemIconList.add(R.drawable.other_outbound);
+            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
         }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER)) {
-            mItemIconList.add(R.drawable.other_outbound);
+            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-            mItemIconList.add(R.drawable.loading_truck);
+            mItemIconList.add(R.drawable.b_loading_truck);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck));
         }else if(businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION)) {
-            mItemIconList.add(R.drawable.other_outbound);
+            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
         }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION)){
-            mItemIconList.add(R.drawable.other_outbound);
+            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-            mItemIconList.add(R.drawable.loading_truck);
+            mItemIconList.add(R.drawable.b_loading_truck);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck_callback));
 
         }

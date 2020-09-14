@@ -15,9 +15,7 @@ import com.liansu.boduowms.modules.menu.outboundBusiness.subMenu.OutboundBusines
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockCallback;
-import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScan;
-import com.liansu.boduowms.modules.outstock.offScan.DistributionOffShelf;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
@@ -66,7 +64,7 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
 //                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_of_stock));
 //                        break;
                     case 30:
-                        itemIconList.add(R.drawable.sales_out_of_stock);
+                        itemIconList.add(R.drawable.b_sales_out_of_stock);
                         itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_stock));
                         break;
                 }

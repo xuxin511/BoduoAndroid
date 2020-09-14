@@ -22,8 +22,6 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
-import com.liansu.boduowms.bean.order.OrderDetailInfo;
-import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.ui.adapter.pallet.InstockPalletItemAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.utils.function.CommonUtil;
@@ -108,7 +106,7 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
             @Override
             public void onClick(View view) {
                 if (mPresenter != null) {
-                    mPresenter.getNewCreatedPalletNo();
+                    mPresenter.onPalletListRefer();
                 }
             }
         });
@@ -121,15 +119,9 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
     @Override
     protected void initData() {
         super.initData();
-        if (mPresenter != null) {
-            mPresenter.changeModuleType(mPalletType.isChecked());
-        }
         setCurrentBarcodeInfo(null);
-        int instockType = getIntent().getIntExtra("inStockType", -1);
-        OrderHeaderInfo headerInfo = getIntent().getParcelableExtra("orderHeader");
-        List<OrderDetailInfo> list = getIntent().getParcelableArrayListExtra("orderDetailList");
         mPresenter = new InstockCombinePalletPresenter(mContext, this, mHandler);
-        mPresenter.setOrderInfo(headerInfo, list, instockType);
+
 
     }
 
@@ -154,7 +146,7 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // TODO 自动生成的方法
-                            mPresenter.onDelete(position);
+//                            mPresenter.onDelete(position);
                         }
                     }).setNegativeButton("取消", null).show();
         }
@@ -172,38 +164,7 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
                 return true;
             }
         }
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
-        {
-            keyBoardCancle();
-            if (mPalletType.isChecked()) {
-                new AlertDialog.Builder(mContext).setCancelable(false).setTitle("提示").setIcon(android.R.drawable.ic_dialog_info).setMessage("是否放弃此次组托任务？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO 自动生成的方法
-                                if (mPresenter != null) {
-                                    mPresenter.changeModuleType(mPalletType.isChecked());
-                                }
-                            }
-                        }).setNegativeButton("取消", null).show();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Event(value = R.id.edt_Pallet, type = View.OnKeyListener.class)
-    private boolean edtPalletonKey(View v, int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
-        {
-            keyBoardCancle();
-            String barcode = mPalletNo.getText().toString().trim();
-            if (mPresenter != null) {
-                mPresenter.scanPalletNo(barcode);
-            }
-            return true;
-        }
-        return false;
+      return false;
     }
 
 
@@ -214,7 +175,7 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
         }
 
         if (mPresenter != null) {
-            mPresenter.onRefer();
+            mPresenter.onPalletListRefer();
         }
     }
 
@@ -364,9 +325,6 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
      */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (mPresenter != null) {
-            mPresenter.changeModuleType(isChecked);
-        }
     }
 
 }
