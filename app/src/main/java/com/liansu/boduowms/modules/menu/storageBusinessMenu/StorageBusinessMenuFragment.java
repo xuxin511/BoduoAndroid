@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.menu.storageBusinessMenu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -22,6 +23,8 @@ import org.xutils.view.annotation.ViewInject;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
+
 /**
  * @desc: 入库菜单
  * @author: Nietzsche
@@ -41,14 +44,20 @@ public class StorageBusinessMenuFragment extends BaseFragment implements IMenuVi
         mContext = context;
         // 在界面onAttach之后就触发初始化Presenter
         mPresenter = new StorageBusinessMenuPresenter(this, mContext);
+
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mPresenter != null) {
-            List<MenuInfo> menuInfos = BaseApplication.mCurrentMenuList;
+
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (mPresenter!=null){
+            List<MenuInfo> menuInfos= BaseApplication.mCurrentMenuList;
             mPresenter.loadMenuList(menuInfos);
         }
     }

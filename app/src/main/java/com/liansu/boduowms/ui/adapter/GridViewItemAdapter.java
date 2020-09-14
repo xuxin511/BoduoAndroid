@@ -106,12 +106,12 @@ public class GridViewItemAdapter extends BaseAdapter {
                 .into(imageView);
 
         textView.setText(map.get("text") + "");
-//        if (mBackgroundColor!=-1){
-//            backImage.setImageDrawable(context.getResources().getDrawable(mBackgroundColor));
-//        }else {
-//            backImage.setImageDrawable(context.getResources().getDrawable(R.drawable.blue_background));
-//
-//        }
+        if (mBackgroundColor!=-1){
+            backImage.setImageDrawable(context.getResources().getDrawable(mBackgroundColor));
+        }else {
+            backImage.setImageDrawable(context.getResources().getDrawable(R.drawable.blue_background));
+
+        }
         return convertView;
     }
 
