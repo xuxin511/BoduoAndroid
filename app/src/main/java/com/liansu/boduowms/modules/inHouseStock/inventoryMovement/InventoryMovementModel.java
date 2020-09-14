@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
@@ -32,16 +33,16 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 public class InventoryMovementModel {
     MyHandler<BaseActivity> mHandler;
     Context                 mContext;
-    public  String                           TAG_GET_T_AREA_MODEL             = "InventoryMovementModel_GetT_AreaModel";  //库位
-    public              String                           TAG_GET_T_SCAN_BARCODE_ADF_ASYNC = "BaseOrderScanModel_GetT_ScanBarcodeADFAsync";  //获取托盘码信息接口
-    private final       int                              RESULT_TAG_GET_T_AREA_MODEL      = 110;
-    protected final int                        RESULT_TAG_GET_T_SCAN_BARCODE_ADF_ASYNC        = 105;
-    private Map<String, NetCallBackListener> mNetMap                          = new HashMap<>();
-    private List<StockInfo>                  mStockInfoList=new ArrayList<>();
-    private AreaInfo                         mMoveInAreaNo                    = null;
-    private             AreaInfo                         mMoveOutAreaNo                   = null;
-    public static final int                              MOVE_TYPE_IN_AREA_NO             = 1;
-    public static final int                              MOVE_TYPE_OUT_AREA_NO            = 2;
+    public              String                           TAG_GET_T_AREA_MODEL                    = "InventoryMovementModel_GetT_AreaModel";  //库位
+    public              String                           TAG_GET_T_SCAN_BARCODE_ADF_ASYNC        = "BaseOrderScanModel_GetT_ScanBarcodeADFAsync";  //获取托盘码信息接口
+    private final       int                              RESULT_TAG_GET_T_AREA_MODEL             = 110;
+    protected final     int                              RESULT_TAG_GET_T_SCAN_BARCODE_ADF_ASYNC = 105;
+    private             Map<String, NetCallBackListener> mNetMap                                 = new HashMap<>();
+    private             List<StockInfo>                  mStockInfoList                          = new ArrayList<>();
+    private             AreaInfo                         mMoveInAreaNo                           = null;
+    private             AreaInfo                         mMoveOutAreaNo                          = null;
+    public static final int                              MOVE_TYPE_IN_AREA_NO                    = 1;
+    public static final int                              MOVE_TYPE_OUT_AREA_NO                   = 2;
 
     public InventoryMovementModel(Context context, MyHandler<BaseActivity> handler) {
         mContext = context;
@@ -65,14 +66,10 @@ public class InventoryMovementModel {
         }
     }
 
-    public void setStockInfo(List<StockInfo> stockInfoList) {
-        mStockInfoList.clear();
-        if (stockInfoList!=null && stockInfoList.size()>0){
-            mStockInfoList.addAll(stockInfoList);
-        }
-    }
+    /**
 
-    public List<StockInfo> getStockList() {
+
+    public List<StockInfo> getStockInfoList(){
         return mStockInfoList;
     }
 
@@ -114,7 +111,7 @@ public class InventoryMovementModel {
      * @author: Nietzsche
      * @time 2020/7/3 16:47
      */
-    public void requestRefer(StockInfo info, NetCallBackListener<String> callBackListener) {
+    public void requestRefer(List<StockInfo> list, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_GetT_PalletDetailByBarCodeADF", callBackListener);
         final Map<String, String> params = new HashMap<String, String>();
 //        params.put("BarCode", parseModelToJson(info));
@@ -125,7 +122,9 @@ public class InventoryMovementModel {
     }
 
     public void onClear() {
+        mMoveInAreaNo=null;
         mStockInfoList.clear();
+
     }
 
 
@@ -137,12 +136,65 @@ public class InventoryMovementModel {
         return mMoveInAreaNo;
     }
 
-    public void setMoveOutAreaNo(AreaInfo info) {
-        mMoveOutAreaNo = info;
+    public List<StockInfo> getStockInfoList(){
+        return  mStockInfoList;
     }
 
-    public AreaInfo getMoveOutAreaNo() {
-        return mMoveOutAreaNo;
+
+    /**
+     * @desc: 校验条码重复
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/5 16:01
+     */
+    public BaseMultiResultInfo<Boolean, Void> checkAndUpdateBarcodeList(List<StockInfo> list) {
+        boolean HAS_SERIAL_NO = false;
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        if (list != null && list.size()>0) {
+            StockInfo info=list.get(0);
+            if (info==null){
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:查询到的数据为空");
+                return resultInfo;
+            }
+            String serialNo = info.getSerialno();
+            //校验序列号
+            if (serialNo == null) {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:序列号不能为空");
+                return resultInfo;
+            }
+
+            //校验条码重复
+            for (int i = 0; i < mStockInfoList.size(); i++) {
+                StockInfo stockInfo = mStockInfoList.get(i);
+                if (stockInfo != null) {
+                    String sSerialNo = stockInfo.getSerialno() != null ? stockInfo.getSerialno() : "";
+                    if (sSerialNo.trim().equals(serialNo.trim())) {
+                        HAS_SERIAL_NO = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!HAS_SERIAL_NO) {
+                mStockInfoList.addAll(list);
+                resultInfo.setHeaderStatus(true);
+            } else {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:序列号:" + serialNo + "已扫描!");
+                return resultInfo;
+            }
+
+
+        } else {
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("校验条码失败:条码信息不能为空");
+            return resultInfo;
+        }
+
+        return resultInfo;
     }
 
 }

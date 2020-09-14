@@ -326,6 +326,8 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                     } else {
                         if (mVoucherTypeMap.get(key) == IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
                             list.add(0, key);
+                        } else {
+                            list.add(key);
                         }
                     }
                 } else {
