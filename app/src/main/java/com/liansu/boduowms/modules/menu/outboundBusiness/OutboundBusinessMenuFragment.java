@@ -52,6 +52,7 @@ public class OutboundBusinessMenuFragment extends BaseFragment implements IMenuV
     public void bindMenuList(List<Map<String, Object>> menulist) {
         if (menulist!=null && menulist.size()>0){
             mAdapter = new GridViewItemAdapter(mContext,menulist);
+//            mAdapter.setBackgroundColor(R.drawable.green_background);
             mGridView.setAdapter(mAdapter);
         }
 

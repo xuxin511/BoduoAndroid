@@ -46,14 +46,12 @@ import androidx.recyclerview.widget.RecyclerView;
  * @ Des: 产品入库
  * @ Created by yangyiqing on 2020/7/15.
  */
-@ContentView(R.layout.activity_product_storage_scan)
+@ContentView(R.layout.activity_product_return_scan_storage_scan)
 public class ProductionReturnStorageScan extends BaseActivity implements IProductReturnStorageScanView, IUserSettingView {
     protected Context mContext = ProductionReturnStorageScan.this;
-    @ViewInject(R.id.btn_transfer_submission)
-    Button mTransferSubmission;
     @ViewInject(R.id.lsv_ReceiptScan)
     protected RecyclerView mRecyclerView;
-    @ViewInject(R.id.edt_RecScanBarcode)
+    @ViewInject(R.id.product_return_scan_pallet_no)
     protected EditText     mPalletBarcode;
     @ViewInject(R.id.txt_VoucherNo)
     protected EditText     mErpVoucherNo;
@@ -62,11 +60,11 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
     @ViewInject(R.id.edt_area_no)
     protected EditText     mAreaNo;
     @ViewInject(R.id.receiption_scan_supplier_name)
-    protected TextView     mSupplierName;
-    @ViewInject(R.id.receiption_scan_out_barcode)
-    protected EditText     mOutBarcode;
+    protected TextView mSupplierName;
+    @ViewInject(R.id.product_return_scan_outer_box)
+    protected EditText mOuterBoxBarcode;
     @ViewInject(R.id.btn_refer)
-    protected Button       mRefer;
+    protected Button   mRefer;
     @ViewInject(R.id.txt_receiption_scan_supplier_name)
     TextView mSupplierNameDesc;
     BaseScanDetailAdapter mAdapter;
@@ -85,7 +83,7 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         initListener();
-        closeKeyBoard(mPalletBarcode,mErpVoucherNo,mAreaNo,mOutBarcode);
+        closeKeyBoard(mPalletBarcode,mErpVoucherNo,mAreaNo, mOuterBoxBarcode);
 //        setTransferSubmissionStatus();
 
     }
@@ -209,14 +207,22 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
      * @author: Nietzsche
      * @time 2020/7/7 12:45
      */
-    @Event(value = R.id.receiption_scan_out_barcode, type = View.OnKeyListener.class)
+    @Event(value = {R.id.product_return_scan_pallet_no,R.id.product_return_scan_outer_box}, type = View.OnKeyListener.class)
     private boolean outBarcodeScan(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
-            String barcode = mOutBarcode.getText().toString().trim();
-            if (mPresenter != null) {
-                mPresenter.scanBarcode(barcode);
+            switch (v.getId()){
+                case R.id.product_return_scan_pallet_no:
+                    break;
+                case R.id.product_return_scan_outer_box:
+                    String barcode = mOuterBoxBarcode.getText().toString().trim();
+                    if (mPresenter != null) {
+                        mPresenter.scanPalletBarcode(barcode);
+                    }
+                    break;
             }
+
+
         }
 
         return false;
@@ -265,7 +271,7 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
 
     @Override
     public void onBarcodeFocus() {
-        CommonUtil.setEditFocus(mOutBarcode);
+        CommonUtil.setEditFocus(mPalletBarcode);
 
     }
 

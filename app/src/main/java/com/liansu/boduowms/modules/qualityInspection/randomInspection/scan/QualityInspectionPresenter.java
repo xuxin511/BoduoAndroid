@@ -201,7 +201,7 @@ public class QualityInspectionPresenter {
                             BaseResultInfo<List<StockInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<StockInfo>>>() {
                             }.getType());
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                                if (returnMsgModel.getData() != null && returnMsgModel.getData().size() > 0) {
+                                if (returnMsgModel.getData() != null && returnMsgModel.getData().size() == 1) {
                                     StockInfo stockInfo = returnMsgModel.getData().get(0);
                                     if (stockInfo != null) {
                                         BaseMultiResultInfo<Boolean, QualityHeaderInfo> resultInfo = mModel.findAndCheckMaterialInfo(stockInfo);
@@ -229,6 +229,13 @@ public class QualityInspectionPresenter {
                                             return;
                                         }
                                     }
+                                } else if (returnMsgModel.getData() != null && returnMsgModel.getData().size() >1) {
+                                    MessageBox.Show(mContext, "查询条码失败:不能扫描混托码,请扫描单个托盘码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onBarcodeFocus();
+                                        }
+                                    });
                                 } else {
                                     MessageBox.Show(mContext, "查询条码失败:获取条码信息为空" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
@@ -366,7 +373,7 @@ public class QualityInspectionPresenter {
         List<StockInfo> list = new ArrayList<>();
         list.add(mModel.getCurrentBarcodeInfo());
         postInfo.setLstBarCode(list);
-        ;
+
         if (postInfo != null) {
             mModel.requestReferInfo(postInfo, new NetCallBackListener<String>() {
                 @Override

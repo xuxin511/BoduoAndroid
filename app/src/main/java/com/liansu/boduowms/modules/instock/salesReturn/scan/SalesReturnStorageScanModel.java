@@ -46,7 +46,7 @@ public class SalesReturnStorageScanModel extends BaseOrderScanModel {
     private final int    RESULT_TAG_PRINT_PALLET_NO                   = 124;
     AreaInfo             mAreaInfo;
     OutBarcodeInfo       mCurrentPalletInfo;
-    List<OutBarcodeInfo> mList = new ArrayList<>();
+    protected  List<OutBarcodeInfo> mList = new ArrayList<>();
 
     public SalesReturnStorageScanModel(Context context, MyHandler<BaseActivity> handler,int voucherType) {
         super(context, handler,voucherType);

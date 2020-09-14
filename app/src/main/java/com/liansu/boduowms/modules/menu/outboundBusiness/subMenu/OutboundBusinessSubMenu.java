@@ -62,6 +62,7 @@ public class OutboundBusinessSubMenu extends BaseActivity implements IMenuView {
     public void bindMenuList(List<Map<String, Object>> menuList) {
         if (menuList!=null && menuList.size()>0){
             mAdapter = new GridViewItemAdapter(mContext,menuList);
+//            mAdapter.setBackgroundColor(R.drawable.green_background);
             mGridView.setAdapter(mAdapter);
         }
     }
@@ -71,7 +72,6 @@ public class OutboundBusinessSubMenu extends BaseActivity implements IMenuView {
         if (intent != null && intent.resolveActivity(mContext.getPackageManager()) != null) {
             startActivity(intent);
         }
-
     }
 
 
