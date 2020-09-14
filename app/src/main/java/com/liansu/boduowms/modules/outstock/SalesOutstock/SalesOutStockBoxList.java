@@ -284,8 +284,8 @@ public class SalesOutStockBoxList extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //点击确定触发的事件
-                        SalesoutstockBoxListRequery model = (SalesoutstockBoxListRequery) mAdapter.getItem(index);
-                        delModel = model;
+                     SalesoutstockBoxListRequery model = delModel;
+                       // delModel = model;
                         model.Erpvoucherno = CurrOrder;
                         String modelJson = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_DelBox, "删除中",
@@ -308,8 +308,8 @@ public class SalesOutStockBoxList extends BaseActivity {
                         //点击确定触发的事件
                         OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
                         model.setBatchno(delModel.PackageCode);
-                        model.setPrintername(UrlInfo.mOutStockPrintName);
-                        model.setPrintertype(UrlInfo.mOutStockPrintType);
+                        model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
+                        model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
                         String json = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PrintBox, "打印中...",
                                 context, mHandler, RESUL_Saleoutstock_PrintBox, null, info.SalesOutstock_PrintBox, json, null);

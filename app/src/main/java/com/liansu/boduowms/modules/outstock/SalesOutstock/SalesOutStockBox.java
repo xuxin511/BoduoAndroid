@@ -177,8 +177,9 @@ public  class SalesOutStockBox   extends BaseActivity {
                     model.setQTY(1f);
                     model.setIsStockCombine(1);
                     model.setVouchertype(CurrVoucherType);
-                    model.setPrintername(UrlInfo.mOutStockPrintName);
-                    model.setPrintertype(UrlInfo.mOutStockPrintType);
+
+                    model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
+                    model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
                     stockInfoModels.add(model);
                     mModel.getOrderDetailList().add(model);
                 } else {
@@ -512,8 +513,9 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Qty = Float.parseFloat(arr[2]);
                         model.Vouchertype = CurrVoucherType;
-                        model.Printername= UrlInfo.mOutStockPrintName;
-                        model.Printertype= UrlInfo.mOutStockPrintType;
+                        model.Printername=UrlInfo.mOutStockPackingBoxPrintName;
+                        model.Printertype=UrlInfo.mOutStockPackingBoxPrintType;
+
                         listmodel.add(model);
                         String modelJson = parseModelToJson(listmodel);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
@@ -543,8 +545,9 @@ public  class SalesOutStockBox   extends BaseActivity {
                     model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                     model.Qty = Float.parseFloat(arr[2]);
                     model.Vouchertype = CurrVoucherType;
-                    model.Printername= UrlInfo.mOutStockPrintName;
-                    model.Printertype= UrlInfo.mOutStockPrintType;
+
+                    model.Printername= UrlInfo.mOutStockPackingBoxPrintName;
+                    model.Printertype= UrlInfo.mOutStockPackingBoxPrintType;
                     listmodel.add(model);
                     String modelJson = parseModelToJson(listmodel);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
@@ -572,8 +575,9 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.setReviewQty(1f);
                             model.setBarcodeType(3);
                             model.setVouchertype(CurrVoucherType);
-                            model.setPrintername(UrlInfo.mOutStockPrintName);
-                            model.setPrintertype(UrlInfo.mOutStockPrintType);
+
+                            model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
+                            model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
                             modelIsExits.put(list.get(0).getMaterialno()+"",list.get(0).getMaterialno());
                             stockInfoModels.add(model);
                             //加到listview
@@ -619,8 +623,9 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.setQTY(1f);
                         model.setReviewQty(1f);
                         model.setVouchertype(CurrVoucherType);
-                        model.setPrintername(UrlInfo.mOutStockPrintName);
-                        model.setPrintertype(UrlInfo.mOutStockPrintType);
+
+                        model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
+                        model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
                         modelIsExits.put(list.get(0).getMaterialno()+list.get(0).getBatchno(),list.get(0).getMaterialno());
                         stockInfoModels.add(model);
                         //加到listview
@@ -851,8 +856,8 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Qty = Float.parseFloat(boxno.split("%")[2]);
                         model.Vouchertype = CurrVoucherType;
-                        model.Printername= UrlInfo.mOutStockPrintName;
-                        model.Printertype= UrlInfo.mOutStockPrintType;
+                        model.Printername=UrlInfo.mOutStockPackingBoxPrintName;
+                        model.Printertype=UrlInfo.mOutStockPackingBoxPrintType;
                         lista.add(model);
                         String modelJson = parseModelToJson(lista);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "拼箱提交中",
@@ -898,8 +903,8 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.setQTY(1f);
                             model.setReviewQty(1f);
                             model.setVouchertype(CurrVoucherType);
-                            model.setPrintername(UrlInfo.mOutStockPrintName);
-                            model.setPrintertype(UrlInfo.mOutStockPrintType);
+                            model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
+                            model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
                             modelIsExits.put(materialModle.Materialno+cities[which],materialModle.Materialno);
                             stockInfoModels.add(model);
                             //加到listview
