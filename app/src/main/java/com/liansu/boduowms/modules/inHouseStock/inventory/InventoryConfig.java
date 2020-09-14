@@ -442,10 +442,11 @@ public class InventoryConfig extends BaseActivity {
                         try {
                             String Value = inputServer.getText().toString();
                             Float inputValue = Float.parseFloat(Value);
-                            if(ArithUtil.sub(mInventory.Qty,inputValue)<0) {
-                                MessageBox.Show(context, "盘点数量不能大于该物料可盘数量");
-                                return;
-                            }
+                            //盘赢
+//                            if(ArithUtil.sub(mInventory.Qty,inputValue)<0) {
+//                                MessageBox.Show(context, "盘点数量不能大于该物料可盘数量");
+//                                return;
+//                            }
                             for (InventoryModel item:  listModel){
                                 if(item==mInventory) {
                                     item.ScannQty = inputValue;

@@ -508,6 +508,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.Batchno = "";
                         model.Materialno = arr[0];
                         model.Erpvoucherno = CurrOrder;
+                        model.Barcodetype=2;
                         model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Qty = Float.parseFloat(arr[2]);
                         model.Vouchertype = CurrVoucherType;
@@ -531,13 +532,13 @@ public  class SalesOutStockBox   extends BaseActivity {
                     }
                     //更新列表刷新 然后提交
                     List<OutStockOrderDetailInfo>list= returnMsgModel.getData();
-
                     //直接提交
                     String[] arr = sales_outstock_box_watercode.getText().toString().trim().split("%");
                     List<SalesoutStcokboxRequery> listmodel=new ArrayList<SalesoutStcokboxRequery>();
                     SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
                     model.Batchno = list.get(0).getBatchno();
                     model.Materialno = arr[0];
+                    model.Barcodetype=2;
                     model.Erpvoucherno = CurrOrder;
                     model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                     model.Qty = Float.parseFloat(arr[2]);
@@ -569,9 +570,10 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
                             model.setQTY(1f);
                             model.setReviewQty(1f);
+                            model.setBarcodeType(3);
                             model.setVouchertype(CurrVoucherType);
                             model.setPrintername(UrlInfo.mOutStockPrintName);
-                           model.setPrintertype(UrlInfo.mOutStockPrintType);
+                            model.setPrintertype(UrlInfo.mOutStockPrintType);
                             modelIsExits.put(list.get(0).getMaterialno()+"",list.get(0).getMaterialno());
                             stockInfoModels.add(model);
                             //加到listview
@@ -660,26 +662,7 @@ public  class SalesOutStockBox   extends BaseActivity {
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
-//                String msg = "";
-//                List<OutStockOrderDetailInfo>list= returnMsgModel.getData();
-//                for (OutStockOrderDetailInfo item:list){
-//                    BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateMaterialItem(item);
-//                    mAdapter.notifyDataSetChanged();
-//                    if (!checkResult.getHeaderStatus()) {
-//                        msg = msg + "物料" + item.getMaterialno();
-//                    }
-//                }
-//                if (!msg.equals("")) {
-//                    MessageBox.Show(context, msg + "更新失败");
-//                }
-//                materialModle = new MaterialResponseModel();
-//                stockInfoModels = new ArrayList<OutStockOrderDetailInfo>();
-//                mAdapter = new SalesoutstockBoxAdapter(context, stockInfoModels);
-//                responseList = new ArrayList<OutStockOrderDetailInfo>();
-//                modelIsExits = new HashMap<String, String>();
-//                mList.setAdapter(mAdapter);
-//                mAdapter.notifyDataSetChanged();
-                //重新获取单据信息
+
                 String order=CurrOrder;
                 Map<String,String> map=new HashMap<>();
                 map.put("ErpVoucherNo",order);
