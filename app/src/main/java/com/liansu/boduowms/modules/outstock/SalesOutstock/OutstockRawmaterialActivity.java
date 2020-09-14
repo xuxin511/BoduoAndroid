@@ -606,7 +606,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                         return;
                     }
                     //判断数量是否大于当前行
-                    if(ArithUtil.sub(model.getRemainqty(),returnMsgModel.getData().get(0).getQty())>0) {
+                    if(ArithUtil.sub(model.getRemainqty(),returnMsgModel.getData().get(0).getQty())>=0) {
                         SalesoutstockRequery modelRequery = new SalesoutstockRequery();
                         modelRequery.Erpvoucherno = CurrOrderNO;
                         modelRequery.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
