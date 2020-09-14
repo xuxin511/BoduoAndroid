@@ -9,6 +9,15 @@ public  class SalesoutStcokboxRequery {
     public  int Vouchertype;
     public  String PostUser;
     public  int IsStockCombine;
+    public  int Barcodetype; //2箱号 3散件
+
+    public int getBarcodetype() {
+        return Barcodetype;
+    }
+
+    public void setBarcodetype(int barcodetype) {
+        Barcodetype = barcodetype;
+    }
 
     public int getIsStockCombine() {
         return IsStockCombine;

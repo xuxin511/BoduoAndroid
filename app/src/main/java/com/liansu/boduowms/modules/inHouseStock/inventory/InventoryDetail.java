@@ -59,7 +59,7 @@ public class InventoryDetail extends BaseActivity {
     @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.toolBarTitle = new ToolBarTitle("盘点单明细", true);
+        BaseApplication.toolBarTitle = new ToolBarTitle("已盘明细", true);
         x.view().inject(this);
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();

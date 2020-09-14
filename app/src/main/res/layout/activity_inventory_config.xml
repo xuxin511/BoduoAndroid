@@ -44,7 +44,7 @@
         android:layout_height="0px"
         android:layout_margin="4sp"
         android:background="@drawable/bt_selector"
-        android:text="托盘明细"
+        android:text="已盘明细"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_15"
         app:layout_constraintBottom_toBottomOf="parent"
