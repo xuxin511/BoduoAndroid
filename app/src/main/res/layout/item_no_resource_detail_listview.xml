@@ -5,6 +5,7 @@
     android:minHeight="90dp"
     android:orientation="vertical">
     <TextView
+        android:maxLines="2"
         android:id="@+id/item_barcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

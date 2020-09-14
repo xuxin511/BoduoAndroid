@@ -25,6 +25,7 @@ import org.xutils.x;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -180,6 +181,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
         if (mAdapter == null) {
             mAdapter = new InventoryMovementScanDetailAdapter(mContext, itemList);
             mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         } else {
             mAdapter.notifyDataSetChanged();

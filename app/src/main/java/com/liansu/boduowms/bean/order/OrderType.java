@@ -53,6 +53,7 @@ public class OrderType {
     public final static int    IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE = 66;  //无源入库
     public final static int    IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE = 47;  //到货抽检
     public final static int    IN_STOCK_ORDER_TYPE_OUTSOURCING_STORAGE_VALUE = -1;  //委外入库
+    public final static int    IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT_VALUE = 34;  //移库
 
 
 

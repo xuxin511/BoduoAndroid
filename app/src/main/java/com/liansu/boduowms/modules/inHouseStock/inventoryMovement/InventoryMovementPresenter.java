@@ -11,6 +11,7 @@ import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
@@ -23,6 +24,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 
@@ -95,7 +97,13 @@ public class InventoryMovementPresenter {
                 return;
             }
             if (scanQRCode != null) {
-                mModel.requestBarcodeInfo(scanQRCode, new NetCallBackListener<String>() {
+                OutBarcodeInfo postInfo = new OutBarcodeInfo();
+                postInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                postInfo.setBarcode(scanQRCode.getBarcode());
+                postInfo.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT_VALUE);
+                scanQRCode.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                scanQRCode.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT_VALUE);
+                mModel.requestBarcodeInfo(postInfo, new NetCallBackListener<String>() {
                     @Override
                     public void onCallBack(String result) {
                         LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_SCAN_BARCODE_ADF_ASYNC, result);
@@ -129,7 +137,7 @@ public class InventoryMovementPresenter {
                                 MessageBox.Show(mContext, "查询托盘码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-//                                  mView.requestBarcodeFocus();
+                                        mView.requestBarcodeFocus();
                                     }
                                 });
                             }
@@ -174,7 +182,7 @@ public class InventoryMovementPresenter {
      * @time 2020/7/3 15:31
      */
     public void scanMoveInAreaInfo(String areaNo) {
-        if (mModel.getStockInfoList() == null || mModel.getStockInfoList().size() > 0) {
+        if (mModel.getStockInfoList() == null || mModel.getStockInfoList().size() == 0) {
             MessageBox.Show(mContext, "请先扫描条码");
             return;
         }
@@ -267,20 +275,26 @@ public class InventoryMovementPresenter {
      * @time 2019/11/21 10:59
      */
     public void onRefer() {
+        if (mModel.getStockInfoList() == null || mModel.getStockInfoList().size() == 0) {
+            MessageBox.Show(mContext, "请扫描条码信息");
+            return;
+        }
         String inMoveAreaNo = mView.getMoveInAreaNo();
         if (inMoveAreaNo == null || inMoveAreaNo.equals("")) {
             MessageBox.Show(mContext, "请输入或扫描移入库位");
             return;
         }
-        if (mModel.getStockInfoList() == null || mModel.getStockInfoList().size() > 0) {
-            MessageBox.Show(mContext, "请扫描条码信息");
-            return;
-        }
+
         List<StockInfo> postList = mModel.getStockInfoList();
+        for (StockInfo info:postList){
+            info.setToareano(inMoveAreaNo);
+            info.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+            info.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT_VALUE);
+        }
         mModel.requestRefer(postList, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
-//                  LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, result);
+                  LogUtil.WriteLog(InventoryMovementScan.class, mModel.TAG_UPDATE_T_STOCK_LIST_AREA, result);
                 try {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
@@ -288,15 +302,25 @@ public class InventoryMovementPresenter {
                         MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                onReset();
+                                onClear();
                             }
                         });
                     } else {
-                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.requestMoveInAreaNoFocus();
+                            }
+                        });
                     }
 
                 } catch (Exception ex) {
-                    MessageBox.Show(mContext, ex.getMessage());
+                    MessageBox.Show(mContext, "移库提交出现预期之外的异常："+ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.requestMoveInAreaNoFocus();
+                        }
+                    });
                 }
 
             }
@@ -308,9 +332,9 @@ public class InventoryMovementPresenter {
 
 
     public void onClear() {
-        mView.onClear();
         mModel.onClear();
-
+        mView.bindListView(mModel.getStockInfoList());
+        mView.onClear();
 
     }
 

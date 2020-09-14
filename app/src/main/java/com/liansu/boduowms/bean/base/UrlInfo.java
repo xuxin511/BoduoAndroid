@@ -36,7 +36,7 @@ public class UrlInfo {
     }
 
     //公共方法
-    public String GetT_ScanBarcodeADFAsync         = GetWCFAdress() + "OutBarcode/GetT_ScanBarcodeADFAsync"; //获取扫描信息
+    public String GetT_ScanBarcodeADFAsync         = GetWCFAdress() + "OutBarcode/GetT_ScanBarcodeADFAsync"; //获取扫描信息 单个条码
     public String GetT_AreaModel                   = GetWCFAdress() + "Area/GetT_AreaModel"; //获取库位信息
     public String SelectMaterial                   = GetWCFAdress() + "Material/SelectMaterial"; //获取物料信息
     public String GetT_StockList                   = GetWCFAdress() + "Stock/GetT_StockList"; //库存查询
@@ -275,6 +275,9 @@ public class UrlInfo {
     //工单退料
     public String SaveT_WorkOrderReturnDetailADFAsync = GetWCFAdress() + "WorkOrderReturn/SaveT_WorkOrderReturnDetailADFAsync"; //工单退料实时提交
     public String PostT_WorkOrderReturnDetailADFAsync = GetWCFAdress() + "WorkOrderReturn/PostT_WorkOrderReturnDetailADFAsync"; //工单退料过账
+
+   //移库
+   public String UpdateT_StockListArea = GetWCFAdress() + "Stock/UpdateT_StockListArea"; //移库提交
 
 
 }

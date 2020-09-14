@@ -12,10 +12,10 @@ import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
  */
 
 public class QRCodeFunc {
-    public static final int BARCODE_TYPE_OUTER_BOX   = 1; //外箱
-    public static final int BARCODE_TYPE_PALLET_NO   = 2;//托盘
-    public static final int BARCODE_TYPE_MIXING_PALLET_NO   = 5;//混合托盘
-    public static final int BARCODE_TYPE_SPARE_PARTS = 0; //散件
+    public static final int BARCODE_TYPE_OUTER_BOX        = 1; //外箱
+    public static final int BARCODE_TYPE_PALLET_NO        = 2;//托盘
+    public static final int BARCODE_TYPE_MIXING_PALLET_NO = 5;//混合托盘
+    public static final int BARCODE_TYPE_SPARE_PARTS      = 0; //散件
 
     public static BaseMultiResultInfo<Boolean, OutBarcodeInfo> getQrCode(String barcode) {
         BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = new BaseMultiResultInfo();
@@ -35,7 +35,12 @@ public class QRCodeFunc {
                     // 物料编号%批次%数量%标签类型
                     materialNo = listCode[0];
                     batchNo = listCode[1];
-                    qty = Float.parseFloat(listCode[2]);
+                    String strQty = listCode[2];
+                    if (!strQty.equals("")) {
+                        qty = Float.parseFloat(strQty);
+                    } else {
+                        qty = 0;
+                    }
                     serialNo = listCode[3];
                     barcodeType = Integer.parseInt(listCode[4]);
                 } else if (listCode.length == 4) {

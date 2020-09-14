@@ -43,12 +43,12 @@ public class InventoryMovementScanDetailAdapter extends RecyclerView.Adapter<Inv
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StockInfo barcodeInfo = mOrderDetailList.get(position);
-        holder.mMaterialNo.setText(barcodeInfo.getMaterialno());
-        holder.mBatchNo.setText(barcodeInfo.getBatchno());
-        holder.mAreaNo.setText(barcodeInfo.getAreano());
-        holder.mQty.setText(""+ barcodeInfo.getQty());
-        holder.mMaterialDesc.setText( barcodeInfo.getMaterialdesc());
-        holder.item_barcode.setText(barcodeInfo.getBarcode());
+        holder.mMaterialNo.setText("料号:"+barcodeInfo.getMaterialno());
+        holder.mBatchNo.setText("批次:"+barcodeInfo.getBatchno());
+        holder.mAreaNo.setText("库位:"+barcodeInfo.getAreano());
+        holder.mQty.setText("数量:"+ barcodeInfo.getQty());
+        holder.mMaterialDesc.setText("品名:"+ barcodeInfo.getMaterialdesc());
+        holder.item_barcode.setText(""+barcodeInfo.getBarcode());
     }
 
     @Override

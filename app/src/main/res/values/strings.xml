@@ -92,6 +92,7 @@
     <string name="message_request_barcode_refer">正在提交条码信息...</string>
     <string name="message_request_purchase_inspection_detail">正在获取采购验退单表体信息....</string>
     <string name="message_request_production_return_detail">正在获取工单退料表体信息....</string>
+    <string name="message_request_refer_inventory_movement">正在提交移库信息....</string>
     //错误提示
     <string name="Error_UpshelfQtyBiger">扫描数量超过上架数量！</string>
     <string name="Error_BarcodeScaned">该条码已扫描！</string>
