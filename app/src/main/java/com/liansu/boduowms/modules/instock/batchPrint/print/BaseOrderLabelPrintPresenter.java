@@ -79,7 +79,7 @@ public class BaseOrderLabelPrintPresenter {
         int printType = mModel.getPrintType();
         if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
             onOuterBoxInfoBatchPrint();
-        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO ||printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
+        } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO || printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
             onPalletInfoBatchPrint();
         }
     }
@@ -98,7 +98,7 @@ public class BaseOrderLabelPrintPresenter {
             if (mPrintModel.checkBluetoothSetting() == false) return;
             OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
             if (printInfo != null) {
-                String erpVoucherNo=printInfo.getErpvoucherno()!=null?printInfo.getErpvoucherno():"";
+                String erpVoucherNo = printInfo.getErpvoucherno() != null ? printInfo.getErpvoucherno() : "";
                 String materialNo = printInfo.getMaterialno();
                 String materialDesc = printInfo.getMaterialdesc();
                 String spec = printInfo.getSpec();
@@ -160,95 +160,100 @@ public class BaseOrderLabelPrintPresenter {
      * @time 2020/8/14 16:58
      */
     public void onPalletInfoBatchPrint() {
-        OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
-        if (printInfo != null) {
-            String materialNo = printInfo.getMaterialno();
-            String materialDesc = printInfo.getMaterialdesc();
-            String spec = printInfo.getSpec();
-            String batchNo = mView.getBatchNo();
-            float remainQty = mView.getRemainQty();
-            float palletQty = mView.getPalletQty();
-            if (materialNo.equals("")) {
-                MessageBox.Show(mContext, "物料编号不能为空");
-                return;
-            }
-            if (batchNo.equals("")) {
-                MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mView.onBatchNoFocus();
-                    }
-                });
-                return;
-            }
-            if (mView.checkBatchNo(batchNo) == false) {
-                return;
-            }
-            if (palletQty <= 0) {
-                MessageBox.Show(mContext, "整托数量必须大于0", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mView.onPalletQtyFocus();
-                    }
-                });
-                return;
-            }
-            if (remainQty < palletQty) {
-                MessageBox.Show(mContext, "总数量必须大于等于可打印数", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mView.onOrderRemainQtyFocus();
-                    }
-                });
-                return;
-            }
+        try {
+            OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
+            if (printInfo != null) {
+                String materialNo = printInfo.getMaterialno();
+                String materialDesc = printInfo.getMaterialdesc();
+                String spec = printInfo.getSpec();
+                String batchNo = mView.getBatchNo();
+                float remainQty = mView.getRemainQty();
+                float palletQty = mView.getPalletQty();
+                if (materialNo.equals("")) {
+                    MessageBox.Show(mContext, "物料编号不能为空");
+                    return;
+                }
+                if (batchNo.equals("")) {
+                    MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBatchNoFocus();
+                        }
+                    });
+                    return;
+                }
+                if (mView.checkBatchNo(batchNo) == false) {
+                    return;
+                }
+                if (palletQty <= 0) {
+                    MessageBox.Show(mContext, "整托数量必须大于0", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onPalletQtyFocus();
+                        }
+                    });
+                    return;
+                }
+                if (remainQty < palletQty) {
+                    MessageBox.Show(mContext, "总数量必须大于等于可打印数", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onOrderRemainQtyFocus();
+                        }
+                    });
+                    return;
+                }
 
-            OrderDetailInfo orderDetailInfo = mModel.getCurrentPrintInfo();
-            orderDetailInfo.setScanqty(palletQty);
-            orderDetailInfo.setPrintqty(remainQty);
-            orderDetailInfo.setBatchno(batchNo);
-            orderDetailInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
-            orderDetailInfo.setPrinterType(UrlInfo.mInStockPrintType);
-            orderDetailInfo.setPrinterName(UrlInfo.mInStockPrintName);
-            //如果是无订单 托盘打印,订单数量赋值成待收数量
-            if (orderDetailInfo.getErpvoucherno() == null || orderDetailInfo.getErpvoucherno().equals("")) {
-                orderDetailInfo.setVoucherqty(remainQty);
-            }
-            mModel.requestCreateBatchPalletInfo(orderDetailInfo, new NetCallBackListener<String>() {
-                @Override
-                public void onCallBack(String result) {
-                    try {
-                        LogUtil.WriteLog(BaseOrderLabelPrint.class, mModel.TAG_CREATE_T_OUT_BARCODE_ADF_ASYNC, result);
-                        BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
-                        }.getType());
-                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    mView.onReset();
-                                }
-                            });
+                OrderDetailInfo orderDetailInfo = mModel.getCurrentPrintInfo();
+                orderDetailInfo.setScanqty(palletQty);
+                orderDetailInfo.setPrintqty(remainQty);
+                orderDetailInfo.setBatchno(batchNo);
+                orderDetailInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+                orderDetailInfo.setPrinterType(UrlInfo.mInStockPrintType);
+                orderDetailInfo.setPrinterName(UrlInfo.mInStockPrintName);
+                //如果是无订单 托盘打印,订单数量赋值成待收数量
+                if (orderDetailInfo.getErpvoucherno() == null || orderDetailInfo.getErpvoucherno().equals("")) {
+                    orderDetailInfo.setVoucherqty(remainQty);
+                }
+                mModel.requestCreateBatchPalletInfo(orderDetailInfo, new NetCallBackListener<String>() {
+                    @Override
+                    public void onCallBack(String result) {
+                        try {
+                            LogUtil.WriteLog(BaseOrderLabelPrint.class, mModel.TAG_CREATE_T_OUT_BARCODE_ADF_ASYNC, result);
+                            BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                            }.getType());
+                            if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mView.onReset();
+                                    }
+                                });
 
-                        } else {
-                            MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            } else {
+                                MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+                            }
+                        } catch (Exception e) {
+                            MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
                                 }
                             });
                         }
-                    } catch (Exception e) {
-                        MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
                     }
-                }
-            });
-        } else {
-            MessageBox.Show(mContext, "传入的打印数据为空");
+                });
+            } else {
+                MessageBox.Show(mContext, "传入的打印数据为空");
+            }
+
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "校验打印数据出现预期之外的异常:请检查输入的打印信息是否正确,"+e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR,null);
         }
 
     }
