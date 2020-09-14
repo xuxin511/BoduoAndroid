@@ -20,6 +20,8 @@ import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
+import java.util.List;
+
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
@@ -58,14 +60,13 @@ public class InventoryMovementPresenter {
      */
     public void scanBarcode(String scanBarcode) {
         try {
-
             OutBarcodeInfo scanQRCode = null;
             if (scanBarcode.equals("")) return;
             if (scanBarcode.contains("%")) {
                 BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(scanBarcode);
                 if (resultInfo.getHeaderStatus()) {
                     scanQRCode = resultInfo.getInfo();
-                    if (scanQRCode.getBarcodetype() != QRCodeFunc.BARCODE_TYPE_PALLET_NO) {
+                    if (!(scanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO || scanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_MIXING_PALLET_NO)) {
                         MessageBox.Show(mContext, "校验条码失败:托盘格式不正确,请扫描托盘码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -99,18 +100,28 @@ public class InventoryMovementPresenter {
                     public void onCallBack(String result) {
                         LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_SCAN_BARCODE_ADF_ASYNC, result);
                         try {
-                            BaseResultInfo<OutBarcodeInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutBarcodeInfo>>() {
+                            BaseResultInfo<List<StockInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<StockInfo>>>() {
                             }.getType());
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                                OutBarcodeInfo outBarcodeInfo = returnMsgModel.getData();
-                                if (outBarcodeInfo != null) {
-//                                    mModel.setStockInfo();
-//                                    mView.
+                                List<StockInfo> list = returnMsgModel.getData();
+                                if (list != null && list.size() > 0) {
+                                    BaseMultiResultInfo<Boolean, Void> checkInfo = mModel.checkAndUpdateBarcodeList(list);
+                                    if (checkInfo.getHeaderStatus()) {
+                                        mView.bindListView(mModel.getStockInfoList());
+                                        mView.requestBarcodeFocus();
+                                    } else {
+                                        MessageBox.Show(mContext, "校验托盘码失败:," + checkInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                mView.requestBarcodeFocus();
+                                            }
+                                        });
+                                    }
                                 } else {
                                     MessageBox.Show(mContext, "查询托盘码失败:获取的托盘数据为空," + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-//                                            mView.onBarcodeFocus();
+                                            mView.requestBarcodeFocus();
                                         }
                                     });
                                 }
@@ -118,7 +129,7 @@ public class InventoryMovementPresenter {
                                 MessageBox.Show(mContext, "查询托盘码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-//                                        mView.onBarcodeFocus();
+//                                  mView.requestBarcodeFocus();
                                     }
                                 });
                             }
@@ -156,39 +167,23 @@ public class InventoryMovementPresenter {
     }
 
     /**
-     * @desc: 获取库位信息
+     * @desc: 扫描库位后直接提交
      * @param:
      * @return:
      * @author: Nietzsche
      * @time 2020/7/3 15:31
      */
     public void scanMoveInAreaInfo(String areaNo) {
-        if (mModel.getStockList() == null) {
+        if (mModel.getStockInfoList() == null || mModel.getStockInfoList().size() > 0) {
             MessageBox.Show(mContext, "请先扫描条码");
             return;
         }
         if (!areaNo.equals("")) {
-            getAreaInfo(areaNo, InventoryMovementModel.MOVE_TYPE_IN_AREA_NO);
+            onRefer();
+//            getAreaInfo(areaNo, InventoryMovementModel.MOVE_TYPE_IN_AREA_NO);
         }
     }
 
-
-    /**
-     * @desc: 获取库位信息
-     * @param:
-     * @return:
-     * @author: Nietzsche
-     * @time 2020/7/3 15:31
-     */
-    public void scanMoveOutAreaInfo(String areaNo) {
-        if (mModel.getMoveInAreaNo() == null) {
-            MessageBox.Show(mContext, "请先扫描或输入移入库位");
-            return;
-        }
-        if (!areaNo.equals("")) {
-            getAreaInfo(areaNo, InventoryMovementModel.MOVE_TYPE_OUT_AREA_NO);
-        }
-    }
 
     /**
      * @desc: 获取库位信息
@@ -214,9 +209,6 @@ public class InventoryMovementPresenter {
                         if (data != null) {
                             if (areaType == InventoryMovementModel.MOVE_TYPE_IN_AREA_NO) {
                                 mModel.setMoveInAreaNo(data);
-                                mView.requestMoveOutAreaNoFocus();
-                            } else if (areaType == InventoryMovementModel.MOVE_TYPE_OUT_AREA_NO) {
-                                mModel.setMoveOutAreaNo(data);
                                 mView.requestMoveOutAreaNoFocus();
                             }
 
@@ -276,27 +268,16 @@ public class InventoryMovementPresenter {
      */
     public void onRefer() {
         String inMoveAreaNo = mView.getMoveInAreaNo();
-        String outMoveAreaNo = mView.getMoveOutAreaNo();
-        float qty = mView.getQty();
-        if (inMoveAreaNo == null || inMoveAreaNo.equals("") || mModel.getMoveInAreaNo() == null) {
+        if (inMoveAreaNo == null || inMoveAreaNo.equals("")) {
             MessageBox.Show(mContext, "请输入或扫描移入库位");
             return;
         }
-        if (outMoveAreaNo == null || outMoveAreaNo.equals("") || mModel.getMoveOutAreaNo() == null) {
-            MessageBox.Show(mContext, "请输入或扫描移出库位");
-            return;
-        }
-//        if (qty <= 0) {
-//            MessageBox.Show(mContext, "输入的数量必须大于零");
-//            return;
-//        }
-        if (mModel.getStockList() == null) {
+        if (mModel.getStockInfoList() == null || mModel.getStockInfoList().size() > 0) {
             MessageBox.Show(mContext, "请扫描条码信息");
             return;
         }
-
-        StockInfo stockInfo = new StockInfo();
-        mModel.requestRefer(stockInfo, new NetCallBackListener<String>() {
+        List<StockInfo> postList = mModel.getStockInfoList();
+        mModel.requestRefer(postList, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
 //                  LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, result);

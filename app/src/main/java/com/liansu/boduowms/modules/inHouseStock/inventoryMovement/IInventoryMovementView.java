@@ -2,6 +2,8 @@ package com.liansu.boduowms.modules.inHouseStock.inventoryMovement;
 
 import com.liansu.boduowms.bean.stock.StockInfo;
 
+import java.util.List;
+
 /**
  * @desc: 移库
  * @param:
@@ -14,9 +16,9 @@ public interface IInventoryMovementView {
     void requestMoveInAreaNoFocus();
     void requestMoveOutAreaNoFocus();
     void requestQtyFocus();
-    void setBarcodeInfo(StockInfo stockInfo);
     String  getMoveInAreaNo();
     String  getMoveOutAreaNo();
     float getQty();
     void onClear();
+    void bindListView(List<StockInfo> itemList);
 }

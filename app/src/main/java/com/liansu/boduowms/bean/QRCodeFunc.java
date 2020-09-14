@@ -14,6 +14,7 @@ import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 public class QRCodeFunc {
     public static final int BARCODE_TYPE_OUTER_BOX   = 1; //外箱
     public static final int BARCODE_TYPE_PALLET_NO   = 2;//托盘
+    public static final int BARCODE_TYPE_MIXING_PALLET_NO   = 5;//混合托盘
     public static final int BARCODE_TYPE_SPARE_PARTS = 0; //散件
 
     public static BaseMultiResultInfo<Boolean, OutBarcodeInfo> getQrCode(String barcode) {

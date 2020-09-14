@@ -12,9 +12,8 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
-import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
-import com.liansu.boduowms.ui.adapter.instock.NoSourceScanDetailAdapter;
+import com.liansu.boduowms.ui.adapter.instock.InventoryMovementScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.DoubleClickCheck;
@@ -42,26 +41,27 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
     @ViewInject(R.id.inner_move_barcode_scan)
     EditText     mBarcode;
     @ViewInject(R.id.inner_move_in_stock_scan)
-    EditText mMoveInAreaNo;
+    EditText     mMoveInAreaNo;
     @ViewInject(R.id.inner_move_out_stock_area_no)
-    EditText mMoveOutAreaNo;
+    EditText     mMoveOutAreaNo;
     @ViewInject(R.id.inventory_movement_qty)
-    EditText mQty;
+    EditText     mQty;
     @ViewInject(R.id.txt_Company)
-    TextView mStrongHoldName;
+    TextView     mStrongHoldName;
     @ViewInject(R.id.txt_Batch)
-    TextView mBatchNo;
+    TextView     mBatchNo;
     @ViewInject(R.id.txt_Status)
-    TextView mStatus;
+    TextView     mStatus;
     @ViewInject(R.id.txt_MaterialName)
-    TextView mMaterialName;
+    TextView     mMaterialName;
     @ViewInject(R.id.inventory_movement_refer)
     Button       mRefer;
     @ViewInject(R.id.inventory_movement_list_view)
     RecyclerView mRecyclerView;
-    Context                    mContext = InventoryMovementScan.this;
-    InventoryMovementPresenter mPresenter;
-    NoSourceScanDetailAdapter  mAdapter;
+    Context                            mContext = InventoryMovementScan.this;
+    InventoryMovementPresenter         mPresenter;
+    InventoryMovementScanDetailAdapter mAdapter;
+
     @Override
     public void onHandleMessage(Message msg) {
         super.onHandleMessage(msg);
@@ -71,26 +71,15 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
 
     }
 
-    public void bindListView(List<OutBarcodeInfo> materialItemList) {
-        if (materialItemList!=null && materialItemList.size()>0){
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mAdapter = new NoSourceScanDetailAdapter(mContext, materialItemList);
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        }else {
-            mRecyclerView.setVisibility(View.INVISIBLE);
-        }
-
-    }
 
     @Override
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.activity_inventory_movement_scan), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.activity_inventory_movement_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
-        mPresenter=new InventoryMovementPresenter(InventoryMovementScan.this,this,mHandler);
+        mPresenter = new InventoryMovementPresenter(InventoryMovementScan.this, this, mHandler);
     }
 
     @Override
@@ -99,7 +88,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
         onClear();
     }
 
-    @Event(value = {R.id.inner_move_barcode_scan, R.id.inner_move_in_stock_scan, R.id.inner_move_out_stock_area_no, R.id.inventory_movement_qty}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.inner_move_barcode_scan, R.id.inner_move_in_stock_scan}, type = View.OnKeyListener.class)
     private boolean barcodeScan(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
@@ -112,10 +101,6 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
                 case R.id.inner_move_in_stock_scan:
                     String moveInAreaNo = mMoveInAreaNo.getText().toString().trim();
                     mPresenter.scanMoveInAreaInfo(moveInAreaNo);
-                    break;
-                case R.id.inner_move_out_stock_area_no:
-                    String moveOutAreaNo = mMoveOutAreaNo.getText().toString().trim();
-                    mPresenter.scanMoveOutAreaInfo(moveOutAreaNo);
                     break;
                 case R.id.inventory_movement_qty:
                     break;
@@ -158,21 +143,6 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
         CommonUtil.setEditFocus(mQty);
     }
 
-    @Override
-    public void setBarcodeInfo(StockInfo stockInfo) {
-        if (stockInfo != null) {
-            mStrongHoldName.setText(stockInfo.getStrongholdname());
-            mBatchNo.setText(stockInfo.getBatchno());
-            mStatus.setText(stockInfo.getQty() + "");
-            mMaterialName.setText(stockInfo.getMaterialdesc());
-        } else {
-            mStrongHoldName.setText("组织");
-            mBatchNo.setText("批次");
-            mStatus.setText("数量");
-            mMaterialName.setText("物料名称");
-        }
-
-    }
 
     @Override
     public String getMoveInAreaNo() {
@@ -198,11 +168,21 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
 
     @Override
     public void onClear() {
-        setBarcodeInfo(null);
         mBarcode.setText("");
         mMoveInAreaNo.setText("");
         mMoveOutAreaNo.setText("");
         mQty.setText(0 + "");
         requestBarcodeFocus();
+    }
+
+    @Override
+    public void bindListView(List<StockInfo> itemList) {
+        if (mAdapter == null) {
+            mAdapter = new InventoryMovementScanDetailAdapter(mContext, itemList);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }
