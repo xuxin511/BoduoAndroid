@@ -41,7 +41,6 @@ import java.util.List;
             this.stockInfoModels = stockInfoModels;
 
         }
-
         @Override
         public int getCount() {
             return stockInfoModels == null ? 0 : stockInfoModels.size();

@@ -98,7 +98,7 @@
         android:id="@+id/sales_outstock_line2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sp_5"
-        app:layout_constraintTop_toBottomOf="@+id/outstock_box_isCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/outstock_sales_shelf_name" />
 
 
     <ListView
