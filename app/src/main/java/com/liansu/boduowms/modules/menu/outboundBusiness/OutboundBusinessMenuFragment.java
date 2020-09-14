@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.menu.outboundBusiness;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -21,6 +22,9 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
+
 @ContentView(R.layout.fragment_menu)
 public class OutboundBusinessMenuFragment extends BaseFragment implements IMenuView {
 
@@ -36,16 +40,21 @@ public class OutboundBusinessMenuFragment extends BaseFragment implements IMenuV
         mContext=context;
         // 在界面onAttach之后就触发初始化Presenter
         mPresenter=new OutboundBusinessMenuPresenter(this,mContext);
-    }
 
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (mPresenter!=null){
+            List<MenuInfo> menuInfos= BaseApplication.mCurrentMenuList;
+            mPresenter.loadMenuList(menuInfos);
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mPresenter!=null){
-            List<MenuInfo> menuInfos = BaseApplication.mCurrentMenuList;
-            mPresenter.loadMenuList(menuInfos);
-        }
+
     }
 
     @Override

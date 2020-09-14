@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.menu.inHouseManagementMenu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -21,6 +22,9 @@ import org.xutils.view.annotation.ViewInject;
 
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
+
 /**
  * @desc: 库内菜单管理
  * @author: Nietzsche
@@ -41,16 +45,23 @@ public class InHouseManagementMenuFragment extends BaseFragment implements IMenu
         mContext=context;
         // 在界面onAttach之后就触发初始化Presenter
         mPresenter=new InHouseManagementMenuPresenter(this,mContext);
+
     }
 
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (mPresenter!=null){
             List<MenuInfo> menuInfos= BaseApplication.mCurrentMenuList;
             mPresenter.loadMenuList(menuInfos);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override
