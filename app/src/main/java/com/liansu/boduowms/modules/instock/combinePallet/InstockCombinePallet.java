@@ -110,7 +110,7 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
                 }
             }
         });
-        showPalletScan(false);
+//        showPalletScan(false);
         mPalletType.setClickable(false);
         mPalletType.setOnCheckedChangeListener(this);
         setSwitchButton(false);
@@ -121,8 +121,6 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
         super.initData();
         setCurrentBarcodeInfo(null);
         mPresenter = new InstockCombinePalletPresenter(mContext, this, mHandler);
-
-
     }
 
 

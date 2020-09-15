@@ -12,6 +12,7 @@ import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
+import com.liansu.boduowms.modules.instock.combinePallet.InstockCombinePallet;
 import com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScan;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
@@ -143,8 +144,9 @@ public class StorageBusinessMenuPresenter extends IMenuPresenter {
         }else if (moduleName.equals(mContext.getString(R.string.main_menu_item_batch_printing))){
             intent.setClass(mContext, BaseOrderLabelPrintSelect.class);
             intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_BATCH_PRINTING);
+        }else if (moduleName.equals(mContext.getResources().getString(R.string.main_menu_item_in_stock_combine_pallet))){
+            intent.setClass(mContext, InstockCombinePallet.class);
         }
-
 
         if (intent != null) {
             mMenuView.loadBusiness(intent);

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +22,8 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.inHouseStock.query.QueryStock;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -43,7 +47,7 @@ import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 @ContentView(R.layout.activity_adjust_stock)
-public class AdjustStock extends BaseActivity implements IAdjustStockView {
+public class AdjustStock extends BaseActivity implements IAdjustStockView, IUserSettingView {
 
     String TAG_UPDATE_T_STOCK_ADJUST                   = "AdjustStock_UpdateT_StockAdjust"; // 库存调整提交
     String TAG_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC = "AdjustStock_GetT_ScanStockADFAsync"; //库存调整托盘扫描
@@ -65,7 +69,7 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView {
         }
     }
 
-
+    protected UserSettingPresenter mUserSettingPresenter;
     Context mContext = AdjustStock.this;
     @ViewInject(R.id.edt_AdjustScanBarcode)
     EditText mBarcode;
@@ -104,6 +108,8 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView {
         BaseApplication.isCloseActivity = false;
         mCurrentStockInfo = null;
         onReset();
+        mUserSettingPresenter = new UserSettingPresenter(mContext, this);
+
     }
 
 
@@ -234,6 +240,7 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView {
 
     @Override
     public void onReset() {
+        mBarcode.setText("");
         mCurrentStockInfo=null;
         setStockInfo(null);
         onBarcodeFocus();
@@ -443,5 +450,48 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView {
 
         return true;
 
+    }
+
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
+                            onReset();
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+    @Override
+    public void setTitle() {
+        getToolBarHelper().getToolBar().setTitle(mContext.getString(R.string.app_bar_title_inventory_adjustment) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }
+        return false;
     }
 }

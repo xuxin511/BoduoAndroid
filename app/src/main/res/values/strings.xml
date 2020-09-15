@@ -133,6 +133,7 @@
     <string name="main_menu_item_active_sales_return">销售退货</string>
     <string name="main_menu_item_quality_inspection">质检处理</string>
     <string name="main_menu_item_mobile_warehouse_inventory">移库</string>
+    <string name="main_menu_item_in_stock_combine_pallet">拼托</string>
     <string name="main_menu_item_set_tray">组托</string>
     <string name="main_menu_item_remove_tray">拆托</string>
     <string name="main_menu_item_inventory_adjustment">库存调整</string>

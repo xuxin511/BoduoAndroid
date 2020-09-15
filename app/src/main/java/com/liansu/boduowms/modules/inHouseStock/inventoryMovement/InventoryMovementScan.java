@@ -1,8 +1,12 @@
 package com.liansu.boduowms.modules.inHouseStock.inventoryMovement;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +17,8 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.stock.StockInfo;
+import com.liansu.boduowms.modules.setting.user.IUserSettingView;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.InventoryMovementScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
@@ -38,7 +44,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * @time 2020/6/25 22:00
  */
 @ContentView(R.layout.activity_inner_move_scan)
-public class InventoryMovementScan extends BaseActivity implements IInventoryMovementView {
+public class InventoryMovementScan extends BaseActivity implements IInventoryMovementView , IUserSettingView {
     @ViewInject(R.id.inner_move_barcode_scan)
     EditText     mBarcode;
     @ViewInject(R.id.inner_move_in_stock_scan)
@@ -62,7 +68,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
     Context                            mContext = InventoryMovementScan.this;
     InventoryMovementPresenter         mPresenter;
     InventoryMovementScanDetailAdapter mAdapter;
-
+    protected UserSettingPresenter  mUserSettingPresenter;
     @Override
     public void onHandleMessage(Message msg) {
         super.onHandleMessage(msg);
@@ -81,6 +87,8 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mPresenter = new InventoryMovementPresenter(InventoryMovementScan.this, this, mHandler);
+        mUserSettingPresenter = new UserSettingPresenter(mContext, this);
+
     }
 
     @Override
@@ -187,4 +195,50 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
             mAdapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void selectWareHouse(List<String> list) {
+        if (list != null && list.size() > 0) {
+            final String[] items = list.toArray(new String[0]);
+            new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
+                    .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
+                    .setCancelable(false)
+                    .setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法存根
+                            String select_item = items[which].toString();
+                            if (mUserSettingPresenter != null) {
+                                mUserSettingPresenter.saveCurrentWareHouse(select_item);
+                            }
+                            if (mPresenter!=null){
+                                mPresenter.onClear();
+                            }
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+    @Override
+    public void setTitle() {
+        getToolBarHelper().getToolBar().setTitle(mContext.getString(R.string.activity_inventory_movement_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+        }
+        return false;
+    }
+
 }
