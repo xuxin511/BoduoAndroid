@@ -154,8 +154,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
                         if (BaseApplication.mCurrentWareHouseInfo.Warehouseno != null) {
                             // mUserSettingPresenter.saveCurrentWareHouse(select_item);
                             for (WareHouseInfo info : BaseApplication.mCurrentUserInfo.getModelListWarehouse()) {
-                                String sWareHouseName = info.getWarehousename() != null ? info.getWarehousename() : "";
-                                if (sWareHouseName.trim().equals(select_item)) {
+                                String sWareHouseNo = info.getWarehouseno() != null ? info.getWarehouseno() : "";
+                                if (sWareHouseNo.trim().equals(select_item)) {
                                     BaseApplication.mCurrentWareHouseInfo = info;
                                     SharePreferUtil.SetWareHouseInfoShare(context, BaseApplication.mCurrentWareHouseInfo);
                                     // BaseApplication.toolBarTitle = new ToolBarTitle("1234", true);
