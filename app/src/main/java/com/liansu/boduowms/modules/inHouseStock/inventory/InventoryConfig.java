@@ -172,15 +172,14 @@ public class InventoryConfig extends BaseActivity {
                 try {
                     for (InventoryModel item : listModel) {
                         if (item.isCheck) {
-                            if(item!=model){
-                                if(inventory__config_num.getText().toString().trim().equals("")){
+                            if (item != model) {
+                                if (inventory__config_num.getText().toString().trim().equals("")) {
                                     item.setScannQty(0f);
-                                }else {
-                                    Float aFloat=Float.parseFloat(inventory__config_num.getText().toString().trim());
+                                } else {
+                                    Float aFloat = Float.parseFloat(inventory__config_num.getText().toString().trim());
                                     item.setScannQty(aFloat);
                                 }
                             }
-
                         }
                     }
                     for (InventoryModel item : listModel) {
@@ -188,7 +187,7 @@ public class InventoryConfig extends BaseActivity {
                             inventory__config_num.setText(item.getScannQty().toString());
                         }
                     }
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     CommonUtil.setEditFocus(inventory__config_num);
                     MessageBox.Show(context, "请输入正确的数量");
                     return;
@@ -292,7 +291,7 @@ public class InventoryConfig extends BaseActivity {
                 }
             }
         }catch (Exception ex) {
-            CommonUtil.setEditFocus(inventory__config_barcode);
+            CommonUtil.setEditFocus(inventory__config_num);
             MessageBox.Show(context, "请输入正确的数量");
             return;
         }
@@ -448,7 +447,7 @@ public class InventoryConfig extends BaseActivity {
 
     //获取条码信息
     public  void GetBarcode(String result) {
-        listModel=new ArrayList<InventoryModel>();
+        listModel = new ArrayList<InventoryModel>();
         try {
             BaseResultInfo<List<InventoryModel>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<InventoryModel>>>() {
             }.getType());
@@ -456,13 +455,13 @@ public class InventoryConfig extends BaseActivity {
                 CommonUtil.setEditFocus(inventory__config_barcode);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
             } else {
-                listModel=returnMsgModel.getData();
-                listModel.get(0).isCheck=true;
+                listModel = returnMsgModel.getData();
+                listModel.get(0).isCheck = true;
                 //更新列表
                 //更新下拉框
-                int type=returnMsgModel.getData().get(0).getStatus();
-                int index=Integer.parseInt(downList.get(type).toString());
-                mSpinner.setSelection(index-1);
+                int type = returnMsgModel.getData().get(0).getStatus();
+                int index = Integer.parseInt(downList.get(type).toString());
+                mSpinner.setSelection(index - 1);
             }
         } catch (Exception ex) {
             CommonUtil.setEditFocus(inventory__config_barcode);
@@ -470,7 +469,8 @@ public class InventoryConfig extends BaseActivity {
         }
         mAdapter = new InventoryConfigAdapter(context, listModel);
         mList.setAdapter(mAdapter);
-
+        inventory__config_num.setText("0");
+        CommonUtil.setEditFocus(inventory__config_num);
     }
 
 
