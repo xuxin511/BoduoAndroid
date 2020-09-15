@@ -8,6 +8,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockOrderColse;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockSalesConfig;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutReview;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBox;
@@ -126,7 +127,7 @@ public class OutboundBusinessSubMenuModel {
                 String json = GsonUtil.parseModelToJson(model);
                 Uri data = Uri.parse(json);
                 intent.setData(data);
-                intent.setClass(mContext, SalesOutstock.class);
+                intent.setClass(mContext, OutstockRawmaterialActivity.class);
             }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
                 //销售出库下架
                 MenuOutStockModel model=new MenuOutStockModel();
