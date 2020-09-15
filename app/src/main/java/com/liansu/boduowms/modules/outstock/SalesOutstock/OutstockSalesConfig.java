@@ -146,6 +146,8 @@ public class OutstockSalesConfig extends BaseActivity {
     private  String CurrVoucherNo;//当前单号
     private  MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
 
+      private  int isload=1;//用来区分是否第一次加载
+    private  int fytype=1;//计算费用类型
 
     @Override
     protected void initViews() {
@@ -163,34 +165,48 @@ public class OutstockSalesConfig extends BaseActivity {
      //    BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
+        //送货方式
         mshSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
         ) {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1) {//送货上门
+                if (position == 0) {//送货上门
                     sales_outstock_configsm_text.setVisibility(View.VISIBLE);//显示
                     CommonUtil.setEditFocus(sales_outstock_configsm_text);
-                } else {
+                } else {//自提
+                    sales_outstock_configsm_text.setText("0");
                     sales_outstock_configsm_text.setVisibility(View.INVISIBLE);//隐藏
                     CommonUtil.setEditFocus(sales_outstock_configbj_text);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
+
+        //费用计算
         mfySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
         ) {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 if (position == 0) {//重量
-                    sales_outstock_configdj_text.setVisibility(View.INVISIBLE);// 隐藏
+                    if(fytype==1) {
+                        if (isload == 1) {//加载选择发货通知单
+                            isload = 3;
+                            CommonUtil.setEditFocus(sales_outstock_configOrder);
+                        }else{
+                            CommonUtil.setEditFocus(sales_outstock_configbj_text);
+                        }
+                        sales_outstock_configdj_text.setVisibility(View.INVISIBLE);// 隐藏
+
+                    }else{
+                        sales_outstock_configdj_text.setVisibility(View.VISIBLE);// 显示
+                         CommonUtil.setEditFocus(sales_outstock_configdj_text);
+                    }
                 } else {
                     sales_outstock_configdj_text.setVisibility(View.VISIBLE);//显示
-                    CommonUtil.setEditFocus(sales_outstock_configbj_text);
+                    CommonUtil.setEditFocus(sales_outstock_configdj_text);
                 }
             }
 
@@ -198,7 +214,36 @@ public class OutstockSalesConfig extends BaseActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        CommonUtil.setEditFocus(sales_outstock_wlOrder);
+
+
+
+        //结算方式
+        mjsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
+        ) {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                PairAdapter fydapter = new PairAdapter();
+                if (position == 0) {//月结  其它三种
+                    fytype=1;
+                    fydapter.pairs = new Pair[3];
+                    fydapter.addPairs(1, "1", "重量", fydapter.pairs);
+                    fydapter.addPairs(2, "2", "件数", fydapter.pairs);
+                    fydapter.addPairs(3, "3", "体积", fydapter.pairs);
+                    fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+
+                } else {//到付   只能是新店和整车
+                    fytype=2;
+                    fydapter.pairs = new Pair[2];
+                    fydapter.addPairs(1, "4", "整车", fydapter.pairs);
+                    fydapter.addPairs(2, "5", "新店", fydapter.pairs);
+                    fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        CommonUtil.setEditFocus(sales_outstock_configOrder);
     }
 
 
@@ -217,6 +262,7 @@ public class OutstockSalesConfig extends BaseActivity {
         shadapter.pairs = new Pair[2];
         shadapter.addPairs(1, "1", "自提", shadapter.pairs);
         shadapter.addPairs(2, "2", "送货上门", shadapter.pairs);
+    //    shadapter.addPairs(3, "3", "物流点自提", shadapter.pairs);
         shadapter.bindAdapter(mShstatusAdapter, mshSpinner, shadapter.pairs, context);
         //业务类型
         PairAdapter ywadapter = new PairAdapter();
@@ -230,15 +276,15 @@ public class OutstockSalesConfig extends BaseActivity {
         jsdapter.addPairs(1, "1", "月结", jsdapter.pairs);
         jsdapter.addPairs(2, "2", "到付", jsdapter.pairs);
         jsdapter.bindAdapter(mJstypeAdapter, mjsSpinner, jsdapter.pairs, context);
-        //费用计算方式
-        PairAdapter fydapter = new PairAdapter();
-        fydapter.pairs = new Pair[5];
-        fydapter.addPairs(1, "1", "重量", fydapter.pairs);
-        fydapter.addPairs(2, "2", "件数", fydapter.pairs);
-        fydapter.addPairs(3, "3", "体积", fydapter.pairs);
-        fydapter.addPairs(4, "4", "整车", fydapter.pairs);
-        fydapter.addPairs(5, "5", "新店", fydapter.pairs);
-        fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+//        //费用计算方式
+//        PairAdapter fydapter = new PairAdapter();
+//        fydapter.pairs = new Pair[5];
+//        fydapter.addPairs(1, "1", "重量", fydapter.pairs);
+//        fydapter.addPairs(2, "2", "件数", fydapter.pairs);
+//        fydapter.addPairs(3, "3", "体积", fydapter.pairs);
+//        fydapter.addPairs(4, "4", "整车", fydapter.pairs);
+//        fydapter.addPairs(5, "5", "新店", fydapter.pairs);
+//        fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
         CommonUtil.setEditFocus(sales_outstock_wlOrder);
     }
 
