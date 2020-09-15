@@ -262,6 +262,7 @@ public class SalesOutStockBoxList extends BaseActivity {
         BaseResultInfo<List<SalesoutstockBoxListRequery>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<SalesoutstockBoxListRequery>>>() {
         }.getType());
         if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+            delModel = new SalesoutstockBoxListRequery();
             salesoutstockBoxListRequeries = new ArrayList<SalesoutstockBoxListRequery>();
             mAdapter = new SalesoutsotckBxoListAdapter(context, salesoutstockBoxListRequeries);
             mList.setAdapter(mAdapter);

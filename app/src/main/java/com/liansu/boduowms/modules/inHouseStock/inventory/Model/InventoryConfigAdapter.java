@@ -65,13 +65,11 @@ public class InventoryConfigAdapter extends BaseAdapter {
         if (convertView == null) {
             // 获取list_item布局文件的视图
             listItemView = new com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter.ListItemView();
-            convertView = listContainer.inflate(R.layout.item_offshelfscandetail_listview, null);
+            convertView = listContainer.inflate(R.layout.item_inventory_configstyle, null);
          //   listItemView.txtstrong = (TextView) convertView.findViewById(R.id.txt_strongcode);
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
             listItemView.txt_reference_standard = (TextView) convertView.findViewById(R.id.txt_reference_standard);
             listItemView.txtVoucherQty = (TextView) convertView.findViewById(R.id.txtVoucherQty);
-           // listItemView.txtRemainQty = (TextView) convertView.findViewById(R.id.txtRemainQty);
-         //   listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
             listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.txtMaterialDesc);
            listItemView.txtbatchno = (TextView) convertView.findViewById(R.id.txt_batch_no);
             listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
@@ -82,12 +80,15 @@ public class InventoryConfigAdapter extends BaseAdapter {
         final InventoryModel mDetailInfo = stockInfoModels.get(selectID);
         listItemView.txt_voucherNo.setText(mDetailInfo.getMaterialno());
       //  listItemView.txt_reference_standard.setText("批次：" + mDetailInfo.getBatchno());
-        listItemView.txtVoucherQty.setText("数量：" + mDetailInfo.getQty()+mDetailInfo.getUnit());
         listItemView.txtMaterialDesc.setText(mDetailInfo.getMaterialdesc());
         listItemView.txt_recommended_location.setText("批次:" + mDetailInfo.getBatchno());
-        if(mDetailInfo.ScannQty==null)
-            mDetailInfo.ScannQty=0f;
-        listItemView.txt_reference_standard.setText("当前已盘：" + mDetailInfo.ScannQty);
+        listItemView.txtVoucherQty.setText("数量:" + mDetailInfo.getQty()+mDetailInfo.getUnit());
+        listItemView.txtbatchno.setText("据点:" + mDetailInfo.getStrongholdname());
+        if (mDetailInfo.isCheck) {
+            convertView.setBackgroundResource(R.color.springgreen);
+        }else{
+            convertView.setBackgroundResource(R.color.trans);
+        }
         return convertView;
     }
 

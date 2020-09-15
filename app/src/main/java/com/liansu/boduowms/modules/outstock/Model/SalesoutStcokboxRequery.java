@@ -1,5 +1,7 @@
 package com.liansu.boduowms.modules.outstock.Model;
 
+import com.liansu.boduowms.modules.outstock.purchaseInspection.bill.PurchaseInspectionBill;
+
 //拼箱提交类
 public  class SalesoutStcokboxRequery {
     public  String Erpvoucherno;

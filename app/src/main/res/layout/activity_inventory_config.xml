@@ -31,11 +31,11 @@
         android:text="提交"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_15"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/inventory_config_detail"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline_middle2"
-        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal"/>
 
     <Button
         android:layout_marginLeft="@dimen/sp_5"
@@ -226,12 +226,50 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/inventory__config_barcodename"
         tools:layout_editor_absoluteY="0dp" />
-
+    <TextView
+        android:id="@+id/inventory__config_numname"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_27"
+        android:layout_marginTop="@dimen/sp_3"
+        android:height="1sp"
+        android:gravity="left"
+        android:text="数量:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_middle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/inventory__config_statusname"
+        tools:layout_editor_absoluteY="0dp" />
     <TextView
         android:id="@+id/sales_outstock_line2"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sp_16"
+        android:layout_height="@dimen/sp_6"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/inventory__config_num" />
+
+
+    <EditText
+        android:id="@+id/inventory__config_num"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_27"
+        android:layout_marginTop="@dimen/sp_3"
+        android:background="@drawable/et_selector"
+        android:gravity="left|center_vertical"
+        android:hint="请输入盘点数量"
+        android:paddingLeft="@dimen/sp_7"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_middle"
         app:layout_constraintTop_toBottomOf="@+id/inventory__config_statusname" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -239,7 +277,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20sp" />
+        app:layout_constraintGuide_percent="0.04" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_middle"
@@ -259,7 +297,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.82" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_right"

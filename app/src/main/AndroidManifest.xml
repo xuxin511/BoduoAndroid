@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".modules.outstock.SalesOutstock.OutstockOrderColse"></activity>
+        <activity android:name=".modules.outstock.SalesOutstock.OutstockOrderColse" />
         <activity android:name=".modules.outstock.SalesOutstock.SalesOutStockCallback" />
         <activity android:name=".modules.inHouseStock.inventory.InventoryDetail" />
         <activity android:name=".modules.inHouseStock.inventory.InventoryConfig" />

@@ -252,12 +252,13 @@
     <Button
         android:id="@+id/outstock_sales_buttonyue"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="4sp"
         android:background="@drawable/bt_selector"
         android:text="提交月台"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_15"
-
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintRight_toRightOf="parent"
@@ -290,7 +291,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.83173734" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_right"

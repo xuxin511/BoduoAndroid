@@ -52,6 +52,16 @@ public class InventoryModel {
 
     public  Float  ScannQty;
 
+    public  boolean isCheck;
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+
     public Float getScannQty() {
         return ScannQty;
     }
