@@ -11,9 +11,7 @@ import com.liansu.boduowms.base.BaseModel;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.user.UserInfo;
 import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
-import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -110,29 +108,29 @@ public class LoginModel extends BaseModel {
     }
 
     /**
-     * @desc: 获取仓库名称
+     * @desc: 获取仓库编码
      * @param:
      * @return:
      * @author: Nietzsche
      * @time 2020/7/9 7:21
      */
-    public List<String> getWareHouseNameList() {
+    public List<String> getWareHouseNoList() {
         mWareHouseList.clear();
-        List<String> sWareHouseNameList = new ArrayList<String>();
+        List<String> sWareHouseNoList = new ArrayList<String>();
         if (BaseApplication.mCurrentUserInfo != null) {
             List<WareHouseInfo> wareHouseInfos = BaseApplication.mCurrentUserInfo.getModelListWarehouse();
             if (wareHouseInfos != null && wareHouseInfos.size() > 0) {
                 mWareHouseList.addAll(wareHouseInfos);
                 for (WareHouseInfo warehouse : wareHouseInfos) {
-                    if (warehouse.getWarehousename() != null && !warehouse.getWarehousename().equals("")) {
-                        sWareHouseNameList.add(warehouse.getWarehousename());
+                    if (warehouse.getWarehouseno() != null && !warehouse.getWarehouseno().equals("")) {
+                        sWareHouseNoList.add(warehouse.getWarehouseno());
                     }
                 }
 
             }
         }
 
-        return sWareHouseNameList;
+        return sWareHouseNoList;
     }
 
     /**
@@ -142,13 +140,13 @@ public class LoginModel extends BaseModel {
      * @author: Nietzsche
      * @time 2020/7/9 18:38
      */
-    public WareHouseInfo getWareHouseInfo(String name) {
-        if (BaseApplication.mCurrentUserInfo != null && name != null) {
+    public WareHouseInfo getWareHouseInfo(String wareHouseNo) {
+        if (BaseApplication.mCurrentUserInfo != null && wareHouseNo != null) {
             List<WareHouseInfo> wareHouseInfos = BaseApplication.mCurrentUserInfo.getModelListWarehouse();
             if (wareHouseInfos != null && wareHouseInfos.size() > 0) {
                 for (WareHouseInfo wareHouseInfo : wareHouseInfos) {
-                    String wareHouseName = wareHouseInfo.getWarehousename() != null ? wareHouseInfo.getWarehousename() : "";
-                    if (name.equals(wareHouseName)) {
+                    String sWareHouseNo = wareHouseInfo.getWarehouseno() != null ? wareHouseInfo.getWarehouseno() : "";
+                    if (wareHouseNo.equals(sWareHouseNo)) {
                         return wareHouseInfo;
                     }
 

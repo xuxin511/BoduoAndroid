@@ -243,7 +243,7 @@ public class ProductionReturnsPresenter {
     }
 
     public String getTitle() {
-       return mContext.getResources().getString(R.string.appbar_title_production_returns_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+       return mContext.getResources().getString(R.string.appbar_title_production_returns_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
     public void onReset(){

@@ -103,7 +103,7 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.app_bar_title_inventory_adjustment) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.app_bar_title_inventory_adjustment) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mCurrentStockInfo = null;
@@ -476,7 +476,7 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
 
     @Override
     public void setTitle() {
-        getToolBarHelper().getToolBar().setTitle(mContext.getString(R.string.app_bar_title_inventory_adjustment) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+        getToolBarHelper().getToolBar().setTitle(mContext.getString(R.string.app_bar_title_inventory_adjustment) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
 
     }
 
@@ -490,7 +490,7 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
     }

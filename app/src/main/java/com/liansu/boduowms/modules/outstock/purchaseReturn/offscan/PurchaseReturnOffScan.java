@@ -380,7 +380,7 @@ public class PurchaseReturnOffScan extends BaseActivity implements IPurchaseRetu
      */
     protected void initTitle() {
         mBusinessType = getIntent().getStringExtra("BusinessType").toString();
-        if (mBusinessType!=null){ BaseApplication.toolBarTitle = new ToolBarTitle(mBusinessType + getString(R.string.offScan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+        if (mBusinessType!=null){ BaseApplication.toolBarTitle = new ToolBarTitle(mBusinessType + getString(R.string.offScan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
 
         }
 

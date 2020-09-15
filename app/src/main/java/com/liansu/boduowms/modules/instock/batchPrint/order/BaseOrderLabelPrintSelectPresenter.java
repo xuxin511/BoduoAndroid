@@ -58,7 +58,7 @@ public class BaseOrderLabelPrintSelectPresenter {
     }
 
     public String getTitle() {
-        return mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
     /**

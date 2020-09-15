@@ -50,9 +50,9 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
     protected String getTitle() {
         String title = "";
         if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE) {
-            title = mContext.getResources().getString(R.string.main_menu_item_two_stage_transfer_to_storage) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+            title = mContext.getResources().getString(R.string.main_menu_item_two_stage_transfer_to_storage) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
         } else if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE) {
-            title = mContext.getResources().getString(R.string.main_menu_item_one_stage_transfer_to_storage) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+            title = mContext.getResources().getString(R.string.main_menu_item_one_stage_transfer_to_storage) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
         }
         return title;
     }

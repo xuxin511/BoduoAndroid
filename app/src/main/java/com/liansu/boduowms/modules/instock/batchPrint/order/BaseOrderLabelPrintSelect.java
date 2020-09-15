@@ -89,7 +89,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         initViewStatus(getPrintType());
@@ -435,7 +435,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
     }

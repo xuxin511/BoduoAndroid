@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseApplication.context = MainActivity.this;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.main_menu_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.main_menu_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         x.view().inject(this);
         mUserSettingPresenter = new UserSettingPresenter(MainActivity.this, this);
         // 初始化底部辅助工具类
@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void setTitle() {
-        getToolBarHelper().getToolBar().setTitle(getString(R.string.main_menu_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+        getToolBarHelper().getToolBar().setTitle(getString(R.string.main_menu_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
     }
 
     @Override
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
     }

@@ -129,7 +129,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
 
     protected void initTitle() {
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
 
     }
 
@@ -481,7 +481,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }else if (item.getItemId() == R.id.menu_order_reprint){
             Intent intent = new Intent();
             intent.setClass(ProductStorageScan.this, PrintPalletScan.class);

@@ -455,7 +455,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }else if (item.getItemId() == R.id.menu_order_reprint){
             Intent intent = new Intent();
             intent.setClass(TransferToStorageScan.this, BaseOrderLabelPrintSelect.class);

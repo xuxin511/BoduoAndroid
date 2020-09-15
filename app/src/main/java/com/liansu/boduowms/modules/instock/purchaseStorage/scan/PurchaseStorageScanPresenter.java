@@ -48,7 +48,7 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_receipt_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_receipt_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
 

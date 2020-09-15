@@ -57,7 +57,7 @@ public class ProductionReturnsPrint_1 extends BaseActivity implements IProductio
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_production_returns_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_production_returns_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         onReset();

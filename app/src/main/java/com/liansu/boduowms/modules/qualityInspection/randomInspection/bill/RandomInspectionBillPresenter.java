@@ -111,6 +111,6 @@ public class RandomInspectionBillPresenter {
     }
 
     public String getTitle() {
-        return mContext.getString(R.string.quality_inspection_title_list_name) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getString(R.string.quality_inspection_title_list_name) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 }

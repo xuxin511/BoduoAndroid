@@ -49,7 +49,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_active_other_bill_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_active_other_bill_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
 

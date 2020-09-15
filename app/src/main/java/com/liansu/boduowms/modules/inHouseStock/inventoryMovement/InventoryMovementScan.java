@@ -83,7 +83,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.activity_inventory_movement_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.activity_inventory_movement_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mPresenter = new InventoryMovementPresenter(InventoryMovementScan.this, this, mHandler);
@@ -222,7 +222,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
 
     @Override
     public void setTitle() {
-        getToolBarHelper().getToolBar().setTitle(mContext.getString(R.string.activity_inventory_movement_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+        getToolBarHelper().getToolBar().setTitle(mContext.getString(R.string.activity_inventory_movement_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
 
     }
 
@@ -236,7 +236,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
     }

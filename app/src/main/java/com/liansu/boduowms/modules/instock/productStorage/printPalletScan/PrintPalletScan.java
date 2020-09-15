@@ -74,7 +74,7 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
         super.initViews();
         mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
         closeKeyBoard(mBarcode,mErpVoucherNo);
@@ -322,7 +322,7 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
     }

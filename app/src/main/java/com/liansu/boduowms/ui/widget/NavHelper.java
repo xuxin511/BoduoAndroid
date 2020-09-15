@@ -164,6 +164,7 @@ public class NavHelper<T> {
         public Class<?> clx;
         // 额外的字段，用户自己设定需要使用
         public T        extra;
+
         // 内部缓存的对应的Fragment，
         // Package权限，外部无法使用
         Fragment fragment;

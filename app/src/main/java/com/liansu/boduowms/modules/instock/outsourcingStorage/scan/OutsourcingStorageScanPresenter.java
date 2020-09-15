@@ -49,7 +49,7 @@ public class OutsourcingStorageScanPresenter extends BaseOrderScanPresenter<IBas
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_outsourcing_storage_scan)+ "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_outsourcing_storage_scan)+ "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
 

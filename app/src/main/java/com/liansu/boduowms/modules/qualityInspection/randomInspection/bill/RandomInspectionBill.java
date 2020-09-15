@@ -75,7 +75,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title_list_name) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title_list_name) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
         x.view().inject(this);
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);
         closeKeyBoard(mEdtfilterContent);
@@ -271,7 +271,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
     }

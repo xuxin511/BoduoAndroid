@@ -133,7 +133,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.app_bar_title_inventory_stock_query) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.app_bar_title_inventory_stock_query) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);
@@ -599,7 +599,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
 
     @Override
     public void setTitle() {
-        getToolBarHelper().getToolBar().setTitle(mContext.getResources().getString(R.string.app_bar_title_inventory_stock_query) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+        getToolBarHelper().getToolBar().setTitle(mContext.getResources().getString(R.string.app_bar_title_inventory_stock_query) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
     }
 
     @Override
@@ -612,7 +612,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
     }

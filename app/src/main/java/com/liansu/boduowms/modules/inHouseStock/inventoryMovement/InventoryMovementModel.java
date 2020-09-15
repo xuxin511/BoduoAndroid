@@ -172,7 +172,7 @@ public class InventoryMovementModel {
                 }
                 if (!wareHouseNo.trim().equals(BaseApplication.mCurrentWareHouseInfo.getWarehouseno().trim())) {
                     resultInfo.setHeaderStatus(false);
-                    resultInfo.setMessage("校验条码失败:序列号[" + serialNo + "]的仓库编码[" + wareHouseNo + "]和当前仓库编码[" + BaseApplication.mCurrentWareHouseInfo.getWarehousename() + "]不一致！");
+                    resultInfo.setMessage("校验条码失败:序列号[" + serialNo + "]的仓库编码[" + wareHouseNo + "]和当前仓库编码[" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno() + "]不一致！");
                     return resultInfo;
 
                 }

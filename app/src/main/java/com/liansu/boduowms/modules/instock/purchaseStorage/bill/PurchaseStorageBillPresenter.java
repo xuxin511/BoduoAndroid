@@ -40,7 +40,7 @@ public class PurchaseStorageBillPresenter extends BaseOrderBillChoicePresenter<I
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_receipt_bill) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_receipt_bill) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
     @Override

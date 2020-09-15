@@ -44,7 +44,7 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
         tabTexts.add(getString(R.string.setting_print_info));
         mToolBar = findViewById(R.id.widget_common_tool_bar);
         if (BaseApplication.mCurrentWareHouseInfo!=null){
-            mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title) + "-" +BaseApplication.mCurrentWareHouseInfo.getWarehousename() );
+            mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title) + "-" +BaseApplication.mCurrentWareHouseInfo.getWarehouseno() );
 
         }else {
             mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title)  );
@@ -66,7 +66,7 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
                 switch (menuItem.getItemId()) {
                     case R.id.user_setting_warehouse_select:
                         if (mUserSettingPresenter != null) {
-                            SettingMainActivity.this.selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+                            SettingMainActivity.this.selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
                         }
                         break;
 
@@ -171,7 +171,7 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
 
     @Override
     public void setTitle() {
-        mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+        mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
 
     }
 

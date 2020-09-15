@@ -37,7 +37,7 @@ public class ActiveOtherBillPresenter extends BaseOrderBillChoicePresenter<IBase
 
     @Override
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_active_other_bill) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_active_other_bill) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
     @Override

@@ -70,7 +70,7 @@ public class ProductionReturnsPrint extends BaseActivity implements IProductionR
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_production_returns_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_production_returns_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);
@@ -277,7 +277,7 @@ public class ProductionReturnsPrint extends BaseActivity implements IProductionR
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
     }

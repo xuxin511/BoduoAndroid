@@ -63,7 +63,7 @@ public class InstockCombinePalletPresenter {
 
 
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.in_stock_combine_pallet_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.in_stock_combine_pallet_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
     /**

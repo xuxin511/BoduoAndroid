@@ -285,6 +285,6 @@ public class SalesReturnStorageScanPresenter {
 
 
     public String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_sales_return_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_sales_return_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 }

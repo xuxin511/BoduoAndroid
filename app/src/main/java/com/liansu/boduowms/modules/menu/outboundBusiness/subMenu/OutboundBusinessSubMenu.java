@@ -43,7 +43,7 @@ public class OutboundBusinessSubMenu extends BaseActivity implements IMenuView {
         mBusinessType = getIntent().getStringExtra("BusinessType").toString();
         if (mBusinessType != null) {
             mPresenter = new OutboundBusinessSubMenuPresenter(mContext,this);
-            BaseApplication.toolBarTitle = new ToolBarTitle(mBusinessType + " 二级菜单-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename(), false);
+            BaseApplication.toolBarTitle = new ToolBarTitle(mBusinessType + " 二级菜单-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
         }
         x.view().inject(this);
 

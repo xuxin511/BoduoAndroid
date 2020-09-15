@@ -71,14 +71,14 @@ public class UserSettingModel {
      * @author: Nietzsche
      * @time 2020/7/9 7:21
      */
-    public List<String> getWareHouseNameList() {
-        List<String> sWareHouseNameList = new ArrayList<String>();
+    public List<String> getWareHouseNoList() {
+        List<String> sWareHouseNoList = new ArrayList<String>();
         for (WareHouseInfo warehouse : mWareHouseList) {
-            if (warehouse.getWarehousename() != null && !warehouse.getWarehousename().equals("")) {
-                sWareHouseNameList.add(warehouse.getWarehousename());
+            if (warehouse.getWarehouseno() != null && !warehouse.getWarehouseno().equals("")) {
+                sWareHouseNoList.add(warehouse.getWarehouseno());
             }
         }
-        return sWareHouseNameList;
+        return sWareHouseNoList;
     }
 
 
@@ -89,11 +89,11 @@ public class UserSettingModel {
      * @author: Nietzsche
      * @time 2020/8/19 13:27
      */
-    public boolean saveCurrentWarehouseInfo(String wareHouseName) {
+    public boolean saveCurrentWarehouseInfo(String wareHouseNo) {
         boolean IS_SAVE = false;
         for (WareHouseInfo info : mWareHouseList) {
-            String sWareHouseName = info.getWarehousename() != null ? info.getWarehousename() : "";
-            if (sWareHouseName.trim().equals(wareHouseName.trim())) {
+            String sWareHouseNo = info.getWarehouseno() != null ? info.getWarehouseno() : "";
+            if (sWareHouseNo.trim().equals(wareHouseNo.trim())) {
                 BaseApplication.mCurrentWareHouseInfo = info;
                 SharePreferUtil.SetWareHouseInfoShare(mContext, BaseApplication.mCurrentWareHouseInfo);
                 IS_SAVE = true;

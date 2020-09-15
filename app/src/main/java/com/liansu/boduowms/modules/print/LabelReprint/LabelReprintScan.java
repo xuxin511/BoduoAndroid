@@ -36,7 +36,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 /**
- * @ Des: 标签打印  已废弃  ，用 批量打印类代替
+ * @ Des: 标签打印  已废弃  ，用 批量打印{@link com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint }类代替
  * @ Created by yangyiqing on 2020/7/15.
  */
 

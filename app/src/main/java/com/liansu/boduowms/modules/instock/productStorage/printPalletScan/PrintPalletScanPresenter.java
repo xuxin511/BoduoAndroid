@@ -59,7 +59,7 @@ public class PrintPalletScanPresenter {
 
 
     protected String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
 

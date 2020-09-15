@@ -77,7 +77,7 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
         super.initViews();
         mContext = NoSourceOtherScan.this;
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_no_source_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehousename(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_no_source_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
         mERPVoucherNoQtyDesc.setVisibility(View.GONE);
@@ -281,7 +281,7 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNameList());
+            selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }else if (item.getItemId() == R.id.menu_order_reprint){
             Intent intent = new Intent();
             intent.setClass(NoSourceOtherScan.this, BaseOrderLabelPrintSelect.class);

@@ -130,27 +130,27 @@ public class LoginPresenter {
                     List<MenuInfo> menuList = returnMsgModel.getData();
                     if (menuList != null && menuList.size() > 0) {
                         BaseApplication.mCurrentMenuList = menuList;
-                        List<String> wareHouseNameList = mModel.getWareHouseNameList();
-                        if (wareHouseNameList.size() == 1) {
+                        List<String> wareHouseNoList = mModel.getWareHouseNoList();
+                        if (wareHouseNoList.size() == 1) {
                             BaseApplication.mCurrentWareHouseInfo = mModel.getWareHouseList().get(0);
-                            mView.setCurrentWareHouseName(wareHouseNameList.get(0));
+                            mView.setCurrentWareHouseNo(wareHouseNoList.get(0));
                             SharePreferUtil.SetWareHouseInfoShare(mContext, BaseApplication.mCurrentWareHouseInfo);
                             mView.jumpToNextActivity();
-                        } else if (wareHouseNameList.size() > 1) {
-                            String currentWareHouseName = mView.getCurrentWareHouseName();
-                            if (currentWareHouseName != null && !currentWareHouseName.equals("") && !currentWareHouseName.equals("仓库")) {
-                                WareHouseInfo wareHouseInfo = mModel.getWareHouseInfo(currentWareHouseName);
+                        } else if (wareHouseNoList.size() > 1) {
+                            String currentWareHouseNo = mView.getCurrentWareHouseNo();
+                            if (currentWareHouseNo != null && !currentWareHouseNo.equals("") && !currentWareHouseNo.equals("仓库")) {
+                                WareHouseInfo wareHouseInfo = mModel.getWareHouseInfo(currentWareHouseNo);
                                 if (wareHouseInfo != null) {
                                     BaseApplication.mCurrentWareHouseInfo = wareHouseInfo;
                                     SharePreferUtil.SetWareHouseInfoShare(mContext, BaseApplication.mCurrentWareHouseInfo);
                                     mView.jumpToNextActivity();
                                 } else {
-                                    mView.selectWareHouse(wareHouseNameList, true);
+                                    mView.selectWareHouse(wareHouseNoList, true);
                                 }
 
 
                             } else {
-                                mView.selectWareHouse(wareHouseNameList, true);
+                                mView.selectWareHouse(wareHouseNoList, true);
                             }
 
                         } else {
@@ -179,7 +179,7 @@ public class LoginPresenter {
     public void selectWareHouseName() {
         UserInfo userInfo = BaseApplication.mCurrentUserInfo;
         if (userInfo != null) {
-            List<String> wareHouseNameList = mModel.getWareHouseNameList();
+            List<String> wareHouseNameList = mModel.getWareHouseNoList();
             mView.selectWareHouse(wareHouseNameList, false);
 
         }

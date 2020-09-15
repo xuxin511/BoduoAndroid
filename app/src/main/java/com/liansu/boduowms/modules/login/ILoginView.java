@@ -9,6 +9,6 @@ import java.util.List;
 public interface ILoginView {
     void jumpToNextActivity();
     void selectWareHouse(List<String> list,boolean isJump);
-    String getCurrentWareHouseName();
-    void setCurrentWareHouseName(String wareHouseName);
+    String getCurrentWareHouseNo();
+    void setCurrentWareHouseNo(String wareHouseNo);
 }

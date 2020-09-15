@@ -36,11 +36,11 @@ import static com.liansu.boduowms.utils.SharePreferUtil.ReadPrintSettingShare;
 public class Login extends BaseActivity implements ILoginView {
 
     @ViewInject(R.id.txt_Verion)
-    TextView  txtVersion;
+    TextView txtVersion;
     @ViewInject(R.id.txt_WareHousName)
-    TextView  mWareHouseName;
+    TextView mWareHouseNo;
     @ViewInject(R.id.edt_UserName)
-    EditText  mUserNo;
+    EditText mUserNo;
     @ViewInject(R.id.edt_Password)
     EditText  mPassword;
     @ViewInject(R.id.imageView2)
@@ -77,7 +77,7 @@ public class Login extends BaseActivity implements ILoginView {
 //            edtPassword.setText(DESUtil.decode(BaseApplication.mCurrentUserInfo.getPassWord()));
         }
         if (BaseApplication.mCurrentWareHouseInfo != null) {
-            mWareHouseName.setText(BaseApplication.mCurrentWareHouseInfo.getWarehousename());
+            mWareHouseNo.setText(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         }
         if (mPresenter == null) {
             mPresenter = new LoginPresenter(mContext, this, mHandler);
@@ -147,7 +147,7 @@ public class Login extends BaseActivity implements ILoginView {
                                 return;
                             }
                             WareHouseInfo wareHouseInfo = BaseApplication.mCurrentUserInfo.getModelListWarehouse().get(which);
-                            mWareHouseName.setText(select_item);
+                            mWareHouseNo.setText(select_item);
                             BaseApplication.mCurrentWareHouseInfo = wareHouseInfo;
                             SharePreferUtil.SetWareHouseInfoShare(mContext, BaseApplication.mCurrentWareHouseInfo);
                             if (isJump) {
@@ -161,13 +161,13 @@ public class Login extends BaseActivity implements ILoginView {
     }
 
     @Override
-    public String getCurrentWareHouseName() {
-        return mWareHouseName.getText().toString().trim();
+    public String getCurrentWareHouseNo() {
+        return mWareHouseNo.getText().toString().trim();
     }
 
     @Override
-    public void setCurrentWareHouseName(String wareHouseName) {
-        mWareHouseName.setText(wareHouseName);
+    public void setCurrentWareHouseNo(String wareHouseNo) {
+        mWareHouseNo.setText(wareHouseNo);
     }
 
 

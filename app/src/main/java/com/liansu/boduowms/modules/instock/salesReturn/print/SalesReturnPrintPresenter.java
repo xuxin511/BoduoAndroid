@@ -417,7 +417,7 @@ public class SalesReturnPrintPresenter {
     }
 
     public String getTitle() {
-        return mContext.getResources().getString(R.string.appbar_title_sales_return_storage_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehousename();
+        return mContext.getResources().getString(R.string.appbar_title_sales_return_storage_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
     }
 
     public void onReset() {
