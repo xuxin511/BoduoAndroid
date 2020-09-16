@@ -21,6 +21,7 @@ public class MenuMetaInfo implements Parcelable {
     private boolean internalOrExternal;
     private String  title;
     private Object  icon;
+    public  MenuMetaInfo(){}
 
     protected MenuMetaInfo(Parcel in) {
         Id = in.readInt();

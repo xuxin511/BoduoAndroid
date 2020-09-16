@@ -3,6 +3,8 @@ package com.liansu.boduowms.bean.menu;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * @ Des:
  * @ Created by yangyiqing on 2020/7/9.
@@ -18,22 +20,23 @@ public class MenuChildrenInfo implements Parcelable {
      * meta : {"Id":14,"keepalive":false,"internalOrExternal":false,"title":"到货入库","icon":null}
      */
 
-    private int       Id;
-    private String    path;
-    private String    component;
-    private Object    name;
-    private Object    icon;
-    private String           title;
-    private MenuMetaInfo     meta;
-    private MenuChildrenInfo children;
+    private int                    Id;
+    private String                 path;
+    private String                 component;
+    private Object                 name;
+    private Object                 icon;
+    private String                 title;
+    private MenuMetaInfo           meta;
+    private List<MenuChildrenInfo> children;
 
+    public  MenuChildrenInfo(){}
     protected MenuChildrenInfo(Parcel in) {
         Id = in.readInt();
         path = in.readString();
         component = in.readString();
         title = in.readString();
         meta = in.readParcelable(MenuMetaInfo.class.getClassLoader());
-        children = in.readParcelable(MenuChildrenInfo.class.getClassLoader());
+        children = in.createTypedArrayList(MenuChildrenInfo.CREATOR);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class MenuChildrenInfo implements Parcelable {
         dest.writeString(component);
         dest.writeString(title);
         dest.writeParcelable(meta, flags);
-        dest.writeParcelable(children, flags);
+        dest.writeTypedList(children);
     }
 
     @Override
@@ -119,11 +122,27 @@ public class MenuChildrenInfo implements Parcelable {
         this.meta = meta;
     }
 
-    public MenuChildrenInfo getChildren() {
+
+
+    public List<MenuChildrenInfo> getChildren() {
         return children;
     }
 
-    public void setChildren(MenuChildrenInfo children) {
+    public void setChildren(List<MenuChildrenInfo> children) {
         this.children = children;
+    }
+
+    @Override
+    public String toString() {
+        return "MenuChildrenInfo{" +
+                "Id=" + Id +
+                ", path='" + path + '\'' +
+                ", component='" + component + '\'' +
+                ", name=" + name +
+                ", icon=" + icon +
+                ", title='" + title + '\'' +
+                ", meta=" + meta +
+                ", children=" + children +
+                '}';
     }
 }

@@ -191,6 +191,22 @@ public class MenuInfo implements Parcelable {
         this.children = children;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "MenuInfo{" +
+                "Id=" + Id +
+                ", Menuno='" + Menuno + '\'' +
+                ", title='" + title + '\'' +
+                ", Menutype=" + Menutype +
+                ", path='" + path + '\'' +
+                ", component='" + component + '\'' +
+                ", icon=" + icon +
+                ", Nodelevel='" + Nodelevel + '\'' +
+                ", Nodesort='" + Nodesort + '\'' +
+                ", Parentid=" + Parentid +
+                ", name=" + name +
+                ", meta=" + meta +
+                ", children=" + children +
+                '}';
+    }
 }
