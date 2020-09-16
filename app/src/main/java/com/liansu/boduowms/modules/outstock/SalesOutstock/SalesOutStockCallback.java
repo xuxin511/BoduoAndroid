@@ -227,7 +227,7 @@ public class SalesOutStockCallback extends BaseActivity {
             mAdapter = new SaleoutstockcallbackAdapter(context, detailInfos);
             mList.setAdapter(mAdapter);
             CommonUtil.setEditFocus(sales_outstock_callback_order);
-            MessageBox.Show(context, returnMsgModel.getResultValue());
+            MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
         } catch (Exception ex) {
             CommonUtil.setEditFocus(sales_outstock_callback_order);
             MessageBox.Show(context, "数据解析报错");

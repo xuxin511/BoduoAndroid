@@ -234,7 +234,7 @@ public class SalesOutStockBoxList extends BaseActivity {
             MessageBox.Show(context, returnMsgModel.getResultValue());
             return;
         }
-        MessageBox.Show(context, "删除成功");
+        MessageBox.Show(context, "删除成功",2,null);
 
     //   mAdapter.notifyDataSetChanged();
         final Map<String, String> map = new HashMap<String, String>();
@@ -252,7 +252,7 @@ public class SalesOutStockBoxList extends BaseActivity {
             MessageBox.Show(context, returnMsgModel.getResultValue());
             return;
         }
-        MessageBox.Show(context, "打印成功");
+        MessageBox.Show(context, "打印成功",2,null);
 
     }
 

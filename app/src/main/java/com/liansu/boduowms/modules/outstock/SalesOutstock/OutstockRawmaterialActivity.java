@@ -422,7 +422,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 mAdapter.notifyDataSetChanged();
                 sales_outstock_material_pallettext.setText("");
                 CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
-                MessageBox.Show(context, "单号" + CurrOrderNO + "过账成功");
+                MessageBox.Show(context, "单号" + CurrOrderNO + "过账成功",2,null);
                 CurrOrderNO = "";
                 //this.closeActivity();
                 //跳到前一界面

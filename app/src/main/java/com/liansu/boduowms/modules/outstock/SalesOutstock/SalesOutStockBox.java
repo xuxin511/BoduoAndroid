@@ -675,7 +675,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         context, mHandler, RESULT_Saleoutstock_GETBOXlISTl, null, info.SalesOutstock_BoxList, map, null);
             }
             CommonUtil.setEditFocus(sales_outstock_box_watercode);
-            MessageBox.Show(context, returnMsgModel.getResultValue());
+            MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
         } catch (Exception ex) {
             CommonUtil.setEditFocus(sales_outstock_box_order);
             MessageBox.Show(context, ex.toString());
@@ -710,7 +710,7 @@ public  class SalesOutStockBox   extends BaseActivity {
             MessageBox.Show(context, returnMsgModel.getResultValue());
             return;
         }
-        MessageBox.Show(context, "提交成功");
+        MessageBox.Show(context, "提交成功",2,null);
     }
 
 

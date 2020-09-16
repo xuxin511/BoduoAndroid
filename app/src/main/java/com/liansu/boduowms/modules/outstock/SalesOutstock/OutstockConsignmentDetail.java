@@ -120,7 +120,7 @@ public class OutstockConsignmentDetail extends BaseActivity {
             }
 
         } catch (Exception ex) {
-            MessageBox.Show(context, "数据解析报错");
+            MessageBox.Show(context, ex.toString());
 
         }
     }

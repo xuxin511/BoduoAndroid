@@ -383,7 +383,7 @@ public class InventoryConfig extends BaseActivity {
                 mAdapter = new InventoryConfigAdapter(context, listModel);
                 mList.setAdapter(mAdapter);
                 CommonUtil.setEditFocus(inventory__config_barcode);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
+                MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
                 return;
             }
         } catch (Exception ex) {

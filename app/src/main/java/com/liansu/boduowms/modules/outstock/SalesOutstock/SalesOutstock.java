@@ -786,7 +786,7 @@ public class SalesOutstock  extends BaseActivity  {
             return;
         }
         CommonUtil.setEditFocus(sales_outstock_pallettext);
-        MessageBox.Show(context, "提交成功");
+        MessageBox.Show(context, "提交成功",2,null);
     }
 
 

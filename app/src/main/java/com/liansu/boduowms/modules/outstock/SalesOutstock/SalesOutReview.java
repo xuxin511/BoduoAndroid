@@ -409,7 +409,7 @@ public  class SalesOutReview extends BaseActivity {
                 //清空
                 CommonUtil.setEditFocus(sales_outstock_revieworder);
                 del();
-                MessageBox.Show(context, returnMsgModel.getResultValue());
+                MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
                 //this.closeActivity();
             }
 
