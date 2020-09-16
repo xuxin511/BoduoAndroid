@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.outstock.SalesOutstock;
 
 
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -509,6 +510,11 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.Batchno = "";
                         model.Materialno = arr[0];
                         model.Erpvoucherno = CurrOrder;
+                        if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2){
+                            model.IsPrint = true;
+                        }else {
+                            model.IsPrint = false;
+                        }
                         model.Barcodetype=2;
                         model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Qty = Float.parseFloat(arr[2]);
@@ -545,7 +551,11 @@ public  class SalesOutStockBox   extends BaseActivity {
                     model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
                     model.Qty = Float.parseFloat(arr[2]);
                     model.Vouchertype = CurrVoucherType;
-
+                    if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2){
+                        model.IsPrint = true;
+                    }else {
+                        model.IsPrint = false;
+                    }
                     model.Printername= UrlInfo.mOutStockPackingBoxPrintName;
                     model.Printertype= UrlInfo.mOutStockPackingBoxPrintType;
                     listmodel.add(model);
@@ -671,6 +681,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                 String order=CurrOrder;
                 Map<String,String> map=new HashMap<>();
                 map.put("ErpVoucherNo",order);
+                map.put("Towarehouseno",BaseApplication.mCurrentWareHouseInfo.Warehouseno);
                 RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GETBOXlIST, "获取拼箱列表",
                         context, mHandler, RESULT_Saleoutstock_GETBOXlISTl, null, info.SalesOutstock_BoxList, map, null);
             }

@@ -104,12 +104,11 @@ public class SalesOutStockBoxList extends BaseActivity {
         if (!sales_outstock_boxlist_order.getText().toString().trim().equals("")) {
             final Map<String, String> map = new HashMap<String, String>();
             map.put("Erpvoucherno", modelpbox.Barcode);
+            map.put("Towarehouseno",BaseApplication.mCurrentWareHouseInfo.Warehouseno);
             RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GetBoxList, "订单提交中",
                     context, mHandler, RESULT_Saleoutstock_GetBoxList, null, info.SalesOutstock_GetBoxList, map, null);
         }
-
     }
-
 
     @Override
     protected void initViews() {

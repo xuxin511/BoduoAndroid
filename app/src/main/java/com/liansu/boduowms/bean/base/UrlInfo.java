@@ -123,7 +123,6 @@ public class UrlInfo {
     public String SalesOutstock_BoxList        = GetWCFAdress() + "OutStock/GetPackage_CartonDetail";//获取订单拼箱列表
     public String SalesOutstock_PrintBox       = GetWCFAdress() + "OutStock/PrintPackage_CartonScanADFAsync";//打印拼箱
 
-
     //复核
     public String SalesOutstock_Review_ScanningNo               = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
     public String SalesOutstock_JudgeStock                      = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存

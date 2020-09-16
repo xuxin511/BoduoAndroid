@@ -17,6 +17,16 @@ public class WareHouseInfo implements Parcelable {
     private String Strongholdcode;
     private int Istransfer;
     private String Strongholdname;
+    private  int Isprint;
+
+    public int getIsPrint() {
+        return Isprint;
+    }
+
+    public void setIsPrint(int isPrint) {
+        Isprint = isPrint;
+    }
+
     public WareHouseInfo() {
     }
 
