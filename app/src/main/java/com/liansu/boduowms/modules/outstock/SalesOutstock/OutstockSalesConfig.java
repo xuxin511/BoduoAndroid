@@ -190,6 +190,7 @@ public class OutstockSalesConfig extends BaseActivity {
         ) {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sales_outstock_configdj_text.setText("0");
                 if (position == 0) {//重量
                     if(fytype==1) {
                         if (isload == 1) {//加载选择发货通知单
@@ -223,6 +224,7 @@ public class OutstockSalesConfig extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 PairAdapter fydapter = new PairAdapter();
+                sales_outstock_configdj_text.setText("0");
                 if (position == 0) {//月结  其它三种
                     fytype=1;
                     fydapter.pairs = new Pair[3];

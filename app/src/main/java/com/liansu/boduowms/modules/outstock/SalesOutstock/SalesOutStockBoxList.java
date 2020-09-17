@@ -160,6 +160,7 @@ public class SalesOutStockBoxList extends BaseActivity {
                     String modelJson = parseModelToJson(model);
                     final Map<String, String> map = new HashMap<String, String>();
                     map.put("Erpvoucherno", order);
+                    map.put("Towarehouseno",BaseApplication.mCurrentWareHouseInfo.Warehouseno);
                     RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GetBoxList, "订单提交中",
                             context, mHandler, RESULT_Saleoutstock_GetBoxList, null, info.SalesOutstock_GetBoxList, map, null);
                     return true;
@@ -238,6 +239,7 @@ public class SalesOutStockBoxList extends BaseActivity {
     //   mAdapter.notifyDataSetChanged();
         final Map<String, String> map = new HashMap<String, String>();
         map.put("Erpvoucherno", CurrOrder);
+        map.put("Towarehouseno",BaseApplication.mCurrentWareHouseInfo.Warehouseno);
         //先清空列表
         RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GetBoxList, "订单提交中",
                 context, mHandler, RESULT_Saleoutstock_GetBoxList, null, info.SalesOutstock_GetBoxList, map, null);

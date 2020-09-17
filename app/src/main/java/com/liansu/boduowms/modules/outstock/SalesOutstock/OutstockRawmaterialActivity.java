@@ -337,7 +337,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 //            } else {//杂出
             //二阶段调拨 IsGenReturnOrder==2  可以部分过账
             if(CurrVoucherType==30) {
-                if (mModel.getOrderHeaderInfo().getIsGenReturnOrder() == 2) {
+               // if (mModel.getOrderHeaderInfo().getIsGenReturnOrder() == 2) {
                     List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
                     SalesoustockReviewRequery model = new SalesoustockReviewRequery();
                     model.Erpvoucherno = CurrOrderNO;
@@ -349,8 +349,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     String modelJson = parseModelToJson(list);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
                             context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
-
-                }
+              // }
             }
             else if (IsScanningOver()) {
                 if (CurrVoucherType == 61) {

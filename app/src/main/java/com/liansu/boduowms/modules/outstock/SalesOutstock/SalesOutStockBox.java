@@ -707,6 +707,7 @@ public  class SalesOutStockBox   extends BaseActivity {
         String order=sales_outstock_box_order.getText().toString().trim();
         Map<String,String> map=new HashMap<>();
         map.put("ErpVoucherNo",order);
+        map.put("Towarehouseno",BaseApplication.mCurrentWareHouseInfo.Warehouseno);
         RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GETBOXlIST, "获取拼箱列表",
                 context, mHandler, RESULT_Saleoutstock_GETBOXlISTl, null, info.SalesOutstock_BoxList, map, null);
        // CommonUtil.setEditFocus(sales_outstock_box_watercode);

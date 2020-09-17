@@ -167,6 +167,7 @@ public class DebugModuleData {
         itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_reallocation_callback));
         itemIconList.add(R.drawable.b_administrative_requisition);
         itemNamesList.add(context.getString(R.string.main_menu_item_outsotck_adcollection));
+
     }
 
     /**

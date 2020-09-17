@@ -14,6 +14,8 @@ public class MenuType {
     public static final String                 MENU_MODULE_TYPE_OUT_STOCK_LCL = "OUT_STOCK_LCL"; //发货拼箱
     public static final String                 MENU_MODULE_TYPE_OUT_STOCK_LOADING_TRUCK = "OUT_STOCK_LOADING_TRUCK"; //发货装车
     public static final String                 MENU_MODULE_TYPE_OUT_STOCK_SHIPMENT_CLOSED = "OUT_STOCK_SHIPMENT_CLOSED"; //发货结案
+    public static final String                 MENU_MODULE_TYPE_OUT_STOCK_INDOOR_LOADING_TRUCK = "OUT_STOCK_INDOOR_LOADING_TRUCK"; //室内装车
+    public static final String                 MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF_TWO  = "OUT_STOCK_OFF_SHELF_TWO"; //下架（ 整托）
 
 
 }

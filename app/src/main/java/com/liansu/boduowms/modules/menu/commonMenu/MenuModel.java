@@ -2,10 +2,12 @@ package com.liansu.boduowms.modules.menu.commonMenu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.liansu.boduowms.R;
+import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
 import com.liansu.boduowms.bean.menu.MenuInfo;
@@ -26,8 +28,16 @@ import com.liansu.boduowms.modules.instock.salesReturn.print.SalesReturnPrint;
 import com.liansu.boduowms.modules.instock.salesReturn.scan.SalesReturnStorageScan;
 import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScan;
 import com.liansu.boduowms.modules.menu.commonMenu.subMenu.CommonBusinessSubMenu;
+import com.liansu.boduowms.modules.menu.outboundBusiness.subMenu.OutboundBusinessSubMenu;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockCallback;
+import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
 import com.liansu.boduowms.modules.qualityInspection.bill.QualityInspectionMainActivity;
 import com.liansu.boduowms.modules.qualityInspection.randomInspection.bill.RandomInspectionBill;
+import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.function.GsonUtil;
+import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,12 +207,37 @@ public class MenuModel {
             String path = item.getPath();
             int voucherType = Integer.parseInt(path);
             int icon = -1;
-
-            //29 销售出库
-            if (voucherType == OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE) {
-                icon = R.drawable.b_sales_out_of_stock;
-            }
-
+              switch (voucherType) {
+                  case OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE://29 销售出库
+                      icon = R.drawable.b_sales_out_of_stock;
+                      break;
+                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE://28 采购验退
+                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE://61 成品验退
+                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE://62 销售验退
+                      icon = R.drawable.b_outstock_return;
+                      break;
+                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN_VALUE://27 仓退
+                      icon = R.drawable.b_outsourcing_dispatch;
+                      break;
+                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
+                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_OUTSOURC_VALUE://57 委外发料
+                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SENDCARSORDER_VALUE://36派车单
+                      icon = R.drawable.b_stock_out;
+                      break;
+                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ALLOCATION_VALUE://25 一阶段调拨
+                  case 30://30 二阶段调拨
+                      icon = R.drawable.b_transfer_out_to_storage;
+                      break;
+                  case 55://55 杂出
+                      icon = R.drawable.b_other_out;
+                      break;
+                  case 63://63 二阶段回调
+                      icon = R.drawable.b_allocation_approval;
+                      break;
+                  case 56://56 行政领用单
+                      icon = R.drawable.b_administrative_requisition;
+                      break;
+              }
             if (icon != -1) {
                 item.setIcon(icon);
             }
@@ -348,128 +383,49 @@ public class MenuModel {
     protected Intent loadOutStockBusiness(MenuChildrenInfo info, int voucherType) {
         Intent intent = new Intent();
         List<MenuChildrenInfo> secondMenuList = info.getChildren();
-        if (voucherType == OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE && secondMenuList != null && secondMenuList.size() > 0) {
-            intent.setClass(mContext, CommonBusinessSubMenu.class);
-            intent.putParcelableArrayListExtra("MENU_CHILDREN_INFO", (ArrayList<? extends Parcelable>) secondMenuList);
-            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSTOCK);
+        MenuOutStockModel model = new MenuOutStockModel();
+        model.Title = info.getTitle();
+        model.VoucherType = String.valueOf(voucherType);
+        String json = GsonUtil.parseModelToJson(model);
+        Uri data = Uri.parse(json);
+        try {
+            switch (voucherType) {
+                case OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE://销售出库
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE://28 采购验退
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN_VALUE://27 仓退
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SENDCARSORDER_VALUE://36派车单
+                    intent.setClass(mContext, CommonBusinessSubMenu.class);
+                    intent.putParcelableArrayListExtra("MENU_CHILDREN_INFO", (ArrayList<? extends Parcelable>) secondMenuList);
+                    intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT);
+                    break;
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE://61 成品验退
+                    intent.setData(data);
+                    intent.setClass(mContext, PurchaseInspectionBill.class);
+                    intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT);
+                    break;
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE://62 销售验退
+                    intent.setData(data);
+                    intent.setClass(mContext, PurchaseInspectionBill.class); //
+                    intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALE);
+                    break;
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_OUTSOURC_VALUE://57 委外发料
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ALLOCATION_VALUE://25 一阶段调拨
+                case 30://30 二阶段调拨
+                case 55://55 杂出
+                case 56://56 行政领用单
+                    intent.setData(data);
+                    intent.setClass(mContext, OutstockRawmaterialActivity.class);
+                    break;
+                case 63://63 二阶段回调
+                    intent.setData(data);
+                    intent.setClass(mContext, SalesOutStockCallback.class);
+                    break;
+            }
+        } catch (Exception ex) {
+            //  MessageBox.Show(this,ex.toString());
+            LogUtil.WriteLog(MenuModel.class, "加载菜单出错", ex.toString());
         }
-//        if (moduleName.equals(mContext.getString(R.string.main_menu_item_delivery_lcl))) {
-////          intent.setClass(mContext, PackingScan.class);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_loading_truck))) {
-//            intent.setClass(mContext, BaseReviewScan.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_purchase_inspection))) {
-//            intent.setClass(mContext, OutboundBusinessSubMenu.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_purchase_return))) {
-//            intent.setClass(mContext, OutboundBusinessSubMenu.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
-//            intent = intent.setClass(mContext, BaseReviewScan.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_sales_out_stock))) {
-//            intent.setClass(mContext, OutboundBusinessSubMenu.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSTOCK);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_rowmaterial_lcl))) {//原材料出库
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "原材料出库";
-//            model.VoucherType = "46";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, OutstockRawmaterialActivity.class);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsourc_lcl))) {//委外装车发料
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "委外发料下架";
-//            model.VoucherType = "46";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, OutstockRawmaterialActivity.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_Sendcarsorder))) {//派车单
-//            intent.setClass(mContext, OutboundBusinessSubMenu.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER);
-//            //   Uri data = Uri.parse("46");
-////          intent.setData(data);
-////          intent.setClass(mContext, OutstockRawmaterialActivity.class);
-////          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_allocation))) {
-//            //一阶段调拨
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "一阶段调拨下架";
-//            model.VoucherType = "25";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, OutstockRawmaterialActivity.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION);
-////          intent.setClass(mContext, OutboundBusinessSubMenu.class);
-////          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_reallocation))) {
-//            //二阶段调
-////            intent.setClass(mContext, OutboundBusinessSubMenu.class);
-////            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION);
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "二阶段调拨下架";
-//            model.VoucherType = "30";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, OutstockRawmaterialActivity.class);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_otherout))) {
-//            //杂出
-////          intent.setClass(mContext, OutboundBusinessSubMenu.class);
-////          intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_OTHEROUT);
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "杂出下架";
-//            model.VoucherType = "55";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, OutstockRawmaterialActivity.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_purchase_sale))) {
-//            //销售退货
-//            //销售退
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "销售验退扫描";
-//            model.VoucherType = "62";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, PurchaseInspectionBill.class); //验退单
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_purchase_product))) {
-//            //成品验退
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "成品验退扫描";
-//            model.VoucherType = "61";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, PurchaseInspectionBill.class); //验退单
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALE);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsotck_reallocation_callback)) ){
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "二阶段回调确认";
-//            model.VoucherType = "63";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, SalesOutStockCallback.class);
-//        }else if(moduleName.equals( mContext.getString(R.string.main_menu_item_outsotck_adcollection))) {//行政领用单
-//            //main_menu_item_outsotck_adcollection
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "行政领用单下架";
-//            model.VoucherType = "56";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, OutstockRawmaterialActivity.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION);
-//        }
-
         return intent;
     }
 

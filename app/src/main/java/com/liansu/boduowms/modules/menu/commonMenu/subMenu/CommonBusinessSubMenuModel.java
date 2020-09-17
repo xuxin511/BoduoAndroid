@@ -10,13 +10,16 @@ import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockOrderColse;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockSalesConfig;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutReview;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBox;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -55,56 +58,27 @@ public class CommonBusinessSubMenuModel {
             int voucherType = Integer.parseInt(path);
             String moduleType=item.getComponent()!=null?item.getComponent():"";
             int icon = -1;
-            if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE) {
-                icon = R.drawable.b_batch_print;
-            } else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
-
-            }
-            //29 销售出库
-            else if (voucherType==OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE){
-                if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF)){
-                    icon=R.drawable.b_out_stock_off_shelf;
-                }else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_LCL)){
-                    icon=R.drawable.b_set_tray_and_remove_tray;
-                }else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_LOADING_TRUCK)){
-                    icon=R.drawable.b_loading_truck;
-                }else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_SHIPMENT_CLOSED)){
-                    icon=R.drawable.b_shipment_approval;
-                }
-            }
-//            switch (voucherType) {
-//                //41
-//                case OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE:
-//                    icon = R.drawable.b_batch_print;
-//                    break;
-//                //22
-//                case OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE:
-//                    icon = R.drawable.b_purchase_storage_icon;
-//                    break;
-//                //47
-//                case OrderType.IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE:
-//                    icon = R.drawable.b_spot_check_icon;
-//                    break;
-//                //45
-//                case OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE:
-//                    icon = R.drawable.b_instock;
-//                    break;
-//                //-1
-//                case OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_PRINT_VALUE:
-//                    icon = R.drawable.b_batch_print;
-//                    break;
-//
-
-
-
-//            }
+           switch (moduleType.trim()){
+               case MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF:
+               case MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF_TWO:
+                   icon=R.drawable.b_out_stock_off_shelf;
+                   break;
+               case MenuType.MENU_MODULE_TYPE_OUT_STOCK_LCL:
+                   icon=R.drawable.b_set_tray_and_remove_tray;
+                   break;
+               case MenuType.MENU_MODULE_TYPE_OUT_STOCK_LOADING_TRUCK:
+               case MenuType.MENU_MODULE_TYPE_OUT_STOCK_INDOOR_LOADING_TRUCK:
+                   icon=R.drawable.b_loading_truck;
+                   break;
+               case MenuType.MENU_MODULE_TYPE_OUT_STOCK_SHIPMENT_CLOSED:
+                   icon=R.drawable.b_shipment_approval;
+                   break;
+           }
             if (icon != -1) {
                 item.setIcon(icon);
             }
-
         }
     }
-
 
     /**
      * @desc: 跳转二级菜单 Intent
@@ -115,197 +89,48 @@ public class CommonBusinessSubMenuModel {
      */
     protected Intent loadSubBusiness(MenuChildrenInfo item) {
         Intent intent = new Intent();
-        String path = item.getPath();
-        String title=item.getTitle()!=null?item.getTitle():"";
-        int voucherType = Integer.parseInt(path);
-        String moduleType=item.getComponent()!=null?item.getComponent():"";
-        //29 销售出库
-             if (voucherType==OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE){
-            if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF)){
-                //销售出库下架
-                MenuOutStockModel model=new MenuOutStockModel();
-                model.Title=title;
-                model.VoucherType="29";
-                String json = GsonUtil.parseModelToJson(model);
-                Uri data = Uri.parse(json);
-                intent.setData(data);
-                intent.setClass(mContext, SalesOutstock.class);
-            }else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_LCL)){
-                MenuOutStockModel model = new MenuOutStockModel();
-                model.Title = title;
-                model.VoucherType = "29";
-                String json = GsonUtil.parseModelToJson(model);
-                Uri data = Uri.parse(json);
-                intent.setData(data);
-                intent.setClass(mContext, SalesOutStockBox.class);
-            }else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_LOADING_TRUCK)){
-                Uri data = Uri.parse("29");
-                intent.setData(data);
-                intent.setClass(mContext, OutstockSalesConfig.class);
-            }else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_SHIPMENT_CLOSED)){
-                MenuOutStockModel model = new MenuOutStockModel();
-                model.Title = title;
-                model.VoucherType = "29";
-                String json = GsonUtil.parseModelToJson(model);
-                Uri data = Uri.parse(json);
-                intent.setData(data);
-                intent.setClass(mContext, OutstockOrderColse.class);
-
-            }
-        }
-//        if (moduleName.equals(mContext.getString(R.string.main_menu_item_off_shelf_scan))) { //下架扫描
-//            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "采购验退扫描";
-//                model.VoucherType = "28";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, PurchaseInspectionBill.class); //验退单
-//            } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)) {
-//                // intent.setClass(mContext, PurchaseReturnOffScan.class);//仓退
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "采购退货下架";
-//                model.VoucherType = "27";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, OutstockRawmaterialActivity.class);
-//            } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
-//                //销售出库下架
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "销售出库下架";
-//                model.VoucherType = "29";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, SalesOutstock.class);
-//            } else if (businessType.equals((OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER))) {
-//                //派车单
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "派车单下架";
-//                model.VoucherType = "36";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, SalesOutstock.class);
-////                Uri data = Uri.parse("46");
-////                intent.setData(data);
-////                intent.setClass(mContext, OutstockRawmaterialActivity.class);
-//            } else if (businessType.equals((OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION))) {
-//
-//                //委外发料
-////                Uri data = Uri.parse("57");
-////                intent.setData(data);
-////                intent.setClass(mContext, SalesOutstock.class);
-//            }
-//            intent.putExtra("BusinessType", businessType);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
-//            //市内装车
-//            //  intent = intent.setClass(mContext, BaseReviewScan.class);
-//            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
-//                //销售出库复核PackingScanAdapter
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "销售出库复核";
-//                model.VoucherType = "29";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, SalesOutReview.class);
-//
-//            } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER)) {
-//                //派车单复核
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "派车单复核";
-//                model.VoucherType = "36";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, SalesOutReview.class);
-//            }
-//            intent.putExtra("BusinessType", businessType);
-//        }
-//        //拼箱
-//        else if (moduleName.equals((mContext.getString((R.string.main_menu_item_delivery_lcl))))) {
-//            //       intent = intent.setClass(mContext, BaseReviewScan.class);
-//            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
-//                //销售出库拼箱
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "销售出库拼箱";
-//                model.VoucherType = "29";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, SalesOutStockBox.class);
-//            }
-//            intent.putExtra("BusinessType", businessType);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_off_shelf_scan))) {
-//            intent = intent.setClass(mContext, BaseReviewScan.class);
-//            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-//
-//        } else if (moduleName.equals((mContext.getString(((R.string.main_menu_item_loading_truck)))))) {
-//            //发货装车
-//            //销售出库装车
-//            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
-//                // MenuOutStockModel model = new MenuOutStockModel();
-//                // model.Title = "销售出库复核";
-//                //   model.VoucherType = "29";
-//                //    String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse("29");
-//                intent.setData(data);
-//                intent.setClass(mContext, OutstockSalesConfig.class);
-//            } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION)) {
-//                //采购验退
-////                intent = intent.setClass(mContext, BaseReviewScan.class);
-////                intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "采购验退复核";
-//                model.VoucherType = "28";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, SalesOutReview.class);
-//            } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)) {
-//                //仓退复核
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "采购退货复核";
-//                model.VoucherType = "27";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, SalesOutReview.class);
-//            }
-//            intent.putExtra("BusinessType", businessType);
-//        } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck_callback))) {
-//            //二阶段回调
-//            if (businessType.equals((OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION))) {
-//                MenuOutStockModel model = new MenuOutStockModel();
-//                model.Title = "二阶段回调";
-//                model.VoucherType = "30";
-//                String json = GsonUtil.parseModelToJson(model);
-//                Uri data = Uri.parse(json);
-//                intent.setData(data);
-//                intent.setClass(mContext, SalesOutStockCallback.class);
-//                //委外发料
-////                Uri data = Uri.parse("57");
-////                intent.setData(data);
-////                intent.setClass(mContext, SalesOutstock.class);
-//            }
-//            intent.putExtra("BusinessType", businessType);
-//        } else if (moduleName.equals(mContext.getString((R.string.main_menu_item_outstock_lock)))) {
-//            MenuOutStockModel model = new MenuOutStockModel();
-//            model.Title = "发货结案";
-//            model.VoucherType = "29";
-//            String json = GsonUtil.parseModelToJson(model);
-//            Uri data = Uri.parse(json);
-//            intent.setData(data);
-//            intent.setClass(mContext, OutstockOrderColse.class);
-//            intent.putExtra("BusinessType", businessType);
-//        } else {
-//            intent = null;
-//        }
+        intent=  loadmenu(item);
         return intent;
     }
+
+
+     private  Intent  loadmenu(MenuChildrenInfo item) {
+         Intent intent = new Intent();
+         String path = item.getPath();
+         int voucherType = Integer.parseInt(path);
+         String title = item.getTitle() != null ? item.getTitle() : "";
+         String moduleType = item.getComponent() != null ? item.getComponent() : "";
+         MenuOutStockModel model = new MenuOutStockModel();
+         model.Title = title;
+         model.VoucherType = String.valueOf(voucherType);
+         String json = GsonUtil.parseModelToJson(model);
+         Uri data = Uri.parse(json);
+         if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF)) {
+             //销售出库下架
+             intent.setData(data);
+             intent.setClass(mContext, SalesOutstock.class);
+         } else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_LCL)) {
+             intent.setData(data);
+             intent.setClass(mContext, SalesOutStockBox.class);
+         } else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_LOADING_TRUCK)) {
+             Uri data1 = Uri.parse(String.valueOf(voucherType));
+             intent.setData(data1);
+             intent.setClass(mContext, OutstockSalesConfig.class);
+         } else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_SHIPMENT_CLOSED)) {
+             intent.setData(data);
+             intent.setClass(mContext, OutstockOrderColse.class);
+         } else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_INDOOR_LOADING_TRUCK)) {
+             intent.setData(data);
+             intent.setClass(mContext, SalesOutReview.class);
+         } else if (moduleType.trim().equals(MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF_TWO)) {
+             intent.setData(data);
+             intent.setClass(mContext, OutstockRawmaterialActivity.class);
+         }
+         return intent;
+     }
+
+
+
 
 
 }

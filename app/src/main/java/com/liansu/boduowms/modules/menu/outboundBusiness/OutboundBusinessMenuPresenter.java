@@ -115,7 +115,7 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_outsourc_lcl))) {//委外装车发料
             MenuOutStockModel model = new MenuOutStockModel();
             model.Title = "委外发料下架";
-            model.VoucherType = "46";
+            model.VoucherType = "57";
             String json = GsonUtil.parseModelToJson(model);
             Uri data = Uri.parse(json);
             intent.setData(data);

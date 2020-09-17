@@ -190,7 +190,7 @@ public class UrlInfo {
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "RawMaterialOut/SaveT_OutStockDetailADFAsync"; //托盘提交
                 SalesOutstock__Review_Submit = GetWCFAdress() + "RawMaterialOut/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
-            case 57://委外工单
+            case 57://委外工单发料
                 GetT_DetailSubAsync = GetWCFAdress() + "OutWork/Return_PalletNoByErpno"; //获取采购暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "OutWork/Return_DelPalletNo"; //删除采购暂存数据
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OutWork/GetT_OutStockDetailListADFAsync"; //订单扫描

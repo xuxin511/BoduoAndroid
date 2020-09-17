@@ -58,6 +58,15 @@ public class OrderType {
     public final static int    IN_STOCK_ORDER_TYPE_SALES_RETURN_PRINT_STORAGE_VALUE    = -1;//销售退货打印
     public final static int    OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE              = 29;//销售出库
     public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE          = 28;
+    public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE          = 61;
+    public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN_VALUE  =27;
+    public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE  =62;
+    public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE  =46;
+    public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_OUTSOURC_VALUE  =57;
+    public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_SENDCARSORDER_VALUE  =36;
+    public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_ALLOCATION_VALUE  =25;
+
+
     public final static int    OUT_STOCK_ORDER_TYPE_OTHER_DELIVERY_AND_LOADING_VALUE   = 1;
 
     public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT =34;//移库
