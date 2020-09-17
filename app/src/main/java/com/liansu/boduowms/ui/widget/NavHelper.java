@@ -117,10 +117,18 @@ public class NavHelper<T> {
         if (newTab != null) {
             if (newTab.fragment == null) {
                 // 首次新建
-                Fragment fragment = fragmentManager.getFragmentFactory().instantiate(context.getClassLoader(), newTab.clx.getName());
+                Fragment fragment = null;
+                //如果用户已经创建了Fragment,那么缓存直接用用户创建的，如果用户没有创建则自动创建一个Fragment实例  2020-9-16
+                if (newTab.extraFragment != null) {
+                    fragment = newTab.extraFragment;
+                } else {
+                    fragment = fragmentManager.getFragmentFactory().instantiate(context.getClassLoader(), newTab.clx.getName());
+                }
+//                Fragment fragment = fragmentManager.getFragmentFactory().instantiate(context.getClassLoader(), newTab.clx.getName());
                 // 缓存起来
                 newTab.fragment = fragment;
                 // 提交到FragmentManger
+//                ft.add(containerId, fragment, newTab.extra+"");
                 ft.add(containerId, fragment, newTab.clx.getName());
             } else {
                 // 从FragmentManger的缓存空间中重新加载到界面中
@@ -160,11 +168,18 @@ public class NavHelper<T> {
             this.extra = extra;
         }
 
+        public Tab(Class<?> clx, T extra, Fragment fragment) {
+            this.clx = clx;
+            this.extra = extra;
+            this.extraFragment = fragment;
+        }
+
         // Fragment对应的Class信息
         public Class<?> clx;
         // 额外的字段，用户自己设定需要使用
         public T        extra;
-
+        // 用户自己创建的fragment
+        public Fragment extraFragment;
         // 内部缓存的对应的Fragment，
         // Package权限，外部无法使用
         Fragment fragment;

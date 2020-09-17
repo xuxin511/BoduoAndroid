@@ -13,9 +13,8 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
-import com.liansu.boduowms.modules.menu.inHouseManagementMenu.InHouseManagementMenuFragment;
-import com.liansu.boduowms.modules.menu.outboundBusiness.OutboundBusinessMenuFragment;
-import com.liansu.boduowms.modules.menu.storageBusinessMenu.StorageBusinessMenuFragment;
+import com.liansu.boduowms.bean.menu.MenuType;
+import com.liansu.boduowms.modules.menu.commonMenu.CommonBusinessMenuFragment;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.widget.NavHelper;
@@ -38,7 +37,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     BottomNavigationView mNavigation;
     private   NavHelper<Integer>   mNavHelper;
     protected UserSettingPresenter mUserSettingPresenter;
-    Context mContext = MainActivity.this;
+    Context                    mContext = MainActivity.this;
+    CommonBusinessMenuFragment mStorageBusinessMenuFragment;
+    CommonBusinessMenuFragment mInHouseManagementMenuFragment;
+    CommonBusinessMenuFragment mOutboundBusinessMenuFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         x.view().inject(this);
         mUserSettingPresenter = new UserSettingPresenter(MainActivity.this, this);
         // 初始化底部辅助工具类
+        mStorageBusinessMenuFragment = new CommonBusinessMenuFragment(MenuType.MENU_TYPE_IN_STOCK);
+        mInHouseManagementMenuFragment = new CommonBusinessMenuFragment(MenuType.MENU_TYPE_IN_HOUSE_STOCK);
+        mOutboundBusinessMenuFragment = new CommonBusinessMenuFragment(MenuType.MENU_TYPE_OUT_STOCK);
+
         mNavHelper = new NavHelper<>(this, R.id.lay_container,
                 getSupportFragmentManager(), this);
-        mNavHelper.add(R.id.navigation_storage_business, new NavHelper.Tab<>(StorageBusinessMenuFragment.class, R.string.title_storage_business))
-                .add(R.id.navigation_in_housemanagemen, new NavHelper.Tab<>(InHouseManagementMenuFragment.class, R.string.title_in_house_management))
-                .add(R.id.navigation_outbound_business, new NavHelper.Tab<>(OutboundBusinessMenuFragment.class, R.string.title_outbound_business));
-
+        mNavHelper.add(R.id.navigation_storage_business, new NavHelper.Tab<>(CommonBusinessMenuFragment.class, R.string.title_storage_business, mStorageBusinessMenuFragment))
+                .add(R.id.navigation_in_housemanagemen, new NavHelper.Tab<>(CommonBusinessMenuFragment.class, R.string.title_in_house_management, mInHouseManagementMenuFragment))
+                .add(R.id.navigation_outbound_business, new NavHelper.Tab<>(CommonBusinessMenuFragment.class, R.string.title_outbound_business, mOutboundBusinessMenuFragment));
+//     mNavHelper.add(R.id.navigation_storage_business, new NavHelper.Tab<>(StorageBusinessMenuFragment.class, R.string.title_storage_business))
+//            .add(R.id.navigation_in_housemanagemen, new NavHelper.Tab<>(InHouseManagementMenuFragment.class, R.string.title_in_house_management))
+//              .add(R.id.navigation_outbound_business, new NavHelper.Tab<>(OutboundBusinessMenuFragment.class, R.string.title_outbound_business));
         // 添加对底部按钮点击的监听
         mNavigation.setOnNavigationItemSelectedListener(this);
         Menu menu = mNavigation.getMenu();

@@ -58,7 +58,7 @@ public class OutboundBusinessSubMenuModel {
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
             mItemIconList.add(R.drawable.b_loading_truck);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_loading_truck));
-        } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
+        } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSTOCK)) {
             mItemIconList.add(R.drawable.b_out_stock_off_shelf);
             mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
             mItemIconList.add(R.drawable.b_set_tray_and_remove_tray);
@@ -128,7 +128,7 @@ public class OutboundBusinessSubMenuModel {
                 Uri data = Uri.parse(json);
                 intent.setData(data);
                 intent.setClass(mContext, OutstockRawmaterialActivity.class);
-            }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)){
+            }else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSTOCK)){
                 //销售出库下架
                 MenuOutStockModel model=new MenuOutStockModel();
                 model.Title="销售出库下架";
@@ -162,7 +162,7 @@ public class OutboundBusinessSubMenuModel {
         else if (moduleName.equals(mContext.getString(R.string.main_menu_item_other_loading_truck))) {
             //市内装车
             //  intent = intent.setClass(mContext, BaseReviewScan.class);
-            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSTOCK)) {
                 //销售出库复核PackingScanAdapter
                 MenuOutStockModel model = new MenuOutStockModel();
                 model.Title = "销售出库复核";
@@ -187,7 +187,7 @@ public class OutboundBusinessSubMenuModel {
         //拼箱
         else if(moduleName.equals((mContext.getString((R.string.main_menu_item_delivery_lcl))))){
      //       intent = intent.setClass(mContext, BaseReviewScan.class);
-            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSTOCK)) {
                 //销售出库拼箱
                 MenuOutStockModel model = new MenuOutStockModel();
                 model.Title = "销售出库拼箱";
@@ -207,7 +207,7 @@ public class OutboundBusinessSubMenuModel {
         else if(moduleName.equals((mContext.getString(((R.string.main_menu_item_loading_truck)))))) {
             //发货装车
             //销售出库装车
-            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
+            if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSTOCK)) {
                // MenuOutStockModel model = new MenuOutStockModel();
                // model.Title = "销售出库复核";
              //   model.VoucherType = "29";

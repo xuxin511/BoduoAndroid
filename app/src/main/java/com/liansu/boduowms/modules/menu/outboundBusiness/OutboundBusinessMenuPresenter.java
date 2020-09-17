@@ -103,7 +103,7 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
             intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_sales_out_stock))) {
             intent.setClass(mContext, OutboundBusinessSubMenu.class);
-            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK);
+            intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSTOCK);
         } else if (moduleName.equals(mContext.getString(R.string.main_menu_item_rowmaterial_lcl))) {//原材料出库
             MenuOutStockModel model = new MenuOutStockModel();
             model.Title = "原材料出库";

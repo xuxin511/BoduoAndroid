@@ -34,7 +34,6 @@ import static com.liansu.boduowms.utils.SharePreferUtil.ReadPrintSettingShare;
 
 @ContentView(R.layout.activity_login)
 public class Login extends BaseActivity implements ILoginView {
-
     @ViewInject(R.id.txt_Verion)
     TextView txtVersion;
     @ViewInject(R.id.txt_WareHousName)
@@ -83,6 +82,7 @@ public class Login extends BaseActivity implements ILoginView {
             mPresenter = new LoginPresenter(mContext, this, mHandler);
         }
         mPassword.setText("");
+//        DebugModuleData.getMenuData();
     }
 
     @Event(value = R.id.edt_UserName, type = View.OnKeyListener.class)
