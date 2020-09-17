@@ -17,7 +17,6 @@ import com.liansu.boduowms.utils.function.GsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 
@@ -104,64 +103,6 @@ public class CommonBusinessSubMenuModel {
             }
 
         }
-    }
-    /**
-     * @desc: 载入二级菜单信息
-     * @param:
-     * @return:
-     * @author: Nietzsche
-     * @time 2020/8/5 16:42
-     */
-    public List<Map<String, Object>> loadBusinessSubMenu(String businessType) {
-//        mItemIconList.clear();
-//        mItemNamesList.clear();
-//        mMenuList.clear();
-//        // "采购验退"   ||采购退货
-//        if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION) || businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN)) {
-//            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-//            mItemIconList.add(R.drawable.b_loading_truck);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_loading_truck));
-//        } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUTSOTCK)) {
-//            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-//            mItemIconList.add(R.drawable.b_set_tray_and_remove_tray);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_delivery_lcl));
-//            mItemIconList.add(R.drawable.b_loading_truck);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_loading_truck));
-//            mItemIconList.add(R.drawable.b_shipment_approval);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_outstock_lock));
-//
-//        } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_RWMATERIAL_OUTSOTCK)) {
-//            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-//        } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_OUTSOURC_OUTSOTCK)) {//委外发料  二级菜单加载
-//            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-//        } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_SENDCARSORDER)) {
-//            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-//            mItemIconList.add(R.drawable.b_loading_truck);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck));
-//        } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_ALLOCATION)) {
-//            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-//        } else if (businessType.equals(OrderType.OUT_STOCK_ORDER_TYPE_REALLOCATION)) {
-//            mItemIconList.add(R.drawable.b_out_stock_off_shelf);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_off_shelf_scan));
-//            mItemIconList.add(R.drawable.b_loading_truck);
-//            mItemNamesList.add(mContext.getString(R.string.main_menu_item_other_loading_truck_callback));
-//
-//        }
-//
-//        for (int i = 0; i < mItemIconList.size(); i++) {
-//            Map<String, Object> map = new HashMap<String, Object>();
-//            map.put("image", mItemIconList.get(i));
-//            map.put("text", mItemNamesList.get(i));
-//            mMenuList.add(map);
-//        }
-//        return mMenuList;
-        return null;
     }
 
 

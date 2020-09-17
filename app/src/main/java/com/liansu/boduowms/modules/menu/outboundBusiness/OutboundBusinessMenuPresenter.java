@@ -63,7 +63,7 @@ public class OutboundBusinessMenuPresenter extends IMenuPresenter {
 //                        itemIconList.add(R.drawable.sales_out_of_stock);
 //                        itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_of_stock));
 //                        break;
-                    case 30:
+                    case 29:
                         itemIconList.add(R.drawable.b_sales_out_of_stock);
                         itemNamesList.add(mContext.getString(R.string.main_menu_item_sales_out_stock));
                         break;

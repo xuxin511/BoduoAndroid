@@ -37,11 +37,11 @@ public class OrderType {
     public final static String IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT          = "库存调整";
     public final static int    IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE              = 22;
     public final static int    IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE               = 45;
-    public final static int    IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_PRINT_VALUE         = -1; //成品入库打印
+    public final static int    IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_PRINT_VALUE         = 68; //成品入库打印
     public final static int    OUT_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE           = 47;
     public final static int    IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE          = 44;
     public final static int    IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE          = 26;
-    public final static int    IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE          = -1; //无源销售退货
+    public final static int    IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE          = 69; //无源销售退货
     //    public final static int    IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE_VALUE         = 24;
     public final static int    IN_STOCK_ORDER_TYPE_BATCH_PRINTING_VALUE                = 33;
     public final static int    IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE    = 35;
@@ -53,8 +53,8 @@ public class OrderType {
     public final static int    IN_STOCK_ORDER_TYPE_OUTSOURCING_STORAGE_VALUE           = -1;  //委外入库
     public final static int    IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT_VALUE      = 34;  //移库
     public final static int    IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE             = 41;//批量打印
-    public final static int    IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE            = -1; //质检合格
-    public final static int    IN_HOUSE_STOCK_ORDER_TYPE_COMBINE_PALLET_VALUE          = -1;//拼托
+    public final static int    IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE            = 70; //质检合格
+    public final static int    IN_HOUSE_STOCK_ORDER_TYPE_COMBINE_PALLET_VALUE          = 71;//拼托
     public final static int    IN_STOCK_ORDER_TYPE_SALES_RETURN_PRINT_STORAGE_VALUE    = -1;//销售退货打印
     public final static int    OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE              = 29;//销售出库
     public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE          = 28;
