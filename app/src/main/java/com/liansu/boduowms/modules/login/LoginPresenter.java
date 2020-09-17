@@ -126,7 +126,7 @@ public class LoginPresenter {
                 LogUtil.WriteLog(Login.class, mModel.TAG_User_Login, result);
                 BaseResultInfo<List<MenuInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<MenuInfo>>>() {
                 }.getType());
-                if (returnMsgModel.getResult() == 1) {
+                if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                     List<MenuInfo> menuList = returnMsgModel.getData();
                     if (menuList != null && menuList.size() > 0) {
                         BaseApplication.mCurrentMenuList = menuList;

@@ -41,6 +41,7 @@ public class OrderType {
     public final static int    OUT_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE           = 47;
     public final static int    IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE          = 44;
     public final static int    IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE          = 26;
+    public final static int    IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE          = -1; //无源销售退货
     //    public final static int    IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE_VALUE         = 24;
     public final static int    IN_STOCK_ORDER_TYPE_BATCH_PRINTING_VALUE                = 33;
     public final static int    IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE    = 35;
@@ -58,6 +59,13 @@ public class OrderType {
     public final static int    OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE              = 29;//销售出库
     public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE          = 28;
     public final static int    OUT_STOCK_ORDER_TYPE_OTHER_DELIVERY_AND_LOADING_VALUE   = 1;
+
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT =34;//移库
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_ADJUST_STOCK      =35;//库存调整
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY =38;//库存查询
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY         =67;//盘点
+
+
 
 
 }

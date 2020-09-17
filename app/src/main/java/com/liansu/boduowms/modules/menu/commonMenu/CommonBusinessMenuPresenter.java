@@ -37,13 +37,14 @@ public class CommonBusinessMenuPresenter {
                 } else if (mModel.getMenuType() == MenuType.MENU_TYPE_OUT_STOCK) {
                     mModel.loadOutStockMenuData(info);
                 }else if (mModel.getMenuType() == MenuType.MENU_TYPE_IN_HOUSE_STOCK) {
-                    mModel.loadInStockHouseMenuData(info);
+                    mModel.loadInHouseStockMenuData(info);
                 }
 
             }
             mMenuView.bindMenuList(mModel.getMenuChildrenInfoList());
         }
     }
+
 
     /**
      * @desc: 加载菜单对应的业务或者 加载二级菜单

@@ -10,6 +10,10 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
 import com.liansu.boduowms.bean.menu.MenuInfo;
 import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.modules.inHouseStock.adjustStock.AdjustStock;
+import com.liansu.boduowms.modules.inHouseStock.inventory.InventoryHead;
+import com.liansu.boduowms.modules.inHouseStock.inventoryMovement.InventoryMovementScan;
+import com.liansu.boduowms.modules.inHouseStock.query.QueryStock;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
@@ -145,27 +149,27 @@ public class MenuModel {
                 icon = R.drawable.b_transfer_to_storage;
             }
 
-            //24 一阶段调拨入库
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE){
-                icon = R.drawable.b_transfer_to_storage;
-            }
             //58 一阶段调拨入库
             else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE){
                 icon = R.drawable.b_transfer_to_storage;
             }
 
-            //44 有源入库
+            //44 有源杂入
             else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE){
                 icon = R.drawable.b_instock;
             }
 
-            //66 无源入库
+            //66 无源杂入
             else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE){
                 icon = R.drawable.b_scan_other_storage;
             }
 
-            //26 销售退货
+            //26 有源销售退货
             else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE){
+                icon = R.drawable.b_sales_return;
+            }
+            //-1 无源销售退货
+            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE){
                 icon = R.drawable.b_sales_return;
             }
 
@@ -216,71 +220,29 @@ public class MenuModel {
      * @author: Nietzsche
      * @time 2020/9/16 15:04
      */
-    public void loadInStockHouseMenuData(MenuChildrenInfo item) {
+    public void loadInHouseStockMenuData(MenuChildrenInfo item) {
         if (item != null) {
             String path = item.getPath();
             int voucherType = Integer.parseInt(path);
             int icon = -1;
-            //入库
-            //41 批量打印
-            if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE) {
-                icon = R.drawable.b_batch_print;
+            //库内
+            //34 移库
+            if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT) {
+                icon = R.drawable.b_mobile_warehouse_inventory;
             }
-            //22  采购入库
-            else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
-                icon = R.drawable.b_purchase_storage_icon;
+            //35  库存调整
+            else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_ADJUST_STOCK) {
+                icon = R.drawable.b_inventory_adjustment;
             }
-            //47 到货抽检
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE){
-                icon = R.drawable.b_spot_check_icon;
+            //67 盘点
+            else  if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY){
+                icon = R.drawable.b_inventory_scan;
             }
-            //45  生产入库
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE){
-                icon = R.drawable.b_instock;
-            }
-            //-1 生产入库打印
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_PRINT_VALUE){
-                icon = R.drawable.b_batch_print;
-            }
-            //52 工单退料入库
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE){
-                icon = R.drawable.b_work_order_return;
-            }
-            //24 二阶段调拨入库
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE){
-                icon = R.drawable.b_transfer_to_storage;
+            //38  库存查询
+            else  if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY){
+                icon = R.drawable.b_inventory_inquiry;
             }
 
-            //58 一阶段调拨入库
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE){
-                icon = R.drawable.b_transfer_to_storage;
-            }
-
-            //44 有源入库
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE){
-                icon = R.drawable.b_instock;
-            }
-
-            //66 无源入库
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE){
-                icon = R.drawable.b_scan_other_storage;
-            }
-
-            //26 销售退货
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE){
-                icon = R.drawable.b_sales_return;
-            }
-
-            //-1 质检合格
-            else  if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE){
-                icon = R.drawable.b_qualified;
-            }
-            //-1 拼托
-            else  if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_COMBINE_PALLET_VALUE){
-                icon = R.drawable.b_combine_pallet;
-            }
-
-            //库内操作
 
             if (icon != -1) {
                 item.setIcon(icon);
@@ -288,6 +250,7 @@ public class MenuModel {
 
         }
     }
+
     /**
      * @desc: 加载入库业务
      * @param:
@@ -523,20 +486,26 @@ public class MenuModel {
     protected Intent loadInHouseStockBusiness(MenuChildrenInfo info,int voucherType) {
         Intent intent = new Intent();
         if (voucherType != -1) {
-            switch (voucherType) {
-                //入库
-                case OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE:
-
-                    break;
-
-                //出库
-
+            //库内
+            //34 移库
+            if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT) {
+                intent.setClass(mContext, InventoryMovementScan.class);
+            }
+            //35  库存调整
+            else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_ADJUST_STOCK) {
+                intent.setClass(mContext, AdjustStock.class);
+            }
+            //67 盘点
+            else  if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY){
+                intent.setClass(mContext, InventoryHead.class);
+            }
+            //38  库存查询
+            else  if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY){
+                intent.setClass(mContext, QueryStock.class);
             }
 
 
         }
-
-
         return intent;
     }
 
