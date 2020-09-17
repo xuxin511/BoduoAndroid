@@ -67,7 +67,7 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 public class SalesOutStockBoxList extends BaseActivity {
     Context context = SalesOutStockBoxList.this;
 
-    private String CurrOrder;
+    private String CurrOrder="";
 
     //订单框
     @ViewInject(R.id.sales_outstock_boxlist_order)

@@ -96,6 +96,7 @@ public class OutstockOrderColse extends BaseActivity {
         //  mBusinessType = getIntent().getStringExtra("BusinessType").toString();
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
+        CurrOrderNO="";
         String arr = data.toString();
         menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
         int type = Integer.parseInt(menuOutStockModel.VoucherType);

@@ -160,6 +160,7 @@ public class OutstockSalesConfig extends BaseActivity {
         int type = Integer.parseInt(arr);
         CurrVoucherType = type;
         info.InitUrl(type);
+        CurrVoucherNo="";
         BaseApplication.context = context;
         BaseApplication.toolBarTitle = new ToolBarTitle("复核装车"+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
      //    BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
