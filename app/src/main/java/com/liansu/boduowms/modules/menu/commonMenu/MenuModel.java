@@ -409,7 +409,6 @@ public class MenuModel {
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
                 intent.putExtra("Title", info.getTitle());
             }
-
             //58 一阶段调拨入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE) {
                 intent.setClass(mContext, TransferToStorageScan.class);
@@ -417,7 +416,6 @@ public class MenuModel {
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
                 intent.putExtra("Title", info.getTitle());
             }
-
             //44 有源入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE) {
                 intent.setClass(mContext, BaseOrderScan.class);
@@ -428,13 +426,11 @@ public class MenuModel {
                 intent.putExtra("Title", info.getTitle());
                 intent.putExtras(bundle);
             }
-
             //66 无源入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE) {
                 intent.setClass(mContext, NoSourceOtherScan.class);
                 intent.putExtra("Title", info.getTitle());
             }
-
             //26 有源销售退货
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE) {
 //                intent.setClass(mContext, SalesReturnStorageScan.class);
@@ -451,13 +447,11 @@ public class MenuModel {
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE);
                 intent.putExtra("Title", info.getTitle());
             }
-
             //70 质检合格
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE) {
                 intent.setClass(mContext, QualityInspectionMainActivity.class);
                 intent.putExtra("Title", info.getTitle());
             }
-
         }
         return intent;
     }
@@ -500,12 +494,10 @@ public class MenuModel {
                 case 56://56 行政领用单
                     intent.setData(data);
                     intent.setClass(mContext, OutstockRawmaterialActivity.class);
-
                     break;
                 case 63://63 二阶段回调
                     intent.setData(data);
                     intent.setClass(mContext, SalesOutStockCallback.class);
-
                     break;
             }
         } catch (Exception ex) {

@@ -144,7 +144,7 @@ public class OutstockSalesConfig extends BaseActivity {
     private  UrlInfo info = new UrlInfo();
 
     private  String CurrVoucherNo;//当前单号
-    private  MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
+    MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
 
       private  int isload=1;//用来区分是否第一次加载
     private  int fytype=1;//计算费用类型
@@ -155,14 +155,15 @@ public class OutstockSalesConfig extends BaseActivity {
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
         String arr = data.toString();
-    //    menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
-        // int type = Integer.parseInt(menuOutStockModel.VoucherType);
-        int type = Integer.parseInt(arr);
+        menuOutStockModel = new MenuOutStockModel();
+        menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
+       int type = Integer.parseInt(menuOutStockModel.VoucherType);
+        //int type = Integer.parseInt(arr);
         CurrVoucherType = type;
         info.InitUrl(type);
         CurrVoucherNo="";
         BaseApplication.context = context;
-        BaseApplication.toolBarTitle = new ToolBarTitle("复核装车"+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
      //    BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
@@ -255,11 +256,11 @@ public class OutstockSalesConfig extends BaseActivity {
         super.initData();
         //加载接口/下拉框数据
         awyBll = new AwyBll();
-        Intent intentMain = getIntent();
-        Uri data = intentMain.getData();
-        int type = Integer.parseInt(data.toString());
-        info.InitUrl(type);
-        CurrVoucherType = type;
+//        Intent intentMain = getIntent();
+//        Uri data = intentMain.getData();
+//        int type = Integer.parseInt(data.toString());
+//        info.InitUrl(type);
+//        CurrVoucherType = type;
         //送货方式
         PairAdapter shadapter = new PairAdapter();
         shadapter.pairs = new Pair[2];

@@ -146,7 +146,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         CurrOrderNO = "";
         mModel = new PurchaseReturnOffScanModel(this, mHandler);
         CurrVoucherType = type; //
-        if (CurrVoucherType == 25 || CurrVoucherType == 28) {
+        if (CurrVoucherType == 25 || CurrVoucherType == 28 ||CurrVoucherType==27) {
             mButton.setVisibility(View.INVISIBLE);
         }
         if (type == 28 || type == 61 || type == 62)//采购，销售，成品 验退需要立即查询单号

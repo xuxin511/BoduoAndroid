@@ -128,6 +128,8 @@ public class UrlInfo {
     public String SalesOutstock_JudgeStock                      = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
     public String SalesOutstock__SubmitBarcode                  = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
     public String SalesOutstock__Review_Submit                  = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
+
+    public String SalesOutstock_Onereview                  = GetWCFAdress() + "OutStock/OnkeyReview"; //一键复核
     //托运单保存
     public String SalesOutstock__Review_configSaveOrder         = GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
     public String SalesOutstock__Review_configSelectOrder       = GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单表头

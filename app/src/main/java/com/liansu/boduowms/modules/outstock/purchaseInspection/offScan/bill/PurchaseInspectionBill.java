@@ -6,23 +6,33 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
+import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
+import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
+import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan;
+import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.outstock.purchaseInspection.PurchaseInspectionBillItemAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
@@ -69,20 +79,21 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
     PurchaseInspectionBillItemAdapter mAdapter;
 
     public  int Currvouchertype;
-
+    MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
     @Override
     protected void initViews() {
         super.initViews();
         BaseApplication.context = context;
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
-        MenuOutStockModel model = new MenuOutStockModel();
+
         String arr=data.toString();
-        model = GsonUtil.parseJsonToModel(arr,MenuOutStockModel.class);
-        Currvouchertype=Integer.parseInt(model.VoucherType);
+        menuOutStockModel = GsonUtil.parseJsonToModel(arr,MenuOutStockModel.class);
+        Currvouchertype=Integer.parseInt(menuOutStockModel.VoucherType);
         //info.InitUrl(type);
     //    initTitle();
-        BaseApplication.toolBarTitle = new ToolBarTitle(model.getTitle()+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+        //BaseApplication.toolBarTitle = new ToolBarTitle(model.getTitle()+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         x.view().inject(this);
         mSwipeLayout.setOnRefreshListener(this); //下拉刷新
     }
@@ -90,6 +101,33 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return true;
+    }
+
+    protected UserSettingPresenter mUserSettingPresenter;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.user_setting_warehouse_select) {
+            selectWareHouse(this);
+        }
+        return false;
+    }
+
+    @Override
+    public void getToolTitle() {
+        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title + "-" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+        //清空列表//切换仓库后需要重新扫描
+        //存储类
+        if (mPresenter == null) {
+            mPresenter = new PurchaseInspectionBillPresenter(context, this, mHandler,Currvouchertype);
+        }
+        onRefresh();
     }
 
 

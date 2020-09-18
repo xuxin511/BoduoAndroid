@@ -19,6 +19,7 @@ public class MenuType {
     public static final String                 MENU_MODULE_TYPE_OUT_STOCK_INDOOR_LOADING_TRUCK = "OUT_STOCK_INDOOR_LOADING_TRUCK"; //室内装车
     public static final String                 MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF_TWO  = "OUT_STOCK_OFF_SHELF_TWO"; //下架（ 整托）
     public static final String                 MENU_MODULE_TYPE_NONE  = "MENU_MODULE_TYPE_NONE"; //
+    public static final String                 MENU_MODULE_TYPE_OUT_STOCK_ONE_REVIEW  = "OUT_STOCK_ONE_REVIEW"; //一键复核
 
 
 }

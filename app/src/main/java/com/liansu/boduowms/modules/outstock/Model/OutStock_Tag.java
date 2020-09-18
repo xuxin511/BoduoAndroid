@@ -87,4 +87,8 @@ public class OutStock_Tag {
     public static String TAG_Saleoutstock_PrintBox = "Sales_Saleoutstock_PrintBox";    // 打印拼箱标签
     public static final int RESUL_Saleoutstock_PrintBox = 147;
 
+
+    public static String TAG_Saleoutstock_OneReview = "Sales_Saleoutstock_OneReview";    // 打印拼箱标签
+    public static final int RESUL_Saleoutstock_OneReview = 148;
+
 }
