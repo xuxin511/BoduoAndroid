@@ -71,7 +71,7 @@ public class QualityInspection extends BaseActivity implements IQualityInspectio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseApplication.context = QualityInspection.this;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         x.view().inject(this);
         mRandomInspectionQty.setVisibility(View.VISIBLE);
         mRandomInspectionQtyDesc.setVisibility(View.VISIBLE);

@@ -304,7 +304,7 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
             final String[] items = list.toArray(new String[0]);
             new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
                     .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
-                    .setCancelable(false)
+                    .setCancelable(true)
                     .setItems(items, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

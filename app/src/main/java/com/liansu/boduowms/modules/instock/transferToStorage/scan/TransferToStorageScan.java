@@ -107,7 +107,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
         super.onStart();
         mPresenter=getPresenter();
         if (mPresenter!=null){
-            setTitle(mPresenter.getTitle());
+            setTitle(getToolBarTitle());
         }
 
 
@@ -417,7 +417,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
             final String[] items = list.toArray(new String[0]);
             new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
                     .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
-                    .setCancelable(false)
+                    .setCancelable(true)
                     .setItems(items, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

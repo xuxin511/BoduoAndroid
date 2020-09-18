@@ -15,9 +15,6 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.modules.menu.commonMenu.CommonBusinessMenuFragment;
-import com.liansu.boduowms.modules.menu.inHouseManagementMenu.InHouseManagementMenuFragment;
-import com.liansu.boduowms.modules.menu.outboundBusiness.OutboundBusinessMenuFragment;
-import com.liansu.boduowms.modules.menu.storageBusinessMenu.StorageBusinessMenuFragment;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.widget.NavHelper;
@@ -104,7 +101,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             final String[] items = list.toArray(new String[0]);
             new AlertDialog.Builder(mContext).setTitle(getResources().getString(R.string.activity_login_WareHousChoice))// 设置对话框标题
                     .setIcon(android.R.drawable.ic_dialog_info)// 设置对话框图
-                    .setCancelable(false)
+                    .setCancelable(true)
                     .setItems(items, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
