@@ -406,9 +406,27 @@ public class OutstockConfigreview extends BaseActivity {
             BaseResultInfo<MaterialResponseModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<MaterialResponseModel>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-                return;
+
+                if (returnMsgModel.getData() != null) {//旧外箱
+                    MaterialResponseModel material = returnMsgModel.getData();
+                    //箱号
+                    //直接调用拼箱方法
+                    SalesoutstockRequery model = new SalesoutstockRequery();
+                    model.Batchno = "";
+                    model.MaterialNo = material.Materialno;
+                    model.Erpvoucherno = CurrOrderNO;
+                    model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.ScanQty = material.OuterQty;
+                    model.Vouchertype = CurrvoucherType;
+                    String modelJson = parseModelToJson(model);
+                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
+                            context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
+                    return;
+                } else {
+                    CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+                    MessageBox.Show(context, returnMsgModel.getResultValue());
+                    return;
+                }
             }
             materialModle = returnMsgModel.getData();
             //库存
@@ -635,9 +653,12 @@ public class OutstockConfigreview extends BaseActivity {
                 if (strarr[4].equals(OutStock_Submit_type_ppallet))//拼托
                     return OutStock_Submit_type_ppallet;
             }
-        if (strarr.length == 4) {
+        if (strarr.length == 4||strarr.length==3) {
+            if(strarr.length==4){
             if (strarr[3].equals(OutStock_Submit_type_box))//拼箱
+                return OutStock_Submit_type_box;}else {
                 return OutStock_Submit_type_box;
+            }
         }
         if(strarr.length==2){
             if (strarr[1].equals(OutStock_Submit_type_pbox))

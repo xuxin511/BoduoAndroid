@@ -443,22 +443,28 @@ public class SalesOutstock  extends BaseActivity  {
                                 String[] strBox = boxNo.split("%");
                                 String Strongholdcode = GetStrongholdcode(strBox[0]);
                                 String[] strPallet = palletno.split("%");
-                                if(!strBox[0].equals(strPallet[0])){
-                                    CommonUtil.setEditFocus(sales_outstock_boxtext);
-                                    MessageBox.Show(context, "扫描的外箱条码"+strBox[0]+"和托盘条码物料不一致");
-                                    return  true;
+                                if(strBox.length>1) {//是否是旧的箱号69码
+                                    if (!strBox[0].equals(strPallet[0])) {
+                                        CommonUtil.setEditFocus(sales_outstock_boxtext);
+                                        MessageBox.Show(context, "扫描的外箱条码" + strBox[0] + "和托盘条码物料不一致");
+                                        return true;
+                                    }
                                 }
                                 SalesoutstockRequery model = new SalesoutstockRequery();
                                 model.Erpvoucherno = CurrOrderNO;
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                                 model.PalletNo = palletno;
-                                model.MaterialNo = boxNo;
                                 model.Strongholdcode = Strongholdcode;
                                 model.Vouchertype=CurrVoucherType;
                                 model.Batchno = strBox[1];
                                 model.BarcodeType = 2;
-                                model.ScanQty = Float.parseFloat(strBox[2]);
+                                model.MaterialNo = boxNo;
+                                if (strBox.length > 2) {
+                                        model.ScanQty = Float.parseFloat(strBox[2]);
+                                } else {
+                                    model.MaterialNo = boxNo;
+                                }
                                 String json = GsonUtil.parseModelToJson(model);
                                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBox, "箱号提交中",
                                         context, mHandler, RESULT_Saleoutstock_ScannBoxNo, null, info.SalesOutstock_SacnningPallet, json, null);
@@ -470,7 +476,6 @@ public class SalesOutstock  extends BaseActivity  {
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                                 MessageBox.Show(context, "请输入或扫描正确69码或者物料号");
                                 return true;
-
                             } else {
                                 //检验是否存在
                                 String modelJson = parseModelToJson(boxNo);
@@ -821,14 +826,18 @@ public class SalesOutstock  extends BaseActivity  {
                     bool = true;
             }
         }
-        if (type.equals( OutStock_Submit_type_box)) {
-            if (strarr.length == 4) {
-                if (strarr[3].equals(OutStock_Submit_type_box))
+        if (type.equals(OutStock_Submit_type_box)) {
+            if (strarr.length == 4 || strarr.length == 3 || strarr.length == 1) {//包容老条码
+                if (strarr.length > 3) {
+                    if (strarr[3].equals(OutStock_Submit_type_box))
+                        bool = true;
+                } else {
                     bool = true;
+                }
             }
         }
         if (type.equals(OutStock_Submit_type_parts)) {
-            if(strarr.length<2){
+            if (strarr.length < 2) {
                 bool = true;
             }
         }

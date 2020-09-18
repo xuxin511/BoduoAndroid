@@ -34,7 +34,7 @@ public class OutStock_Tag {
     public static String OutStock_Submit_type_pallet = "2"; //托盘
     public static String OutStock_Submit_type_none = "3"; //无效条码
     public static String OutStock_Submit_type_ppallet = "5"; //拼托
-    public static String OutStock_Submit_type_pbox = "4"; //拼托
+    public static String OutStock_Submit_type_pbox = "4"; //拼箱
     //#endregion
 
 

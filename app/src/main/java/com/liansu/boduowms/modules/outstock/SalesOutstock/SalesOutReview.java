@@ -34,6 +34,7 @@ import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
+import com.liansu.boduowms.modules.outstock.Model.SalesoutStcokboxRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxListRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
@@ -64,6 +65,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_S
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_ppallet;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_Box_Check_Box;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_DelBox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PlatForm;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PostReview;
@@ -75,6 +77,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Sal
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SubmitBarcode;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_Box_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_DelBox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_ReviewOrder;
@@ -443,9 +446,26 @@ public  class SalesOutReview extends BaseActivity {
             BaseResultInfo<MaterialResponseModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<MaterialResponseModel>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-                return;
+                if (returnMsgModel.getData() != null) {//旧外箱
+                    MaterialResponseModel material = returnMsgModel.getData();
+                    //箱号
+                    //直接调用拼箱方法
+                    SalesoutstockRequery model = new SalesoutstockRequery();
+                    model.Batchno = "";
+                    model.MaterialNo = material.Materialno;
+                    model.Erpvoucherno = CurrOrderNO;
+                    model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.ScanQty = material.OuterQty;
+                    model.Vouchertype = CurrvoucherType;
+                    String modelJson = parseModelToJson(model);
+                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
+                            context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
+                    return;
+                } else {
+                    CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                    MessageBox.Show(context, returnMsgModel.getResultValue());
+                    return;
+                }
             }
             //库存输入散件
             //  inputTitleDialog("输入散件数量");
@@ -651,9 +671,12 @@ public  class SalesOutReview extends BaseActivity {
                 if (strarr[4].equals(OutStock_Submit_type_ppallet))//拼托
                     return OutStock_Submit_type_ppallet;
             }
-        if (strarr.length == 4) {
+        if (strarr.length == 4||strarr.length==3) {
+            if(strarr.length==4){
             if (strarr[3].equals(OutStock_Submit_type_box))//拼箱
                 return OutStock_Submit_type_box;
+            }else{   return OutStock_Submit_type_box;
+            }
         }
         if (strarr.length == 2) {
             if (strarr[1].equals(OutStock_Submit_type_ppallet))

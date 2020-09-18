@@ -305,8 +305,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                                 context, mHandler, RESULT_Saleoutstock_ScannParts, null, info.SelectMaterial, modelJson, null);
                         return true;
                     }
-                   else  if (arr.length == 4) {
-                        if (arr[3].equals("1")) {
+                   else  if (arr.length == 4||arr.length==3) {
                             //先判断这个物料有没有扫描满
                             Scanningtype=1;
                             //箱号
@@ -322,7 +321,6 @@ public  class SalesOutStockBox   extends BaseActivity {
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
                                     context, mHandler, RESULT_Saleoutstock_Box_Check_Box, null, info.SalesOutstock_Box_Batchno, modelJson, null);
                             return true;
-                        }
                     }else{
                        MessageBox.Show(context,"请扫描正确的箱号跟物料码");
                         CommonUtil.setEditFocus(sales_outstock_box_watercode);
@@ -732,9 +730,27 @@ public  class SalesOutStockBox   extends BaseActivity {
             BaseResultInfo<MaterialResponseModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<MaterialResponseModel>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                CommonUtil.setEditFocus(sales_outstock_box_watercode);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-                return;
+                if(returnMsgModel.getData()!=null){//旧外箱
+                    MaterialResponseModel material=returnMsgModel.getData();
+                    Scanningtype=1;
+                    //箱号
+                    //直接调用拼箱方法
+                    SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
+                    model.Batchno ="";
+                    model.Materialno = material.Materialno;
+                    model.Erpvoucherno = CurrOrder;
+                    model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.Qty = material.OuterQty;
+                    model.Vouchertype = CurrVoucherType;
+                    String modelJson = parseModelToJson(model);
+                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
+                            context, mHandler, RESULT_Saleoutstock_Box_Check_Box, null, info.SalesOutstock_Box_Batchno, modelJson, null);
+                         return;
+                }else{
+                    CommonUtil.setEditFocus(sales_outstock_box_watercode);
+                    MessageBox.Show(context, returnMsgModel.getResultValue());
+                    return;
+                }
             }
             materialModle=returnMsgModel.getData();
             int type=0;

@@ -76,6 +76,15 @@ package com.liansu.boduowms.modules.outstock.Model;
 
 
     public String Modifyer ;
+    public float OuterQty;//外箱数量
+
+    public float getOuterQty() {
+        return OuterQty;
+    }
+
+    public void setOuterQty(float outerQty) {
+        OuterQty = outerQty;
+    }
 
     public String getBatchno() {
         return Batchno;

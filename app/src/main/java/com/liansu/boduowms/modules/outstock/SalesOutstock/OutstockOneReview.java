@@ -153,7 +153,7 @@ public class OutstockOneReview extends BaseActivity {
             case RESULT_Saleoutstock_SalesNO:
                 SacnnNo((String) msg.obj);
                 break;
-            case RESUL_Toutstock_Ordercolose_Submit:
+            case RESUL_Saleoutstock_OneReview:
                 Submit((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
@@ -225,7 +225,7 @@ public class OutstockOneReview extends BaseActivity {
     }
 
     public void ISdel() {
-        new AlertDialog.Builder(this).setTitle("确定一件复核吗？")
+        new AlertDialog.Builder(this).setTitle("确定一键复核吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -233,6 +233,7 @@ public class OutstockOneReview extends BaseActivity {
                         SalesoutstockRequery model = new SalesoutstockRequery();
                         model.Erpvoucherno = CurrOrderNO;
                         model.Vouchertype = CurrVoucherType;
+                        model.Scanuserno=BaseApplication.mCurrentUserInfo.getUserno();
                         String modelJson = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_OneReview, "提交复核中",
                                 context, mHandler, RESUL_Saleoutstock_OneReview, null, UrlInfo.getUrl().SalesOutstock_Onereview, modelJson, null);
