@@ -233,7 +233,7 @@ public class OutstockOneReview extends BaseActivity {
                         SalesoutstockRequery model = new SalesoutstockRequery();
                         model.Erpvoucherno = CurrOrderNO;
                         model.Vouchertype = CurrVoucherType;
-                        model.Scanuserno=BaseApplication.mCurrentUserInfo.getUserno();
+                        model.Creater=BaseApplication.mCurrentUserInfo.getUserno();
                         String modelJson = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_OneReview, "提交复核中",
                                 context, mHandler, RESUL_Saleoutstock_OneReview, null, UrlInfo.getUrl().SalesOutstock_Onereview, modelJson, null);
