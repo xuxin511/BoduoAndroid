@@ -475,12 +475,13 @@ public class MenuModel {
         try {
             switch (voucherType) {
                 case OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE://销售出库
-                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE://28 采购验退
+
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN_VALUE://27 仓退
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SENDCARSORDER_VALUE://36派车单
                     intent.setData(data);
                     intent.setClass(mContext, CommonBusinessSubMenu.class);
                     break;
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE://28 采购验退
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE://61 成品验退
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE://62 销售验退
                     intent.setData(data);
