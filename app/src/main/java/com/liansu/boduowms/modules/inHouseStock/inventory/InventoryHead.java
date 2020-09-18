@@ -1,11 +1,8 @@
 package com.liansu.boduowms.modules.inHouseStock.inventory;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -23,13 +20,8 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
-import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryHeadAdapter;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
-import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
-import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
-import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBoxList;
-import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
@@ -43,19 +35,11 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryHead_SelectLit;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PlatForm;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannBoxNo;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannPalletNo;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 //盘点表头
@@ -78,7 +62,7 @@ public class InventoryHead extends BaseActivity {
     protected void initViews() {
         super.initViews();
         BaseApplication.context=context;
-        BaseApplication.toolBarTitle = new ToolBarTitle("盘点单选择-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity=false;
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -191,7 +175,7 @@ public class InventoryHead extends BaseActivity {
 
     @Override
     public void getToolTitle() {
-        getToolBarHelper().getToolBar().setTitle("盘点单选择--" + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+        getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         //清空列表
         inventory_Head_orderText.setText("");
         InventoryModel inventoryModel = new InventoryModel();

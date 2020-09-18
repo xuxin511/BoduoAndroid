@@ -99,7 +99,7 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.instock_pallet_scan), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mPalletNoButton.setOnClickListener(new View.OnClickListener() {

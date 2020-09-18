@@ -125,7 +125,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
 
 
     protected void initTitle() {
-        BaseApplication.toolBarTitle = new ToolBarTitle("", true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
 
     }
 
@@ -436,7 +436,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     @Override
     public void setTitle() {
         if (mPresenter!=null){
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

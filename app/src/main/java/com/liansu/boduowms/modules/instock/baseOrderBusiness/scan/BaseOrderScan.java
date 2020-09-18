@@ -126,7 +126,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
 
         OrderHeaderInfo headerInfo = getIntent().getParcelableExtra("OrderHeaderInfo");
         List<OutBarcodeInfo> barCodeInfos = getIntent().getParcelableArrayListExtra("barCodeInfo");
-        mBusinessType = getIntent().getStringExtra("BusinessType").toString();
+        mBusinessType = getIntent().getStringExtra("BusinessType");
         if (mPresenter == null) {
             mPresenter = BasePresenterFactory.getBaseOrderScanPresenter(mContext, getIView(), mHandler, headerInfo, barCodeInfos, mBusinessType);
         }
@@ -172,7 +172,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
         }
 
 
-        getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+        getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
     }
 
     @Event(value = R.id.edt_area_no, type = View.OnKeyListener.class)
@@ -483,7 +483,7 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
     @Override
     public void setTitle() {
         if (mPresenter != null) {
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

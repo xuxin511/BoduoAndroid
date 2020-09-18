@@ -1,11 +1,8 @@
 package com.liansu.boduowms.modules.outstock.SalesOutstock;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,13 +22,11 @@ import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.SaleoutstockcallbackAdapter;
-import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
-import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
@@ -41,16 +36,10 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PostReview;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannPalletNo;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Toutstock_Callback;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Toutstock_Callback_Submit;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SelectNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_outstock_Callback;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_outstock_Callback_Submit;
 
@@ -90,7 +79,7 @@ public class SalesOutStockCallback extends BaseActivity {
         info.InitUrl(type);
         CurrVoucherType = type;
         BaseApplication.context = context;
-        BaseApplication.toolBarTitle = new ToolBarTitle(model.Title, true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(model.Title+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         CurrErpvoucherno = "";

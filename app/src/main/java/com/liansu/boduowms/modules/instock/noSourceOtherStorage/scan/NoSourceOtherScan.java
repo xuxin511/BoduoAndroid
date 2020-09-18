@@ -77,7 +77,7 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
         super.initViews();
         mContext = NoSourceOtherScan.this;
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_no_source_scan)+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
         mERPVoucherNoQtyDesc.setVisibility(View.GONE);
@@ -262,7 +262,7 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
     @Override
     public void setTitle() {
         if (mPresenter!=null){
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

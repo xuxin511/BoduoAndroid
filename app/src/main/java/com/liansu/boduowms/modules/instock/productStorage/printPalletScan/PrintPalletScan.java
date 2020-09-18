@@ -21,10 +21,13 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
+import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
+import com.liansu.boduowms.modules.menu.commonMenu.MenuModel;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
@@ -74,7 +77,10 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
         super.initViews();
         mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_pallet_label_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        if (getTitleString().trim().equals("")){
+            setToolBarTitle(MenuModel.getSecondaryMenuModuleTitle(MenuType.MENU_TYPE_IN_STOCK, OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_PRINT_VALUE));
+        }
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         BaseApplication.isCloseActivity = false;
         x.view().inject(this);
         closeKeyBoard(mBarcode,mErpVoucherNo);
@@ -107,6 +113,7 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
             Bundle bundle = new Bundle();
             bundle.putParcelable("OrderHeaderInfo", mPresenter.getModel().getOrderHeaderInfo());
             intent.putExtra("BusinessType", mPresenter.getModel().getBusinessType());
+            intent.putExtra("Title", MenuModel.getSecondaryMenuModuleTitle(MenuType.MENU_TYPE_IN_STOCK,OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE));
             intent.putExtras(bundle);
             startActivityLeft(intent);
         }
@@ -307,7 +314,7 @@ public class PrintPalletScan extends BaseActivity implements IPrintPalletScanVie
     @Override
     public void setTitle() {
         if (mPresenter!=null){
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

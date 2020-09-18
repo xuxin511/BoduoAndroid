@@ -38,7 +38,7 @@ import androidx.viewpager2.widget.ViewPager2;
     Context               mContext = QualityInspectionMainActivity.this;
     QualifiedFragmentBill mQualifiedFragmentBill;
     protected UserSettingPresenter mUserSettingPresenter;
-
+    String mTitle="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,12 @@ import androidx.viewpager2.widget.ViewPager2;
         tabTexts.add(getString(R.string.qualified_title));
 //        tabTexts.add(getString(R.string.unqualified_title));
         mToolBar = findViewById(R.id.widget_common_tool_bar);
-        mToolBar.setTitle(mContext.getResources().getString(R.string.quality_inspection_processing_scan_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        String title=getIntent().getStringExtra("Title");
+        if (title==null){
+            title="";
+        }
+        mTitle=title+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+        mToolBar.setTitle(mTitle);
         final List<Fragment> listFragments = new ArrayList<>();
         mQualifiedFragmentBill = new QualifiedFragmentBill();
         listFragments.add(mQualifiedFragmentBill);
@@ -177,7 +182,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
     @Override
     public void setTitle() {
-        mToolBar.setTitle(mContext.getResources().getString(R.string.quality_inspection_processing_scan_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        mToolBar.setTitle(mTitle + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
     }
 
     @Override

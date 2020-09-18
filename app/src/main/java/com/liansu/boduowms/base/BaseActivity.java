@@ -55,6 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
     public static final  String                  ACTION_UPDATEUI          = "action.updateUI";
     public               MyHandler<BaseActivity> mHandler;
     private static final int                     REQUEST_CODE_APP_INSTALL = 2;
+    private              String                  mTitle                   = ""; // 标题名称
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
         mHandler = new MyHandler<>(this);
         BaseApplication.isCloseActivity = true;
         updateVersionService = new UpdateVersionService(BaseApplication.context);// 创建更新业务对象
+        mTitle = "";
         initViews(); //自定义的方法
         initData();
     }
@@ -74,18 +76,57 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
      * 初始化控件
      */
     protected void initViews() {
-
+        String title = getIntent().getStringExtra("Title");
+        if (title != null) {
+            setToolBarTitle(title);
+        }
     }
 
     /**
      * 初始化数据
      */
     protected void initData() {
+
 //        if (BaseApplication.isCloseActivity) {
 //            checkUpdate();
 //        }
     }
 
+    /**
+     * @desc: 给主题加标题
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/18 9:13
+     */
+    protected void setToolBarTitle(String title) {
+        if (title != null) {
+            mTitle = title;
+        }
+    }
+
+    /**
+     * @desc: 获取主题标题
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/18 9:13
+     */
+    protected String getToolBarTitle() {
+        String title = "";
+        title = mTitle + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+        return title;
+    }
+   /**
+    * @desc: 获取名称
+    * @param:
+    * @return:
+    * @author: Nietzsche
+    * @time 2020/9/18 10:45
+    */
+    protected String getTitleString() {
+        return mTitle;
+    }
 
     @Override
     public void onHandleMessage(Message msg) {
@@ -134,7 +175,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
     }
 
 
-    public  Context context;
+    public Context context;
+
     public void selectWareHouse(Activity activity) {
         context = activity;
         final String[] items = new String[BaseApplication.mCurrentUserInfo.getModelListWarehouse().size()];
@@ -159,7 +201,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
                                     BaseApplication.mCurrentWareHouseInfo = info;
                                     SharePreferUtil.SetWareHouseInfoShare(context, BaseApplication.mCurrentWareHouseInfo);
                                     // BaseApplication.toolBarTitle = new ToolBarTitle("1234", true);
-                                 //   getToolBarHelper().getToolBar().setTitle(getToolBarHelper().getToolBar().getTitle() + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+                                    //   getToolBarHelper().getToolBar().setTitle(getToolBarHelper().getToolBar().getTitle() + BaseApplication.mCurrentWareHouseInfo.Warehouseno);
                                     getToolTitle();
                                 }
                             }
@@ -350,10 +392,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
                         if (!hasInstallPermission) {
                             showRequestPermissionDialog();
                         } else {
-                            if (AndPermission.hasPermissions(BaseActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                            if (AndPermission.hasPermissions(BaseActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                                 //下载apk
                                 updateVersionService.showDownloadDialog();
-                            }else {
+                            } else {
                                 initPermission();
                             }
 

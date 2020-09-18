@@ -83,7 +83,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.activity_inventory_movement_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mPresenter = new InventoryMovementPresenter(InventoryMovementScan.this, this, mHandler);

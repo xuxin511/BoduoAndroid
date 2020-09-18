@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.menu.commonMenu.subMenu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -12,7 +13,9 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
 import com.liansu.boduowms.modules.menu.commonMenu.ICommonMenuView;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.ui.adapter.menu.MenuItemAdapter;
+import com.liansu.boduowms.utils.function.GsonUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -32,18 +35,20 @@ public class CommonBusinessSubMenu extends BaseActivity implements ICommonMenuVi
     GridView mGridView;
     MenuItemAdapter              mAdapter;
     Context                          mContext = CommonBusinessSubMenu.this;
-    String                         mBusinessType;
     CommonBusinessSubMenuPresenter mPresenter;
 
+    MenuOutStockModel menuOutStockModel=new  MenuOutStockModel();
     @Override
     protected void initViews() {
+        super.initViews();
         BaseApplication.context = mContext;
-        List<MenuChildrenInfo> list=getIntent().getParcelableArrayListExtra("MENU_CHILDREN_INFO");
-        mBusinessType = getIntent().getStringExtra("BusinessType").toString();
-        if (mBusinessType != null) {
-            mPresenter = new CommonBusinessSubMenuPresenter(mContext,this,list);
-            BaseApplication.toolBarTitle = new ToolBarTitle(mBusinessType + " 二级菜单-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
-        }
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+        String arr = data.toString();
+        menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
+        List<MenuChildrenInfo> list=menuOutStockModel.secondMenuList;
+        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
+        mPresenter = new CommonBusinessSubMenuPresenter(mContext,this,list);
         x.view().inject(this);
 
     }

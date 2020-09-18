@@ -115,7 +115,7 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
 
 
     protected void initTitle() {
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_production_returns_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
 
     }
 
@@ -378,7 +378,7 @@ public class ProductionReturnStorageScan extends BaseActivity implements IProduc
     @Override
     public void setTitle() {
         if (mPresenter!=null){
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

@@ -55,7 +55,7 @@ public class OrderType {
     public final static int    IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE             = 41;//批量打印
     public final static int    IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE            = 70; //质检合格
     public final static int    IN_HOUSE_STOCK_ORDER_TYPE_COMBINE_PALLET_VALUE          = 71;//拼托
-    public final static int    IN_STOCK_ORDER_TYPE_SALES_RETURN_PRINT_STORAGE_VALUE    = -1;//销售退货打印
+    public final static int    IN_STOCK_ORDER_TYPE_SALES_RETURN_PRINT_STORAGE_VALUE    = 72;//销售退货打印
     public final static int    OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE              = 29;//销售出库
     public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE          = 28;
     public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE          = 61;

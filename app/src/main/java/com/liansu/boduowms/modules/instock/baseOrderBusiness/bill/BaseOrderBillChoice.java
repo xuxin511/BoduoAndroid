@@ -86,10 +86,10 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        mBusinessType = getIntent().getStringExtra("BusinessType").toString();
+        mBusinessType = getIntent().getStringExtra("BusinessType");
         if (mBusinessType != null) {
             mPresenter = BasePresenterFactory.getBaseOrderBillChoicePresenter(mContext, this, mHandler, mBusinessType);
-            BaseApplication.toolBarTitle = new ToolBarTitle(mPresenter.getTitle(), false);
+            BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), false);
         }
         mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         x.view().inject(this);
@@ -254,6 +254,7 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
         bundle.putParcelable("OrderHeaderInfo", orderHeaderInfo);
         bundle.putParcelableArrayList("barCodeInfo", barCodeInfo);
         intent.putExtra("BusinessType", mBusinessType);
+        intent.putExtra("Title",getTitleString());
         intent.putExtras(bundle);
         startActivityLeft(intent);
     }
@@ -322,7 +323,7 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
     @Override
     public void setTitle() {
         if (mPresenter!=null){
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

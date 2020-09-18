@@ -25,8 +25,11 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
+import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
+import com.liansu.boduowms.modules.menu.commonMenu.MenuModel;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
@@ -48,7 +51,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
- * @ Des: 选择物料
+ * @ Des: 批量打印 选择物料
  * @ Created by yangyiqing on 2020/8/13.
  */
 @ContentView(R.layout.base_order_label_print_select)
@@ -89,7 +92,10 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.main_menu_item_batch_printing) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        if (getTitleString().trim().equals("")){
+            setToolBarTitle(MenuModel.getSecondaryMenuModuleTitle(MenuType.MENU_TYPE_IN_STOCK, OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE));
+        }
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         initViewStatus(getPrintType());
@@ -108,6 +114,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
             }
         });
         closeKeyBoard(mErpVoucherNo,mMaterialNo);
+
     }
 
     @Override
@@ -420,7 +427,7 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     @Override
     public void setTitle() {
         if (mPresenter != null) {
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

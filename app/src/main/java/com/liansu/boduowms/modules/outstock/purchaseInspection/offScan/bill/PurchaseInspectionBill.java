@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.liansu.boduowms.R;
@@ -83,7 +82,7 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
         Currvouchertype=Integer.parseInt(model.VoucherType);
         //info.InitUrl(type);
     //    initTitle();
-        BaseApplication.toolBarTitle = new ToolBarTitle(model.Title, true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(model.getTitle()+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
         x.view().inject(this);
         mSwipeLayout.setOnRefreshListener(this); //下拉刷新
     }
@@ -158,7 +157,7 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
         try {
             Intent intent = new Intent();
             MenuOutStockModel model=new MenuOutStockModel();
-            model.Title=loadString();
+            model.Title=getTitleString();
             model.VoucherType=String.valueOf(Currvouchertype);
             model.ErpVoucherNo=receiptModel.getErpvoucherno();
             String json = GsonUtil.parseModelToJson(model);

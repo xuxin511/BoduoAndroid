@@ -133,7 +133,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.app_bar_title_inventory_stock_query) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);

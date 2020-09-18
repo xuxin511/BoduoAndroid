@@ -18,6 +18,9 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.menu.MenuType;
+import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.modules.menu.commonMenu.MenuModel;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.salesReturnStorage.SalesReturnStorageAdapter;
@@ -61,7 +64,10 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_sales_return_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        if (getTitleString().trim().equals("")){
+            setToolBarTitle(MenuModel.getSecondaryMenuModuleTitle(MenuType.MENU_TYPE_IN_STOCK, OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE));
+        }
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         onAreaNoFocus();
@@ -233,7 +239,7 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
     @Override
     public void setTitle() {
         if (mPresenter!=null){
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

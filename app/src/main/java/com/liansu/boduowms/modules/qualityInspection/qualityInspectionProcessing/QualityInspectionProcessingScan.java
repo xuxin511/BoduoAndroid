@@ -106,7 +106,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     protected void initViews() {
         super.initViews();
         BaseApplication.context = context;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.quality_inspection_processing_scan_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mRefer.setOnClickListener(new View.OnClickListener() {

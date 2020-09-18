@@ -88,7 +88,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_sales_return_storage_print) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         onReset();
@@ -656,7 +656,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     @Override
     public void setTitle() {
         if (mPresenter != null) {
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }

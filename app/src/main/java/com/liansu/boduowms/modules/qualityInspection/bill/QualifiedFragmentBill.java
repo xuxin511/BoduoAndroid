@@ -15,7 +15,10 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.BaseFragment;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.menu.MenuType;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
+import com.liansu.boduowms.modules.menu.commonMenu.MenuModel;
 import com.liansu.boduowms.modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingScan;
 import com.liansu.boduowms.ui.adapter.quality_inspection.QualityInspectionBillItemAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -143,6 +146,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
         Bundle bundle = new Bundle();
         bundle.putParcelable("QUALITY_INSPECTION", headerInfo);
         bundle.putString("QUALITY_TYPE", "QUALIFIED");
+        intent.putExtra("Title", MenuModel.getSecondaryMenuModuleTitle(MenuType.MENU_TYPE_IN_STOCK, OrderType.IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE));
         intent.putExtras(bundle);
         mContext.startActivity(intent);
     }

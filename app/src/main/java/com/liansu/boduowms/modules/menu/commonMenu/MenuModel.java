@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 
 import com.liansu.boduowms.R;
-import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
 import com.liansu.boduowms.bean.menu.MenuInfo;
+import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.inHouseStock.adjustStock.AdjustStock;
 import com.liansu.boduowms.modules.inHouseStock.inventory.InventoryHead;
@@ -28,14 +27,12 @@ import com.liansu.boduowms.modules.instock.salesReturn.print.SalesReturnPrint;
 import com.liansu.boduowms.modules.instock.salesReturn.scan.SalesReturnStorageScan;
 import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScan;
 import com.liansu.boduowms.modules.menu.commonMenu.subMenu.CommonBusinessSubMenu;
-import com.liansu.boduowms.modules.menu.outboundBusiness.subMenu.OutboundBusinessSubMenu;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockCallback;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
 import com.liansu.boduowms.modules.qualityInspection.bill.QualityInspectionMainActivity;
 import com.liansu.boduowms.modules.qualityInspection.randomInspection.bill.RandomInspectionBill;
-import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.log.LogUtil;
 
@@ -99,13 +96,83 @@ public class MenuModel {
     }
 
     /**
+     * @desc: 获取指定模块的名称
+     * @param: list 全局menuList 对象集合  {@link BaseApplication.mCurrentMenuList}, menuType 业务类型 入库,出库，库内, menuStyleType 菜单数据等级 二级菜单数据，
+     * @param: 还是三级菜单数据，moduleKey 如果是三级菜单需要提供 功能标识,二级菜单在未来可能要提供 例如 {@link MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF}
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/18 11:04
+     */
+    public static String getModuleTitle(List<MenuInfo> list, int menuType, int menuStyleType, int voucherType, String moduleKey) {
+        String voucherTypeStr = voucherType + "";
+        String title = "";
+        List<MenuChildrenInfo> childrenInfoList = getMenuChildrenList(list, menuType);
+        if (childrenInfoList != null && childrenInfoList.size() > 0) {
+            for (MenuChildrenInfo item : childrenInfoList) {
+                String sVoucherType = item.getPath() != null ? item.getPath() : "";
+                if (sVoucherType.trim().equals(voucherTypeStr)) {
+                    if (menuStyleType == MenuType.MENU_STYLE_TYPE_SECONDARY_MENU) {
+                        if (moduleKey == MenuType.MENU_MODULE_TYPE_NONE) {
+                            title = item.getTitle();
+                            break;
+                        } else {
+                            String sModuleKey = item.getComponent() != null ? item.getComponent() : "";
+                            if (sModuleKey.trim().equals(moduleKey)) {
+                                title = item.getTitle();
+                                break;
+                            }
+                        }
+
+                    } else if (menuStyleType == MenuType.MENU_STYLE_TYPE_THREE_LEVEL_MENU) {
+                        List<MenuChildrenInfo> thirdChildrenList = item.getChildren();
+                        if (thirdChildrenList != null && thirdChildrenList.size() > 0) {
+                            for (MenuChildrenInfo info : thirdChildrenList) {
+                                String sModuleKey = info.getComponent() != null ? info.getComponent() : "";
+                                String thirdTitle = info.getTitle() != null ? info.getTitle() : "";
+                                if (sModuleKey.trim().equals(moduleKey)) {
+                                    title = thirdTitle;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return title;
+
+    }
+
+    /**
+     * @desc: 获取二级菜单title
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/18 11:19
+     */
+    public static String getSecondaryMenuModuleTitle(int menuType, int voucherType) {
+        return getModuleTitle(BaseApplication.mCurrentMenuList, menuType, MenuType.MENU_STYLE_TYPE_SECONDARY_MENU, voucherType, MenuType.MENU_MODULE_TYPE_NONE);
+    }
+
+    /**
+     * @desc: 获取三级菜单title
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/18 11:56
+     */
+    public static String getThirdLevelMenuModuleTitle(int menuType, int voucherType, String moduleKey) {
+        return getModuleTitle(BaseApplication.mCurrentMenuList, menuType, MenuType.MENU_STYLE_TYPE_THREE_LEVEL_MENU, voucherType, moduleKey);
+    }
+
+    /**
      * @desc: 获取菜单入库模块
      * @param:
      * @return:
      * @author: Nietzsche
      * @time 2020/7/9 9:09
      */
-    public List<MenuChildrenInfo> getMenuChildrenList(List<MenuInfo> list, int menuType) {
+    public static List<MenuChildrenInfo> getMenuChildrenList(List<MenuInfo> list, int menuType) {
         if (list != null && list.size() > 0) {
             for (MenuInfo menuInfo : list) {
                 if (menuInfo.getComponent().equals(Integer.toString(menuType))) {
@@ -173,7 +240,10 @@ public class MenuModel {
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE) {
                 icon = R.drawable.b_scan_other_storage;
             }
-
+            //72 销售退货打印
+            else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_PRINT_STORAGE_VALUE) {
+                icon = R.drawable.b_batch_print;
+            }
             //26 有源销售退货
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE) {
                 icon = R.drawable.b_sales_return;
@@ -207,37 +277,37 @@ public class MenuModel {
             String path = item.getPath();
             int voucherType = Integer.parseInt(path);
             int icon = -1;
-              switch (voucherType) {
-                  case OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE://29 销售出库
-                      icon = R.drawable.b_sales_out_of_stock;
-                      break;
-                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE://28 采购验退
-                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE://61 成品验退
-                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE://62 销售验退
-                      icon = R.drawable.b_outstock_return;
-                      break;
-                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN_VALUE://27 仓退
-                      icon = R.drawable.b_outsourcing_dispatch;
-                      break;
-                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
-                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_OUTSOURC_VALUE://57 委外发料
-                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SENDCARSORDER_VALUE://36派车单
-                      icon = R.drawable.b_stock_out;
-                      break;
-                  case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ALLOCATION_VALUE://25 一阶段调拨
-                  case 30://30 二阶段调拨
-                      icon = R.drawable.b_transfer_out_to_storage;
-                      break;
-                  case 55://55 杂出
-                      icon = R.drawable.b_other_out;
-                      break;
-                  case 63://63 二阶段回调
-                      icon = R.drawable.b_allocation_approval;
-                      break;
-                  case 56://56 行政领用单
-                      icon = R.drawable.b_administrative_requisition;
-                      break;
-              }
+            switch (voucherType) {
+                case OrderType.OUT_STOCK_ORDER_TYPE_SALES_OUT_STOCK_VALUE://29 销售出库
+                    icon = R.drawable.b_sales_out_of_stock;
+                    break;
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE://28 采购验退
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE://61 成品验退
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE://62 销售验退
+                    icon = R.drawable.b_outstock_return;
+                    break;
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN_VALUE://27 仓退
+                    icon = R.drawable.b_outsourcing_dispatch;
+                    break;
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_OUTSOURC_VALUE://57 委外发料
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SENDCARSORDER_VALUE://36派车单
+                    icon = R.drawable.b_stock_out;
+                    break;
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ALLOCATION_VALUE://25 一阶段调拨
+                case 30://30 二阶段调拨
+                    icon = R.drawable.b_transfer_out_to_storage;
+                    break;
+                case 55://55 杂出
+                    icon = R.drawable.b_other_out;
+                    break;
+                case 63://63 二阶段回调
+                    icon = R.drawable.b_allocation_approval;
+                    break;
+                case 56://56 行政领用单
+                    icon = R.drawable.b_administrative_requisition;
+                    break;
+            }
             if (icon != -1) {
                 item.setIcon(icon);
             }
@@ -301,36 +371,43 @@ public class MenuModel {
             if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE) {
                 intent.setClass(mContext, BaseOrderLabelPrintSelect.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_BATCH_PRINTING);
+                intent.putExtra("Title", info.getTitle());
             }
             //22  采购入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
                 intent.setClass(mContext, BaseOrderBillChoice.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE);
+                intent.putExtra("Title", info.getTitle());
             }
             //47 到货抽检
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE) {
                 intent.setClass(mContext, RandomInspectionBill.class);
+                intent.putExtra("Title", info.getTitle());
             }
             //45  生产入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE) {
                 intent.setClass(mContext, ProductStorageScan.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE);
+                intent.putExtra("Title", info.getTitle());
             }
             //68 生产入库打印
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_PRINT_VALUE) {
                 intent.setClass(mContext, PrintPalletScan.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE);
+                intent.putExtra("Title", info.getTitle());
             }
             //52 工单退料入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE) {
                 intent.setClass(mContext, ProductionReturnStorageScan.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE);
+                intent.putExtra("Title", info.getTitle());
             }
             //24 二阶段调拨入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE) {
                 intent.setClass(mContext, TransferToStorageScan.class);
                 intent.putExtra("VoucherType", OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
+                intent.putExtra("Title", info.getTitle());
             }
 
             //58 一阶段调拨入库
@@ -338,6 +415,7 @@ public class MenuModel {
                 intent.setClass(mContext, TransferToStorageScan.class);
                 intent.putExtra("VoucherType", OrderType.IN_STOCK_ORDER_TYPE_ONE_STAGE_TRANSFER_TO_STORAGE_VALUE);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
+                intent.putExtra("Title", info.getTitle());
             }
 
             //44 有源入库
@@ -347,26 +425,37 @@ public class MenuModel {
                 bundle.putParcelable("OrderHeaderInfo", null);
                 bundle.putParcelableArrayList("barCodeInfo", null);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE);
+                intent.putExtra("Title", info.getTitle());
                 intent.putExtras(bundle);
             }
 
             //66 无源入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE) {
                 intent.setClass(mContext, NoSourceOtherScan.class);
+                intent.putExtra("Title", info.getTitle());
             }
 
-            //26 销售退货
+            //26 有源销售退货
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE) {
-                intent.setClass(mContext, SalesReturnStorageScan.class);
+//                intent.setClass(mContext, SalesReturnStorageScan.class);
+//                intent.putExtra("Title", info.getTitle());
             }
-            //-1 销售退货打印
+            //69 无源销售退货
+            else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE) {
+                intent.setClass(mContext, SalesReturnStorageScan.class);
+                intent.putExtra("Title", info.getTitle());
+            }
+            //72 销售退货打印
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_PRINT_STORAGE_VALUE) {
                 intent.setClass(mContext, SalesReturnPrint.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE);
+                intent.putExtra("Title", info.getTitle());
             }
+
             //70 质检合格
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE) {
                 intent.setClass(mContext, QualityInspectionMainActivity.class);
+                intent.putExtra("Title", info.getTitle());
             }
 
         }
@@ -386,6 +475,7 @@ public class MenuModel {
         MenuOutStockModel model = new MenuOutStockModel();
         model.Title = info.getTitle();
         model.VoucherType = String.valueOf(voucherType);
+        model.secondMenuList=info.getChildren();
         String json = GsonUtil.parseModelToJson(model);
         Uri data = Uri.parse(json);
         try {
@@ -394,19 +484,13 @@ public class MenuModel {
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE://28 采购验退
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_RETURN_VALUE://27 仓退
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SENDCARSORDER_VALUE://36派车单
+                    intent.setData(data);
                     intent.setClass(mContext, CommonBusinessSubMenu.class);
-                    intent.putParcelableArrayListExtra("MENU_CHILDREN_INFO", (ArrayList<? extends Parcelable>) secondMenuList);
-                    intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT);
                     break;
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE://61 成品验退
-                    intent.setData(data);
-                    intent.setClass(mContext, PurchaseInspectionBill.class);
-                    intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT);
-                    break;
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE://62 销售验退
                     intent.setData(data);
-                    intent.setClass(mContext, PurchaseInspectionBill.class); //
-                    intent.putExtra("BusinessType", OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALE);
+                    intent.setClass(mContext, PurchaseInspectionBill.class);
                     break;
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_OUTSOURC_VALUE://57 委外发料
@@ -416,10 +500,12 @@ public class MenuModel {
                 case 56://56 行政领用单
                     intent.setData(data);
                     intent.setClass(mContext, OutstockRawmaterialActivity.class);
+
                     break;
                 case 63://63 二阶段回调
                     intent.setData(data);
                     intent.setClass(mContext, SalesOutStockCallback.class);
+
                     break;
             }
         } catch (Exception ex) {
@@ -443,22 +529,27 @@ public class MenuModel {
             //71 拼托
             if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_COMBINE_PALLET_VALUE) {
                 intent.setClass(mContext, InstockCombinePallet.class);
+                intent.putExtra("Title", info.getTitle());
             }
             //34 移库
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT) {
                 intent.setClass(mContext, InventoryMovementScan.class);
+                intent.putExtra("Title", info.getTitle());
             }
             //35  库存调整
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_ADJUST_STOCK) {
                 intent.setClass(mContext, AdjustStock.class);
+                intent.putExtra("Title", info.getTitle());
             }
             //67 盘点
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY) {
                 intent.setClass(mContext, InventoryHead.class);
+                intent.putExtra("Title", info.getTitle());
             }
             //38  库存查询
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY) {
                 intent.setClass(mContext, QueryStock.class);
+                intent.putExtra("Title", info.getTitle());
             }
 
 

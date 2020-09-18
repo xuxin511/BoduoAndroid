@@ -103,7 +103,7 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
     protected void initViews() {
         super.initViews();
         BaseApplication.context = mContext;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.app_bar_title_inventory_adjustment) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), false);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), false);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mCurrentStockInfo = null;

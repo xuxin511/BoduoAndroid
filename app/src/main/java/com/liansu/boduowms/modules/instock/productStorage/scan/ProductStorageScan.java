@@ -129,7 +129,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
 
 
     protected void initTitle() {
-        BaseApplication.toolBarTitle = new ToolBarTitle(mContext.getResources().getString(R.string.appbar_title_product_storage_scan) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
 
     }
 
@@ -462,7 +462,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     @Override
     public void setTitle() {
         if (mPresenter!=null){
-            getToolBarHelper().getToolBar().setTitle(mPresenter.getTitle());
+            getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
         }
 
     }
