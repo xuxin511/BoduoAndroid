@@ -93,7 +93,12 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
         super.initViews();
         BaseApplication.context = mContext;
         if (getTitleString().trim().equals("")){
-            setToolBarTitle(MenuModel.getSecondaryMenuModuleTitle(MenuType.MENU_TYPE_IN_STOCK, OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE));
+            //后台接口传来的菜单数据集合中有批量打印就显示，没有就取本地的名称
+            String title=MenuModel.getSecondaryMenuModuleTitle(MenuType.MENU_TYPE_IN_STOCK, OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE);
+            if (title==null||title.equals("")){
+                title=mContext.getResources().getString(R.string.print);
+            }
+            setToolBarTitle(title);
         }
         BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         x.view().inject(this);
@@ -395,7 +400,6 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (mPresenter != null) {
-
             mPresenter.onReset(true);
         }
 

@@ -97,6 +97,7 @@
         <activity android:name=".modules.instock.productionReturnsStorage.print.ProductionReturnsPrint" />
         <activity android:name=".modules.stockRollBack.StockRollBack" />
         <activity android:name=".modules.menu.commonMenu.subMenu.CommonBusinessSubMenu" />
+        <activity android:name=".modules.instock.baseInstockReturnBusiness.scan.InStockReturnStorageScan" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

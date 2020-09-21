@@ -1,6 +1,6 @@
 <resources>
     //系统通用
-    <string name="app_name">BODUOWMS</string>
+    <string name="app_name">博多WMS</string>
     <string name="title_storage_business">入库业务</string>
     <string name="title_in_house_management">库内管理</string>
     <string name="title_outbound_business">出库业务</string>
@@ -371,6 +371,7 @@
     <string name="product_storage_print_request_barcode_info">正在提交条码信息</string>
     <string name="product_storage_print_label">正在打印托盘标签信息</string>
     <string name="product_storage_scan_pallet_no_hint">请扫描或输入托盘标签</string>
+    <string name="product_storage_scan_barcode_no_hint">请扫描或输入外箱标签</string>
     //销售退货
     <string name="appbar_title_sales_return_storage_bill">销售退货</string>
     <string name="appbar_title_sales_return_storage_scan">销售退货扫描</string>
@@ -403,6 +404,9 @@
     <string name="appbar_title_production_returns_bill">工单退料列表</string>
     <string name="appbar_title_production_returns_print">工单退料打印</string>
     <string name="appbar_title_production_returns_scan">工单退料</string>
+    <string name="production_returns_pallet_type">托盘类型:</string>
+    <string name="production_returns_pallet_type_old_pallet">现有托盘</string>
+    <string name="production_returns_pallet_type_new_pallet">新托盘</string>
     //无源杂入
     <string name="appbar_title_no_source_scan">无源杂入</string>
     <string name="no_source_scan_instock_type">入库方式:</string>
@@ -494,4 +498,5 @@
     <string name="stock_roll_back_request_delete_temporary_data">正在提交回退信息...</string>
     //拼托
     <string name="in_stock_combine_pallet_title">拼托扫描</string>
+
 </resources>
