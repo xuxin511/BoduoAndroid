@@ -6,6 +6,45 @@
     android:layout_height="match_parent"
     android:paddingTop="5dp">
 
+    <TextView
+        android:id="@+id/base_order_label_print_select_print_type"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/production_returns_pallet_type"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/product_return_radio_group"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/product_return_radio_group" />
+
+    <RadioGroup
+        android:id="@+id/product_return_radio_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:layout_marginLeft="@dimen/common_text_size_first"
+            android:id="@+id/base_order_label_print_select_type_pallet_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.76"
+            android:checked="true"
+            android:text="@string/production_returns_pallet_type_old_pallet"
+            android:textSize="@dimen/base_order_label_print_select_text_size" />
+
+        <RadioButton
+            android:id="@+id/base_order_label_print_select_type_outer_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.76"
+            android:text="@string/production_returns_pallet_type_new_pallet"
+            android:textSize="@dimen/base_order_label_print_select_text_size" />
+
+    </RadioGroup>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -14,30 +53,9 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.27" />
 
-    <Switch
-        android:id="@+id/receiption_scan_module_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:showText="true"
-        android:splitTrack="true"
-        android:switchPadding="12dp"
-        android:text="@string/receipt_scan_module_type_desc"
-        android:textAllCaps="false"
-        android:textColor="@color/blue_66f"
-        android:textOff="@string/receipt_scan_module_type_combine_pallet"
-        android:textOn="@string/receipt_scan_module_type_pallet_scan"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:checked="false" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/product_return_erp_voucher_desc"
         style="@style/TextViewComminStyle"
         android:layout_width="111dp"
         android:layout_height="wrap_content"
@@ -68,10 +86,9 @@
         android:gravity="left|center_vertical"
         android:text=""
         android:textSize="@dimen/common_text_size_first"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_return_radio_group" />
 
 
     <TextView
@@ -109,7 +126,7 @@
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_VoucherNo" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_area_no" />
 
     <EditText
         android:id="@+id/product_return_scan_outer_box"
@@ -118,7 +135,7 @@
         android:layout_height="@dimen/common_layout_height_second"
         android:layout_marginLeft="@dimen/common_text_size_first"
         android:layout_marginTop="@dimen/activity_product_storage_scan_margin_top"
-        android:hint="@string/product_storage_scan_pallet_no_hint"
+        android:hint="@string/product_storage_scan_barcode_no_hint"
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
@@ -135,7 +152,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/product_return_scan_outer_box"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/product_return_scan_outer_box" />
-
 
 
     <TextView
@@ -161,7 +177,7 @@
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_return_scan_outer_box" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_VoucherNo" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -211,6 +227,6 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_refer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_area_no" />
+        app:layout_constraintTop_toBottomOf="@+id/product_return_scan_outer_box" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
