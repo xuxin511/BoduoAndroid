@@ -16,6 +16,7 @@ import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockSalesConfig;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutReview;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockBox;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutstock;
+import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.bill.PurchaseInspectionBill;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
 import java.util.ArrayList;
@@ -107,6 +108,7 @@ public class CommonBusinessSubMenuModel {
          model.VoucherType = String.valueOf(voucherType);
          String json = GsonUtil.parseModelToJson(model);
          Uri data = Uri.parse(json);
+
          switch (moduleType.trim()){
              case MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF:
                  intent.setData(data);
@@ -130,8 +132,15 @@ public class CommonBusinessSubMenuModel {
                  intent.setClass(mContext, SalesOutReview.class);
                  break;
              case MenuType.MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF_TWO:
-                 intent.setData(data);
-                 intent.setClass(mContext, OutstockRawmaterialActivity.class);
+                 //下架需要列表的
+                 if( voucherType==OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_INSPECTION_VALUE){
+                     intent.setData(data);
+                     intent.setClass(mContext, PurchaseInspectionBill.class);
+                 }else
+                 {
+                     intent.setData(data);
+                     intent.setClass(mContext, OutstockRawmaterialActivity.class);
+                 }
                  break;
              case MenuType.MENU_MODULE_TYPE_OUT_STOCK_ONE_REVIEW:
                 intent.setData(data);

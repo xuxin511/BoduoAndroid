@@ -144,7 +144,7 @@ public class OutstockOneReview extends BaseActivity {
             MessageBox.Show(context, "请先输入或扫描单号");
             return;
         }
-        ISdel();
+        IReview();
     }
 
 
@@ -224,7 +224,7 @@ public class OutstockOneReview extends BaseActivity {
         }
     }
 
-    public void ISdel() {
+    public void IReview() {
         new AlertDialog.Builder(this).setTitle("确定一键复核吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
