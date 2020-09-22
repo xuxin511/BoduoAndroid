@@ -62,11 +62,13 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Sal
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannPalletNo;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Saleoutstock_WaybillPrint;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_Box_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_ConfigSaveOrder;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_ConfigSelectOrder;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_ReviewOrder;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SelectNO;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_WaybillPrint;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 //运输配置界面
@@ -148,6 +150,8 @@ public class OutstockSalesConfig extends BaseActivity {
 
       private  int isload=1;//用来区分是否第一次加载
     private  int fytype=1;//计算费用类型
+    //做一个费用计算的标记   每个定义的变量都需要定义
+    private  int feiyongType=0;
 
     @Override
     protected void initViews() {
@@ -155,6 +159,7 @@ public class OutstockSalesConfig extends BaseActivity {
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
         String arr = data.toString();
+        feiyongType=0;
         menuOutStockModel = new MenuOutStockModel();
         menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
        int type = Integer.parseInt(menuOutStockModel.VoucherType);
@@ -227,20 +232,27 @@ public class OutstockSalesConfig extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 PairAdapter fydapter = new PairAdapter();
                 sales_outstock_configdj_text.setText("0");
-                if (position == 0) {//月结  其它三种
+                if (position == 0) {//月结 到付三种
                     fytype=1;
                     fydapter.pairs = new Pair[3];
                     fydapter.addPairs(1, "1", "重量", fydapter.pairs);
                     fydapter.addPairs(2, "2", "件数", fydapter.pairs);
                     fydapter.addPairs(3, "3", "体积", fydapter.pairs);
                     fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
-
+                    if(feiyongType!=0){
+                        mfySpinner.setSelection(feiyongType-1);
+                        feiyongType=0;
+                    }
                 } else {//到付   只能是新店和整车
                     fytype=2;
                     fydapter.pairs = new Pair[2];
                     fydapter.addPairs(1, "4", "整车", fydapter.pairs);
                     fydapter.addPairs(2, "5", "新店", fydapter.pairs);
                     fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+                    if(feiyongType!=0){
+                        mfySpinner.setSelection(feiyongType-3);
+                        feiyongType=0;
+                    }
                 }
             }
             @Override
@@ -405,6 +417,28 @@ public class OutstockSalesConfig extends BaseActivity {
         }
     }
 
+
+    //托运单打印
+    @Event(value = R.id.sales_outstock_button_configprint)
+    private  void Click_Print(View view) {
+        try {
+            String order=outstock_sales_config_order.getText().toString().trim();
+            if(order.equals("无")){
+                MessageBox.Show(context,"请先选择托运单");
+            }
+            AwyBll way=new AwyBll();
+            way.setErpvoucherno(order);
+            way.Printername= UrlInfo.mOutStockPrintName;
+            way.Printertype= UrlInfo.mOutStockPrintType;
+            //托运单号
+            String json = GsonUtil.parseModelToJson(way);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_WaybillPrint, "保存托运单号",
+                    context, mHandler, RESUL_Saleoutstock_WaybillPrint, null, info.SalesOutstock__Review_Printwaybill, json, null);
+        } catch (Exception ex) {
+        }
+    }
+
+
     //托运单明细
 //    @Event(value = R.id.sales_outstock_button_configdetail)
 //    private void Click_showdetail(View view) {
@@ -471,9 +505,34 @@ public class OutstockSalesConfig extends BaseActivity {
             case  RESULT_Saleoutstock_ConfigSaveOrder:
                 SaveOrder((String) msg.obj);
                 break;
+            case  RESUL_Saleoutstock_WaybillPrint:
+                PrintWaybill((String) msg.obj);
+                break;
+
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
                 break;
+        }
+    }
+
+
+    //打印托运单
+    public  void PrintWaybill(String result) {
+        try {
+            BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                if (returnMsgModel.getResultValue().equals("")) {
+                    MessageBox.Show(context, "打印托运单失败，请检查该托运单是否存在可打印的通知单");
+                } else {
+                    MessageBox.Show(context, returnMsgModel.getResultValue());
+                }
+                return;
+            }
+            MessageBox.Show(context, "打印托运单成功");
+        } catch (Exception ex) {
+            CommonUtil.setEditFocus(sales_outstock_configOrder);
+            MessageBox.Show(context, ex.toString());
         }
     }
 
@@ -610,7 +669,8 @@ public class OutstockSalesConfig extends BaseActivity {
     }
 
 
-    //选择多批次
+
+    //选择托运单
     private void SelectOrder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         //builder.setIcon(R.drawable.ic_launcher);
@@ -631,7 +691,6 @@ public class OutstockSalesConfig extends BaseActivity {
             public void onClick(DialogInterface dialog, int which){
                 //再次提交
                 try {
-
                     String order = cities[which];
                     for (AwyBll model : awyBllList) {
                         if (model.Erpvoucherno.equals(order)) {
@@ -639,7 +698,12 @@ public class OutstockSalesConfig extends BaseActivity {
                             mshSpinner.setSelection(awyBll.SendMethod-1);
                             mjsSpinner.setSelection(awyBll.SettlementMethod-1);
                             mywSpinner.setSelection(awyBll.BusinessType-1);
-                            mfySpinner.setSelection(awyBll.CostCalMethod-1);
+                            feiyongType=awyBll.CostCalMethod;
+//                             if(fytype==1){
+//                                 mfySpinner.setSelection(awyBll.CostCalMethod-3);
+//                             }else {
+//                                 mfySpinner.setSelection(awyBll.CostCalMethod - 1);
+//                             }
                             sales_outstock_configbj_text.setText(awyBll.InsuranceCost.toString());
                             if(awyBll.SendMethod==2) {//等于上门
                                sales_outstock_configsm_text.setText(awyBll.OutCostTotal.toString());

@@ -37,7 +37,7 @@
         android:textSize="@dimen/sp_17"
         android:background="@drawable/et_selector"
         android:gravity="left|center_vertical"
-        android:hint="物料/托盘/69码"
+        android:hint="请输入或扫描托盘/物料/69码"
         android:paddingLeft="@dimen/sp_7"
         android:singleLine="true"
         android:text=""

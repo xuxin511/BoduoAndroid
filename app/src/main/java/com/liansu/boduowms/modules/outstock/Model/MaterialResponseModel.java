@@ -11,6 +11,7 @@ package com.liansu.boduowms.modules.outstock.Model;
     public String Materialdesc ;
     public int Stackwarehouse ;
     public int Stackhouse;
+
     public int Stackarea;
     public int Length;
     public int Wide ;

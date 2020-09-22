@@ -506,7 +506,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         List<SalesoutStcokboxRequery> listmodel=new ArrayList<SalesoutStcokboxRequery>();
                         SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
                         model.Batchno = "";
-                        model.Materialno = arr[0];
+                        model.Materialno = materialModle.Materialno;
                         model.Erpvoucherno = CurrOrder;
                         if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2){
                             model.IsPrint = true;
@@ -515,7 +515,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         }
                         model.Barcodetype=2;
                         model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
-                        model.Qty = Float.parseFloat(arr[2]);
+                        model.Qty = materialModle.OuterQty;
                         model.Vouchertype = CurrVoucherType;
                         model.Printername=UrlInfo.mOutStockPackingBoxPrintName;
                         model.Printertype=UrlInfo.mOutStockPackingBoxPrintType;
@@ -543,11 +543,11 @@ public  class SalesOutStockBox   extends BaseActivity {
                     List<SalesoutStcokboxRequery> listmodel=new ArrayList<SalesoutStcokboxRequery>();
                     SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
                     model.Batchno = list.get(0).getBatchno();
-                    model.Materialno = arr[0];
+                    model.Materialno = materialModle.Materialno;
                     model.Barcodetype=2;
                     model.Erpvoucherno = CurrOrder;
                     model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
-                    model.Qty = Float.parseFloat(arr[2]);
+                    model.Qty = materialModle.OuterQty;
                     model.Vouchertype = CurrVoucherType;
                     if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2){
                         model.IsPrint = true;
@@ -675,7 +675,6 @@ public  class SalesOutStockBox   extends BaseActivity {
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
-
                 String order=CurrOrder;
                 Map<String,String> map=new HashMap<>();
                 map.put("ErpVoucherNo",order);
@@ -724,6 +723,8 @@ public  class SalesOutStockBox   extends BaseActivity {
     }
 
 
+
+
     //扫描物料或者69码获取对象
     public  void   ScannParts(String  result) {
         try {
@@ -732,6 +733,7 @@ public  class SalesOutStockBox   extends BaseActivity {
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 if(returnMsgModel.getData()!=null){//旧外箱
                     MaterialResponseModel material=returnMsgModel.getData();
+                    materialModle=returnMsgModel.getData();
                     Scanningtype=1;
                     //箱号
                     //直接调用拼箱方法

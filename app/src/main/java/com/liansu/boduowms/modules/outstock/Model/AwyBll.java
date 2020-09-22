@@ -16,6 +16,25 @@ public  class AwyBll {
 
      public  int IsStockCombine;
 
+     public  int Printertype;
+     public  String Printername;
+
+    public int getPrintertype() {
+        return Printertype;
+    }
+
+    public void setPrintertype(int printertype) {
+        Printertype = printertype;
+    }
+
+    public String getPrintername() {
+        return Printername;
+    }
+
+    public void setPrintername(String printername) {
+        Printername = printername;
+    }
+
     public int getIsStockCombine() {
         return IsStockCombine;
     }

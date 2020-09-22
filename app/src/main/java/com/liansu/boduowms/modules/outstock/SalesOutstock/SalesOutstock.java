@@ -427,8 +427,13 @@ public class SalesOutstock  extends BaseActivity  {
                     String palletno = sales_outstock_pallettext.getText().toString().trim();
                     if (!boxNo.equals("")) {
                         if(palletno.equals("")){
-                            CommonUtil.setEditFocus(sales_outstock_boxtext);
-                            MessageBox.Show(context, "请先扫描托盘号");
+                            CommonUtil.setEditFocus(sales_outstock_pallettext);
+                            MessageBox.Show(context, "请先输入或扫描托盘号");
+                            return true;
+                        }
+                        if(palletList.size()==0){
+                            CommonUtil.setEditFocus(sales_outstock_pallettext);
+                            MessageBox.Show(context, "请输入或扫描正确托盘号");
                             return true;
                         }
                         //判断当前模式是箱还是散件
@@ -443,28 +448,27 @@ public class SalesOutstock  extends BaseActivity  {
                                 String[] strBox = boxNo.split("%");
                                 String Strongholdcode = GetStrongholdcode(strBox[0]);
                                 String[] strPallet = palletno.split("%");
+                                SalesoutstockRequery model = new SalesoutstockRequery();
                                 if(strBox.length>1) {//是否是旧的箱号69码
                                     if (!strBox[0].equals(strPallet[0])) {
                                         CommonUtil.setEditFocus(sales_outstock_boxtext);
                                         MessageBox.Show(context, "扫描的外箱条码" + strBox[0] + "和托盘条码物料不一致");
                                         return true;
+                                    }else{
+                                        model.Batchno = strBox[1];
+                                        model.ScanQty = Float.parseFloat(strBox[2]);
                                     }
+                                }else{
+                                    model.MaterialNo = boxNo;
                                 }
-                                SalesoutstockRequery model = new SalesoutstockRequery();
                                 model.Erpvoucherno = CurrOrderNO;
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                                 model.PalletNo = palletno;
                                 model.Strongholdcode = Strongholdcode;
                                 model.Vouchertype=CurrVoucherType;
-                                model.Batchno = strBox[1];
                                 model.BarcodeType = 2;
                                 model.MaterialNo = boxNo;
-                                if (strBox.length > 2) {
-                                        model.ScanQty = Float.parseFloat(strBox[2]);
-                                } else {
-                                    model.MaterialNo = boxNo;
-                                }
                                 String json = GsonUtil.parseModelToJson(model);
                                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBox, "箱号提交中",
                                         context, mHandler, RESULT_Saleoutstock_ScannBoxNo, null, info.SalesOutstock_SacnningPallet, json, null);
@@ -684,6 +688,11 @@ public class SalesOutstock  extends BaseActivity  {
             }
 
             boolean ispalletexits=false;
+            if(palletList.size()==0){
+                CommonUtil.setEditFocus(sales_outstock_pallettext);
+                MessageBox.Show(context, "请先输入或扫描有效托盘号");
+                return;
+            }
             for (Outbarcode_Requery item:palletList) {
                 if (item.getMaterialno().equals(returnMsgModel.getData().Materialno)) {
                     ispalletexits=true;
@@ -879,7 +888,7 @@ public class SalesOutstock  extends BaseActivity  {
         }
         if( materialModle.getMaterialno().equals("")) {
             CommonUtil.setEditFocus(sales_outstock_boxtext);
-            MessageBox.Show(context, "请先扫描散件");
+            MessageBox.Show(context, "请先输入或扫描散件");
             return;
         }
         final EditText inputServer = new EditText(this);

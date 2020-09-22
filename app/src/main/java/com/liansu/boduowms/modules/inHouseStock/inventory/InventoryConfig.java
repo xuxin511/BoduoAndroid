@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
@@ -379,11 +380,13 @@ public class InventoryConfig extends BaseActivity {
                 mList.setAdapter(mAdapter);
                 return;
             } else {
+
                 List<InventoryModel> listModel = new ArrayList<InventoryModel>();
                 mAdapter = new InventoryConfigAdapter(context, listModel);
                 mList.setAdapter(mAdapter);
                 CommonUtil.setEditFocus(inventory__config_barcode);
-                MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
+                Toast.makeText(context, returnMsgModel.getResultValue(), Toast.LENGTH_SHORT).show();
+             //   MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
                 return;
             }
         } catch (Exception ex) {

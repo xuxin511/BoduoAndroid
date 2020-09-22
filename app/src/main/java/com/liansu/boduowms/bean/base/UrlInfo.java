@@ -92,6 +92,7 @@ public class UrlInfo {
     public String InspecReturn_PostT_OutStockDetailADFAsync         = GetWCFAdress() + "InspecReturn/PostT_OutStockDetailADFAsync"; //采购验退复核过账
     public String InspecReturn_PrintInspecReturn                    = GetWCFAdress() + "InspecReturn/PrintInspecReturn"; //采购验退打印
 
+    public String SalesOutstock_HeaderList        = GetWCFAdress() + "InspecReturn/GetT_InspecReturnListADFAsync"; //采购验退获取列表
 
     //采购退货
     public String PurchaseReturn_GetT_InspecReturnListADFAsync        = GetWCFAdress() + "PurchaseReturn/GetT_InspecReturnListADFAsync"; //采购退货获取列表
@@ -134,6 +135,7 @@ public class UrlInfo {
     public String SalesOutstock__Review_configSaveOrder         = GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
     public String SalesOutstock__Review_configSelectOrder       = GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单表头
     public String SalesOutstock__Review_configSelectOrderDetial = GetWCFAdress() + "WayBill/Get_WayBillDetail"; //获取托运单明细
+    public String SalesOutstock__Review_Printwaybill = GetWCFAdress() + "WayBill/PrintWayBillOrder"; //打印托运单
     //endregion
     //二阶段回调订单访问
     public String SalesOutstock__Toutstock_Callback             = GetWCFAdress() + "TransferOut/Get_TransferoutInfoBack";
@@ -186,6 +188,7 @@ public class UrlInfo {
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 46://领料/原材料发货
+                SalesOutstock_HeaderList= GetWCFAdress() + "RawMaterialOut/GetT_OutStockHeaderADFAsync  "; //领料单获取订单列表
                 GetT_DetailSubAsync = GetWCFAdress() + "RawMaterialOut/Return_PalletNoByErpno"; //获取采购暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "RawMaterialOut/Return_DelPalletNo"; //删除采购暂存数据
                 SalesOutstock_ScanningNo = GetWCFAdress() + "RawMaterialOut/GetT_OutStockDetailListADFAsync"; //订单扫描
@@ -240,8 +243,7 @@ public class UrlInfo {
                 SalesOutstock_ScanningNo = GetWCFAdress() + "InspecReturn/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "InspecReturn/SaveT_OutStockDetailADFAsync"; //托盘提交
                 SalesOutstock__Review_Submit = GetWCFAdress() + "InspecReturn/PostT_OutStockDetailADFAsync"; //复核过账
-                InspecReturn_GetT_InspecReturnListADFAsync = GetWCFAdress() + "InspecReturn/GetT_InspecReturnListADFAsync"; //采购验退获取列表
-                InspecReturn_GetT_OutStockDetailListADFAsync = GetWCFAdress() + "InspecReturn/GetT_OutStockDetailListADFAsync"; //采购验退获取表体
+                 SalesOutstock_HeaderList = GetWCFAdress() + "InspecReturn/GetT_InspecReturnListADFAsync"; //采购验退获取列表
                 break;
             case 56://行政领用
                 GetT_DetailSubAsync = GetWCFAdress() + "AdCollection/Return_PalletNoByErpno"; //获取采购暂存数据

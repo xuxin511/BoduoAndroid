@@ -91,4 +91,8 @@ public class OutStock_Tag {
     public static String TAG_Saleoutstock_OneReview = "Sales_Saleoutstock_OneReview";    // 打印拼箱标签
     public static final int RESUL_Saleoutstock_OneReview = 148;
 
+
+
+    public static String TAG_Saleoutstock_WaybillPrint = "Sales_Saleoutstock_WaybillPrint";    // 打印托运单
+    public static final int RESUL_Saleoutstock_WaybillPrint = 149;
 }
