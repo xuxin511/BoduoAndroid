@@ -255,6 +255,7 @@ public class OutstockConfigreview extends BaseActivity {
                         SalesoutstockRequery model = new SalesoutstockRequery();
                         model.Erpvoucherno = CurrOrderNO;
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.Vouchertype = CurrvoucherType;
                         model.MaterialNo = palletno;
                         model.ScanQty = Float.parseFloat(strPallet[2]);
@@ -272,6 +273,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.Erpvoucherno = CurrOrderNO;
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Vouchertype = CurrvoucherType;
+                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.MaterialNo = barcode;
                         if( barcode.split("%").length!=2){
                             model.ScanQty = Float.parseFloat(strPallet[2]);
@@ -416,6 +418,7 @@ public class OutstockConfigreview extends BaseActivity {
                     model.MaterialNo = material.Materialno;
                     model.Erpvoucherno = CurrOrderNO;
                     model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                     model.ScanQty = material.OuterQty;
                     model.Vouchertype = CurrvoucherType;
                     String modelJson = parseModelToJson(model);
@@ -467,6 +470,7 @@ public class OutstockConfigreview extends BaseActivity {
                 SalesoutstockRequery model = new SalesoutstockRequery();
                 model.Erpvoucherno = CurrOrderNO;
                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                 model.Vouchertype = CurrvoucherType;
                 model.MaterialNo = palletno;
                 model.ScanQty = Float.parseFloat(strPallet[2]);
@@ -597,6 +601,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.Scanuserno=BaseApplication.mCurrentUserInfo.getUserno();
                         model.Vouchertype=CurrvoucherType;
                         model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
+                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",

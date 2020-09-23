@@ -300,6 +300,7 @@ public  class SalesOutReview extends BaseActivity {
                         SalesoutstockRequery model = new SalesoutstockRequery();
                         model.Erpvoucherno = CurrOrderNO;
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.Vouchertype = CurrvoucherType;
                         model.MaterialNo = palletno;
                         model.ScanQty = Float.parseFloat(strPallet[2]);
@@ -318,6 +319,7 @@ public  class SalesOutReview extends BaseActivity {
                         SalesoutstockRequery model = new SalesoutstockRequery();
                         model.Erpvoucherno = CurrOrderNO;
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.Vouchertype = CurrvoucherType;
                         model.MaterialNo = barcode;
                         if (barcode.split("%").length != 2) {
@@ -455,6 +457,7 @@ public  class SalesOutReview extends BaseActivity {
                     model.MaterialNo = material.Materialno;
                     model.Erpvoucherno = CurrOrderNO;
                     model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                    model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                     model.ScanQty = material.OuterQty;
                     model.Vouchertype = CurrvoucherType;
                     String modelJson = parseModelToJson(model);
@@ -715,6 +718,7 @@ public  class SalesOutReview extends BaseActivity {
                         model.Dirver = sales_outstock_driver.getText().toString().trim();
                         model.Printername= UrlInfo.mOutStockPrintName;
                         model.Printertype= UrlInfo.mOutStockPrintType;
+                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",

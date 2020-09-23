@@ -522,11 +522,7 @@ public class OutstockSalesConfig extends BaseActivity {
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                if (returnMsgModel.getResultValue().equals("")) {
-                    MessageBox.Show(context, "打印托运单失败，请检查该托运单是否存在可打印的通知单");
-                } else {
-                    MessageBox.Show(context, returnMsgModel.getResultValue());
-                }
+                MessageBox.Show(context, "打印托运单失败，请检查该托运单是否存在可打印的通知单");
                 return;
             }
             MessageBox.Show(context, "打印托运单成功");

@@ -172,7 +172,6 @@ public class InventoryConfig extends BaseActivity {
                 if (hasFocus==true) {
                     inventory__config_num.setSelectAllOnFocus(true);
                    // CommonUtil.setEditFocus(inventory__config_num);
-
                 }
             }
         });
@@ -183,9 +182,10 @@ public class InventoryConfig extends BaseActivity {
                 InventoryModel model = listModel.get(i);
                 //先给值然后再赋值
                 try {
+                    //循环找到当前model
                     for (InventoryModel item : listModel) {
-                        if (item.isCheck) {
-                            if (item != model) {
+                        if (item.isCheck) {//找到之前选中的 然后值
+                            if (item == model) {
                                 if (inventory__config_num.getText().toString().trim().equals("")) {
                                     item.setScannQty(0f);
                                 } else {
@@ -197,6 +197,7 @@ public class InventoryConfig extends BaseActivity {
                     }
                     for (InventoryModel item : listModel) {
                         if (item == model) {
+                            model.isCheck=true;
                             inventory__config_num.setText(item.getScannQty().toString());
                         }
                     }

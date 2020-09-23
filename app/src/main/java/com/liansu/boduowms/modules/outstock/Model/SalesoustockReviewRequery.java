@@ -14,6 +14,15 @@ public class SalesoustockReviewRequery {
     public  String Printername;
     public  int Printertype;
     public  String Fromwarehouseno;
+    public  String Towarehouseno;
+
+    public String getTowarehouseno() {
+        return Towarehouseno;
+    }
+
+    public void setTowarehouseno(String towarehouseno) {
+        Towarehouseno = towarehouseno;
+    }
 
     public String getFromwarehouseno() {
         return Fromwarehouseno;
