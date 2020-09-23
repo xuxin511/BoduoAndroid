@@ -195,7 +195,7 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
         try {
             Intent intent = new Intent();
             MenuOutStockModel model=new MenuOutStockModel();
-            model.Title=getTitleString();
+            model.Title=menuOutStockModel.Title;
             model.VoucherType=String.valueOf(Currvouchertype);
             model.ErpVoucherNo=receiptModel.getErpvoucherno();
             String json = GsonUtil.parseModelToJson(model);
