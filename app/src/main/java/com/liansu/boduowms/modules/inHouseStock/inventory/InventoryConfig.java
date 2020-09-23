@@ -165,6 +165,18 @@ public class InventoryConfig extends BaseActivity {
 //                //   Toast.makeText(ListViewActivity.this,book.toString(),Toast.LENGTH_LONG).show();
 //            }
 //        });
+        inventory__config_num.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus==true) {
+                    inventory__config_num.setSelectAllOnFocus(true);
+                   // CommonUtil.setEditFocus(inventory__config_num);
+
+                }
+            }
+        });
+
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -465,14 +477,19 @@ public class InventoryConfig extends BaseActivity {
                 int type = returnMsgModel.getData().get(0).getStatus();
                 int index = Integer.parseInt(downList.get(type).toString());
                 mSpinner.setSelection(index - 1);
+                if( listModel.size()>0) {
+                    inventory__config_num.setText(listModel.get(0).getQty().toString());
+                }
             }
         } catch (Exception ex) {
             CommonUtil.setEditFocus(inventory__config_barcode);
             MessageBox.Show(context, ex.toString());
         }
+
         mAdapter = new InventoryConfigAdapter(context, listModel);
         mList.setAdapter(mAdapter);
-        inventory__config_num.setText("0");
+
+
         CommonUtil.setEditFocus(inventory__config_num);
     }
 
