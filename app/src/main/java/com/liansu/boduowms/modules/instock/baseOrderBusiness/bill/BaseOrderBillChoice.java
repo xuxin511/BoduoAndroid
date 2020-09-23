@@ -207,6 +207,7 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
                         OrderRequestInfo receiptModel2 = new OrderRequestInfo();
                         if (!sSupplierNo.equals("")) {
                             receiptModel2.setSupplierno(sSupplierNo);
+                            receiptModel2.setErpvoucherno("");//erpvoucherno 传空
                         }
                         if (mPresenter != null) {
                             mPresenter.getOrderHeaderList2(receiptModel2,mSupplierNoFilter);

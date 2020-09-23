@@ -55,6 +55,8 @@ public class QRCodeFunc {
                     //原料的原标签   物料编码和数量
                     materialNo = listCode[0];
                     qty = Integer.parseInt(listCode[1]);
+                }else {
+                    materialNo= listCode[0];
                 }
                 resultBarcode.setSerialno(serialNo);
                 resultBarcode.setBarcode(originalCode);

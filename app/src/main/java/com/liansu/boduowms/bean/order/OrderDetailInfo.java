@@ -106,6 +106,7 @@ public class OrderDetailInfo implements Parcelable {
     protected String               Fromwarehouseno;
     protected String               OnwayWarehouse;  // 在途仓
     protected String  Customerno;
+    protected String                Customername;
     public OrderDetailInfo() {
     }
 
@@ -160,6 +161,7 @@ public class OrderDetailInfo implements Parcelable {
         Fromwarehouseno = in.readString();
         OnwayWarehouse = in.readString();
         Customerno=in.readString();
+        Customername=in.readString();
     }
 
     public static final Creator<OrderDetailInfo> CREATOR = new Creator<OrderDetailInfo>() {
@@ -598,6 +600,14 @@ public class OrderDetailInfo implements Parcelable {
         Customerno = customerno;
     }
 
+    public String getCustomername() {
+        return Customername;
+    }
+
+    public void setCustomername(String customername) {
+        Customername = customername;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -666,6 +676,7 @@ public class OrderDetailInfo implements Parcelable {
         dest.writeString(Fromwarehouseno);
         dest.writeString(OnwayWarehouse);
         dest.writeString(Customerno);
+        dest.writeString(Customername);
     }
 
 

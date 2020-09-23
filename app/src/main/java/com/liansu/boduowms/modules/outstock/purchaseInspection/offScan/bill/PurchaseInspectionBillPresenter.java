@@ -111,10 +111,10 @@ public class PurchaseInspectionBillPresenter {
         info.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.Warehouseno);
         info.setVouchertype(type);
         info.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-        mModel.requestQualityInspectionDetail(info, new NetCallBackListener<String>() {
-            @Override
-            public void onCallBack(String result) {
-                try {
+                    mModel.requestQualityInspectionDetail(info, new NetCallBackListener<String>() {
+                        @Override
+                        public void onCallBack(String result) {
+                            try {
                     LogUtil.WriteLog(QualityInspectionBill.class, mModel.TAG_GET_T_INSPEC_RETURN_LIST_ADF_ASYNC, result);
                     BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
                     }.getType());

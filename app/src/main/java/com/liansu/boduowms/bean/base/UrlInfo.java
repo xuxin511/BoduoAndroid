@@ -77,8 +77,8 @@ public class UrlInfo {
     public String GetT_TransferInDetailListADFAsync = GetWCFAdress() + "Transferin/GetT_TransferInDetailListADFAsync"; //获取调拨入库单据
     public String SaveT_TransferInDetailADFAsync    = GetWCFAdress() + "Transferin/SaveT_TransferInDetailADFAsync"; //调拨入库实时提交
     public String PostT_TransferInDetailADFAsync    = GetWCFAdress() + "Transferin/PostT_TransferInDetailADFAsync"; //调拨入库过账
-   //无源杂入
-   public String Create_OtherInDetailADFasync    = GetWCFAdress() + "OtherIn/Create_OtherInDetailADFasync"; //无源杂入生单
+    //无源杂入
+    public String Create_OtherInDetailADFasync      = GetWCFAdress() + "OtherIn/Create_OtherInDetailADFasync"; //无源杂入生单
 
     //出库模块
     public String GetT_OutStockDetailListADFAsync = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //配货下架获取发货通知单
@@ -92,7 +92,7 @@ public class UrlInfo {
     public String InspecReturn_PostT_OutStockDetailADFAsync         = GetWCFAdress() + "InspecReturn/PostT_OutStockDetailADFAsync"; //采购验退复核过账
     public String InspecReturn_PrintInspecReturn                    = GetWCFAdress() + "InspecReturn/PrintInspecReturn"; //采购验退打印
 
-    public String SalesOutstock_HeaderList        = GetWCFAdress() + "InspecReturn/GetT_InspecReturnListADFAsync"; //采购验退获取列表
+    public String SalesOutstock_HeaderList = GetWCFAdress() + "InspecReturn/GetT_InspecReturnListADFAsync"; //采购验退获取列表
 
     //采购退货
     public String PurchaseReturn_GetT_InspecReturnListADFAsync        = GetWCFAdress() + "PurchaseReturn/GetT_InspecReturnListADFAsync"; //采购退货获取列表
@@ -125,17 +125,17 @@ public class UrlInfo {
     public String SalesOutstock_PrintBox       = GetWCFAdress() + "OutStock/PrintPackage_CartonScanADFAsync";//打印拼箱
 
     //复核
-    public String SalesOutstock_Review_ScanningNo               = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
-    public String SalesOutstock_JudgeStock                      = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
-    public String SalesOutstock__SubmitBarcode                  = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
-    public String SalesOutstock__Review_Submit                  = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
+    public String SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
+    public String SalesOutstock_JudgeStock        = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
+    public String SalesOutstock__SubmitBarcode    = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
+    public String SalesOutstock__Review_Submit    = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
 
-    public String SalesOutstock_Onereview                  = GetWCFAdress() + "OutStock/OnkeyReview"; //一键复核
+    public String SalesOutstock_Onereview                       = GetWCFAdress() + "OutStock/OnkeyReview"; //一键复核
     //托运单保存
     public String SalesOutstock__Review_configSaveOrder         = GetWCFAdress() + "WayBill/SubmitWayBillHeader"; //保存托运单
     public String SalesOutstock__Review_configSelectOrder       = GetWCFAdress() + "WayBill/GetWayBillNo"; //获取托运单表头
     public String SalesOutstock__Review_configSelectOrderDetial = GetWCFAdress() + "WayBill/Get_WayBillDetail"; //获取托运单明细
-    public String SalesOutstock__Review_Printwaybill = GetWCFAdress() + "WayBill/PrintWayBillOrder"; //打印托运单
+    public String SalesOutstock__Review_Printwaybill            = GetWCFAdress() + "WayBill/PrintWayBillOrder"; //打印托运单
     //endregion
     //二阶段回调订单访问
     public String SalesOutstock__Toutstock_Callback             = GetWCFAdress() + "TransferOut/Get_TransferoutInfoBack";
@@ -154,6 +154,10 @@ public class UrlInfo {
             case 24:
                 GetT_DetailSubAsync = GetWCFAdress() + "Transferin/GetT_TransferInDetailSubAsync"; //获取二阶段调拨入库暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "Transferin/DeleteT_TransferInDetailSubAsync"; //删除二阶段调拨入库暂存数据
+                break;
+            case 26:
+                GetT_DetailSubAsync = GetWCFAdress() + "SaleReturn/GetT_SaleReturnDetailSubAsync"; //获取有原销退明细
+                DeleteT_DetailSubAsync = GetWCFAdress() + "SaleReturn/DeleteT_SaleReturnDetailSubAsync"; //删除暂存
                 break;
             case 58:
                 GetT_DetailSubAsync = GetWCFAdress() + "Transferin/GetT_TransferInDetailSubAsync"; //获取一阶段调拨入库暂存数据
@@ -188,7 +192,7 @@ public class UrlInfo {
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 46://领料/原材料发货
-                SalesOutstock_HeaderList= GetWCFAdress() + "RawMaterialOut/GetT_OutStockHeaderADFAsync  "; //领料单获取订单列表
+                SalesOutstock_HeaderList = GetWCFAdress() + "RawMaterialOut/GetT_OutStockHeaderADFAsync  "; //领料单获取订单列表
                 GetT_DetailSubAsync = GetWCFAdress() + "RawMaterialOut/Return_PalletNoByErpno"; //获取采购暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "RawMaterialOut/Return_DelPalletNo"; //删除采购暂存数据
                 SalesOutstock_ScanningNo = GetWCFAdress() + "RawMaterialOut/GetT_OutStockDetailListADFAsync"; //订单扫描
@@ -243,7 +247,7 @@ public class UrlInfo {
                 SalesOutstock_ScanningNo = GetWCFAdress() + "InspecReturn/GetT_OutStockDetailListADFAsync"; //订单扫描
                 SalesOutstock_SacnningPallet = GetWCFAdress() + "InspecReturn/SaveT_OutStockDetailADFAsync"; //托盘提交
                 SalesOutstock__Review_Submit = GetWCFAdress() + "InspecReturn/PostT_OutStockDetailADFAsync"; //复核过账
-                 SalesOutstock_HeaderList = GetWCFAdress() + "InspecReturn/GetT_InspecReturnListADFAsync"; //采购验退获取列表
+                SalesOutstock_HeaderList = GetWCFAdress() + "InspecReturn/GetT_InspecReturnListADFAsync"; //采购验退获取列表
                 break;
             case 56://行政领用
                 GetT_DetailSubAsync = GetWCFAdress() + "AdCollection/Return_PalletNoByErpno"; //获取采购暂存数据
@@ -279,8 +283,12 @@ public class UrlInfo {
     public String SaveT_WorkOrderReturnDetailADFAsync = GetWCFAdress() + "WorkOrderReturn/SaveT_WorkOrderReturnDetailADFAsync"; //工单退料实时提交
     public String PostT_WorkOrderReturnDetailADFAsync = GetWCFAdress() + "WorkOrderReturn/PostT_WorkOrderReturnDetailADFAsync"; //工单退料过账
 
-   //移库
-   public String UpdateT_StockListArea = GetWCFAdress() + "Stock/UpdateT_StockListArea"; //移库提交
+    //移库
+    public String UpdateT_StockListArea                = GetWCFAdress() + "Stock/UpdateT_StockListArea"; //移库提交
+    //有源销售退货
+    public String GetT_SaleReturnDetailListWMSADFAsync = GetWCFAdress() + "SaleReturn/GetT_SaleReturnDetailListWMSADFAsync";  //获取有原销退明细
+    public String SaveT_SaleReturnDetailWMSADFAsync    = GetWCFAdress() + "SaleReturn/SaveT_SaleReturnDetailWMSADFAsync";  //有原数据提交
+    public String PostT_SaleReturnDetailADFAsync       = GetWCFAdress() + "SaleReturn/PostT_SaleReturnDetailADFAsync";  //有原销退单过账
 
 
 }

@@ -20,7 +20,7 @@ public class SalesReturnsStoragePresenter2 extends InStockReturnsStorageScanPres
     }
 
     public SalesReturnsStoragePresenter2(Context context, IInStockReturnStorageScanView view, MyHandler<BaseActivity> handler) {
-        super(context, view, handler, new SalesReturnsStorageModel2(context,handler, OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE, InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE));
+        super(context, view, handler, new SalesReturnsStorageModel2(context,handler, OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE, InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE));
     }
 
     @Override
@@ -41,5 +41,16 @@ public class SalesReturnsStoragePresenter2 extends InStockReturnsStorageScanPres
     @Override
     public void onActiveCombinePalletRefer(OutBarcodeInfo palletInfo) {
         super.onActiveCombinePalletRefer(palletInfo);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String erpVoucherNo=mView.getErpVoucherNo();
+        if (erpVoucherNo!=null && !erpVoucherNo.equals("")){
+            getOrderDetailInfoList(erpVoucherNo);
+        }else {
+            mView.onErpVoucherNoFocus();
+        }
     }
 }

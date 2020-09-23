@@ -10,7 +10,7 @@
             android:id="@+id/txt_barcode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
+            android:maxLines="3"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/common_text_size_first" />
 

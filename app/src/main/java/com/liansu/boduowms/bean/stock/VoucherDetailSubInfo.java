@@ -95,7 +95,8 @@ public class VoucherDetailSubInfo extends BaseInfo implements Parcelable {
     /// </summary>
     /// <value></value>
     private String FromCompanyCode;
-
+    protected  int Scantype; //1-原托盘入库 0-新托盘入库
+    protected  String WBarcode;//外箱码
     protected VoucherDetailSubInfo(Parcel in) {
 
         Headeridsub = in.readInt();
@@ -131,6 +132,8 @@ public class VoucherDetailSubInfo extends BaseInfo implements Parcelable {
         WORowno = in.readString();
         WORownodel = in.readString();
         FromCompanyCode = in.readString();
+        Scantype=in.readInt();
+        WBarcode=in.readString();
 
     }
 
@@ -410,6 +413,21 @@ public class VoucherDetailSubInfo extends BaseInfo implements Parcelable {
         FromCompanyCode = fromCompanyCode;
     }
 
+    public int getScantype() {
+        return Scantype;
+    }
+
+    public void setScantype(int scantype) {
+        Scantype = scantype;
+    }
+
+    public String getWBarcode() {
+        return WBarcode;
+    }
+
+    public void setWBarcode(String WBarcode) {
+        this.WBarcode = WBarcode;
+    }
 
     @Override
     public int describeContents() {
@@ -451,5 +469,8 @@ public class VoucherDetailSubInfo extends BaseInfo implements Parcelable {
         dest.writeString(WORowno);
         dest.writeString(WORownodel);
         dest.writeString(FromCompanyCode);
+        dest.writeInt(Scantype);
+        dest.writeString(WBarcode);
+
     }
 }

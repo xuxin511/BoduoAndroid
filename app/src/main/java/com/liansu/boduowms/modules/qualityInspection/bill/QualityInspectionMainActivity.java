@@ -52,8 +52,8 @@ import androidx.viewpager2.widget.ViewPager2;
         if (title==null){
             title="";
         }
-        mTitle=title+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
-        mToolBar.setTitle(mTitle);
+        mTitle=title;
+        mToolBar.setTitle(title+"-"+BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         final List<Fragment> listFragments = new ArrayList<>();
         mQualifiedFragmentBill = new QualifiedFragmentBill();
         listFragments.add(mQualifiedFragmentBill);

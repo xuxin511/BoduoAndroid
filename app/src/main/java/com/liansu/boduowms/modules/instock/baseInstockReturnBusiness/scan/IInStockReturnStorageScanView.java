@@ -22,13 +22,13 @@ public interface IInStockReturnStorageScanView {
     void onBarcodeFocus();
 
     void onAreaNoFocus();
-
+    void onOuterBoxQtyFocus();
     int getPalletType();
 
     void initViewStatus(int businessType);
     void initPalletChangedViewStatus(int palletType);
 
-    void onReset();
+    void onReset(boolean isAllReset);
 
     void onActivityFinish(String title);
 
@@ -38,6 +38,7 @@ public interface IInStockReturnStorageScanView {
     void setAreaNo(String areaNo);
     String getAreaNo();
     void setOrderHeaderInfo(OrderHeaderInfo orderHeaderInfo);
+    String getOuterBoxQty();
 
 
 }

@@ -294,14 +294,24 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
     public void resultQueryPalletInfo(String result) {
         LogUtil.WriteLog(QueryStock.class, TAG_ADJUST_STOCK_GET_T_SCAN_STOCK_ADF_ASYNC, result);
         try {
-            BaseResultInfo<StockInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<StockInfo>>() {
+            BaseResultInfo<List<StockInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<StockInfo>>>() {
             }.getType());
             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                StockInfo data = returnMsgModel.getData();
-                if (data != null) {
-                    mCurrentStockInfo = data;
-                    setStockInfo(mCurrentStockInfo);
-                    onBatchNoFocus();
+                List<StockInfo> data = returnMsgModel.getData();
+                if (data != null && data.size()>0) {
+                    if (data.size()==1){
+                        mCurrentStockInfo = data.get(0);
+                        setStockInfo(mCurrentStockInfo);
+                        onBatchNoFocus();
+                    }else if (data.size()>1){
+                        MessageBox.Show(mContext, "不能对混托的托盘进行库存调整:", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onBarcodeFocus();
+                            }
+                        });
+                    }
+
 
                 } else {
                     MessageBox.Show(mContext, "查询的库存信息为空:", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {

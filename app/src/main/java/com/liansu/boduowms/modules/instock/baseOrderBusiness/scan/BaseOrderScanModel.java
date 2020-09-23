@@ -461,7 +461,7 @@ public abstract class BaseOrderScanModel extends BaseModel {
 
             if (barcodeQty < 0) {
                 resultInfo.setHeaderStatus(false);
-                resultInfo.setMessage("校验条码失败:条码的数量必须大于0");
+                resultInfo.setMessage("校验条码失败:条码的数量必须大于等于0");
                 return resultInfo;
             }
             //查找和条码的 物料和批次匹配的订单明细行的数据，只查第一个

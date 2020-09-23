@@ -32,6 +32,7 @@ import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -71,6 +72,10 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
     protected Button       mRefer;
     @ViewInject(R.id.product_return_radio_group)
     protected RadioGroup   mRadioGroup;
+    @ViewInject(R.id.product_return_scan_outer_box_qty)
+    protected EditText     mOutBoxQty;
+    @ViewInject(R.id.product_return_scan_outer_box_qty_desc)
+    protected TextView     mOutBoxQtyDesc;
     BaseScanDetailAdapter              mAdapter;
     InStockReturnsStorageScanPresenter mPresenter;
     protected UserSettingPresenter mUserSettingPresenter;
@@ -216,7 +221,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
      * @author: Nietzsche
      * @time 2020/7/7 12:45
      */
-    @Event(value = {R.id.product_return_scan_pallet_no, R.id.product_return_scan_outer_box}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.product_return_scan_pallet_no, R.id.product_return_scan_outer_box, R.id.product_return_scan_outer_box_qty}, type = View.OnKeyListener.class)
     private boolean outBarcodeScan(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
@@ -231,6 +236,22 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
                     String barcode = mOuterBoxBarcode.getText().toString().trim();
                     if (mPresenter != null) {
                         mPresenter.scanOuterBoxBarcode(barcode);
+                    }
+                    break;
+                case R.id.product_return_scan_outer_box_qty:
+                    try {
+                        float qty = Float.parseFloat(mOutBoxQty.getText().toString().trim());
+                        if (mBusinessType == InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE) {
+                            mPresenter.onActiveCombineOldPalletRefer(qty);
+                        }
+
+                    } catch (Exception e) {
+                        MessageBox.Show(mContext, "请输入正确的数字! message=" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onOuterBoxQtyFocus();
+                            }
+                        });
                     }
                     break;
             }
@@ -261,7 +282,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
                     if (data != null) {
                         OrderHeaderInfo orderHeaderInfo = mPresenter.getModel().getOrderHeaderInfo();
                         if (orderHeaderInfo != null) {
-                            startRollBackActivity(orderHeaderInfo.getErpvoucherno(), orderHeaderInfo.getVouchertype(), getTitleString());
+                            startRollBackActivity(orderHeaderInfo.getErpvoucherno(), orderHeaderInfo.getVouchertype(), getToolBarTitle());
                         }
 
 
@@ -282,26 +303,36 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
     }
 
     @Override
-    public void onReset() {
-        mErpVoucherNo.setText("");
+    public void onReset(boolean isAllReset) {
+        if (isAllReset) {
+            mErpVoucherNo.setText("");
+        } else {
+
+        }
         mPalletBarcode.setText("");
         mOuterBoxBarcode.setText("");
         mAreaNo.setText("");
+        mOutBoxQty.setText("0");
         initPalletChangedViewStatus(getPalletType());
-        if (mBusinessType == InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_NO_SOURCE) {
+        if (mBusinessType == InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE) {
             bindListView(mPresenter.getModel().getOrderDetailList());
         }
     }
 
     @Override
     public void onBarcodeFocus() {
-        CommonUtil.setEditFocus(mPalletBarcode);
+        CommonUtil.setEditFocus(mOuterBoxBarcode);
 
     }
 
     @Override
     public void onAreaNoFocus() {
         CommonUtil.setEditFocus(mAreaNo);
+    }
+
+    @Override
+    public void onOuterBoxQtyFocus() {
+        CommonUtil.setEditFocus(mOutBoxQty);
     }
 
     @Override
@@ -349,6 +380,8 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
             if (mOuterBoxBarcodeDesc.getVisibility() != View.GONE) {
                 mOuterBoxBarcodeDesc.setVisibility(View.GONE);
                 mOuterBoxBarcode.setVisibility(View.GONE);
+                mOutBoxQtyDesc.setVisibility(View.GONE);
+                mOutBoxQty.setVisibility(View.GONE);
             }
             if (mAreaNo.isEnabled() != true) {
                 mAreaNo.setEnabled(true);
@@ -358,6 +391,8 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
             if (mOuterBoxBarcodeDesc.getVisibility() != View.VISIBLE) {
                 mOuterBoxBarcodeDesc.setVisibility(View.VISIBLE);
                 mOuterBoxBarcode.setVisibility(View.VISIBLE);
+                mOutBoxQtyDesc.setVisibility(View.VISIBLE);
+                mOutBoxQty.setVisibility(View.VISIBLE);
             }
             if (mAreaNo.isEnabled() != false) {
                 mAreaNo.setEnabled(false);
@@ -428,6 +463,11 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
         if (orderHeaderInfo != null) {
             mErpVoucherNo.setText(orderHeaderInfo.getErpvoucherno());
         }
+    }
+
+    @Override
+    public String getOuterBoxQty() {
+        return mOutBoxQty.getText().toString().trim();
     }
 
 

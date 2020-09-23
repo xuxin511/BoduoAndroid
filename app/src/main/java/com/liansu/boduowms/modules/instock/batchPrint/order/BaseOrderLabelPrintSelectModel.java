@@ -17,9 +17,11 @@ import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.order.VoucherTypeInfo;
 import com.liansu.boduowms.modules.instock.activeOtherStorage.scan.ActiveOtherScanModel;
+import com.liansu.boduowms.modules.instock.baseInstockReturnBusiness.scan.InStockReturnsStorageScanModel;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScanModel;
 import com.liansu.boduowms.modules.instock.productionReturnsStorage.print.ProductionReturnsModel;
 import com.liansu.boduowms.modules.instock.purchaseStorage.scan.PurchaseStorageScanModel;
+import com.liansu.boduowms.modules.instock.salesReturn.activeScan.SalesReturnsStorageModel2;
 import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScanModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -195,6 +197,15 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 productionReturnsScanInfo.setVouchertype(voucherType);
                 productionReturnsScanInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 productionReturnsModel.requestOrderDetail(productionReturnsScanInfo, callBackListener);
+                break;
+            case OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE:
+                SalesReturnsStorageModel2 salesReturnModel = new SalesReturnsStorageModel2(mContext, mHandler, voucherType, InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE);
+                mBaseModel = salesReturnModel;
+                OrderRequestInfo salesReturnInfo = new OrderRequestInfo();
+                salesReturnInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
+                salesReturnInfo.setVouchertype(voucherType);
+                salesReturnInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                salesReturnModel.requestOrderDetail(salesReturnInfo, callBackListener);
                 break;
         }
     }

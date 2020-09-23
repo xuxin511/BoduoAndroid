@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseFragment;
 import com.liansu.boduowms.bean.menu.MenuChildrenInfo;
 import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.ui.adapter.menu.MenuItemAdapter;
+import com.liansu.boduowms.ui.widget.LineGridView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -29,7 +29,7 @@ import androidx.annotation.Nullable;
 @ContentView(R.layout.fragment_menu)
 public class CommonBusinessMenuFragment extends BaseFragment implements ICommonMenuView {
     @ViewInject(R.id.gv_Function)
-    GridView mGridView;
+    LineGridView mGridView;
     MenuItemAdapter mAdapter;
     Context         mContext = getActivity();
     private CommonBusinessMenuPresenter mPresenter;

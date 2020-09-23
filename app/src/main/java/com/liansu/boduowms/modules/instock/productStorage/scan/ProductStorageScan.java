@@ -322,7 +322,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
                     if (data!=null){
                         OrderHeaderInfo  orderHeaderInfo=mPresenter.getModel().getOrderHeaderInfo();
                         if (orderHeaderInfo!=null){
-                            startRollBackActivity(orderHeaderInfo.getErpvoucherno(),orderHeaderInfo.getVouchertype(),mPresenter.getTitle());
+                            startRollBackActivity(orderHeaderInfo.getErpvoucherno(),orderHeaderInfo.getVouchertype(),getToolBarTitle());
                         }
 
 

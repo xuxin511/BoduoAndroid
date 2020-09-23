@@ -43,7 +43,7 @@
     <string name="area_no">库位号:</string>
     <string name="submit">提交</string>
     <string name="print">打印</string>
-    <string name="Count">数量：</string>
+    <string name="Count">数量:</string>
     <string name="AllPackage">整箱</string>
     <string name="AllPallet">整托</string>
     <string name="scan_type_pallet">托盘(点击切换操作模式)</string>
@@ -372,6 +372,7 @@
     <string name="product_storage_print_label">正在打印托盘标签信息</string>
     <string name="product_storage_scan_pallet_no_hint">请扫描或输入托盘标签</string>
     <string name="product_storage_scan_barcode_no_hint">请扫描或输入外箱标签</string>
+    <string name="product_storage_scan_barcode_qty_hint">请输入外箱数量</string>
     //销售退货
     <string name="appbar_title_sales_return_storage_bill">销售退货</string>
     <string name="appbar_title_sales_return_storage_scan">销售退货扫描</string>
