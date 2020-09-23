@@ -153,6 +153,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
             postInfo.setErpvoucherno(firstDetailInfo.getErpvoucherno());
             postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
             postInfo.setVouchertype(firstDetailInfo.getVouchertype());
+            postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
             List<OrderDetailInfo> list = new ArrayList<>();
             list.add(postInfo);
             mModel.requestOrderRefer(list, new NetCallBackListener<String>() {

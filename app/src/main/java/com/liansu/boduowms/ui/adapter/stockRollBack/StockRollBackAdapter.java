@@ -68,7 +68,6 @@ public class StockRollBackAdapter extends RecyclerView.Adapter<StockRollBackAdap
         holder.txt_qty.setText("库存数量:" + info.getQty());
         holder.txt_material_desc.setText("品名:" + info.getMaterialdesc());
 
-
     }
 
     @Override

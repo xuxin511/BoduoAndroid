@@ -667,6 +667,7 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
             postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
             postInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
             postInfo.setVouchertype(mModel.getVoucherType());
+            postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
             List<OrderDetailInfo> list = new ArrayList<>();
             list.add(postInfo);
             BaseMultiResultInfo<Boolean, Void> isOrderFinished = mModel.isOrderScanFinished();
