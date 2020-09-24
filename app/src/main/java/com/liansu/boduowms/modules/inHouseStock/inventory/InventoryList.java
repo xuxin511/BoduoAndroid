@@ -36,6 +36,7 @@ import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.T_Parameter;
 import com.liansu.boduowms.modules.outstock.Model.Pair;
 import com.liansu.boduowms.modules.outstock.Model.PairAdapter;
+import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxListRequery;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -62,7 +63,9 @@ import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.Inventory
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryDetail_Save_CheckDetail;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_Project_GetParameter;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_DelBox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Saleoutstock_PrintBox;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_DelBox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PrintBox;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
@@ -194,6 +197,15 @@ public class InventoryList extends BaseActivity {
                     MessageBox.Show(context, "请输入正确的数量");
                     return;
                 }
+            }
+        });
+
+
+        mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                InventoryModel model = listModel.get(position);
+                  IsDel(model);
+                return true;
             }
         });
 
@@ -440,6 +452,29 @@ public class InventoryList extends BaseActivity {
             BaseResultInfo<List<InventoryModel>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<InventoryModel>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_POST_ISDEL){
+                   //已经扫盘点过一次的库位
+                    new AlertDialog.Builder(this).setTitle(returnMsgModel.getResultValue())
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    InventoryModel model = new InventoryModel();
+                                    model.Erpvoucherno=inventory_list_order.getText().toString().trim();
+                                    model.Areano=inventory_list_warehouse.getText().toString().trim();
+                                    model.setId(5);
+                                    String modelJson = parseModelToJson(model);
+                                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryDetail_Save_CheckDetail, "获取库位信息",
+                                            context, mHandler, RESULT_InventoryList_GetWarehouse, null, UrlInfo.getUrl().Inventory_GetList, modelJson, null);
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //点击取消触发的事件
+                                }
+                            }).show();
+
+                }
                 CommonUtil.setEditFocus(inventory_list_warehouse);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
@@ -449,6 +484,7 @@ public class InventoryList extends BaseActivity {
                     MessageBox.Show(context, "该库位下没有对应的托盘请确认");
                     return;
                 }
+
                 listModel = returnMsgModel.getData();
                 for (InventoryModel item :listModel) {
                       item.setId(0);
@@ -563,6 +599,59 @@ public class InventoryList extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 }).show();
+    }
+
+    InventoryModel delModel=new InventoryModel();
+
+    public  void IsDel(InventoryModel model) {
+        delModel = model;
+        new AlertDialog.Builder(this).setTitle("确定删除序列为" + model.Serialno + "的托盘吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //点击确定触发的事件
+                        Pair ywpair = (Pair) mSpinner.getSelectedItem();
+                        for (InventoryModel item : listModel) {
+                            if (item.isCheck) {//找到之前选中的值赋值
+                                if (inventory_list_num.getText().toString().trim().equals("")) {
+                                    item.setScannQty(0f);
+                                } else {
+                                    Float aFloat = Float.parseFloat(inventory_list_num.getText().toString().trim());
+                                    item.setScannQty(aFloat);
+                                }
+                                int status = Integer.parseInt(ywpair.value);
+                                item.Status = status;
+                            }
+                        }
+                        //删除
+                        for (InventoryModel item : listModel) {
+                            if (item.Serialno.equals(delModel.Serialno)) {//删除选中行
+                                listModel.remove(delModel);
+                            }
+                        }
+                        //选中第一行
+                        for (InventoryModel item : listModel) {
+                            if (item == listModel.get(0)) {
+                                item.isCheck = true;
+                                inventory_list_num.setText(item.getScannQty().toString());
+                                int type = item.getStatus();
+                                int index = Integer.parseInt(downList.get(type).toString());
+                                mSpinner.setSelection(index - 1);
+                                CurrSelectmodel = item;
+                            } else {
+                                item.isCheck = false;
+                            }
+                        }
+                        Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                        mAdapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
+
     }
 
 
