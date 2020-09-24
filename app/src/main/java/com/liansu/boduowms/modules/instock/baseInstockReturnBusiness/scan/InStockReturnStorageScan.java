@@ -34,6 +34,7 @@ import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
+import com.liansu.boduowms.utils.function.DateUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -42,6 +43,7 @@ import org.xutils.x;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -76,6 +78,10 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
     protected EditText     mOutBoxQty;
     @ViewInject(R.id.product_return_scan_outer_box_qty_desc)
     protected TextView     mOutBoxQtyDesc;
+    @ViewInject(R.id.product_return_scan_outer_box_batch)
+    protected  EditText mOutBoxBatchNo;
+    @ViewInject(R.id.product_return_scan_outer_box_batch_desc)
+    protected  TextView mOutBoxBatchNoDesc;
     BaseScanDetailAdapter              mAdapter;
     InStockReturnsStorageScanPresenter mPresenter;
     protected UserSettingPresenter mUserSettingPresenter;
@@ -221,7 +227,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
      * @author: Nietzsche
      * @time 2020/7/7 12:45
      */
-    @Event(value = {R.id.product_return_scan_pallet_no, R.id.product_return_scan_outer_box, R.id.product_return_scan_outer_box_qty}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.product_return_scan_pallet_no, R.id.product_return_scan_outer_box,R.id.product_return_scan_outer_box_batch, R.id.product_return_scan_outer_box_qty}, type = View.OnKeyListener.class)
     private boolean outBarcodeScan(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
@@ -238,11 +244,27 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
                         mPresenter.scanOuterBoxBarcode(barcode);
                     }
                     break;
+                case R.id.product_return_scan_outer_box_batch:
+                    String batchNo=mOutBoxBatchNo.getText().toString().trim();
+                    boolean isChecked=checkBatchNo(batchNo);
+                    if (isChecked){
+                        onOuterBoxQtyFocus();
+                    }else {
+                        MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onOuterBoxBatchNoFocus();
+
+                            }
+                        });
+                    }
+                    setOuterBoxBatchNo(batchNo.trim());
+                    break;
                 case R.id.product_return_scan_outer_box_qty:
                     try {
                         float qty = Float.parseFloat(mOutBoxQty.getText().toString().trim());
                         if (mBusinessType == InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE) {
-                            mPresenter.onActiveCombineOldPalletRefer(qty);
+                            mPresenter.onActiveCombineOldPalletRefer(qty,getOuterBoxBatchNo());
                         }
 
                     } catch (Exception e) {
@@ -312,6 +334,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
         mPalletBarcode.setText("");
         mOuterBoxBarcode.setText("");
         mAreaNo.setText("");
+        mOutBoxBatchNo.setText("");
         mOutBoxQty.setText("0");
         initPalletChangedViewStatus(getPalletType());
         if (mBusinessType == InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE) {
@@ -382,6 +405,8 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
                 mOuterBoxBarcode.setVisibility(View.GONE);
                 mOutBoxQtyDesc.setVisibility(View.GONE);
                 mOutBoxQty.setVisibility(View.GONE);
+                mOutBoxBatchNo.setVisibility(View.GONE);
+                mOutBoxBatchNoDesc.setVisibility(View.GONE);
             }
             if (mAreaNo.isEnabled() != true) {
                 mAreaNo.setEnabled(true);
@@ -393,6 +418,8 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
                 mOuterBoxBarcode.setVisibility(View.VISIBLE);
                 mOutBoxQtyDesc.setVisibility(View.VISIBLE);
                 mOutBoxQty.setVisibility(View.VISIBLE);
+                mOutBoxBatchNo.setVisibility(View.VISIBLE);
+                mOutBoxBatchNoDesc.setVisibility(View.VISIBLE);
             }
             if (mAreaNo.isEnabled() != false) {
                 mAreaNo.setEnabled(false);
@@ -468,6 +495,33 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
     @Override
     public String getOuterBoxQty() {
         return mOutBoxQty.getText().toString().trim();
+    }
+
+    @Override
+    public void onOuterBoxBatchNoFocus() {
+        CommonUtil.setEditFocus(mOutBoxBatchNo);
+    }
+
+    @Override
+    public void setOuterBoxBatchNo(String batchNo) {
+        mOutBoxBatchNo.setText(batchNo+"");
+    }
+
+    @Override
+    public String getOuterBoxBatchNo() {
+        return mOutBoxBatchNo.getText().toString().trim();
+    }
+
+    @Override
+    public boolean checkBatchNo(@NonNull String batchNo) {
+        boolean IS_VERIFIED=false;
+            if (batchNo.equals("")||!DateUtil.isValidDate(batchNo.trim(), "yyyyMMdd")  ) {
+                IS_VERIFIED=false;
+            } else {
+                IS_VERIFIED=true;
+            }
+
+        return IS_VERIFIED;
     }
 
 

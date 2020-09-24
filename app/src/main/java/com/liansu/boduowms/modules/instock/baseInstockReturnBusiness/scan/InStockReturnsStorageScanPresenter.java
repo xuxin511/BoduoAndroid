@@ -224,7 +224,6 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
             //扫描新托盘码前 清空旧数据
             mModel.setCurrentScanInfo(null);
             mModel.setCurrentOuterBoxInfo(null);
-
             OutBarcodeInfo scanQRCode = null;
             if (scanBarcode.equals("")) return;
             if (scanBarcode.contains("%")) {
@@ -476,7 +475,14 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
                                 }
                             }
                             mModel.setCurrentOuterBoxInfo(scanQRCode);
-                            mView.onOuterBoxQtyFocus();
+                            String batchNo = scanQRCode.getBatchno();
+                            if (batchNo != null && !batchNo.equals("")) {
+                                mView.setOuterBoxBatchNo(batchNo);
+                                mView.onOuterBoxQtyFocus();
+                            } else {
+                                mView.onOuterBoxBatchNoFocus();
+                            }
+
                         }
 
 
@@ -602,9 +608,19 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
      * @author: Nietzsche
      * @time 2020/9/20 23:13
      */
-    public void onActiveCombineOldPalletRefer(float qty) {
+    public void onActiveCombineOldPalletRefer(float qty, String batchNo) {
         OutBarcodeInfo materialInfo = mModel.getCurrentOuterBoxInfo();
         OutBarcodeInfo palletInfo = mModel.getCurrentScanInfo();
+        if (!mView.checkBatchNo(batchNo)) {
+            MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onOuterBoxBatchNoFocus();
+
+                }
+            });
+            return;
+        }
         if (palletInfo == null) {
             MessageBox.Show(mContext, "校验条码失败:托盘码信息为空,请扫描托盘码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
@@ -638,6 +654,7 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
         if (palletInfo != null) {
             palletInfo.setWBarcode(materialInfo.getBarcode());
             palletInfo.setQty(qty);
+            palletInfo.setWBatchno(batchNo);
             onActiveCombinePalletRefer(palletInfo);
         }
     }

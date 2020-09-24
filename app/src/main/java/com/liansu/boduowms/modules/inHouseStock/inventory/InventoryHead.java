@@ -40,7 +40,6 @@ import org.xutils.x;
 
 import java.util.List;
 
-import static com.liansu.boduowms.bean.order.OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY;
 import static com.liansu.boduowms.bean.order.OrderType.IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryHead_SelectLit;
@@ -69,15 +68,14 @@ public class InventoryHead extends BaseActivity {
     @Override
     protected void initViews() {
         super.initViews();
-
         BaseApplication.context=context;
-
-        x.view().inject(this);
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
         String arr=data.toString();
         menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
         BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+        x.view().inject(this);
+
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -108,6 +106,7 @@ public class InventoryHead extends BaseActivity {
         //加载访问所有盘点信息
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryHead_SelectLit, "获取盘点列表",
                 context, mHandler, RESULT_InventoryHead_SelectLit, null, UrlInfo.getUrl().Inventory_Head_GetCheckList, modelJson, null);
+
     }
 
 
@@ -198,7 +197,7 @@ public class InventoryHead extends BaseActivity {
 
     @Override
     public void getToolTitle() {
-        getToolBarHelper().getToolBar().setTitle(getToolBarTitle());
+        getToolBarHelper().getToolBar().setTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno);
         //清空列表
         inventory_Head_orderText.setText("");
         InventoryModel inventoryModel = new InventoryModel();

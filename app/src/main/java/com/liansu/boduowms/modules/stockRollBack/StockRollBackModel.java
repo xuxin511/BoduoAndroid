@@ -144,7 +144,6 @@ public class StockRollBackModel extends BaseModel {
             String sBarcode = info.getBarcode() != null ? info.getBarcode() : "";
             if (info != null && sBarcode.equals(barcode)) {
                 deleteList.add(info);
-                break;
             }
         }
         return deleteList;

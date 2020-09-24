@@ -24,7 +24,6 @@ import com.liansu.boduowms.modules.instock.combinePallet.InstockCombinePallet;
 import com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan.NoSourceOtherScan;
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScan;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
-import com.liansu.boduowms.modules.instock.productionReturnsStorage.scan.ProductionReturnStorageScan;
 import com.liansu.boduowms.modules.instock.salesReturn.print.SalesReturnPrint;
 import com.liansu.boduowms.modules.instock.salesReturn.scan.SalesReturnStorageScan;
 import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScan;
@@ -403,9 +402,10 @@ public class MenuModel {
             }
             //52 工单退料入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE) {
-                intent.setClass(mContext, ProductionReturnStorageScan.class);
-                intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE);
+                intent.setClass(mContext, InStockReturnStorageScan.class);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("BusinessType", InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE);
+                intent.putExtra("VoucherType", voucherType);
             }
             //24 二阶段调拨入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE) {

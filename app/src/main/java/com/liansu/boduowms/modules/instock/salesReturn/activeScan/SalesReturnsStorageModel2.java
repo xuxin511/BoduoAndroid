@@ -38,7 +38,7 @@ public class SalesReturnsStorageModel2 extends InStockReturnsStorageScanModel {
         mNetMap.put("TAG_GET_T_SUB_ORDER_DETAIL_LIST_ADF_ASYNC", callBackListener);
         String modelJson = parseModelToJson(orderRequestInfo);
         LogUtil.WriteLog(InStockReturnStorageScan.class, TAG_GET_T_SUB_ORDER_DETAIL_LIST_ADF_ASYNC, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_SUB_ORDER_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_production_return_detail), mContext, mHandler, RESULT_TAG_GET_T_SUB_ORDER_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_SaleReturnDetailListWMSADFAsync, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_T_SUB_ORDER_DETAIL_LIST_ADF_ASYNC, mContext.getString(R.string.message_request_sales_return_detail), mContext, mHandler, RESULT_TAG_GET_T_SUB_ORDER_DETAIL_LIST_ADF_ASYNC, null, UrlInfo.getUrl().GetT_SaleReturnDetailListWMSADFAsync, modelJson, null);
 
     }
 

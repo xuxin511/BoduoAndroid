@@ -39,6 +39,10 @@ public interface IInStockReturnStorageScanView {
     String getAreaNo();
     void setOrderHeaderInfo(OrderHeaderInfo orderHeaderInfo);
     String getOuterBoxQty();
+    void onOuterBoxBatchNoFocus();
+    void  setOuterBoxBatchNo(String batchNo);
+    String getOuterBoxBatchNo();
+    boolean checkBatchNo(String batchNo);
 
 
 }

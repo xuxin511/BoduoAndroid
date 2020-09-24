@@ -294,4 +294,5 @@ public class UrlInfo {
     public String PostT_SaleReturnDetailADFAsync       = GetWCFAdress() + "SaleReturn/PostT_SaleReturnDetailADFAsync";  //有原销退单过账
 
 
+
 }

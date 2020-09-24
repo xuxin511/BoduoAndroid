@@ -278,6 +278,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
      * @time 2020/7/23 15:02
      */
     public void closeKeyBoard(EditText view) {
+        boolean isDebug = true;
+        if (isDebug) return;
         if (android.os.Build.VERSION.SDK_INT <= 10) {
             view.setInputType(InputType.TYPE_NULL);
         } else {

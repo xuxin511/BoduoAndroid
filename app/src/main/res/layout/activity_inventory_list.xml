@@ -213,13 +213,6 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/inventory__config_statusname"
         tools:layout_editor_absoluteY="0dp" />
-    <TextView
-        android:id="@+id/sales_outstock_line2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/sp_6"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/inventory__config_num" />
-
 
     <EditText
         android:id="@+id/inventory_list_num"

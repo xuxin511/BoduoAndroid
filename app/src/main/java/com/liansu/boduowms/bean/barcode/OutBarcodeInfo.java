@@ -78,6 +78,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
     protected int  Areaid;
     protected  int Scantype; //1-原托盘入库 0-新托盘入库
     protected  String WBarcode;//外箱码
+    protected  String WBatchno;//外箱批次
     public OutBarcodeInfo() {
     }
 
@@ -126,6 +127,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         Areaid=in.readInt();
         Scantype=in.readInt();
         WBarcode=in.readString();
+        WBatchno=in.readString();
     }
 
     @NonNull
@@ -493,6 +495,14 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         this.WBarcode = WBarcode;
     }
 
+    public String getWBatchno() {
+        return WBatchno;
+    }
+
+    public void setWBatchno(String WBatchno) {
+        this.WBatchno = WBatchno;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -543,6 +553,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         dest.writeInt(Areaid);
         dest.writeInt(Scantype);
         dest.writeString(WBarcode);
+        dest.writeString(WBatchno);
     }
 
 //    @Override

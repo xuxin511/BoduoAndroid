@@ -41,7 +41,7 @@ public class StockRollBack extends BaseActivity implements IStockRollBackView {
     StockRollBackPresenter mPresenter;
     int                    mVoucherType  = -1;
     String                 mErpVoucherNo = "";
-    String                 mTitle        = "回退";
+    String                 mTitle        = "删除";
     StockRollBackAdapter   mAdapter;
 
     @Override
