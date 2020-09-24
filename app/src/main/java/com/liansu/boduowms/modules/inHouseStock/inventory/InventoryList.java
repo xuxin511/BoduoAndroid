@@ -496,15 +496,10 @@ public class InventoryList extends BaseActivity {
                     return;
                 }
                 for (InventoryModel item : list) {
+                    item.setId(0);
                     item.isProfit = 1;
                     item.ScannQty = item.getQty();
                 }
-//                int type = returnMsgModel.getData().get(0).getStatus();
-//                int index = Integer.parseInt(downList.get(type).toString());
-//                mSpinner.setSelection(index - 1);
-//                if (listModel.size() > 0) {
-//                    inventory_list_num.setText(listModel.get(0).getQty().toString());
-//                }
                 listModel.addAll(0, list);
                 int i = 0;
                 Pair ywpair = (Pair) mSpinner.getSelectedItem();
