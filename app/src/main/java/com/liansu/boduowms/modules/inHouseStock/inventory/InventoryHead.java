@@ -20,6 +20,8 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.menu.MenuType;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryHeadAdapter;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
@@ -39,6 +41,7 @@ import java.util.List;
 
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryHead_SelectLit;
+import static com.liansu.boduowms.modules.menu.commonMenu.MenuModel.getThirdLevelMenuModuleTitle;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
@@ -77,6 +80,8 @@ public class InventoryHead extends BaseActivity {
                 Uri data = Uri.parse(json);
                 intent.setData(data);
                 intent.setClass(context, InventoryConfig.class);
+                intent.putExtra("Title", getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK, OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_SCAN));
+
                 startActivity(intent);
             }
         });

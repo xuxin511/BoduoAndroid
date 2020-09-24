@@ -60,6 +60,7 @@
     <string name="jump">去扫描</string>
     <string name="material_no">物料编号</string>
     <string name="batch_no">批次</string>
+    <string name="batch_no_desc">批次:</string>
     <string name="material_desc">名称</string>
     <string name="supplier">供应商：</string>
     <string name="palletNo">托盘号:</string>
@@ -70,6 +71,7 @@
     <string name="request_print_order_purchase_return">正在打印验退单据..</string>
     <string name="setting">设置</string>
     <string name="star">*</string>
+
 
     //接口
     <string name="Msg_request_material_info">获取校验物料信息...</string>
@@ -372,6 +374,7 @@
     <string name="product_storage_print_label">正在打印托盘标签信息</string>
     <string name="product_storage_scan_pallet_no_hint">请扫描或输入托盘标签</string>
     <string name="product_storage_scan_barcode_no_hint">请扫描或输入外箱标签</string>
+    <string name="product_storage_scan_batch_no_hint">请扫描或输入批次</string>
     <string name="product_storage_scan_barcode_qty_hint">请输入外箱数量</string>
     //销售退货
     <string name="appbar_title_sales_return_storage_bill">销售退货</string>

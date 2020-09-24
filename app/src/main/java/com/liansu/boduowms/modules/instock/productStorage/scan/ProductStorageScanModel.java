@@ -109,7 +109,6 @@ public class ProductStorageScanModel extends BaseOrderScanModel {
         String modelJson = parseModelListToJsonArray(list);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, mContext.getString(R.string.Msg_order_refer), mContext, mHandler, RESULT_TAG_POST_T_WORK_ORDER_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().PostT_WorkOrderDetailADFAsync, modelJson, null);
-
     }
 
     /**

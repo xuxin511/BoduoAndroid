@@ -59,7 +59,7 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProduct
      */
 
     protected void getOrderDetailInfoList(OrderHeaderInfo orderHeaderInfo) {
-        mModel.onReset();
+        onReset();
         mModel.requestOrderDetail(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

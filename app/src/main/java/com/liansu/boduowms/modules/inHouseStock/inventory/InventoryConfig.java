@@ -1,17 +1,11 @@
 package com.liansu.boduowms.modules.inHouseStock.inventory;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Message;
-import android.telephony.MbmsGroupCallSession;
-import android.util.ArrayMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,21 +26,15 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
-import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter;
-import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryHeadAdapter;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.T_Parameter;
-import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.Pair;
 import com.liansu.boduowms.modules.outstock.Model.PairAdapter;
-import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxListRequery;
-import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
-import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
@@ -63,17 +51,11 @@ import java.util.Map;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetBarcodeInfo;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryDetail_Save_CheckDetail;
-import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_Project_GetParameter;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetBarcodeInfo;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryDetail_Save_CheckDetail;
-import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_Project_GetParameter;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts_Submit;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 //盘点配置页面
@@ -134,7 +116,7 @@ public class InventoryConfig extends BaseActivity {
     protected void initViews() {
         super.initViews();
         BaseApplication.context = context;
-        BaseApplication.toolBarTitle = new ToolBarTitle("盘点单扫描", true);
+        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         Intent intentMain = getIntent();

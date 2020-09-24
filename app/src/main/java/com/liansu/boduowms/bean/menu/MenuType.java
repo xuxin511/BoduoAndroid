@@ -21,5 +21,11 @@ public class MenuType {
     public static final String                 MENU_MODULE_TYPE_NONE  = "MENU_MODULE_TYPE_NONE"; //
     public static final String                 MENU_MODULE_TYPE_OUT_STOCK_ONE_REVIEW  = "OUT_STOCK_ONE_REVIEW"; //一键复核
 
+    //库内功能标识
+    public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_LIST  = "IN_HOUSE_STOCK_INVENTORY_LIST"; //盘点列表
+    public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_SCAN  = "IN_HOUSE_STOCK_INVENTORY_SCAN"; //盘点扫描
+    public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_OPEN_INVENTORY_LIST  = "IN_HOUSE_STOCK_OPEN_INVENTORY_LIST"; //明盘列表
+    public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_OPEN_INVENTORY_SCAN  = "IN_HOUSE_STOCK_OPEN_INVENTORY_SCAN"; //明盘扫描
+
 
 }

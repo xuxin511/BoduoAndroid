@@ -70,7 +70,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
     public void onStart() {
         super.onStart();
         onRefresh();
-        closeKeyBoard(mEdtfilterContent);
+//        closeKeyBoard(mEdtfilterContent);
     }
 
 

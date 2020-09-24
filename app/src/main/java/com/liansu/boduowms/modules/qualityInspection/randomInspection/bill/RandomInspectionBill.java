@@ -78,7 +78,7 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
         BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), false);
         x.view().inject(this);
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);
-        closeKeyBoard(mEdtfilterContent);
+//        closeKeyBoard(mEdtfilterContent);
     }
 
     @Override

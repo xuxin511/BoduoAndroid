@@ -21,7 +21,6 @@
         android:id="@+id/product_return_radio_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent">
@@ -141,6 +140,28 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_return_scan_pallet_no" />
     <TextView
+        android:id="@+id/product_return_scan_outer_box_batch_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/batch_no_desc"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/product_return_scan_outer_box_batch"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/product_return_scan_outer_box_batch" />
+    <EditText
+        android:id="@+id/product_return_scan_outer_box_batch"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginLeft="@dimen/common_text_size_first"
+        android:layout_marginTop="@dimen/activity_product_storage_scan_margin_top"
+        android:hint="@string/product_storage_scan_batch_no_hint"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_return_scan_outer_box" />
+    <TextView
         android:id="@+id/product_return_scan_outer_box_qty_desc"
         style="@style/TextViewComminStyle"
         android:layout_width="wrap_content"
@@ -164,7 +185,7 @@
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_return_scan_outer_box" />
+        app:layout_constraintTop_toBottomOf="@+id/product_return_scan_outer_box_batch" />
 
     <TextView
         android:id="@+id/product_return_scan_outer_box_desc"

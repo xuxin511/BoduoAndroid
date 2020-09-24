@@ -137,17 +137,17 @@ public class StockRollBackModel extends BaseModel {
       * @author: Nietzsche
       * @time 2020/8/27 16:04
       */
-    public VoucherDetailSubInfo getPalletInfo(String barcode) {
-        VoucherDetailSubInfo palletInfo = null;
+    public  List<VoucherDetailSubInfo> getPalletInfoList(String barcode) {
+        List<VoucherDetailSubInfo> deleteList=new ArrayList<>();
         if (barcode == null) barcode = "";
         for (VoucherDetailSubInfo info : mTemporaryList) {
             String sBarcode = info.getBarcode() != null ? info.getBarcode() : "";
             if (info != null && sBarcode.equals(barcode)) {
-                palletInfo = info;
+                deleteList.add(info);
                 break;
             }
         }
-        return palletInfo;
+        return deleteList;
     }
 
 }

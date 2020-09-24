@@ -108,9 +108,19 @@ public class StockRollBackPresenter {
         }
 
         if (scanQRCode != null) {
-            VoucherDetailSubInfo scanInfo = mModel.getPalletInfo(scanQRCode.getBarcode());
-            if (scanInfo != null) {
-                onDeleteTemporaryDataRefer(scanInfo);
+            List<VoucherDetailSubInfo> list = mModel.getPalletInfoList(scanQRCode.getBarcode());
+            if (list != null && list.size()>0) {
+                if (list.size()==1){
+                    onDeleteTemporaryDataRefer(list.get(0));
+                }else {
+                    MessageBox.Show(mContext, "存在"+list.size()+"个条码为:[" + scanQRCode.getBarcode() + "]的数据,请手动选择删除", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onBarcodeFocus();
+                        }
+                    });
+                }
+
             } else {
                 MessageBox.Show(mContext, "校验条码失败:条码:[" + scanQRCode.getBarcode() + "]不在暂存列表中", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
@@ -139,6 +149,7 @@ public class StockRollBackPresenter {
         OrderRequestInfo postInfo=new OrderRequestInfo();
         postInfo.setVouchertype(mModel.getVoucherType());
         postInfo.setErpvoucherno(mModel.getErpVoucherNo());
+        postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         mModel.requestTemporaryDetailList(postInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

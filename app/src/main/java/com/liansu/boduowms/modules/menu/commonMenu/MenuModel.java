@@ -540,7 +540,7 @@ public class MenuModel {
             //67 盘点
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY) {
                 intent.setClass(mContext, InventoryHead.class);
-                intent.putExtra("Title", info.getTitle());
+                intent.putExtra("Title", getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK,OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_LIST));
             }
             //38  库存查询
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY) {
