@@ -451,6 +451,7 @@ public class InventoryList extends BaseActivity {
                 }
                 listModel = returnMsgModel.getData();
                 for (InventoryModel item :listModel) {
+                      item.setId(0);
                      item.isProfit = 2;
                      item.ScannQty=item.getQty();
                 }
