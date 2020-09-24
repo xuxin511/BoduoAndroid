@@ -65,7 +65,7 @@
             android:layout_margin="1dp"
             android:layout_weight="1"
             android:textColor="@color/mediumpurple"
-            android:textSize="@dimen/sp_11" />
+            android:textSize="@dimen/sp_13" />
 
     </LinearLayout>
 
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLines="2"
-            android:textColor="@color/peru"
+            android:textColor="@color/orangered"
             android:textSize="@dimen/activity_list_text_size_third" />
 
     </LinearLayout>

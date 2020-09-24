@@ -351,6 +351,9 @@ public class MenuModel {
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_COMBINE_PALLET_VALUE) {
                 icon = R.drawable.b_combine_pallet;
             }
+            else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY) {
+                icon = R.drawable.b_inventory_scan;
+            }
             if (icon != -1) {
                 item.setIcon(icon);
             }
@@ -539,16 +542,28 @@ public class MenuModel {
             }
             //67 盘点
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY) {
+                MenuOutStockModel model = new MenuOutStockModel();
+                model.Title = getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK,OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_LIST);
+                model.VoucherType =String.valueOf( OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY);
+                String json = GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
+                intent.setData(data);
                 intent.setClass(mContext, InventoryHead.class);
-                intent.putExtra("Title", getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK,OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_LIST));
             }
             //38  库存查询
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY) {
                 intent.setClass(mContext, QueryStock.class);
                 intent.putExtra("Title", info.getTitle());
+            }else if(voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY){
+                //明盘
+                MenuOutStockModel model = new MenuOutStockModel();
+                model.Title = getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK,OrderType.IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_OPEN_INVENTORY_LIST);
+                model.VoucherType =String.valueOf( OrderType.IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY);
+                String json = GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
+                intent.setData(data);
+                intent.setClass(mContext, InventoryHead.class);
             }
-
-
         }
         return intent;
     }

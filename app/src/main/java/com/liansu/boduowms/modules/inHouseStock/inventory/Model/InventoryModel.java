@@ -54,6 +54,16 @@ public class InventoryModel {
 
     public  boolean isCheck;
 
+     public  int isProfit;
+     // 1 盈利 2平  3亏
+    public int getIsProfit() {
+        return isProfit;
+    }
+
+    public void setIsProfit(int isProfit) {
+        this.isProfit = isProfit;
+    }
+
     public boolean isCheck() {
         return isCheck;
     }

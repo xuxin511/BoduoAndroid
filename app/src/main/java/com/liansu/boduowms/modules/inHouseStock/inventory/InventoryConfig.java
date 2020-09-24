@@ -116,14 +116,14 @@ public class InventoryConfig extends BaseActivity {
     protected void initViews() {
         super.initViews();
         BaseApplication.context = context;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
-        x.view().inject(this);
-        BaseApplication.isCloseActivity = false;
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
         InventoryModel model = new InventoryModel();
         String arr = data.toString();
         model = GsonUtil.parseJsonToModel(arr, InventoryModel.class);
+        BaseApplication.toolBarTitle = new ToolBarTitle(model.Areano+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+        x.view().inject(this);
+        BaseApplication.isCloseActivity = false;
         inventory__config_order.setText(model.Erpvoucherno);
         Currerpvoucherno = model.Erpvoucherno;
         mInventory = new InventoryModel();
@@ -179,7 +179,7 @@ public class InventoryConfig extends BaseActivity {
                     }
                     for (InventoryModel item : listModel) {
                         if (item == model) {
-                            model.isCheck=true;
+                            item.isCheck=true;
                             inventory__config_num.setText(item.getScannQty().toString());
                         }
                     }
@@ -264,12 +264,12 @@ public class InventoryConfig extends BaseActivity {
     private void  inventory_submit(View view) {
         if (CurrAreano.equals("")) {
             CommonUtil.setEditFocus(inventory__config_warehouse);
-            MessageBox.Show(context, "请先扫描库位");
+            MessageBox.Show(context, "请先输入或扫描库位");
             return;
         }
         if (listModel.size() == 0) {
             CommonUtil.setEditFocus(inventory__config_barcode);
-            MessageBox.Show(context, "请先扫描扫描条码");
+            MessageBox.Show(context, "请输入或扫描条码");
             return;
         }
         try {

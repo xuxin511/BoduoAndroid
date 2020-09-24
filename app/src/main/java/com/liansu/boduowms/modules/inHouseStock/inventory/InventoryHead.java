@@ -24,6 +24,7 @@ import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryHeadAdapter;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
@@ -39,6 +40,8 @@ import org.xutils.x;
 
 import java.util.List;
 
+import static com.liansu.boduowms.bean.order.OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY;
+import static com.liansu.boduowms.bean.order.OrderType.IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.menu.commonMenu.MenuModel.getThirdLevelMenuModuleTitle;
@@ -61,28 +64,42 @@ public class InventoryHead extends BaseActivity {
     //适配器
     InventoryHeadAdapter mAdapter;
 
+
+    MenuOutStockModel  menuOutStockModel = new MenuOutStockModel();
     @Override
     protected void initViews() {
         super.initViews();
+
         BaseApplication.context=context;
-        BaseApplication.toolBarTitle = new ToolBarTitle(getToolBarTitle(), true);
+
         x.view().inject(this);
-        BaseApplication.isCloseActivity=false;
+        Intent intentMain = getIntent();
+        Uri data = intentMain.getData();
+        String arr=data.toString();
+        menuOutStockModel = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
+        BaseApplication.toolBarTitle = new ToolBarTitle(menuOutStockModel.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 InventoryModel model = (InventoryModel) mAdapter.getItem(i);
-                //选择调页面
-                Intent intent = new Intent();
-                //intent.setData(data);
-                //本地单号传过去
-                String json = GsonUtil.parseModelToJson(model);
-                Uri data = Uri.parse(json);
-                intent.setData(data);
-                intent.setClass(context, InventoryConfig.class);
-                intent.putExtra("Title", getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK, OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_SCAN));
-
-                startActivity(intent);
+                //明盘
+                if(menuOutStockModel.VoucherType.equals(String.valueOf(IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY))){
+                    model.setAreano(getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK, IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_OPEN_INVENTORY_SCAN));
+                    Intent intent = new Intent();
+                    String json = GsonUtil.parseModelToJson(model);
+                    Uri data = Uri.parse(json);
+                    intent.setData(data);
+                    intent.setClass(context, InventoryList.class);
+                    startActivity(intent);
+                }else{
+                    model.setAreano(getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK,OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_SCAN));
+                    Intent intent = new Intent();
+                    String json = GsonUtil.parseModelToJson(model);
+                    Uri data = Uri.parse(json);
+                    intent.setData(data);
+                    intent.setClass(context, InventoryConfig.class);
+                    startActivity(intent);
+                }
             }
         });
         InventoryModel inventoryModel = new InventoryModel();
@@ -111,6 +128,7 @@ public class InventoryHead extends BaseActivity {
             try {
                 String erpvoucherno=inventory_Head_orderText.getText().toString().trim();
                 if(!erpvoucherno.equals("")) {
+
                     InventoryModel inventoryModel = new InventoryModel();
                     inventoryModel.Erpvoucherno = erpvoucherno;
                     inventoryModel.Warehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;

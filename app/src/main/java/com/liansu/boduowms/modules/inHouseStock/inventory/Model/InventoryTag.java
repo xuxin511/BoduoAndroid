@@ -24,4 +24,10 @@ package com.liansu.boduowms.modules.inHouseStock.inventory.Model;
      public static   final int   RESULT_InventoryDetail_Save_CheckDetail=125;
 
 
+
+
+     public static String  TAG_InventoryList_GetWarehouse ="InventoryList_GetWarehouse";    //获取库位信息
+     public static   final int   RESULT_InventoryList_GetWarehouse=126;
+
+
  }
