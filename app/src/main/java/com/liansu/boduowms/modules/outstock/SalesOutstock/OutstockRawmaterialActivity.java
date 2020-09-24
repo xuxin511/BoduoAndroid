@@ -344,6 +344,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     model.Vouchertype = CurrVoucherType;
                     model.Printername = UrlInfo.mOutStockPrintName;
                     model.Printertype = UrlInfo.mOutStockPrintType;
+                     model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                     list.add(model);
                     String modelJson = parseModelToJson(list);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
@@ -362,6 +363,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     model.Vouchertype = CurrVoucherType;
                     model.Printername = UrlInfo.mOutStockPrintName;
                     model.Printertype = UrlInfo.mOutStockPrintType;
+                    model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                     list.add(model);
                     String modelJson = parseModelToJson(list);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
@@ -737,10 +739,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     }
                 });
         builder.show();
-
-
-
-
     }
 
 

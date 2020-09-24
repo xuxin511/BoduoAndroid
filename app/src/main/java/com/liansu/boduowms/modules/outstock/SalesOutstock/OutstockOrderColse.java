@@ -247,6 +247,7 @@ public class OutstockOrderColse extends BaseActivity {
                         model.Erpvoucherno = CurrOrderNO;
                         model.Vouchertype = CurrVoucherType;
                         model.Strongholdcode = strongcode;
+                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         String modelJson = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_outstock_Ordercolose_Submit, "提交中",
                                 context, mHandler, RESUL_Toutstock_Ordercolose_Submit, null, UrlInfo.getUrl().SalesOutstock_OrderColose, modelJson, null);

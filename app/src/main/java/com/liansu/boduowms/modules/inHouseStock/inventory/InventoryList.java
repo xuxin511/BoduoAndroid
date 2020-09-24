@@ -51,6 +51,7 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -204,7 +205,8 @@ public class InventoryList extends BaseActivity {
         mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 InventoryModel model = listModel.get(position);
-                  IsDel(model);
+                delModel = model;
+                IsDel();
                 return true;
             }
         });
@@ -452,15 +454,15 @@ public class InventoryList extends BaseActivity {
             BaseResultInfo<List<InventoryModel>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<InventoryModel>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_POST_ISDEL){
-                   //已经扫盘点过一次的库位
+                if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_POST_ISDEL) {
+                    //已经扫盘点过一次的库位
                     new AlertDialog.Builder(this).setTitle(returnMsgModel.getResultValue())
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     InventoryModel model = new InventoryModel();
-                                    model.Erpvoucherno=inventory_list_order.getText().toString().trim();
-                                    model.Areano=inventory_list_warehouse.getText().toString().trim();
+                                    model.Erpvoucherno = inventory_list_order.getText().toString().trim();
+                                    model.Areano = inventory_list_warehouse.getText().toString().trim();
                                     model.setId(5);
                                     String modelJson = parseModelToJson(model);
                                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryDetail_Save_CheckDetail, "获取库位信息",
@@ -470,21 +472,20 @@ public class InventoryList extends BaseActivity {
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //点击取消触发的事件
+
                                 }
                             }).show();
-
+                }else {
+                    CommonUtil.setEditFocus(inventory_list_warehouse);
+                    MessageBox.Show(context, returnMsgModel.getResultValue());
+                    return;
                 }
-                CommonUtil.setEditFocus(inventory_list_warehouse);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-                return;
             } else {
                 if (returnMsgModel.getData().size() == 0) {
                     CommonUtil.setEditFocus(inventory_list_warehouse);
                     MessageBox.Show(context, "该库位下没有对应的托盘请确认");
                     return;
                 }
-
                 listModel = returnMsgModel.getData();
                 for (InventoryModel item :listModel) {
                       item.setId(0);
@@ -603,9 +604,8 @@ public class InventoryList extends BaseActivity {
 
     InventoryModel delModel=new InventoryModel();
 
-    public  void IsDel(InventoryModel model) {
-        delModel = model;
-        new AlertDialog.Builder(this).setTitle("确定删除序列为" + model.Serialno + "的托盘吗？")
+    public  void IsDel() {
+        new AlertDialog.Builder(this).setTitle("确定删除序列为" + delModel.Serialno + "的托盘吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -624,11 +624,22 @@ public class InventoryList extends BaseActivity {
                             }
                         }
                         //删除
-                        for (InventoryModel item : listModel) {
-                            if (item.Serialno.equals(delModel.Serialno)) {//删除选中行
-                                listModel.remove(delModel);
+//                        for (InventoryModel item : listModel) {
+//                            if (item.Serialno.equals(delModel.Serialno)) {
+//                                //删除选中行
+//                                listModel.remove(item);
+//
+//                            }
+//                        }
+
+                        Iterator<InventoryModel> it=listModel.iterator();
+                        while(it.hasNext()){
+                            InventoryModel item=it.next();
+                            if(item.Serialno.equals(delModel.Serialno)){
+                                it.remove();
                             }
                         }
+
                         //选中第一行
                         for (InventoryModel item : listModel) {
                             if (item == listModel.get(0)) {
