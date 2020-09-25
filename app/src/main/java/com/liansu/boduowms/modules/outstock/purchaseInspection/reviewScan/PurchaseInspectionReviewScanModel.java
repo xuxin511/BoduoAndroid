@@ -12,7 +12,6 @@ import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
-import com.liansu.boduowms.modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan;
 import com.liansu.boduowms.modules.outstock.baseOutStockBusiness.baseReviewScan.BaseReviewScanModel;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
@@ -145,7 +144,7 @@ public class PurchaseInspectionReviewScanModel extends BaseReviewScanModel {
     public void requestBarcodeInfoQuery(String material, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_SELECT_MATERIAL", callBackListener);
         String modelJson = parseModelToJson(material);
-        LogUtil.WriteLog(UpShelfScan.class, TAG_SELECT_MATERIAL, modelJson);
+        LogUtil.WriteLog(PurchaseInspectionReviewScan.class, TAG_SELECT_MATERIAL, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SELECT_MATERIAL, mContext.getString(R.string.Msg_GetT_SerialNoByPalletADF), mContext, mHandler, RESULT_TAG_SELECT_MATERIAL, null, UrlInfo.getUrl().SelectMaterial, modelJson, null);
 
     }
@@ -160,7 +159,7 @@ public class PurchaseInspectionReviewScanModel extends BaseReviewScanModel {
     public void requestBarcodeInfoRefer(OutStockOrderDetailInfo info, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC", callBackListener);
         String modelJson = parseModelToJson(info);
-        LogUtil.WriteLog(UpShelfScan.class, TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, modelJson);
+        LogUtil.WriteLog(PurchaseInspectionReviewScan.class, TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, mContext.getString(R.string.message_request_barcode_refer), mContext, mHandler, RESULT_TAG_SUBMIT_REVIEW_SCAN_ADF_ASYNC, null, UrlInfo.getUrl().InspecReturn_SubmitReviewScanADFAsync, modelJson, null);
     }
 

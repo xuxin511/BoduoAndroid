@@ -13,7 +13,6 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
-import com.liansu.boduowms.modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
@@ -137,7 +136,7 @@ public class QualityInspectionProcessingModel extends BaseModel {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("BarCode", barcode);
 //        params.put("UserJson", parseModelToJson(BaseApplication.mCurrentUserInfo));
-        LogUtil.WriteLog(UpShelfScan.class, TAG_GetT_PalletDetailByBarCodeADF, barcode);
+        LogUtil.WriteLog(QualityInspectionProcessingScan.class, TAG_GetT_PalletDetailByBarCodeADF, barcode);
 //        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GetT_PalletDetailByBarCodeADF, mContext.getString(R.string.Msg_GetT_SerialNoByPalletADF), mContext, mHandler, RESULT_Msg_GetT_PalletDetailByBarCode, null, URLModel.GetURL().GetT_PalletDetailByBarCodeADF, params, null);
 
     }
