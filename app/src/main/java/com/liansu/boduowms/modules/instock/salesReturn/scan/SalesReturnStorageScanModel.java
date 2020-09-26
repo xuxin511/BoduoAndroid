@@ -40,8 +40,8 @@ public class SalesReturnStorageScanModel extends BaseOrderScanModel {
     public        String TAG_GET_T_SCAN_BARCODE_ADF_ASYNC             = "SalesReturnStorageScanModel_GetT_ScanBarcodeADFAsync";  // 获取条码信息
     public        String TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC        = "SalesReturnStorageScanModel_Post_SaleReturnDetailADFasync";  // 销售退货提交
     public        String TAG_PRINT_PALLET_NO                          = "SalesReturnStorageScanModel_Print_PalletNo";  //打印
-    private final int    RESULT_TAG_GET_T_AREA_MODEL                  = 121;
-    private final int    RESULT_TAG_GET_T_SCAN_BARCODE_ADF_ASYNC      = 122;
+    protected final int    RESULT_TAG_GET_T_AREA_MODEL                  = 121;
+    protected final int    RESULT_TAG_GET_T_SCAN_BARCODE_ADF_ASYNC      = 122;
     protected final int    RESULT_TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC = 123;
     private final int    RESULT_TAG_PRINT_PALLET_NO                   = 124;
     AreaInfo             mAreaInfo;

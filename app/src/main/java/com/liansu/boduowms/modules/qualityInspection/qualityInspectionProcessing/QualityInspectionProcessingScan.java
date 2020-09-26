@@ -128,8 +128,8 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
             }
         });
         closeKeyBoard(mBarcode, mQty, mFatherBarcode);
-        mArrVoucherNoDesc.setText("创建人:");
-        mErpVoucherNoDesc.setText("创建日期:");
+        mArrVoucherNoDesc.setText("收货人:");
+        mErpVoucherNoDesc.setText("收货日期:");
     }
 
     @Override

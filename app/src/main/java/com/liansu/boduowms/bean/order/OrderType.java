@@ -75,6 +75,7 @@ public class OrderType {
     public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY  = 38;//库存查询
     public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY          = 67;//盘点
     public final static int IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY          = 73;//明盘
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_BEGINNING_INVENTORY          = 74;//期初盘点
     public final static int ORDER_TYPE_NONE_VALUE                        = -1;//未选择单据类型
 
 

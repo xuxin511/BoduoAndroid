@@ -346,6 +346,10 @@
     <string name="instock_pallet_scan">入库拼托</string>
     <string name="instock_pallet_erp_voucher_no_desc">订单号:</string>
     <string name="instock_pallet_erp_voucher_no_hint"></string>
+    <string name="in_stock_pallet_one_desc">拼入托盘:</string>
+    <string name="in_stock_pallet_two_desc">待拼托盘:</string>
+    <string name="in_stock_pallet_hint">请输入或扫描托盘码</string>
+    <string name="in_stock_pallet_type">拼托方式:</string>
     //移库
     <string name="activity_inventory_movement_scan">移库</string>
     <string name="activity_inventory_movement_instock">移入库:</string>
@@ -503,5 +507,8 @@
     <string name="stock_roll_back_request_delete_temporary_data">正在提交回退信息...</string>
     //拼托
     <string name="in_stock_combine_pallet_title">拼托扫描</string>
+    <string name="in_stock_combine_pallet_type_old_pallet">原托盘</string>
+    <string name="in_stock_combine_pallet_type_new_pallet">新托盘</string>
+    <string name="in_stock_combine_pallet_type_dis_combine_pallet">拆托</string>
 
 </resources>

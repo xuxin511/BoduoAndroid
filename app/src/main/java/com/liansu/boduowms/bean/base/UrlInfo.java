@@ -56,7 +56,7 @@ public class UrlInfo {
     public String GetT_CheckQualityHeadListsync     = GetWCFAdress() + "Quality/GetT_CheckQualityHeadListsync"; //抽检获取列表
     public String GetT_CheckQualityDetailListsync   = GetWCFAdress() + "Quality/GetT_CheckQualityDetailListsync"; //抽检表体获取
     public String GetT_PurchaseOrderListADF         = GetWCFAdress() + "Stock/GetT_PurchaseOrderListADF"; //取样扫描接口  2020-8-10 废弃
-    public String GetT_ScanStockADFAsync            = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync"; //取样扫描接口 新 2020-8-10
+    public String GetT_ScanStockADFAsync            = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync"; //取样扫描接口 新 2020-8-10  出库查询的方法 2020-9-25
     public String CheckT_PalletBarcodesync          = GetWCFAdress() + "Quality/CheckT_PalletBarcodesync"; //检验托盘号是否待检
     public String PostT_CheckQualitysync            = GetWCFAdress() + "Quality/PostT_CheckQualitysync"; //抽检表体提交
     public String GetT_WorkOrderHeadListADFAsync    = GetWCFAdress() + "WorkOrder/GetT_WorkOrderHeadListADFAsync"; //获取工单列表 产品入库
@@ -269,7 +269,7 @@ public class UrlInfo {
     public String Project_GetParameter              = GetWCFAdress() + "Parameter/GetT_ParameterList"; //获取配置表信息
     public String Inventory_Detail_GetDetail        = GetWCFAdress() + "Check/Get_CheckDetail"; //获取盘点明细
     public String Inventory_Detail_Save_CheckDetail = GetWCFAdress() + "Check/Save_CheckDetail"; //保存盘点单
-    public String Inventory_GetList  = GetWCFAdress() + "Check/Get_CheckStok"; //获取库位对应的所有托盘
+    public String Inventory_GetList                 = GetWCFAdress() + "Check/Get_CheckStok"; //获取库位对应的所有托盘
 
 
 //    public String SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
@@ -293,6 +293,9 @@ public class UrlInfo {
     public String SaveT_SaleReturnDetailWMSADFAsync    = GetWCFAdress() + "SaleReturn/SaveT_SaleReturnDetailWMSADFAsync";  //有原数据提交
     public String PostT_SaleReturnDetailADFAsync       = GetWCFAdress() + "SaleReturn/PostT_SaleReturnDetailADFAsync";  //有原销退单过账
 
+    //拼托
+
+    public String Save_StockSpell = GetWCFAdress() + "Stock/Save_StockSpell"; //拼托提交
 
 
 }

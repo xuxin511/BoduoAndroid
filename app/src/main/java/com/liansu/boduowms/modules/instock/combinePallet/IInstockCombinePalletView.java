@@ -1,6 +1,6 @@
 package com.liansu.boduowms.modules.instock.combinePallet;
 
-import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.stock.StockInfo;
 
 import java.util.List;
 
@@ -10,31 +10,16 @@ import java.util.List;
  */
 public interface IInstockCombinePalletView {
 
-    void requestPalletBarcodeFocus();
+    void requestPalletOneFocus();
+    void requestPalletTwoFocus();
 
-    void requestBarcodeFocus();
+    void requestPalletFocus(int palletType);
+    void bindListView(List<StockInfo> list);
 
-    void setCurrentBarcodeInfo(OutBarcodeInfo info);
+    void onReset();
 
-    void setSumCountInfo(String sumCountString);
+    int getCombinePalletType();
+    void initViewStatus(int printType);
 
-    void setPalletNo(String palletNo);
 
-    void setBarcode(String barcode);
-
-    void bindListView(List<OutBarcodeInfo> list);
-
-    void onClear();
-
-    void setBottomText(String text);
-
-    int getCombinPalletType();
-
-    void showPalletScan(boolean isCheck);
-
-    void setSwitchButton(boolean isCheck);
-
-    void createDialog(OutBarcodeInfo info);
-
-    void setErpVoucherNo(String erpVoucherNo);
 }

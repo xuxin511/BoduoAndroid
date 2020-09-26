@@ -41,7 +41,7 @@ public class StockRollBack extends BaseActivity implements IStockRollBackView {
     StockRollBackPresenter mPresenter;
     int                    mVoucherType  = -1;
     String                 mErpVoucherNo = "";
-    String                 mTitle        = "删除";
+    String                 mTitle        = "条码删除";
     StockRollBackAdapter   mAdapter;
 
     @Override
@@ -91,7 +91,7 @@ public class StockRollBack extends BaseActivity implements IStockRollBackView {
         if (mTitle != null && mTitle.contains("-")) {
             String[] partList = mTitle.split("-");
             if (partList.length > 1) {
-                mTitle = partList[0] + "回退-" + partList[1];
+                mTitle = partList[0] + "删除-" + partList[1];
             }
         }
         mPresenter = new StockRollBackPresenter(mContext, this, mHandler, mErpVoucherNo, mVoucherType, mTitle);

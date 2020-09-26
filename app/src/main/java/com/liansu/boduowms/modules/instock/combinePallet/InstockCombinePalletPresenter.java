@@ -8,10 +8,14 @@ import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
+import com.liansu.boduowms.bean.CombinePalletInfo;
 import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderType;
+import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -38,7 +42,7 @@ public class InstockCombinePalletPresenter {
 
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
-        switch (msg.what){
+        switch (msg.what) {
             case NetworkError.NET_ERROR_CUSTOM:
                 MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
@@ -67,9 +71,8 @@ public class InstockCombinePalletPresenter {
     }
 
     /**
-
-
-    /**
+     * /**
+     *
      * @desc: 扫描托盘条码
      * @param:
      * @return:
@@ -77,8 +80,22 @@ public class InstockCombinePalletPresenter {
      * @time 2019/11/14 17:39
      */
 
-    public void scanBarcode(String scanBarcode) {
+
+    public void scanPalletInfo(String scanBarcode, final int palletType) {
         try {
+            if (palletType == InstockCombinePalletModel.PALLET_TYPE_SECOND_PALLET) {
+                if (mModel.getTargetPalletInfoList().size() == 0) {
+                    MessageBox.Show(mContext, "请先扫描第一个托盘编码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.requestPalletOneFocus();
+                        }
+                    });
+                    return;
+                }
+            } else if (palletType == InstockCombinePalletModel.PALLET_TYPE_FIRST_PALLET) {
+                mModel.setTargetPalletInfoList(null);
+            }
 
             OutBarcodeInfo scanQRCode = null;
             if (scanBarcode.equals("")) return;
@@ -89,57 +106,66 @@ public class InstockCombinePalletPresenter {
                 MessageBox.Show(mContext, resultInfo.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mView.requestBarcodeFocus();
+                        mView.requestPalletFocus(palletType);
                     }
                 });
                 return;
             }
             if (scanQRCode != null) {
-                if (scanQRCode.getSerialno() == null) {
+                if (!(scanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_PALLET_NO || scanQRCode.getBarcodetype() == QRCodeFunc.BARCODE_TYPE_MIXING_PALLET_NO)) {
                     MessageBox.Show(mContext, "条码解析失败:条码规则不正确,请扫描托盘条码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mView.requestBarcodeFocus();
+                            mView.requestPalletFocus(palletType);
                         }
                     });
                     return;
                 }
-
+                scanQRCode.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_COMBINE_PALLET_VALUE);
+                scanQRCode.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                scanQRCode.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 mModel.requestBarcodeInfo(scanQRCode, new NetCallBackListener<String>() {
                     @Override
                     public void onCallBack(String result) {
                         LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_GET_T_SCAN_BARCODE_ADF_ASYNC, result);
                         try {
-                            BaseResultInfo<OutBarcodeInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutBarcodeInfo>>() {
+                            BaseResultInfo<List<StockInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<StockInfo>>>() {
                             }.getType());
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                                OutBarcodeInfo outBarcodeInfo = returnMsgModel.getData();
-                                if (outBarcodeInfo != null) {
-                                    outBarcodeInfo.setStrongholdname(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
-                                    outBarcodeInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
-//                                    outBarcodeInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE);
-                                    outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
-                                    outBarcodeInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-//                                    outBarcodeInfo.setAreano(mModel.getAreaInfo().getAreano());
-                                    outBarcodeInfo.setPostuser(BaseApplication.mCurrentUserInfo.getUserno());
-                                    outBarcodeInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
-                                    BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkBarcode(outBarcodeInfo);
-                                    if (checkResult.getHeaderStatus()) {
-                                        mView.bindListView(mModel.getList());
-                                        mView.requestBarcodeFocus();
-                                    } else {
-                                        MessageBox.Show(mContext, checkResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                mView.requestBarcodeFocus();
-                                            }
-                                        });
+                                List<StockInfo> list = returnMsgModel.getData();
+                                if (list != null) {
+                                    if (palletType == InstockCombinePalletModel.PALLET_TYPE_FIRST_PALLET) {
+                                        mModel.setTargetPalletInfoList(list);
+                                    } else if (palletType == InstockCombinePalletModel.PALLET_TYPE_SECOND_PALLET) {
+                                        int count = mModel.getSerialNoCount();
+                                        if (count > 2) {
+                                            MessageBox.Show(mContext, "校验条码失败,拼托的托盘码不能超过2个", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    mView.requestPalletFocus(palletType);
+                                                }
+                                            });
+                                            return;
+                                        }
+                                        BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkBarcode(list);
+                                        if (checkResult.getHeaderStatus()) {
+                                            mModel.setAwaitPalletInfoList(list);
+                                        } else {
+                                            MessageBox.Show(mContext, checkResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    mView.requestPalletFocus(palletType);
+                                                }
+                                            });
+                                        }
                                     }
+                                    mView.bindListView(mModel.getShowList());
+                                    mView.requestPalletTwoFocus();
                                 } else {
                                     MessageBox.Show(mContext, "条码查询失败,获取的条码信息为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            mView.requestBarcodeFocus();
+                                            mView.requestPalletFocus(palletType);
                                         }
                                     });
                                 }
@@ -147,7 +173,7 @@ public class InstockCombinePalletPresenter {
                                 MessageBox.Show(mContext, "条码查询失败: " + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        mView.requestBarcodeFocus();
+                                        mView.requestPalletFocus(palletType);
                                     }
                                 });
                             }
@@ -156,7 +182,7 @@ public class InstockCombinePalletPresenter {
                             MessageBox.Show(mContext, "条码查询失败: " + ex.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    mView.requestBarcodeFocus();
+                                    mView.requestPalletFocus(palletType);
                                 }
                             });
                         }
@@ -167,7 +193,7 @@ public class InstockCombinePalletPresenter {
                 MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + scanBarcode, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mView.requestBarcodeFocus();
+                        mView.requestPalletFocus(palletType);
                     }
                 });
                 return;
@@ -176,7 +202,7 @@ public class InstockCombinePalletPresenter {
             MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    mView.requestBarcodeFocus();
+                    mView.requestPalletFocus(palletType);
                 }
             });
             return;
@@ -184,24 +210,25 @@ public class InstockCombinePalletPresenter {
 
     }
 
+
     /**
-     * @desc: 提交信息
+     * @desc: 拆托条码提交
      * @param:
      * @return:
      * @author: Nietzsche
      * @time 2020/7/13 22:37
      */
-
-    protected void onPalletListRefer() {
-        List<OutBarcodeInfo> list = mModel.getList();
+    protected void onDisCombinePalletListRefer() {
+        List<StockInfo> list = mModel.getShowList();
         if (list == null || list.size() == 0) {
             MessageBox.Show(mContext, "扫描数据为空!请先进行扫描操作");
             return;
         }
-        mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
+
+        mModel.requestDisCombineOrderRefer(list, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
-                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, result);
+//                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, result);
                 try {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
@@ -226,6 +253,76 @@ public class InstockCombinePalletPresenter {
     }
 
     /**
+     * @desc: 组托条码提交
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/25 15:52
+     */
+    protected void onCombinePalletListRefer() {
+        try {
+            if (mModel.getTargetPalletInfoList().size() == 0) {
+                MessageBox.Show(mContext, "拼入托盘数据为空,请扫描拼入托盘", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.requestPalletOneFocus();
+                    }
+                });
+                return;
+            }
+            if (mModel.getAwaitPalletInfoList().size() == 0) {
+                MessageBox.Show(mContext, "待拼托盘数据为空,请扫描待拼托盘", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.requestPalletTwoFocus();
+                    }
+                });
+                return;
+            }
+            CombinePalletInfo postInfo = new CombinePalletInfo();
+            postInfo.setTargetPalletNo(mModel.getTargetPalletInfoList().get(0).getBarcode());
+            postInfo.setAwaitPalletNo(mModel.getAwaitPalletInfoList().get(0).getBarcode());
+            postInfo.setCombinePalletType(mView.getCombinePalletType());
+            postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+            postInfo.setPrintertype(UrlInfo.mInStockPrintType);
+            postInfo.setPrintername(UrlInfo.mInStockPrintName);
+            mModel.requestOrderRefer(postInfo, new NetCallBackListener<String>() {
+                @Override
+                public void onCallBack(String result) {
+                    LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_COMBINE_PALLET_REFER, result);
+                    try {
+                        BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                        }.getType());
+                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onReset();
+                                }
+                            });
+                        } else {
+                            MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                        }
+
+                    } catch (Exception ex) {
+                        MessageBox.Show(mContext, ex.getMessage());
+                    }
+
+                }
+
+            });
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "出现预期之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+        }
+
+    }
+
+    /**
      * @desc: 重置界面
      * @param:
      * @return:
@@ -233,10 +330,10 @@ public class InstockCombinePalletPresenter {
      * @time 2020/7/18 21:03
      */
     private void onReset() {
-        mView.onClear();
         mModel.onReset();
-    }
+        mView.onReset();
 
+    }
 
 
 }
