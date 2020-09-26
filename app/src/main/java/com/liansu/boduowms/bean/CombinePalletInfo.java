@@ -3,6 +3,10 @@ package com.liansu.boduowms.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.liansu.boduowms.bean.stock.StockInfo;
+
+import java.util.List;
+
 /**
  * @ Des: 组托信息类
  * @ Created by yangyiqing on 2020/9/25.
@@ -14,7 +18,8 @@ public class CombinePalletInfo implements Parcelable {
     protected String               Scanuserno;
     protected String               Printername; //打印机名称
     protected int                  Printertype; //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙
-    public CombinePalletInfo(){}
+    List<StockInfo>    StockList;
+   public CombinePalletInfo(){}
     public String getTargetPalletNo() {
         return targetPalletNo;
     }
@@ -63,6 +68,14 @@ public class CombinePalletInfo implements Parcelable {
         Printertype = printertype;
     }
 
+    public List<StockInfo> getStockList() {
+        return StockList;
+    }
+
+    public void setStockList(List<StockInfo> stockList) {
+        StockList = stockList;
+    }
+
     protected CombinePalletInfo(Parcel in) {
         targetPalletNo = in.readString();
         awaitPalletNo = in.readString();
@@ -70,6 +83,7 @@ public class CombinePalletInfo implements Parcelable {
         Scanuserno = in.readString();
         Printername = in.readString();
         Printertype = in.readInt();
+        StockList = in.createTypedArrayList(StockInfo.CREATOR);
     }
 
     @Override
@@ -80,6 +94,7 @@ public class CombinePalletInfo implements Parcelable {
         dest.writeString(Scanuserno);
         dest.writeString(Printername);
         dest.writeInt(Printertype);
+        dest.writeTypedList(StockList);
     }
 
     @Override

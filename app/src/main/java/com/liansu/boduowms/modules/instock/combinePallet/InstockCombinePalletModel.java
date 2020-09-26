@@ -23,7 +23,6 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 
@@ -164,11 +163,11 @@ public class InstockCombinePalletModel extends BaseOrderScanModel {
      * @author: Nietzsche
      * @time 2020/9/25 16:22
      */
-    public void requestDisCombineOrderRefer(List<StockInfo> list, NetCallBackListener<String> callBackListener) {
+    public void requestDisCombineOrderRefer(CombinePalletInfo postInfo, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_DIS_COMBINE_PALLET_REFER", callBackListener);
-        String modelJson = parseModelListToJsonArray(list);
+        String modelJson = parseModelToJson(postInfo);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_DIS_COMBINE_PALLET_REFER, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_DIS_COMBINE_PALLET_REFER, mContext.getString(R.string.message_request_refer_barcode_info), mContext, mHandler, RESULT_TAG_DIS_COMBINE_PALLET_REFER, null, UrlInfo.getUrl().Create_OtherInDetailADFasync, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_DIS_COMBINE_PALLET_REFER, mContext.getString(R.string.message_request_refer_barcode_info), mContext, mHandler, RESULT_TAG_DIS_COMBINE_PALLET_REFER, null, UrlInfo.getUrl().Save_disassemblePallets, modelJson, null);
     }
 
     /**
@@ -186,6 +185,7 @@ public class InstockCombinePalletModel extends BaseOrderScanModel {
             StockInfo scanBarcode = palletInfoList.get(0);
             if (scanBarcode != null) {
                 String serialNo = scanBarcode.getSerialno() != null ? scanBarcode.getSerialno() : "";
+                String areaNo = scanBarcode.getAreano() != null ? scanBarcode.getAreano() : "";
                 //校验条码重复
                 for (int i = 0; i < mList.size(); i++) {
                     StockInfo info = mList.get(i);
@@ -199,6 +199,22 @@ public class InstockCombinePalletModel extends BaseOrderScanModel {
                 }
 
                 if (!HAS_SERIAL_NO) {
+                    if (mTargetPalletInfoList.size() > 0) {
+                        StockInfo info = mTargetPalletInfoList.get(0);
+                        String sAreaNo = info.getAreano() != null ? info.getAreano() : "";
+                        if (!sAreaNo.trim().equals(areaNo.trim())) {
+                            resultInfo.setHeaderStatus(false);
+                            resultInfo.setMessage("校验条码失败:待拼托盘[" + scanBarcode + "]的库位[" + areaNo + "]和拼入托盘[" + info.getBarcode() + "]的库位[" + sAreaNo + "]不一致！不能拼托");
+                            return resultInfo;
+                        }
+
+                    } else {
+                        resultInfo.setHeaderStatus(false);
+                        resultInfo.setMessage("校验条码失败:拼入托盘不能为空,请扫描拼入托盘");
+                        return resultInfo;
+                    }
+
+
                     mList.addAll(0, palletInfoList);
                     resultInfo.setHeaderStatus(true);
                 } else {

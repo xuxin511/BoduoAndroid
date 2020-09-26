@@ -296,6 +296,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
                     if (data != null) {
                     }
 
+
                 }
             });
             mAdapter.setOnItemLongClickListener(new BaseScanDetailAdapter.OnItemLongClickListener() {
