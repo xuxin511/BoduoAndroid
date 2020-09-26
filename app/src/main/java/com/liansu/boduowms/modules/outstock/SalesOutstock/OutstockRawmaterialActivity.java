@@ -143,13 +143,13 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         x.view().inject(this);
         BaseApplication.isCloseActivity=false;
         //默认是托盘提交  隐藏箱号框
-        CurrOrderNO = "";
+        CurrOrderNO =menuOutStockModel.ErpVoucherNo;
         mModel = new PurchaseReturnOffScanModel(this, mHandler);
         CurrVoucherType = type; //
         if (CurrVoucherType == 25 || CurrVoucherType == 28 ||CurrVoucherType==27) {
             mButton.setVisibility(View.INVISIBLE);
         }
-        if (type == 28 || type == 61 || type == 62)//采购，销售，成品 验退需要立即查询单号
+        if (type == 28 || type == 61 || type == 62||type==46)//采购，销售，成品 验退需要立即查询单号
         {
             sales_outstock_rawmaterial_order.setText(menuOutStockModel.ErpVoucherNo);
             //  CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);

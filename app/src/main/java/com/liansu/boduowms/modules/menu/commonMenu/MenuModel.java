@@ -494,12 +494,13 @@ public class MenuModel {
                     break;
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE://61 成品验退
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE://62 销售验退
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
                     intent.setData(data);
                     intent.setClass(mContext, PurchaseInspectionBill.class);
                     break;
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_OUTSOURC_VALUE://57 委外发料
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ALLOCATION_VALUE://25 一阶段调拨
-                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
+
                 case 30://30 二阶段调拨
                 case 55://55 杂出
                 case 56://56 行政领用单

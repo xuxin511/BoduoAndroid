@@ -3,7 +3,18 @@ package com.liansu.boduowms.bean.order;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.liansu.boduowms.base.BaseActivity;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @ Des: 出库表头基类
@@ -58,6 +69,28 @@ public class OutStockOrderHeaderInfo implements Parcelable {
     private String      Qualityno;
     private  String    LogisticsCompany;
     private  int  IsGenReturnOrder; //二阶段调拨用
+    public String Createtime;
+
+    public String Vouuser;
+
+    public String getCreatetime() {
+        //  return formater(Createtime);
+        String date= Createtime.replace("T", " ");
+        return date;
+    }
+
+        public void setCreatetime(String createtime) {
+            String date = createtime.replace("T", " ");
+            Createtime = date;
+        }
+
+    public String getVouuser() {
+        return Vouuser;
+    }
+
+    public void setVouuser(String vouuser) {
+        Vouuser = vouuser;
+    }
 
     public int getIsGenReturnOrder() {
         return IsGenReturnOrder;

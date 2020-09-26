@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,13 +69,14 @@ public class PurchaseInspectionBillItemAdapter extends BaseAdapter {
         final int selectID = position;
         // 自定义视图
         ListItemView listItemView = null;
+        OutStockOrderHeaderInfo headerInfo = receiptModels.get(selectID);
         if (convertView == null) {
             listItemView = new ListItemView();
-
             // 获取list_item布局文件的视图
             convertView = listContainer.inflate(R.layout.item_quality_inspection_choice_listview, null);
             listItemView.txt_erpVoucherNo = (TextView) convertView.findViewById(R.id.txt_erpVoucherNo);
             listItemView.txt_materialNo = (TextView) convertView.findViewById(R.id.txt_materialNo);
+            listItemView.txt_materialNo.setTextSize(11);
             listItemView.txt_quality_no = (TextView) convertView.findViewById(R.id.txt_quality_no);
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
             listItemView.txt_arrVoucherNo = (TextView) convertView.findViewById(R.id.txt_arrVoucherNo);
@@ -82,27 +84,33 @@ public class PurchaseInspectionBillItemAdapter extends BaseAdapter {
             LinearLayout forth_layout = (LinearLayout) convertView.findViewById(R.id.forth_layout);
             LinearLayout second_layout = (LinearLayout) convertView.findViewById(R.id.second_layout);
             listItemView.txt_material_desc = (TextView) convertView.findViewById(R.id.txt_material_desc);
-            forth_layout.setVisibility(View.GONE);
-            listItemView.txt_material_desc.setVisibility(View.GONE);
+            LinearLayout layout_first = (LinearLayout) convertView.findViewById(R.id.layout_first);
+            if (headerInfo.getVouchertype() == 46) {
+                layout_first.setVisibility(View.GONE);
+                listItemView.txt_quality_no.setVisibility(View.GONE);
+                listItemView.txt_voucherNo.setVisibility(View.GONE);
+                listItemView.txt_arrVoucherNo.setVisibility(View.GONE);
+                listItemView.txt_voucher_qty.setVisibility(View.GONE);
+            }
+            //    forth_layout.setVisibility(View.GONE);
+            //   listItemView.txt_material_desc.setVisibility(View.GONE);
 //            second_layout.setVisibility(View.GONE);
             convertView.setTag(listItemView);
         } else {
             listItemView = (ListItemView) convertView.getTag();
         }
-        OutStockOrderHeaderInfo headerInfo = receiptModels.get(selectID);
-        if(headerInfo.getVouchertype()==46){
-            listItemView.txt_quality_no.setText(headerInfo.getErpvoucherno()+"");
-//        listItemView.txt_materialNo.setText(headerInfo.getm);
-            listItemView.txt_erpVoucherNo.setText(headerInfo.getPurchaseno()+"");
-            listItemView.txt_arrVoucherNo.setText(headerInfo.getArrvoucherno()+"");
-
-        }else{
-            listItemView.txt_quality_no.setText(headerInfo.getQualityno()+"");
-//        listItemView.txt_materialNo.setText(headerInfo.getm);
-            listItemView.txt_erpVoucherNo.setText(headerInfo.getPurchaseno()+"");
-            listItemView.txt_arrVoucherNo.setText(headerInfo.getArrvoucherno()+"");
+        if (headerInfo.getVouchertype() == 46) {
+            listItemView.txt_erpVoucherNo.setText(headerInfo.getErpvoucherno() + "");
+            headerInfo.Createtime=headerInfo.Createtime.replace("T","  ");
+            listItemView.txt_materialNo.setText(headerInfo.Createtime + "  ");// voudata:领料日期 ,部门，
+            listItemView.txt_material_desc.setText(headerInfo.getVouuser() + "");
+        } else {
+            listItemView.txt_quality_no.setText(headerInfo.getQualityno() + "");
+            listItemView.txt_materialNo.setText(headerInfo.getStrongholdname());//供应商名称  代码
+            listItemView.txt_voucherNo.setText(headerInfo.getStrongholdcode());//供应商名称  代码
+            listItemView.txt_erpVoucherNo.setText(headerInfo.getPurchaseno() + "");
+            listItemView.txt_material_desc.setText(headerInfo.getArrvoucherno() + "");
         }
-
         return convertView;
     }
 
