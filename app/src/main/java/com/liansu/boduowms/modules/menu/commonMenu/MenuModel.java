@@ -354,6 +354,9 @@ public class MenuModel {
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY) {
                 icon = R.drawable.b_inventory_scan;
             }
+            else if(voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BEGINNING_INVENTORY){
+                icon = R.drawable.b_inventory_scan;
+            }
             if (icon != -1) {
                 item.setIcon(icon);
             }
