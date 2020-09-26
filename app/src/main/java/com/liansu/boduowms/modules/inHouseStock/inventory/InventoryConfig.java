@@ -214,14 +214,14 @@ public class InventoryConfig extends BaseActivity {
                     return true;
                 }
                 String barcode = inventory__config_barcode.getText().toString().trim();
-                if (!barcode.split("%")[4].equals("2")) {
-                    CommonUtil.setEditFocus(inventory__config_barcode);
-                    MessageBox.Show(context, "请扫描正确托盘条码");
-                    return true;
-                }
+//                if (!barcode.split("%")[4].equals("2")) {
+//                    CommonUtil.setEditFocus(inventory__config_barcode);
+//                    MessageBox.Show(context, "请扫描正确托盘条码");
+//                    return true;
+//                }
                 OutBarcodeInfo model = new OutBarcodeInfo();
                 model.setBarcode(barcode);
-                model.setSerialno(barcode.split("%")[3]);
+         //       model.setSerialno(barcode.split("%")[3]);
                 model.setAreano(CurrAreano);
                 model.setErpvoucherno(Currerpvoucherno);
                 String modelJson = parseModelToJson(model);
@@ -461,6 +461,7 @@ public class InventoryConfig extends BaseActivity {
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(inventory__config_barcode);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
+                return ;
             } else {
                 listModel = returnMsgModel.getData();
                 listModel.get(0).isCheck = true;
@@ -476,13 +477,12 @@ public class InventoryConfig extends BaseActivity {
         } catch (Exception ex) {
             CommonUtil.setEditFocus(inventory__config_barcode);
             MessageBox.Show(context, ex.toString());
+            return ;
         }
-
         mAdapter = new InventoryConfigAdapter(context, listModel);
         mList.setAdapter(mAdapter);
+        inventory__config_num.setSelectAllOnFocus(true);
 
-
-        CommonUtil.setEditFocus(inventory__config_num);
     }
 
 

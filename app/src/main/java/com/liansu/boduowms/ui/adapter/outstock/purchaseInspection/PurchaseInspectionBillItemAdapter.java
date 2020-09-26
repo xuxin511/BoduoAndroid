@@ -90,10 +90,19 @@ public class PurchaseInspectionBillItemAdapter extends BaseAdapter {
             listItemView = (ListItemView) convertView.getTag();
         }
         OutStockOrderHeaderInfo headerInfo = receiptModels.get(selectID);
-        listItemView.txt_quality_no.setText(headerInfo.getQualityno()+"");
+        if(headerInfo.getVouchertype()==46){
+            listItemView.txt_quality_no.setText(headerInfo.getErpvoucherno()+"");
 //        listItemView.txt_materialNo.setText(headerInfo.getm);
-        listItemView.txt_erpVoucherNo.setText(headerInfo.getPurchaseno()+"");
-        listItemView.txt_arrVoucherNo.setText(headerInfo.getArrvoucherno()+"");
+            listItemView.txt_erpVoucherNo.setText(headerInfo.getPurchaseno()+"");
+            listItemView.txt_arrVoucherNo.setText(headerInfo.getArrvoucherno()+"");
+
+        }else{
+            listItemView.txt_quality_no.setText(headerInfo.getQualityno()+"");
+//        listItemView.txt_materialNo.setText(headerInfo.getm);
+            listItemView.txt_erpVoucherNo.setText(headerInfo.getPurchaseno()+"");
+            listItemView.txt_arrVoucherNo.setText(headerInfo.getArrvoucherno()+"");
+        }
+
         return convertView;
     }
 

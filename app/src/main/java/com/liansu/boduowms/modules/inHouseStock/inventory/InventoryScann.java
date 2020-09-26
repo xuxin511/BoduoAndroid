@@ -33,6 +33,7 @@ import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.T_Parameter;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Pair;
 import com.liansu.boduowms.modules.outstock.Model.PairAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -109,10 +110,10 @@ public class InventoryScann extends BaseActivity {
         BaseApplication.context = context;
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
-        InventoryModel model = new InventoryModel();
+        MenuOutStockModel model = new MenuOutStockModel();
         String arr = data.toString();
-        model = GsonUtil.parseJsonToModel(arr, InventoryModel.class);
-        BaseApplication.toolBarTitle = new ToolBarTitle(model.Areano+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
+        model = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
+        BaseApplication.toolBarTitle = new ToolBarTitle(model.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mInventory = new InventoryModel();
@@ -181,17 +182,16 @@ public class InventoryScann extends BaseActivity {
                     MessageBox.Show(context, "请先扫描库位");
                     return true;
                 }
-                String barcode = inventory_scann_warehouse.getText().toString().trim();
-                if (!barcode.split("%")[4].equals("2")) {
-                    CommonUtil.setEditFocus(inventory_scann_warehouse);
-                    MessageBox.Show(context, "请扫描正确托盘条码");
-                    return true;
-                }
+                String barcode = inventory_scann_barcode.getText().toString().trim();
+//                if (!barcode.split("%")[4].equals("2")) {
+//                    CommonUtil.setEditFocus(inventory_scann_warehouse);
+//                    MessageBox.Show(context, "请扫描正确托盘条码");
+//                    return true;
+//                }
                 OutBarcodeInfo model = new OutBarcodeInfo();
                 model.setBarcode(barcode);
-                model.setSerialno(barcode.split("%")[3]);
+            //    model.setSerialno(barcode.split("%")[3]);
                 model.setAreano(CurrAreano);
-                model.setErpvoucherno(Currerpvoucherno);
                 String modelJson = parseModelToJson(model);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryConfig_GetBarcodeInfo, "获取条码信息",
                         context, mHandler, RESULT_InventoryConfig_GetBarcodeInfo, null, UrlInfo.getUrl().Inventory_Config_GetScanInfo, modelJson, null);
@@ -354,7 +354,7 @@ public class InventoryScann extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             } else {
-
+                 CurrAreano=returnMsgModel.getData().getAreano();
                 CommonUtil.setEditFocus(inventory_scann_barcode);
             }
         } catch (Exception ex) {
@@ -378,7 +378,6 @@ public class InventoryScann extends BaseActivity {
                 listModel.get(0).isCheck = true;
                 //更新列表
                 //更新下拉框
-
                 if( listModel.size()>0) {
                     inventory_scann_num.setText(listModel.get(0).getQty().toString());
                 }
@@ -389,6 +388,7 @@ public class InventoryScann extends BaseActivity {
         }
         mAdapter = new InventoryConfigAdapter(context, listModel);
         mList.setAdapter(mAdapter);
+        inventory_scann_num.setSelectAllOnFocus(true);
         CommonUtil.setEditFocus(inventory_scann_num);
     }
 

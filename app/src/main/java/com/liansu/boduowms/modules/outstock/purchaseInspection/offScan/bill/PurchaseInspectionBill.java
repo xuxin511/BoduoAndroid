@@ -259,6 +259,9 @@ public class PurchaseInspectionBill extends BaseActivity implements SwipeRefresh
     @Override
     public void bindListView(List<OutStockOrderHeaderInfo> receiptModels) {
         if (mAdapter==null){
+            for (OutStockOrderHeaderInfo item:receiptModels) {
+                item.setVouchertype(Integer.parseInt(menuOutStockModel.VoucherType));
+            }
             mAdapter = new PurchaseInspectionBillItemAdapter(context, receiptModels);
             mAdapter.notifyDataSetChanged();
             mListView.setAdapter(mAdapter);

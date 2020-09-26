@@ -66,12 +66,12 @@ public class InventoryConfigAdapter extends BaseAdapter {
             // 获取list_item布局文件的视图
             listItemView = new com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter.ListItemView();
             convertView = listContainer.inflate(R.layout.item_inventory_configstyle, null);
-         //   listItemView.txtstrong = (TextView) convertView.findViewById(R.id.txt_strongcode);
+            //   listItemView.txtstrong = (TextView) convertView.findViewById(R.id.txt_strongcode);
             listItemView.txt_voucherNo = (TextView) convertView.findViewById(R.id.txt_voucherNo);
             listItemView.txt_reference_standard = (TextView) convertView.findViewById(R.id.txt_reference_standard);
             listItemView.txtVoucherQty = (TextView) convertView.findViewById(R.id.txtVoucherQty);
             listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.txtMaterialDesc);
-           listItemView.txtbatchno = (TextView) convertView.findViewById(R.id.txt_batch_no);
+            listItemView.txtbatchno = (TextView) convertView.findViewById(R.id.txt_batch_no);
             listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
             convertView.setTag(listItemView);
         } else {
@@ -79,14 +79,14 @@ public class InventoryConfigAdapter extends BaseAdapter {
         }
         final InventoryModel mDetailInfo = stockInfoModels.get(selectID);
         listItemView.txt_voucherNo.setText(mDetailInfo.getMaterialno());
-      //  listItemView.txt_reference_standard.setText("批次：" + mDetailInfo.getBatchno());
+        //  listItemView.txt_reference_standard.setText("批次：" + mDetailInfo.getBatchno());
         listItemView.txtMaterialDesc.setText(mDetailInfo.getMaterialdesc());
         listItemView.txt_recommended_location.setText("批次:" + mDetailInfo.getBatchno());
-        listItemView.txtVoucherQty.setText("数量:" + mDetailInfo.getQty()+mDetailInfo.getUnit());
-        listItemView.txtbatchno.setText("据点:" + mDetailInfo.getStrongholdname());
+        listItemView.txtVoucherQty.setText("数量:" + mDetailInfo.getQty() + mDetailInfo.getUnit());
+        listItemView.txtbatchno.setText("序列号:" + mDetailInfo.Serialno);
         if (mDetailInfo.isCheck) {
             convertView.setBackgroundResource(R.color.springgreen);
-        }else{
+        } else {
             convertView.setBackgroundResource(R.color.trans);
         }
         return convertView;

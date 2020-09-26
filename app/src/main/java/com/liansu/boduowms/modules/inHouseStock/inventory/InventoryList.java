@@ -288,11 +288,11 @@ public class InventoryList extends BaseActivity {
                     return true;
                 }
                 String barcode = inventory_list_barcode.getText().toString().trim();
-                if (!barcode.split("%")[4].equals("2")) {
-                    CommonUtil.setEditFocus(inventory_list_barcode);
-                    MessageBox.Show(context, "请扫描正确托盘条码");
-                    return true;
-                }
+//                if (!barcode.split("%")[4].equals("2")) {
+//                    CommonUtil.setEditFocus(inventory_list_barcode);
+//                    MessageBox.Show(context, "请扫描正确托盘条码");
+//                    return true;
+//                }
                 boolean  istrue=false;
                 int index=0;
                 int count=0;
@@ -503,14 +503,16 @@ public class InventoryList extends BaseActivity {
                 if (listModel.size() > 0) {
                     inventory_list_num.setText(listModel.get(0).getQty().toString());
                 }
+
             }
         } catch (Exception ex) {
             CommonUtil.setEditFocus(inventory_list_barcode);
             MessageBox.Show(context, ex.toString());
+            return;
         }
         mAdapter = new InventoryListAdapter(context, listModel);
         mList.setAdapter(mAdapter);
-        CommonUtil.setEditFocus(inventory_list_num);
+        inventory_list_num.setSelectAllOnFocus(true);
     }
 
 
@@ -586,7 +588,7 @@ public class InventoryList extends BaseActivity {
                         String barcode = inventory_list_barcode.getText().toString().trim();
                         OutBarcodeInfo model = new OutBarcodeInfo();
                         model.setBarcode(barcode);
-                        model.setSerialno(barcode.split("%")[3]);
+                    //    model.setSerialno(barcode.split("%")[3]);
                         model.setAreano(CurrAreano);
                         model.setErpvoucherno(Currerpvoucherno);
                         String modelJson = parseModelToJson(model);

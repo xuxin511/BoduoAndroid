@@ -334,8 +334,8 @@ public class OutstockRawmaterialActivity extends BaseActivity {
 //                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
 //                        context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
 //            } else {//杂出
-            //二阶段调拨 IsGenReturnOrder==2  可以部分过账
-            if(CurrVoucherType==30) {
+            //领料/原材料   可以部分过账
+            if(CurrVoucherType==46) {
                // if (mModel.getOrderHeaderInfo().getIsGenReturnOrder() == 2) {
                     List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
                     SalesoustockReviewRequery model = new SalesoustockReviewRequery();
