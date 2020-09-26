@@ -166,6 +166,7 @@ public class QualityInspectionPresenter {
      */
     public void scanBarcode(String scanBarcode) {
         try {
+            mModel.setCurrentBarcodeInfo(null);
             OutBarcodeInfo scanQRCode = null;
             if (scanBarcode.equals("")) return;
             if (scanBarcode.contains("%")) {
