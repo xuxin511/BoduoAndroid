@@ -42,7 +42,7 @@ public class BaseScanDetailAdapter extends RecyclerView.Adapter<BaseScanDetailAd
 //        mRecyclerView = recyclerView;
 //    }
 
-    private OnItemClickListener mOnItemClickListener;//声明一下这个接口
+    private OnItemClickListener     mOnItemClickListener;//声明一下这个接口
     private OnItemLongClickListener mOnItemLongClickListener;
 
     //提供setter方法
@@ -50,9 +50,10 @@ public class BaseScanDetailAdapter extends RecyclerView.Adapter<BaseScanDetailAd
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public  void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener){
-        this.mOnItemLongClickListener=onItemLongClickListener;
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.mOnItemLongClickListener = onItemLongClickListener;
     }
+
     public BaseScanDetailAdapter(Context context, String ReceiptType, List<OrderDetailInfo> receiptDetailModels) {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文

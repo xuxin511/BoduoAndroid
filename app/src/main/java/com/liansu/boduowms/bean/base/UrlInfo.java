@@ -300,6 +300,8 @@ public class UrlInfo {
     //拼托
 
     public String Save_StockSpell = GetWCFAdress() + "Stock/Save_StockSpell"; //拼托提交
+    public String Save_disassemblePallets = GetWCFAdress() + "Stock/Save_disassemblePallets"; //拆托提交
+
 
 
 }

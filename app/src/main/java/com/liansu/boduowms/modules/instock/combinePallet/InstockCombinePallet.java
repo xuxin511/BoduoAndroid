@@ -17,7 +17,6 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.ui.adapter.inHouseStock.InStockPalletItemAdapter;
 import com.liansu.boduowms.utils.function.CommonUtil;
-import com.liansu.boduowms.utils.function.DoubleClickCheck;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -78,7 +77,12 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
             @Override
             public void onClick(View view) {
                 if (mPresenter != null) {
-                    mPresenter.onCombinePalletListRefer();
+                    if (getCombinePalletType()==InstockCombinePalletModel.COMBINE_PALLET_TYPE_DIS_COMBINE_PALLET){
+                        mPresenter.onDisCombinePalletListRefer(mAdapter.getSelectedData());
+                    }else {
+                        mPresenter.onCombinePalletListRefer();
+                    }
+
                 }
             }
         });
@@ -126,17 +130,6 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
     }
 
 
-    @Event(R.id.btn_refer)
-    private void btnPrintPalletLabelClick(View v) {
-        if (DoubleClickCheck.isFastDoubleClick(mContext)) {
-            return;
-        }
-
-        if (mPresenter != null) {
-            mPresenter.onCombinePalletListRefer();
-        }
-    }
-
 
     @Override
     public void requestPalletOneFocus() {
@@ -165,6 +158,10 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
                 @Override
                 public void onItemClick(RecyclerView parent, View view, int position, StockInfo data) {
                     if (data != null) {
+                        if (getCombinePalletType()==InstockCombinePalletModel.COMBINE_PALLET_TYPE_DIS_COMBINE_PALLET){
+                            mAdapter.setCheckedStatus(view,position);
+                        }
+
                     }
 
                 }
@@ -205,6 +202,7 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
         mFirstPallet.setText("");
         mSecondPallet.setText("");
         if (mPresenter!=null){
+            mAdapter=null;
             bindListView(mPresenter.getModel().getShowList());
         }
         requestPalletOneFocus();
@@ -260,5 +258,8 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         initViewStatus(getCombinePalletType());
+        if (mPresenter!=null){
+            mPresenter.onReset();
+        }
     }
 }

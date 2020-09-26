@@ -16,6 +16,7 @@ import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.StockInfo;
+import com.liansu.boduowms.modules.instock.baseInstockReturnBusiness.scan.InStockReturnStorageScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
@@ -218,17 +219,32 @@ public class InstockCombinePalletPresenter {
      * @author: Nietzsche
      * @time 2020/7/13 22:37
      */
-    protected void onDisCombinePalletListRefer() {
+    protected void onDisCombinePalletListRefer(List<StockInfo> selectedList) {
         List<StockInfo> list = mModel.getShowList();
         if (list == null || list.size() == 0) {
             MessageBox.Show(mContext, "扫描数据为空!请先进行扫描操作");
             return;
         }
+        if (selectedList==null || selectedList.size()==0 ){
+            MessageBox.Show(mContext, "没有选中的数据!请先选择要删除的托盘物料行");
+            return;
+        }
+        if (selectedList.size()==list.size()){
+            MessageBox.Show(mContext, "不能全部删除该托盘码上的物料!至少保留一个物料");
+            return;
+        }
+        CombinePalletInfo postInfo = new CombinePalletInfo();
+        postInfo.setTargetPalletNo(mModel.getTargetPalletInfoList().get(0).getBarcode());
+        postInfo.setCombinePalletType(mView.getCombinePalletType());
+        postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+        postInfo.setPrintertype(UrlInfo.mInStockPrintType);
+        postInfo.setPrintername(UrlInfo.mInStockPrintName);
+        postInfo.setStockList(selectedList);
 
-        mModel.requestDisCombineOrderRefer(list, new NetCallBackListener<String>() {
+        mModel.requestDisCombineOrderRefer(postInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
-//                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_POST_SALE_RETURN_DETAIL_ADF_ASYNC, result);
+                LogUtil.WriteLog(InStockReturnStorageScan.class, mModel.TAG_DIS_COMBINE_PALLET_REFER, result);
                 try {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
@@ -329,7 +345,7 @@ public class InstockCombinePalletPresenter {
      * @author: Nietzsche
      * @time 2020/7/18 21:03
      */
-    private void onReset() {
+    public void onReset() {
         mModel.onReset();
         mView.onReset();
 

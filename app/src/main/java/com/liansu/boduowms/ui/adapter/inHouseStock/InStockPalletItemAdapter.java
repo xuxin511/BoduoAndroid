@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.stock.StockInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
     private List<StockInfo> mStockList; // 信息集合
     private LayoutInflater  listContainer; // 视图容器
     private RecyclerView    mRecyclerView;
+    private List<Boolean>   selectedList;//用布尔型的list记录每一行的选中状态
 
     public interface OnItemClickListener {//也可以不在这个activity或者是fragment中来声明接口，可以在项目中单独创建一个interface，就改成static就OK
 
@@ -50,6 +52,15 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
         this.mStockList = list;
+        if (list != null) {
+            int count = list.size();
+            this.selectedList = new ArrayList<Boolean>(count);
+            for (int i = 0; i < count; i++) {
+                selectedList.add(false);//初始为false，长度和listview一样
+            }
+
+        }
+
     }
 
 
@@ -65,7 +76,7 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StockInfo info = mStockList.get(position);
-        holder.txt_barcode.setText("条码:"+info.getBarcode());
+        holder.txt_barcode.setText("条码:" + info.getBarcode());
         holder.txt_material_no.setText("料号:" + info.getMaterialno());
         holder.txt_batch_no.setText("批次:" + info.getBatchno());
         holder.txt_qty.setText("库存数量:" + info.getQty());
@@ -117,6 +128,7 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
             rootView = itemView;
         }
     }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -127,6 +139,40 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         this.mRecyclerView = null;
+    }
+
+    public void setCheckedStatus(View view, int position) {
+        if (selectedList.get(position) == false) {
+            selectedList.set(position, true);//如果相应position的记录是未被选中则设置为选中（true）
+            if (view!=null){
+                view.setBackgroundResource(R.color.springgreen);
+            }
+            notifyDataSetChanged();
+        } else {
+            selectedList.set(position, false);//否则相应position的记录是被选中则设置为未选中（false）
+            if (view!=null){
+                view.setBackgroundResource(R.color.trans);
+            }
+            notifyDataSetChanged();
+        }
+
+    }
+
+    /**
+     * @desc: 获取选中数据
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/26 16:31
+     */
+      public List<StockInfo>  getSelectedData(){
+        List<StockInfo>  list=new ArrayList<>();
+        for (int i=0;i<selectedList.size();i++){
+            if (selectedList.get(i)==true){
+                list.add(mStockList.get(i));
+            }
+        }
+        return list;
     }
 
 }
