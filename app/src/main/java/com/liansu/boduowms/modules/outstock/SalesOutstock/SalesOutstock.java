@@ -379,15 +379,15 @@ public class SalesOutstock  extends BaseActivity  {
                             palletIsTrue=false;
                             return true;
                         } else {
-                            if(OutStock_Type.equals(OutStock_Submit_type_pallet)){
-                                if (palletno.split("%")[0].equals("")) {
-                                    CommonUtil.setEditFocus(sales_outstock_pallettext);
-                                    MessageBox.Show(context, "该托盘是拼托,请选择其它模式下架");
-                                    CommonUtil.setEditFocus(sales_outstock_pallettext);
-                                    palletIsTrue=false;
-                                    return true;
-                                }
-                            }
+//                            if(OutStock_Type.equals(OutStock_Submit_type_pallet)){
+//                                if (palletno.split("%")[0].equals("")) {
+//                                    CommonUtil.setEditFocus(sales_outstock_pallettext);
+//                                    MessageBox.Show(context, "该托盘是拼托,请选择其它模式下架");
+//                                    CommonUtil.setEditFocus(sales_outstock_pallettext);
+//                                    palletIsTrue=false;
+//                                    return true;
+//                                }
+//                            }
                             //先判断托盘是否存在
                             Outbarcode_Requery model = new Outbarcode_Requery();
                             model.Barcode = palletno;

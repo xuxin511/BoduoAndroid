@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".modules.inHouseStock.inventory.InventoryScann">
+
+    //盘点单号
+
+    <Button
+        android:id="@+id/inventory_scann_post"
+        android:layout_width="0dp"
+        android:layout_height="0px"
+        android:layout_margin="4sp"
+        android:background="@drawable/bt_selector"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_middle2"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal" />
+
+
+    <EditText
+        android:id="@+id/inventory_scann_warehouse"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_27"
+        android:layout_marginTop="@dimen/sp_3"
+        android:background="@drawable/et_selector"
+        android:gravity="left|center_vertical"
+        android:hint="扫描库位"
+        android:paddingLeft="@dimen/sp_7"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_middle"
+        app:layout_constraintTop_toBottomOf="@+id/combine_pallet_toolbar" />
+    //库位
+
+    <EditText
+        android:id="@+id/inventory_scann_barcode"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_27"
+        android:layout_marginTop="@dimen/sp_3"
+        android:background="@drawable/et_selector"
+        android:gravity="left|center_vertical"
+        android:hint="请输入或扫描条码"
+        android:paddingLeft="@dimen/sp_7"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_middle"
+        app:layout_constraintTop_toBottomOf="@+id/inventory__config_warehousename" />
+
+    <ListView
+        android:id="@+id/inventory_sacnn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8sp"
+        android:layout_marginTop="8sp"
+        android:layout_marginRight="8sp"
+        android:saveEnabled="false"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inventory_scann_num"
+        app:layout_constraintVertical_bias="1.0"></ListView>
+
+    //条码
+
+
+
+    <TextView
+        android:id="@+id/combine_pallet_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0.1sp"
+        android:height="1sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    //质检状态
+
+
+    <TextView
+        android:id="@+id/inventory__config_warehousename"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_27"
+        android:layout_marginTop="@dimen/sp_3"
+        android:height="1sp"
+        android:gravity="left"
+        android:text="库位:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_middle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/combine_pallet_toolbar"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <TextView
+        android:id="@+id/inventory__config_barcodename"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_27"
+        android:layout_marginTop="@dimen/sp_3"
+        android:height="1sp"
+        android:gravity="left"
+        android:text="条码:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_middle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/inventory__config_warehousename"
+        tools:layout_editor_absoluteY="0dp" />
+
+
+    <TextView
+        android:id="@+id/inventory__config_numname"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_27"
+        android:layout_marginTop="@dimen/sp_3"
+        android:height="1sp"
+        android:gravity="left"
+        android:text="数量:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_middle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/inventory__config_barcodename"
+        tools:layout_editor_absoluteY="0dp" />
+
+
+    <EditText
+        android:id="@+id/inventory_scann_num"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/sp_27"
+        android:layout_marginTop="@dimen/sp_3"
+        android:background="@drawable/et_selector"
+        android:gravity="left|center_vertical"
+        android:hint="请输入盘点数量"
+        android:paddingLeft="@dimen/sp_7"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_middle"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_middle"
+        app:layout_constraintTop_toBottomOf="@+id/inventory__config_barcodename" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="100sp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_middle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.82" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.27" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50121653" />
+</androidx.constraintlayout.widget.ConstraintLayout>

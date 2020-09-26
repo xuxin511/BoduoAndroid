@@ -18,6 +18,9 @@ public class InventoryModel {
     public String Warehouseno ; //仓库编号
 
     public String Warehousename ;
+
+    public  int Warehouseid;
+
     public int Headerid ;
     public int Areaid ;
     public  Float Qty;
@@ -49,6 +52,7 @@ public class InventoryModel {
     public String Modifyer;
 
     public Time Modifytime;
+
 
     public  Float  ScannQty;
 

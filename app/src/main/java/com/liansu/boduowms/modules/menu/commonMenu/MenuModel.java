@@ -13,6 +13,7 @@ import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.inHouseStock.adjustStock.AdjustStock;
 import com.liansu.boduowms.modules.inHouseStock.inventory.InventoryHead;
+import com.liansu.boduowms.modules.inHouseStock.inventory.InventoryScann;
 import com.liansu.boduowms.modules.inHouseStock.inventoryMovement.InventoryMovementScan;
 import com.liansu.boduowms.modules.inHouseStock.query.QueryStock;
 import com.liansu.boduowms.modules.instock.baseInstockReturnBusiness.scan.InStockReturnStorageScan;
@@ -490,12 +491,12 @@ public class MenuModel {
                     break;
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_PRODUCT_VALUE://61 成品验退
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_SALERETURN_VALUE://62 销售验退
-                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
                     intent.setData(data);
                     intent.setClass(mContext, PurchaseInspectionBill.class);
                     break;
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_OUTSOURC_VALUE://57 委外发料
                 case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ALLOCATION_VALUE://25 一阶段调拨
+                case OrderType.OUT_STOCK_ORDER_TYPE_PURCHASE_ROWMATERIAL_VALUE://46 原材料发货
                 case 30://30 二阶段调拨
                 case 55://55 杂出
                 case 56://56 行政领用单
@@ -563,6 +564,15 @@ public class MenuModel {
                 Uri data = Uri.parse(json);
                 intent.setData(data);
                 intent.setClass(mContext, InventoryHead.class);
+            }else if(voucherType==OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BEGINNING_INVENTORY) {
+                //期初盘点
+                MenuOutStockModel model = new MenuOutStockModel();
+                model.VoucherType = String.valueOf(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BEGINNING_INVENTORY);
+                model.Title = info.getTitle();
+                String json = GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
+                intent.setData(data);
+                intent.setClass(mContext, InventoryScann.class);
             }
         }
         return intent;
