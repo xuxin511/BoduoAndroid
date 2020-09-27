@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.liansu.boduowms.R;
+import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.stock.StockInfo;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,17 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
     public InStockPalletItemAdapter(Context context, List<StockInfo> list) {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
+        notifySelectedList(list);
+
+    }
+    /**
+     * @desc:  初始化选中集合
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/27 10:33
+     */
+    public void notifySelectedList(List<StockInfo> list){
         this.mStockList = list;
         if (list != null) {
             int count = list.size();
@@ -60,9 +73,7 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
             }
 
         }
-
     }
-
 
     @NonNull
     @Override
@@ -81,7 +92,7 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
         holder.txt_batch_no.setText("批次:" + info.getBatchno());
         holder.txt_qty.setText("库存数量:" + info.getQty());
         holder.txt_material_desc.setText("品名:" + info.getMaterialdesc());
-
+        holder.txt_task_qty.setText("库位:" + info.getAreano());
     }
 
     @Override
@@ -129,6 +140,7 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
         }
     }
 
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -141,20 +153,33 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
         this.mRecyclerView = null;
     }
 
+
+    /**
+     * @desc: 只能用于一次性加载的数据，多次更新数据需要用别的方法实现
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/9/27 10:40
+     */
     public void setCheckedStatus(View view, int position) {
-        if (selectedList.get(position) == false) {
-            selectedList.set(position, true);//如果相应position的记录是未被选中则设置为选中（true）
-            if (view!=null){
-                view.setBackgroundResource(R.color.springgreen);
+        try {
+            if (selectedList.get(position) == false) {
+                selectedList.set(position, true);//如果相应position的记录是未被选中则设置为选中（true）
+                if (view != null) {
+                    view.setBackgroundResource(R.color.springgreen);
+                }
+                notifyDataSetChanged();
+            } else {
+                selectedList.set(position, false);//否则相应position的记录是被选中则设置为未选中（false）
+                if (view != null) {
+                    view.setBackgroundResource(R.color.trans);
+                }
+                notifyDataSetChanged();
             }
-            notifyDataSetChanged();
-        } else {
-            selectedList.set(position, false);//否则相应position的记录是被选中则设置为未选中（false）
-            if (view!=null){
-                view.setBackgroundResource(R.color.trans);
-            }
-            notifyDataSetChanged();
+        } catch (Exception e) {
+            MessageBox.Show(BaseApplication.context, "点击列表出现预期之外的异常:" + e.getMessage());
         }
+
 
     }
 
@@ -165,14 +190,15 @@ public class InStockPalletItemAdapter extends RecyclerView.Adapter<InStockPallet
      * @author: Nietzsche
      * @time 2020/9/26 16:31
      */
-      public List<StockInfo>  getSelectedData(){
-        List<StockInfo>  list=new ArrayList<>();
-        for (int i=0;i<selectedList.size();i++){
-            if (selectedList.get(i)==true){
+    public List<StockInfo> getSelectedData() {
+        List<StockInfo> list = new ArrayList<>();
+        for (int i = 0; i < selectedList.size(); i++) {
+            if (selectedList.get(i) == true) {
                 list.add(mStockList.get(i));
             }
         }
         return list;
     }
+
 
 }

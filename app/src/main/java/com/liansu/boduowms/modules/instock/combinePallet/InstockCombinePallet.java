@@ -16,6 +16,7 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.ui.adapter.inHouseStock.InStockPalletItemAdapter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -151,21 +152,26 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
     }
 
     @Override
-    public void bindListView(List<StockInfo> list) {
-        if (mAdapter == null) {
-            mAdapter = new InStockPalletItemAdapter(mContext, list);
-            mAdapter.setOnItemClickListener(new InStockPalletItemAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(RecyclerView parent, View view, int position, StockInfo data) {
-                    if (data != null) {
-                        if (getCombinePalletType()==InstockCombinePalletModel.COMBINE_PALLET_TYPE_DIS_COMBINE_PALLET){
-                            mAdapter.setCheckedStatus(view,position);
+    public void bindListView(List<StockInfo> list)  {
+        try {
+//            if (mAdapter == null ||list.size()==0) {
+                mAdapter = new InStockPalletItemAdapter(mContext, list);
+                mAdapter.setOnItemClickListener(new InStockPalletItemAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(RecyclerView parent, View view, int position, StockInfo data) {
+                        if (data != null) {
+                            if (getCombinePalletType()==InstockCombinePalletModel.COMBINE_PALLET_TYPE_DIS_COMBINE_PALLET){
+                                try {
+                                    mAdapter.setCheckedStatus(view,position);
+                                } catch (Exception e) {
+                                    MessageBox.Show(context,"点击列表出现预期之外的异常:"+e.getMessage());
+                                }
+                            }
+
                         }
 
                     }
-
-                }
-            });
+                });
 //            mAdapter.setOnItemLongClickListener(new InStockPalletItemAdapter.OnItemLongClickListener() {
 //                @Override
 //                public void onItemLongClick(RecyclerView parent, View view, int position, OutBarcodeInfo data) {
@@ -188,12 +194,16 @@ public class InstockCombinePallet extends BaseActivity implements IInstockCombin
 //                    }
 //                }
 //            });
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        } else {
-            mAdapter.notifyDataSetChanged();
+                mRecyclerView.setAdapter(mAdapter);
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            } else {
+//                mAdapter.notifyDataSetChanged();
+//            }
+        }catch (Exception e){
+            MessageBox.Show(context,"显示列表出现预期之外的异常:"+e.getMessage());
         }
+
     }
 
 

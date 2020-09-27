@@ -39,8 +39,6 @@
         <activity android:name=".modules.pallet.disCombinePallet.DismantlePallet" />
         <activity android:name=".modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice" />
         <activity android:name=".modules.instock.baseOrderBusiness.scan.BaseOrderScan" />
-        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.bill.UpShelfBillChoice" />
-        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScanActivity2" />
         <activity android:name=".modules.qualityInspection.randomInspection.scan.QualityInspection" />
         <activity android:name=".modules.outstock.offScan.DistributionOffShelf" />
         <activity android:name=".modules.outstock.packingScan.PackingScan" />
@@ -51,7 +49,6 @@
             android:launchMode="singleTask"
             android:theme="@style/MyDialogStyle" />
         <activity android:name=".modules.instock.combinePallet.InstockCombinePallet" />
-        <activity android:name=".modules.instock.baseOrderBusiness.upshelf.scan.UpShelfScan" />
         <activity android:name=".modules.qualityInspection.bill.QualityInspectionBill" />
         <activity android:name=".modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingScan" />
         <activity android:name=".modules.instock.productStorage.bill.ProductStorageBillChoice" />

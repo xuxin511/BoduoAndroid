@@ -204,7 +204,7 @@ public class InstockCombinePalletModel extends BaseOrderScanModel {
                         String sAreaNo = info.getAreano() != null ? info.getAreano() : "";
                         if (!sAreaNo.trim().equals(areaNo.trim())) {
                             resultInfo.setHeaderStatus(false);
-                            resultInfo.setMessage("校验条码失败:待拼托盘[" + scanBarcode + "]的库位[" + areaNo + "]和拼入托盘[" + info.getBarcode() + "]的库位[" + sAreaNo + "]不一致！不能拼托");
+                            resultInfo.setMessage("校验条码失败:待拼托盘[" + scanBarcode.getBarcode() + "]的库位[" + areaNo + "]和拼入托盘[" + info.getBarcode() + "]的库位[" + sAreaNo + "]不一致！不能拼托");
                             return resultInfo;
                         }
 
