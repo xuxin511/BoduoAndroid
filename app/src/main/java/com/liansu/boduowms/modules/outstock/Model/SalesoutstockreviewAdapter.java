@@ -93,9 +93,9 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
 //            listItemView.txt_reference_standard.setText("外箱:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
 //        }
         Float QTY=ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty());
-        listItemView.txtVoucherQty.setText("装车量:" + mDetailInfo.getRemainqty()+mDetailInfo.getUnit());
+        listItemView.txtVoucherQty.setText("需求量:" + mDetailInfo.getVoucherqty()+mDetailInfo.getUnit());
         // Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
-        listItemView.txtRemainQty.setText("未装车:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty())+mDetailInfo.getUnit());
+        listItemView.txtRemainQty.setText("下架量车:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty())+mDetailInfo.getUnit());
         listItemView.txtScanQty.setText("已装车:" + mDetailInfo.getScanqty()+mDetailInfo.getUnit());
 //        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
