@@ -648,15 +648,17 @@ public  class SalesOutStockBox   extends BaseActivity {
                     } else {
                         //存在
                         for (OutStockOrderDetailInfo infos : stockInfoModels) {
-                            if (infos.getMaterialno().equals(returnMsgModel.getData().get(0).getMaterialno()) && infos.getBatchno().equals(returnMsgModel.getData().get(0).getBatchno())) {
-                                Float reviewqty =ArithUtil.add(infos.getReviewQty() ,1f);//已拼
-                                Float remainqty =ArithUtil.sub( reviewqty,1f);//未拼
-                                mModel.UpdateMaterialItem(infos);
-                                mList.setAdapter(mAdapter);
-                                mAdapter.notifyDataSetChanged();
-                                infos.setQTY(ArithUtil.add(infos.getQty(),1f));
-                                infos.setReviewQty(reviewqty);
-                                infos.setReviewQty(remainqty);
+                            if (!infos.getMaterialdesc().equals("非库存拼箱")) {
+                                if (infos.getMaterialno().equals(returnMsgModel.getData().get(0).getMaterialno()) && infos.getBatchno().equals(returnMsgModel.getData().get(0).getBatchno())) {
+                                    Float reviewqty = ArithUtil.add(infos.getReviewQty(), 1f);//已拼
+                                    Float remainqty = ArithUtil.sub(reviewqty, 1f);//未拼
+                                    mModel.UpdateMaterialItem(infos);
+                                    mList.setAdapter(mAdapter);
+                                    mAdapter.notifyDataSetChanged();
+                                    infos.setQTY(ArithUtil.add(infos.getQty(), 1f));
+                                    infos.setReviewQty(reviewqty);
+                                    infos.setReviewQty(remainqty);
+                                }
                             }
                         }
                     }
