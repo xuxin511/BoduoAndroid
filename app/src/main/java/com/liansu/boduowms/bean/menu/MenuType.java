@@ -26,6 +26,7 @@ public class MenuType {
     public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_SCAN  = "IN_HOUSE_STOCK_INVENTORY_SCAN"; //盘点扫描
     public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_OPEN_INVENTORY_LIST  = "IN_HOUSE_STOCK_OPEN_INVENTORY_LIST"; //明盘列表
     public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_OPEN_INVENTORY_SCAN  = "IN_HOUSE_STOCK_OPEN_INVENTORY_SCAN"; //明盘扫描
+    public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_PALLET_PRINT  = "IN_HOUSE_STOCK_INVENTORY_PALLET_PRINT"; //托盘蓝牙打印
 
 
 }

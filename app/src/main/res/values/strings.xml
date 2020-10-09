@@ -339,6 +339,7 @@
     <string name="dialog_material_info_batch_no">批次:</string>
     <string name="dialog_material_info_qty">数量:</string>
     <string name="dialog_material_info_batch_no_hint">请输入或扫描批次</string>
+    <string name="dialog_material_info_material_no_hint">请输入或扫描物料编码</string>
     <string name="dialog_material_info_qty_hint">请输入数量</string>
     <string name="dialog_material_info_button_ok">保存</string>
     <string name="dialog_material_info_button_cancel">取消</string>

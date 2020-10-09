@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RadioGroup
+        android:visibility="gone"
+        android:id="@+id/activity_query_stock_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_h_1">
+
+        <RadioButton
+            android:id="@+id/activity_query_stock_barcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.76"
+            android:checked="true"
+            android:text="@string/query_stock_pallet"
+            android:textSize="@dimen/base_order_label_print_select_text_size" />
+
+        <RadioButton
+            android:id="@+id/activity_query_stock_material"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_left"
+            android:layout_weight="0.76"
+            android:checked="false"
+            android:text="@string/material"
+            android:textSize="@dimen/base_order_label_print_select_text_size" />
+
+        <RadioButton
+            android:id="@+id/activity_query_stock_batch_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_left"
+            android:layout_weight="0.76"
+            android:text="@string/batch_no"
+            android:textSize="@dimen/base_order_label_print_select_text_size" />
+
+        <RadioButton
+            android:id="@+id/activity_query_stock_area_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_left"
+            android:layout_weight="0.76"
+            android:text="@string/query_stock_area_no"
+            android:textSize="@dimen/base_order_label_print_select_text_size" />
+    </RadioGroup>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/query_stock_select_qr_status_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/qr_status_type_desc"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/query_stock_select_qr_status_spinner"
+        app:layout_constraintBottom_toBottomOf="@+id/query_stock_select_qr_status_spinner"
+         />
+
+
+    <Spinner
+        android:visibility="gone"
+        android:id="@+id/query_stock_select_qr_status_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_return_sales_print_margin_left"
+        android:layout_marginTop="@dimen/common_margin_top_first"
+        app:layout_constraintLeft_toRightOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/activity_query_stock_radio_group" />
+
+    <TextView
+        android:id="@+id/textView70"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:text="@string/barcode"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_query_stock_content"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/activity_query_stock_content" />
+
+    <EditText
+        android:id="@+id/activity_query_stock_content"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/query_content_hint"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline2"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/query_stock_select_qr_status_desc" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activity_query_stock_recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_query_stock_content"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_h_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.01" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

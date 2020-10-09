@@ -302,6 +302,7 @@ public class UrlInfo {
     public String Save_StockSpell = GetWCFAdress() + "Stock/Save_StockSpell"; //拼托提交
     public String Save_disassemblePallets = GetWCFAdress() + "Stock/Save_disassemblePallets"; //拆托提交
 
-
+   //托盘蓝牙打印
+   public String CreateT_OutBarcodeBlueADFAsync = GetWCFAdress() + "OutBarcode/CreateT_OutBarcodeBlueADFAsync"; //托盘蓝牙打印
 
 }

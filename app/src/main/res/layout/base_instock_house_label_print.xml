@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/base_order_label_print_erp_voucher_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bill"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/guideline5" />
+
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/base_order_label_print_erp_voucher_no"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintLeft_toRightOf="@+id/guideline6"
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/guideline5" />
+
+
+    <TextView
+        android:id="@+id/base_order_label_print_material_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_material_info_material_no"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/base_order_label_print_material_no"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/base_order_label_print_material_no" />
+
+
+    <EditText
+        android:id="@+id/base_order_label_print_material_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:hint="@string/dialog_material_info_material_no_hint"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintLeft_toRightOf="@+id/guideline6"
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_erp_voucher_no" />
+
+    <TextView
+        android:id="@+id/base_order_label_print_material_name_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:gravity="left"
+        android:maxLines="2"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintLeft_toRightOf="@+id/guideline6"
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_material_no" />
+
+    <TextView
+        android:id="@+id/base_order_label_print_material_name"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:text="@string/dialog_material_info_material_name"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/base_order_label_print_material_name_desc"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/base_order_label_print_material_name_desc" />
+
+    <EditText
+        android:id="@+id/base_order_label_print_batch_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:hint="@string/dialog_material_info_batch_no_hint"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintLeft_toRightOf="@+id/guideline6"
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_material_name_desc" />
+
+
+    <TextView
+        android:id="@+id/base_order_label_print_batch_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_material_info_batch_no"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/base_order_label_print_batch_no"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/base_order_label_print_batch_no" />
+
+
+    <EditText
+        android:id="@+id/base_order_label_print_remain_qty"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:hint="@string/dialog_material_info_remain_qty_hint"
+        android:inputType="numberDecimal"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintLeft_toRightOf="@+id/guideline6"
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_batch_no" />
+
+    <TextView
+        android:id="@+id/base_order_label_print_remain_qty_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remain_qty_desc"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/base_order_label_print_remain_qty"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/base_order_label_print_remain_qty" />
+
+
+    <EditText
+        android:id="@+id/base_order_label_print_pack_qty"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:hint="@string/pack_qty_hint"
+        android:inputType="numberDecimal"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintLeft_toRightOf="@+id/guideline6"
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_remain_qty_desc" />
+
+    <TextView
+        android:id="@+id/base_order_label_print_pack_qty_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/dialog_material_info_material_pack_count"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/base_order_label_print_pack_qty"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/base_order_label_print_pack_qty" />
+
+    <EditText
+        android:id="@+id/base_order_label_print_pallet_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:hint="@string/pallet_no_hint"
+        android:inputType="numberDecimal"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintLeft_toRightOf="@+id/guideline6"
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_outer_box_print_count" />
+
+
+    <EditText
+        android:id="@+id/base_order_label_print_outer_box_print_count"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:hint="@string/print_count_hint"
+        android:inputType="numberDecimal"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintLeft_toRightOf="@+id/guideline6"
+        app:layout_constraintRight_toLeftOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/base_order_label_print_pack_qty" />
+
+
+    <TextView
+        android:id="@+id/base_order_label_print_print_count_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/print_count_desc"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/base_order_label_print_outer_box_print_count"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/base_order_label_print_outer_box_print_count" />
+
+    <TextView
+        android:id="@+id/base_order_label_print_pallet_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/pallet_no_desc"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/base_order_label_print_pallet_no"
+        app:layout_constraintRight_toLeftOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/base_order_label_print_pallet_no" />
+
+    <Button
+        android:id="@+id/base_order_label_print_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bt_selector"
+        android:text="@string/print"
+        android:textColor="@color/white"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline11"
+        app:layout_constraintRight_toRightOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/guideline10" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

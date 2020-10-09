@@ -28,6 +28,7 @@ import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.instock.productionReturnsStorage.returnScan.ProductionReturnsStoragePresenter2;
 import com.liansu.boduowms.modules.instock.salesReturn.activeScan.SalesReturnsStoragePresenter2;
+import com.liansu.boduowms.modules.instock.salesReturn.noSourceScan.NoSourceSalesReturnsStoragePresenter2;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
@@ -105,6 +106,8 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
             mPresenter = new ProductionReturnsStoragePresenter2(mContext, this, mHandler);
         } else if (mVoucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE) {
             mPresenter = new SalesReturnsStoragePresenter2(mContext, this, mHandler);
+        }else if (mVoucherType==OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE){
+            mPresenter=new NoSourceSalesReturnsStoragePresenter2(mContext,this,mHandler);
         }
     }
 

@@ -26,7 +26,6 @@ import com.liansu.boduowms.modules.instock.noSourceOtherStorage.scan.NoSourceOth
 import com.liansu.boduowms.modules.instock.productStorage.printPalletScan.PrintPalletScan;
 import com.liansu.boduowms.modules.instock.productStorage.scan.ProductStorageScan;
 import com.liansu.boduowms.modules.instock.salesReturn.print.SalesReturnPrint;
-import com.liansu.boduowms.modules.instock.salesReturn.scan.SalesReturnStorageScan;
 import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScan;
 import com.liansu.boduowms.modules.menu.commonMenu.subMenu.CommonBusinessSubMenu;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
@@ -254,7 +253,6 @@ public class MenuModel {
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE) {
                 icon = R.drawable.b_sales_return;
             }
-
             //70 质检合格
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE) {
                 icon = R.drawable.b_qualified;
@@ -449,8 +447,11 @@ public class MenuModel {
             }
             //69 无源销售退货
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE) {
-                intent.setClass(mContext, SalesReturnStorageScan.class);
+//                intent.setClass(mContext, SalesReturnStorageScan.class);
+                intent.setClass(mContext, InStockReturnStorageScan.class);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("BusinessType", InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_NO_SOURCE);
+                intent.putExtra("VoucherType", voucherType);
             }
             //72 销售退货打印
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_PRINT_STORAGE_VALUE) {

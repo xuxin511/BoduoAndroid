@@ -43,6 +43,7 @@ public class PrintBusinessModel extends BaseModel {
     public static final int                   PRINTER_LABEL_TYPE_OUTER_BOX           = 1;
     public static final int                   PRINTER_LABEL_TYPE_PALLET_NO           = 2;
     public static final int                   PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO = 3;
+    public static final int                   PRINTER_LABEL_TYPE_PALLET_NO_BY_BLUETOOTH           = 4; //托盘蓝牙打印
     public static final int                   PRINTER_LABEL_TYPE_NONE                = -1;
     public static final String                PRINTER_LABEL_NAME_PALLET_NO           = "托盘标签";
     public static final String                PRINTER_LABEL_NAME_NO_SOURCE_PALLET_NO = "无源托盘标签";

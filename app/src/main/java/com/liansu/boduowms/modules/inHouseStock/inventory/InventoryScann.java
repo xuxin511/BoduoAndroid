@@ -1,7 +1,5 @@
 package com.liansu.boduowms.modules.inHouseStock.inventory;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,14 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,18 +26,20 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.menu.MenuType;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
-import com.liansu.boduowms.modules.inHouseStock.inventory.Model.T_Parameter;
+import com.liansu.boduowms.modules.inHouseStock.print.BaseInStockHouseLabelPrint;
+import com.liansu.boduowms.modules.menu.commonMenu.MenuModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
-import com.liansu.boduowms.modules.outstock.Model.Pair;
-import com.liansu.boduowms.modules.outstock.Model.PairAdapter;
+import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.CommonUtil;
+import com.liansu.boduowms.utils.function.DoubleClickCheck;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -53,14 +52,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.liansu.boduowms.bean.order.OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetBarcodeInfo;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryDetail_Save_CheckDetail;
-import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_Project_GetParameter;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetBarcodeInfo;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryDetail_Save_CheckDetail;
-import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_Project_GetParameter;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 @ContentView(R.layout.activity_inventory_scann)
@@ -469,6 +467,32 @@ public class InventoryScann extends BaseActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_order_bill, menu);
+        MenuItem menuItem=menu.findItem(R.id.user_setting_warehouse_select);
+        menuItem.setVisible(false);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_order_reprint) {
+            if (DoubleClickCheck.isFastDoubleClick(context)) {
+                return false;
+            }
+            Intent intent = new Intent();
+            intent.setClass(InventoryScann.this, BaseInStockHouseLabelPrint.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("PRINT_TYPE", PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO_BY_BLUETOOTH);
+            intent.putExtras(bundle);
+            String title= MenuModel.getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK, IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_PALLET_PRINT);
+            intent.putExtra("Title", title);
+            startActivityLeft(intent);
+        }
+        return false;
+    }
 
 
 
