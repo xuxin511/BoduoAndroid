@@ -151,11 +151,19 @@ public class BaseInStockHouseLabelPrintPresenter {
             }
 
             OrderDetailInfo orderDetailInfo = new OrderDetailInfo();
+            orderDetailInfo.setMaterialno(mModel.getMaterialInfo().getMaterialno());
+            orderDetailInfo.setMaterialdesc(mModel.getMaterialInfo().getMaterialdesc());
+            orderDetailInfo.setSpec(mModel.getMaterialInfo().getSpec());
+            orderDetailInfo.setUnit(mModel.getMaterialInfo().getUnit());
+            orderDetailInfo.setUnitname(mModel.getMaterialInfo().getUnitname());
             orderDetailInfo.setScanqty(palletQty);
             orderDetailInfo.setPrintqty(remainQty);
             orderDetailInfo.setBatchno(batchNo);
             orderDetailInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
             orderDetailInfo.setMaterialno(mModel.getMaterialInfo().getMaterialno());
+            orderDetailInfo.setVouchertype(mModel.getVoucherType());
+            orderDetailInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+            orderDetailInfo.setStrongholdname(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
             //如果是无订单 托盘打印,订单数量赋值成待收数量
             if (orderDetailInfo.getErpvoucherno() == null || orderDetailInfo.getErpvoucherno().equals("")) {
                 orderDetailInfo.setVoucherqty(remainQty);
@@ -183,6 +191,10 @@ public class BaseInStockHouseLabelPrintPresenter {
                                         PrintInfo printInfo = mModel.getPrintModel(outBarcodeInfo);
                                         if (printInfo != null) {
                                             printInfoList.add(printInfo);
+                                            String command=mPrintModel.getPalletLabelStyle(printInfo);
+                                            if (command!=null){
+
+                                            }
                                         }
                                     }
 

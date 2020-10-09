@@ -99,7 +99,7 @@ public class InventoryScann extends BaseActivity {
 
     //下拉框列表
     Map downList=new HashMap<>();
-
+    MenuOutStockModel mModel=null;
     InventoryModel mInventory; //当前盘点对象
 
     @Override
@@ -111,6 +111,7 @@ public class InventoryScann extends BaseActivity {
         MenuOutStockModel model = new MenuOutStockModel();
         String arr = data.toString();
         model = GsonUtil.parseJsonToModel(arr, MenuOutStockModel.class);
+        mModel=model;
         BaseApplication.toolBarTitle = new ToolBarTitle(model.Title+"-"+BaseApplication.mCurrentWareHouseInfo.Warehouseno, true);
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
@@ -486,9 +487,14 @@ public class InventoryScann extends BaseActivity {
             intent.setClass(InventoryScann.this, BaseInStockHouseLabelPrint.class);
             Bundle bundle = new Bundle();
             bundle.putInt("PRINT_TYPE", PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO_BY_BLUETOOTH);
+            if (mModel!=null){
+                bundle.putInt("VOUCHER_TYPE",Integer.parseInt(mModel.getVoucherType()));
+            }
             intent.putExtras(bundle);
             String title= MenuModel.getThirdLevelMenuModuleTitle(MenuType.MENU_TYPE_IN_HOUSE_STOCK, IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY,MenuType.MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_PALLET_PRINT);
             intent.putExtra("Title", title);
+
+
             startActivityLeft(intent);
         }
         return false;

@@ -385,6 +385,9 @@ public class BaseOrderLabelPrintSelectPresenter {
         materialInfo.setSpec(scanQRCode.getSpec());
         materialInfo.setUnit(scanQRCode.getUnit());
         materialInfo.setUnitname(scanQRCode.getUnitname());
+        materialInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        materialInfo.setStrongholdname(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
+        materialInfo.setVouchertype(mView.getVoucherType());
         mView.StartScanIntent(materialInfo);
 
     }

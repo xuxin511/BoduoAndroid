@@ -33,21 +33,21 @@ import static com.liansu.boduowms.utils.SharePreferUtil.readBluetoothPrinterMacA
  * @ Created by yangyiqing on 2020/7/7.
  */
 public class PrintBusinessModel extends BaseModel {
-    public              String                mMac                                   = "";
+    public              String                mMac                                      = "";
     private             PrintCallBackListener mPrintListener;
     //打印机类型  1 激光打印机 2 台式打印机 3.蓝牙 -1 未选择
-    public static final int                   PRINTER_TYPE_LASER                     = 1;
-    public static final int                   PRINTER_TYPE_DESKTOP                   = 2;
-    public static final int                   PRINTER_TYPE_BLUETOOTH                 = 3;
-    public static final int                   PRINTER_TYPE_NONE                      = -1;
-    public static final int                   PRINTER_LABEL_TYPE_OUTER_BOX           = 1;
-    public static final int                   PRINTER_LABEL_TYPE_PALLET_NO           = 2;
-    public static final int                   PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO = 3;
-    public static final int                   PRINTER_LABEL_TYPE_PALLET_NO_BY_BLUETOOTH           = 4; //托盘蓝牙打印
-    public static final int                   PRINTER_LABEL_TYPE_NONE                = -1;
-    public static final String                PRINTER_LABEL_NAME_PALLET_NO           = "托盘标签";
-    public static final String                PRINTER_LABEL_NAME_NO_SOURCE_PALLET_NO = "无源托盘标签";
-    public static final String                PRINTER_LABEL_NAME_OUTER_BOX           = "外箱标签";
+    public static final int                   PRINTER_TYPE_LASER                        = 1;
+    public static final int                   PRINTER_TYPE_DESKTOP                      = 2;
+    public static final int                   PRINTER_TYPE_BLUETOOTH                    = 3;
+    public static final int                   PRINTER_TYPE_NONE                         = -1;
+    public static final int                   PRINTER_LABEL_TYPE_OUTER_BOX              = 1;
+    public static final int                   PRINTER_LABEL_TYPE_PALLET_NO              = 2;
+    public static final int                   PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO    = 3;
+    public static final int                   PRINTER_LABEL_TYPE_PALLET_NO_BY_BLUETOOTH = 4; //托盘蓝牙打印
+    public static final int                   PRINTER_LABEL_TYPE_NONE                   = -1;
+    public static final String                PRINTER_LABEL_NAME_PALLET_NO              = "托盘标签";
+    public static final String                PRINTER_LABEL_NAME_NO_SOURCE_PALLET_NO    = "无源托盘标签";
+    public static final String                PRINTER_LABEL_NAME_OUTER_BOX              = "外箱标签";
 
     @Override
     public void onHandleMessage(Message msg) {
@@ -233,6 +233,48 @@ public class PrintBusinessModel extends BaseModel {
      */
     public String getPalletLabelStyle(PrintInfo info) {
         String materialNo = info.getMaterialNo() != null ? info.getMaterialNo() : "";
+        ;   //加15
+        String materialDesc = info.getMaterialDesc() != null ? info.getMaterialDesc() : "";
+        float infoQty = info.getQty();
+        String qty = Math.round(infoQty) + "";
+        String arrivalTime = info.getArrivalTime() != null ? info.getArrivalTime() : "";
+        String batchNo = info.getBatchNo() != null ? info.getBatchNo() : "";
+        String signatory = info.getSignatory() != null ? info.getSignatory() : "";
+        String QRCode = info.getQRCode() != null ? info.getQRCode() : "";
+        String serialNo = info.getSerialNo() != null ? info.getSerialNo() : "";
+        String command = "! 0 200 200 400 1\r\n" +
+                "ENCODING GB18030\r\n" +
+                "B QR 400 150 M 2 U 4\r\n" +
+                "MM,B0050X_QR_CODE\r\n" +
+                "ENDQR\r\n" +
+                "T GBUNSG24.CPF 0 70 15 物料编号:\r\n" +
+                "T GBUNSG24.CPF 4 70 30 X_MATERIAL_NO\r\n" +
+                "T GBUNSG24.CPF 0 70 45 数    量:\r\n" +
+                "T GBUNSG24.CPF 4 70 60 X_QTY\r\n" +
+                "T GBUNSG24.CPF 0 70 75 批    次:\r\n" +
+                "T GBUNSG24.CPF 4 70 90 X_BATCH_NO\r\n" +
+                "T GBUNSG24.CPF 0 70 105 到货时间:\r\n" +
+                "T GBUNSG24.CPF 4 70 120 X_ARRIVAL_TIME\r\n" +
+                "T GBUNSG24.CPF 0 70 195 签收人:X_SIGNATORY\r\n" +
+                "T GBUNSG24.CPF 0 400 195 X_SERIAL_NO\r\n" +
+                "PRINT\r\n";
+        command = command.replace("X_QR_CODE", QRCode).replace("X_MATERIAL_NO", materialNo)
+                .replace("X_QTY", qty).replace("X_BATCH_NO", batchNo)
+                .replace("X_ARRIVAL_TIME", arrivalTime).replace("X_SIGNATORY", signatory)
+                .replace("X_SERIAL_NO", serialNo);
+
+        return command;
+    }
+
+    /**
+     * @desc: 托盘标签样式
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/15 21:53
+     */
+    public String getPalletLabelStyle2(PrintInfo info) {
+        String materialNo = info.getMaterialNo() != null ? info.getMaterialNo() : "";
         ;   //
         String materialDesc = info.getMaterialDesc() != null ? info.getMaterialDesc() : "";
         float infoQty = info.getQty();
@@ -355,13 +397,13 @@ public class PrintBusinessModel extends BaseModel {
         String part2 = "";
         if (materialDesc2.equals("")) {
 
-            part2 = "T GBUNSG24.CPF 0 70 50 品名:X_MATERIAL_DESC\r\n" ;
+            part2 = "T GBUNSG24.CPF 0 70 50 品名:X_MATERIAL_DESC\r\n";
         } else {
             part2 = "T GBUNSG24.CPF 0 70 50 品名:X_MATERIAL_DESC\r\n" +
-                    "T GBUNSG24.CPF 0 120 80  SECOND_MATERIAL_DESC \r\n" ;
+                    "T GBUNSG24.CPF 0 120 80  SECOND_MATERIAL_DESC \r\n";
 
         }
-  //一行加35
+        //一行加35
         String part4 = "T GBUNSG24.CPF 0 190 150 规格:X_SPEC\r\n" +
                 "B QR 70 140 M 2 U 4\r\n" +
                 "MM,B0050X_QR_ERP_CODE\r\n" +

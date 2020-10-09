@@ -20,6 +20,7 @@ public class PrintInfo {
     private String spec;//规格
     private float PackQty; // 包装规格
     private String erpVoucherNo;// ERP订单号
+    private String serialNo;
 
     public String getPrintType() {
         return printType;
@@ -115,5 +116,13 @@ public class PrintInfo {
 
     public void setErpVoucherNo(String erpVoucherNo) {
         this.erpVoucherNo = erpVoucherNo;
+    }
+
+    public String getSerialNo() {
+        return serialNo;
+    }
+
+    public void setSerialNo(String serialNo) {
+        this.serialNo = serialNo;
     }
 }

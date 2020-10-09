@@ -398,6 +398,11 @@ public class BaseOrderLabelPrintSelect extends BaseActivity implements IBaseOrde
     }
 
     @Override
+    public int getVoucherType() {
+        return mVoucherType;
+    }
+
+    @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (mPresenter != null) {
             mPresenter.onReset(true);

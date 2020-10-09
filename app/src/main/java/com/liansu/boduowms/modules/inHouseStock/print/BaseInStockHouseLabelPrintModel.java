@@ -39,7 +39,7 @@ public class BaseInStockHouseLabelPrintModel extends BaseModel {
     String TAG_SELECT_MATERIAL = "BaseInStockHouseLabelPrintModel_SelectMaterial";  //获取物料信息
     private final int            RESULT_TAG_SELECT_MATERIAL = 10001;
     private       OutBarcodeInfo mMaterialInfo              = null;
-
+    private      int  mVoucherType=-1;
     public BaseInStockHouseLabelPrintModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
     }
@@ -88,7 +88,13 @@ public class BaseInStockHouseLabelPrintModel extends BaseModel {
         return mMaterialInfo;
     }
 
+   public void setVoucherType(int voucherType){
+        mVoucherType=voucherType;
+   }
 
+   public int getVoucherType(){
+        return  mVoucherType;
+   }
     /**
      * @desc: 实时外箱提交组托
      * @param:
@@ -138,8 +144,9 @@ public class BaseInStockHouseLabelPrintModel extends BaseModel {
             printInfo.setBatchNo(batchNo);
             printInfo.setQty(barcodeQty);
             printInfo.setQRCode(QRBarcode);
+            printInfo.setSerialNo(outBarcodeInfo.getSerialno());
             printInfo.setSignatory(BaseApplication.mCurrentUserInfo.getUsername());
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
             //获取当前时间
             Date date = new Date(System.currentTimeMillis());
             String arrivalTime = simpleDateFormat.format(date);

@@ -26,5 +26,8 @@ public interface IBaseOrderLabelPrintSelectView {
     void StartScanIntent(OrderDetailInfo orderDetailInfo);
 
     void initViewStatus(int printType);
+
     void setErpVoucherNo(String erpVoucherNo);
+
+    int getVoucherType();
 }

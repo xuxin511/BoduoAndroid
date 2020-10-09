@@ -20,6 +20,7 @@ import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.modules.setting.SettingMainActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -218,6 +219,7 @@ public class BaseInStockHouseLabelPrint extends BaseActivity implements BaseInSt
     protected void onResume() {
         super.onResume();
         try {
+            int voucherType=getIntent().getIntExtra("VOUCHER_TYPE", OrderType.ORDER_TYPE_NONE_VALUE);
             int printType = getIntent().getIntExtra("PRINT_TYPE", PrintBusinessModel.PRINTER_LABEL_TYPE_NONE);
             mPrintType = printType;
             OrderDetailInfo orderDetailInfo = getIntent().getParcelableExtra("ORDER_DETAIL_INFO");
@@ -228,6 +230,7 @@ public class BaseInStockHouseLabelPrint extends BaseActivity implements BaseInSt
             mPresenter = new BaseInStockHouseLabelPrintPresenter(mContext, this, mHandler);
             mPresenter.getModel().setPrintType(printType);
             mPresenter.getModel().setCurrentPrintInfo(orderDetailInfo);
+            mPresenter.getModel().setVoucherType(voucherType);
            if (mPresenter!=null){
                mPresenter.onReset();
            }
