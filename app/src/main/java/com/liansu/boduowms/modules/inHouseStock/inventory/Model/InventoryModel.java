@@ -15,11 +15,13 @@ public class InventoryModel {
 
     public String Remarks ;
 
-    public String Warehouseno ; //仓库编号
+    public String ToWarehouseno ; //仓库编号
+    public int   Warehouseid;
+    public String Warehouseno;
 
     public String Warehousename ;
 
-    public  int Warehouseid;
+    public  int ToWarehouseid;
 
     public int Headerid ;
     public int Areaid ;
@@ -60,6 +62,101 @@ public class InventoryModel {
 
      public  int isProfit;
      // 1 盈利 2平  3亏
+
+    public int       Towarehouseid;
+    public String   Towarehouseno;
+
+    public String Edate;
+
+    public int    Houseid;
+
+
+    public String    Houseno;
+
+    public String Unitname;
+
+    public String  Spec;
+
+    public int getWarehouseid() {
+        return ToWarehouseid;
+    }
+
+    public void setWarehouseid(int warehouseid) {
+        ToWarehouseid = warehouseid;
+    }
+
+    public int getTowarehouseid() {
+        return Towarehouseid;
+    }
+
+    public String getToWarehouseno() {
+        return ToWarehouseno;
+    }
+
+    public void setToWarehouseno(String toWarehouseno) {
+        ToWarehouseno = toWarehouseno;
+    }
+
+    public int getToWarehouseid() {
+        return ToWarehouseid;
+    }
+
+    public void setToWarehouseid(int toWarehouseid) {
+        ToWarehouseid = toWarehouseid;
+    }
+
+    public String getHouseno() {
+        return Houseno;
+    }
+
+    public void setHouseno(String houseno) {
+        Houseno = houseno;
+    }
+
+    public void setTowarehouseid(int towarehouseid) {
+        Towarehouseid = towarehouseid;
+    }
+
+    public String getTowarehouseno() {
+        return Towarehouseno;
+    }
+
+    public void setTowarehouseno(String towarehouseno) {
+        Towarehouseno = towarehouseno;
+    }
+
+    public String getEdate() {
+        return Edate;
+    }
+
+    public void setEdate(String edate) {
+        Edate = edate;
+    }
+
+    public int getHouseid() {
+        return Houseid;
+    }
+
+    public void setHouseid(int houseid) {
+        Houseid = houseid;
+    }
+
+    public String getUnitname() {
+        return Unitname;
+    }
+
+    public void setUnitname(String unitname) {
+        Unitname = unitname;
+    }
+
+    public String getSpec() {
+        return Spec;
+    }
+
+    public void setSpec(String spec) {
+        Spec = spec;
+    }
+
     public int getIsProfit() {
         return isProfit;
     }
@@ -301,11 +398,11 @@ public class InventoryModel {
     }
 
     public String getWarehouseno() {
-        return Warehouseno;
+        return ToWarehouseno;
     }
 
     public void setWarehouseno(String warehouseno) {
-        Warehouseno = warehouseno;
+        ToWarehouseno = warehouseno;
     }
 
     public String getWarehousename() {

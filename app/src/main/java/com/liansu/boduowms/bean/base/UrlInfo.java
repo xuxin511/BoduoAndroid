@@ -270,7 +270,7 @@ public class UrlInfo {
     public String Inventory_Detail_GetDetail        = GetWCFAdress() + "Check/Get_CheckDetail"; //获取盘点明细
     public String Inventory_Detail_Save_CheckDetail = GetWCFAdress() + "Check/Save_CheckDetail"; //保存盘点单
     public String Inventory_GetList  = GetWCFAdress() + "Check/Get_CheckStok"; //获取库位对应的所有托盘
-    public String Inventory_GetAreamodel  = GetWCFAdress() + "Area/GetT_AreaModel"; //获取库位对应的所有托盘
+    public String Inventory_GetAreamodel  = GetWCFAdress() + "Area/GetV_AreaModel"; //获取库位对应的所有托盘
     public String Inventory_Savelist  = GetWCFAdress() + "Check/Save_Stock"; //保存 期初盘点信息
 
 

@@ -30,6 +30,9 @@ public class SalesoutstockConsignmentAdapter extends BaseAdapter {
         listContainer = LayoutInflater.from(mContext); // 创建视图容器并设置上下文
         this.stockInfoModels = stockInfoModels;
 
+
+
+
     }
 
     @Override

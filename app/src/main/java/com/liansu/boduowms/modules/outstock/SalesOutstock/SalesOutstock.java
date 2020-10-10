@@ -683,10 +683,13 @@ public class SalesOutstock  extends BaseActivity  {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 CommonUtil.setEditFocus(sales_outstock_boxtext);
+                if(returnMsgModel.getResultValue()=="") {
+                    MessageBox.Show(context, "请输入或扫描正确的物料号或69码");
+                    return;
+                }
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-
             boolean ispalletexits=false;
             if(palletList.size()==0){
                 CommonUtil.setEditFocus(sales_outstock_pallettext);

@@ -12,6 +12,7 @@ import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.utils.function.ArithUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SalesoutstockreviewAdapter extends BaseAdapter {
@@ -36,15 +37,22 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
     public SalesoutstockreviewAdapter(Context context, List<OutStockOrderDetailInfo> outStockTaskDetailsInfoModels) {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
-//        List<OutStockOrderDetailInfo> list=new ArrayList<OutStockOrderDetailInfo>();
-//        list=outStockTaskDetailsInfoModels;
-//        for (OutStockOrderDetailInfo item:outStockTaskDetailsInfoModels){
-//             if(item.getRemainqty()==0){
-//                 list.remove(item);
-//                 list.add(outStockTaskDetailsInfoModels.size(),item);
-//             }
-//        }
         this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
+        Iterator<OutStockOrderDetailInfo> it = this.outStockTaskDetailsInfoModels.iterator();
+        List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
+        while (it.hasNext()) {
+            OutStockOrderDetailInfo model = it.next();
+            if (ArithUtil.sub(model.getRemainqty() ,model.getScanqty())==0) {
+                list.add(model);
+                it.remove();
+            }
+        }
+        int i = outStockTaskDetailsInfoModels.size();
+        for (OutStockOrderDetailInfo item : list) {
+            outStockTaskDetailsInfoModels.add(i, item);
+            i++;
+        }
+
 
     }
 

@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
+import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SalesoutstockAdapter extends BaseAdapter {
@@ -38,20 +40,20 @@ public class SalesoutstockAdapter extends BaseAdapter {
         this.context = context;
         listContainer = LayoutInflater.from(context); // 创建视图容器并设置上下文
         this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
-      //  List<OutStockOrderDetailInfo> list=new ArrayList<OutStockOrderDetailInfo>();
-       // String json = GsonUtil.parseModelToJson(outStockTaskDetailsInfoModels);
-      //  list= GsonUtil.parseJsonToModel(json,OutStockOrderDetailInfo.class);
-//        for (OutStockOrderDetailInfo item:outStockTaskDetailsInfoModels) {
-//            if (item.getRemainqty() == 0) {
-//                list.add(item);
-//                outStockTaskDetailsInfoModels.remove(item);
-//            }
-//        }
-//        int i=outStockTaskDetailsInfoModels.size();
-//        for (OutStockOrderDetailInfo item:list) {
-//            outStockTaskDetailsInfoModels.add(i, item);
-//            i++;
-//        }
+        Iterator<OutStockOrderDetailInfo> it = this.outStockTaskDetailsInfoModels.iterator();
+        List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
+        while (it.hasNext()) {
+            OutStockOrderDetailInfo model = it.next();
+            if (model.getRemainqty() == 0) {
+                list.add(model);
+                it.remove();
+            }
+        }
+        int i = outStockTaskDetailsInfoModels.size();
+        for (OutStockOrderDetailInfo item : list) {
+            outStockTaskDetailsInfoModels.add(i, item);
+            i++;
+        }
 
     }
 

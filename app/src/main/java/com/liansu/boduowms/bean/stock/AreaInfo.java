@@ -34,6 +34,13 @@ public class AreaInfo implements Parcelable {
     private String Creater;
     private String Createtime;
     private String Companycode;
+    private String Warehouseno;
+    private String Houseno;
+    private int    Warehousenoid;
+    private int    Housenoid;
+
+
+
     public AreaInfo (){};
     protected AreaInfo(Parcel in) {
         Id = in.readInt();
@@ -47,6 +54,11 @@ public class AreaInfo implements Parcelable {
         Creater = in.readString();
         Createtime = in.readString();
         Companycode=in.readString();
+
+        Warehousenoid = in.readInt();
+        Housenoid=in.readInt();
+        Warehouseno = in.readString();
+        Houseno=in.readString();
     }
 
     @Override
@@ -62,6 +74,11 @@ public class AreaInfo implements Parcelable {
         dest.writeString(Creater);
         dest.writeString(Createtime);
         dest.writeString(Companycode);
+        dest.writeString(Warehouseno);
+        dest.writeString(Houseno);
+        dest.writeInt(Warehousenoid);
+        dest.writeInt(Housenoid);
+
     }
 
     @Override
@@ -80,6 +97,38 @@ public class AreaInfo implements Parcelable {
             return new AreaInfo[size];
         }
     };
+
+    public String getWarehouseno() {
+        return Warehouseno;
+    }
+
+    public void setWarehouseno(String warehouseno) {
+        Warehouseno = warehouseno;
+    }
+
+    public String getHouseno() {
+        return Houseno;
+    }
+
+    public void setHouseno(String houseno) {
+        Houseno = houseno;
+    }
+
+    public int getWarehousenoid() {
+        return Warehousenoid;
+    }
+
+    public void setWarehousenoid(int warehousenoid) {
+        Warehousenoid = warehousenoid;
+    }
+
+    public int getHousenoid() {
+        return Housenoid;
+    }
+
+    public void setHousenoid(int housenoid) {
+        Housenoid = housenoid;
+    }
 
     public int getId() {
         return Id;

@@ -94,6 +94,12 @@ public class InventoryScann extends BaseActivity {
     //当前库位
     String CurrAreano="";
     int CurrAreaid;
+    //仓库
+    String Warehouseno="";
+    int Warehouseid;
+    //库区
+    String Houseno="";
+    int Houseid;
 
     String Currerpvoucherno="";
 
@@ -117,6 +123,11 @@ public class InventoryScann extends BaseActivity {
         BaseApplication.isCloseActivity = false;
         mInventory = new InventoryModel();
         CurrAreano = "";
+        CurrAreaid=0;
+         Warehouseno="";
+         Warehouseid=0;
+         Houseno="";
+         Houseid=0;
         inventory_scann_num.setOnFocusChangeListener(new android.view.View.
                 OnFocusChangeListener() {
             @Override
@@ -276,11 +287,17 @@ public class InventoryScann extends BaseActivity {
         postModel = GsonUtil.getGsonUtil().fromJson(modelJson, new TypeToken<List<InventoryModel>>() {
         }.getType());
         for (InventoryModel item : postModel) {
+            item.setWarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+            item.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
             item.setQty(item.ScannQty);
             item.setErpvoucherno(Currerpvoucherno);
             item.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
             item.setAreaid(CurrAreaid);
             item.setAreano(CurrAreano);
+            item.setTowarehouseid(Warehouseid);
+            item.setTowarehouseno(Warehouseno);
+            item.setHouseid(Houseid);
+            item.setHouseno(Houseno);
         }
         modelJson = parseModelToJson(postModel);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryDetail_Save_CheckDetail, "获取库位信息",
@@ -354,6 +371,11 @@ public class InventoryScann extends BaseActivity {
                 return;
             } else {
                  CurrAreano=returnMsgModel.getData().getAreano();
+                 CurrAreaid=returnMsgModel.getData().getId();
+                 Warehouseno=returnMsgModel.getData().getWarehouseno();
+                 Warehouseid=returnMsgModel.getData().getWarehouseid();
+                 Houseno=returnMsgModel.getData().getHouseno();
+                 Houseid=returnMsgModel.getData().getHouseid();
                 CommonUtil.setEditFocus(inventory_scann_barcode);
             }
         } catch (Exception ex) {

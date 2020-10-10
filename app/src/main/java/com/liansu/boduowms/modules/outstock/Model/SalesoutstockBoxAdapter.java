@@ -13,6 +13,8 @@ import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.ui.adapter.outstock.packing.PackingScanAdapter;
 import com.liansu.boduowms.utils.function.ArithUtil;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -40,6 +42,20 @@ import java.util.List;
             listContainer = LayoutInflater.from(mContext); // 创建视图容器并设置上下文
             this.stockInfoModels = stockInfoModels;
 
+            Iterator<OutStockOrderDetailInfo> it = this.stockInfoModels.iterator();
+            List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
+            while (it.hasNext()) {
+                OutStockOrderDetailInfo model = it.next();
+                if (model.getRemainqty() == 0) {
+                    list.add(model);
+                    it.remove();
+                }
+            }
+            int i = stockInfoModels.size();
+            for (OutStockOrderDetailInfo item : list) {
+                stockInfoModels.add(i, item);
+                i++;
+            }
         }
         @Override
         public int getCount() {

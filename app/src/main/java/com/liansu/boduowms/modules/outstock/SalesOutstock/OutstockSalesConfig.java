@@ -177,13 +177,14 @@ public class OutstockSalesConfig extends BaseActivity {
         ) {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {//送货上门
-                    sales_outstock_configsm_text.setVisibility(View.VISIBLE);//显示
-                    CommonUtil.setEditFocus(sales_outstock_configsm_text);
-                } else {//自提
+                if (position == 0) {//自提
                     sales_outstock_configsm_text.setText("0");
                     sales_outstock_configsm_text.setVisibility(View.INVISIBLE);//隐藏
                     CommonUtil.setEditFocus(sales_outstock_configbj_text);
+                } else {//送货上门
+                    sales_outstock_configsm_text.setVisibility(View.VISIBLE);//显示
+                    CommonUtil.setEditFocus(sales_outstock_configsm_text);
+
                 }
             }
             @Override
@@ -349,11 +350,9 @@ public class OutstockSalesConfig extends BaseActivity {
         try {
             if (awyBll.Erpvoucherno == null) {
                 CommonUtil.setEditFocus(sales_outstock_configOrder);
-                MessageBox.Show(context, "请先扫描单据号");
+                MessageBox.Show(context, "请先输入或扫描发货通知单号");
                 return;
             }
-
-
             if (!awyBll.Erpvoucherno.equals("")) {
 //                if(sales_outstock_wlOrder.getText().toString().trim().equals("")){
 //                    CommonUtil.setEditFocus(sales_outstock_wlOrder);
@@ -365,14 +364,13 @@ public class OutstockSalesConfig extends BaseActivity {
                 Pair fypair = (Pair) mfySpinner.getSelectedItem();
                 if(pair.value.equals("2")&&sales_outstock_configsm_text.getText().toString().trim().equals("")) {
                     CommonUtil.setEditFocus(sales_outstock_configsm_text);
-                    MessageBox.Show(context, "上门提货时,上门费用不能为空");
+                    MessageBox.Show(context, "送货上门时,上门费用不能为空");
                     return;
                 }
                 if(sales_outstock_configbj_text.getText().toString().trim().equals("")){
                     CommonUtil.setEditFocus(sales_outstock_configbj_text);
                     MessageBox.Show(context, "请填写物流保价费用");
                     return;
-
                 }
                 if(!fypair.value.equals("1")&&sales_outstock_configdj_text.getText().toString().trim().equals("")){
                     CommonUtil.setEditFocus(sales_outstock_configdj_text);
@@ -410,7 +408,7 @@ public class OutstockSalesConfig extends BaseActivity {
                         context, mHandler, RESULT_Saleoutstock_ConfigSaveOrder, null, info.SalesOutstock__Review_configSaveOrder, json, null);
             } else {
                 CommonUtil.setEditFocus(sales_outstock_configOrder);
-                MessageBox.Show(context, "请先扫描单号");
+                MessageBox.Show(context, "请先输入或扫描发货通知单号");
             }
         }catch (Exception EX){
             MessageBox.Show(context,"值不能为空");
@@ -472,7 +470,7 @@ public class OutstockSalesConfig extends BaseActivity {
                 String order = sales_outstock_configOrder.getText().toString().trim();
                 if (order.equals("")) {
                     CommonUtil.setEditFocus(sales_outstock_configOrder);
-                    MessageBox.Show(context, "单号不能为空");
+                    MessageBox.Show(context, "请先输入或扫描发货通知单号");
                     return true;
                 }
                 SalesoutstockRequery model = new SalesoutstockRequery();

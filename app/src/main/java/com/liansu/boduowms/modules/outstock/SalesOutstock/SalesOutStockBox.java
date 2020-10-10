@@ -636,7 +636,6 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.setQTY(1f);
                         model.setReviewQty(1f);
                         model.setVouchertype(CurrVoucherType);
-
                         model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
                         model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
                         modelIsExits.put(list.get(0).getMaterialno()+list.get(0).getBatchno(),list.get(0).getMaterialno());
