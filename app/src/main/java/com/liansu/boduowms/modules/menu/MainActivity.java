@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         super.onCreate(savedInstanceState);
         BaseApplication.context = MainActivity.this;
         BaseApplication.toolBarTitle = new ToolBarTitle(getString(R.string.main_menu_title) + "-" + BaseApplication.mCurrentWareHouseInfo.getWarehouseno(), true);
+        BaseApplication.isCloseActivity = false;
         x.view().inject(this);
         mUserSettingPresenter = new UserSettingPresenter(MainActivity.this, this);
         // 初始化底部辅助工具类
@@ -140,6 +141,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     protected void onResume() {
         super.onResume();
+        BaseApplication.isCloseActivity = false;
         setTitle();
     }
 }

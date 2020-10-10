@@ -27,6 +27,7 @@ import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.debug.DebugModuleData;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
+import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.OrderBillChioceItemAdapter;
@@ -151,7 +152,6 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
 
                 try {
                     StartScanIntent(receiptModel, null);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -332,6 +332,8 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_setting, menu);
+        MenuItem menuItem=menu.findItem(R.id.menu_order_reprint);
+        menuItem.setVisible(true);
         return true;
     }
 
@@ -340,6 +342,20 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
+        }else if (item.getItemId() == R.id.menu_order_reprint) {
+            Intent intent = new Intent();
+            intent.setClass(BaseOrderBillChoice.this, BaseOrderLabelPrintSelect.class);
+            if (mPresenter!=null){
+//                intent.putExtra("VOUCHER_TYPE",mPresenter.getModel().getVoucherType());
+            }
+
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("inStockType", COMBINE_PALLET_TYPE_RECEIPTION);
+//            bundle.putParcelable("orderHeader", mPresenter.getModel().getOrderHeaderInfo());
+//            bundle.putParcelableArrayList("orderDetailList", (ArrayList<? extends Parcelable>) DebugModuleData.loadReceiptScanDetailList());
+////        bundle.putParcelableArrayList("orderDetailList", mPresenter.getModel().getReceiptDetailModels());
+//            intent.putExtras(bundle);
+            startActivityLeft(intent);
         }
         return false;
     }

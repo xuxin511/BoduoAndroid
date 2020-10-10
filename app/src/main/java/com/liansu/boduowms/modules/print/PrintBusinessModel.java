@@ -233,7 +233,7 @@ public class PrintBusinessModel extends BaseModel {
      */
     public String getPalletLabelStyle(PrintInfo info) {
         String materialNo = info.getMaterialNo() != null ? info.getMaterialNo() : "";
-        ;   //加15
+        ;   //加15,35
         String materialDesc = info.getMaterialDesc() != null ? info.getMaterialDesc() : "";
         float infoQty = info.getQty();
         String qty = Math.round(infoQty) + "";
@@ -244,19 +244,19 @@ public class PrintBusinessModel extends BaseModel {
         String serialNo = info.getSerialNo() != null ? info.getSerialNo() : "";
         String command = "! 0 200 200 400 1\r\n" +
                 "ENCODING GB18030\r\n" +
-                "B QR 400 150 M 2 U 4\r\n" +
+                "B QR 400 80 M 2 U 4\r\n" +
                 "MM,B0050X_QR_CODE\r\n" +
                 "ENDQR\r\n" +
                 "T GBUNSG24.CPF 0 70 15 物料编号:\r\n" +
-                "T GBUNSG24.CPF 4 70 30 X_MATERIAL_NO\r\n" +
-                "T GBUNSG24.CPF 0 70 45 数    量:\r\n" +
-                "T GBUNSG24.CPF 4 70 60 X_QTY\r\n" +
-                "T GBUNSG24.CPF 0 70 75 批    次:\r\n" +
-                "T GBUNSG24.CPF 4 70 90 X_BATCH_NO\r\n" +
-                "T GBUNSG24.CPF 0 70 105 到货时间:\r\n" +
-                "T GBUNSG24.CPF 4 70 120 X_ARRIVAL_TIME\r\n" +
-                "T GBUNSG24.CPF 0 70 195 签收人:X_SIGNATORY\r\n" +
-                "T GBUNSG24.CPF 0 400 195 X_SERIAL_NO\r\n" +
+                "T 5 0 70 30 X_MATERIAL_NO\r\n" +
+                "T GBUNSG24.CPF 0 70 55 数    量:\r\n" +
+                "T 5 0 70 80 X_QTY\r\n" +
+                "T GBUNSG24.CPF 0 70 105 批    次:\r\n" +
+                "T 5 0 70 130 X_BATCH_NO\r\n" +
+                "T GBUNSG24.CPF 0 70 155 到货时间:\r\n" +
+                "T 5 0 70 180 X_ARRIVAL_TIME\r\n" +
+                "T GBUNSG24.CPF 0 70 205 签收人:X_SIGNATORY\r\n" +
+                "T 5 0 380 205 X_SERIAL_NO\r\n" +
                 "PRINT\r\n";
         command = command.replace("X_QR_CODE", QRCode).replace("X_MATERIAL_NO", materialNo)
                 .replace("X_QTY", qty).replace("X_BATCH_NO", batchNo)

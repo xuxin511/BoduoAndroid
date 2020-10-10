@@ -99,6 +99,7 @@
         <activity android:name=".modules.instock.baseInstockReturnBusiness.scan.InStockReturnStorageScan" />
         <activity android:name=".modules.inHouseStock.reprintLabel.ReprintPalletLabel" />
         <activity android:name=".modules.inHouseStock.print.BaseInStockHouseLabelPrint" />
+        <activity android:name=".modules.instock.replenishment.InStockReplenishment" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
