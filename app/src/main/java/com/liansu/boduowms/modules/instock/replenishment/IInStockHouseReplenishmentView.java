@@ -19,5 +19,6 @@ import java.util.List;
     void bindListView(List<StockInfo> list);
     void setOutPalletQty(float qty);
     List<StockInfo>  getSelectedMaterialItems();
+    float getInPalletQty();
 
 }

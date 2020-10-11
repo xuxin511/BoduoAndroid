@@ -8,6 +8,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseModel;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
@@ -24,7 +25,6 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 /**
@@ -102,6 +102,14 @@ public class InStockHouseReplenishmentModel extends BaseModel {
     }
 
 
+    public void  setAreaInfo(AreaInfo areaInfo){
+        mAreaInfo=areaInfo;
+    }
+
+    public AreaInfo  getAreaInfo(){
+        return mAreaInfo;
+    }
+
     @Override
     public void onHandleMessage(Message msg) {
         NetCallBackListener<String> listener = null;
@@ -141,7 +149,7 @@ public class InStockHouseReplenishmentModel extends BaseModel {
         mNetMap.put("TAG_GET_OUT_PALLET_INFO_QUERY", callBackListener);
         String ModelJson = GsonUtil.parseModelToJson(palletNo);
         LogUtil.WriteLog(BaseOrderBillChoice.class, TAG_GET_OUT_PALLET_INFO_QUERY, ModelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_OUT_PALLET_INFO_QUERY, mContext.getString(R.string.request_replenishment_move_out_tray_message), mContext, mHandler, RESULT_TAG_GET_OUT_PALLET_INFO_QUERY, null, UrlInfo.getUrl().GetT_TransferInDetailListADFAsync, ModelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_OUT_PALLET_INFO_QUERY, mContext.getString(R.string.request_replenishment_move_out_tray_message), mContext, mHandler, RESULT_TAG_GET_OUT_PALLET_INFO_QUERY, null, UrlInfo.getUrl().GetT_ScanStockADFAsync, ModelJson, null);
 
     }
 
@@ -157,7 +165,7 @@ public class InStockHouseReplenishmentModel extends BaseModel {
         mNetMap.put("TAG_GET_IN_PALLET_INFO_QUERY", callBackListener);
         String ModelJson = GsonUtil.parseModelToJson(palletNo);
         LogUtil.WriteLog(BaseOrderBillChoice.class, TAG_GET_IN_PALLET_INFO_QUERY, ModelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_IN_PALLET_INFO_QUERY, mContext.getString(R.string.request_replenishment_move_in_tray_message), mContext, mHandler, RESULT_TAG_GET_IN_PALLET_INFO_QUERY, null, UrlInfo.getUrl().GetT_TransferInDetailListADFAsync, ModelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_IN_PALLET_INFO_QUERY, mContext.getString(R.string.request_replenishment_move_in_tray_message), mContext, mHandler, RESULT_TAG_GET_IN_PALLET_INFO_QUERY, null, UrlInfo.getUrl().GetScanInfo, ModelJson, null);
 
     }
 
@@ -173,7 +181,7 @@ public class InStockHouseReplenishmentModel extends BaseModel {
         mNetMap.put("TAG_GET_IN_PALLET_AREA_INFO_QUERY", callBackListener);
         String modelJson = parseModelToJson(info);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_GET_IN_PALLET_AREA_INFO_QUERY, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_IN_PALLET_AREA_INFO_QUERY, mContext.getString(R.string.request_replenishment_move_in_tray_area_message), mContext, mHandler, RESULT_TAG_GET_IN_PALLET_AREA_INFO_QUERY, null, UrlInfo.getUrl().GetT_AreaModel, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_IN_PALLET_AREA_INFO_QUERY, mContext.getString(R.string.request_replenishment_move_in_tray_area_message), mContext, mHandler, RESULT_TAG_GET_IN_PALLET_AREA_INFO_QUERY, null, UrlInfo.getUrl().GetV_AreaModel, modelJson, null);
     }
 
     /**
@@ -184,16 +192,64 @@ public class InStockHouseReplenishmentModel extends BaseModel {
      * @time 2020/7/15 18:46
      */
 
-    public void requestReplenishmentInfoRefer(List<StockInfo> list, NetCallBackListener<String> callBackListener) {
+    public void requestReplenishmentInfoRefer(StockInfo postInfo, NetCallBackListener<String> callBackListener) {
         mNetMap.put("TAG_REPLENISHMENT_INFO_REFER", callBackListener);
-        String modelJson = parseModelListToJsonArray(list);
+        String modelJson = parseModelToJson(postInfo);
         LogUtil.WriteLog(BaseOrderScan.class, TAG_REPLENISHMENT_INFO_REFER, modelJson);
-        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_REPLENISHMENT_INFO_REFER, mContext.getString(R.string.request_replenishment_info_refer), mContext, mHandler, RESULT_TAG_REPLENISHMENT_INFO_REFER, null, UrlInfo.getUrl().PostT_WorkOrderDetailADFAsync, modelJson, null);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_REPLENISHMENT_INFO_REFER, mContext.getString(R.string.request_replenishment_info_refer), mContext, mHandler, RESULT_TAG_REPLENISHMENT_INFO_REFER, null, UrlInfo.getUrl().Save_StockReplenishment, modelJson, null);
 
     }
 
+    /**
+     * @desc: 移出库选择的物料是否在移入库的单据中
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/8 11:38
+     */
+    public BaseMultiResultInfo<Boolean, Void> isMaterialInInPalletInfoList(StockInfo stockInfo,List<StockInfo> inPalletInfoList) {
+        String materialNoItems="";
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        boolean IS_MATERIAL_OK = false;
+        if (stockInfo==null ||stockInfo.getMaterialno()==null || stockInfo.getMaterialno().equals("")){
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("校验物料失败!校验移出托盘的物料信息不能为空");
+            return resultInfo;
+        }
+
+        if (inPalletInfoList==null || inPalletInfoList.size()==0){
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("校验物料失败!校验移入托盘的物料信息不能为空");
+            return resultInfo;
+        }
+        for (StockInfo info : inPalletInfoList) {
+            if (info != null) {
+               String sMaterialNo=info.getMaterialno()!=null?info.getMaterialno():"";
+               if (materialNoItems.equals("")){
+                   materialNoItems=materialNoItems+sMaterialNo;
+               }else {
+                   materialNoItems=materialNoItems+","+sMaterialNo;
+               }
+
+               if (!sMaterialNo.equals("")){
+                   if (sMaterialNo.trim().equals(stockInfo.getMaterialno().trim())){
+                       IS_MATERIAL_OK=true;
+                       break;
+                   }
+               }
+            }
+        }
+        if (IS_MATERIAL_OK) {
+            resultInfo.setHeaderStatus(true);
+        } else {
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("校验物料失败!移出托盘的物料编码["+stockInfo.getMaterialno()+"]和移入托盘的物料编码["+materialNoItems+"]不匹配!");
+        }
+        return resultInfo;
+    }
+
     public void onReset() {
-        setCurrentMaterialInfo(null);
+        mCurrentMaterialInfo=null;
         mOutPalletInfoList.clear();
         mInPalletInfoList.clear();
         mAreaInfo=null;

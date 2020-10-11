@@ -74,7 +74,8 @@ public class StockInfo extends BaseInfo implements Parcelable {
     /// 到货单
     private String Arrvoucherno;
     private String Strstatus;
-
+   private String Oldbarcode;
+   private  String Newbarcode;
 
     public StockInfo() {
     }
@@ -521,6 +522,22 @@ public class StockInfo extends BaseInfo implements Parcelable {
         Strstatus = strstatus;
     }
 
+    public String getOldbarcode() {
+        return Oldbarcode;
+    }
+
+    public void setOldbarcode(String oldbarcode) {
+        Oldbarcode = oldbarcode;
+    }
+
+    public String getNewbarcode() {
+        return Newbarcode;
+    }
+
+    public void setNewbarcode(String newbarcode) {
+        Newbarcode = newbarcode;
+    }
+
     public static Creator<StockInfo> getCREATOR() {
         return CREATOR;
     }
@@ -582,6 +599,8 @@ public class StockInfo extends BaseInfo implements Parcelable {
         Qualityno = in.readString();
         Arrvoucherno = in.readString();
         Strstatus=in.readString();
+        Oldbarcode=in.readString();
+        Newbarcode=in.readString();
     }
 
     public static final Creator<StockInfo> CREATOR = new Creator<StockInfo>() {
@@ -659,5 +678,8 @@ public class StockInfo extends BaseInfo implements Parcelable {
         dest.writeString(Qualityno);
         dest.writeString(Arrvoucherno);
         dest.writeString(Strstatus);
+        dest.writeString(Oldbarcode);
+        dest.writeString(Newbarcode);
+
     }
 }

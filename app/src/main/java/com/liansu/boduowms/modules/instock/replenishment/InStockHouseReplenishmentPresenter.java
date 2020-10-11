@@ -6,11 +6,14 @@ import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.base.BaseActivity;
+import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
+import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
+import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.function.GsonUtil;
@@ -22,6 +25,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
 
 /**
  * @ Des:
@@ -58,6 +63,7 @@ public class InStockHouseReplenishmentPresenter {
     public void onOutPalletScan(@NonNull String outPalletNo) {
         try {
             mModel.setCurrentMaterialInfo(null);
+            mModel.setOutPalletInfoList(null);
             OutBarcodeInfo scanQRCode = null;
             if (outPalletNo.equals("")) return;
             if (outPalletNo.contains("%")) {
@@ -144,7 +150,7 @@ public class InStockHouseReplenishmentPresenter {
                 return;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "查询条码失败，出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "查询移出条码失败，出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onOutPalletQtyFocus();
@@ -238,7 +244,6 @@ public class InStockHouseReplenishmentPresenter {
     }
 
 
-
     /**
      * @desc: 扫描移入托盘
      * @param:
@@ -248,7 +253,8 @@ public class InStockHouseReplenishmentPresenter {
      */
     public void onInPalletScan(@NonNull String inPalletNo) {
         try {
-            mModel.setCurrentMaterialInfo(null);
+            mModel.setInPalletInfoList(null);
+            mModel.setAreaInfo(null);
             OutBarcodeInfo scanQRCode = null;
             if (inPalletNo.equals("")) return;
             if (inPalletNo.contains("%")) {
@@ -294,7 +300,26 @@ public class InStockHouseReplenishmentPresenter {
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                                 List<StockInfo> list = returnMsgModel.getData();
                                 if (list != null && list.size() > 0) {
+                                    BaseMultiResultInfo<Boolean, Void> checkMaterial = mModel.isMaterialInInPalletInfoList(mModel.getCurrentMaterialInfo(), list);
+                                    if (!checkMaterial.getHeaderStatus()) {
+                                        MessageBox.Show(mContext, checkMaterial.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                mView.onInPalletNoFocus();
+                                            }
+                                        });
+                                        return;
+                                    }
                                     mModel.setInPalletInfoList(list);
+                                    StockInfo stockInfo = list.get(0);
+                                    String areaNo = stockInfo.getAreano();
+                                    if (areaNo != null && !areaNo.trim().equals("")) {
+                                        mView.setInPalletAreaNo(areaNo);
+                                        mView.setInPalletAreaNoEnable(false);
+                                    } else {
+                                        mView.setInPalletAreaNoEnable(true);
+                                        mView.onInPalletAreaNoFocus();
+                                    }
 
 
                                 } else {
@@ -335,7 +360,7 @@ public class InStockHouseReplenishmentPresenter {
                 return;
             }
         } catch (Exception e) {
-            MessageBox.Show(mContext, "查询条码失败，出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+            MessageBox.Show(mContext, "查询移入托盘条码失败，出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mView.onInPalletNoFocus();
@@ -353,8 +378,176 @@ public class InStockHouseReplenishmentPresenter {
      * @time 2020/10/10 16:24
      */
     public void getAreaInfo(String areaNo) {
+        if (mModel.getInPalletInfoList().size() == 0) {
+            MessageBox.Show(mContext, "移入托盘信息为空,请先扫描移入托盘", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onInPalletNoFocus();
+                }
+            });
+            return;
+        }
+        mModel.setAreaInfo(null);
+        if (areaNo.equals("")) return;
+        AreaInfo areaInfo = new AreaInfo();
+        areaInfo.setAreano(areaNo);
+        areaInfo.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+        mModel.requestAreaNo(areaInfo, new NetCallBackListener<String>() {
+            @Override
+            public void onCallBack(String result) {
+                LogUtil.WriteLog(InStockHouseReplenishment.class, mModel.TAG_GET_IN_PALLET_AREA_INFO_QUERY, result);
+                try {
+                    BaseResultInfo<AreaInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<AreaInfo>>() {
+                    }.getType());
+                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        AreaInfo data = returnMsgModel.getData();
+                        if (data != null) {
+                            mModel.setAreaInfo(data);
+                        } else {
+                            MessageBox.Show(mContext, "获取的库位信息为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onInPalletAreaNoFocus();
+                                }
+                            });
+
+                        }
+                    } else {
+                        MessageBox.Show(mContext, "获取的库位信息失败，" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onInPalletAreaNoFocus();
+                            }
+                        });
+
+                    }
+
+                } catch (Exception ex) {
+                    MessageBox.Show(mContext, "获取的库位信息出现预期之外的异常，" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mView.onInPalletAreaNoFocus();
+                        }
+                    });
+
+                }
+
+
+            }
+        });
+
     }
 
+    /**
+     * @desc: 提交
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/10/11 15:03
+     */
+    public void onRefer() {
+        //校验移出托盘信息和输入的数量，并获取选择的物料信息
+        if (!checkOutPalletQty(mView.getInPalletQty())) return;
+        //校验选择的物料信息是否为空
+        if (mModel.getCurrentMaterialInfo() == null) {
+            MessageBox.Show(mContext, "校验移出托盘信息失败,获取选择的移出托盘的物料信息不能为空,请扫描移出托盘码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onOutPalletQtyFocus();
+                }
+            });
+            return;
+        }
+        //校验移入托盘的信息是否为空
+        if (mModel.getInPalletInfoList().size() == 0) {
+            MessageBox.Show(mContext, "校验移入托盘信息失败,移入托盘的信息不能为空,请先扫描移入托盘码", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onInPalletNoFocus();
+                }
+            });
+            return;
+        }
+        // 校验移出托盘的物料是否和移入托盘的物料匹配
+        BaseMultiResultInfo<Boolean, Void> checkMaterial = mModel.isMaterialInInPalletInfoList(mModel.getCurrentMaterialInfo(), mModel.getInPalletInfoList());
+        if (!checkMaterial.getHeaderStatus()) {
+            MessageBox.Show(mContext, checkMaterial.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mView.onInPalletNoFocus();
+                }
+            });
+            return;
+        }
+        StockInfo postInfo = new StockInfo();
+        StockInfo moveInStockInfo = mModel.getInPalletInfoList().get(0);
+        String areaNo = moveInStockInfo.getAreano();
+        if (areaNo == null || areaNo.trim().equals("")) {
+            if (mModel.getAreaInfo() == null || mModel.getAreaInfo().getAreano() == null || mModel.getAreaInfo().equals("")) {
+                MessageBox.Show(mContext, "校验移入库位失败，移入库位不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onInPalletAreaNoFocus();
+                    }
+                });
+                return;
+            } else {
+                postInfo.setTowarehouseno(mModel.getAreaInfo().getWarehouseno());
+                postInfo.setTowarehouseid(mModel.getAreaInfo().getWarehouseid());
+                postInfo.setHouseno(mModel.getAreaInfo().getHouseno());
+                postInfo.setHouseid(mModel.getAreaInfo().getHouseid());
+                postInfo.setAreano(mModel.getAreaInfo().getAreano());
+                postInfo.setAreaid(mModel.getAreaInfo().getId());
+            }
+        } else {
+            postInfo.setAreaid(moveInStockInfo.getAreaid());
+            postInfo.setAreano(moveInStockInfo.getAreano());
+        }
+
+        postInfo.setOldbarcode(mModel.getCurrentMaterialInfo().getBarcode());
+        postInfo.setMaterialno(mModel.getCurrentMaterialInfo().getMaterialno());
+        postInfo.setMaterialnoid(mModel.getCurrentMaterialInfo().getMaterialnoid());
+        postInfo.setBatchno(mModel.getCurrentMaterialInfo().getBatchno());
+        postInfo.setQty(mView.getInPalletQty());
+        postInfo.setNewbarcode(moveInStockInfo.getBarcode());
+        mModel.requestReplenishmentInfoRefer(postInfo, new NetCallBackListener<String>() {
+            @Override
+            public void onCallBack(String result) {
+                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_REPLENISHMENT_INFO_REFER, result);
+                try {
+                    BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                    }.getType());
+                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onReset();
+                            }
+                        });
+
+                    } else {
+                        MessageBox.Show(mContext, returnMsgModel.getResultValue());
+                    }
+
+                } catch (Exception ex) {
+                    MessageBox.Show(mContext, "提交补货信息出现预期之外的异常:" + ex.getMessage());
+                }
 
 
+            }
+        });
+
+    }
+
+    /**
+     * @desc: 重置数据
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/10/11 15:30
+     */
+    public void onReset() {
+        mModel.onReset();
+        mView.onReset();
+    }
 }

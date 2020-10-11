@@ -23,6 +23,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -78,6 +79,7 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
         if (mPresenter == null) {
             mPresenter = new InStockHouseReplenishmentPresenter(mContext, this, mHandler);
         }
+        onReset();
 
 
     }
@@ -134,7 +136,7 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
                             });
                         }
                     } catch (Exception e) {
-                        MessageBox.Show(mContext, "输入数量格式不正确!"+e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        MessageBox.Show(mContext, "输入数量格式不正确!" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 onOutPalletNoFocus();
@@ -145,6 +147,10 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
 
                     break;
                 case R.id.replenishment_in_tray:
+                    String inPalletNo = mInPalletNo.getText().toString().trim();
+                    if (mPresenter != null) {
+                        mPresenter.onInPalletScan(inPalletNo);
+                    }
                     break;
             }
 
@@ -154,14 +160,14 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
     }
 
 
-    @Event(value = {R.id.btn_refer}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.replenishment_refer_button}, type = View.OnKeyListener.class)
     private boolean onRefer(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
 
             switch (v.getId()) {
                 case R.id.btn_refer:
-//                    mPresenter.onOrderRefer();
+                    mPresenter.onRefer();
                     break;
             }
         }
@@ -199,17 +205,26 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
 
     @Override
     public void setInPalletAreaNo(String areaNo) {
-
+        mInPalletAreaNo.setText(areaNo + "");
     }
 
     @Override
     public void onReset() {
-
+        mOutPalletNo.setText("");
+        mOutPalletQty.setText("0");
+        mInPalletNo.setText("");
+        mInPalletAreaNo.setText("");
+        bindListView(null);
+        mInPalletAreaNo.setEnabled(true);
+        onOutPalletNoFocus();
     }
 
     @Override
     public void bindListView(List<StockInfo> list) {
         try {
+            if (list == null) {
+                list = new ArrayList<>();
+            }
             if (mAdapter == null || list.size() == 0) {
                 mAdapter = new InStockHouseReplenishmentItemAdapter(mContext, list);
                 mAdapter.setOnItemClickListener(new InStockHouseReplenishmentItemAdapter.OnItemClickListener() {
@@ -274,6 +289,22 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
             return null;
         }
 
+    }
+
+    @Override
+    public float getInPalletQty() {
+        float qty = 0;
+        try {
+            qty = Float.parseFloat(mOutPalletQty.getText().toString().trim());
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "输入数量格式不正确!" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onOutPalletNoFocus();
+                }
+            });
+        }
+        return qty;
     }
 
 

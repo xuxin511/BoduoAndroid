@@ -95,10 +95,11 @@ public class QualityInspectionBillItemAdapter extends BaseAdapter {
 //        } else {
 //            listItemView.txt_erpVoucherNo.setText("ERP单号:" + headerInfo.getErpvoucherno());
 //        }
-        listItemView.txt_quality_no.setText(headerInfo.getQualityno());
-        listItemView.txt_erpVoucherNo.setText(headerInfo.getErpvoucherno());
+        listItemView.txt_quality_no.setText(headerInfo.getErpvoucherno()); //质检单和采购订单调换一下
+        listItemView.txt_erpVoucherNo.setText(headerInfo.getQualityno());
         listItemView.txt_materialNo.setText(headerInfo.getMaterialno());
         listItemView.txt_voucher_qty.setText(headerInfo.getMaterialdesc());
+        listItemView.txt_voucherNo.setText(headerInfo.getBatchno()+"   "+headerInfo.getVoucherqty());
         listItemView.txt_status.setText(headerInfo.getErpvoucherdesc());
         listItemView.txt_material_desc.setText(headerInfo.getMaterialdesc());
         String arrVoucherNo = headerInfo.getArrvoucherno() != null ? headerInfo.getArrvoucherno() : "";

@@ -304,5 +304,10 @@ public class UrlInfo {
 
    //托盘蓝牙打印
    public String CreateT_OutBarcodeBlueADFAsync = GetWCFAdress() + "OutBarcode/CreateT_OutBarcodeBlueADFAsync"; //托盘蓝牙打印
+    //补货
+    //移出托盘查询  GetT_ScanStockADFAsync
+    public String GetScanInfo = GetWCFAdress() + "Check/GetScanInfo"; //移入托盘查询
+    public String GetV_AreaModel = GetWCFAdress() + "Area/GetV_AreaModel"; //移入库位查询
+    public String Save_StockReplenishment = GetWCFAdress() + "Stock/Save_StockReplenishment"; //补货提交
 
 }

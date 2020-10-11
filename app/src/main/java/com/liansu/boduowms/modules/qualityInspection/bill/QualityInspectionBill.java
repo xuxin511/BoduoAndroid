@@ -109,6 +109,7 @@ public class QualityInspectionBill extends BaseActivity implements SwipeRefreshL
     @Override
     public void onRefresh() {
         if (mPresenter != null) {
+            String content=mEdtfilterContent.getText().toString().trim();
             mPresenter.onReset();
             QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
             mPresenter.getQualityInsHeaderList(qualityHeaderInfo);

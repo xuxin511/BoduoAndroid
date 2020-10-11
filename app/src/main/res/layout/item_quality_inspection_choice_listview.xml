@@ -42,7 +42,7 @@
                     android:id="@+id/txt_materialNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.5"
                     android:maxLines="2"
                     android:textColor="@color/mediumseagreen"
                     android:textSize="@dimen/common_text_size_first" />
@@ -53,7 +53,7 @@
                     android:id="@+id/txt_voucherNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.65"
+                    android:layout_weight="0.5"
                     android:maxLines="1"
                     android:textColor="@color/red"
                     android:textSize="@dimen/common_text_size_first" />

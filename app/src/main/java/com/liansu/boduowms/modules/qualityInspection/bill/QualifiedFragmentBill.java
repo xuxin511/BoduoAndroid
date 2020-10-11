@@ -69,7 +69,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
     @Override
     public void onStart() {
         super.onStart();
-        onRefresh();
+        onRefresh(false);
 //        closeKeyBoard(mEdtfilterContent);
     }
 
@@ -77,20 +77,14 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
     @Override
     public void onResume() {
         super.onResume();
-        if (mAdapter!=null){
+        if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void onRefresh() {
-        if (mPresenter != null) {
-            mPresenter.onReset();
-            QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
-            qualityHeaderInfo.setLinestatus(0);
-            qualityHeaderInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-            mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
-        }
+        onRefresh(true);
     }
 
     @Override
@@ -108,7 +102,7 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
             QualityHeaderInfo receiptModel = (QualityHeaderInfo) mAdapter.getItem(position);
             StartScanIntent(receiptModel, null);
         } catch (Exception e) {
-            MessageBox.Show(mContext,e.getMessage());
+            MessageBox.Show(mContext, e.getMessage());
         }
 
     }
@@ -138,10 +132,9 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
         return false;
     }
 
-    public QualifiedBillPresenter  getPresenter(){
-        return  mPresenter;
+    public QualifiedBillPresenter getPresenter() {
+        return mPresenter;
     }
-
 
 
     void StartScanIntent(QualityHeaderInfo headerInfo, ArrayList<OutBarcodeInfo> barCodeInfo) {
@@ -221,11 +214,25 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
                 }
 
             } else {
-                MessageBox.Show(mContext,"校验单据长度失败:"+"请扫描单据号");
+                MessageBox.Show(mContext, "校验单据长度失败:" + "请扫描单据号");
             }
 
         }
         return false;
     }
 
+
+    public void onRefresh(boolean isClearContent) {
+        if (mPresenter != null) {
+            if (isClearContent) {
+                mPresenter.onReset();
+            }
+            final String content = mEdtfilterContent.getText().toString().trim();
+            QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
+            qualityHeaderInfo.setLinestatus(0);
+            qualityHeaderInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+            qualityHeaderInfo.setErpvoucherno(content);
+            mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
+        }
+    }
 }
