@@ -454,4 +454,13 @@ public class BaseInStockHouseLabelPrint extends BaseActivity implements BaseInSt
         }
         return false;
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mPresenter!=null){
+            mPresenter.onStop();
+        }
+    }
 }

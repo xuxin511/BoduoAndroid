@@ -477,6 +477,7 @@
     <string name="message_request_voucher_info_query">正在获取单据类型信息....</string>
     <string name="message_request_qr_status_info_query">正在获取质检状态类型信息....</string>
 
+
     //库存调整
     <string name="QCStatus">质检:</string>
     <string name="app_bar_title_inventory_adjustment">库存调整</string>
@@ -512,4 +513,17 @@
     <string name="in_stock_combine_pallet_type_new_pallet">新托盘</string>
     <string name="in_stock_combine_pallet_type_dis_combine_pallet">拆托</string>
 
+
+    <string name="in_stock_replenishment_move_out_tray">移出托盘:</string>
+    <string name="in_stock_replenishment_move_out_tray_hint">请输入或扫描移出托盘</string>
+    <string name="in_stock_replenishment_move_out_tray_qty_desc">数量:</string>
+    <string name="in_stock_replenishment_move_out_tray_qty_desc_hint">请输入数量</string>
+    <string name="in_stock_replenishment_move_in_tray">移入托盘:</string>
+    <string name="in_stock_replenishment_move_in_tray_hint">请输入或扫描移入托盘</string>
+    <string name="in_stock_replenishment_move_in_tray_area_desc">库位:</string>
+    <string name="in_stock_replenishment_move_in_tray_area_desc_hint">请输入或扫描库位</string>
+    <string name="request_replenishment_move_out_tray_message">正在获取移出托盘信息....</string>
+    <string name="request_replenishment_move_in_tray_message">正在获取移入托盘信息....</string>
+    <string name="request_replenishment_move_in_tray_area_message">正在获取移入库位信息....</string>
+    <string name="request_replenishment_info_refer">正在提交补货信息....</string>
 </resources>

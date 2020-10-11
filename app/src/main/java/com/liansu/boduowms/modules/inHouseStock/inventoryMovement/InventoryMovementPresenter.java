@@ -17,6 +17,7 @@ import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.function.DoubleClickCheck;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -275,6 +276,9 @@ public class InventoryMovementPresenter {
      * @time 2019/11/21 10:59
      */
     public void onRefer() {
+        if (DoubleClickCheck.isFastDoubleClick(mContext,1000)) {
+            return ;
+        }
         if (mModel.getStockInfoList() == null || mModel.getStockInfoList().size() == 0) {
             MessageBox.Show(mContext, "请扫描条码信息");
             return;

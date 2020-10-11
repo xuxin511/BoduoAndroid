@@ -371,4 +371,11 @@ public class BaseInStockHouseLabelPrintPresenter {
         mModel.onReset();
         mView.onReset();
     }
+
+
+    public void onStop(){
+        if (mPrintModel!=null){
+            mPrintModel.onClose();
+        }
+    }
 }

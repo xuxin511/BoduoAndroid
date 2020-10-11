@@ -48,6 +48,7 @@ public class PrintBusinessModel extends BaseModel {
     public static final String                PRINTER_LABEL_NAME_PALLET_NO              = "托盘标签";
     public static final String                PRINTER_LABEL_NAME_NO_SOURCE_PALLET_NO    = "无源托盘标签";
     public static final String                PRINTER_LABEL_NAME_OUTER_BOX              = "外箱标签";
+    public              Connection            mConnection;
 
     @Override
     public void onHandleMessage(Message msg) {
@@ -113,6 +114,7 @@ public class PrintBusinessModel extends BaseModel {
 
     public boolean sendFile(PrintInfo info) {
         try {
+            mConnection = null;
             readBluetoothPrinterMacAddressShare(mContext);
             mMac = UrlInfo.mBluetoothPrinterMacAddress;
             Connection connection = null;
@@ -129,6 +131,7 @@ public class PrintBusinessModel extends BaseModel {
                 return false;
             }
             connection = new BluetoothConnection(mMac);
+            mConnection = connection;
             connection.open();
             ZebraPrinter printer = ZebraPrinterFactory.getInstance(connection);
             sendFile(printer, info);
@@ -157,6 +160,7 @@ public class PrintBusinessModel extends BaseModel {
      */
     public boolean sendFile(List<PrintInfo> list) {
         try {
+            mConnection = null;
             readBluetoothPrinterMacAddressShare(mContext);
             mMac = UrlInfo.mBluetoothPrinterMacAddress;
             Connection connection = null;
@@ -173,6 +177,7 @@ public class PrintBusinessModel extends BaseModel {
                 return false;
             }
             connection = new BluetoothConnection(mMac);
+            mConnection = connection;
             connection.open();
             ZebraPrinter printer = ZebraPrinterFactory.getInstance(connection);
             for (PrintInfo printInfo : list) {
@@ -247,16 +252,12 @@ public class PrintBusinessModel extends BaseModel {
                 "B QR 400 80 M 2 U 4\r\n" +
                 "MM,B0050X_QR_CODE\r\n" +
                 "ENDQR\r\n" +
-                "T GBUNSG24.CPF 0 70 15 物料编号:\r\n" +
-                "T 5 0 70 30 X_MATERIAL_NO\r\n" +
-                "T GBUNSG24.CPF 0 70 55 数    量:\r\n" +
-                "T 5 0 70 80 X_QTY\r\n" +
-                "T GBUNSG24.CPF 0 70 105 批    次:\r\n" +
-                "T 5 0 70 130 X_BATCH_NO\r\n" +
-                "T GBUNSG24.CPF 0 70 155 到货时间:\r\n" +
-                "T 5 0 70 180 X_ARRIVAL_TIME\r\n" +
-                "T GBUNSG24.CPF 0 70 205 签收人:X_SIGNATORY\r\n" +
-                "T 5 0 380 205 X_SERIAL_NO\r\n" +
+                "T GBUNSG24.CPF 0 70 15 物料编号:X_MATERIAL_NO\r\n" +
+                "T GBUNSG24.CPF 0 70 60 批    次:X_BATCH_NO\r\n" +
+                "T GBUNSG24.CPF 0 70 105 到货时间:X_ARRIVAL_TIME\r\n" +
+                "T GBUNSG24.CPF 0 70 150 数    量:X_QTY\r\n" +
+                "T GBUNSG24.CPF 0 70 195 签收人:X_SIGNATORY\r\n" +
+                "T 5 0 380 195 X_SERIAL_NO\r\n" +
                 "PRINT\r\n";
         command = command.replace("X_QR_CODE", QRCode).replace("X_MATERIAL_NO", materialNo)
                 .replace("X_QTY", qty).replace("X_BATCH_NO", batchNo)
@@ -503,4 +504,20 @@ public class PrintBusinessModel extends BaseModel {
         return isAccess;
     }
 
+    /**
+     * @desc: 关闭连接
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/10/10 15:20
+     */
+    public void onClose() {
+        if (mConnection != null) {
+            try {
+                mConnection.close();
+            } catch (ConnectionException e) {
+                MessageBox.Show(mContext,"关闭蓝牙连接出现预期之外的异常:"+e.getMessage());;
+            }
+        }
+    }
 }

@@ -77,6 +77,9 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
     @Override
     public void onResume() {
         super.onResume();
+        if (mAdapter!=null){
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

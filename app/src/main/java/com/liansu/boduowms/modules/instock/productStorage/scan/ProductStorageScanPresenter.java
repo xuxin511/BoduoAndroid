@@ -142,7 +142,7 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProduct
      */
     @Override
     protected void onOrderRefer() {
-        if (mModel.getOrderDetailList() == null) {
+        if (mModel.getOrderDetailList() == null || mModel.getOrderDetailList().size()==0) {
             MessageBox.Show(mContext, "校验单据信息失败:单据信息为空,请先扫描单据", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

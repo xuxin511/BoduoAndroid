@@ -115,7 +115,7 @@ public class InventoryMovementScan extends BaseActivity implements IInventoryMov
                     break;
             }
 
-            return true;
+            return false;
         }
         return false;
     }

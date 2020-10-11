@@ -70,13 +70,14 @@ public class OrderType {
 
     public final static int OUT_STOCK_ORDER_TYPE_OTHER_DELIVERY_AND_LOADING_VALUE = 1;
 
-    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT = 34;//移库
-    public final static int IN_HOUSE_STOCK_ORDER_TYPE_ADJUST_STOCK       = 35;//库存调整
-    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY  = 38;//库存查询
-    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY          = 67;//盘点
-    public final static int IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY          = 73;//明盘
-    public final static int IN_HOUSE_STOCK_ORDER_TYPE_BEGINNING_INVENTORY          = 74;//期初盘点
-    public final static int ORDER_TYPE_NONE_VALUE                        = -1;//未选择单据类型
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT  = 34;//移库
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_ADJUST_STOCK        = 35;//库存调整
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_INQUIRY   = 38;//库存查询
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY           = 67;//盘点
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY      = 73;//明盘
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_BEGINNING_INVENTORY = 74;//期初盘点
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_REPLENISHMENT       = 75;//补货
+    public final static int ORDER_TYPE_NONE_VALUE                         = -1;//未选择单据类型
 
 
 }
