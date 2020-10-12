@@ -311,7 +311,6 @@ public  class SalesOutReview extends BaseActivity {
                         return true;
                     }
                     if (type.equals(OutStock_Submit_type_box)) {
-
                         //箱
                         //直接提交
                         //判断是否成功 直接提交
@@ -324,6 +323,8 @@ public  class SalesOutReview extends BaseActivity {
                         model.MaterialNo = barcode;
                         if (barcode.split("%").length != 2) {
                             model.ScanQty = Float.parseFloat(strPallet[2]);
+                        }else{
+                            model.ScanQty = Float.parseFloat(strPallet[1]);
                         }
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",

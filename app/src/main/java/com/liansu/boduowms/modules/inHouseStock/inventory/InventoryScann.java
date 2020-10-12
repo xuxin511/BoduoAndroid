@@ -169,6 +169,7 @@ public class InventoryScann extends BaseActivity {
                     MessageBox.Show(context, "请输入正确的数量");
                     return;
                 }
+                CommonUtil.setEditFocus(inventory_scann_num);
                 mAdapter.notifyDataSetChanged();
             }
         });

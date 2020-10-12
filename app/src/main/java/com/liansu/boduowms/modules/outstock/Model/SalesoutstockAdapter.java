@@ -32,6 +32,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
         public TextView txt_recommended_location;
         public TextView txtstrong;
         public TextView txtbatchno;
+        public TextView unitno;
 
 
     }
@@ -91,6 +92,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
             listItemView.txtScanQty = (TextView) convertView.findViewById(R.id.txtScanQty);
             listItemView.txtMaterialDesc = (TextView) convertView.findViewById(R.id.txtMaterialDesc);
             listItemView.txtbatchno = (TextView) convertView.findViewById(R.id.txt_batch_no);
+            listItemView.unitno = (TextView) convertView.findViewById(R.id.txt_unitno);
 
             listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
             convertView.setTag(listItemView);
@@ -103,7 +105,8 @@ public class SalesoutstockAdapter extends BaseAdapter {
             if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {
                 listItemView.txt_reference_standard.setText("整件:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
             }
-            listItemView.txtstrong.setText("包装:" + String.valueOf(mDetailInfo.getPackQty()));
+            listItemView.txtstrong.setText("包装量:" + String.valueOf(mDetailInfo.getPackQty()));
+
         }else {
             listItemView.txt_reference_standard.setText("规格型号:" + mDetailInfo.getSpec());
         }
@@ -111,12 +114,13 @@ public class SalesoutstockAdapter extends BaseAdapter {
         if(mDetailInfo.getBatchno()!=null)
             batchno=mDetailInfo.getBatchno();
         listItemView.txtbatchno.setText("批次:" +batchno);
-        listItemView.txtVoucherQty.setText("下架量:" + mDetailInfo.getVoucherqty()+mDetailInfo.getUnit());
-        listItemView.txtRemainQty.setText("剩余量:" + mDetailInfo.getRemainqty()+mDetailInfo.getUnit());
-        listItemView.txtScanQty.setText("已下架:" + mDetailInfo.getScanqty()+mDetailInfo.getUnit());
+        listItemView.txtVoucherQty.setText("下架量:" + mDetailInfo.getVoucherqty());
+        //listItemView.txtVoucherQty.setText("下架量:" + "11111111"+mDetailInfo.getUnit());
+        listItemView.txtRemainQty.setText("剩余量:" + mDetailInfo.getRemainqty());
+        listItemView.txtScanQty.setText("已下架:" + mDetailInfo.getScanqty());
         listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText(mDetailInfo.getMaterialdesc());
-
+        listItemView.unitno.setText("单位:"+mDetailInfo.getUnit());
 
 //             listItemView.txt_voucherNo.setText("12345678901");
 //        if (mDetailInfo.getMaterialCartonNum() != 0 || mDetailInfo.getMaterialPartNum() != 0) {

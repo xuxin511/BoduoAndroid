@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liansu.boduowms.R;
@@ -31,6 +32,7 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
         public TextView txtMaterialDesc;//
         public TextView txt_recommended_location;
         public TextView   txt_batch_no;
+        public LinearLayout linearLayout;
 
     }
 
@@ -91,6 +93,8 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
             listItemView.txt_batch_no= (TextView) convertView.findViewById(R.id.txt_batch_no);
             listItemView.txt_batch_no.setVisibility(View.GONE);
             listItemView.txt_recommended_location.setVisibility(View.GONE);
+            listItemView .linearLayout=  (LinearLayout) convertView.findViewById(R.id.linearLayout2);
+            listItemView .linearLayout.setVisibility(View.GONE);
             convertView.setTag(listItemView);
         } else {
             listItemView = (com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter.ListItemView) convertView.getTag();
@@ -103,7 +107,7 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
         Float QTY=ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty());
         listItemView.txtVoucherQty.setText("需求量:" + mDetailInfo.getVoucherqty()+mDetailInfo.getUnit());
         // Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
-        listItemView.txtRemainQty.setText("下架量车:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty())+mDetailInfo.getUnit());
+        listItemView.txtRemainQty.setText("下架量:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty())+mDetailInfo.getUnit());
         listItemView.txtScanQty.setText("已装车:" + mDetailInfo.getScanqty()+mDetailInfo.getUnit());
 //        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());

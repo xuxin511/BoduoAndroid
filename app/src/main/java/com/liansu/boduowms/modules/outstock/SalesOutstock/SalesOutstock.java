@@ -454,12 +454,14 @@ public class SalesOutstock  extends BaseActivity  {
                                         CommonUtil.setEditFocus(sales_outstock_boxtext);
                                         MessageBox.Show(context, "扫描的外箱条码" + strBox[0] + "和托盘条码物料不一致");
                                         return true;
-                                    }else{
-                                        model.Batchno = strBox[1];
-                                        model.ScanQty = Float.parseFloat(strBox[2]);
+                                    } else {
+                                        if (strBox.length < 3) {
+                                            model.ScanQty = Float.parseFloat(strBox[1]);
+                                        } else {
+                                            model.Batchno = strBox[1];
+                                            model.ScanQty = Float.parseFloat(strBox[2]);
+                                        }
                                     }
-                                }else{
-                                    model.MaterialNo = boxNo;
                                 }
                                 model.Erpvoucherno = CurrOrderNO;
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
@@ -510,7 +512,30 @@ public class SalesOutstock  extends BaseActivity  {
 //    }
     @Event(value =R.id.outstock_sales_buttonyue)
     private void  yuetai_buttonp_Submit(View view) {
-        inputYUETAIDialog("输入月台");
+        //先检验是否全部下架完成
+        boolean isallover = true;
+        for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+            if (item.getRemainqty() != 0) {
+                isallover = false;
+            }
+        }
+        if (!isallover) {
+            new AlertDialog.Builder(this).setTitle("未全部下架完成,确认提交吗")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            inputYUETAIDialog("输入月台");
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //点击取消触发的事件
+                        }
+                    }).show();
+        } else {
+            inputYUETAIDialog("输入月台");
+        }
     }
 
 
@@ -839,7 +864,7 @@ public class SalesOutstock  extends BaseActivity  {
             }
         }
         if (type.equals(OutStock_Submit_type_box)) {
-            if (strarr.length == 4 || strarr.length == 3 || strarr.length == 1) {//包容老条码
+            if (strarr.length == 4 || strarr.length == 3 || strarr.length == 1||strarr.length==2) {//包容老条码
                 if (strarr.length > 3) {
                     if (strarr[3].equals(OutStock_Submit_type_box))
                         bool = true;

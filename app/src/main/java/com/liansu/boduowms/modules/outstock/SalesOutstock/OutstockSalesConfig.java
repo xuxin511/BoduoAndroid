@@ -305,7 +305,32 @@ public class OutstockSalesConfig extends BaseActivity {
         CommonUtil.setEditFocus(sales_outstock_wlOrder);
     }
 
-
+    protected void onResume() {
+        super.onResume();
+        String order = outstock_sales_config_order.getText().toString().trim();
+        if (!order.equals("无") && !order.equals("")) {
+            new AlertDialog.Builder(this).setTitle("是否打印托运单")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AwyBll way = new AwyBll();
+                            way.setErpvoucherno(outstock_sales_config_order.getText().toString().trim());
+                            way.Printername = UrlInfo.mOutStockPrintName;
+                            way.Printertype = UrlInfo.mOutStockPrintType;
+                            //托运单号
+                            String json = GsonUtil.parseModelToJson(way);
+                            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_WaybillPrint, "打印托运单号",
+                                    context, mHandler, RESUL_Saleoutstock_WaybillPrint, null, info.SalesOutstock__Review_Printwaybill, json, null);
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //点击取消触发的事件
+                        }
+                    }).show();
+        }
+    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
@@ -409,9 +434,11 @@ public class OutstockSalesConfig extends BaseActivity {
             } else {
                 CommonUtil.setEditFocus(sales_outstock_configOrder);
                 MessageBox.Show(context, "请先输入或扫描发货通知单号");
+                return;
             }
         }catch (Exception EX){
             MessageBox.Show(context,"值不能为空");
+            return ;
         }
     }
 
@@ -421,8 +448,8 @@ public class OutstockSalesConfig extends BaseActivity {
     private  void Click_Print(View view) {
         try {
             String order=outstock_sales_config_order.getText().toString().trim();
-            if(order.equals("无")){
-                MessageBox.Show(context,"请先选择托运单");
+            if(order.equals("无")||order.equals("")) {
+                MessageBox.Show(context, "请先选择托运单");
             }
             AwyBll way=new AwyBll();
             way.setErpvoucherno(order);
@@ -430,7 +457,7 @@ public class OutstockSalesConfig extends BaseActivity {
             way.Printertype= UrlInfo.mOutStockPrintType;
             //托运单号
             String json = GsonUtil.parseModelToJson(way);
-            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_WaybillPrint, "保存托运单号",
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_WaybillPrint, "打印托运单号",
                     context, mHandler, RESUL_Saleoutstock_WaybillPrint, null, info.SalesOutstock__Review_Printwaybill, json, null);
         } catch (Exception ex) {
         }

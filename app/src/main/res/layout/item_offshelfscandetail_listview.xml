@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
    >
-
-
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
@@ -33,7 +31,7 @@
                     android:layout_margin="0.5sp"
                     android:layout_weight="0.25"
                     android:textColor="@color/green"
-                    android:textSize="@dimen/activity_list_text_first" />
+                    android:textSize="@dimen/sp_12" />
 
 
                 <TextView
@@ -48,7 +46,6 @@
                     android:textColor="@color/red"
                     android:textSize="@dimen/activity_list_text_first" />
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
@@ -63,30 +60,29 @@
                     android:id="@+id/txtVoucherQty"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="1dp"
+                    android:layout_margin="0.2dp"
                     android:layout_weight="1"
                     android:textColor="@color/mediumpurple"
-                    android:textSize="@dimen/sp_11" />
+                    android:textSize="@dimen/sp_12" />
 
                 <TextView
                     android:id="@+id/txtRemainQty"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="1dp"
+                    android:layout_margin="0.2dp"
                     android:layout_weight="1"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_11" />
+                    android:textSize="@dimen/sp_12" />
 
                 <TextView
                     android:id="@+id/txtScanQty"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="1dp"
+                    android:layout_margin="0.2dp"
                     android:layout_weight="1"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_11"/>
+                    android:textSize="@dimen/sp_12"/>
         </LinearLayout>
-
         <TextView
             android:id="@+id/txtMaterialDesc"
             android:layout_width="match_parent"
@@ -98,8 +94,6 @@
             android:textSize="@dimen/activity_list_text_size_third"
 
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
-
-
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
@@ -117,19 +111,36 @@
                     android:textColor="@color/peru"
                     android:textSize="@dimen/activity_list_text_size_third" />
 
-                <TextView
-                    android:layout_margin="1dp"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_recommended_location"
-                    android:id="@+id/txt_batch_no"
+
+                <LinearLayout
+                    android:id="@+id/linearLayout5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:maxLines="2"
-                    android:textColor="@color/peru"
-                    android:textSize="@dimen/activity_list_text_size_third" />
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                        <TextView
+                            android:id="@+id/txt_batch_no"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="0.2dp"
+                            android:layout_weight="0.6"
+                            android:textColor="@color/mediumpurple"
+                            android:textSize="@dimen/sp_13" />
+                        <TextView
+                            android:id="@+id/txt_unitno"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="0.2dp"
+                            android:layout_weight="0.4"
+                            android:textColor="@color/red"
+                            android:textSize="@dimen/sp_13" />
+                </LinearLayout>
+
 
         </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

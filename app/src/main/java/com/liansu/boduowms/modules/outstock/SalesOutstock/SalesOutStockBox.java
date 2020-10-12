@@ -739,7 +739,7 @@ public  class SalesOutStockBox   extends BaseActivity {
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 if(returnMsgModel.getData()!=null){//旧外箱
                     if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()!=2) {
-                        MessageBox.Show(context, "该仓库不能大于外箱拼箱");
+                        MessageBox.Show(context, "该仓库不能打印外箱拼箱");
                         CommonUtil.setEditFocus(sales_outstock_box_watercode);
                         return;
                     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liansu.boduowms.R;
@@ -34,7 +35,7 @@ import java.util.List;
             public TextView txt_recommended_location;
             public TextView txtstrong;
             public TextView txt_batch_no;
-
+            public LinearLayout linearLayout;
         }
 
         public SalesoutstockBoxAdapter(Context mContext, List<OutStockOrderDetailInfo> stockInfoModels) {
@@ -94,6 +95,8 @@ import java.util.List;
                 listItemView.txt_batch_no = (TextView) convertView.findViewById(R.id.txt_batch_no);
                 listItemView.txt_recommended_location.setVisibility(View.GONE);
                 listItemView.txt_batch_no.setVisibility(View.GONE);
+                listItemView .linearLayout=  (LinearLayout) convertView.findViewById(R.id.linearLayout2);
+                listItemView .linearLayout.setVisibility(View.GONE);
                 convertView.setTag(listItemView);
             } else {
                 listItemView = (com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter.ListItemView) convertView.getTag();
