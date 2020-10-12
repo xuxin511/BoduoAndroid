@@ -193,14 +193,16 @@ public class InStockHouseReplenishmentItemAdapter extends RecyclerView.Adapter<I
      */
     public void setSingleCheckedStatus(View view, int position) {
         try {
-            for (int i = 0; i < selectedList.size(); i++) {
-                if (selectedList.get(i) == true) {
-                    selectedList.set(position, false);//将状态全部还原为初始状态（false）
-                    if (view != null) {
-                        view.setBackgroundResource(R.color.trans);
-                    }
-                }
-            }
+            notifySelectedList(mStockList);
+            resetItemsBackground();
+//            for (int i = 0; i < selectedList.size(); i++) {
+//                if (selectedList.get(i) == true) {
+//                    selectedList.set(position, false);//将状态全部还原为初始状态（false）
+//                    if (view != null) {
+//                        view.setBackgroundResource(R.color.trans);
+//                    }
+//                }
+//            }
 
             selectedList.set(position, true);//将当前item设置为选中（true）
             if (view != null) {
@@ -212,6 +214,24 @@ public class InStockHouseReplenishmentItemAdapter extends RecyclerView.Adapter<I
         }
 
 
+    }
+
+     /**
+      * @desc: 将item重置为无色
+      * @param:
+      * @return:
+      * @author: Nietzsche
+      * @time 2020/10/12 12:23
+      */
+    public void resetItemsBackground() {
+        if (mRecyclerView != null) {
+            for (int i = 0; i < getItemCount(); i++) {
+                InStockHouseReplenishmentItemAdapter.ViewHolder item = (ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(i);
+                if (item!=null){
+                    item.rootView.setBackgroundResource(R.color.trans);
+                }
+            }
+        }
     }
 
     /**

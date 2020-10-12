@@ -13,6 +13,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.ui.adapter.inHouseStock.InStockHouseReplenishmentItemAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
@@ -23,7 +24,6 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -76,8 +76,9 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
     @Override
     protected void initData() {
         super.initData();
+        int voucherType = getIntent().getIntExtra("VoucherType", OrderType.ORDER_TYPE_NONE_VALUE);
         if (mPresenter == null) {
-            mPresenter = new InStockHouseReplenishmentPresenter(mContext, this, mHandler);
+            mPresenter = new InStockHouseReplenishmentPresenter(mContext, this, mHandler, voucherType);
         }
         onReset();
 
@@ -160,16 +161,12 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
     }
 
 
-    @Event(value = {R.id.replenishment_refer_button}, type = View.OnKeyListener.class)
-    private boolean onRefer(View v, int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
-        {
-
-            switch (v.getId()) {
-                case R.id.btn_refer:
-                    mPresenter.onRefer();
-                    break;
-            }
+    @Event(value = {R.id.replenishment_refer_button}, type = View.OnClickListener.class)
+    private boolean onRefer(View v) {
+        switch (v.getId()) {
+            case R.id.replenishment_refer_button:
+                mPresenter.onRefer();
+                break;
         }
         return false;
     }
@@ -197,10 +194,7 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
 
     @Override
     public void setInPalletAreaNoEnable(boolean enable) {
-        if (mOutPalletQty.isEnabled() != enable) {
-            mOutPalletQty.setEnabled(enable);
-        }
-
+        mInPalletAreaNo.setEnabled(enable);
     }
 
     @Override
@@ -214,7 +208,10 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
         mOutPalletQty.setText("0");
         mInPalletNo.setText("");
         mInPalletAreaNo.setText("");
-        bindListView(null);
+        if (mPresenter != null) {
+            bindListView(mPresenter.getModel().getOutPalletInfoList());
+        }
+
         mInPalletAreaNo.setEnabled(true);
         onOutPalletNoFocus();
     }
@@ -222,9 +219,6 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
     @Override
     public void bindListView(List<StockInfo> list) {
         try {
-            if (list == null) {
-                list = new ArrayList<>();
-            }
             if (mAdapter == null || list.size() == 0) {
                 mAdapter = new InStockHouseReplenishmentItemAdapter(mContext, list);
                 mAdapter.setOnItemClickListener(new InStockHouseReplenishmentItemAdapter.OnItemClickListener() {
@@ -232,7 +226,12 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
                     public void onItemClick(RecyclerView parent, View view, int position, StockInfo data) {
                         if (data != null) {
                             try {
-                                mAdapter.setSingleCheckedStatus(view, position);
+                                if (mPresenter!=null){
+                                    mPresenter.getModel().setCurrentMaterialInfo(null);
+                                    mAdapter.setSingleCheckedStatus(view, position);
+                                    onOutPalletQtyFocus();
+                                }
+
                             } catch (Exception e) {
                                 MessageBox.Show(context, "点击列表出现预期之外的异常:" + e.getMessage());
                             }
@@ -267,6 +266,7 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                mAdapter.notifyDataSetChanged();
             } else {
                 mAdapter.notifyDataSetChanged();
             }

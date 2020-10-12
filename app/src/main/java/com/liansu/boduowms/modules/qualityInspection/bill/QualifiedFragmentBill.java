@@ -116,17 +116,14 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
             if (code.equals("")) {
                 return true;
             }
-            if (code.length() < 25) {
-                QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
-//                receiptModel.setStatus(1);
-                qualityHeaderInfo.setErpvoucherno(code);
-                if (mPresenter != null) {
-                    mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
-                }
 
-            } else {
-//                GetT_ErpVoucherNo(code);
+            QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
+//                receiptModel.setStatus(1);
+            qualityHeaderInfo.setErpvoucherno(code);
+            if (mPresenter != null) {
+                mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
             }
+
 
         }
         return false;
@@ -205,17 +202,14 @@ public class QualifiedFragmentBill extends BaseFragment implements SwipeRefreshL
             if (code.equals("")) {
                 return true;
             }
-            if (code.length() < 25) {
-                QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
-//                receiptModel.setStatus(1);
-                qualityHeaderInfo.setErpvoucherno(code);
-                if (mPresenter != null) {
-                    mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
-                }
 
-            } else {
-                MessageBox.Show(mContext, "校验单据长度失败:" + "请扫描单据号");
+            QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
+//                receiptModel.setStatus(1);
+            qualityHeaderInfo.setErpvoucherno(code);
+            if (mPresenter != null) {
+                mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
             }
+
 
         }
         return false;

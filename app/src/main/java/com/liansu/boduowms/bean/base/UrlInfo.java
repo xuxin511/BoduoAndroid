@@ -309,5 +309,6 @@ public class UrlInfo {
     public String GetScanInfo = GetWCFAdress() + "Check/GetScanInfo"; //移入托盘查询
     public String GetV_AreaModel = GetWCFAdress() + "Area/GetV_AreaModel"; //移入库位查询
     public String Save_StockReplenishment = GetWCFAdress() + "Stock/Save_StockReplenishment"; //补货提交
-
+    //工单退料
+    public String GetT_WorkOrderReturnDetailListADFAsync = GetWCFAdress() + "WorkOrderReturn/GetT_WorkOrderReturnDetailListADFAsync"; //查询单据
 }

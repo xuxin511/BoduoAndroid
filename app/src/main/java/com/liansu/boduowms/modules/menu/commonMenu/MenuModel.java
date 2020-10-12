@@ -584,10 +584,11 @@ public class MenuModel {
                 intent.setData(data);
                 intent.setClass(mContext, InventoryScann.class);
             }
-            //35  库存调整
+            //75 补货
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_REPLENISHMENT) {
                 intent.setClass(mContext, InStockHouseReplenishment.class);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
             }
 
         }

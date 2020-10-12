@@ -42,10 +42,10 @@ public class InStockHouseReplenishmentPresenter {
 
     }
 
-    public InStockHouseReplenishmentPresenter(Context context, IInStockHouseReplenishmentView view, MyHandler<BaseActivity> handler) {
+    public InStockHouseReplenishmentPresenter(Context context, IInStockHouseReplenishmentView view, MyHandler<BaseActivity> handler,int voucherType) {
         this.mContext = context;
         this.mView = view;
-        this.mModel = new InStockHouseReplenishmentModel(mContext, handler);
+        this.mModel = new InStockHouseReplenishmentModel(mContext, handler,voucherType);
 
     }
 
@@ -99,6 +99,9 @@ public class InStockHouseReplenishmentPresenter {
                 return;
             }
             if (scanQRCode != null) {
+                scanQRCode.setVouchertype(mModel.getVoucherType());
+                scanQRCode.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                scanQRCode.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 mModel.requestOutPalletInfoQuery(scanQRCode, new NetCallBackListener<String>() {
                     @Override
                     public void onCallBack(String result) {
@@ -116,7 +119,8 @@ public class InStockHouseReplenishmentPresenter {
                                     MessageBox.Show(mContext, "查询移出托盘码信息失败:获取的托盘数据为空," + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            mView.onOutPalletQtyFocus();
+                                            mView.bindListView(mModel.getOutPalletInfoList());
+                                            mView.onOutPalletNoFocus();
                                         }
                                     });
                                 }
@@ -124,7 +128,8 @@ public class InStockHouseReplenishmentPresenter {
                                 MessageBox.Show(mContext, "查询托盘码失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        mView.onOutPalletQtyFocus();
+                                        mView.bindListView(mModel.getOutPalletInfoList());
+                                        mView.onOutPalletNoFocus();
                                     }
                                 });
                             }
@@ -133,7 +138,8 @@ public class InStockHouseReplenishmentPresenter {
                             MessageBox.Show(mContext, "查询托盘码失败，出现预期之外的异常-" + ex.getMessage() + ",", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    mView.onOutPalletQtyFocus();
+                                    mView.bindListView(mModel.getOutPalletInfoList());
+                                    mView.onOutPalletNoFocus();
                                 }
                             });
                         }
@@ -144,7 +150,8 @@ public class InStockHouseReplenishmentPresenter {
                 MessageBox.Show(mContext, "解析条码失败，条码格式不正确" + outPalletNo, MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mView.onOutPalletQtyFocus();
+                        mView.bindListView(mModel.getOutPalletInfoList());
+                        mView.onOutPalletNoFocus();
                     }
                 });
                 return;
@@ -153,7 +160,8 @@ public class InStockHouseReplenishmentPresenter {
             MessageBox.Show(mContext, "查询移出条码失败，出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    mView.onOutPalletQtyFocus();
+                    mView.bindListView(mModel.getOutPalletInfoList());
+                    mView.onOutPalletNoFocus();
                 }
             });
             return;

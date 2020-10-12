@@ -10,6 +10,7 @@ import com.liansu.boduowms.base.BaseModel;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
@@ -40,15 +41,25 @@ public class InStockHouseReplenishmentModel extends BaseModel {
     private final int             RESULT_TAG_GET_IN_PALLET_INFO_QUERY      = 307502;
     private final int             RESULT_TAG_GET_IN_PALLET_AREA_INFO_QUERY = 307503;
     private final int             RESULT_TAG_REPLENISHMENT_INFO_REFER      = 307504;
-    public        List<StockInfo> mInPalletInfoList                        = new ArrayList<>();  //移入托盘信息
-    public        List<StockInfo> mOutPalletInfoList                       = new ArrayList<>(); //移出托盘信息
-    public        AreaInfo        mAreaInfo                                = null; //库位信息
-    public        StockInfo       mCurrentMaterialInfo;
-
+    private         List<StockInfo> mInPalletInfoList                        = new ArrayList<>();  //移入托盘信息
+    private         List<StockInfo> mOutPalletInfoList                       = new ArrayList<>(); //移出托盘信息
+    private         AreaInfo        mAreaInfo                                = null; //库位信息
+    private         StockInfo       mCurrentMaterialInfo;
+    private      int mVoucherType= OrderType.ORDER_TYPE_NONE_VALUE;
     public InStockHouseReplenishmentModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler);
     }
+    public InStockHouseReplenishmentModel(Context context, MyHandler<BaseActivity> handler,int voucherType) {
+        super(context, handler);
+        setVoucherType(voucherType);
+    }
+    public void  setVoucherType(int voucherType){
+        mVoucherType=voucherType;
+    }
 
+    public  int getVoucherType(){
+        return mVoucherType;
+    }
     /**
      * @desc: 保存移入库信息
      * @param:

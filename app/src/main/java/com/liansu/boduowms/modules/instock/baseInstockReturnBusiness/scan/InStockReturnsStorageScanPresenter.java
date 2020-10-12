@@ -525,6 +525,8 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
             } else if (palletType == InStockReturnsStorageScanModel.RETURN_PALLET_TYPE_NEW_PALLET) {
                 palletInfo.setScantype(0);
             }
+            palletInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+            palletInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
             BaseMultiResultInfo<Boolean, List<OrderDetailInfo>> detailResult = mModel.findMaterialInfoList(palletInfo); //找到物料行
             if (detailResult.getHeaderStatus()) {
                 List<OrderDetailInfo> postList = detailResult.getInfo();
