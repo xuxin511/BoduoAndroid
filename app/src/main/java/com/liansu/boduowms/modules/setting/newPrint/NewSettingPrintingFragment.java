@@ -42,7 +42,7 @@ import static com.liansu.boduowms.utils.SharePreferUtil.setBluetoothPrinterMacAd
  * @author: Nietzsche
  * @time 2020/7/30 16:02
  */
-@ContentView(R.layout.activity_setting_print)
+@ContentView(R.layout.activity_setting_print3)
 public class NewSettingPrintingFragment extends BaseFragment implements INewSettingPrintView {
     private static final int REQUEST_CODE_OK = 1;
     Context mContext;

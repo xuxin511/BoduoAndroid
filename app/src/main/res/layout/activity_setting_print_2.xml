@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="25dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/setting_print_save_setting"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <EditText
+                android:id="@+id/setting_print_bluetooth_printer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:hint="@string/setting_print_bluetooth_printer_desc_hint"
+                android:textSize="@dimen/activity_setting_text_size"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/setting_print_bluetooth_printer_select"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_bluetooth_printer_desc" />
+
+            <Button
+                android:id="@+id/setting_print_bluetooth_printer_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_selector"
+                android:text="@string/choice"
+                android:textColor="@color/white"
+                android:textSize="@dimen/activity_setting_text_size"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_print_bluetooth_printer"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintRight_toLeftOf="@+id/guideline87" />
+
+            <Button
+                android:id="@+id/setting_print_bluetooth_printer_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bt_selector"
+                android:text="@string/text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/activity_setting_text_size"
+                android:visibility="visible"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintRight_toLeftOf="@+id/guideline87"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_bluetooth_printer_select" />
+
+            <Button
+                android:id="@+id/setting_print_desktop_printer_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_selector"
+                android:text="@string/choice"
+                android:textColor="@color/white"
+                android:textSize="@dimen/activity_setting_text_size"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_print_desktop_printer"
+                app:layout_constraintRight_toLeftOf="@+id/guideline87" />
+
+            <Button
+                android:id="@+id/setting_print_laser_printer_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_selector"
+                android:text="@string/choice"
+                android:textColor="@color/white"
+                android:textSize="@dimen/activity_setting_text_size"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_print_laser_printer"
+                app:layout_constraintRight_toLeftOf="@+id/guideline87" />
+
+
+            <EditText
+                android:id="@+id/setting_print_laser_printer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:hint="@string/setting_print_printer_name_hint"
+                android:selectAllOnFocus="true"
+                android:textSize="@dimen/activity_setting_text_size"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/setting_print_laser_printer_select"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_laser_printer_desc">
+            </EditText>
+
+            <TextView
+                android:id="@+id/setting_print_laser_printer_desc"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/setting_print_in_stock_laser_printer_desc"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/guideline45"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/setting_print_desktop_printer_desc"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_print_in_stock_desktop_printer_desc"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/guideline45"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_laser_printer" />
+
+
+            <EditText
+
+                android:id="@+id/setting_print_desktop_printer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:hint="@string/setting_print_printer_name_hint"
+                android:textSize="@dimen/activity_setting_text_size"
+
+                app:layout_constraintLeft_toLeftOf="@id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/setting_print_desktop_printer_select"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_desktop_printer_desc" />
+
+            <TextView
+                android:id="@+id/setting_print_out_stock_laser_printer_desc"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_print_out_stock_laser_printer_desc"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/guideline45"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_desktop_printer" />
+
+
+            <EditText
+                android:id="@+id/setting_print_out_stock_laser_printer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:hint="@string/setting_print_printer_name_hint"
+                android:selectAllOnFocus="true"
+                android:textSize="@dimen/activity_setting_text_size"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/setting_print_laser_printer_select"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_laser_printer_desc">
+            </EditText>
+            <TextView
+                android:id="@+id/setting_print_out_stock_desktop_printer_desc"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_print_out_stock_desktop_printer_desc"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/guideline45"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_laser_printer" />
+
+
+            <EditText
+                android:id="@+id/setting_print_out_stock_desktop_printer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:hint="@string/setting_print_printer_name_hint"
+                android:textSize="@dimen/activity_setting_text_size"
+                app:layout_constraintLeft_toLeftOf="@id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/setting_print_desktop_printer_select"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_desktop_printer_desc" />
+
+            <TextView
+                android:gravity="left"
+                android:id="@+id/setting_print_bluetooth_printer_desc"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_print_bluetooth_printer_desc"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintRight_toLeftOf="@+id/guideline45"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_desktop_printer" />
+
+            <TextView
+                android:id="@+id/setting_print_in_stock_printer_type"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_print_in_stock_printer_type"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_bluetooth_printer_test" />
+
+            <RadioGroup
+                android:id="@+id/setting_print_in_stock_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="@+id/setting_print_in_stock_printer_type"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_in_stock_printer_type">
+
+                <RadioButton
+                    android:id="@+id/setting_print_in_stock_select_laser_printer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.76"
+                    android:checked="true"
+                    android:text="@string/setting_print_laser_printer"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/setting_print_in_stock_select_desktop_printer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.65"
+                    android:text="@string/setting_print_desktop_printer"
+                    android:textSize="18sp" />
+
+            </RadioGroup>
+
+
+            <TextView
+                android:id="@+id/setting_print_out_stock_printer_type"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_print_out_stock_printer_type"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_in_stock_radio_group" />
+
+            <RadioGroup
+                android:id="@+id/setting_print_out_stock_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="@+id/setting_print_in_stock_printer_type"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_printer_type">
+
+                <RadioButton
+                    android:id="@+id/setting_print_out_stock_select_laser_printer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.76"
+                    android:checked="true"
+                    android:text="@string/setting_print_laser_printer"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/setting_print_out_stock_select_desktop_printer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.65"
+                    android:text="@string/setting_print_desktop_printer"
+                    android:textSize="18sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/setting_print_out_stock_packing_box_printer_type"
+                style="@style/TextViewComminStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_print_out_stock_packing_box_printer_type"
+                app:layout_constraintLeft_toRightOf="@+id/guideline_v_1"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_radio_group" />
+
+            <RadioGroup
+                android:id="@+id/setting_print_out_stock_packing_box_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="@+id/setting_print_in_stock_printer_type"
+                app:layout_constraintTop_toBottomOf="@+id/setting_print_out_stock_packing_box_printer_type">
+
+                <RadioButton
+                    android:id="@+id/setting_print_out_stock_packing_box_select_laser_printer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.76"
+                    android:checked="true"
+                    android:text="@string/setting_print_laser_printer"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/setting_print_out_stock_packing_box_select_desktop_printer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.65"
+                    android:text="@string/setting_print_desktop_printer"
+                    android:textSize="18sp" />
+
+            </RadioGroup>
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline45"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.48" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_v_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline87"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.9" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/setting_print_save_setting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bt_selector"
+        android:text="@string/Setting_Save"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

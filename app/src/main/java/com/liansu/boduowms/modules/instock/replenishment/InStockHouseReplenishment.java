@@ -307,5 +307,10 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
         return qty;
     }
 
+    @Override
+    public void setOutPalletNo(String outPalletNo) {
+        mOutPalletNo.setText(outPalletNo+"");
+    }
+
 
 }

@@ -42,6 +42,7 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
         final List<String> tabTexts = new ArrayList<>();
         tabTexts.add(getString(R.string.setting_system_info));
         tabTexts.add(getString(R.string.setting_print_info));
+        tabTexts.add(getString(R.string.setting_print_info));
         mToolBar = findViewById(R.id.widget_common_tool_bar);
         if (BaseApplication.mCurrentWareHouseInfo!=null){
             mToolBar.setTitle(mContext.getResources().getString(R.string.setting_title) + "-" +BaseApplication.mCurrentWareHouseInfo.getWarehouseno() );
@@ -80,6 +81,7 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
         listFragments.add(new SettingSystemFragment());
         listFragments.add(new SettingPrintingFragment());
 
+
         // SETUP VIEWPAGER2
         final ViewPager2 viewPager2 = findViewById(R.id.pager);
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -110,6 +112,7 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText(tabTexts.get(0)));
         tabLayout.addTab(tabLayout.newTab().setText(tabTexts.get(1)));
+        tabLayout.addTab(tabLayout.newTab().setText(tabTexts.get(2)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setVisibility(View.VISIBLE);
         new TabLayoutMediator(tabLayout, viewPager2,

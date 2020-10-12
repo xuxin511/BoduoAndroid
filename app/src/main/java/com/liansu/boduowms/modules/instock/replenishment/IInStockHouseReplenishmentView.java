@@ -20,5 +20,6 @@ import java.util.List;
     void setOutPalletQty(float qty);
     List<StockInfo>  getSelectedMaterialItems();
     float getInPalletQty();
+    void setOutPalletNo(String outPalletNo);
 
 }

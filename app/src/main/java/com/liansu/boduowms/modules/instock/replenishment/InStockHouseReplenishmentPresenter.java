@@ -42,10 +42,10 @@ public class InStockHouseReplenishmentPresenter {
 
     }
 
-    public InStockHouseReplenishmentPresenter(Context context, IInStockHouseReplenishmentView view, MyHandler<BaseActivity> handler,int voucherType) {
+    public InStockHouseReplenishmentPresenter(Context context, IInStockHouseReplenishmentView view, MyHandler<BaseActivity> handler, int voucherType) {
         this.mContext = context;
         this.mView = view;
-        this.mModel = new InStockHouseReplenishmentModel(mContext, handler,voucherType);
+        this.mModel = new InStockHouseReplenishmentModel(mContext, handler, voucherType);
 
     }
 
@@ -62,8 +62,8 @@ public class InStockHouseReplenishmentPresenter {
      */
     public void onOutPalletScan(@NonNull String outPalletNo) {
         try {
-            mModel.setCurrentMaterialInfo(null);
-            mModel.setOutPalletInfoList(null);
+            onReset();
+            mView.setOutPalletNo(outPalletNo);
             OutBarcodeInfo scanQRCode = null;
             if (outPalletNo.equals("")) return;
             if (outPalletNo.contains("%")) {
@@ -251,6 +251,27 @@ public class InStockHouseReplenishmentPresenter {
         return true;
     }
 
+    /**
+     * @desc: 保存当前选择的物料
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/10/12 21:25
+     */
+    public void setCurrentSelectedMaterialInfo() {
+        StockInfo sCurrentMaterialInfo = null;
+        List<StockInfo> outPalletInfoList = mModel.getOutPalletInfoList();
+        //如果出现混托的情况，就要校验是否选择物料
+        if (outPalletInfoList.size() > 1) {
+            List<StockInfo> selectedItemList = mView.getSelectedMaterialItems();
+            if (selectedItemList != null && selectedItemList.size() == 1) {
+                sCurrentMaterialInfo = selectedItemList.get(0);
+            }
+        } else if (outPalletInfoList.size() == 1) {
+            sCurrentMaterialInfo = outPalletInfoList.get(0);
+        }
+        mModel.setCurrentMaterialInfo(sCurrentMaterialInfo);
+    }
 
     /**
      * @desc: 扫描移入托盘
@@ -308,6 +329,7 @@ public class InStockHouseReplenishmentPresenter {
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                                 List<StockInfo> list = returnMsgModel.getData();
                                 if (list != null && list.size() > 0) {
+                                    setCurrentSelectedMaterialInfo();
                                     BaseMultiResultInfo<Boolean, Void> checkMaterial = mModel.isMaterialInInPalletInfoList(mModel.getCurrentMaterialInfo(), list);
                                     if (!checkMaterial.getHeaderStatus()) {
                                         MessageBox.Show(mContext, checkMaterial.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {

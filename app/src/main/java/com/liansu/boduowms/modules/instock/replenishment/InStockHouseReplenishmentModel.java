@@ -222,15 +222,32 @@ public class InStockHouseReplenishmentModel extends BaseModel {
         String materialNoItems="";
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
         boolean IS_MATERIAL_OK = false;
-        if (stockInfo==null ||stockInfo.getMaterialno()==null || stockInfo.getMaterialno().equals("")){
+        if (stockInfo==null ){
             resultInfo.setHeaderStatus(false);
-            resultInfo.setMessage("校验物料失败!校验移出托盘的物料信息不能为空");
+            if (mOutPalletInfoList.size()>1){     //移出托盘存在多个物料没有选择的情况
+                resultInfo.setMessage("校验物料失败!移出托盘存在多个物料,请选择一个物料");
+            }else if (mOutPalletInfoList.size()==0){ //移出托盘没有扫描的情况
+                resultInfo.setMessage("校验物料失败!移出托盘的物料信息不能为空,请扫描移出托盘");
+            }
+            return resultInfo;
+        }
+
+        if (stockInfo.getMaterialno()==null || stockInfo.getMaterialno().equals("")){
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("校验物料失败!移出托盘的物料信息存在,但物料编码为空");
             return resultInfo;
         }
 
         if (inPalletInfoList==null || inPalletInfoList.size()==0){
             resultInfo.setHeaderStatus(false);
-            resultInfo.setMessage("校验物料失败!校验移入托盘的物料信息不能为空");
+            resultInfo.setMessage("校验物料失败!移入托盘的物料信息不能为空,请扫描移入托盘");
+            return resultInfo;
+        }
+        String inBarcode=inPalletInfoList.get(0).getBarcode()!=null?inPalletInfoList.get(0).getBarcode():"";
+        String outBarcode=stockInfo.getBarcode()!=null?stockInfo.getBarcode():"";
+        if (inBarcode.trim().equals(outBarcode.trim())){
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("移入托盘的托盘编码和移出托盘的托盘编码不能相同!");
             return resultInfo;
         }
         for (StockInfo info : inPalletInfoList) {

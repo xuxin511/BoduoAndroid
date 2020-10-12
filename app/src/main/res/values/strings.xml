@@ -106,6 +106,10 @@
     <string name="setting_title">设置</string>
     <string name="setting_print_laser_printer_desc">激光打印机:</string>
     <string name="setting_print_desktop_printer_desc">台式打印机:</string>
+    <string name="setting_print_in_stock_laser_printer_desc">入库激光打印机:</string>
+    <string name="setting_print_in_stock_desktop_printer_desc">入库台式打印机:</string>
+    <string name="setting_print_out_stock_laser_printer_desc">出库激光打印机:</string>
+    <string name="setting_print_out_stock_desktop_printer_desc">出库台式打印机:</string>
     <string name="setting_print_bluetooth_printer_desc">蓝牙打印机:</string>
     <string name="setting_print_in_stock_printer_type">入库打印方式:</string>
     <string name="setting_print_out_stock_printer_type">出库打印方式:</string>

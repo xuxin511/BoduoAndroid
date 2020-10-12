@@ -262,6 +262,8 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
                 if (palletType == InStockReturnsStorageScanModel.RETURN_PALLET_TYPE_OLD_PALLET) {
                     scanQRCode.setScantype(1);
                 }
+                scanQRCode.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                scanQRCode.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 mModel.requestBarcodeInfo(scanQRCode, new NetCallBackListener<String>() {
                     @Override
                     public void onCallBack(String result) {
