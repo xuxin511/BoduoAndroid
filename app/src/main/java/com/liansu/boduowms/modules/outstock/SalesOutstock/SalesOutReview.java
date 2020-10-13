@@ -46,6 +46,7 @@ import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
+import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -314,22 +315,42 @@ public  class SalesOutReview extends BaseActivity {
                         //箱
                         //直接提交
                         //判断是否成功 直接提交
-                        String[] strPallet = barcode.split("%");
+                        String[] strBox = barcode.split("%");
                         SalesoutstockRequery model = new SalesoutstockRequery();
                         model.Erpvoucherno = CurrOrderNO;
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.Vouchertype = CurrvoucherType;
                         model.MaterialNo = barcode;
-                        if (barcode.split("%").length != 2) {
-                            model.ScanQty = Float.parseFloat(strPallet[2]);
+                        if (barcode.split("%").length >2) {
+                            model.ScanQty = Float.parseFloat(strBox[2]);
                         }else{
-                            model.ScanQty = Float.parseFloat(strPallet[1]);
+                            model.ScanQty = Float.parseFloat(strBox[1]);
                         }
+                        //仓退跟采购验退的时候输入数量
+                        if(CurrvoucherType==27||CurrvoucherType==28){
+
+                         //先找到当前行的数量判断是否大于当前物料
+                            String materialno=strBox[0];
+                            Float qty=0f;
+                            for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()){
+                                 if(item.getMaterialno().equals(materialno)){
+                                     qty= ArithUtil.sub(item.getRemainqty() ,item.getScanqty());
+                                 }
+                            }
+                            if(qty==0) {
+                                CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                                MessageBox.Show(context, "该物料已经复核完毕或者不存在当前单号，请确认");
+                                return true;
+                            }
+                            inputBoxnumDialog("当前物料剩余复核数量为"+qty,qty,barcode);
+                            return true;
+                        }else{
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         return true;
+                        }
                     }
                     if (type.equals(OutStock_Submit_type_parts)) {
                         //散件
@@ -461,10 +482,29 @@ public  class SalesOutReview extends BaseActivity {
                     model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                     model.ScanQty = material.OuterQty;
                     model.Vouchertype = CurrvoucherType;
+                    if(CurrvoucherType==27||CurrvoucherType==28){
+                        //先找到当前行的数量判断是否大于当前物料
+                        String materialno=material.Materialno;
+                        Float qty=0f;
+                        for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()){
+                            if(item.getMaterialno().equals(materialno)){
+                                qty= ArithUtil.sub(item.getRemainqty() ,item.getScanqty());
+                            }
+                        }
+
+
+                        if(qty==0){
+                            CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                            MessageBox.Show(context, "该物料已经复核完毕或者不存在当前单号，请确认");
+                            return;
+                        }
+                        inputBoxnumDialog("当前物料剩余复核数量为"+qty,qty,model.MaterialNo );
+                    }else{
                     String modelJson = parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
                     return;
+                    }
                 } else {
                     CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
                     MessageBox.Show(context, returnMsgModel.getResultValue());
@@ -624,7 +664,6 @@ public  class SalesOutReview extends BaseActivity {
                             model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                             model.Vouchertype = CurrvoucherType;
                             model.MaterialNo = sales_outstock_reviewbarcode.getText().toString().trim();
-                            ;
                             model.ScanQty = inputValue;
                             String json = GsonUtil.parseModelToJson(model);
                             LogUtil.WriteLog(SalesOutReview.class, "散件提交",json );
@@ -633,6 +672,49 @@ public  class SalesOutReview extends BaseActivity {
                         } catch (Exception ex) {
                             CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
                             MessageBox.Show(context, "请输入正确的数量");
+                        }
+                    }
+                });
+        builder.show();
+    }
+
+    //箱号输入数量
+    private void  inputBoxnumDialog(String name,Float qty,String material) {
+        final   Float Remainqty=qty;
+        final  String materialno=material;
+        final EditText inputServer = new EditText(this);
+        inputServer.setSingleLine(true);
+        inputServer.setFocusable(true);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(name).setIcon(
+                null).setView(inputServer).setNegativeButton(
+                "取消", null);
+        builder.setPositiveButton("确认提交",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String Value = inputServer.getText().toString();
+                        try {
+                            Float inputValue = Float.parseFloat(Value);
+                            SalesoutstockRequery model = new SalesoutstockRequery();
+                            model.Erpvoucherno = CurrOrderNO;
+                            model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                            model.Vouchertype = CurrvoucherType;
+                            model.MaterialNo = materialno;
+                            if(inputValue>Remainqty){
+                                CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                                MessageBox.Show(context, "输入的数量不能大于当前剩余数量");
+                                return;
+                            }else {
+                                model.ScanQty = inputValue;
+                                String json = GsonUtil.parseModelToJson(model);
+                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
+                                        context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+                            }
+                        } catch (Exception ex) {
+                            CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                            MessageBox.Show(context, "请输入正确的数量");
+                            return;
                         }
                     }
                 });
@@ -675,11 +757,12 @@ public  class SalesOutReview extends BaseActivity {
                 if (strarr[4].equals(OutStock_Submit_type_ppallet))//拼托
                     return OutStock_Submit_type_ppallet;
             }
-        if (strarr.length == 4||strarr.length==3) {
-            if(strarr.length==4){
-            if (strarr[3].equals(OutStock_Submit_type_box))//拼箱
+        if (strarr.length == 4||strarr.length==3||strarr.length==2) {
+            if (strarr.length == 4) {
+                if (strarr[3].equals(OutStock_Submit_type_box))
+                    return OutStock_Submit_type_box;
+            } else {
                 return OutStock_Submit_type_box;
-            }else{   return OutStock_Submit_type_box;
             }
         }
         if (strarr.length == 2) {

@@ -585,10 +585,12 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.setErpvoucherno(CurrOrder);
                             model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
                             model.setQTY(1f);
+                            if( model.getMaterialdesc()==null) {
+                                model.setMaterialdesc("");
+                            }
                             model.setReviewQty(1f);
                             model.setBarcodeType(3);
                             model.setVouchertype(CurrVoucherType);
-
                             model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
                             model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
                             modelIsExits.put(list.get(0).getMaterialno()+"",list.get(0).getMaterialno());
@@ -635,6 +637,10 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
                         model.setQTY(1f);
                         model.setReviewQty(1f);
+                        if( model.getMaterialdesc()==null) {
+                            model.setMaterialdesc("");
+                        }
+                        model.setMaterialdesc("");
                         model.setVouchertype(CurrVoucherType);
                         model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
                         model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);

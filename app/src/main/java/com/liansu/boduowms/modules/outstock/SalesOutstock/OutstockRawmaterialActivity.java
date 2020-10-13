@@ -290,7 +290,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             // CommonUtil.setEditFocus(sales_outstock_material_pallettext);
                             return true;
                         } else {
-
                             //先判断托盘是否存在
                             //下架下的是原材料 所以可以先check所有的托盘物料是否已经超发过一次，或者
                             Outbarcode_Requery model = new Outbarcode_Requery();
@@ -600,7 +599,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 //  ArithUtil.mul()
                 if (arr < 0) {
                     CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                    MessageBox.Show(context, "当前物料已经超发" + arr + ",请确认");
+                    MessageBox.Show(context, "当前物料已超发" + arr + ",请确认");
                     return;
                 } else {
                     if (arr == 0) {
@@ -655,7 +654,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     }
 
     //解析传入的格式是否符号当前扫描的类型
-    public boolean Analysis(String str, String type) {
+    public boolean Analysis(String str,String type) {
         boolean bool = false;
         String[] strarr = str.split("%");
         if (type.equals(OutStock_Submit_type_pallet)) {
@@ -665,9 +664,13 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             }
         }
         if (type.equals(OutStock_Submit_type_box)) {
-            if (strarr.length == 4) {
-                if (strarr[3].equals(OutStock_Submit_type_box))
+            if (strarr.length == 4 || strarr.length == 3 || strarr.length == 1||strarr.length==2) {//包容老条码
+                if (strarr.length > 3) {
+                    if (strarr[3].equals(OutStock_Submit_type_box))
+                        bool = true;
+                } else {
                     bool = true;
+                }
             }
         }
         if (type.equals(OutStock_Submit_type_parts)) {
