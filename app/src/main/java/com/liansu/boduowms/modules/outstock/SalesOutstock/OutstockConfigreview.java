@@ -29,6 +29,8 @@ import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.AwyBll;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
+import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
+import com.liansu.boduowms.modules.outstock.Model.OutStockDeleteReviewModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
@@ -147,13 +149,16 @@ public class OutstockConfigreview extends BaseActivity {
         materialModle = new MaterialResponseModel();
         mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context, StockRollBack.class);
-                Bundle bundle = new Bundle();
-                intent.putExtra("ErpVoucherNo", CurrOrderNO);
-                intent.putExtra("VoucherType", CurrvoucherType);
-                intent.putExtra("Title", "物流装车删除");
-                intent.putExtras(bundle);
-                startActivityLeft(intent);
+                Intent intent = new Intent();
+                MenuOutStockModel model=new MenuOutStockModel();
+                model.ErpVoucherNo=CurrOrderNO;
+                model.VoucherType=String.valueOf(CurrvoucherType);
+                model.Title="物流装车删除";
+                String json=  GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
+                intent.setData(data);
+                intent.setClass(context, OutstockDeleteReview.class);
+                startActivity(intent);
                 return false;
             }
         });

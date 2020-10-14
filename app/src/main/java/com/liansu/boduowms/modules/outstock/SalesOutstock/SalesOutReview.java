@@ -173,13 +173,16 @@ public  class SalesOutReview extends BaseActivity {
         materialModle = new MaterialResponseModel();
         mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context, StockRollBack.class);
-                Bundle bundle = new Bundle();
-                intent.putExtra("ErpVoucherNo", CurrOrderNO);
-                intent.putExtra("VoucherType", CurrvoucherType);
-                intent.putExtra("Title", menuOutStockModel.Title+"删除");
-                intent.putExtras(bundle);
-                startActivityLeft(intent);
+                Intent intent = new Intent();
+                MenuOutStockModel model=new MenuOutStockModel();
+                model.ErpVoucherNo=CurrOrderNO;
+                model.VoucherType=String.valueOf(CurrvoucherType);
+                model.Title=menuOutStockModel.Title+"删除";
+                String json=  GsonUtil.parseModelToJson(model);
+                Uri data = Uri.parse(json);
+                intent.setData(data);
+                intent.setClass(context, OutstockDeleteReview.class);
+                startActivity(intent);
                 return false;
             }
         });
@@ -204,6 +207,10 @@ public  class SalesOutReview extends BaseActivity {
                     context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
         }
     }
+
+
+
+
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
@@ -665,7 +672,7 @@ public  class SalesOutReview extends BaseActivity {
                         String Value = inputServer.getText().toString();
                         try {
                             Float inputValue = Float.parseFloat(Value);
-                            int packqty = Integer.parseInt(materialModle.getPackqty());
+                           // int packqty = Integer.parseInt(materialModle.getPackqty());
 //                            if (inputValue >= packqty) {
 //                                CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
 //                                MessageBox.Show(context, "不能大于" + packqty + "包装量");
@@ -673,7 +680,7 @@ public  class SalesOutReview extends BaseActivity {
 //                            }
                             if (inputValue > remaqty) {
                                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                                MessageBox.Show(context, "输入数量不能大于" + packqty + "剩余量");
+                                MessageBox.Show(context, "输入数量不能大于" + remaqty + "剩余量");
                                 return;
                             }
                             //提交散件

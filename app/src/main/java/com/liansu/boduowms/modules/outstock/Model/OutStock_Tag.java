@@ -95,4 +95,9 @@ public class OutStock_Tag {
 
     public static String TAG_Saleoutstock_WaybillPrint = "Sales_Saleoutstock_WaybillPrint";    // 打印托运单
     public static final int RESUL_Saleoutstock_WaybillPrint = 149;
+
+    public static String TAG_Outstock_DeleteMaterial = "Review_Outstock_DeleteMaterial";    // 删除复核物料信息
+    public static final int RESUL_Outstock_DeleteMaterial = 150;
+
+
 }

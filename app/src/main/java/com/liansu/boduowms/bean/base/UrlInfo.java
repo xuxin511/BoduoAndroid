@@ -124,11 +124,17 @@ public class UrlInfo {
     public String SalesOutstock_BoxList        = GetWCFAdress() + "OutStock/GetPackage_CartonDetail";//获取订单拼箱列表
     public String SalesOutstock_PrintBox       = GetWCFAdress() + "OutStock/PrintPackage_CartonScanADFAsync";//打印拼箱
 
+
     //复核
     public String SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
     public String SalesOutstock_JudgeStock        = GetWCFAdress() + "Stock/GetT_ScanStockADFAsync";//判断托盘库存
     public String SalesOutstock__SubmitBarcode    = GetWCFAdress() + "OutStock/SubmitReviewScanADFAsync"; //复核条码提交
     public String SalesOutstock__Review_Submit    = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
+    public  String Outstock_GetpackagecartonList = GetWCFAdress() + "OutStock/GetReviewPackage_CartonADFAsync"; //复核获取拼箱数据
+    public  String Outstock_DelReviewByMaterial = GetWCFAdress() + "OutStock/Return_DelReviewByMaterial"; //删除复核物料数据
+    public  String Outstock_DelReviewBypackageCarton = GetWCFAdress() + "OutStock/DelReviewPackage_CartonADFAsync"; //删除复核拼箱数据
+
+
 
     public String SalesOutstock_Onereview                       = GetWCFAdress() + "OutStock/OnkeyReview"; //一键复核
     //托运单保存

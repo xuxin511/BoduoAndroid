@@ -181,6 +181,8 @@ public  class SalesOutStockBox   extends BaseActivity {
 
                     model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
                     model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
+                    boolean isprint=BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2?true:false;
+                    model.setPrint(isprint);
                     stockInfoModels.add(model);
                     mModel.getOrderDetailList().add(model);
                 } else {
@@ -594,6 +596,8 @@ public  class SalesOutStockBox   extends BaseActivity {
                             if( model.getMaterialdesc()==null) {
                                 model.setMaterialdesc("");
                             }
+                            boolean isprint= BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2?true:false;
+                            model.setPrint(isprint);
                             model.setReviewQty(1f);
                             model.setBarcodeType(3);
                             model.setVouchertype(CurrVoucherType);
@@ -642,6 +646,8 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.setErpvoucherno(CurrOrder);
                         model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
                         model.setQTY(1f);
+                        boolean isprint= BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2?true:false;
+                        model.setPrint(isprint);
                         model.setReviewQty(1f);
                         if( model.getMaterialdesc()==null) {
                             model.setMaterialdesc("");
