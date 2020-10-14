@@ -340,7 +340,7 @@ public  class SalesOutReview extends BaseActivity {
                             }
                             if(qty==0) {
                                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                                MessageBox.Show(context, "该物料已经复核完毕或者不存在当前单号，请确认");
+                                MessageBox.Show(context, "该物料已经复核完毕或者不存在当前单号中，请确认");
                                 return true;
                             }
                             inputBoxnumDialog("当前物料剩余复核数量为"+qty,qty,barcode);
@@ -491,11 +491,9 @@ public  class SalesOutReview extends BaseActivity {
                                 qty= ArithUtil.sub(item.getRemainqty() ,item.getScanqty());
                             }
                         }
-
-
                         if(qty==0){
                             CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                            MessageBox.Show(context, "该物料已经复核完毕或者不存在当前单号，请确认");
+                            MessageBox.Show(context, "该物料已经复核完毕或者不存在当前单号中，请确认");
                             return;
                         }
                         inputBoxnumDialog("当前物料剩余复核数量为"+qty,qty,model.MaterialNo );
@@ -511,20 +509,35 @@ public  class SalesOutReview extends BaseActivity {
                     return;
                 }
             }
-            //库存输入散件
-            //  inputTitleDialog("输入散件数量");
             //直接提交一件
             materialModle = returnMsgModel.getData();
-            SalesoutstockRequery model = new SalesoutstockRequery();
-            model.Erpvoucherno = CurrOrderNO;
-            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-            model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
-            model.Vouchertype = CurrvoucherType;
-            model.MaterialNo = sales_outstock_reviewbarcode.getText().toString().trim();
-            model.ScanQty = 1.0f;
-            String json = GsonUtil.parseModelToJson(model);
-            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
-                    context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+            if(CurrvoucherType==27||CurrvoucherType==28) {
+                String materialno=materialModle.Materialno;
+                Float qty=0f;
+                for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()){
+                    if(item.getMaterialno().equals(materialno)){
+                        qty= ArithUtil.sub(item.getRemainqty() ,item.getScanqty());
+                    }
+                }
+                if(qty==0){
+                    CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+                    MessageBox.Show(context, "该物料已经复核完毕或者不存在当前单号中，请确认");
+                    return;
+                }
+                //库存输入散件
+                inputTitleDialog("该物料当前剩余数量为"+qty,qty);
+            }else {
+                SalesoutstockRequery model = new SalesoutstockRequery();
+                model.Erpvoucherno = CurrOrderNO;
+                model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+                model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
+                model.Vouchertype = CurrvoucherType;
+                model.MaterialNo = sales_outstock_reviewbarcode.getText().toString().trim();
+                model.ScanQty = 1.0f;
+                String json = GsonUtil.parseModelToJson(model);
+                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
+                        context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+            }
 
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
@@ -637,7 +650,8 @@ public  class SalesOutReview extends BaseActivity {
 
 
     //散件输入数量
-    private void inputTitleDialog(String name) {
+    private void inputTitleDialog(String name,Float qty) {
+        final Float remaqty = qty;
         final EditText inputServer = new EditText(this);
         inputServer.setSingleLine(true);
         inputServer.setFocusable(true);
@@ -652,9 +666,14 @@ public  class SalesOutReview extends BaseActivity {
                         try {
                             Float inputValue = Float.parseFloat(Value);
                             int packqty = Integer.parseInt(materialModle.getPackqty());
-                            if (inputValue >= packqty) {
+//                            if (inputValue >= packqty) {
+//                                CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
+//                                MessageBox.Show(context, "不能大于" + packqty + "包装量");
+//                                return;
+//                            }
+                            if (inputValue > remaqty) {
                                 CommonUtil.setEditFocus(sales_outstock_reviewbarcode);
-                                MessageBox.Show(context, "不能大于" + packqty + "包装量");
+                                MessageBox.Show(context, "输入数量不能大于" + packqty + "剩余量");
                                 return;
                             }
                             //提交散件
@@ -666,7 +685,7 @@ public  class SalesOutReview extends BaseActivity {
                             model.MaterialNo = sales_outstock_reviewbarcode.getText().toString().trim();
                             model.ScanQty = inputValue;
                             String json = GsonUtil.parseModelToJson(model);
-                            LogUtil.WriteLog(SalesOutReview.class, "散件提交",json );
+                            LogUtil.WriteLog(SalesOutReview.class, "散件提交", json);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                                     context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         } catch (Exception ex) {

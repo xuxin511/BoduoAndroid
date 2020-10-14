@@ -72,6 +72,15 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private   int  IsStockCombine;//非库存拼箱
     private  float PackageNum;//拼箱数量
     private   String supplierName;
+    private   boolean   IsPrint;
+
+    public boolean getisPrint() {
+        return IsPrint;
+    }
+
+    public void setPrint(boolean print) {
+        IsPrint = print;
+    }
 
     public String getSupplierName() {
         return supplierName;
@@ -161,6 +170,7 @@ public class OutStockOrderDetailInfo implements Parcelable {
         PostUser=in.readString();
         IsStockCombine=in.readInt();
         PackageNum = in.readFloat();
+
     }
 
     @Override

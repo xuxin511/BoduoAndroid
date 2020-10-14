@@ -305,9 +305,9 @@ public  class SalesOutStockBox   extends BaseActivity {
                                 context, mHandler, RESULT_Saleoutstock_ScannParts, null, info.SelectMaterial, modelJson, null);
                         return true;
                     }
-                   else  if (arr.length == 4||arr.length==3) {
+                   else  if (arr.length == 4||arr.length==3||arr.length==2) {
                         if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()!=2) {
-                            MessageBox.Show(context, "该仓库不能大于外箱拼箱");
+                            MessageBox.Show(context, "该仓库不能打印外箱拼箱");
                             CommonUtil.setEditFocus(sales_outstock_box_watercode);
                             return true;
                         }
@@ -316,11 +316,17 @@ public  class SalesOutStockBox   extends BaseActivity {
                             //箱号
                             //直接调用拼箱方法
                             SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
-                            model.Batchno = arr[1];
+                            if(arr.length>2){
+                                model.Batchno = arr[1];
+                                model.Qty = Float.parseFloat(arr[2]);
+                            }else{
+                                model.Qty = Float.parseFloat(arr[1]);
+                            }
+                           // model.BoxType=BaseApplication.mCurrentWareHouseInfo.getIsPrint();
                             model.Materialno = barcode;
                             model.Erpvoucherno = CurrOrder;
                             model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
-                            model.Qty = Float.parseFloat(arr[2]);
+
                             model.Vouchertype = CurrVoucherType;
                             String modelJson = parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
@@ -755,6 +761,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     //箱号
                     //直接调用拼箱方法
                     SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
+                    model.IsPrint=true;
                     model.Batchno ="";
                     model.Materialno = material.Materialno;
                     model.Erpvoucherno = CurrOrder;
@@ -802,12 +809,12 @@ public  class SalesOutStockBox   extends BaseActivity {
             model.Erpvoucherno = CurrOrder;
             model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
             model.Qty =1f;
+            model.IsPrint=BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2?true:false;
             model.Vouchertype = CurrVoucherType;
             String modelJson = parseModelToJson(model);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
                     context, mHandler, RESULT_Saleoutstock_Box_Check_waterCode, null, info.SalesOutstock_Box_Batchno, modelJson, null);
            // inputTitleDialog("输入散件数量");
-
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_box_watercode);
             MessageBox.Show(context, EX.toString());

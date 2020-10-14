@@ -67,7 +67,7 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 public class SalesOutStockBoxList extends BaseActivity {
     Context context = SalesOutStockBoxList.this;
 
-    private String CurrOrder="";
+    private String CurrOrder = "";
 
     //订单框
     @ViewInject(R.id.sales_outstock_boxlist_order)
@@ -104,7 +104,7 @@ public class SalesOutStockBoxList extends BaseActivity {
         if (!sales_outstock_boxlist_order.getText().toString().trim().equals("")) {
             final Map<String, String> map = new HashMap<String, String>();
             map.put("Erpvoucherno", modelpbox.Barcode);
-            map.put("Towarehouseno",BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+            map.put("Towarehouseno", BaseApplication.mCurrentWareHouseInfo.Warehouseno);
             RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GetBoxList, "订单提交中",
                     context, mHandler, RESULT_Saleoutstock_GetBoxList, null, info.SalesOutstock_GetBoxList, map, null);
         }
@@ -144,8 +144,6 @@ public class SalesOutStockBoxList extends BaseActivity {
     }
 
 
-
-
     @Event(value = R.id.sales_outstock_boxlist_order, type = EditText.OnKeyListener.class)
     private boolean orderKeyDowm(View v, int keyCode, KeyEvent event) {
         View vFocus = v.findFocus();
@@ -160,7 +158,7 @@ public class SalesOutStockBoxList extends BaseActivity {
                     String modelJson = parseModelToJson(model);
                     final Map<String, String> map = new HashMap<String, String>();
                     map.put("Erpvoucherno", order);
-                    map.put("Towarehouseno",BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+                    map.put("Towarehouseno", BaseApplication.mCurrentWareHouseInfo.Warehouseno);
                     RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GetBoxList, "订单提交中",
                             context, mHandler, RESULT_Saleoutstock_GetBoxList, null, info.SalesOutstock_GetBoxList, map, null);
                     return true;
@@ -178,10 +176,9 @@ public class SalesOutStockBoxList extends BaseActivity {
     @Event(value = R.id.outstock_plist_del)
     private void del_box(View view) {
         if (delModel != null) {
-            if (delModel.PackageCode!=null) {
+            if (delModel.PackageCode != null) {
                 ISdel();
-            }else
-            {
+            } else {
                 CommonUtil.setEditFocus(sales_outstock_boxlist_order);
                 MessageBox.Show(context, "请先选择列表箱号进行删除");
             }
@@ -195,10 +192,9 @@ public class SalesOutStockBoxList extends BaseActivity {
     @Event(value = R.id.outstock_plist_print)
     private void print_box(View view) {
         if (delModel != null) {
-            if (delModel.PackageCode!=null) {
+            if (delModel.PackageCode != null) {
                 ISprint();
-            }else
-            {
+            } else {
                 CommonUtil.setEditFocus(sales_outstock_boxlist_order);
                 MessageBox.Show(context, "请先选择列表箱号进行打印");
             }
@@ -217,7 +213,7 @@ public class SalesOutStockBoxList extends BaseActivity {
             case RESULT_Saleoutstock_DelBox:
                 DelBox((String) msg.obj);
                 break;
-            case   RESUL_Saleoutstock_PrintBox:
+            case RESUL_Saleoutstock_PrintBox:
                 PrintBox((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
@@ -234,18 +230,18 @@ public class SalesOutStockBoxList extends BaseActivity {
             MessageBox.Show(context, returnMsgModel.getResultValue());
             return;
         }
-        MessageBox.Show(context, "删除成功",2,null);
+        MessageBox.Show(context, "删除成功", 2, null);
 
-    //   mAdapter.notifyDataSetChanged();
+        //   mAdapter.notifyDataSetChanged();
         final Map<String, String> map = new HashMap<String, String>();
         map.put("Erpvoucherno", CurrOrder);
-        map.put("Towarehouseno",BaseApplication.mCurrentWareHouseInfo.Warehouseno);
+        map.put("Towarehouseno", BaseApplication.mCurrentWareHouseInfo.Warehouseno);
         //先清空列表
         RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Saleoutstock_GetBoxList, "订单提交中",
                 context, mHandler, RESULT_Saleoutstock_GetBoxList, null, info.SalesOutstock_GetBoxList, map, null);
     }
 
-    public  void PrintBox(String result){
+    public void PrintBox(String result) {
         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
         }.getType());
         if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -253,7 +249,7 @@ public class SalesOutStockBoxList extends BaseActivity {
             MessageBox.Show(context, returnMsgModel.getResultValue());
             return;
         }
-        MessageBox.Show(context, "打印成功",2,null);
+        MessageBox.Show(context, "打印成功", 2, null);
 
     }
 
@@ -286,8 +282,8 @@ public class SalesOutStockBoxList extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //点击确定触发的事件
-                     SalesoutstockBoxListRequery model = delModel;
-                       // delModel = model;
+                        SalesoutstockBoxListRequery model = delModel;
+                        // delModel = model;
                         model.Erpvoucherno = CurrOrder;
                         String modelJson = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_DelBox, "删除中",
@@ -302,6 +298,7 @@ public class SalesOutStockBoxList extends BaseActivity {
                     }
                 }).show();
     }
+
     public void ISprint() {
         new AlertDialog.Builder(this).setTitle("确定打印箱号" + delModel.PackageSeq + "吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -312,6 +309,8 @@ public class SalesOutStockBoxList extends BaseActivity {
                         model.setBatchno(delModel.PackageCode);
                         model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
                         model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
+                        boolean isprint = BaseApplication.mCurrentWareHouseInfo.getIsPrint() == 2 ? true : false;
+                        model.setPrint(isprint);
                         String json = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PrintBox, "打印中...",
                                 context, mHandler, RESUL_Saleoutstock_PrintBox, null, info.SalesOutstock_PrintBox, json, null);

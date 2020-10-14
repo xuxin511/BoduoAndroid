@@ -38,7 +38,7 @@
         android:textSize="@dimen/sp_17"
         android:background="@drawable/et_selector"
         android:gravity="left|center_vertical"
-        android:hint="扫描单号"
+        android:hint="请输入或扫描单号"
         android:paddingLeft="@dimen/sp_7"
         android:singleLine="true"
         android:text=""

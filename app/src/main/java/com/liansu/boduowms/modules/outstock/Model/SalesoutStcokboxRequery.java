@@ -13,6 +13,16 @@ public  class SalesoutStcokboxRequery {
     public  int IsStockCombine;
     public  int Barcodetype; //2箱号 3散件
 
+    public int Boxtype;
+
+    public int getBoxtype() {
+        return Boxtype;
+    }
+
+    public void setBoxtype(int boxtype) {
+        Boxtype = boxtype;
+    }
+
     public  boolean       IsPrint;
 
     public boolean isPrint() {

@@ -211,6 +211,8 @@ public class OutstockOneReview extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
+            //成功后提示
+            MessageBox.Show(context, returnMsgModel.getResultValue());
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;

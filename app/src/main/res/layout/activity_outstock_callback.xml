@@ -29,9 +29,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-
-
-
     <EditText
         android:selectAllOnFocus="true"
         android:layout_marginTop="3sp"
@@ -41,7 +38,7 @@
         android:textSize="@dimen/sp_17"
         android:background="@drawable/et_selector"
         android:gravity="left|center_vertical"
-        android:hint="扫描或输入单号"
+        android:hint="输入或扫描单号"
         android:paddingLeft="@dimen/sp_7"
         android:singleLine="true"
         android:text=""

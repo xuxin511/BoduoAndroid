@@ -471,6 +471,10 @@ public class SalesOutstock  extends BaseActivity  {
                                 model.Vouchertype=CurrVoucherType;
                                 model.BarcodeType = 2;
                                 model.MaterialNo = boxNo;
+                                if(strBox.length==2) {
+                                    model.MaterialNo = strBox[0];
+                                    model.BarcodeType = 3;
+                                }
                                 String json = GsonUtil.parseModelToJson(model);
                                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBox, "箱号提交中",
                                         context, mHandler, RESULT_Saleoutstock_ScannBoxNo, null, info.SalesOutstock_SacnningPallet, json, null);

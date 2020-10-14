@@ -668,7 +668,7 @@ public class OutstockConfigreview extends BaseActivity {
             }
         }
         if(strarr.length==2){
-            if (strarr[1].equals(OutStock_Submit_type_pbox))
+            //if (strarr[1].equals(OutStock_Submit_type_pbox))
                 return OutStock_Submit_type_box;
         }
         if (strarr.length == 1) {
