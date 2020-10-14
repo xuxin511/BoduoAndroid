@@ -96,7 +96,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="@dimen/common_margin_top_first"
         android:layout_marginRight="8dp"
-        android:hint="@string/receipt_scan_hint_scan_barcode"
+        android:hint="@string/receipt_scan_hint_scan_pallet_no"
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="@+id/guideline"

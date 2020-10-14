@@ -120,7 +120,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
         mTransferRefer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> wareHouseInfos = getWareHouseNameList();
+                List<String> wareHouseInfos = getWareHouseNoList();
                 if (wareHouseInfos != null && wareHouseInfos.size() > 0) {
                     selectWareHouse(wareHouseInfos);
                 }
@@ -420,13 +420,13 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
      * @author: Nietzsche
      * @time 2020/7/9 18:38
      */
-    public WareHouseInfo getWareHouseInfo(String name) {
-        if (BaseApplication.mCurrentUserInfo != null && name != null) {
+    public WareHouseInfo getWareHouseInfo(String wareHouseNo) {
+        if (BaseApplication.mCurrentUserInfo != null && wareHouseNo != null) {
             List<WareHouseInfo> wareHouseInfos = BaseApplication.mCurrentUserInfo.getModelListWarehouse();
             if (wareHouseInfos != null && wareHouseInfos.size() > 0) {
                 for (WareHouseInfo wareHouseInfo : wareHouseInfos) {
-                    String wareHouseName = wareHouseInfo.getWarehousename() != null ? wareHouseInfo.getWarehousename() : "";
-                    if (name.equals(wareHouseName)) {
+                    String sWareHouseNo = wareHouseInfo.getWarehouseno() != null ? wareHouseInfo.getWarehouseno() : "";
+                    if (sWareHouseNo.equals(wareHouseNo)) {
                         return wareHouseInfo;
                     }
 
@@ -454,5 +454,25 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
             }
         }
         return sWareHouseNameList;
+    }
+
+    /**
+     * @desc: 获取仓库名称集合
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/9 7:21
+     */
+    public List<String> getWareHouseNoList() {
+        List<String> sWareHouseNoList = new ArrayList<String>();
+        if (BaseApplication.mCurrentUserInfo != null) {
+            List<WareHouseInfo> wareHouseInfos = BaseApplication.mCurrentUserInfo.getModelListWarehouse();
+            for (WareHouseInfo warehouse : wareHouseInfos) {
+                if (warehouse.getWarehouseno() != null && !warehouse.getWarehouseno().equals("")) {
+                    sWareHouseNoList.add(warehouse.getWarehouseno());
+                }
+            }
+        }
+        return sWareHouseNoList;
     }
 }

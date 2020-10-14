@@ -281,6 +281,7 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                 return;
             }
             if (scanQRCode != null) {
+                scanQRCode.setVouchertype(mModel.getVoucherType());
                 mModel.requestBarcodeInfo(scanQRCode, new NetCallBackListener<String>() {
                     @Override
                     public void onCallBack(String result) {
@@ -353,6 +354,7 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
      */
     public void onCombinePalletRefer(final OutBarcodeInfo outBarcodeInfo) {
         if (outBarcodeInfo != null) {
+//            outBarcodeInfo.setVouchertype(mModel.getVoucherType());
             outBarcodeInfo.setAreano(mView.getAreaNo());
             outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
             outBarcodeInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());

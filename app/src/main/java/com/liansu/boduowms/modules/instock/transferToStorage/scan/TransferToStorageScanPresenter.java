@@ -79,7 +79,6 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
                         if (orderHeaderInfo != null) {
-
                             mModel.setOrderHeaderInfo(orderHeaderInfo);
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
                             if (mModel.getOrderDetailList().size() > 0) {

@@ -36,7 +36,7 @@ import static com.liansu.boduowms.modules.print.DeviceListActivity.EXTRA_DEVICE_
 import static com.liansu.boduowms.utils.SharePreferUtil.setBluetoothPrinterMacAddressShare;
 
 /**
- * @desc: 打印设置
+ * @desc: 打印设置 没有用到，还是原来的{@link com.liansu.boduowms.modules.setting.print.SettingPrintingFragment}
  * @param:
  * @return:
  * @author: Nietzsche

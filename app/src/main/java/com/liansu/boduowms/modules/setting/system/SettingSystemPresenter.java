@@ -24,7 +24,6 @@ public class SettingSystemPresenter {
         this.mContext = context;
         this.mView = view;
         this.mModel = new SettingModel(context, handler);
-
     }
 
 

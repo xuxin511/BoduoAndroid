@@ -179,15 +179,7 @@ public class InStockHouseReplenishmentPresenter {
     public boolean checkOutPalletQty(float qty) {
         mModel.setCurrentMaterialInfo(null);
         StockInfo sCurrentMaterialInfo = null;
-        if (qty == 0) {
-            MessageBox.Show(mContext, "移出数量必须大于0", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mView.onOutPalletQtyFocus();
-                }
-            });
-            return false;
-        }
+
         List<StockInfo> outPalletInfoList = mModel.getOutPalletInfoList();
         //如果出现混托的情况，就要校验是否选择物料
         if (outPalletInfoList.size() > 1) {
@@ -218,7 +210,7 @@ public class InStockHouseReplenishmentPresenter {
             MessageBox.Show(mContext, "移出托盘信息不能为空,请扫描托盘码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    mView.onOutPalletQtyFocus();
+                    mView.onOutPalletNoFocus();
                 }
             });
             return false;
@@ -226,6 +218,15 @@ public class InStockHouseReplenishmentPresenter {
 
         if (sCurrentMaterialInfo != null) {
             float sQty = sCurrentMaterialInfo.getQty();
+            if (qty == 0) {
+                MessageBox.Show(mContext, "移出数量必须大于0", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onOutPalletQtyFocus();
+                    }
+                });
+                return false;
+            }
             if (qty > sQty) {
                 MessageBox.Show(mContext, "输入的数量[" + qty + "]不能大于当前选择的物料[" + sCurrentMaterialInfo.getMaterialno() + "]的库存数量[" + sQty + "]", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
@@ -328,7 +329,7 @@ public class InStockHouseReplenishmentPresenter {
                             }.getType());
                             if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                                 List<StockInfo> list = returnMsgModel.getData();
-                                if (list != null && list.size() > 0) {
+                                if (list != null && list.size() == 1) {
                                     setCurrentSelectedMaterialInfo();
                                     BaseMultiResultInfo<Boolean, Void> checkMaterial = mModel.isMaterialInInPalletInfoList(mModel.getCurrentMaterialInfo(), list);
                                     if (!checkMaterial.getHeaderStatus()) {
@@ -351,6 +352,14 @@ public class InStockHouseReplenishmentPresenter {
                                         mView.onInPalletAreaNoFocus();
                                     }
 
+
+                                } else if (list != null && list.size() > 1) {
+                                    MessageBox.Show(mContext, "校验移入托盘类型失败:不能扫描混托码" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mView.onInPalletNoFocus();
+                                        }
+                                    });
 
                                 } else {
                                     MessageBox.Show(mContext, "查询移入托盘码信息失败:获取的托盘数据为空," + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {

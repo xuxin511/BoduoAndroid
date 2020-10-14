@@ -174,7 +174,6 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
     @Override
     public void onOutPalletNoFocus() {
         CommonUtil.setEditFocus(mOutPalletNo);
-
     }
 
     @Override
@@ -211,7 +210,6 @@ public class InStockHouseReplenishment extends BaseActivity implements IInStockH
         if (mPresenter != null) {
             bindListView(mPresenter.getModel().getOutPalletInfoList());
         }
-
         mInPalletAreaNo.setEnabled(true);
         onOutPalletNoFocus();
     }
