@@ -231,13 +231,14 @@ public class OutstockDeleteReview extends BaseActivity {
             for (OutStockOrderDetailInfo item : returnMsgModel.getData().getDetail()) {
                 if (item.getScanqty() != 0) {
                     OutStockDeleteReviewModel model = new OutStockDeleteReviewModel();
-                    if (i == 0) {
-                        model.IsCheck = true;
-                    }
                     model.Materialno = item.getMaterialno();
                     model.Materialdesc = item.getMaterialdesc();
                     model.ScanQty = item.getScanqty();
                     model.DeleteType = 1;
+                    if (i == 0) {
+                        model.IsCheck = true;
+                        mModel =model;
+                    }
                     modelList.add(model);
                     i++;
                 }
@@ -264,12 +265,13 @@ public class OutstockDeleteReview extends BaseActivity {
             }
             int i = 0;
             for (OutStockDeleteReviewModel item : returnMsgModel.getData()) {
+                item.DeleteType = 2;
                 if (i == 0) {
                     item.IsCheck = true;
+                    mModel = item;
                 }
-                item.DeleteType = 2;
-                i++;
                 modelList.add(item);
+                i++;
             }
             mAdapter = new OutStockDeleteReviewAdapter(context, modelList);
             mList.setAdapter(mAdapter);
@@ -286,6 +288,7 @@ public class OutstockDeleteReview extends BaseActivity {
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
             }
+            mModel = new OutStockDeleteReviewModel();
             MessageBox.Show(context, "删除成功");
             //重新获取信息
             InitOrder(CurrOrder, DeleteType);
