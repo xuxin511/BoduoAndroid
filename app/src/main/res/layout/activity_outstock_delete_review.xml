@@ -37,7 +37,7 @@
         android:text="复核单号："
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_config_reviewbarcode"
+        app:layout_constraintTop_toBottomOf="@+id/combine_pallet_toolbar"
         app:layout_constraintLeft_toRightOf="@+id/guideline_left"
         />
     //sales_outstock_order
@@ -50,7 +50,7 @@
         android:text="无"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_order"
+        app:layout_constraintTop_toBottomOf="@+id/combine_pallet_toolbar"
         app:layout_constraintLeft_toRightOf="@+id/combine_pallet_worker_order_text"
         />
 
