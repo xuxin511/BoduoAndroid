@@ -69,6 +69,8 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
     protected void getOrderDetailInfoList(OrderRequestInfo orderHeaderInfo, int voucherType) {
         onReset();
         orderHeaderInfo.setVouchertype(voucherType);
+        orderHeaderInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        orderHeaderInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestOrderDetail(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

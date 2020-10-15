@@ -63,6 +63,9 @@ public class QualityInspectionProcessingPresenter {
      * @time 2020/7/12 18:11
      */
     public void getQualityInspectionDetailList() {
+        if (mModel.getQualityHeaderInfo()!=null){
+            mModel.getQualityHeaderInfo().setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        }
         mModel.requestQualityInspectionDetail(mModel.getQualityHeaderInfo(), new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

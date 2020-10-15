@@ -31,6 +31,7 @@ public interface ISalesReturnPrintView {
     String getCustomerNo();
     String getStartTime();
     String getEndTime();
+    int getVoucherType();
 
 
 }

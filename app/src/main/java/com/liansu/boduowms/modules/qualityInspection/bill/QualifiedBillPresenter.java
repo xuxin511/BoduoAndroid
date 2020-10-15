@@ -54,6 +54,7 @@ public class QualifiedBillPresenter {
             headerInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
             headerInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
             headerInfo.setIstransfer(BaseApplication.mCurrentWareHouseInfo.getIstransfer());
+            headerInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
             mModel.requestQualityInspectionBillInfoList(headerInfo, new NetCallBackListener<String>() {
                 @Override
                 public void onCallBack(String result) {

@@ -62,6 +62,8 @@ public class ProductionReturnsPresenter {
 
     protected void getOrderDetailInfoList(String erpVoucherNo) {
         OrderRequestInfo postInfo = new OrderRequestInfo();
+        postInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        postInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         postInfo.setErpvoucherno(erpVoucherNo);
         mModel.requestOrderDetail(postInfo, new NetCallBackListener<String>() {
             @Override

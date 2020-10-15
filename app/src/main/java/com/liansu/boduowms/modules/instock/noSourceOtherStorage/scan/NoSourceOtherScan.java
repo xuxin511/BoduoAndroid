@@ -285,6 +285,9 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
         }else if (item.getItemId() == R.id.menu_order_reprint){
             Intent intent = new Intent();
             intent.setClass(NoSourceOtherScan.this, BaseOrderLabelPrintSelect.class);
+            if (mPresenter!=null){
+                intent.putExtra("VOUCHER_TYPE",mPresenter.getModel().getVoucherType());
+            }
             startActivityLeft(intent);
         }
         return false;

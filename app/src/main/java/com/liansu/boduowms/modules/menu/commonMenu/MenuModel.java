@@ -389,23 +389,27 @@ public class MenuModel {
                 intent.setClass(mContext, BaseOrderBillChoice.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
             }
             //47 到货抽检
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE) {
                 intent.setClass(mContext, RandomInspectionBill.class);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
             }
             //45  生产入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE) {
                 intent.setClass(mContext, ProductStorageScan.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
             }
             //68 生产入库打印
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_PRINT_VALUE) {
                 intent.setClass(mContext, PrintPalletScan.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
             }
             //52 工单退料入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE) {
@@ -436,12 +440,14 @@ public class MenuModel {
                 bundle.putParcelableArrayList("barCodeInfo", null);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
                 intent.putExtras(bundle);
             }
             //66 无源入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_OTHER_STORAGE_VALUE) {
                 intent.setClass(mContext, NoSourceOtherScan.class);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
             }
             //26 有源销售退货
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE) {
@@ -463,6 +469,7 @@ public class MenuModel {
                 intent.setClass(mContext, SalesReturnPrint.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
             }
             //70 质检合格
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE) {

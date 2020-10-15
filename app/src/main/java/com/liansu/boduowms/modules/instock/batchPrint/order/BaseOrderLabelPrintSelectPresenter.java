@@ -123,6 +123,8 @@ public class BaseOrderLabelPrintSelectPresenter {
         }
         int voucherType = mModel.getVoucherType(voucherTypeName);
         OrderRequestInfo postInfo = new OrderRequestInfo();
+        postInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        postInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         postInfo.setErpvoucherno(erpVoucherNo);
         if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE) {
             getProductionOrderDetailInfoList(voucherTypeName, erpVoucherNo);
@@ -185,6 +187,8 @@ public class BaseOrderLabelPrintSelectPresenter {
         int voucherType = mModel.getVoucherType(voucherTypeName);
         OrderRequestInfo postInfo = new OrderRequestInfo();
         postInfo.setErpvoucherno(erpVoucherNo);
+        postInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        postInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.setOrderHeaderInfo(null);
         mModel.setOrderDetailList(null);
         mModel.getOrderDetailInfoList(voucherType, postInfo, new NetCallBackListener<String>() {

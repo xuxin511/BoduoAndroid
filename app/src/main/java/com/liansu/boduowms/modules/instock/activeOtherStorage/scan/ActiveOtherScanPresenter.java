@@ -69,6 +69,8 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
         OrderRequestInfo postInfo = new OrderRequestInfo();
         postInfo.setErpvoucherno(erpVoucherNo);
         postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        postInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        postInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         postInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE);
         mModel.setOrderRequestInfo(postInfo);
         mModel.requestActiveOtherDetail(mModel.getOrderRequestInfo(), new NetCallBackListener<String>() {

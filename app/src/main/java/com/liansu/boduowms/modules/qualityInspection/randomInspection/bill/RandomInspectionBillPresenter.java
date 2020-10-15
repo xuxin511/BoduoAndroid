@@ -50,6 +50,7 @@ public class RandomInspectionBillPresenter {
     public void getQualityInsHeaderList(final QualityHeaderInfo headerInfo) {
         mView.startRefreshProgress();
         headerInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        headerInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
         mModel.requestRandomInspectionBillInfoList(headerInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

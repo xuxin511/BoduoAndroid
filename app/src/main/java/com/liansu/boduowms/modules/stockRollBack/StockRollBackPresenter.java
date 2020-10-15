@@ -150,6 +150,8 @@ public class StockRollBackPresenter {
         postInfo.setVouchertype(mModel.getVoucherType());
         postInfo.setErpvoucherno(mModel.getErpVoucherNo());
         postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        postInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        postInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestTemporaryDetailList(postInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

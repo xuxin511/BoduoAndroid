@@ -146,6 +146,8 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
         orderRequestInfo.setErpvoucherno(erpVoucherNo);
         orderRequestInfo.setVouchertype(mModel.getVoucherType());
         orderRequestInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        orderRequestInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        orderRequestInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestOrderDetail(orderRequestInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

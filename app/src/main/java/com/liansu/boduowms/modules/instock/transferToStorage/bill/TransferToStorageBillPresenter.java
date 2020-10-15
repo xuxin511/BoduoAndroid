@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
+import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
@@ -46,6 +47,8 @@ public class TransferToStorageBillPresenter extends BaseOrderBillChoicePresenter
 
     @Override
     public void getOrderHeaderList(OrderRequestInfo orderHeaderInfo) {
+        orderHeaderInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        orderHeaderInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestTransferToStorageList(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

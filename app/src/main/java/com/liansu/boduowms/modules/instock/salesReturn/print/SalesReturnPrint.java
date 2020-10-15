@@ -83,7 +83,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     SalesReturnPrintPresenter mPresenter;
     TimePickerView            pvCustomLunar;
     protected UserSettingPresenter mUserSettingPresenter;
-
+    int  mVoucherType=-1;
     @Override
     protected void initViews() {
         super.initViews();
@@ -567,6 +567,12 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
     @Override
     public String getEndTime() {
         return mEndDateTime.getText().toString().trim();
+    }
+
+    @Override
+    public int getVoucherType() {
+        mVoucherType=getIntent().getIntExtra("VoucherType",-1);
+        return mVoucherType;
     }
 
 

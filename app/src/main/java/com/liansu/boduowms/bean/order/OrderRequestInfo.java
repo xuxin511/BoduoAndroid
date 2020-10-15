@@ -21,7 +21,8 @@ public class OrderRequestInfo implements Parcelable {
      private String Scanuserno; //
     private String Dirver;  //司机
     private String LogisticsCompany; //物流公司
-
+    protected String                Strongholdcode;
+    protected String                StrongholdName;
     public OrderRequestInfo() {
 
     }
@@ -40,6 +41,8 @@ public class OrderRequestInfo implements Parcelable {
         Scanuserno=in.readString();
         Dirver=in.readString();
         LogisticsCompany=in.readString();
+        Strongholdcode=in.readString();
+        StrongholdName=in.readString();
     }
 
     @Override
@@ -57,6 +60,8 @@ public class OrderRequestInfo implements Parcelable {
         dest.writeString(Scanuserno);
         dest.writeString(Dirver);
         dest.writeString(LogisticsCompany);
+        dest.writeString(Strongholdcode);
+        dest.writeString(StrongholdName);
 
     }
 
@@ -173,6 +178,22 @@ public class OrderRequestInfo implements Parcelable {
 
     public void setLogisticsCompany(String logisticsCompany) {
         LogisticsCompany = logisticsCompany;
+    }
+
+    public String getStrongholdcode() {
+        return Strongholdcode;
+    }
+
+    public void setStrongholdcode(String strongholdcode) {
+        Strongholdcode = strongholdcode;
+    }
+
+    public String getStrongholdName() {
+        return StrongholdName;
+    }
+
+    public void setStrongholdName(String strongholdName) {
+        StrongholdName = strongholdName;
     }
 
     public static Creator<OrderRequestInfo> getCREATOR() {

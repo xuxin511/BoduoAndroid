@@ -72,6 +72,8 @@ public class PrintPalletScanPresenter {
      */
     protected void getOrderDetailInfoList(OrderHeaderInfo info) {
         info.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_VALUE);
+        info.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        info.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestOrderDetail(info, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

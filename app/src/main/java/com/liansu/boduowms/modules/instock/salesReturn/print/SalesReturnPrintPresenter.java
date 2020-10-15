@@ -19,7 +19,9 @@ import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.DateUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
@@ -242,7 +244,7 @@ public class SalesReturnPrintPresenter {
                 return;
             }
 
-
+//2020-10-14  18:17
             List<PrintInfo> printInfoList = new ArrayList<>();
             for (int i = 0; i < packCount; i++) {
                 PrintInfo info = new PrintInfo();
@@ -380,36 +382,47 @@ public class SalesReturnPrintPresenter {
             orderDetailInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
             orderDetailInfo.setPrinterType(UrlInfo.mInStockPrintType);
             orderDetailInfo.setPrinterName(UrlInfo.mInStockPrintName);
-            mModel.requestPrint(orderDetailInfo, new NetCallBackListener<String>() {
-                @Override
-                public void onCallBack(String result) {
-                    try {
-                        LogUtil.WriteLog(BaseOrderLabelPrint.class, mModel.TAG_PRINT_PALLET_NO, result);
-                        BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
-                        }.getType());
-                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                            onReset();
+            orderDetailInfo.setVouchertype(mView.getVoucherType());
+            float divValue = ArithUtil.div(remainQty, palletQty);
+            final double printCount = Math.ceil(divValue);   //向上取整
+            final OrderDetailInfo finalOrderDetailInfo = orderDetailInfo;
+            MessageBox.Show2(mContext, "是否确定打印托盘码,打印张数：" + Math.round(printCount), MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mModel.requestPrint(finalOrderDetailInfo, new NetCallBackListener<String>() {
+                                @Override
+                                public void onCallBack(String result) {
+                                    try {
+                                        LogUtil.WriteLog(BaseOrderLabelPrint.class, mModel.TAG_PRINT_PALLET_NO, result);
+                                        BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                                        }.getType());
+                                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                                            ToastUtil.show( returnMsgModel.getResultValue());
+                                            onReset();
 
 //                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE);
 
-                        } else {
-                            MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                        } else {
+                                            MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
 
+                                                }
+                                            });
+                                        }
+                                    } catch (Exception e) {
+                                        MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        });
+                                    }
                                 }
                             });
                         }
-                    } catch (Exception e) {
-                        MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                    });
 
-                            }
-                        });
-                    }
-                }
-            });
         } else {
             MessageBox.Show(mContext, "传入的打印数据为空");
         }

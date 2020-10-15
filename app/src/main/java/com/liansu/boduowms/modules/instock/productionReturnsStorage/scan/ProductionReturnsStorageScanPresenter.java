@@ -129,6 +129,8 @@ public class ProductionReturnsStorageScanPresenter extends BaseOrderScanPresente
         orderRequestInfo.setErpvoucherno(erpVoucherNo);
         orderRequestInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE);
         orderRequestInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+        orderRequestInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        orderRequestInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestOrderDetail(orderRequestInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

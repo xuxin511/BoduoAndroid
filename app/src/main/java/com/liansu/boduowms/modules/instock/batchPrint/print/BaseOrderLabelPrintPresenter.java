@@ -14,7 +14,9 @@ import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.modules.print.PrintCallBackListener;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -203,8 +205,9 @@ public class BaseOrderLabelPrintPresenter {
                     });
                     return;
                 }
-
-                OrderDetailInfo orderDetailInfo = mModel.getCurrentPrintInfo();
+                float divValue = ArithUtil.div(remainQty, palletQty);
+                final double printCount = Math.ceil(divValue);   //向上取整
+                final OrderDetailInfo orderDetailInfo = mModel.getCurrentPrintInfo();
                 orderDetailInfo.setScanqty(palletQty);
                 orderDetailInfo.setPrintqty(remainQty);
                 orderDetailInfo.setBatchno(batchNo);
@@ -215,45 +218,53 @@ public class BaseOrderLabelPrintPresenter {
                 if (orderDetailInfo.getErpvoucherno() == null || orderDetailInfo.getErpvoucherno().equals("")) {
                     orderDetailInfo.setVoucherqty(remainQty);
                 }
-                mModel.requestCreateBatchPalletInfo(orderDetailInfo, new NetCallBackListener<String>() {
+                MessageBox.Show2(mContext, "是否确定打印托盘码,打印张数：" + Math.round(printCount), MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onCallBack(String result) {
-                        try {
-                            LogUtil.WriteLog(BaseOrderLabelPrint.class, mModel.TAG_CREATE_T_OUT_BARCODE_ADF_ASYNC, result);
-                            BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
-                            }.getType());
-                            if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                                MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mModel.requestCreateBatchPalletInfo(orderDetailInfo, new NetCallBackListener<String>() {
+                            @Override
+                            public void onCallBack(String result) {
+                                try {
+                                    LogUtil.WriteLog(BaseOrderLabelPrint.class, mModel.TAG_CREATE_T_OUT_BARCODE_ADF_ASYNC, result);
+                                    BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                                    }.getType());
+                                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                                        ToastUtil.show( returnMsgModel.getResultValue());
                                         mView.onReset();
+//                                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//
+//                                            }
+//                                        });
+
+                                    } else {
+                                        MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        });
                                     }
-                                });
+                                } catch (Exception e) {
+                                    MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
 
-                            } else {
-                                MessageBox.Show(mContext, "提交条码信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                });
-                            }
-                        } catch (Exception e) {
-                            MessageBox.Show(mContext, "提交条码信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
+                                        }
+                                    });
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
                 });
+
             } else {
                 MessageBox.Show(mContext, "传入的打印数据为空");
             }
 
         } catch (Exception e) {
-            MessageBox.Show(mContext, "校验打印数据出现预期之外的异常:请检查输入的打印信息是否正确,"+e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR,null);
+            MessageBox.Show(mContext, "校验打印数据出现预期之外的异常:请检查输入的打印信息是否正确," + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, null);
         }
 
     }

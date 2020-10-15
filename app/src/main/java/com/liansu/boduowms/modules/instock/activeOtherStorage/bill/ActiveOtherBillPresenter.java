@@ -48,6 +48,8 @@ public class ActiveOtherBillPresenter extends BaseOrderBillChoicePresenter<IBase
 
     @Override
     public void getOrderHeaderList(OrderRequestInfo orderHeaderInfo) {
+        orderHeaderInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        orderHeaderInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestInStockList(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

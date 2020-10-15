@@ -60,6 +60,8 @@ public class ProductStorageScanPresenter extends BaseOrderScanPresenter<IProduct
 
     protected void getOrderDetailInfoList(OrderHeaderInfo orderHeaderInfo) {
         onReset();
+        orderHeaderInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        orderHeaderInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestOrderDetail(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

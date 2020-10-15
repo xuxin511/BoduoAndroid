@@ -346,7 +346,7 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
             Intent intent = new Intent();
             intent.setClass(BaseOrderBillChoice.this, BaseOrderLabelPrintSelect.class);
             if (mPresenter!=null){
-//                intent.putExtra("VOUCHER_TYPE",mPresenter.getModel().getVoucherType());
+                intent.putExtra("VOUCHER_TYPE",getIntent().getIntExtra("VoucherType",-1));
             }
 
 //            Bundle bundle = new Bundle();

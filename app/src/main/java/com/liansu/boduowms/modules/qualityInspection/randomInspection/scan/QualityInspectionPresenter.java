@@ -65,6 +65,7 @@ public class QualityInspectionPresenter {
      */
     public void getOrderDetailInfo() {
         QualityHeaderInfo info = new QualityHeaderInfo();
+        info.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
         info.setId(mModel.getOrderHeaderInfo().getId());
         mModel.requestOrderDetailInfo(info, new NetCallBackListener<String>() {
             @Override

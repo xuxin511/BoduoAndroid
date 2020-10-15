@@ -52,6 +52,8 @@ public class PurchaseStorageBillPresenter extends BaseOrderBillChoicePresenter<I
     @Override
     public void getOrderHeaderList(OrderRequestInfo orderHeaderInfo) {
         orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE);
+        orderHeaderInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        orderHeaderInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestInStockList(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -97,6 +99,8 @@ public class PurchaseStorageBillPresenter extends BaseOrderBillChoicePresenter<I
     @Override
     public void getOrderHeaderList2(OrderRequestInfo orderHeaderInfo, final EditText editText) {
         orderHeaderInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE);
+        orderHeaderInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        orderHeaderInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.requestInStockList(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {

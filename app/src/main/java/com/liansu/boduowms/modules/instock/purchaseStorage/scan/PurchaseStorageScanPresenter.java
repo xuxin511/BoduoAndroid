@@ -61,6 +61,10 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
      */
     @Override
     protected void getOrderDetailInfoList() {
+        if (mModel.getOrderRequestInfo()!=null){
+            mModel.getOrderRequestInfo().setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+            mModel.getOrderRequestInfo().setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
+        }
         mModel.requestReceiptDetail(mModel.getOrderRequestInfo(), new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -124,6 +128,8 @@ public class PurchaseStorageScanPresenter extends BaseOrderScanPresenter<IBaseOr
         postInfo.setErpvoucherno(erpVoucherNo);
         postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         postInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE);
+        postInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        postInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.setOrderRequestInfo(postInfo);
         getOrderDetailInfoList();
     }

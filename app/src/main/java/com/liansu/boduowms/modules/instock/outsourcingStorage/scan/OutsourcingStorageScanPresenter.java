@@ -66,6 +66,8 @@ public class OutsourcingStorageScanPresenter extends BaseOrderScanPresenter<IBas
         postInfo.setErpvoucherno(erpVoucherNo);
         postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         postInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE);
+        postInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        postInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         mModel.setOrderRequestInfo(postInfo);
         mModel.requestOutSourcingStorageDetail(mModel.getOrderRequestInfo(), new NetCallBackListener<String>() {
             @Override
