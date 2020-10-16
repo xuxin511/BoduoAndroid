@@ -65,7 +65,6 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
             case RESULT_TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC:
                 listener = mNetMap.get("TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC");
                 break;
-
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
                 break;

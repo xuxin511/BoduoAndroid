@@ -415,6 +415,13 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
                         }
                     }
                 });
+            }else {
+                MessageBox.Show(mContext,detailResult.getMessage() , MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mView.onBarcodeFocus();
+                    }
+                });
             }
         } else {
             MessageBox.Show(mContext, "托盘信息不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
