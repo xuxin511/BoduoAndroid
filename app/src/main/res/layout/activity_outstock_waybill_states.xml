@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".modules.outstock.SalesOutstock.OutstockOrderColse">
+    tools:context=".modules.outstock.SalesOutstock.OutstockWaybillStates">
 
     <ImageView
         android:id="@+id/untie_carton_list_edit_text_background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
         android:background="@drawable/bt_selector"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/sales_outstock_line2"
@@ -23,7 +22,7 @@
     <TextView
         android:layout_height="0.1sp"
         android:layout_width="match_parent"
-        android:height="1sp"
+        android:height="3sp"
         android:id="@+id/combine_pallet_toolbar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -32,7 +31,7 @@
     //69码
     <EditText
         android:selectAllOnFocus="true"
-        android:id="@+id/outstock_ordercolse_order"
+        android:id="@+id/outstock_waybill_order"
         android:layout_width="0dp"
         android:layout_height="@dimen/sp_27"
         android:layout_marginTop="16sp"
@@ -57,11 +56,11 @@
         android:layout_width="match_parent"
         android:id="@+id/sales_outstock_line2"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/outstock_ordercolse_order"
+        app:layout_constraintTop_toBottomOf="@+id/outstock_waybill_order"
         />
 
     <ListView
-        android:id="@+id/outstock_ordercolse_listview"
+        android:id="@+id/outstock_waybill_listview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="8sp"
@@ -78,19 +77,19 @@
 
 
     <Button
-        android:id="@+id/outstock_ordercolse_button"
+        android:id="@+id/outstock_waybill_button"
         android:layout_width="0dp"
         android:layout_height="50sp"
         android:layout_margin="4dp"
         android:layout_marginEnd="284dp"
         android:layout_marginRight="284dp"
         android:background="@drawable/bt_selector"
-        android:text="结案"
+        android:text="提交"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_15"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/outstock_ordercolse_listview"
+        app:layout_constraintTop_toBottomOf="@+id/outstock_waybill_listview"
         ></Button>
 
     <androidx.constraintlayout.widget.Guideline
@@ -134,6 +133,4 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.27"/>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

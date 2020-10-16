@@ -147,6 +147,10 @@ public class UrlInfo {
     public String SalesOutstock__Toutstock_Callback             = GetWCFAdress() + "TransferOut/Get_TransferoutInfoBack";
     public String SalesOutstock__Toutstock_Callback_Submit      = GetWCFAdress() + "TransferOut/Post_TransferoutInfoBackADFAsync";
 
+    //托运加单
+    public String  OutStock_WayBill_GetOrderList      = GetWCFAdress() + "WayBill/GetCompleteWayBillNo";
+    public String  OutStock_WayBill_CancelPrintWayBill      = GetWCFAdress() + "WayBill/CancelPrintWayBill";
+
     //入库，出库 条码回退
     public String GetT_DetailSubAsync    = "";//  获取暂存数据
     public String DeleteT_DetailSubAsync = ""; // 删除暂存数据

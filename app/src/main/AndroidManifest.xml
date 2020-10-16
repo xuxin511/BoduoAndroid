@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".modules.outstock.SalesOutstock.OutstockDeleteReview"></activity>
+        <activity android:name=".modules.outstock.SalesOutstock.OutstockWaybillStates"></activity>
+        <activity android:name=".modules.outstock.SalesOutstock.OutstockDeleteReview" />
         <activity android:name=".modules.inHouseStock.inventory.InventoryScann" />
         <activity android:name=".modules.inHouseStock.inventory.InventoryList" />
         <activity android:name=".modules.outstock.SalesOutstock.OutstockOneReview" />

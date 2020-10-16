@@ -92,12 +92,15 @@ public class OutStock_Tag {
     public static final int RESUL_Saleoutstock_OneReview = 148;
 
 
-
     public static String TAG_Saleoutstock_WaybillPrint = "Sales_Saleoutstock_WaybillPrint";    // 打印托运单
     public static final int RESUL_Saleoutstock_WaybillPrint = 149;
 
     public static String TAG_Outstock_DeleteMaterial = "Review_Outstock_DeleteMaterial";    // 删除复核物料信息
     public static final int RESUL_Outstock_DeleteMaterial = 150;
 
+    public static String TAG_OutStock_WayBill_GetOrderList = "OutStock_WayBill_GetOrderList";    // 获取托运单信息
+    public static final int RESUL_OutStock_WayBill_GetOrderList = 151;
 
+    public static String TAG_OutStock_WayBill_ChangeOrder = "OutStock_WayBill_ChangeOrder";    // 撤回托运单信息
+    public static final int RESUL_OTAG_OutStock_WayBill_ChangeOrder = 152;
 }
