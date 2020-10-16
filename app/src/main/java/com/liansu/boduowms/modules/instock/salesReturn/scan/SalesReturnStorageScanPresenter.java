@@ -166,9 +166,11 @@ public class SalesReturnStorageScanPresenter {
                                     outBarcodeInfo.setAreano(mModel.getAreaInfo().getAreano());
                                     outBarcodeInfo.setPostuser(BaseApplication.mCurrentUserInfo.getUserno());
                                     outBarcodeInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
+                                    outBarcodeInfo.setVouchertype(mView.getVoucherType());
                                     BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkBarcode(outBarcodeInfo);
                                     if (checkResult.getHeaderStatus()) {
                                         mModel.setCurrentPalletInfo(outBarcodeInfo);
+
                                         mView.setPalletNoInfo(outBarcodeInfo);
                                         mView.bindListView(mModel.getList());
                                         mView.onPalletNoFocus();

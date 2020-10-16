@@ -60,6 +60,7 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
     Button   mReferButton;
     SalesReturnStorageAdapter mAdapter;
     protected UserSettingPresenter mUserSettingPresenter;
+    int mVoucherType=-1;
     @Override
     protected void initViews() {
         super.initViews();
@@ -94,6 +95,7 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
     @Override
     protected void initData() {
         super.initData();
+        mVoucherType=getIntent().getIntExtra("VoucherType",-1);
         mPresenter = new SalesReturnStorageScanPresenter(SalesReturnStorageScan.this, this, mHandler);
     }
 
@@ -209,6 +211,11 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
             bindListView(mPresenter.getModel().getList());
         }
        onAreaNoFocus();
+    }
+
+    @Override
+    public int getVoucherType() {
+        return mVoucherType;
     }
 
     @Override

@@ -25,6 +25,7 @@ import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.salesReturn.scan.SalesReturnStorageScan;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
@@ -621,6 +622,7 @@ public class SalesReturnPrint extends BaseActivity implements ISalesReturnPrintV
 
             Intent intent = new Intent();
             intent.setClass(SalesReturnPrint.this, SalesReturnStorageScan.class);
+            intent.putExtra("VoucherType",  OrderType.IN_STOCK_ORDER_TYPE_NO_SOURCE_SALES_RETURN_STORAGE_VALUE);
             startActivityLeft(intent);
 
 

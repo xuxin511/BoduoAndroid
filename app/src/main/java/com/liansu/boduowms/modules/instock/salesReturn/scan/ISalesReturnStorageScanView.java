@@ -14,4 +14,5 @@ import java.util.List;
       void bindListView(List<OutBarcodeInfo> list);
       void setPalletNoInfo(OutBarcodeInfo info);
       void onReset();
+      int getVoucherType();
 }
