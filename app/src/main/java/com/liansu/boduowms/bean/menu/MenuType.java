@@ -20,7 +20,7 @@ public class MenuType {
     public static final String                 MENU_MODULE_TYPE_OUT_STOCK_OFF_SHELF_TWO  = "OUT_STOCK_OFF_SHELF_TWO"; //下架（ 整托）
     public static final String                 MENU_MODULE_TYPE_NONE  = "MENU_MODULE_TYPE_NONE"; //
     public static final String                 MENU_MODULE_TYPE_OUT_STOCK_ONE_REVIEW  = "OUT_STOCK_ONE_REVIEW"; //一键复核
-    public static final String                 MENU_MODULE_TYPE_OUT_STOCK_CUSTOMER_MENTION  = "OUT_STOCK_CUSTOMER_MENTION "; //客户自提
+    public static final String                 MENU_MODULE_TYPE_OUT_STOCK_CUSTOMER_MENTION  = "OUT_STOCK_CUSTOMER_MENTION"; //客户自提
 
     //库内功能标识
     public static final String                 MENU_MODULE_TYPE_IN_HOUSE_STOCK_INVENTORY_LIST  = "IN_HOUSE_STOCK_INVENTORY_LIST"; //盘点列表
