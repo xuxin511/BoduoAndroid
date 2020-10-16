@@ -74,6 +74,7 @@ public class CommonBusinessSubMenuModel {
                    break;
                case MenuType.MENU_MODULE_TYPE_OUT_STOCK_SHIPMENT_CLOSED:
                case MenuType.MENU_MODULE_TYPE_OUT_STOCK_ONE_REVIEW:
+               case MenuType.MENU_MODULE_TYPE_OUT_STOCK_CUSTOMER_MENTION:
                    icon=R.drawable.b_shipment_approval;
                    break;
            }
@@ -128,6 +129,7 @@ public class CommonBusinessSubMenuModel {
                  intent.setClass(mContext, OutstockOrderColse.class);
                  break;
              case MenuType.MENU_MODULE_TYPE_OUT_STOCK_INDOOR_LOADING_TRUCK:
+             case MenuType.MENU_MODULE_TYPE_OUT_STOCK_CUSTOMER_MENTION:
                  intent.setData(data);
                  intent.setClass(mContext, SalesOutReview.class);
                  break;
