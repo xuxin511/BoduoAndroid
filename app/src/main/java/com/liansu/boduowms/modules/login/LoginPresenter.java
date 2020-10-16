@@ -16,7 +16,6 @@ import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
-import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.SharePreferUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
@@ -38,12 +37,7 @@ public class LoginPresenter {
 
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
-        switch (msg.what) {
-            case NetworkError.NET_ERROR_CUSTOM:
-                MessageBox.Show(mContext, "出现预期之外的异常:" + msg.obj);
-//                ToastUtil.show("获取请求失败_____" + msg.obj);
-                break;
-        }
+
     }
 
     public LoginPresenter(Context context, ILoginView view, MyHandler<BaseActivity> handler) {

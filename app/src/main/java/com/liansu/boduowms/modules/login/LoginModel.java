@@ -11,7 +11,9 @@ import com.liansu.boduowms.base.BaseModel;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.user.UserInfo;
 import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -47,7 +49,10 @@ public class LoginModel extends BaseModel {
             case RESULT_TAG_GET_MENU_INFO:
                 listener = mNetMap.get("TAG_GET_MENU_INFO");
                 break;
-
+            case NetworkError.NET_ERROR_CUSTOM:
+                MessageBox.Show(mContext, "出现预期之外的异常:" + msg.obj);
+//                ToastUtil.show("获取请求失败_____" + msg.obj);
+                break;
         }
         if (listener != null) {
             listener.onCallBack(msg.obj.toString());
