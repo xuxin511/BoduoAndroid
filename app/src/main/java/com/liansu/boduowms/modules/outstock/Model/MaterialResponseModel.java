@@ -49,7 +49,7 @@ package com.liansu.boduowms.modules.outstock.Model;
     public String Brand;
     public String Placearea ;
     public String Lifecycle ;
-    public String Packqty ;
+    public String PackQty ;
     public int Palletvolume ;
     public int Palletpackqty ;
     public int Packvolume ;
@@ -440,11 +440,11 @@ package com.liansu.boduowms.modules.outstock.Model;
     }
 
     public String getPackqty() {
-        return Packqty;
+        return PackQty;
     }
 
     public void setPackqty(String packqty) {
-        Packqty = packqty;
+        PackQty = packqty;
     }
 
     public int getPalletvolume() {

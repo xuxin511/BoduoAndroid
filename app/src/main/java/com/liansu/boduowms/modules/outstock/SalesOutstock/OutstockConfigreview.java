@@ -541,7 +541,7 @@ public class OutstockConfigreview extends BaseActivity {
                         String Value = inputServer.getText().toString();
                         try {
                             Float inputValue = Float.parseFloat(Value);
-                            Float packqty = Float.parseFloat(materialModle.Packqty);
+                            Float packqty = Float.parseFloat(materialModle.PackQty);
                             if(ArithUtil.sub(inputValue,packqty)>=0) {
                                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                                 MessageBox.Show(context, "不能大于" + packqty + "包装量");

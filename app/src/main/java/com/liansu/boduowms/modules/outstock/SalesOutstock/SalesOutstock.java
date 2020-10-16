@@ -296,7 +296,7 @@ public class SalesOutstock  extends BaseActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!CurrOrderNO.equals("")){
+        if (!CurrOrderNO.equals("")) {
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
@@ -613,7 +613,7 @@ public class SalesOutstock  extends BaseActivity  {
                 CommonUtil.setEditFocus(sales_outstock_order);
                 //清空所有数据
                 //据点集合
-                   StrongholdcodeList=new HashMap<>();
+                StrongholdcodeList=new HashMap<>();
                 //存储类
                 mModel= new PurchaseReturnOffScanModel(context, mHandler);
                 mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
@@ -652,10 +652,10 @@ public class SalesOutstock  extends BaseActivity  {
                 mList.setAdapter(mAdapter);
             }
             CommonUtil.setEditFocus(sales_outstock_pallettext);
+            return;
         } catch (Exception ex) {
             CommonUtil.setEditFocus(sales_outstock_order);
             MessageBox.Show(context, "数据解析报错");
-
         }
     }
 
@@ -738,7 +738,7 @@ public class SalesOutstock  extends BaseActivity  {
 
             materialModle = returnMsgModel.getData();
             //如果包装量等于1
-            Float packqty = Float.parseFloat(materialModle.Packqty);
+            Float packqty = Float.parseFloat(materialModle.PackQty);
             if( ArithUtil.sub(packqty,1f)==0) {
                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                 MessageBox.Show(context, "包装量等于1不允许下架");
@@ -770,10 +770,12 @@ public class SalesOutstock  extends BaseActivity  {
                 return;
             }
             if(returnMsgModel.getData().size()>1) {
-                CommonUtil.setEditFocus(sales_outstock_pallettext);
-                MessageBox.Show(context, "该托盘为混托，请选择其它模式下架");
-                palletIsTrue = false;
-                return;
+                if (OutStock_Type.equals(OutStock_Submit_type_pallet)) {
+                    CommonUtil.setEditFocus(sales_outstock_pallettext);
+                    MessageBox.Show(context, "该托盘为混托，请选择其它模式下架");
+                    palletIsTrue = false;
+                    return;
+                }
             }
             palletList=returnMsgModel.getData();
             Outbarcode_Requery palletmodel=returnMsgModel.getData().get(0);
@@ -937,7 +939,7 @@ public class SalesOutstock  extends BaseActivity  {
                         try {
                             Float inputValue = Float.parseFloat(Value);
                             inputNum = inputValue;
-                            Float packqty = Float.parseFloat(materialModle.Packqty);
+                            Float packqty = Float.parseFloat(materialModle.PackQty);
 
                             if(ArithUtil.sub(inputNum,packqty)>=0) {
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);

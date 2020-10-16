@@ -107,7 +107,7 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
         Float QTY=ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty());
         listItemView.txtVoucherQty.setText("需求量:" + mDetailInfo.getVoucherqty()+mDetailInfo.getUnit());
         // Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
-        listItemView.txtRemainQty.setText("下架量:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty())+mDetailInfo.getUnit());
+        listItemView.txtRemainQty.setText("未装车:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty())+mDetailInfo.getUnit());
         listItemView.txtScanQty.setText("已装车:" + mDetailInfo.getScanqty()+mDetailInfo.getUnit());
 //        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
