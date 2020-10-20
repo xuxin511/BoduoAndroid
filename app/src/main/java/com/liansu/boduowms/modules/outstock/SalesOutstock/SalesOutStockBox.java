@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.Request;
@@ -30,9 +31,11 @@ import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
+import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
+import com.liansu.boduowms.modules.outstock.Model.PackageCartonModel;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutStcokboxRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter;
@@ -63,6 +66,7 @@ import ch.qos.logback.core.joran.spi.ElementSelector;
 
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_box;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_AreaPlatForm;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_Box_Check_Box;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_Box_Check_waterCode;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_Box_SelectNO;
@@ -74,6 +78,9 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Sal
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_OTAG_OutStock_GetOrderPackageNum;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_OutStock_GetOrderPackageNum;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_AreaPlatForm;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_Box_SelectNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_Box_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_GETBOXlIST;
@@ -112,6 +119,13 @@ public  class SalesOutStockBox   extends BaseActivity {
     @ViewInject(R.id.outstock_box_isCheck)
     CheckBox checkBox;
 
+    //总箱数
+    @ViewInject(R.id.outstock_package_boxcount)
+    TextView outstock_package_boxcount;
+
+    //总箱数已扫
+    @ViewInject(R.id.outstock_package_boxscanning)
+    TextView outstock_package_boxscanning;
 
 
     //物料存储类 判断是否存在
@@ -440,8 +454,14 @@ public  class SalesOutStockBox   extends BaseActivity {
             case  RESULT_Saleoutstock_Box_Submit_Box://提交
                    SubmitBox((String) msg.obj);
                   break;
-            case   RESULT_Saleoutstock_GETBOXlISTl:
+            case  RESULT_Saleoutstock_GETBOXlISTl:
                  LoadBoxList((String)msg.obj);
+                break;
+            case   RESUL_OTAG_OutStock_GetOrderPackageNum:
+                 LoadPackageCarton((String)msg.obj);
+                break;
+            case    RESULT_Saleoutstock_AreaPlatForm:
+                AreaPlat((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
                 ToastUtil.show("获取请求失败_____" + msg.obj);
@@ -450,53 +470,55 @@ public  class SalesOutStockBox   extends BaseActivity {
     }
     //endregion
 
+    public  void LoadPackageCarton(String result) {
+        try {
+            BaseResultInfo<PackageCartonModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<PackageCartonModel>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                CommonUtil.setEditFocus(sales_outstock_box_order);
+                del();
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                return;
+            }
+            outstock_package_boxcount.setText(String.valueOf(returnMsgModel.getData().Qty));
+            outstock_package_boxscanning.setText(String.valueOf(returnMsgModel.getData().PackageNum));
+        } catch (Exception ex) {
+            MessageBox.Show(context, ex.toString());
+        }
+    }
+
+
 
     //展示拼箱列表
     public  void LoadBoxList(String result) {
-        BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
-        }.getType());
-        if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-            CommonUtil.setEditFocus(sales_outstock_box_order);
-            del();
-            MessageBox.Show(context, returnMsgModel.getResultValue());
-            return;
-        }
-        //先判断是否有非库存拼箱 如果有加入到扫描的集合中
-
-        // OutStockOrderDetailInfo model=modelIsExits.get("非库存拼箱");
-//        if(istrue){
-//            returnMsgModel.getData().add(model);
-//        }
-// OutStockOrderDetailInfo model=new OutStockOrderDetailInfo();
-       // boolean istrue=false;
-//        checkBox.setChecked(false);
-//        for( OutStockOrderDetailInfo item:stockInfoModels) {
-//            if (item.getMaterialdesc()!= null) {
-//                if (item.getMaterialdesc().equals("非库存拼箱")) {
-//                    // m//odel = item;
-//                    //istrue = true;
-//                    stockInfoModels.remove(item);
-//                     return;
-//                }
-//            }
-//        }
-
-
-        stockInfoModels=new ArrayList<OutStockOrderDetailInfo>();
-        modelIsExits = new HashMap<String, String>();
-        mModel.setOrderDetailList(returnMsgModel.getData());
-        mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
-//         for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()) {
-//             stockInfoModels.add(item);
-//         }
-         mList.setAdapter(mAdapter);
-        CommonUtil.setEditFocus(sales_outstock_box_watercode);
-        CurrOrder = sales_outstock_box_order.getText().toString().trim();
-//        if(istrue){
-//            checkBox.setChecked(true);
-//        }
-        if(checkBox.isChecked()){
-            checkBox.setChecked(false);
+        try {
+            BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                CommonUtil.setEditFocus(sales_outstock_box_order);
+                del();
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                return;
+            }
+            //先判断是否有非库存拼箱 如果有加入到扫描的集合中
+            stockInfoModels = new ArrayList<OutStockOrderDetailInfo>();
+            modelIsExits = new HashMap<String, String>();
+            mModel.setOrderDetailList(returnMsgModel.getData());
+            mAdapter = new SalesoutstockBoxAdapter(context, mModel.getOrderDetailList());
+            mList.setAdapter(mAdapter);
+            CommonUtil.setEditFocus(sales_outstock_box_watercode);
+            CurrOrder = sales_outstock_box_order.getText().toString().trim();
+            if (checkBox.isChecked()) {
+                checkBox.setChecked(false);
+            }
+            //查询拼箱箱数
+            SalesoutstockRequery model=new SalesoutstockRequery();
+            model.Erpvoucherno=CurrOrder;
+            String modelJson = parseModelToJson(model);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_OutStock_GetOrderPackageNum, "查询箱号数据中",
+                    context, mHandler, RESUL_OTAG_OutStock_GetOrderPackageNum, null, info.GetOrderPackageNum, modelJson, null);
+        } catch (Exception ex) {
+            MessageBox.Show(context, ex.toString());
         }
     }
 
@@ -746,6 +768,23 @@ public  class SalesOutStockBox   extends BaseActivity {
         MessageBox.Show(context, "提交成功",2,null);
     }
 
+    public  void AreaPlat(String result) {
+        BaseResultInfo<AreaInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<AreaInfo>>() {
+        }.getType());
+        if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+            CommonUtil.setEditFocus(sales_outstock_box_order);
+            MessageBox.Show(context, returnMsgModel.getResultValue());
+            return;
+        }
+        Platform model = new Platform();
+        model.Erpvoucherno = CurrOrder;
+        model.Platform = returnMsgModel.getData().getAreano();
+        String json = GsonUtil.parseModelToJson(model);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
+                context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
+
+    }
+
 
 
 
@@ -852,12 +891,13 @@ public  class SalesOutStockBox   extends BaseActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 inputYuetai = inputServer.getText().toString();
-                                Platform model=new Platform();
-                                model.Erpvoucherno=CurrOrder;
-                                model.Platform=inputYuetai;
+                                AreaInfo model=new AreaInfo();
+                                model.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                                model.setAreano(inputYuetai);
                                 String json = GsonUtil.parseModelToJson(model);
-                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
-                                        context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
+                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_AreaPlatForm, "检验月台",
+                                        context, mHandler, RESULT_Saleoutstock_AreaPlatForm, null, info.GetT_AreaModel, json, null);
+
                             }
                         });
                 builder.show();

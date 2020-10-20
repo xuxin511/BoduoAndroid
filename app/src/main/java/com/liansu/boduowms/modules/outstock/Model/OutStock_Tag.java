@@ -28,6 +28,8 @@ public class OutStock_Tag {
     public static final int RESULT_Saleoutstock_ScannParts_Submit = 129;
 
 
+
+
     //#region 出库下架模式/复核barcode扫描类型
     public static String OutStock_Submit_type_parts = "0";//散件
     public static String OutStock_Submit_type_box = "1";//箱
@@ -103,4 +105,13 @@ public class OutStock_Tag {
 
     public static String TAG_OutStock_WayBill_ChangeOrder = "OutStock_WayBill_ChangeOrder";    // 撤回托运单信息
     public static final int RESUL_OTAG_OutStock_WayBill_ChangeOrder = 152;
+
+
+    public static String TAG_OutStock_GetOrderPackageNum = "OutStock_GetOrderPackageNum";    // 获取箱数信息中
+    public static final int RESUL_OTAG_OutStock_GetOrderPackageNum = 153;
+
+
+    public static String TAG_Saleoutstock_AreaPlatForm = "Sales_outstock_AreaPlatForm";    // 散件扫描托盘提交
+    public static final int RESULT_Saleoutstock_AreaPlatForm = 154;
+
 }

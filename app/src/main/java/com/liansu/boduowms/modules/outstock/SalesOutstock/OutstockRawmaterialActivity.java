@@ -369,7 +369,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     String modelJson = parseModelToJson(list);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
                             context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
-
                 }
             } else {
                 CommonUtil.setEditFocus(sales_outstock_material_pallettext);

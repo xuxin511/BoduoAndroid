@@ -354,9 +354,9 @@ public class OutstockConfigreview extends BaseActivity {
                 return;
             }
             //   CurrOrderNO = awyBll.LinkVoucherNo;
-            Float cartonnum = returnMsgModel.getData().getOrderCartonNum();//原材料不需要总箱数跟已扫描数
+            Float cartonnum = returnMsgModel.getData().getCartonNum();//原材料不需要总箱数跟已扫描数
             outstock_sales_boxcount.setText(String.valueOf(cartonnum));
-            Float OrderScanCartonNum = returnMsgModel.getData().getOrderScanCartonNum();
+            Float OrderScanCartonNum = returnMsgModel.getData().getPackageNum();
             outstock_sales_boxscanning.setText(String.valueOf(OrderScanCartonNum));
             //绑定
             mModel.setOrderHeaderInfo(returnMsgModel.getData());
@@ -518,6 +518,10 @@ public class OutstockConfigreview extends BaseActivity {
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, msg + "更新失败");
 
+            }
+            if(IsScanningOver()) {
+                //全部复核
+                ISSubmit("订单已全部复核完成，确认提交吗");
             }
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
