@@ -33,6 +33,7 @@ import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
+import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
@@ -67,6 +68,7 @@ import java.util.Map;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_box;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_AreaPlatForm;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PlatForm;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
@@ -75,6 +77,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Sal
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_AreaPlatForm;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PlatForm;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SelectNO;
@@ -591,6 +594,9 @@ public class SalesOutstock  extends BaseActivity  {
             case  RESULT_Saleoutstock_PlatForm://月台
                  ResultPlatForm((String) msg.obj);
                 break;
+            case    RESULT_Saleoutstock_AreaPlatForm:
+                AreaPlat((String) msg.obj);
+                break;
 //            case RESULT_Saleoutstock_ScannParts_Submit://散件提交
 //                SacnnPalletNo((String) msg.obj);
 //                CommonUtil.setEditFocus(sales_outstock_boxtext);
@@ -601,6 +607,7 @@ public class SalesOutstock  extends BaseActivity  {
         }
     }
     //endregion
+
 
 
     //region 方法
@@ -838,6 +845,25 @@ public class SalesOutstock  extends BaseActivity  {
     }
 
 
+    public  void AreaPlat(String result) {
+        BaseResultInfo<AreaInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<AreaInfo>>() {
+        }.getType());
+        if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+            CommonUtil.setEditFocus(sales_outstock_pallettext);
+            MessageBox.Show(context, returnMsgModel.getResultValue());
+            return;
+        }
+//        CommonUtil.setEditFocus(sales_outstock_pallettext);
+//        MessageBox.Show(context, "提交成功", 2, null);
+        Platform model = new Platform();
+        model.Erpvoucherno = CurrOrderNO;
+        model.Platform = returnMsgModel.getData().getAreano();
+        String json = GsonUtil.parseModelToJson(model);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
+                context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
+
+    }
+
 
 
 
@@ -990,12 +1016,13 @@ public class SalesOutstock  extends BaseActivity  {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         inputYuetai = inputServer.getText().toString();
-                        Platform model=new Platform();
-                        model.Erpvoucherno=CurrOrderNO;
-                        model.Platform=inputYuetai;
+                        AreaInfo model=new AreaInfo();
+                        model.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+                        model.setAreano(inputYuetai);
                         String json = GsonUtil.parseModelToJson(model);
-                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
-                                context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
+                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_AreaPlatForm, "检验月台",
+                                context, mHandler, RESULT_Saleoutstock_AreaPlatForm, null, info.GetT_AreaModel, json, null);
+
                     }
                 });
         builder.show();

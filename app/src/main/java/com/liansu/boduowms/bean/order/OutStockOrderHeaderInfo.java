@@ -57,6 +57,8 @@ public class OutStockOrderHeaderInfo implements Parcelable {
     private Float                           OutCostTotal;
     private Float                           OrderCartonNum;
     private Float                           OrderScanCartonNum;
+    private Float                           CartonNum;
+    private Float                           PackageNum;
     private int                           Id;
     private String                        Companycode;
     private String                        Strongholdcode;
@@ -138,6 +140,8 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         LogisticsCompany=in.readString();
         Towarehouseno=in.readString();
         IsGenReturnOrder= in.readInt();
+        CartonNum = in.readFloat();
+        PackageNum = in.readFloat();;
     }
 
     public String getLogisticsCompany() {
@@ -175,7 +179,8 @@ public class OutStockOrderHeaderInfo implements Parcelable {
         dest.writeString(LogisticsCompany);
         dest.writeString(Towarehouseno);
         dest.writeInt(IsGenReturnOrder);
-
+        dest.writeFloat(CartonNum);
+        dest.writeFloat(PackageNum);
     }
 
     @Override
@@ -194,6 +199,22 @@ public class OutStockOrderHeaderInfo implements Parcelable {
             return new OutStockOrderHeaderInfo[size];
         }
     };
+
+    public Float getCartonNum() {
+        return CartonNum;
+    }
+
+    public void setCartonNum(Float cartonNum) {
+        CartonNum = cartonNum;
+    }
+
+    public Float getPackageNum() {
+        return PackageNum;
+    }
+
+    public void setPackageNum(Float packageNum) {
+        PackageNum = packageNum;
+    }
 
     public String getCustomerno() {
         return Customerno;

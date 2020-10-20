@@ -111,6 +111,8 @@ public class UrlInfo {
     public String SalesOutstock_PlatForm       = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
     public String SalesOutstock_OrderColose    = GetWCFAdress() + "OutStock/Lock_Order"; //提交结案
 
+
+
 //    public String SalesOutstock_ScanningNo        = GetWCFAdress() + "OutStock/GetT_OutStockDetailListADFAsync"; //销售出库订单扫描
 //    public String SalesOutstock_SacnningPallet    = GetWCFAdress() + "OutStock/SaveT_OutStockDetailADFAsync"; //销售出库托盘提交
 //    public String SalesOutstock_PlatForm          = GetWCFAdress() + "OutStock/Package_PlatFormSubmitADFAsync"; //提交月台
@@ -123,6 +125,7 @@ public class UrlInfo {
     public String SalesOutstock_DelBox         = GetWCFAdress() + "OutStock/DelPackage_CartonScanADFAsync";//删除单个拼箱
     public String SalesOutstock_BoxList        = GetWCFAdress() + "OutStock/GetPackage_CartonDetail";//获取订单拼箱列表
     public String SalesOutstock_PrintBox       = GetWCFAdress() + "OutStock/PrintPackage_CartonScanADFAsync";//打印拼箱
+    public String GetOrderPackageNum       = GetWCFAdress() + "PackageCarton/GetOrderPackageNum";//获取拼箱箱数信息
 
 
     //复核

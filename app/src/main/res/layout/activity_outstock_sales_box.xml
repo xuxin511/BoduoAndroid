@@ -94,11 +94,64 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/sales_outstock_box_watercode" />
 
+
+    //总箱号
+    <TextView
+        android:layout_marginTop="3sp"
+        android:id="@+id/outstock_sales_boxcountname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="整箱数："
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintTop_toBottomOf="@+id/outstock_sales_shelf_name"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_left"
+        />
+    <TextView
+        android:layout_marginTop="3sp"
+        android:id="@+id/outstock_package_boxcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintTop_toBottomOf="@+id/outstock_sales_shelf_name"
+        app:layout_constraintLeft_toRightOf="@+id/outstock_sales_boxcountname"
+        />
+    //已扫
+    <TextView
+        android:layout_marginTop="3sp"
+        android:id="@+id/outstock_sales_boxscannname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="@dimen/sp_10"
+        android:text="拼箱数："
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintTop_toBottomOf="@+id/outstock_sales_shelf_name"
+        app:layout_constraintLeft_toRightOf="@+id/outstock_package_boxcount"
+        />
+    <TextView
+        android:layout_marginTop="3sp"
+        android:id="@+id/outstock_package_boxscanning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintTop_toBottomOf="@+id/outstock_sales_shelf_name"
+        app:layout_constraintLeft_toRightOf="@+id/outstock_sales_boxscannname"
+        />
+
     <TextView
         android:id="@+id/sales_outstock_line2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sp_5"
-        app:layout_constraintTop_toBottomOf="@+id/outstock_sales_shelf_name" />
+        app:layout_constraintTop_toBottomOf="@+id/outstock_package_boxscanning" />
 
 
     <ListView
