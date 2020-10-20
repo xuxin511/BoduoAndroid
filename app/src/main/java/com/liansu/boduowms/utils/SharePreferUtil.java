@@ -54,6 +54,24 @@ public class SharePreferUtil {
         RequestHandler.SOCKET_TIMEOUT = TimeOut;
     }
 
+    public static void setSystemSettingShare(Context context,String IPAddress,int port,String lastContent,int timeOut,String officialEnvironmentIpAddress,String testEnvironmentIpAddress){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString("IPAddress", IPAddress);
+        edit.putInt("Port", port);
+        edit.putString("LastContent",lastContent);
+        edit.putInt("TimeOut", timeOut);
+        edit.putString("OfficialEnvironmentIpAddress",officialEnvironmentIpAddress);
+        edit.putString("TestEnvironmentIpAddress",testEnvironmentIpAddress);
+        edit.commit();
+        UrlInfo.IPAdress = IPAddress;
+        UrlInfo.Port = port;
+        UrlInfo.LastContent=lastContent;
+        UrlInfo.mOfficialEnvironmentIpAddress=officialEnvironmentIpAddress;
+        UrlInfo.mTestEnvironmentIpAddress=testEnvironmentIpAddress;
+        RequestHandler.SOCKET_TIMEOUT = timeOut;
+    }
+
     public static void SetSupplierShare(Context context, boolean isSupplier) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("SupplierSetting", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();

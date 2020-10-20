@@ -168,6 +168,8 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 postActiveOtherScanInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 postActiveOtherScanInfo.setVouchertype(voucherType);
                 postActiveOtherScanInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                postActiveOtherScanInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+                postActiveOtherScanInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
                 activeOtherScanModel.requestActiveOtherDetail(postActiveOtherScanInfo, callBackListener);
                 break;
             case OrderType.IN_STOCK_ORDER_TYPE_TWO_STAGE_TRANSFER_TO_STORAGE_VALUE:
@@ -176,6 +178,8 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 OrderRequestInfo postTransferToStorageScanModelScanInfo = new OrderRequestInfo();
                 postTransferToStorageScanModelScanInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 postTransferToStorageScanModelScanInfo.setVouchertype(voucherType);
+                postTransferToStorageScanModelScanInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+                postTransferToStorageScanModelScanInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
                 postTransferToStorageScanModelScanInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
                 transferToStorageScanModel.requestOrderDetail(postTransferToStorageScanModelScanInfo, callBackListener);
                 break;
@@ -187,6 +191,8 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 postTransferToStorageScanModelScanInfo2.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 postTransferToStorageScanModelScanInfo2.setVouchertype(voucherType);
                 postTransferToStorageScanModelScanInfo2.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                postTransferToStorageScanModelScanInfo2.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+                postTransferToStorageScanModelScanInfo2.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
                 transferToStorageScanModel2.requestOrderDetail(postTransferToStorageScanModelScanInfo2, callBackListener);
                 break;
             case OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE:
@@ -196,6 +202,8 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 productionReturnsScanInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 productionReturnsScanInfo.setVouchertype(voucherType);
                 productionReturnsScanInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                productionReturnsScanInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+                productionReturnsScanInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
                 productionReturnsModel.requestOrderDetail(productionReturnsScanInfo, callBackListener);
                 break;
             case OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE:
@@ -205,6 +213,8 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                 salesReturnInfo.setErpvoucherno(orderRequestInfo.getErpvoucherno());
                 salesReturnInfo.setVouchertype(voucherType);
                 salesReturnInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+                salesReturnInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+                salesReturnInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
                 salesReturnModel.requestOrderDetail(salesReturnInfo, callBackListener);
                 break;
         }

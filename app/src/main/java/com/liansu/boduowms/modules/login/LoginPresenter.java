@@ -2,14 +2,11 @@ package com.liansu.boduowms.modules.login;
 
 import android.content.Context;
 import android.os.Message;
-import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
-import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
-import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.menu.MenuInfo;
 import com.liansu.boduowms.bean.user.UserInfo;
 import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
@@ -59,14 +56,11 @@ public class LoginPresenter {
      */
     public void onLogin(final String userNo, String password) {
         try {
-            if (TextUtils.isEmpty(UrlInfo.PrintIP)) {
-                MessageBox.Show(mContext, mContext.getString(R.string.Error_PrintIPNotSet));
-                return;
-            }
-            if (!UrlInfo.isWMS && TextUtils.isEmpty(UrlInfo.ElecIP)) {
-                MessageBox.Show(mContext, mContext.getString(R.string.Error_PrintIPNotSet));
-                return;
-            }
+//
+//            if (TextUtils.isEmpty(UrlInfo.mBluetoothPrinterMacAddress)) {
+//                MessageBox.Show(mContext, mContext.getString(R.string.Error_PrintIPNotSet));
+//                return;
+//            }
 
             if (userNo.equals("")) {
                 MessageBox.Show(mContext, "请输入用户名");

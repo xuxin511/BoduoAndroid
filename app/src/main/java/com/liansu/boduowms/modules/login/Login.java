@@ -67,21 +67,26 @@ public class Login extends BaseActivity implements ILoginView {
     @Override
     protected void onResume() {
         super.onResume();
-        SharePreferUtil.ReadShare(mContext);
-        SharePreferUtil.ReadUserShare(mContext);
-        SharePreferUtil.ReadWareHouseInfoShare(mContext);
-        ReadPrintSettingShare(mContext);
-        if (BaseApplication.mCurrentUserInfo != null) {
-            mUserNo.setText(BaseApplication.mCurrentUserInfo.getUserno());
+        try {
+            SharePreferUtil.ReadShare(mContext);
+            SharePreferUtil.ReadUserShare(mContext);
+            SharePreferUtil.ReadWareHouseInfoShare(mContext);
+            ReadPrintSettingShare(mContext);
+            if (BaseApplication.mCurrentUserInfo != null) {
+                mUserNo.setText(BaseApplication.mCurrentUserInfo.getUserno());
 //            edtPassword.setText(DESUtil.decode(BaseApplication.mCurrentUserInfo.getPassWord()));
+            }
+            if (BaseApplication.mCurrentWareHouseInfo != null) {
+                mWareHouseNo.setText(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+            }
+            if (mPresenter == null) {
+                mPresenter = new LoginPresenter(mContext, this, mHandler);
+            }
+            mPassword.setText("");
+        }catch (Exception e){
+            e.getMessage();
         }
-        if (BaseApplication.mCurrentWareHouseInfo != null) {
-            mWareHouseNo.setText(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
-        }
-        if (mPresenter == null) {
-            mPresenter = new LoginPresenter(mContext, this, mHandler);
-        }
-        mPassword.setText("");
+
 //        DebugModuleData.getMenuData();
     }
 

@@ -97,6 +97,7 @@ public class VoucherDetailSubInfo extends BaseInfo implements Parcelable {
     private String FromCompanyCode;
     protected  int Scantype; //1-原托盘入库 0-新托盘入库
     protected  String WBarcode;//外箱码
+    private String Areano;  //库位编码
     protected VoucherDetailSubInfo(Parcel in) {
 
         Headeridsub = in.readInt();
@@ -134,6 +135,7 @@ public class VoucherDetailSubInfo extends BaseInfo implements Parcelable {
         FromCompanyCode = in.readString();
         Scantype=in.readInt();
         WBarcode=in.readString();
+        Areano=in.readString();
 
     }
 
@@ -429,6 +431,14 @@ public class VoucherDetailSubInfo extends BaseInfo implements Parcelable {
         this.WBarcode = WBarcode;
     }
 
+    public String getAreano() {
+        return Areano;
+    }
+
+    public void setAreano(String areano) {
+        Areano = areano;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -471,6 +481,7 @@ public class VoucherDetailSubInfo extends BaseInfo implements Parcelable {
         dest.writeString(FromCompanyCode);
         dest.writeInt(Scantype);
         dest.writeString(WBarcode);
+        dest.writeString(Areano);
 
     }
 }
