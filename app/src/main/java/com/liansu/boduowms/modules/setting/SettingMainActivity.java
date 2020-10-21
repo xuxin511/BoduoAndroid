@@ -12,8 +12,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.AppManager;
 import com.liansu.boduowms.base.BaseApplication;
+import com.liansu.boduowms.modules.setting.newSystem.NewSettingSystemFragment;
 import com.liansu.boduowms.modules.setting.print.SettingPrintingFragment;
-import com.liansu.boduowms.modules.setting.system.SettingSystemFragment;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.widget.MyFragmentStateAdapter;
@@ -40,6 +40,7 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
         setContentView(R.layout.activity_tab_layout_main);
         AppManager.getAppManager().addActivity(this); //添加当前Activity到avtivity管理类
         final List<String> tabTexts = new ArrayList<>();
+//        tabTexts.add(getString(R.string.setting_system_info));
         tabTexts.add(getString(R.string.setting_system_info));
         tabTexts.add(getString(R.string.setting_print_info));
         tabTexts.add(getString(R.string.setting_print_info));
@@ -78,7 +79,8 @@ public class SettingMainActivity extends FragmentActivity implements ISettingVie
 
         //        widget_common_tool_bar
         final List<Fragment> listFragments = new ArrayList<>();
-        listFragments.add(new SettingSystemFragment());
+        listFragments.add(new NewSettingSystemFragment());
+//        listFragments.add(new SettingSystemFragment());
         listFragments.add(new SettingPrintingFragment());
 
 

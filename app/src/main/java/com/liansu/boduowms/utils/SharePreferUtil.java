@@ -9,6 +9,7 @@ import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.user.UserInfo;
 import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
+import com.liansu.boduowms.modules.setting.newSystem.NewSettingSystemPresenter;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 
 import java.lang.reflect.Type;
@@ -23,14 +24,16 @@ public class SharePreferUtil {
     public static void ReadShare(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
         if (sharedPreferences != null) {
-            UrlInfo.IPAdress = sharedPreferences.getString("IPAdress", "172.19.106.230");
-            UrlInfo.Port = sharedPreferences.getInt("Port", 5001);
-//            URLModel.IPAdress=sharedPreferences.getString("IPAdress", "wmstest.beukay.com");
-//            URLModel.Port=sharedPreferences.getInt("Port", 9010);
-            UrlInfo.PrintIP = sharedPreferences.getString("PrintIP", "1.1.1.1");
             UrlInfo.ElecIP = sharedPreferences.getString("ElecIP", "1.1.1.1");
             UrlInfo.isWMS = sharedPreferences.getBoolean("isWMS", true);
             RequestHandler.SOCKET_TIMEOUT = sharedPreferences.getInt("TimeOut", 20000);
+            UrlInfo.mOfficialEnvironmentIpAddress=sharedPreferences.getString("OfficialEnvironmentIpAddress","http://172.19.106.190:7001/api/");
+            UrlInfo.mTestEnvironmentIpAddress=sharedPreferences.getString("TestEnvironmentIpAddress","http://172.19.106.230:5001/api/");
+            UrlInfo.IPAdress = sharedPreferences.getString("IPAddress", "");
+            UrlInfo.Port = sharedPreferences.getInt("Port", -1);
+            UrlInfo.LastContent=sharedPreferences.getString("LastContent","");
+            UrlInfo.PrintIP = sharedPreferences.getString("PrintIP", "1.1.1.1");
+            UrlInfo.mEnvironmentType=sharedPreferences.getInt(   "EnvironmentType", NewSettingSystemPresenter.URL_TYPE_OFFICIAL_ENVIRONMENT);
         }
     }
 
@@ -39,7 +42,7 @@ public class SharePreferUtil {
         PrintIP = ElecIP;
         SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString("IPAdress", IPAdress);
+        edit.putString("IPAddress", IPAdress);
         edit.putString("PrintIP", PrintIP);
         edit.putString("ElecIP", ElecIP);
         edit.putInt("Port", Port);
@@ -54,7 +57,7 @@ public class SharePreferUtil {
         RequestHandler.SOCKET_TIMEOUT = TimeOut;
     }
 
-    public static void setSystemSettingShare(Context context,String IPAddress,int port,String lastContent,int timeOut,String officialEnvironmentIpAddress,String testEnvironmentIpAddress){
+    public static void setSystemSettingShare(Context context,String IPAddress,int port,String lastContent,int timeOut,String officialEnvironmentIpAddress,String testEnvironmentIpAddress,int environmentType){
         SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString("IPAddress", IPAddress);
@@ -63,12 +66,14 @@ public class SharePreferUtil {
         edit.putInt("TimeOut", timeOut);
         edit.putString("OfficialEnvironmentIpAddress",officialEnvironmentIpAddress);
         edit.putString("TestEnvironmentIpAddress",testEnvironmentIpAddress);
+        edit.putInt("EnvironmentType",environmentType);
         edit.commit();
         UrlInfo.IPAdress = IPAddress;
         UrlInfo.Port = port;
         UrlInfo.LastContent=lastContent;
         UrlInfo.mOfficialEnvironmentIpAddress=officialEnvironmentIpAddress;
         UrlInfo.mTestEnvironmentIpAddress=testEnvironmentIpAddress;
+        UrlInfo.mEnvironmentType=environmentType;
         RequestHandler.SOCKET_TIMEOUT = timeOut;
     }
 

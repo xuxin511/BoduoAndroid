@@ -25,7 +25,6 @@ import com.liansu.boduowms.modules.qualityInspection.randomInspection.scan.Quali
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.quality_inspection.RandomInspectionBillItemAdapter;
-import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -147,23 +146,14 @@ public class RandomInspectionBill extends BaseActivity implements SwipeRefreshLa
             if (code.equals("")) {
                 return true;
             }
-            if (code.length() <= 25) {
-                QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
+            QualityHeaderInfo qualityHeaderInfo = new QualityHeaderInfo();
 //                receiptModel.setStatus(1);
-                qualityHeaderInfo.setErpvoucherno(code);
-                if (mPresenter != null) {
-                    mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
-                }
-
-            } else {
-                MessageBox.Show(mContext, "检验订单长度失败，请输入订单号", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        onFilterContentFocus();
-                    }
-                });
-//                GetT_ErpVoucherNo(code);
+            qualityHeaderInfo.setErpvoucherno(code);
+            if (mPresenter != null) {
+                mPresenter.getQualityInsHeaderList(qualityHeaderInfo);
             }
+
+
 
         }
         return false;

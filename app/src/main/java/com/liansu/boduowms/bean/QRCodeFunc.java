@@ -51,12 +51,18 @@ public class QRCodeFunc {
                     qty = Float.parseFloat(listCode[2]);
                     barcodeType = Integer.parseInt(listCode[3]);
 
+                } else if (listCode.length == 3) {
+                  //物料%批次%数量   外箱
+                    materialNo = listCode[0];
+                    batchNo = listCode[1];
+                    qty = Float.parseFloat(listCode[2]);
+                    barcodeType = BARCODE_TYPE_OUTER_BOX;
                 } else if (listCode.length == 2) {
                     //原料的原标签   物料编码和数量
                     materialNo = listCode[0];
                     qty = Integer.parseInt(listCode[1]);
-                }else {
-                    materialNo= listCode[0];
+                } else {
+                    materialNo = listCode[0];
                 }
                 resultBarcode.setSerialno(serialNo);
                 resultBarcode.setBarcode(originalCode);
@@ -81,28 +87,6 @@ public class QRCodeFunc {
     }
 
 
-    /**
-     * @desc: 获取条码类型
-     * @param:
-     * @return:
-     * @author: Nietzsche
-     * @time 2020/6/4 12:10
-     */
-    public static String getBarcodeType(String barcode) {
-        String barcodeType = "";
-        if (barcode != null) {
-            if (barcode.startsWith("A")) {
-                barcodeType = "A";
-            } else if (barcode.startsWith("B")) {
-                barcodeType = "B";
-            } else if (barcode.startsWith("C")) {
-                barcodeType = "C";
-            } else if (barcode.startsWith("D")) {
-                barcodeType = "D";
-            }
-        }
-        return barcodeType;
-    }
 
 
 }

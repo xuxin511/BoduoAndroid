@@ -31,6 +31,7 @@ public class UrlInfo {
     public static String  mOutStockPackingBoxPrintName = ""; //出库拼箱打印名称
     public static String  mOfficialEnvironmentIpAddress="";//正式环境IP地址
     public static String  mTestEnvironmentIpAddress="";//测试环境IP地址
+    public static int  mEnvironmentType=-1;
 
 
     String GetWCFAdress() {
