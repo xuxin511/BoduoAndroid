@@ -50,9 +50,14 @@ public class UpdateVersionService {
     // private static final String UPDATEVERSIONXMLPATH = UserConfigModel.UPDATEURL+"version.xml";
 //    public final static  String                  LastContent = "/AppData/version.xml";
     public final static  String                  LastContent = "/AppData/version.json";
+    public final static  String                  APK_PATH="/AppData/BODUO.apk";
 
     public static String UP_DATE_VERSION_XML_PATH() {
         return "http://" + UrlInfo.IPAdress + ":" + UrlInfo.Port + "/" + LastContent;
+    }
+
+    public static String UP_DATE_DOWN_LOAD_PATH() {
+        return "http://" + UrlInfo.IPAdress + ":" + UrlInfo.Port + "/" + APK_PATH;
     }
 
     private boolean  cancelUpdate = false;// 是否取消下载
@@ -326,7 +331,8 @@ public class UpdateVersionService {
                     // 获得存储卡的路径
                     String sdpath = Environment.getExternalStorageDirectory() + "/";
                     fileSavePath = sdpath + "download";
-                    URL url = new URL(hashMap.get("loadUrl"));
+                    URL url = new URL(UP_DATE_DOWN_LOAD_PATH());
+//                    URL url = new URL(hashMap.get("loadUrl"));
                     // 创建连接
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setReadTimeout(5 * 1000);// 设置超时时间
