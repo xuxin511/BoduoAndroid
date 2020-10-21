@@ -135,9 +135,8 @@ public class OutstockWaybillStates extends BaseActivity {
             try {
                 String order = outstock_waybill_order.getText().toString().trim();
                 if (order.equals("")) {
-                    MessageBox.Show(context, "青先输入或扫描单号");
-                    return true
-                            ;
+                    MessageBox.Show(context, "请先输入或扫描单号");
+                    return true;
                 }
                 SalesoutstockRequery model = new SalesoutstockRequery();
                 model.Erpvoucherno = order;
@@ -195,7 +194,8 @@ public class OutstockWaybillStates extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-            MessageBox.Show(context, "操作成功");
+            MessageBox.Show(context, "操作成功",2,null);
+            //MessageBox.Show(context, "操作成功");
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
             String json = GsonUtil.parseModelToJson(model);

@@ -512,7 +512,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 list = returnMsgModel.getData();
                 //成功需要更新listView 怎么更新
                 String msg = "";
-                if (returnMsgModel.getData().size() > 0) {
+                if (list.size() > 0) {
                     for (OutStockOrderDetailInfo oderdetail : list) {
                         //可以超发，判断逻辑限定在最开始输入的时候
                         BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateListViewItemcf(oderdetail);
@@ -521,6 +521,8 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                             msg = msg + "物料" + oderdetail.getMaterialno() + "批次" + oderdetail.getBatchno();
                         }
                     }
+                }else{
+                    MessageBox.Show(context, msg + "更新返回数据为空");
                 }
                 if (!msg.equals("")) {
                     CommonUtil.setEditFocus(sales_outstock_material_pallettext);

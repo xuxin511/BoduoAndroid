@@ -517,7 +517,6 @@ public class OutstockConfigreview extends BaseActivity {
             if (!msg.equals("")) {
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, msg + "更新失败");
-
             }
             if(IsScanningOver()) {
                 //全部复核
