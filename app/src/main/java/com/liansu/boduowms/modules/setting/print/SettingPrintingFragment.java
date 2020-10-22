@@ -231,7 +231,6 @@ public class SettingPrintingFragment extends BaseFragment implements ISettingPri
         super.onResume();
 //        if (mPresenter != null) {
 //            mPresenter.getPrinterAddressList();
-//
 //        }
 
     }

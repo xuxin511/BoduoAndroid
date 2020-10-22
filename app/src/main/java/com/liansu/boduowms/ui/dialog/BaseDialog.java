@@ -3,7 +3,9 @@ package com.liansu.boduowms.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+
 import com.liansu.boduowms.R;
+
 /**
  * Created by GHOST on 2017/3/13.
  */
@@ -39,8 +41,7 @@ public abstract class BaseDialog {
     }
 
     public void dismiss() {
-        if (mDialog != null) {
+        if (mDialog != null)
             mDialog.dismiss();
-        }
     }
 }

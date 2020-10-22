@@ -15,6 +15,7 @@ import com.liansu.boduowms.ui.dialog.LoadingDialog;
 import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.Map;
+import java.util.UUID;
 
 import static com.liansu.boduowms.base.BaseApplication.context;
 import static com.liansu.boduowms.base.BaseApplication.getRequestQueue;
@@ -33,7 +34,7 @@ public class RequestHandler {
             final Handler handler, final int what,
             final Bundle bundle, String url, final String params, final Map<String, String> header,
             final NetWorkRequestListener listener) {
-
+        String uuid= UUID.randomUUID().toString()+tag;
         listener.onPreRequest();
         JsonStringRequest JsonRequest = new JsonStringRequest(method, url, params, new Response.Listener<String>() {
             @Override
@@ -52,9 +53,9 @@ public class RequestHandler {
         getRequestQueue().getCache().remove(url);
         getRequestQueue().getCache().clear();
         // 清除请求队列中的tag标记请求
-        getRequestQueue().cancelAll(tag);
+        getRequestQueue().cancelAll(uuid);
         // 为当前请求添加标记
-        JsonRequest.setTag(tag);
+        JsonRequest.setTag(uuid);
         //设置超时时间
         JsonRequest.setRetryPolicy(getRetryPolicy());
         getRequestQueue().add(JsonRequest);
@@ -79,6 +80,7 @@ public class RequestHandler {
             url = NetworkHelper.getUrlWithParams(url, params);
         }
         listener.onPreRequest();
+        String uuid= UUID.randomUUID().toString()+tag;
         String para = (new org.json.JSONObject(params)).toString();
         try {
             JsonStringRequest JsonRequest = new JsonStringRequest(method, url, para, new Response.Listener<String>() {
@@ -99,9 +101,9 @@ public class RequestHandler {
             getRequestQueue().getCache().remove(url);  //清除单个缓存
             getRequestQueue().getCache().clear();
             // 清除请求队列中的tag标记请求
-            getRequestQueue().cancelAll(tag);
+            getRequestQueue().cancelAll(uuid);
             // 为当前请求添加标记
-            JsonRequest.setTag(tag);
+            JsonRequest.setTag(uuid);
             //设置超时时间
 
             JsonRequest.setRetryPolicy(getRetryPolicy());
@@ -127,6 +129,7 @@ public class RequestHandler {
             url = NetworkHelper.getUrlWithObjectParams(url, params);
         }
         listener.onPreRequest();
+        String uuid= UUID.randomUUID().toString()+tag;
         String para = (new org.json.JSONObject(params)).toString();
         try {
             JsonStringRequest JsonRequest = new JsonStringRequest(method, url, para, new Response.Listener<String>() {
@@ -147,9 +150,9 @@ public class RequestHandler {
             getRequestQueue().getCache().remove(url);  //清除单个缓存
             getRequestQueue().getCache().clear();
             // 清除请求队列中的tag标记请求
-            getRequestQueue().cancelAll(tag);
+            getRequestQueue().cancelAll(uuid);
             // 为当前请求添加标记
-            JsonRequest.setTag(tag);
+            JsonRequest.setTag(uuid);
             //设置超时时间
 
             JsonRequest.setRetryPolicy(getRetryPolicy());

@@ -27,6 +27,7 @@ public class BaseApplication extends Application {
 
     public static String DialogShowText;
 
+
     public static boolean isCloseActivity = true;
 
     public static ToolBarTitle toolBarTitle;
