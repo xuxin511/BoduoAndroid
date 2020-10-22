@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.instock.productionReturnsStorage.bill;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.android.volley.Request;
@@ -10,11 +11,15 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoiceModel;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
+
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -37,7 +42,14 @@ public class ProductionReturnsStorageBillModel extends BaseOrderBillChoiceModel 
             case RESULT_TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC:
                 listener = mNetMap.get("TAG_GET_T_WORK_ORDER_HEAD_LIST_ADF_ASYNC");
                 break;
+            case NetworkError.NET_ERROR_CUSTOM:
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+                });
+                break;
         }
         if (listener != null) {
             listener.onCallBack(msg.obj.toString());

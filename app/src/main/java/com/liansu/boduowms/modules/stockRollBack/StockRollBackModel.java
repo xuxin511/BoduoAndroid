@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.stockRollBack;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.android.volley.Request;
@@ -11,7 +12,9 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.bean.stock.VoucherDetailSubInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -19,6 +22,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
@@ -93,7 +97,14 @@ public class StockRollBackModel extends BaseModel {
             case RESULT_TAG_DELETE_T_DETAIL_SUB_ASYNC:
                 listener = mNetMap.get("TAG_DELETE_T_DETAIL_SUB_ASYNC");
                 break;
+            case NetworkError.NET_ERROR_CUSTOM:
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+                });
+                break;
         }
         if (listener != null) {
             listener.onCallBack(msg.obj.toString());

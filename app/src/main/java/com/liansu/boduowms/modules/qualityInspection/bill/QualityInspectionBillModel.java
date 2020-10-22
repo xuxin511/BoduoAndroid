@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.qualityInspection.bill;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.android.volley.Request;
@@ -10,7 +11,7 @@ import com.liansu.boduowms.base.BaseFragmentModel;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
@@ -20,6 +21,8 @@ import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -55,7 +58,12 @@ public class QualityInspectionBillModel extends BaseFragmentModel {
                 listener = mNetMap.get("TAG_GET_QUALITY_HEAD_LIST_SYNC");
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
         if (listener != null) {

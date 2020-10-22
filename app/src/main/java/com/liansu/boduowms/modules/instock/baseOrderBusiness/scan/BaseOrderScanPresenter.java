@@ -19,7 +19,6 @@ import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
-import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -41,16 +40,6 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
 
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
-        switch (msg.what){
-            case NetworkError.NET_ERROR_CUSTOM:
-                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                break;
-        }
     }
 
     public BaseOrderScanPresenter(Context context, V view, MyHandler<BaseActivity> handler, OrderHeaderInfo orderHeaderInfo, List<OutBarcodeInfo> barCodeInfos, K model) {

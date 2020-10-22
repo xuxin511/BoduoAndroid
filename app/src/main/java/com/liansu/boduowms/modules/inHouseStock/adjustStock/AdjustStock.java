@@ -25,7 +25,6 @@ import com.liansu.boduowms.modules.inHouseStock.query.QueryStock;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.CommonUtil;
@@ -64,7 +63,12 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
                 resultUpdateStockInfo((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
     }

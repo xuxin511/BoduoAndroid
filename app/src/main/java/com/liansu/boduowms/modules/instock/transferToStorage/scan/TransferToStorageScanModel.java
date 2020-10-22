@@ -14,9 +14,7 @@ import com.liansu.boduowms.bean.order.OrderRequestInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanModel;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
-import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
@@ -65,9 +63,7 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
             case RESULT_TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC:
                 listener = mNetMap.get("TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC");
                 break;
-            case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
-                break;
+
         }
         if (listener != null) {
             listener.onCallBack(msg.obj.toString());

@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.inHouseStock.inventoryMovement;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.android.volley.Request;
@@ -13,7 +14,9 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
@@ -24,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
@@ -67,7 +71,14 @@ public class InventoryMovementModel {
             case RESULT_TAG_UPDATE_T_STOCK_LIST_AREA:
                 listener = mNetMap.get("TAG_UPDATE_T_STOCK_LIST_AREA");
                 break;
+            case NetworkError.NET_ERROR_CUSTOM:
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+                });
+                break;
         }
         if (listener != null) {
             listener.onCallBack(msg.obj.toString());

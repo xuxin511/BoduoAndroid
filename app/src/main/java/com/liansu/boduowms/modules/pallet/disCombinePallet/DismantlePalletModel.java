@@ -1,11 +1,12 @@
 package com.liansu.boduowms.modules.pallet.disCombinePallet;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 
 /**
@@ -60,7 +63,12 @@ public class DismantlePalletModel {
                 listener = mNetMap.get("TAG_PalletInfoSave");
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
         if (listener != null) {

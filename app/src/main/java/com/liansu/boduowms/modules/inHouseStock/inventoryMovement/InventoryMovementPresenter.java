@@ -41,9 +41,7 @@ public class InventoryMovementPresenter {
 
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
-        switch (msg.what) {
 
-        }
     }
 
     public InventoryMovementPresenter(Context context, IInventoryMovementView view, MyHandler<BaseActivity> handler) {

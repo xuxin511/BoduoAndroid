@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.qualityInspection.randomInspection.scan;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.android.volley.Request;
@@ -15,7 +16,7 @@ import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 /**
@@ -78,7 +80,12 @@ public class QualityInspectionModel extends BaseModel {
                 listener = mNetMap.get("TAG_GET_T_PURCHASE_ORDER_LIST_ADF");
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
         if (listener != null) {

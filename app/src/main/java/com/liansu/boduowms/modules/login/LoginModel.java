@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.login;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.android.volley.Request;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -50,8 +53,12 @@ public class LoginModel extends BaseModel {
                 listener = mNetMap.get("TAG_GET_MENU_INFO");
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                MessageBox.Show(mContext, "出现预期之外的异常:" + msg.obj);
-//                ToastUtil.show("获取请求失败_____" + msg.obj);
+                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
         if (listener != null) {
