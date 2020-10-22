@@ -58,10 +58,9 @@
         android:layout_height="wrap_content"
         android:text="@string/qr_status_type_desc"
         android:textSize="@dimen/base_order_label_print_select_text_size"
-        app:layout_constraintRight_toLeftOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/query_stock_select_qr_status_spinner"
         app:layout_constraintBottom_toBottomOf="@+id/query_stock_select_qr_status_spinner"
-         />
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/query_stock_select_qr_status_spinner" />
 
 
     <Spinner
@@ -128,11 +127,10 @@
         android:text="@string/reprint_pallet"
         android:textColor="@color/white"
         android:textSize="@dimen/common_text_size_first"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/guideline11"
-        app:layout_constraintRight_toRightOf="@+id/guideline7"
-        app:layout_constraintTop_toBottomOf="@+id/guideline10" />
+        app:layout_constraintRight_toRightOf="@+id/guideline7" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
