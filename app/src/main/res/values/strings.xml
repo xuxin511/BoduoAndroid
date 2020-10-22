@@ -43,6 +43,7 @@
     <string name="area_no">库位号:</string>
     <string name="submit">提交</string>
     <string name="print">打印</string>
+    <string name="reprint_pallet">托盘补打</string>
     <string name="Count">数量:</string>
     <string name="AllPackage">整箱</string>
     <string name="AllPallet">整托</string>

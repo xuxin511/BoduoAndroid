@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,17 +22,21 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
+import com.liansu.boduowms.bean.QRCodeFunc;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.VoucherTypeInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
+import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.inHouseStock.QueryStockDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.CommonUtil;
@@ -76,6 +81,8 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     RecyclerView mRecyclerView;
     @ViewInject(R.id.query_stock_select_qr_status_spinner)
     Spinner      mQRStatusTypeNameSpinner;
+    @ViewInject(R.id.activity_query_stock_print_button)
+    Button       mPrintButton;
     ArrayAdapter            mQRStatusTypeNameArrayAdapter;
     QueryStockDetailAdapter mAdapter;
     public String TAG_SELECT_MATERIAL      = "QueryStock_SelectMaterial";  //获取物料信息
@@ -83,12 +90,14 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     public String TAG_GET_STOCK_INFO_LIST  = "QueryStock_GetT_AreaModel";  //获取库位信息
     public String TAG_GetT_StockList       = "QueryStock_TAG_GetT_StockList";  //库存查询
     public String TAG_GET_T_PARAMETER_LIST = "QueryStock_TAG_GetT_ParameterList";  //获取质检状态
+    public String TAG_REPRINT_PALLET_LABEL = "QueryStock_TAG_TAG_REPRINT_PALLET_LABEL";  //重新打印托盘标签
 
     private final       int    RESULT_TAG_SELECT_MATERIAL      = 101;
     private final       int    RESULT_TAG_GET_T_AREA_MODEL     = 102;
     private final       int    RESULT_TAG_GET_STOCK_INFO_LIST  = 103;
     private final       int    RESULT_TAG_GET_T_STOCK_LIST     = 104;
     private final       int    RESULT_TAG_GET_T_PARAMETER_LIST = 105;
+    private final       int    RESULT_TAG_REPRINT_PALLET_LABEL = 106;
     public static final int    QUERY_TYPE_NONE                 = -1;
     public static final int    QUERY_TYPE_PALLET               = 1;
     public static final int    QUERY_TYPE_MATERIAL             = 2;
@@ -121,6 +130,9 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
             case RESULT_TAG_GET_T_PARAMETER_LIST:
                 resultQRStatusInfo((String) msg.obj);
                 break;
+            case RESULT_TAG_REPRINT_PALLET_LABEL:
+                requestReprintPalletInfo((String) msg.obj);
+                break;
             case NetworkError.NET_ERROR_CUSTOM:
                 MessageBox.Show(mContext, "获取请求失败_____" + msg.obj);
                 break;
@@ -137,6 +149,13 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);
+        mPrintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPrint();
+            }
+        });
+        mRadioGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -199,6 +218,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
      */
     @Override
     public void onReset() {
+//        requestQRStatusQuery();
         mContent.setText("");
         onContentFocus();
         mStockList.clear();
@@ -208,7 +228,9 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     @Override
     protected void onResume() {
         super.onResume();
+        setPrintButtonStatus(getQueryType());
         requestQRStatusQuery();
+
     }
 
     /**
@@ -329,8 +351,8 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
         } else if (queryType == QUERY_TYPE_AREA_NO) {
             stockInfo.setAreano(content);
         }
-        String statusName=mQRStatusTypeNameSpinner.getSelectedItem().toString().trim();
-        if (statusName!=null && !statusName.equals("")){
+        String statusName = mQRStatusTypeNameSpinner.getSelectedItem().toString().trim();
+        if (statusName != null && !statusName.equals("")) {
             stockInfo.setStatus(mQRStatusTypeMap.get(statusName));
         }
         requestQueryStockInfo(stockInfo);
@@ -340,6 +362,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         onReset();
+        setPrintButtonStatus(getQueryType());
     }
 
 
@@ -647,9 +670,9 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
 //        list.add(ORDER_TYPE_NONE);
         for (String key : mQRStatusTypeMap.keySet()) {
             if (!list.contains(key)) {
-                if (key.contains("所有")){
-                    list.add(0,key);
-                }else {
+                if (key.contains("所有")) {
+                    list.add(0, key);
+                } else {
                     list.add(key);
                 }
 
@@ -700,5 +723,139 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
      */
     public int getQRStatusType(String statusName) {
         return mQRStatusTypeMap.get(statusName);
+    }
+
+    public void setPrintButtonStatus(int queryType) {
+        if (queryType == QUERY_TYPE_PALLET) {
+            mPrintButton.setVisibility(View.VISIBLE);
+        } else {
+            mPrintButton.setVisibility(View.GONE);
+        }
+
+    }
+
+
+    /**
+     * @desc: 打印条码
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/10/22 11:12
+     */
+    public void onPrint() {
+        try {
+            if (mStockList.size() == 0) {
+                MessageBox.Show(mContext, "校验托盘补打信息失败:打印信息为空,请先扫描托盘码", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onContentFocus();
+                    }
+                });
+                return;
+            }
+            final StockInfo info = mStockList.get(0);
+            if (info != null) {
+                OutBarcodeInfo scanInfo=null;
+                        String barcode=mContent.getText().toString().trim();
+                BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(barcode);
+                if (resultInfo.getHeaderStatus()) {
+                    scanInfo = resultInfo.getInfo();
+                } else {
+                    MessageBox.Show(mContext, "校验托盘补打信息失败,解析条码失败:" + resultInfo.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onContentFocus();
+                        }
+                    });
+                    return;
+                }
+                if (scanInfo==null){
+                    MessageBox.Show(mContext, "校验托盘补打信息失败,解析条码信息为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onContentFocus();
+                        }
+                    });
+                    return;
+                }
+                final OutBarcodeInfo postInfo=new OutBarcodeInfo();
+                postInfo.setBarcode(scanInfo.getBarcode());
+                postInfo.setSerialno(scanInfo.getSerialno());
+//                postInfo.setBarcode(info.getBarcode());
+//                postInfo.setSerialno(info.getSerialno());
+                postInfo.setBatchno(info.getBatchno());
+                postInfo.setMaterialno(info.getMaterialno());
+                postInfo.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
+                postInfo.setPrintertype(UrlInfo.mInStockPrintType);
+                postInfo.setPrintername(UrlInfo.mInStockPrintName);
+                MessageBox.Show2(mContext, "是否确定打印托盘码,打印张数：1", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestReprintPalletInfo(postInfo);
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "提交托盘补打信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+        }
+
+    }
+
+    /**
+     * @desc: 请求托盘标签补打
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/10/22 12:43
+     */
+    public void requestReprintPalletInfo(OutBarcodeInfo info) {
+        String modelJson = parseModelToJson(info);
+        LogUtil.WriteLog(QueryStock.class, TAG_REPRINT_PALLET_LABEL, modelJson);
+        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_GET_STOCK_INFO_LIST, mContext.getString(R.string.query_stock_request_stock_info_list), mContext, mHandler, RESULT_TAG_REPRINT_PALLET_LABEL, null, UrlInfo.getUrl().PrintPalletno, modelJson, null);
+
+    }
+
+
+    /**
+     * @desc: 托盘标签补打返回结果
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/8/23 22:38
+     */
+    public void requestReprintPalletInfo(String result) {
+        LogUtil.WriteLog(QueryStock.class, TAG_REPRINT_PALLET_LABEL, result);
+        try {
+            LogUtil.WriteLog(BaseOrderLabelPrint.class, TAG_REPRINT_PALLET_LABEL, result);
+            BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+            }.getType());
+            if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                ToastUtil.show("托盘补打成功!");
+                onReset();
+                setPrintButtonStatus(getQueryType());
+            } else {
+                MessageBox.Show(mContext, "提交托盘补打信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            MessageBox.Show(mContext, "提交托盘补打信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+        }
+
+
     }
 }

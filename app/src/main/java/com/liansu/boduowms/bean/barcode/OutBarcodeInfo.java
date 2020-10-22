@@ -79,6 +79,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
     protected  int Scantype; //1-原托盘入库 0-新托盘入库
     protected  String WBarcode;//外箱码
     protected  String WBatchno;//外箱批次
+
     public OutBarcodeInfo() {
     }
 

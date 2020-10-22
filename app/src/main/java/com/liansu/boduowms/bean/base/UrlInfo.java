@@ -327,4 +327,6 @@ public class UrlInfo {
     public String Save_StockReplenishment = GetWCFAdress() + "Stock/Save_StockReplenishment"; //补货提交
     //工单退料
     public String GetT_WorkOrderReturnDetailListADFAsync = GetWCFAdress() + "WorkOrderReturn/GetT_WorkOrderReturnDetailListADFAsync"; //查询单据
+    //标签补打  OutBarcode/PrintPalletno
+    public String PrintPalletno = GetWCFAdress() + "OutBarcode/PrintPalletno"; //托盘标签补打
 }
