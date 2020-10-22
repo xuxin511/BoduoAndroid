@@ -891,12 +891,23 @@ public  class SalesOutStockBox   extends BaseActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 inputYuetai = inputServer.getText().toString();
-                                AreaInfo model=new AreaInfo();
-                                model.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
-                                model.setAreano(inputYuetai);
+                                if(inputYuetai.equals("")){
+                                    MessageBox.Show(context, "月台不能为空");
+                                  return;
+                                }
+                                Platform model = new Platform();
+                                model.Erpvoucherno = CurrOrder;
+                                model.Platform = inputYuetai;
                                 String json = GsonUtil.parseModelToJson(model);
-                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_AreaPlatForm, "检验月台",
-                                        context, mHandler, RESULT_Saleoutstock_AreaPlatForm, null, info.GetT_AreaModel, json, null);
+                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
+                                        context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
+
+//                                AreaInfo model=new AreaInfo();
+//                                model.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+//                                model.setAreano(inputYuetai);
+//                                String json = GsonUtil.parseModelToJson(model);
+//                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_AreaPlatForm, "检验月台",
+//                                        context, mHandler, RESULT_Saleoutstock_AreaPlatForm, null, info.GetT_AreaModel, json, null);
 
                             }
                         });

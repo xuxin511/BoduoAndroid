@@ -162,6 +162,9 @@ public class SalesOutstock  extends BaseActivity  {
     //当前类型
     private int CurrVoucherType;
 
+    //当前托盘  因为可以输入序列号导致不能用文本框中的托盘号
+    private  String Currpalletno;
+
 
     //据点集合
     Map<String,String> StrongholdcodeList=new HashMap<>();
@@ -375,22 +378,13 @@ public class SalesOutstock  extends BaseActivity  {
                 if (IsSacnningOrder()) {
                     String palletno = sales_outstock_pallettext.getText().toString().trim();
                     if (!palletno.equals("")) {
-                        if (!Analysis(palletno, OutStock_Submit_type_pallet)) {
-                            CommonUtil.setEditFocus(sales_outstock_pallettext);
-                            MessageBox.Show(context, "请输入或扫描正确托盘号");
-                            CommonUtil.setEditFocus(sales_outstock_pallettext);
-                            palletIsTrue=false;
-                            return true;
-                        } else {
-//                            if(OutStock_Type.equals(OutStock_Submit_type_pallet)){
-//                                if (palletno.split("%")[0].equals("")) {
-//                                    CommonUtil.setEditFocus(sales_outstock_pallettext);
-//                                    MessageBox.Show(context, "该托盘是拼托,请选择其它模式下架");
-//                                    CommonUtil.setEditFocus(sales_outstock_pallettext);
-//                                    palletIsTrue=false;
-//                                    return true;
-//                                }
-//                            }
+//                        if (!Analysis(palletno, OutStock_Submit_type_pallet)) {
+//                            CommonUtil.setEditFocus(sales_outstock_pallettext);
+//                            MessageBox.Show(context, "请输入或扫描正确托盘号");
+//                            CommonUtil.setEditFocus(sales_outstock_pallettext);
+//                            palletIsTrue=false;
+//                            return true;
+//                        } else {
                             //先判断托盘是否存在
                             Outbarcode_Requery model = new Outbarcode_Requery();
                             model.Barcode = palletno;
@@ -402,7 +396,7 @@ public class SalesOutstock  extends BaseActivity  {
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
                                     context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, info.SalesOutstock_JudgeStock, json, null);
                             return true;
-                        }
+                       // }
                     }
                 }else
                 {
@@ -427,7 +421,7 @@ public class SalesOutstock  extends BaseActivity  {
             try {
                 if (IsSacnningOrder()) {
                     String boxNo = sales_outstock_boxtext.getText().toString().trim();
-                    String palletno = sales_outstock_pallettext.getText().toString().trim();
+                    String palletno = Currpalletno;
                     if (!boxNo.equals("")) {
                         if(palletno.equals("")){
                             CommonUtil.setEditFocus(sales_outstock_pallettext);
@@ -785,6 +779,7 @@ public class SalesOutstock  extends BaseActivity  {
                 }
             }
             palletList=returnMsgModel.getData();
+            Currpalletno=returnMsgModel.getData().get(0).getBarcode();
             Outbarcode_Requery palletmodel=returnMsgModel.getData().get(0);
             palletIsTrue=true;
             //region   托盘回车
@@ -931,7 +926,7 @@ public class SalesOutstock  extends BaseActivity  {
     //扫描或者输入数量
     private void inputTitleDialog(String name) {
         String boxNo = sales_outstock_boxtext.getText().toString().trim();
-        final String palletno = sales_outstock_pallettext.getText().toString().trim();
+        final String palletno =Currpalletno;
          if(!OutStock_Type.equals(OutStock_Submit_type_parts)) {
              CommonUtil.setEditFocus(sales_outstock_pallettext);
              MessageBox.Show(context, "请先选择散件模式");
@@ -1016,12 +1011,23 @@ public class SalesOutstock  extends BaseActivity  {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         inputYuetai = inputServer.getText().toString();
-                        AreaInfo model=new AreaInfo();
-                        model.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
-                        model.setAreano(inputYuetai);
+                        if(inputYuetai.equals("")){
+                            MessageBox.Show(context, "月台不能为空");
+                            return;
+                        }
+                        Platform model = new Platform();
+                        model.Erpvoucherno = CurrOrderNO;
+                        model.Platform = inputYuetai;
                         String json = GsonUtil.parseModelToJson(model);
-                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_AreaPlatForm, "检验月台",
-                                context, mHandler, RESULT_Saleoutstock_AreaPlatForm, null, info.GetT_AreaModel, json, null);
+                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PlatForm, "月台提交",
+                                context, mHandler, RESULT_Saleoutstock_PlatForm, null, info.SalesOutstock_PlatForm, json, null);
+
+//                        AreaInfo model=new AreaInfo();
+//                        model.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
+//                        model.setAreano(inputYuetai);
+//                        String json = GsonUtil.parseModelToJson(model);
+//                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_AreaPlatForm, "检验月台",
+//                                context, mHandler, RESULT_Saleoutstock_AreaPlatForm, null, info.GetT_AreaModel, json, null);
 
                     }
                 });
@@ -1094,7 +1100,7 @@ public class SalesOutstock  extends BaseActivity  {
                     model.Erpvoucherno = CurrOrderNO;
                     model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                     model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
-                    model.PalletNo = sales_outstock_pallettext.getText().toString().trim();
+                    model.PalletNo = Currpalletno;
                     model.Vouchertype=CurrVoucherType;
                     model.Strongholdcode=GetStrongholdcode(materialModle.getMaterialno());
                     model.MaterialNo= sales_outstock_boxtext.getText().toString().trim();
