@@ -86,6 +86,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleou
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 //销售出库   zl  2020-8-6
@@ -302,14 +303,14 @@ public class SalesOutstock  extends BaseActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!CurrOrderNO.equals("")) {
+        if (CurrOrderNO != "") {
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
             model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
             String json = GsonUtil.parseModelToJson(model);
-            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
-                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+            RequestHandler.addRequest(Request.Method.POST, TAG_Saleoutstock_SelectNO, mHandler, RESULT_Saleoutstock_SalesNO,
+                    null, info.SalesOutstock_ScanningNo, json, null);
         }
     }
 
@@ -393,8 +394,10 @@ public class SalesOutstock  extends BaseActivity  {
                             model.Towarehouseno= BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                             // model.Vouchertype=0;
                             String json = GsonUtil.parseModelToJson(model);
-                            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
-                                    context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, info.SalesOutstock_JudgeStock, json, null);
+//                            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, "托盘提交中",
+//                                    context, mHandler, RESULT_Saleoutstock_barcodeisExist, null, info.SalesOutstock_JudgeStock, json, null);
+                               RequestHandler.addRequest(Request.Method.POST, TAG_Saleoutstock_barcodeisExist, mHandler, RESULT_Saleoutstock_barcodeisExist,
+                                null, info.SalesOutstock_JudgeStock, json, null);
                             return true;
                        // }
                     }
@@ -596,7 +599,12 @@ public class SalesOutstock  extends BaseActivity  {
 //                CommonUtil.setEditFocus(sales_outstock_boxtext);
 //                break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____"+ msg.obj);
+                MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
     }

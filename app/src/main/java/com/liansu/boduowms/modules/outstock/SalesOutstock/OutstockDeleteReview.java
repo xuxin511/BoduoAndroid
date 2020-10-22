@@ -68,6 +68,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Sale
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Outstock_DeleteMaterial;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_GETBOXlIST;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_ReviewOrder;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 //删除复核记录
 @ContentView(R.layout.activity_outstock_delete_review)
@@ -208,7 +209,12 @@ public class OutstockDeleteReview extends BaseActivity {
                 DeleteMaterial((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
+                MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
     }

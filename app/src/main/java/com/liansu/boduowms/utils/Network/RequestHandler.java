@@ -60,6 +60,8 @@ public class RequestHandler {
         getRequestQueue().add(JsonRequest);
     }
 
+
+
     public static void addRequestWithDialog(
             final int method, final String tag, final String LoadText, Context context, final Handler handler, final int what, final Bundle bundle,
             final String url, final String params, final Map<String, String> header) {
@@ -186,6 +188,19 @@ public class RequestHandler {
     public static void addRequest(
             final int method, final String tag, final Handler handler, final int what, final Bundle bundle,
             final String url, final Map<String, String> params, final Map<String, String> header) {
+        addRequest(method, tag, handler, what, bundle, url, params, header, new DefaultRequestListener() {
+//            @Override
+//            public boolean retry() {
+//                addRequest(method, tag, handler, what, bundle, url, params, header,
+//                        retryTimer++ >= MAX_RETRY_TIME ? new DefaultRequestListener() : this);
+//                return true;
+//            }
+        });
+    }
+
+    public static void addRequest(
+            final int method, final String tag, final Handler handler, final int what, final Bundle bundle,
+            final String url, final String params, final Map<String, String> header) {
         addRequest(method, tag, handler, what, bundle, url, params, header, new DefaultRequestListener() {
 //            @Override
 //            public boolean retry() {
