@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.inHouseStock.inventory;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Message;
@@ -45,6 +46,7 @@ import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.Inventory
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryHead_SelectLit;
 import static com.liansu.boduowms.modules.menu.commonMenu.MenuModel.getThirdLevelMenuModuleTitle;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
 //盘点表头
@@ -154,7 +156,12 @@ public class InventoryHead extends BaseActivity {
                 SelectList((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
+                MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
     }

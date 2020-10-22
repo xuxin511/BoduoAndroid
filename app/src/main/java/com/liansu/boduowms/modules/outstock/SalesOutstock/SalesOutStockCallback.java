@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.outstock.SalesOutstock;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Message;
@@ -42,6 +43,7 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Tout
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Toutstock_Callback_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_outstock_Callback;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_outstock_Callback_Submit;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 
 //二阶段回调
@@ -161,7 +163,12 @@ public class SalesOutStockCallback extends BaseActivity {
                 SubmitOrder((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
-                ToastUtil.show("获取请求失败_____" + msg.obj);
+                MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 break;
         }
     }
