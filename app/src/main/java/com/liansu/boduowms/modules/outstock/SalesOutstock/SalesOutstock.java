@@ -969,7 +969,6 @@ public class SalesOutstock  extends BaseActivity  {
                             Float inputValue = Float.parseFloat(Value);
                             inputNum = inputValue;
                             Float packqty = Float.parseFloat(materialModle.PackQty);
-
                             if(ArithUtil.sub(inputNum,packqty)>=0) {
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                                 MessageBox.Show(context, "输入的包装量需要小于" + packqty );
@@ -988,7 +987,7 @@ public class SalesOutstock  extends BaseActivity  {
                                  model.BarcodeType = 3;
                                 model.ScanQty =inputValue;
                                 String json = GsonUtil.parseModelToJson(model);
-                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "箱号提交中",
+                                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                                         context, mHandler, RESULT_Saleoutstock_ScannParts_Submit, null, info.SalesOutstock_SacnningPallet, json, null);
 
 

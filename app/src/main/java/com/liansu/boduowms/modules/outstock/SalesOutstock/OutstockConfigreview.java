@@ -268,6 +268,7 @@ public class OutstockConfigreview extends BaseActivity {
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+
                         return true;
                     }
                     if (type.equals(OutStock_Submit_type_box)) {
@@ -287,8 +288,29 @@ public class OutstockConfigreview extends BaseActivity {
                             model.ScanQty = Float.parseFloat(strPallet[1]);
                         }
                         String json = GsonUtil.parseModelToJson(model);
+                        int judge=0;
+                        for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
+                            if (strPallet[0].equals(item.getMaterialno())) {
+                                judge=1;
+                                if(ArithUtil.sub(item.getRemainqty(),ArithUtil.add(item.getScanqty(),model.ScanQty))<0){
+                                    judge=2;
+                                }
+                            }
+                        }
+                        if(judge==2) {
+                            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+                            MessageBox.Show(context, "该物料扫描数量超过剩余复核数量");
+                            return true;
+                        }
+                        if(judge==0) {
+                            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+                            MessageBox.Show(context, "该物料不存在列表中");
+                            return true;
+                        }
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
+                        sales_outstock_config_reviewbarcode.setText("");
+                        return true;
                     }
                     if (type.equals(OutStock_Submit_type_parts)) {
                         //散件
@@ -421,9 +443,22 @@ public class OutstockConfigreview extends BaseActivity {
             BaseResultInfo<MaterialResponseModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<MaterialResponseModel>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-
                 if (returnMsgModel.getData() != null) {//旧外箱
                     MaterialResponseModel material = returnMsgModel.getData();
+                    int judge=0;
+                    for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
+                        if (material.getMaterialno().equals(item.getMaterialno())) {
+                            judge=1;
+                            if(ArithUtil.sub(item.getRemainqty(),ArithUtil.add(item.getScanqty(),material.OuterQty))<0){
+                                judge=2;
+                            }
+                        }
+                    }
+                    if(judge==2) {
+                        CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+                        MessageBox.Show(context, "该物料包装量超过了当前剩余数量");
+                        return;
+                    }
                     //箱号
                     //直接调用拼箱方法
                     SalesoutstockRequery model = new SalesoutstockRequery();
@@ -437,6 +472,7 @@ public class OutstockConfigreview extends BaseActivity {
                     String modelJson = parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
+                    sales_outstock_config_reviewbarcode.setText("");
                     return;
                 } else {
                     CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
@@ -445,6 +481,23 @@ public class OutstockConfigreview extends BaseActivity {
                 }
             }
             materialModle = returnMsgModel.getData();
+            int judge=0;
+            Float qty=0f;
+              for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
+                  if (materialModle.getMaterialno().equals(item.getMaterialno())) {
+                      judge=1;
+                       if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())<1){
+                           qty=ArithUtil.sub(item.getRemainqty(),item.getScanqty());
+                       }else{
+                           qty=1f;
+
+                       }
+                  }
+              }
+            if(judge!=1){
+                CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+                MessageBox.Show(context, "物料不存在当前复核数据中");
+            }
             //库存
            // inputTitleDialog("输入散件数量");
             //直接打印 +1
@@ -453,8 +506,8 @@ public class OutstockConfigreview extends BaseActivity {
             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
             model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
             model.Vouchertype = CurrvoucherType;
-            model.MaterialNo = sales_outstock_config_reviewbarcode.getText().toString().trim();
-            model.ScanQty = 1f;
+            model.MaterialNo = materialModle.getMaterialno();
+            model.ScanQty = qty;
             String json = GsonUtil.parseModelToJson(model);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                     context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
@@ -524,6 +577,7 @@ public class OutstockConfigreview extends BaseActivity {
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, msg + "更新失败");
             }
+
             if(IsScanningOver()) {
                 //全部复核
                 ISSubmit("订单已全部复核完成，确认提交吗");

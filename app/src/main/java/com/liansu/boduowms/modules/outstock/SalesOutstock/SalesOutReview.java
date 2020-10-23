@@ -2,6 +2,7 @@ package com.liansu.boduowms.modules.outstock.SalesOutstock;
 
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -252,6 +253,7 @@ public  class SalesOutReview extends BaseActivity {
                     SalesoutstockRequery model = new SalesoutstockRequery();
                     model.Erpvoucherno = order;
                     model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+                    model.Vouchertype= CurrvoucherType;
                     String json = GsonUtil.parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
                             context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);

@@ -533,70 +533,71 @@ public  class SalesOutStockBox   extends BaseActivity {
     //检验
     public  void   CheckBox(String result,int type) {
         try {
-            responseList=new ArrayList<OutStockOrderDetailInfo>();
+            responseList = new ArrayList<OutStockOrderDetailInfo>();
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
             if (type == 0) { // 箱
                 //多批次
                 if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ACTION_CONTINUE) {
-                    responseList=returnMsgModel.getData();
-                    if(responseList.size()>0){
+                    responseList = returnMsgModel.getData();
+                    if (responseList.size() > 0) {
                         //选择批次
                         // SelectBatchno(returnMsgModel.getData());
-                        String[] arr = sales_outstock_box_watercode.getText().toString().trim().split("%");
-                        List<SalesoutStcokboxRequery> listmodel=new ArrayList<SalesoutStcokboxRequery>();
+                        List<SalesoutStcokboxRequery> listmodel = new ArrayList<SalesoutStcokboxRequery>();
                         SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
                         model.Batchno = "";
                         model.Materialno = returnMsgModel.getData().get(0).getMaterialno();
                         model.Erpvoucherno = CurrOrder;
-                        if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2){
+                        if (BaseApplication.mCurrentWareHouseInfo.getIsPrint() == 2) {
                             model.IsPrint = true;
-                        }else {
+                        } else {
                             model.IsPrint = false;
                         }
-                        model.Barcodetype=2;
+                        model.Barcodetype = 2;
                         model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
-                       // model.Qty = reOuterQty;
+                       // model.Qty = returnMsgModel.getData().get(0).getOutstockqty();
+                        // model.Qty = reOuterQty;
                         model.Vouchertype = CurrVoucherType;
-                        model.Printername=UrlInfo.mOutStockPackingBoxPrintName;
-                        model.Printertype=UrlInfo.mOutStockPackingBoxPrintType;
+                        model.Printername = UrlInfo.mOutStockPackingBoxPrintName;
+                        model.Printertype = UrlInfo.mOutStockPackingBoxPrintType;
 
                         listmodel.add(model);
                         String modelJson = parseModelToJson(listmodel);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
                                 context, mHandler, RESULT_Saleoutstock_Box_Submit_Box, null, info.SalesOutstock_Box_Submit, modelJson, null);
-                    }else{
+                    } else {
                         CommonUtil.setEditFocus(sales_outstock_box_watercode);
-                        MessageBox.Show(context,"没有批次数据");
+                        MessageBox.Show(context, "没有批次数据");
                         return;
                     }
 
                 } else {
-                    if(returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                    if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                         CommonUtil.setEditFocus(sales_outstock_box_watercode);
                         MessageBox.Show(context, returnMsgModel.getResultValue());
                         return;
                     }
                     //更新列表刷新 然后提交
-                    List<OutStockOrderDetailInfo>list= returnMsgModel.getData();
+                    List<OutStockOrderDetailInfo> list = returnMsgModel.getData();
                     //直接提交
                     String[] arr = sales_outstock_box_watercode.getText().toString().trim().split("%");
-                    List<SalesoutStcokboxRequery> listmodel=new ArrayList<SalesoutStcokboxRequery>();
+                    List<SalesoutStcokboxRequery> listmodel = new ArrayList<SalesoutStcokboxRequery>();
                     SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
                     model.Batchno = list.get(0).getBatchno();
-                    model.Materialno =returnMsgModel.getData().get(0).getMaterialno();;
-                    model.Barcodetype=2;
+                    model.Materialno = returnMsgModel.getData().get(0).getMaterialno();
+                    ;
+                    model.Barcodetype = 2;
                     model.Erpvoucherno = CurrOrder;
                     model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
-                 //   model.Qty = materialModle.OuterQty;
+                    //   model.Qty = materialModle.OuterQty;
                     model.Vouchertype = CurrVoucherType;
-                    if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2){
+                    if (BaseApplication.mCurrentWareHouseInfo.getIsPrint() == 2) {
                         model.IsPrint = true;
-                    }else {
+                    } else {
                         model.IsPrint = false;
                     }
-                    model.Printername= UrlInfo.mOutStockPackingBoxPrintName;
-                    model.Printertype= UrlInfo.mOutStockPackingBoxPrintType;
+                    model.Printername = UrlInfo.mOutStockPackingBoxPrintName;
+                    model.Printertype = UrlInfo.mOutStockPackingBoxPrintType;
                     listmodel.add(model);
                     String modelJson = parseModelToJson(listmodel);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
@@ -605,13 +606,26 @@ public  class SalesOutStockBox   extends BaseActivity {
             } else {
                 //提交列表拼箱
                 if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ACTION_CONTINUE) {
-                    responseList=returnMsgModel.getData();
-                    if(responseList.size()>0){
-                      //  SelectBatchno(returnMsgModel.getData());
-                        List<OutStockOrderDetailInfo>list= returnMsgModel.getData();
+                    responseList = returnMsgModel.getData();
+
+                    if (responseList.size() > 0) {
+                        //  SelectBatchno(returnMsgModel.getData());
+                        List<OutStockOrderDetailInfo> list = returnMsgModel.getData();
+                        Float scanQty = 0f;
+                        for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                            if (item.getMaterialno() != null) {//勾选非库存拼箱会存在这种情况
+                                if (item.getMaterialno().equals(materialModle.Materialno)) {
+                                    if (ArithUtil.sub(item.getRemainqty(), 1f) < 0) {
+                                        scanQty = item.getRemainqty();
+                                    } else {
+                                        scanQty = 1f;
+                                    }
+                                }
+                            }
+                        }
                         //批次给空
-                        String name = modelIsExits.get(returnMsgModel.getData().get(0).getMaterialno()+"");
-                        if (name==null||name.equals("")) {
+                        String name = modelIsExits.get(returnMsgModel.getData().get(0).getMaterialno() + "");
+                        if (name == null || name.equals("")) {
                             //不存在
                             //添加到ListView
                             OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
@@ -620,18 +634,18 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.setBatchno("");
                             model.setErpvoucherno(CurrOrder);
                             model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
-                            model.setQTY(1f);
-                            if( model.getMaterialdesc()==null) {
+                            model.setQTY(scanQty);
+                            if (model.getMaterialdesc() == null) {
                                 model.setMaterialdesc("");
                             }
-                            boolean isprint= BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2?true:false;
+                            boolean isprint = BaseApplication.mCurrentWareHouseInfo.getIsPrint() == 2 ? true : false;
                             model.setPrint(isprint);
-                            model.setReviewQty(1f);
+                            model.setReviewQty(scanQty);
                             model.setBarcodeType(3);
                             model.setVouchertype(CurrVoucherType);
                             model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
                             model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
-                            modelIsExits.put(list.get(0).getMaterialno()+"",list.get(0).getMaterialno());
+                            modelIsExits.put(list.get(0).getMaterialno() + "", list.get(0).getMaterialno());
                             stockInfoModels.add(model);
                             //加到listview
                             mModel.UpdateMaterialItem(model);
@@ -641,30 +655,46 @@ public  class SalesOutStockBox   extends BaseActivity {
                             //存在
                             for (OutStockOrderDetailInfo infos : stockInfoModels) {
                                 if (infos.getMaterialno().equals(returnMsgModel.getData().get(0).getMaterialno()) && infos.getBatchno().equals("")) {
-                                    Float reviewqty = ArithUtil.add(infos.getReviewQty(), 1f);//已拼
-                                    Float remainqty = ArithUtil.sub(reviewqty, 1f);//未拼
+                                    Float reviewqty = ArithUtil.add(infos.getReviewQty(), scanQty);//已拼
+                                    Float remainqty = ArithUtil.sub(reviewqty, scanQty);//未拼
+                                    infos.setQTY(ArithUtil.add(infos.getQty(), 1f));
+                                    infos.setReviewQty(scanQty);
                                     mModel.UpdateMaterialItem(infos);
                                     mList.setAdapter(mAdapter);
                                     mAdapter.notifyDataSetChanged();
-                                    infos.setQTY(ArithUtil.add(infos.getQty(), 1f));
                                     infos.setReviewQty(reviewqty);
-                                    infos.setReviewQty(remainqty);
+                                    infos.setRemainqty(remainqty);
                                 }
                             }
                         }
-                    }else{
+                    } else {
                         CommonUtil.setEditFocus(sales_outstock_box_watercode);
-                        MessageBox.Show(context,"没有批次数据");
+                        MessageBox.Show(context, "没有批次数据");
                         return;
                     }
-                  //  MessageBox.Show(context, returnMsgModel.getResultValue());
+                    sales_outstock_box_watercode.setText("");
+                    //  MessageBox.Show(context, returnMsgModel.getResultValue());
                 }
                 if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
-                    List<OutStockOrderDetailInfo>list= returnMsgModel.getData();
-                  //只有一个批次
-                  //直接刷新listView
-                    String name = modelIsExits.get(list.get(0).getMaterialno()+list.get(0).getBatchno());
-                    if (name==null||name.equals("")) {
+                    List<OutStockOrderDetailInfo> list = returnMsgModel.getData();
+                    Float scanQty = 0f;
+                    Float remainQty=0F;
+                    for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                        if (item.getMaterialno() != null) {//勾选非库存拼箱会存在这种情况
+                            if (item.getMaterialno().equals(materialModle.Materialno)) {
+                                remainQty=item.getRemainqty();;
+                                if (ArithUtil.sub(item.getRemainqty(), 1f) < 0) {
+                                    scanQty = item.getRemainqty();
+                                } else {
+                                    scanQty = 1f;
+                                }
+                            }
+                        }
+                    }
+                    //只有一个批次
+                    //直接刷新listView
+                    String name = modelIsExits.get(list.get(0).getMaterialno() + list.get(0).getBatchno());
+                    if (name == null || name.equals("")) {
                         //不存在
                         //添加到ListView
                         OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
@@ -673,46 +703,48 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.setBatchno(list.get(0).getBatchno());
                         model.setErpvoucherno(CurrOrder);
                         model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
-                        model.setQTY(1f);
-                        boolean isprint= BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2?true:false;
+                        model.setQTY(scanQty);
+                        boolean isprint = BaseApplication.mCurrentWareHouseInfo.getIsPrint() == 2 ? true : false;
                         model.setPrint(isprint);
-                        model.setReviewQty(1f);
-                        if( model.getMaterialdesc()==null) {
+                        model.setReviewQty(scanQty);
+                        if (model.getMaterialdesc() == null) {
                             model.setMaterialdesc("");
                         }
                         model.setMaterialdesc("");
                         model.setVouchertype(CurrVoucherType);
                         model.setPrintername(UrlInfo.mOutStockPackingBoxPrintName);
                         model.setPrintertype(UrlInfo.mOutStockPackingBoxPrintType);
-                        modelIsExits.put(list.get(0).getMaterialno()+list.get(0).getBatchno(),list.get(0).getMaterialno());
+                        modelIsExits.put(list.get(0).getMaterialno() + list.get(0).getBatchno(), list.get(0).getMaterialno());
                         stockInfoModels.add(model);
                         //加到listview
                         mModel.UpdateMaterialItem(model);
-                  //      mList.setAdapter(mAdapter);
+                        //      mList.setAdapter(mAdapter);
                         mAdapter.notifyDataSetChanged();
                     } else {
                         //存在
                         for (OutStockOrderDetailInfo infos : stockInfoModels) {
                             if (!infos.getMaterialdesc().equals("非库存拼箱")) {
                                 if (infos.getMaterialno().equals(returnMsgModel.getData().get(0).getMaterialno()) && infos.getBatchno().equals(returnMsgModel.getData().get(0).getBatchno())) {
-                                    Float reviewqty = ArithUtil.add(infos.getReviewQty(), 1f);//已拼
-                                    Float remainqty = ArithUtil.sub(reviewqty, 1f);//未拼
+                                    Float reviewqty = ArithUtil.add(infos.getReviewQty(), scanQty);//已拼
+                                    Float remainqty = ArithUtil.sub(remainQty, scanQty);//未拼
+                                    infos.setQTY(ArithUtil.add(infos.getQty(), scanQty));
+                                    infos.setReviewQty(scanQty);
                                     mModel.UpdateMaterialItem(infos);
                                     mList.setAdapter(mAdapter);
                                     mAdapter.notifyDataSetChanged();
-                                    infos.setQTY(ArithUtil.add(infos.getQty(), 1f));
                                     infos.setReviewQty(reviewqty);
-                                    infos.setReviewQty(remainqty);
+                                    infos.setRemainqty(remainqty);
                                 }
                             }
                         }
                     }
+                    sales_outstock_box_watercode.setText("");
                     CommonUtil.setEditFocus(sales_outstock_box_watercode);
                 }
-                 if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_DEFAULT){
-                     CommonUtil.setEditFocus(sales_outstock_box_watercode);
-                     MessageBox.Show(context, returnMsgModel.getResultValue());
-                 }
+                if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_DEFAULT) {
+                    CommonUtil.setEditFocus(sales_outstock_box_watercode);
+                    MessageBox.Show(context, returnMsgModel.getResultValue());
+                }
             }
         } catch (Exception ex) {
             CommonUtil.setEditFocus(sales_outstock_box_watercode);
@@ -799,6 +831,7 @@ public  class SalesOutStockBox   extends BaseActivity {
         try {
             BaseResultInfo<MaterialResponseModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<MaterialResponseModel>>() {
             }.getType());
+            //先判断是否存在列表中剩余是否等于小数
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 if(returnMsgModel.getData()!=null){//旧外箱
                     if(BaseApplication.mCurrentWareHouseInfo.getIsPrint()!=2) {
@@ -808,6 +841,24 @@ public  class SalesOutStockBox   extends BaseActivity {
                     }
                     MaterialResponseModel material=returnMsgModel.getData();
                     materialModle=returnMsgModel.getData();
+                    //查找是否存在这个东西
+                    int judge=0;
+                    Float  qty=0f;
+                    for(OutStockOrderDetailInfo item:mModel.getOrderDetailList()) {
+                        if (item.getMaterialno() == materialModle.getMaterialno()) {
+                            judge=1;
+                            if (ArithUtil.sub(item.getRemainqty(), material.OuterQty) < 0) {
+                                qty=item.getRemainqty();
+                            }else{
+                                qty=material.OuterQty;
+                            }
+                        }
+                    }
+                        if (judge!=1) {
+                            MessageBox.Show(context, "列表中未找到该物料信息");
+                            CommonUtil.setEditFocus(sales_outstock_box_watercode);
+                            return;
+                        }
                     Scanningtype=1;
                     //箱号
                     //直接调用拼箱方法
@@ -817,7 +868,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                     model.Materialno = material.Materialno;
                     model.Erpvoucherno = CurrOrder;
                     model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
-                    model.Qty = material.OuterQty;
+                    model.Qty = qty;
                     model.Vouchertype = CurrVoucherType;
                     String modelJson = parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",
@@ -831,6 +882,7 @@ public  class SalesOutStockBox   extends BaseActivity {
             }
             materialModle=returnMsgModel.getData();
             int type=0;
+            Float sanjianQty=0f;
             for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()) {
                 if (item.getMaterialno() != null) {//勾选非库存拼箱会存在这种情况
                     if (item.getMaterialno().equals(materialModle.Materialno)) {
@@ -838,6 +890,11 @@ public  class SalesOutStockBox   extends BaseActivity {
                         if (item.getRemainqty() == 0) {
                             //不能再扫描
                             type = 2;
+                        }
+                        if(ArithUtil.sub(item.getRemainqty(),1f)<0){
+                            sanjianQty=item.getRemainqty();
+                        }else{
+                            sanjianQty=1f;
                         }
                     }
                 }
@@ -853,13 +910,13 @@ public  class SalesOutStockBox   extends BaseActivity {
                  CommonUtil.setEditFocus(sales_outstock_box_watercode);
                  return;
              }
-            num=1f;
+          //  num=1f;
             SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
             model.Batchno = "";
             model.Materialno = materialModle.Materialno;
             model.Erpvoucherno = CurrOrder;
             model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
-            model.Qty =1f;
+            model.Qty =sanjianQty;
             model.IsPrint=BaseApplication.mCurrentWareHouseInfo.getIsPrint()==2?true:false;
             model.Vouchertype = CurrVoucherType;
             String modelJson = parseModelToJson(model);
