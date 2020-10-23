@@ -288,25 +288,25 @@ public class OutstockConfigreview extends BaseActivity {
                             model.ScanQty = Float.parseFloat(strPallet[1]);
                         }
                         String json = GsonUtil.parseModelToJson(model);
-                        int judge=0;
-                        for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
-                            if (strPallet[0].equals(item.getMaterialno())) {
-                                judge=1;
-                                if(ArithUtil.sub(item.getRemainqty(),ArithUtil.add(item.getScanqty(),model.ScanQty))<0){
-                                    judge=2;
-                                }
-                            }
-                        }
-                        if(judge==2) {
-                            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
-                            MessageBox.Show(context, "该物料扫描数量超过剩余复核数量");
-                            return true;
-                        }
-                        if(judge==0) {
-                            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
-                            MessageBox.Show(context, "该物料不存在列表中");
-                            return true;
-                        }
+//                        int judge=0;
+//                        for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
+//                            if (strPallet[0].equals(item.getMaterialno())) {
+//                                judge=1;
+//                                if(ArithUtil.sub(item.getRemainqty(),ArithUtil.add(item.getScanqty(),model.ScanQty))<0){
+//                                    judge=2;
+//                                }
+//                            }
+//                        }
+//                        if(judge==2) {
+//                            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+//                            MessageBox.Show(context, "该物料扫描数量超过剩余复核数量");
+//                            return true;
+//                        }
+//                        if(judge==0) {
+//                            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+//                            MessageBox.Show(context, "该物料不存在列表中");
+//                            return true;
+//                        }
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         sales_outstock_config_reviewbarcode.setText("");
@@ -728,16 +728,14 @@ public class OutstockConfigreview extends BaseActivity {
                 if (strarr[4].equals(OutStock_Submit_type_ppallet))//拼托
                     return OutStock_Submit_type_ppallet;
             }
-        if (strarr.length == 4||strarr.length==3) {
+        if (strarr.length == 4||strarr.length==3||strarr.length==2) {
             if(strarr.length==4){
             if (strarr[3].equals(OutStock_Submit_type_box))//拼箱
-                return OutStock_Submit_type_box;}else {
                 return OutStock_Submit_type_box;
             }
-        }
-        if(strarr.length==2){
-            //if (strarr[1].equals(OutStock_Submit_type_pbox))
+            else {
                 return OutStock_Submit_type_box;
+            }
         }
         if (strarr.length == 1) {
             return OutStock_Submit_type_parts;
