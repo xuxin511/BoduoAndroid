@@ -450,18 +450,18 @@ public class SalesOutstock  extends BaseActivity  {
                                 String[] strPallet = palletno.split("%");
                                 SalesoutstockRequery model = new SalesoutstockRequery();
                                 if(strBox.length>1) {//是否是旧的箱号69码
-                                    if (!strBox[0].equals(strPallet[0])) {
-                                        CommonUtil.setEditFocus(sales_outstock_boxtext);
-                                        MessageBox.Show(context, "扫描的外箱条码" + strBox[0] + "和托盘条码物料不一致");
-                                        return true;
-                                    } else {
+//                                    if (!strBox[0].equals(strPallet[0])) {
+//                                        CommonUtil.setEditFocus(sales_outstock_boxtext);
+//                                        MessageBox.Show(context, "扫描的外箱条码" + strBox[0] + "和托盘条码物料不一致");
+//                                        return true;
+//                                    } else {
                                         if (strBox.length < 3) {
                                             model.ScanQty = Float.parseFloat(strBox[1]);
                                         } else {
                                             model.Batchno = strBox[1];
                                             model.ScanQty = Float.parseFloat(strBox[2]);
                                         }
-                                    }
+                                    //}
                                 }
                                 model.Erpvoucherno = CurrOrderNO;
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
