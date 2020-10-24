@@ -423,11 +423,15 @@ public class OutstockSalesConfig extends BaseActivity {
                 if(pair.value.equals("2")) {
                     awyBll.OutCostTotal= Float.parseFloat(sales_outstock_configsm_text.getText().toString().trim());
                 }
-                if(!fypair.value.equals("1")){
-                    awyBll.PrePrice=Float.parseFloat(sales_outstock_configdj_text.getText().toString().trim());
-                }
+
                 if(fypair.value.equals("4")||fypair.value.equals("5")){
                     awyBll.CostTotal=Float.parseFloat(sales_outstock_configdj_text.getText().toString().trim());
+                }else {
+                    if (!fypair.value.equals("1")) {
+                        awyBll.PrePrice = Float.parseFloat(sales_outstock_configdj_text.getText().toString().trim());
+                    } else {
+                        awyBll.PrePrice = 0f;
+                    }
                 }
                 String json = GsonUtil.parseModelToJson(awyBll);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ConfigSaveOrder, "保存托运单号",

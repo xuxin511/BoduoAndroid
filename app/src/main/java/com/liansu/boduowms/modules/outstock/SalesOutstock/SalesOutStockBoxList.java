@@ -237,7 +237,6 @@ public class SalesOutStockBoxList extends BaseActivity {
             return;
         }
         MessageBox.Show(context, "删除成功", 2, null);
-
         //   mAdapter.notifyDataSetChanged();
         final Map<String, String> map = new HashMap<String, String>();
         map.put("Erpvoucherno", CurrOrder);

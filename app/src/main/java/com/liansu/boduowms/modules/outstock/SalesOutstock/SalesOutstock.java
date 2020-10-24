@@ -1071,6 +1071,7 @@ public class SalesOutstock  extends BaseActivity  {
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //builder.setIcon(R.drawable.ic_launcher);
+        final   List<OutStockOrderDetailInfo> selectList=list;
         builder.setTitle("选择一个批次");
         //    指定下拉列表的显示数据
         final String[] cities = new String[list.size()];
@@ -1093,8 +1094,12 @@ public class SalesOutstock  extends BaseActivity  {
                     int submit=0;
                     if(OutStock_Type.equals(OutStock_Submit_type_box)){
                         submit=2;
-                        String[] boxlist= sales_outstock_boxtext.getText().toString().trim().split("%");
-                        inputNum=Float.parseFloat(boxlist[2]);
+                     //   String[] boxlist= sales_outstock_boxtext.getText().toString().trim().split("%");
+                        for (OutStockOrderDetailInfo item:selectList){
+                            if(cities[which].equals(item.getBatchno())){
+                                inputNum=item.getQty();
+                            }
+                        }
                     }else
                     {
                         submit=3;

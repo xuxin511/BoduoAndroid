@@ -281,6 +281,10 @@ public  class SalesOutStockBox   extends BaseActivity {
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_SelectNO, "订单提交中",
                             context, mHandler, RESULT_Saleoutstock_Box_SelectNO, null, info.SalesOutstock_Box_ScanningNo, modelJson, null);
                     return true;
+                }else{
+                    CommonUtil.setEditFocus(sales_outstock_box_order);
+                    MessageBox.Show(context, "请输入或扫描单号");
+                    return true;
                 }
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(sales_outstock_box_order);
@@ -310,12 +314,17 @@ public  class SalesOutStockBox   extends BaseActivity {
                     if (!IsSacnningOrder()) {
                         return true;
                     }
-                    //可能是箱号 69码，物料号
                     String barcode = sales_outstock_box_watercode.getText().toString().trim();
+                    if(barcode.equals("")) {
+                        CommonUtil.setEditFocus(sales_outstock_box_watercode);
+                        MessageBox.Show(context, "请先输入或扫描条码");
+                        return true;
+                    }
+                    //可能是箱号 69码，物料号
                     String[] arr = barcode.split("%");
                     //不是箱号
                     if (arr.length == 1) {
-                        Scanningtype=2;
+                        Scanningtype = 2;
                         //查询该物料是否存在
                         String modelJson = parseModelToJson(barcode);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts, "检验是否存在",
@@ -488,6 +497,17 @@ public  class SalesOutStockBox   extends BaseActivity {
             }
             outstock_package_boxcount.setText(String.valueOf(returnMsgModel.getData().Qty));
             outstock_package_boxscanning.setText(String.valueOf(returnMsgModel.getData().PackageNum));
+            boolean isScannover=true;
+            for(OutStockOrderDetailInfo item:mModel.getOrderDetailList()){
+                 if(item.getRemainqty()!=0){
+                     isScannover=false;
+                 }
+            }
+            if(isScannover) {
+                Float count = ArithUtil.add(returnMsgModel.getData().Qty, returnMsgModel.getData().PackageNum);
+                MessageBox.Show(context, "请确认，拼箱已经全部完成 总件数为" + count);
+                return;
+            }
         } catch (Exception ex) {
             MessageBox.Show(context, ex.toString());
         }
@@ -520,6 +540,7 @@ public  class SalesOutStockBox   extends BaseActivity {
             //查询拼箱箱数
             SalesoutstockRequery model=new SalesoutstockRequery();
             model.Erpvoucherno=CurrOrder;
+            model.Vouchertype=CurrVoucherType;
             String modelJson = parseModelToJson(model);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_OutStock_GetOrderPackageNum, "查询箱号数据中",
                     context, mHandler, RESUL_OTAG_OutStock_GetOrderPackageNum, null, info.GetOrderPackageNum, modelJson, null);
@@ -934,7 +955,7 @@ public  class SalesOutStockBox   extends BaseActivity {
     public  boolean IsSacnningOrder() {
         if (CurrOrder.equals("")) {
             CommonUtil.setEditFocus(sales_outstock_box_order);
-            MessageBox.Show(context, "请先扫描单号");
+            MessageBox.Show(context, "请先输入或扫描单号");
             return false;
         }
         return true;

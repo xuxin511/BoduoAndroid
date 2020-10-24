@@ -73,6 +73,8 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private  float PackageNum;//拼箱数量
     private   String supplierName;
     private   boolean   IsPrint;
+    private  Float outwaterqty;
+
 
     public boolean getisPrint() {
         return IsPrint;
