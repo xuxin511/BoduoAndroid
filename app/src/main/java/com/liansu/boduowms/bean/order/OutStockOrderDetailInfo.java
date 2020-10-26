@@ -73,8 +73,15 @@ public class OutStockOrderDetailInfo implements Parcelable {
     private  float PackageNum;//拼箱数量
     private   String supplierName;
     private   boolean   IsPrint;
-    private  Float outwaterqty;
+    private  Float OutWaterQty; //外箱包装量
 
+    public Float getOutWaterQty() {
+        return OutWaterQty;
+    }
+
+    public void setOutWaterQty(Float outWaterQty) {
+        OutWaterQty = outWaterQty;
+    }
 
     public boolean getisPrint() {
         return IsPrint;
@@ -172,7 +179,7 @@ public class OutStockOrderDetailInfo implements Parcelable {
         PostUser=in.readString();
         IsStockCombine=in.readInt();
         PackageNum = in.readFloat();
-
+        OutWaterQty= in.readFloat();
     }
 
     @Override
@@ -213,6 +220,7 @@ public class OutStockOrderDetailInfo implements Parcelable {
         dest.writeString(PostUser);
         dest.writeInt(IsStockCombine);
         dest.writeFloat(PackageNum);
+        dest.writeFloat(OutWaterQty);
     }
 
     @Override

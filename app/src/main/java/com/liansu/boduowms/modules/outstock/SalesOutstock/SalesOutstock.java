@@ -414,6 +414,10 @@ public class SalesOutstock  extends BaseActivity  {
         }
         return false;
     }
+
+    //混托用到外箱数量用来做记录
+    private   Float outwareQty=0f;
+
     //箱号回车事件
     @Event(value = R.id.sales_outstock_boxtext,type = EditText.OnKeyListener.class)
     private  boolean boxKeyDowm(View v, int keyCode, KeyEvent event) {
@@ -463,6 +467,7 @@ public class SalesOutstock  extends BaseActivity  {
                                         }
                                     //}
                                 }
+                                outwareQty=model.ScanQty;
                                 model.Erpvoucherno = CurrOrderNO;
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
@@ -754,7 +759,7 @@ public class SalesOutstock  extends BaseActivity  {
                 return;
             }
             //输入数量
-            inputTitleDialog("输入散件数量");
+            inputTitleDialog("请输入散件数量");
 
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_boxtext);
@@ -922,7 +927,7 @@ public class SalesOutstock  extends BaseActivity  {
     public  boolean IsSacnningOrder() {
         if (CurrOrderNO.equals("")) {
             CommonUtil.setEditFocus(sales_outstock_order);
-            MessageBox.Show(context, "请先扫描单号");
+            MessageBox.Show(context, "请先输入或扫描单号");
             return false;
         }
         return true;
@@ -971,7 +976,7 @@ public class SalesOutstock  extends BaseActivity  {
                             Float packqty = Float.parseFloat(materialModle.PackQty);
                             if(ArithUtil.sub(inputNum,packqty)>=0) {
                                 CommonUtil.setEditFocus(sales_outstock_boxtext);
-                                MessageBox.Show(context, "输入的包装量需要小于" + packqty );
+                                MessageBox.Show(context, "输入的数量需要小于包装量:" + packqty );
                                 return;
                             }
                             //提交散件
@@ -1019,7 +1024,7 @@ public class SalesOutstock  extends BaseActivity  {
                     public void onClick(DialogInterface dialog, int which) {
                         inputYuetai = inputServer.getText().toString();
                         if(inputYuetai.equals("")){
-                            MessageBox.Show(context, "月台不能为空");
+                            MessageBox.Show(context, "请确认,月台不能为空");
                             return;
                         }
                         Platform model = new Platform();
@@ -1071,6 +1076,7 @@ public class SalesOutstock  extends BaseActivity  {
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //builder.setIcon(R.drawable.ic_launcher);
+        final Float  batchQty=outwareQty;
         final   List<OutStockOrderDetailInfo> selectList=list;
         builder.setTitle("选择一个批次");
         //    指定下拉列表的显示数据
@@ -1090,25 +1096,23 @@ public class SalesOutstock  extends BaseActivity  {
               //  Toast.makeText(getActivity(), "选择的城市为：" + cities[which], Toast.LENGTH_SHORT).show();
                 //再次提交
                 try {
+                    SalesoutstockRequery model = new SalesoutstockRequery();
                     //如果当前是扫描箱号模式 截取字符
                     int submit=0;
                     if(OutStock_Type.equals(OutStock_Submit_type_box)){
                         submit=2;
-                     //   String[] boxlist= sales_outstock_boxtext.getText().toString().trim().split("%");
                         for (OutStockOrderDetailInfo item:selectList){
                             if(cities[which].equals(item.getBatchno())){
-                                inputNum=item.getQty();
+                                if(batchQty==null){
+                                    model.ScanQty =item.getOutWaterQty();
+                                }else{
+                                    model.ScanQty=batchQty;
+                                }
                             }
                         }
-                    }else
-                    {
-                        submit=3;
+                    }else {
+                        submit = 3;
                     }
-                    if(inputNum==0){
-                        MessageBox.Show(context,"当前数量为空");
-                        return;
-                    }
-                    SalesoutstockRequery model = new SalesoutstockRequery();
                     model.Erpvoucherno = CurrOrderNO;
                     model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                     model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
@@ -1118,11 +1122,9 @@ public class SalesOutstock  extends BaseActivity  {
                     model.MaterialNo= sales_outstock_boxtext.getText().toString().trim();
                     model.Batchno = cities[which];
                     model.BarcodeType = submit;
-                    model.ScanQty =inputNum;
                     String json = GsonUtil.parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "箱号提交中",
                             context, mHandler, RESULT_Saleoutstock_ScannParts_Submit, null, info.SalesOutstock_SacnningPallet, json, null);
-
                 }catch (Exception ex){
                     CommonUtil.setEditFocus(sales_outstock_boxtext);
                     MessageBox.Show(context,ex.toString());
