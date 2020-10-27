@@ -601,19 +601,18 @@ public class OutstockSalesConfig extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-            //判断是否是当前的托运单 如果不同提示
-//            if(awyBll!=null) {
-//                if (!awyBll.LinkVoucherNo.equals(returnMsgModel.getData().getLinkVoucherNo())) {
-//                    CommonUtil.setEditFocus(sales_outstock_configOrder);
-//                    MessageBox.Show(context, "该单号跟" + awyBll.Erpvoucherno + "不在同一个托运单中 请重新扫描");
-//                    return;
-//                }
-//            }
             //得到数据赋值地址
             //   awyBll=returnMsgModel.getData();
             CurrVoucherNo=returnMsgModel.getData().getErpvoucherno();
             outstock_config_address.setText(returnMsgModel.getData().getAddress());
             outstock_config_creater.setText(returnMsgModel.getData().getContacts());
+            if(returnMsgModel.getData().getOutCostTotal()!=0){
+                mshSpinner.setSelection(1);
+            }else
+            {
+                mshSpinner.setSelection(0);
+            }
+            //送货方式
             mfhSpinner.setText(returnMsgModel.getData().getLogisticsCompany());
             //根据地址跟客户获取托运单号
             AwyBll model = new AwyBll();
