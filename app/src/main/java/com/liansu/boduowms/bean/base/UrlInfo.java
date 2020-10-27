@@ -12,8 +12,8 @@ public class UrlInfo {
         return new UrlInfo();
     }
 
-    public static String  IPAdress                     = "172.19.106.230";//"wmstest.beukay.com";
-    public static int     Port                         = 5001;//9000;
+    public static String  IPAdress                     = "172.19.106.190";//"172.19.106.230";
+    public static int     Port                         = 7001;//5001;
     public static int     mUpdatePort                  = 8022;//9000;  //版本更新端口号 如果能在一个端口下更新就不用这个字段 用Port
     public static String  LastContent                  = "api/";
     public static String  PrintIP                      = "10.2.32.192";
