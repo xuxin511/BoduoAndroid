@@ -815,7 +815,7 @@ public class SalesOutstock  extends BaseActivity  {
                 model.PalletNo = palletno;
                 model.Vouchertype=CurrVoucherType;
                 model.Strongholdcode =Strongholdcode;
-                //model.MaterialNo= strPallet[0];
+                model.MaterialNo=strPallet[0];
                 model.Batchno = strPallet[1];
                 model.BarcodeType = 1;
                 model.ScanQty = Float.parseFloat(strPallet[2]);

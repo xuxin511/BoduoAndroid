@@ -256,6 +256,8 @@ public class UrlInfo {
             case 61:
             case 62:
                 //采购验退,成品 销售
+//                Outstock_DelReviewByMaterial = GetWCFAdress() + "InspecReturn/Return_DelReviewByMaterial"; //删除复核物料数据
+//                Outstock_DelReviewBypackageCarton = GetWCFAdress() + "InspecReturn/DelReviewPackage_CartonADFAsync"; //删除复核拼箱数据
                 GetT_DetailSubAsync = GetWCFAdress() + "InspecReturn/Return_PalletNoByErpno"; //获取采购暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "InspecReturn/Return_DelPalletNo"; //删除采购暂存数据
                 SalesOutstock_Review_ScanningNo = GetWCFAdress() + "InspecReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
