@@ -481,7 +481,7 @@ public class InventoryList extends BaseActivity {
 
                                 }
                             }).show();
-                }else {
+                } else {
                     CommonUtil.setEditFocus(inventory_list_warehouse);
                     MessageBox.Show(context, returnMsgModel.getResultValue());
                     return;
@@ -493,17 +493,17 @@ public class InventoryList extends BaseActivity {
                     return;
                 }
                 listModel = returnMsgModel.getData();
-                for (InventoryModel item :listModel) {
-                      item.setId(0);
-                     item.isProfit = 2;
-                     item.ScannQty=item.getQty();
+                for (InventoryModel item : listModel) {
+                    item.setId(0);
+                    item.isProfit = 2;
+                    item.ScannQty = item.getQty();
                 }
                 listModel.get(0).isCheck = true;
                 CurrAreaid = listModel.get(0).Areaid;
                 CurrAreano = listModel.get(0).Areano;
                 //更新列表
                 //更新下拉框
-                int type =listModel.get(0).getStatus();
+                int type = listModel.get(0).getStatus();
                 int index = Integer.parseInt(downList.get(type).toString());
                 mSpinner.setSelection(index - 1);
                 if (listModel.size() > 0) {
