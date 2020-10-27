@@ -575,7 +575,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.IsPrint = false;
                         }
                         model.Barcodetype = 2;
-                        model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
+                        model.PostUser = BaseApplication.mCurrentUserInfo.getUsername();
                        // model.Qty = returnMsgModel.getData().get(0).getOutstockqty();
                         // model.Qty = reOuterQty;
                         model.Vouchertype = CurrVoucherType;
@@ -654,7 +654,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.setMaterialdesc(list.get(0).getMaterialdesc());
                             model.setBatchno("");
                             model.setErpvoucherno(CurrOrder);
-                            model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
+                            model.setPostUser(BaseApplication.mCurrentUserInfo.getUsername());
                             model.setQTY(scanQty);
                             if (model.getMaterialdesc() == null) {
                                 model.setMaterialdesc("");
@@ -723,7 +723,7 @@ public  class SalesOutStockBox   extends BaseActivity {
                         model.setMaterialdesc(list.get(0).getMaterialdesc());
                         model.setBatchno(list.get(0).getBatchno());
                         model.setErpvoucherno(CurrOrder);
-                        model.setPostUser(BaseApplication.mCurrentUserInfo.getUserno());
+                        model.setPostUser(BaseApplication.mCurrentUserInfo.getUsername());
                         model.setQTY(scanQty);
                         boolean isprint = BaseApplication.mCurrentWareHouseInfo.getIsPrint() == 2 ? true : false;
                         model.setPrint(isprint);
