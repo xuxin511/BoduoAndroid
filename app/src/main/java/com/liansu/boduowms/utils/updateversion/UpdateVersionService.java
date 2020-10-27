@@ -332,7 +332,7 @@ public class UpdateVersionService {
                     String sdpath = Environment.getExternalStorageDirectory() + "/";
                     fileSavePath = sdpath + "download";
                     URL url = new URL(UP_DATE_DOWN_LOAD_PATH());
-//                    URL url = new URL(hashMap.get("loadUrl"));
+//                    URL url1 = new URL(hashMap.get("loadUrl"));
                     // 创建连接
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setReadTimeout(5 * 1000);// 设置超时时间

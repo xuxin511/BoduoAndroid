@@ -72,6 +72,7 @@
     <string name="request_print_order_purchase_return">正在打印验退单据..</string>
     <string name="setting">设置</string>
     <string name="star">*</string>
+    <string name="stock_qty">库存数量:</string>
 
 
     //接口

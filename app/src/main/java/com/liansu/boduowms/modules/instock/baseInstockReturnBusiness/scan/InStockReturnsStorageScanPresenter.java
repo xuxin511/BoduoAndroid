@@ -282,6 +282,7 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
                                     }
                                     if (palletType == InStockReturnsStorageScanModel.RETURN_PALLET_TYPE_OLD_PALLET) {
                                         mView.setAreaNo(outBarcodeInfo.getAreano());
+                                        mView.setStockInfo(outBarcodeInfo);
                                         mModel.setCurrentScanInfo(outBarcodeInfo);
                                         mView.onBarcodeFocus();
                                     } else if (palletType == InStockReturnsStorageScanModel.RETURN_PALLET_TYPE_NEW_PALLET) {
@@ -375,20 +376,20 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
             }
             OutBarcodeInfo scanQRCode = null;
             if (scanBarcode.equals("")) return;
-            if (scanBarcode.contains("%")) {
+//            if (scanBarcode.contains("%")) {
                 BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(scanBarcode);
                 if (resultInfo.getHeaderStatus()) {
                     scanQRCode = resultInfo.getInfo();
                     if (scanQRCode != null) {
-                        if (scanQRCode.getBarcodetype() != QRCodeFunc.BARCODE_TYPE_OUTER_BOX) {
-                            MessageBox.Show(mContext, "校验条码失败:外箱条码格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    mView.onBarcodeFocus();
-                                }
-                            });
-                            return;
-                        }
+//                        if (scanQRCode.getBarcodetype() != QRCodeFunc.BARCODE_TYPE_OUTER_BOX) {
+//                            MessageBox.Show(mContext, "校验条码失败:外箱条码格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    mView.onBarcodeFocus();
+//                                }
+//                            });
+//                            return;
+//                        }
                         if (scanQRCode.getMaterialno() == null || scanQRCode.getMaterialno().equals("")) {
                             MessageBox.Show(mContext, "校验条码失败:获取的物料编码不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
@@ -410,15 +411,15 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
                     return;
                 }
 
-            } else {
-                MessageBox.Show(mContext, "校验条码失败:条码不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mView.onBarcodeFocus();
-                    }
-                });
-                return;
-            }
+//            } else {
+//                MessageBox.Show(mContext, "校验条码失败:条码不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        mView.onBarcodeFocus();
+//                    }
+//                });
+//                return;
+//            }
             if (scanQRCode != null) {
                 //校验条码是否存在
                 onMaterialInfoQuery(scanQRCode);
@@ -459,7 +460,7 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
                     LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, mModel.TAG_SELECT_MATERIAL, result);
                     BaseResultInfo<OutBarcodeInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutBarcodeInfo>>() {
                     }.getType());
-                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                    if (returnMsgModel.getResult() == RESULT_TYPE_OK  ||returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK && returnMsgModel.getData()!=null) {
                         OutBarcodeInfo materialInfo = returnMsgModel.getData();
                         if (materialInfo != null) {
                             scanQRCode.setMaterialno(materialInfo.getMaterialno());

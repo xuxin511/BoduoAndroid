@@ -83,6 +83,8 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
     protected  EditText mOutBoxBatchNo;
     @ViewInject(R.id.product_return_scan_outer_box_batch_desc)
     protected  TextView mOutBoxBatchNoDesc;
+    @ViewInject(R.id.product_return_scan_stock_qty_desc)
+    TextView mPalletStockQty;
     BaseScanDetailAdapter              mAdapter;
     InStockReturnsStorageScanPresenter mPresenter;
     protected UserSettingPresenter mUserSettingPresenter;
@@ -344,6 +346,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
         if (mBusinessType == InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_ACTIVE) {
             bindListView(mPresenter.getModel().getOrderDetailList());
         }
+        setStockInfo(null);
     }
 
     @Override
@@ -411,6 +414,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
                 mOutBoxQty.setVisibility(View.GONE);
                 mOutBoxBatchNo.setVisibility(View.GONE);
                 mOutBoxBatchNoDesc.setVisibility(View.GONE);
+                mPalletStockQty.setVisibility(View.GONE);
             }
             if (mAreaNo.isEnabled() != true) {
                 mAreaNo.setEnabled(true);
@@ -424,6 +428,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
                 mOutBoxQty.setVisibility(View.VISIBLE);
                 mOutBoxBatchNo.setVisibility(View.VISIBLE);
                 mOutBoxBatchNoDesc.setVisibility(View.VISIBLE);
+                mPalletStockQty.setVisibility(View.VISIBLE);
             }
             if (mAreaNo.isEnabled() != false) {
                 mAreaNo.setEnabled(false);
@@ -526,6 +531,15 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
             }
 
         return IS_VERIFIED;
+    }
+
+    @Override
+    public void setStockInfo(OutBarcodeInfo info) {
+        float stockQty=0f;
+        if (info!=null){
+             stockQty=info.getQty();
+        }
+        mPalletStockQty.setText("库存数量:"+stockQty);
     }
 
 

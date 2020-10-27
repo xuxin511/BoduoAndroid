@@ -43,6 +43,7 @@ public interface IInStockReturnStorageScanView {
     void  setOuterBoxBatchNo(String batchNo);
     String getOuterBoxBatchNo();
     boolean checkBatchNo(String batchNo);
+    void setStockInfo(OutBarcodeInfo info);
 
 
 }

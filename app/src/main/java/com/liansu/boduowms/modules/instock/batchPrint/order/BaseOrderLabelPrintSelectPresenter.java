@@ -321,7 +321,7 @@ public class BaseOrderLabelPrintSelectPresenter {
                     LogUtil.WriteLog(PurchaseInspectionProcessingScan.class, mModel.TAG_SELECT_MATERIAL, result);
                     BaseResultInfo<OutBarcodeInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutBarcodeInfo>>() {
                     }.getType());
-                    if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                    if (returnMsgModel.getResult() == RESULT_TYPE_OK  ||returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK && returnMsgModel.getData()!=null) {
                         OutBarcodeInfo materialInfo = returnMsgModel.getData();
                         if (materialInfo != null) {
                             scanQRCode.setMaterialno(materialInfo.getMaterialno());

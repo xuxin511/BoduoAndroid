@@ -184,8 +184,22 @@
         android:hint="@string/product_storage_scan_barcode_qty_hint"
         android:textSize="@dimen/common_text_size_first"
         app:layout_constraintLeft_toRightOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/product_return_scan_outer_box_batch" />
+
+
+    <TextView
+        android:gravity="left"
+        android:id="@+id/product_return_scan_stock_qty_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/stock_qty"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/product_return_scan_outer_box_qty"
+        app:layout_constraintLeft_toRightOf="@+id/guideline3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/product_return_scan_outer_box_qty" />
 
     <TextView
         android:id="@+id/product_return_scan_outer_box_desc"
@@ -230,7 +244,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.77" />
+        app:layout_constraintGuide_percent="0.6" />
 
 
     <Button
