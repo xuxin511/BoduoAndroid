@@ -11,7 +11,7 @@ public class OutstockWaybillStatusModel {
 
     public String Erpvoucherno ;
 
-    public String Createtime ;
+//    public String Createtime ;
     public String Address ;
 
     public String getAddress() {
@@ -56,13 +56,13 @@ public class OutstockWaybillStatusModel {
         Erpvoucherno = erpvoucherno;
     }
 
-    public String getCreatetime() {
-        return Createtime;
-    }
-
-    public void setCreatetime(String createtime) {
-        Createtime = createtime;
-    }
+//    public String getCreatetime() {
+//        return Createtime;
+//    }
+//
+//    public void setCreatetime(String createtime) {
+//        Createtime = createtime;
+//    }
 
     public List<OutstockWaybillStatusDtailModel> getDetails() {
         return details;

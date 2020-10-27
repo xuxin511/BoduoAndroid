@@ -219,7 +219,7 @@ public class OutstockWaybillStates extends BaseActivity {
 
     public  void  LoadOrderData(String result) {
         try {
-            BaseResultInfo<OutstockWaybillStatusModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutstockWaybillStatusModel>>() {
+            BaseResultInfo<List<OutstockWaybillStatusModel>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutstockWaybillStatusModel>>>() {
             }.getType());
             mModel = new ArrayList<OutstockWaybillStatusModel>();
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -235,7 +235,10 @@ public class OutstockWaybillStates extends BaseActivity {
             }
             CurrOrderNO = outstock_waybill_order.getText().toString().trim();
             //成功
-            mModel.add( returnMsgModel.getData());
+
+            for (OutstockWaybillStatusModel item:returnMsgModel.getData() ){
+                mModel.add(item);
+            }
             if (mModel.size() > 0) {
                 //绑定
                 mModel.get(0).setIscheck(true);
