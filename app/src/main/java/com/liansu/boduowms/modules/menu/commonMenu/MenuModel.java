@@ -388,6 +388,7 @@ public class MenuModel {
                 intent.setClass(mContext, BaseOrderLabelPrintSelect.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_BATCH_PRINTING);
                 intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VOUCHER_TYPE", voucherType);
             }
             //22  采购入库
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {

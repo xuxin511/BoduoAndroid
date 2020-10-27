@@ -352,7 +352,7 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
                         }
                     }
                 } else {
-                    list.add(key);
+                    list.add(0,key);
                 }
             }
 

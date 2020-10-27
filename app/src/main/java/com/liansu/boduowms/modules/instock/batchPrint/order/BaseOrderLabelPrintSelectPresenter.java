@@ -324,6 +324,7 @@ public class BaseOrderLabelPrintSelectPresenter {
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                         OutBarcodeInfo materialInfo = returnMsgModel.getData();
                         if (materialInfo != null) {
+                            scanQRCode.setMaterialno(materialInfo.getMaterialno());
                             scanQRCode.setMaterialdesc(materialInfo.getMaterialdesc());
                             scanQRCode.setPackqty(materialInfo.getPackqty());
                             scanQRCode.setSpec(materialInfo.getSpec());

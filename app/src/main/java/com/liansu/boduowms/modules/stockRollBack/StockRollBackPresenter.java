@@ -215,6 +215,9 @@ public class StockRollBackPresenter {
      * @time 2020/8/27 15:09
      */
     public void onDeleteTemporaryDataRefer(final VoucherDetailSubInfo deleteInfo) {
+        if(mModel.getVoucherType()!=-1){
+            deleteInfo.setVouchertype(mModel.getVoucherType());
+        }
         if (deleteInfo == null) {
             MessageBox.Show(mContext, "校验回退数据失败:提交的回退条码数据不能为空", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
