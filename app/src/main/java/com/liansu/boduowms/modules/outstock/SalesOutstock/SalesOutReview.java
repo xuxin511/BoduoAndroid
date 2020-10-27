@@ -143,7 +143,7 @@ public  class SalesOutReview extends BaseActivity {
     int CurrvoucherType;
 
 
-    String CurrOrderNO;
+    String CurrOrderNO="";
 
 
     //据点集合

@@ -146,7 +146,7 @@ public class OutstockSalesConfig extends BaseActivity {
 
     private  UrlInfo info = new UrlInfo();
 
-    private  String CurrVoucherNo;//当前单号
+    private  String CurrVoucherNo="";//当前单号
     MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
 
       private  int isload=1;//用来区分是否第一次加载

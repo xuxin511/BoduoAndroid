@@ -158,7 +158,7 @@ public class SalesOutstock  extends BaseActivity  {
 
 
     //当前单号
-    private  String CurrOrderNO;
+    private  String CurrOrderNO="";
 
     //当前类型
     private int CurrVoucherType;

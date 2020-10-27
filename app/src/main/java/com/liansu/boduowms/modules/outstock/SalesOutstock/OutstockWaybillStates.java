@@ -79,7 +79,7 @@ public class OutstockWaybillStates extends BaseActivity {
     OutstockWaybillStatesAdapter mAdapter;
 
     //当前单号
-    private  String CurrOrderNO;
+    private  String CurrOrderNO="";
 
     List<OutstockWaybillStatusModel> mModel=new ArrayList<OutstockWaybillStatusModel>();
 

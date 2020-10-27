@@ -99,7 +99,7 @@ public  class SalesOutStockBox   extends BaseActivity {
 
     //region
     //当前单号
-    private String CurrOrder;
+    private String CurrOrder="";
 
     //订单框
     @ViewInject(R.id.sales_outstock_box_order)

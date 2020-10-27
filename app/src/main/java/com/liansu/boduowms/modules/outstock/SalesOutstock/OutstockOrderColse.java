@@ -79,7 +79,7 @@ public class OutstockOrderColse extends BaseActivity {
     SalesoutstockAdapter mAdapter;
 
     //当前单号
-    private  String CurrOrderNO;
+    private  String CurrOrderNO="";
 
     //存储类
     private PurchaseReturnOffScanModel mModel;

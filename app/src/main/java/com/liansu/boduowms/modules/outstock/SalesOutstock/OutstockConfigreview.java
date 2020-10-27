@@ -128,7 +128,7 @@ public class OutstockConfigreview extends BaseActivity {
     private AwyBll awyBll;
 
 
-  String  CurrOrderNO;
+  String  CurrOrderNO="";
     @Override
     protected void initViews() {
         super.initViews();

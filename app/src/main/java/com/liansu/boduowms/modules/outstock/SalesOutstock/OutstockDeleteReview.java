@@ -100,7 +100,7 @@ public class OutstockDeleteReview extends BaseActivity {
     //当前删除类型
     private int DeleteType;
 
-    private String CurrOrder;
+    private String CurrOrder="";
 
     private int CurrvoucherType;
 
