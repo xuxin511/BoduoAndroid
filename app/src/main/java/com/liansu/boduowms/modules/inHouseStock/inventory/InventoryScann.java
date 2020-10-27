@@ -293,7 +293,7 @@ public class InventoryScann extends BaseActivity {
             item.setWarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
             item.setQty(item.ScannQty);
             item.setErpvoucherno(Currerpvoucherno);
-            item.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
+            item.setCreater(BaseApplication.mCurrentUserInfo.getUsername());
             item.setAreaid(CurrAreaid);
             item.setAreano(CurrAreano);
             item.setTowarehouseid(Warehouseid);
