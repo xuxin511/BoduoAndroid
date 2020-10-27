@@ -145,6 +145,16 @@ public  class AwyBll {
 
     public String LinkVoucherNo ;
 
+    public  String Towarehouseno;
+
+    public String getTowarehouseno() {
+        return Towarehouseno;
+    }
+
+    public void setTowarehouseno(String towarehouseno) {
+        Towarehouseno = towarehouseno;
+    }
+
     public int getId() {
         return Id;
     }
