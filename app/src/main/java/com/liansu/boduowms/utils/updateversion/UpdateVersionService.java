@@ -43,14 +43,15 @@ import androidx.core.content.FileProvider;
  * @author Administrator
  */
 public class UpdateVersionService {
-    private static final int                     DOWN        = 1;// 用于区分正在下载
-    private static final int                     DOWN_FINISH = 0;// 用于区分下载完成
+    private static final int                     ERROR_MESSAGE = -1;// 报错
+    private static final int                     DOWN          = 1;// 用于区分正在下载
+    private static final int                     DOWN_FINISH   = 0;// 用于区分下载完成
     private              HashMap<String, String> hashMap;// 存储跟心版本的xml信息
     private              String                  fileSavePath;// 下载新apk的厨房地点
     // private static final String UPDATEVERSIONXMLPATH = UserConfigModel.UPDATEURL+"version.xml";
 //    public final static  String                  LastContent = "/AppData/version.xml";
-    public final static  String                  LastContent = "/AppData/version.json";
-    public final static  String                  APK_PATH="/AppData/BODUO.apk";
+    public final static  String                  LastContent   = "/AppData/version.json";
+    public final static  String                  APK_PATH      = "/AppData/BODUO.apk";
 
     public static String UP_DATE_VERSION_XML_PATH() {
         return "http://" + UrlInfo.IPAdress + ":" + UrlInfo.Port + "/" + LastContent;
@@ -69,7 +70,8 @@ public class UpdateVersionService {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch ((Integer) msg.obj) {
+            switch (msg.what) {
+
                 case DOWN:
                     //  progressBar.setProgress(progress);
                     break;
@@ -77,6 +79,11 @@ public class UpdateVersionService {
                     Toast.makeText(BaseApplication.context, "文件下载完成,正在安装更新", Toast.LENGTH_SHORT).show();
                     installAPK();
                     break;
+                case ERROR_MESSAGE:
+                    MessageBox.Show(BaseApplication.context,  msg.obj.toString());
+                    if (downLoadDialog != null && downLoadDialog.isShowing()) {
+                        downLoadDialog.dismiss();
+                    }
                 default:
                     break;
             }
@@ -326,6 +333,7 @@ public class UpdateVersionService {
             // TODO Auto-generated method stub
             super.run();
             try {
+
                 // 判断SD卡是否存在，并且是否具有读写权限
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                     // 获得存储卡的路径
@@ -358,14 +366,14 @@ public class UpdateVersionService {
                         int numread = is.read(buf);
                         // 更新进度
                         Message message = new Message();
-                        message.obj = DOWN;
+                        message.what = DOWN;
                         handler.sendMessage(message);
                         if (numread <= 0) {
                             // 下载完成
                             // 取消下载对话框显示
                             downLoadDialog.dismiss();
                             Message message2 = new Message();
-                            message2.obj = DOWN_FINISH;
+                            message2.what = DOWN_FINISH;
                             handler.sendMessage(message2);
                             break;
                         }
@@ -376,8 +384,16 @@ public class UpdateVersionService {
                     is.close();
                 }
             } catch (MalformedURLException e) {
+                Message message = new Message();
+                message.what = ERROR_MESSAGE;
+                message.obj = "更新地址不正确!请到设置页面进行设置。message:" + e.getMessage();
+                handler.sendMessage(message);
                 e.printStackTrace();
             } catch (IOException e) {
+                Message message = new Message();
+                message.what = ERROR_MESSAGE;
+                message.obj = "更新地址不正确!请到设置页面进行设置。message:" + e.getMessage();
+                handler.sendMessage(message);
                 e.printStackTrace();
             }
 

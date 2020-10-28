@@ -29,9 +29,9 @@ public class SharePreferUtil {
             RequestHandler.SOCKET_TIMEOUT = sharedPreferences.getInt("TimeOut", 20000);
             UrlInfo.mOfficialEnvironmentIpAddress=sharedPreferences.getString("OfficialEnvironmentIpAddress","http://172.19.106.190:7001/api/");
             UrlInfo.mTestEnvironmentIpAddress=sharedPreferences.getString("TestEnvironmentIpAddress","http://172.19.106.230:5001/api/");
-            UrlInfo.IPAdress = sharedPreferences.getString("IPAddress", "");
-            UrlInfo.Port = sharedPreferences.getInt("Port", -1);
-            UrlInfo.LastContent=sharedPreferences.getString("LastContent","");
+            UrlInfo.IPAdress = sharedPreferences.getString("IPAddress", "172.19.106.190");
+            UrlInfo.Port = sharedPreferences.getInt("Port", 7001);
+            UrlInfo.LastContent=sharedPreferences.getString("LastContent","api/");
             UrlInfo.PrintIP = sharedPreferences.getString("PrintIP", "1.1.1.1");
             UrlInfo.mEnvironmentType=sharedPreferences.getInt(   "EnvironmentType", NewSettingSystemPresenter.URL_TYPE_OFFICIAL_ENVIRONMENT);
         }
