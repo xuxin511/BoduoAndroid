@@ -189,6 +189,7 @@
 
 
     <TextView
+        android:maxLines="2"
         android:gravity="left"
         android:id="@+id/product_return_scan_stock_qty_desc"
         style="@style/TextViewComminStyle"

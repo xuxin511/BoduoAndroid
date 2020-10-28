@@ -42,6 +42,8 @@ public class CommonBusinessMenuPresenter {
 
             }
             mMenuView.bindMenuList(mModel.getMenuChildrenInfoList());
+        }else {
+
         }
     }
 

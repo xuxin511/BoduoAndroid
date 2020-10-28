@@ -100,7 +100,6 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
         BaseApplication.isCloseActivity = false;
         initListener();
         closeKeyBoard(mPalletBarcode, mErpVoucherNo, mAreaNo, mOuterBoxBarcode);
-
     }
 
     private void initPresenter() {
@@ -539,7 +538,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
         if (info!=null){
              stockQty=info.getQty();
         }
-        mPalletStockQty.setText("库存数量:"+stockQty);
+        mPalletStockQty.setText("库存:"+stockQty);
     }
 
 
