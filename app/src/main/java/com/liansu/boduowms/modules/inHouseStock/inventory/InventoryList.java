@@ -461,6 +461,7 @@ public class InventoryList extends BaseActivity {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_POST_ISDEL) {
+                    final  List<InventoryModel> listmodel=returnMsgModel.getData();
                     //已经扫盘点过一次的库位
                     new AlertDialog.Builder(this).setTitle(returnMsgModel.getResultValue())
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -478,6 +479,31 @@ public class InventoryList extends BaseActivity {
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    if (listmodel.size() == 0) {
+                                        CommonUtil.setEditFocus(inventory_list_warehouse);
+                                        MessageBox.Show(context, "该库位下没有对应的托盘请确认");
+                                        return;
+                                    }
+                                    listModel = listmodel;
+                                    for (InventoryModel item : listModel) {
+                                        item.setId(0);
+                                        item.isProfit = 2;
+                                        //  item.ScannQty = item.getQty();
+                                    }
+                                    listModel.get(0).isCheck = true;
+                                    CurrAreaid = listModel.get(0).Areaid;
+                                    CurrAreano = listModel.get(0).Areano;
+                                    //更新列表
+                                    //更新下拉框
+                                    int type = listModel.get(0).getStatus();
+                                    int index = Integer.parseInt(downList.get(type).toString());
+                                    mSpinner.setSelection(index - 1);
+                                    if (listModel.size() > 0) {
+                                        inventory_list_num.setText(listModel.get(0).getScannQty().toString());
+                                    }
+                                    mAdapter = new InventoryListAdapter(context, listModel);
+                                    mList.setAdapter(mAdapter);
+                                    inventory_list_num.setSelectAllOnFocus(true);
 
                                 }
                             }).show();
@@ -496,7 +522,7 @@ public class InventoryList extends BaseActivity {
                 for (InventoryModel item : listModel) {
                     item.setId(0);
                     item.isProfit = 2;
-                    item.ScannQty = item.getQty();
+                  //  item.ScannQty = item.getQty();
                 }
                 listModel.get(0).isCheck = true;
                 CurrAreaid = listModel.get(0).Areaid;
@@ -507,7 +533,7 @@ public class InventoryList extends BaseActivity {
                 int index = Integer.parseInt(downList.get(type).toString());
                 mSpinner.setSelection(index - 1);
                 if (listModel.size() > 0) {
-                    inventory_list_num.setText(listModel.get(0).getQty().toString());
+                    inventory_list_num.setText(listModel.get(0).getScannQty().toString());
                 }
 
             }
@@ -544,7 +570,7 @@ public class InventoryList extends BaseActivity {
                 for (InventoryModel item : list) {
                     item.setId(0);
                     item.isProfit = 1;
-                    item.ScannQty = item.getQty();
+                    item.ScannQty = 0f;
                 }
                 listModel.addAll(0, list);
                 int i = 0;

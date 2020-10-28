@@ -64,6 +64,9 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/sales_outstock_rawmaterial_order" />
 
+
+
+
     <TextView
         android:layout_height="@dimen/sp_6"
         android:layout_width="match_parent"

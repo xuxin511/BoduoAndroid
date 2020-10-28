@@ -631,7 +631,9 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitPallet, "托盘提交中",
                                 context, mHandler, RESULT_Saleoutstock_ScannPalletNo, null, info.SalesOutstock_SacnningPallet, json, null);
                     }else{
-                        inputTitleDialog("该物料行剩余数量为:" + model.getRemainqty());
+                        String strremainqty=String.valueOf( model.getRemainqty());
+                        String strqty=String.valueOf(returnMsgModel.getData().get(0).getQty());
+                        inputTitleDialog("当前物料剩余" + strremainqty+"托盘量为"+strqty);
                     }
                 }
             } else {

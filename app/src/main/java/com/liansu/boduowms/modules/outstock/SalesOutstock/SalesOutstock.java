@@ -164,7 +164,7 @@ public class SalesOutstock  extends BaseActivity  {
     private int CurrVoucherType;
 
     //当前托盘  因为可以输入序列号导致不能用文本框中的托盘号
-    private  String Currpalletno;
+    private  String Currpalletno="";
 
 
     //据点集合
