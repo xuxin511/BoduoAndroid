@@ -3,6 +3,7 @@ package com.liansu.boduowms.modules.inHouseStock.inventory;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +50,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -181,18 +183,21 @@ public class InventoryList extends BaseActivity {
                     }
                     for (InventoryModel item : listModel) {
                         if (item == model) {
-                            item.isCheck=true;
-                            inventory_list_num.setText(item.getScannQty().toString());
-                            int type =item.getStatus();
-                            int index = Integer.parseInt(downList.get(type).toString());
-                            mSpinner.setSelection(index-1);
+                                item.isCheck=true;
+                                inventory_list_num.setText(String.valueOf( item.getScannQty()));
+                                int type =item.getStatus();
+                                if(type==0){
+                                    type=1;
+                                }
+                                int index = Integer.parseInt(String.valueOf(downList.get(type)));
+                                mSpinner.setSelection(index-1);
                         }else{
                             item.isCheck=false;
                         }
                     }
-//                    mAdapter = new InventoryListAdapter(context, listModel);
-//                    mList.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
+                    inventory_list_num.setSelectAllOnFocus(true);
+                    CommonUtil.setEditFocus(inventory_list_num);
 
                 } catch (Exception ex) {
                     CommonUtil.setEditFocus(inventory_list_num);
@@ -218,6 +223,9 @@ public class InventoryList extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
+        disableShowSoftInput(inventory_list_num);
+        disableShowSoftInput(inventory_list_barcode);
+        disableShowSoftInput(inventory_list_warehouse);
     }
 
 
@@ -276,6 +284,52 @@ public class InventoryList extends BaseActivity {
     }
 
 
+    //数量回车事件
+    @Event(value = R.id.inventory_list_num,type = EditText.OnKeyListener.class)
+    private  boolean kedowm(View v, int keyCode, KeyEvent event){
+        View vFocus = v.findFocus();
+        int etid = vFocus.getId();
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == inventory_list_num.getId()) {
+            try {
+                if (CurrAreano.equals("")) {
+                    CommonUtil.setEditFocus(inventory_list_warehouse);
+                    MessageBox.Show(context, "请先扫描库位");
+                    return true;
+                }
+                if(listModel.size()==0){
+                    CommonUtil.setEditFocus(inventory_list_warehouse);
+                    MessageBox.Show(context, "当前列表不存在数据，请确认");
+                    return true;
+                }
+                Pair ywpair = (Pair) mSpinner.getSelectedItem();
+                //循环找到当前model
+                for (InventoryModel item : listModel) {
+                    if (item.isCheck) {//找到之前选中的值赋值
+                        if (inventory_list_num.getText().toString().trim().equals("")) {
+                            item.setScannQty(0f);
+                        } else {
+                            Float aFloat = Float.parseFloat(inventory_list_num.getText().toString().trim());
+                            item.setScannQty(aFloat);
+                        }
+                        int status =Integer.parseInt(ywpair.value);
+                        item.Status = status;
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+                return true;
+
+            } catch (Exception ex){
+                inventory_list_num.setSelectAllOnFocus(true);
+                CommonUtil.setEditFocus(inventory_list_num);
+                MessageBox.Show(context, "请输入正确数量");
+                return true;
+            }
+        }
+        return  false;
+    }
+
+
+
     //获取条码信息
     @Event(value = R.id.inventory_list_barcode,type = EditText.OnKeyListener.class)
     private  boolean getBarcode(View v, int keyCode, KeyEvent event) {
@@ -294,6 +348,11 @@ public class InventoryList extends BaseActivity {
 //                    MessageBox.Show(context, "请扫描正确托盘条码");
 //                    return true;
 //                }
+                if(barcode.equals("")){
+                    CommonUtil.setEditFocus(inventory_list_barcode);
+                    MessageBox.Show(context, "请扫描正确托盘条码");
+                    return true;
+                }
                 boolean  istrue=false;
                 int index=0;
                 int count=0;
@@ -325,6 +384,9 @@ public class InventoryList extends BaseActivity {
                             item.isCheck = true;
                             inventory_list_num.setText(item.getScannQty().toString());
                             int type = item.getStatus();
+                            if(type==0){
+                                type=1;
+                            }
                             int aindex = Integer.parseInt(downList.get(type).toString());
                             mSpinner.setSelection(aindex - 1);
                             CurrSelectmodel = item;
@@ -371,6 +433,19 @@ public class InventoryList extends BaseActivity {
     }
 
 
+
+    //禁止软键盘
+    public static void disableShowSoftInput(EditText editText) {
+        Class<EditText> cls = EditText.class;
+        Method method;
+        try {
+            method = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
+            method.setAccessible(true);
+            method.invoke(editText, false);
+        } catch (Exception e) {
+            // TODO: 2018/8/27 处理错误
+        }
+    }
 
     public void onHandleMessage(Message msg) {
         switch (msg.what) {
@@ -504,7 +579,7 @@ public class InventoryList extends BaseActivity {
                                     mAdapter = new InventoryListAdapter(context, listModel);
                                     mList.setAdapter(mAdapter);
                                     inventory_list_num.setSelectAllOnFocus(true);
-
+                                    CommonUtil.setEditFocus(inventory_list_num);
                                 }
                             }).show();
                 } else {
@@ -545,6 +620,9 @@ public class InventoryList extends BaseActivity {
         mAdapter = new InventoryListAdapter(context, listModel);
         mList.setAdapter(mAdapter);
         inventory_list_num.setSelectAllOnFocus(true);
+        CommonUtil.setEditFocus(inventory_list_num);
+
+
     }
 
 
@@ -592,6 +670,9 @@ public class InventoryList extends BaseActivity {
                         item.isCheck=true;
                         inventory_list_num.setText(item.getScannQty().toString());
                         int type =item.getStatus();
+                        if(type==0){
+                            type=1;
+                        }
                         int index = Integer.parseInt(downList.get(type).toString());
                         mSpinner.setSelection(index-1);
                         CurrSelectmodel=item;
@@ -680,6 +761,9 @@ public class InventoryList extends BaseActivity {
                                 item.isCheck = true;
                                 inventory_list_num.setText(item.getScannQty().toString());
                                 int type = item.getStatus();
+                                if(type==0){
+                                    type=1;
+                                }
                                 int index = Integer.parseInt(downList.get(type).toString());
                                 mSpinner.setSelection(index - 1);
                                 CurrSelectmodel = item;
