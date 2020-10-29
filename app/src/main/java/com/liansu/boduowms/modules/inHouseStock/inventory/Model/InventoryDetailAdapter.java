@@ -25,6 +25,7 @@ public class InventoryDetailAdapter extends BaseAdapter {
         public TextView txtOneRight;
         public TextView txtTwoCenter;
         public TextView txtThreeCenter;
+        public TextView txtThreeleft;
     }
 
     public InventoryDetailAdapter(Context mContext, List<InventoryModel> stockInfoModels) {
@@ -63,6 +64,9 @@ public class InventoryDetailAdapter extends BaseAdapter {
             listItemView.txtOneRight = (TextView) convertView.findViewById(R.id.inventory_txt_one_right);
             listItemView.txtTwoCenter = (TextView) convertView.findViewById(R.id.inventory_txt_two_center);
             listItemView.txtThreeCenter = (TextView) convertView.findViewById(R.id.inventory_txt_three_center);
+            listItemView.txtThreeleft = (TextView) convertView.findViewById(R.id.txt_batch_no);
+
+
             //   listItemView.txtQty = (TextView) convertView.findViewById(R.id.item_quality_inspection_qty);
             convertView.setTag(listItemView);
         } else {
@@ -73,6 +77,7 @@ public class InventoryDetailAdapter extends BaseAdapter {
         listItemView.txtOneRight.setText("数量:" + stockInfoModel.Qty);
         listItemView.txtTwoCenter.setText(stockInfoModel.Materialdesc);
         listItemView.txtThreeCenter.setText("批次:" + stockInfoModel.getBatchno());
+        listItemView.  txtThreeleft.setText("序号:"+stockInfoModel.getSerialno());
         //     listItemView.txtOneLeft.setText("单号" + stockInfoModel.Erpvoucherno );
         //listItemView.txtOneLeft.setText("单号" + stockInfoModel.Erpvoucherno );
         return convertView;

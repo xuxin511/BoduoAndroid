@@ -8,7 +8,15 @@ public class SalesoutstockRequery {
     public String  Towarehouseno;
     public String  Creater;
     public String  Scanuserno;
+    public  String    WayBillNo;
 
+    public String getWayBillNo() {
+        return WayBillNo;
+    }
+
+    public void setWayBillNo(String wayBillNo) {
+        WayBillNo = wayBillNo;
+    }
 
     public String getCreater() {
         return Creater;

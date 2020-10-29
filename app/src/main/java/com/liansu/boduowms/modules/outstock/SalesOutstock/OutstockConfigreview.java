@@ -264,6 +264,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.Vouchertype = CurrvoucherType;
                         model.MaterialNo = palletno;
+                        model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                         model.ScanQty = Float.parseFloat(strPallet[2]);
                         String json = GsonUtil.parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
@@ -281,6 +282,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Vouchertype = CurrvoucherType;
                         model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                        model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                         model.MaterialNo = barcode;
                         if( barcode.split("%").length!=2){
                             model.ScanQty = Float.parseFloat(strPallet[2]);
@@ -469,6 +471,7 @@ public class OutstockConfigreview extends BaseActivity {
                     model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                     model.ScanQty = material.OuterQty;
                     model.Vouchertype = CurrvoucherType;
+                    model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                     String modelJson = parseModelToJson(model);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
@@ -507,6 +510,7 @@ public class OutstockConfigreview extends BaseActivity {
             model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
             model.Vouchertype = CurrvoucherType;
             model.MaterialNo = materialModle.getMaterialno();
+            model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
             model.ScanQty = qty;
             String json = GsonUtil.parseModelToJson(model);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
@@ -539,6 +543,7 @@ public class OutstockConfigreview extends BaseActivity {
                 model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                 model.Vouchertype = CurrvoucherType;
                 model.MaterialNo = palletno;
+                model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                 model.ScanQty = Float.parseFloat(strPallet[2]);
                 String json = GsonUtil.parseModelToJson(model);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
@@ -617,6 +622,7 @@ public class OutstockConfigreview extends BaseActivity {
                             model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                             model.Vouchertype = CurrvoucherType;
                             model.MaterialNo = sales_outstock_config_reviewbarcode.getText().toString().trim();
+                            model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                             model.ScanQty = inputValue;
                             String json = GsonUtil.parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
