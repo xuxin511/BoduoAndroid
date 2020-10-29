@@ -153,8 +153,9 @@ public class InventoryList extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus==true) {
+                   // CommonUtil.setEditFocus(inventory_list_num);
                     inventory_list_num.setSelectAllOnFocus(true);
-                    // CommonUtil.setEditFocus(inventory__config_num);
+                  //  CommonUtil.setEditFocus(inventory__config_num);
                 }
             }
         });
@@ -656,7 +657,7 @@ public class InventoryList extends BaseActivity {
                 for (InventoryModel item : listModel) {
                     if (item.isCheck) {//找到之前选中的值赋值
                         if (inventory_list_num.getText().toString().trim().equals("")) {
-                            item.setScannQty(0f);
+                            item.setScannQty(item.getQty());
                         } else {
                             Float aFloat = Float.parseFloat(inventory_list_num.getText().toString().trim());
                             item.setScannQty(aFloat);
@@ -668,7 +669,7 @@ public class InventoryList extends BaseActivity {
                 for (InventoryModel item : listModel) {
                     if (item == listModel.get(0)) {
                         item.isCheck=true;
-                        inventory_list_num.setText(item.getScannQty().toString());
+                        inventory_list_num.setText(String.valueOf(item.getQty()));
                         int type =item.getStatus();
                         if(type==0){
                             type=1;
@@ -680,7 +681,8 @@ public class InventoryList extends BaseActivity {
                         item.isCheck=false;
                     }
                 }
-
+                inventory_list_num.setSelectAllOnFocus(true);
+                CommonUtil.setEditFocus(inventory_list_num);
             }
         } catch (Exception ex) {
             CommonUtil.setEditFocus(inventory_list_barcode);

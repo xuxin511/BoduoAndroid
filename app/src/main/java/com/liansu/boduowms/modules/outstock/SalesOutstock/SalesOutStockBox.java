@@ -352,7 +352,6 @@ public  class SalesOutStockBox   extends BaseActivity {
                             model.Materialno = barcode;
                             model.Erpvoucherno = CurrOrder;
                             model.PostUser = BaseApplication.mCurrentUserInfo.getUserno();
-
                             model.Vouchertype = CurrVoucherType;
                             String modelJson = parseModelToJson(model);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_Box_Submit, "提交物料中",

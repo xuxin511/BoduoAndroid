@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
@@ -236,7 +237,8 @@ public class SalesOutStockBoxList extends BaseActivity {
             MessageBox.Show(context, returnMsgModel.getResultValue());
             return;
         }
-        MessageBox.Show(context, "删除成功", 2, null);
+        Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+        //MessageBox.Show(context, "删除成功", 2, null);
         //   mAdapter.notifyDataSetChanged();
         final Map<String, String> map = new HashMap<String, String>();
         map.put("Erpvoucherno", CurrOrder);

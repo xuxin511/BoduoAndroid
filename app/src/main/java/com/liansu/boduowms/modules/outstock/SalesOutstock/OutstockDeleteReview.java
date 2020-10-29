@@ -295,7 +295,8 @@ public class OutstockDeleteReview extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
             }
             mModel = new OutStockDeleteReviewModel();
-            MessageBox.Show(context, "删除成功");
+          //  MessageBox.Show(context, "删除成功");
+            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
             //重新获取信息
             InitOrder(CurrOrder, DeleteType);
         } catch (Exception ex) {
