@@ -186,8 +186,6 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
         } else {
             orderRefer();
         }
-
-
     }
 
     /**

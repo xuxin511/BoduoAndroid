@@ -1,13 +1,10 @@
 package com.liansu.boduowms.modules.outstock.SalesOutstock;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,24 +23,15 @@ import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
-import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
-import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.OutStockDeleteReviewAdapter;
 import com.liansu.boduowms.modules.outstock.Model.OutStockDeleteReviewModel;
-import com.liansu.boduowms.modules.outstock.Model.Pair;
-import com.liansu.boduowms.modules.outstock.Model.SalesoutstockAdapter;
-import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxAdapter;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
-import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
-import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
-import org.w3c.dom.Text;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -51,20 +39,12 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import ch.qos.logback.core.joran.spi.ElementSelector;
-
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_box;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pallet;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_GETBOXlISTl;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ReviewOrder;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Outstock_DeleteMaterial;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Saleoutstock_OneReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Outstock_DeleteMaterial;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_GETBOXlIST;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_ReviewOrder;
@@ -295,7 +275,8 @@ public class OutstockDeleteReview extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
             }
             mModel = new OutStockDeleteReviewModel();
-            MessageBox.Show(context, "删除成功");
+          //  MessageBox.Show(context, "删除成功");
+            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
             //重新获取信息
             InitOrder(CurrOrder, DeleteType);
         } catch (Exception ex) {

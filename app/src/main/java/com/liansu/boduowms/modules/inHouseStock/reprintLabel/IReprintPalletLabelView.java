@@ -9,8 +9,23 @@ import java.util.List;
  * @ Created by yangyiqing on 2020/8/23.
  */
 public interface IReprintPalletLabelView {
-     void bindListView(List<StockInfo> list);
-     void onContentFocus();
-     int getQueryType();
-     void onReset();
+    void bindListView(List<StockInfo> list);
+
+    void onBarcodeFocus();
+
+    void onBatchNoFocus();
+
+    void onAreaNoFocus();
+
+    void onMaterialNoFocus();
+
+    void setBatchNo(String batchNo);
+
+    boolean checkBatchNo(String batchNo);
+
+    void onReset();
+
+    String getBarcode();
+
+    String getBatchNo();
 }

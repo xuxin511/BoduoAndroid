@@ -32,19 +32,22 @@ public class RequestHandler {
     private static void addRequest(
             int method, String tag,
             final Handler handler, final int what,
-            final Bundle bundle, String url, final String params, final Map<String, String> header,
+            final Bundle bundle, final String url, final String params, final Map<String, String> header,
             final NetWorkRequestListener listener) {
-        String uuid= UUID.randomUUID().toString()+tag;
+        final String uuid= UUID.randomUUID().toString()+tag;
         listener.onPreRequest();
+        LogUtil.WriteLog(RequestHandler.class, uuid, "请求数据:"+url+"\n\r"+params);
         JsonStringRequest JsonRequest = new JsonStringRequest(method, url, params, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                LogUtil.WriteLog(RequestHandler.class, uuid, "返回数据:"+response);
                 onVolleyResponse(response, handler, what, bundle);
                 listener.onResponse();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                LogUtil.WriteLog(RequestHandler.class, uuid, "返回数据:"+VolleyErrorHelper.getMessage(volleyError, context));
                 onVolleyErrorResponse(volleyError, listener, handler, bundle);
             }
         });
@@ -66,9 +69,7 @@ public class RequestHandler {
     public static void addRequestWithDialog(
             final int method, final String tag, final String LoadText, Context context, final Handler handler, final int what, final Bundle bundle,
             final String url, final String params, final Map<String, String> header) {
-        addRequest(method, tag, handler, what, bundle, url, params, header, new DefaultDialogRequestListener(context, LoadText) {
-
-        });
+        addRequest(method, tag, handler, what, bundle, url, params, header, new DefaultDialogRequestListener(context, LoadText) {        });
     }
 
     private static void addRequest(
@@ -80,18 +81,21 @@ public class RequestHandler {
             url = NetworkHelper.getUrlWithParams(url, params);
         }
         listener.onPreRequest();
-        String uuid= UUID.randomUUID().toString()+tag;
+        final String uuid= UUID.randomUUID().toString()+tag;
+        LogUtil.WriteLog(RequestHandler.class, uuid, "请求数据:"+url+"\n\r"+params);
         String para = (new org.json.JSONObject(params)).toString();
         try {
             JsonStringRequest JsonRequest = new JsonStringRequest(method, url, para, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    LogUtil.WriteLog(RequestHandler.class, uuid, "返回数据:"+response);
                     onVolleyResponse(response, handler, what, bundle);
                     listener.onResponse();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
+                    LogUtil.WriteLog(RequestHandler.class, uuid, "返回数据:"+VolleyErrorHelper.getMessage(volleyError, context));
                     onVolleyErrorResponse(volleyError, listener, handler, bundle);
                 }
             });
@@ -129,18 +133,21 @@ public class RequestHandler {
             url = NetworkHelper.getUrlWithObjectParams(url, params);
         }
         listener.onPreRequest();
-        String uuid= UUID.randomUUID().toString()+tag;
+        final String uuid= UUID.randomUUID().toString()+tag;
         String para = (new org.json.JSONObject(params)).toString();
+        LogUtil.WriteLog(RequestHandler.class, uuid, "请求数据:"+url+"\n\r"+params);
         try {
             JsonStringRequest JsonRequest = new JsonStringRequest(method, url, para, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    LogUtil.WriteLog(RequestHandler.class, uuid, "返回数据:"+response);
                     onVolleyResponse(response, handler, what, bundle);
                     listener.onResponse();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
+                    LogUtil.WriteLog(RequestHandler.class, uuid, "返回数据:"+VolleyErrorHelper.getMessage(volleyError, context));
                     onVolleyErrorResponse(volleyError, listener, handler, bundle);
                 }
             });

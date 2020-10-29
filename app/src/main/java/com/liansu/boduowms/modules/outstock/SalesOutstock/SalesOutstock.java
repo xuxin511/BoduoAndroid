@@ -309,8 +309,12 @@ public class SalesOutstock  extends BaseActivity  {
             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
             model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
             String json = GsonUtil.parseModelToJson(model);
-            RequestHandler.addRequest(Request.Method.POST, TAG_Saleoutstock_SelectNO, mHandler, RESULT_Saleoutstock_SalesNO,
-                    null, info.SalesOutstock_ScanningNo, json, null);
+//            RequestHandler.addRequest(Request.Method.POST, TAG_Saleoutstock_SelectNO, mHandler, RESULT_Saleoutstock_SalesNO,
+//                    null, info.SalesOutstock_ScanningNo, json, null);
+
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单号中",
+                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+            //return true;
         }
     }
 

@@ -99,7 +99,74 @@
         android:layout_marginTop="@dimen/base_order_label_print_margin_top"
         android:layout_marginRight="8dp"
         android:ems="10"
-        android:hint="@string/query_content_hint"
+        android:hint="@string/reprint_pallet_label_barcode_hint"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline2"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/reprint_pallet_label_area_no" />
+
+
+
+    <EditText
+        android:id="@+id/reprint_pallet_label_area_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/reprint_pallet_label_area_no_hint"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline2"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/reprint_pallet_label_batch_no" />
+
+
+
+
+    <TextView
+        android:id="@+id/reprint_pallet_label_area_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:text="@string/quality_inspection_area_no_desc"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/reprint_pallet_label_area_no"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/reprint_pallet_label_area_no" />
+
+
+
+    <TextView
+        android:id="@+id/reprint_pallet_label_material_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:text="@string/reprint_pallet_label_material_no"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/reprint_pallet_label_material_no"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/reprint_pallet_label_material_no" />
+
+    <EditText
+        android:id="@+id/reprint_pallet_label_material_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/reprint_pallet_label_material_no_hint"
         android:textSize="@dimen/base_order_label_print_select_text_size"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/guideline2"
@@ -107,6 +174,35 @@
         app:layout_constraintTop_toBottomOf="@+id/query_stock_select_qr_status_desc" />
 
 
+    <EditText
+        android:id="@+id/reprint_pallet_label_batch_no"
+        style="@style/EditTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/common_layout_height_second"
+        android:layout_marginTop="@dimen/base_order_label_print_margin_top"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/reprint_pallet_label_batch_hint"
+        android:textSize="@dimen/base_order_label_print_select_text_size"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/guideline2"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/reprint_pallet_label_material_no" />
+
+    <TextView
+        android:id="@+id/reprint_pallet_label_batch_no_desc"
+        style="@style/TextViewComminStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:text="@string/reprint_pallet_label_batch_no"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="@+id/reprint_pallet_label_batch_no"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/reprint_pallet_label_batch_no" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_query_stock_recyclerView"
         android:layout_width="0dp"
@@ -115,13 +211,27 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/activity_query_stock_query_button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_query_stock_content"
         app:layout_constraintVertical_bias="1.0" />
 
+
+    <Button
+        android:id="@+id/activity_query_stock_query_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bt_selector"
+        android:text="@string/stock_query"
+        android:textColor="@color/white"
+        android:textSize="@dimen/common_text_size_first"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline11"
+        app:layout_constraintRight_toRightOf="@+id/guideline7" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -151,5 +261,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.01" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,8 @@ package com.liansu.boduowms.modules.inHouseStock.query;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -30,6 +32,7 @@ import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.VoucherTypeInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
+import com.liansu.boduowms.modules.inHouseStock.reprintLabel.ReprintPalletLabel;
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
@@ -628,6 +631,10 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_setting, menu);
+        MenuItem menuItem=menu.findItem(R.id.menu_order_reprint);
+        if (menuItem!=null){
+            menuItem.setVisible(true);
+        }
         return true;
     }
 
@@ -636,6 +643,12 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
+        }else if (item.getItemId() ==R.id.menu_order_reprint){
+            Intent intent = new Intent(mContext, ReprintPalletLabel.class);
+            Bundle bundle = new Bundle();
+            intent.putExtra("Title","标签补打");
+            intent.putExtras(bundle);
+            startActivityLeft(intent);
         }
         return false;
     }

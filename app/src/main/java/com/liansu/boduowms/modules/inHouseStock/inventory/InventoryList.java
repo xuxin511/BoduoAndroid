@@ -1,14 +1,10 @@
 package com.liansu.boduowms.modules.inHouseStock.inventory;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
-import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,16 +26,12 @@ import com.liansu.boduowms.base.ToolBarTitle;
 import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
-import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
-import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryConfigAdapter;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryListAdapter;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.T_Parameter;
 import com.liansu.boduowms.modules.outstock.Model.Pair;
 import com.liansu.boduowms.modules.outstock.Model.PairAdapter;
-import com.liansu.boduowms.modules.outstock.Model.SalesoutstockBoxListRequery;
 import com.liansu.boduowms.ui.dialog.MessageBox;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.CommonUtil;
@@ -58,18 +50,12 @@ import java.util.List;
 import java.util.Map;
 
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetBarcodeInfo;
-import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryConfig_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryDetail_Save_CheckDetail;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_InventoryList_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.RESULT_Project_GetParameter;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetBarcodeInfo;
-import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryConfig_GetWarehouse;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_InventoryDetail_Save_CheckDetail;
 import static com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryTag.TAG_Project_GetParameter;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_DelBox;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Saleoutstock_PrintBox;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_DelBox;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PrintBox;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
@@ -153,8 +139,9 @@ public class InventoryList extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus==true) {
+                   // CommonUtil.setEditFocus(inventory_list_num);
                     inventory_list_num.setSelectAllOnFocus(true);
-                    // CommonUtil.setEditFocus(inventory__config_num);
+                  //  CommonUtil.setEditFocus(inventory__config_num);
                 }
             }
         });
@@ -656,7 +643,7 @@ public class InventoryList extends BaseActivity {
                 for (InventoryModel item : listModel) {
                     if (item.isCheck) {//找到之前选中的值赋值
                         if (inventory_list_num.getText().toString().trim().equals("")) {
-                            item.setScannQty(0f);
+                            item.setScannQty(item.getQty());
                         } else {
                             Float aFloat = Float.parseFloat(inventory_list_num.getText().toString().trim());
                             item.setScannQty(aFloat);
@@ -668,7 +655,7 @@ public class InventoryList extends BaseActivity {
                 for (InventoryModel item : listModel) {
                     if (item == listModel.get(0)) {
                         item.isCheck=true;
-                        inventory_list_num.setText(item.getScannQty().toString());
+                        inventory_list_num.setText(String.valueOf(item.getQty()));
                         int type =item.getStatus();
                         if(type==0){
                             type=1;
@@ -680,7 +667,8 @@ public class InventoryList extends BaseActivity {
                         item.isCheck=false;
                     }
                 }
-
+                inventory_list_num.setSelectAllOnFocus(true);
+                CommonUtil.setEditFocus(inventory_list_num);
             }
         } catch (Exception ex) {
             CommonUtil.setEditFocus(inventory_list_barcode);

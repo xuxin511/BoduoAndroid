@@ -1,5 +1,6 @@
 package com.liansu.boduowms.modules.instock.activeOtherStorage.scan;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Message;
@@ -149,6 +150,35 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
             });
             return;
         }
+        //校验订单是否全部扫描
+        BaseMultiResultInfo<Boolean, Void> isOrderFinished = mModel.isOrderScanFinished();
+        if (!isOrderFinished.getHeaderStatus()) {
+            new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage("单据未全部扫描完毕,是否继续提交?")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            orderRefer();
+                        }
+                    }).setNegativeButton("取消", null).show();
+
+        }else {
+            orderRefer();
+        }
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mView.onErpVoucherNoFocus();
+        final String erpVoucherNo = mView.getErpVoucherNo();
+        if (erpVoucherNo != null && !erpVoucherNo.equals("")) {
+            getOrderDetailInfoList(erpVoucherNo);
+        }
+    }
+
+    public  void  orderRefer(){
         OrderDetailInfo firstDetailInfo = mModel.getOrderDetailList().get(0);
         if (firstDetailInfo != null) {
             OrderDetailInfo postInfo = new OrderDetailInfo();
@@ -195,18 +225,6 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
 
                 }
             });
-        }
-
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mView.onErpVoucherNoFocus();
-        final String erpVoucherNo = mView.getErpVoucherNo();
-        if (erpVoucherNo != null && !erpVoucherNo.equals("")) {
-            getOrderDetailInfoList(erpVoucherNo);
         }
     }
 }
