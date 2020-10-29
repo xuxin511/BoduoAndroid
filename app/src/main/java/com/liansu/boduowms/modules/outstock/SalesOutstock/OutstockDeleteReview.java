@@ -156,9 +156,12 @@ public class OutstockDeleteReview extends BaseActivity {
         info.InitUrl(type);
         CurrvoucherType = type;
         modelList = new ArrayList<OutStockDeleteReviewModel>();
-        CurrOrder =model.ErpVoucherNo;
+        CurrOrder = model.ErpVoucherNo;
         orderText.setText(model.ErpVoucherNo);
-        DeleteType=1;
+        DeleteType = 1;
+        if (type != 29) {
+            radioGroup.setVisibility(View.INVISIBLE);
+        }
         InitOrder(CurrOrder, DeleteType);
     }
 

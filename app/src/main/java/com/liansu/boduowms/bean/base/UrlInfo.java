@@ -202,7 +202,8 @@ public class UrlInfo {
                 // GetT_OutStockDetailListADFAsync
                 GetT_DetailSubAsync = GetWCFAdress() + "OutStock/Return_PalletNoByErpno"; //获取采购暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "OutStock/Return_DelPalletNo"; //删除采购暂存数据
-
+                   Outstock_GetpackagecartonList = GetWCFAdress() + "OutStock/GetReviewPackage_CartonADFAsync"; //复核获取拼箱数据
+                   Outstock_DelReviewByMaterial = GetWCFAdress() + "OutStock/Return_DelReviewByMaterial"; //删除复核物料数据
                 SalesOutstock_Review_ScanningNo = GetWCFAdress() + "OutStock/GetT_CheckDispatchDetailListADFAsync";//获取复核单据
                 SalesOutstock_ScanningNo = GetWCFAdress() + "OutStock/GetT_DispatchkDetailListADFAsync"; //下架获取订单数据
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OutStock/PostT_OutStockDetailADFAsync"; //复核过账
@@ -244,6 +245,8 @@ public class UrlInfo {
                 SalesOutstock__Review_Submit = GetWCFAdress() + "OtherOut/PostT_OutStockDetailADFAsync"; //复核过账
                 break;
             case 27://仓退
+                Outstock_GetpackagecartonList = GetWCFAdress() + "PurchaseReturn/Return_PalletNoByErpno"; //复核获取拼箱数据
+                Outstock_DelReviewByMaterial = GetWCFAdress() + "PurchaseReturn/Return_DelReviewByMaterial"; //删除复核物料数据
                 GetT_DetailSubAsync = GetWCFAdress() + "PurchaseReturn/Return_PalletNoByErpno"; //获取采购暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "PurchaseReturn/Return_DelPalletNo"; //删除采购暂存数据
                 SalesOutstock_Review_ScanningNo = GetWCFAdress() + "PurchaseReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
@@ -256,10 +259,10 @@ public class UrlInfo {
             case 61:
             case 62:
                 //采购验退,成品 销售
-//                Outstock_DelReviewByMaterial = GetWCFAdress() + "InspecReturn/Return_DelReviewByMaterial"; //删除复核物料数据
-//                Outstock_DelReviewBypackageCarton = GetWCFAdress() + "InspecReturn/DelReviewPackage_CartonADFAsync"; //删除复核拼箱数据
                 GetT_DetailSubAsync = GetWCFAdress() + "InspecReturn/Return_PalletNoByErpno"; //获取采购暂存数据
                 DeleteT_DetailSubAsync = GetWCFAdress() + "InspecReturn/Return_DelPalletNo"; //删除采购暂存数据
+                Outstock_GetpackagecartonList = GetWCFAdress() + "InspecReturn/Return_PalletNoByErpno"; //复核获取拼箱数据
+                Outstock_DelReviewByMaterial = GetWCFAdress() + "InspecReturn/Return_DelReviewByMaterial"; //删除复核物料数据
                 SalesOutstock_Review_ScanningNo = GetWCFAdress() + "InspecReturn/GetT_CheckOutStockDetailListADFAsync";//获取复核单据
                 SalesOutstock__SubmitBarcode = GetWCFAdress() + "InspecReturn/SubmitReviewScanADFAsync"; //复核条码提交
                 SalesOutstock_ScanningNo = GetWCFAdress() + "InspecReturn/GetT_OutStockDetailListADFAsync"; //订单扫描
