@@ -14,7 +14,6 @@ import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
-import com.liansu.boduowms.modules.inHouseStock.query.QueryStock;
 import com.liansu.boduowms.modules.instock.baseInstockReturnBusiness.scan.InStockReturnStorageScan;
 import com.liansu.boduowms.modules.instock.batchPrint.print.BaseOrderLabelPrint;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan;
@@ -48,10 +47,11 @@ public class ReprintPalletLabelPresenter {
 
     }
 
-    public ReprintPalletLabelPresenter(Context context, IReprintPalletLabelView view, MyHandler<BaseActivity> handler) {
+    public ReprintPalletLabelPresenter(Context context, IReprintPalletLabelView view, MyHandler<BaseActivity> handler,int voucherType) {
         this.mContext = context;
         this.mView = view;
         this.mModel = new ReprintPalletLabelModel(context, handler);
+        this.mModel.setVoucherType(voucherType);
         this.mHandler = handler;
     }
 
@@ -391,7 +391,7 @@ public class ReprintPalletLabelPresenter {
         StockInfo postInfo = new StockInfo();
         if (barcode != null && !barcode.equals("")) {
             postInfo.setBarcode(barcode);
-        }else {
+        } else {
             if (materialInfo != null && materialInfo.getMaterialno() != null) {
                 postInfo.setMaterialno(materialInfo.getMaterialno());
             }
@@ -484,13 +484,16 @@ public class ReprintPalletLabelPresenter {
             }
             if (stockInfo != null) {
                 final OutBarcodeInfo postInfo = new OutBarcodeInfo();
+                postInfo.setQty(stockInfo.getQty());
                 postInfo.setBarcode(stockInfo.getBarcode());
                 postInfo.setSerialno(stockInfo.getSerialno());
                 postInfo.setBatchno(stockInfo.getBatchno());
                 postInfo.setMaterialno(stockInfo.getMaterialno());
                 postInfo.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
+                postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
                 postInfo.setPrintertype(UrlInfo.mInStockPrintType);
                 postInfo.setPrintername(UrlInfo.mInStockPrintName);
+                postInfo.setVouchertype(mModel.getVoucherType());
                 MessageBox.Show2(mContext, "是否确定打印托盘码,打印张数：1", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -522,7 +525,6 @@ public class ReprintPalletLabelPresenter {
             mModel.requestReprintPalletInfo(postInfo, new NetCallBackListener<String>() {
                 @Override
                 public void onCallBack(String result) {
-                    LogUtil.WriteLog(QueryStock.class, mModel.TAG_REPRINT_PALLET_LABEL, result);
                     try {
                         LogUtil.WriteLog(BaseOrderLabelPrint.class, mModel.TAG_REPRINT_PALLET_LABEL, result);
                         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
@@ -559,7 +561,7 @@ public class ReprintPalletLabelPresenter {
     }
 
 
-    public void  listViewClear(){
+    public void listViewClear() {
         mModel.setStockInfoList(null);
         mView.bindListView(mModel.getStockInfoList());
     }

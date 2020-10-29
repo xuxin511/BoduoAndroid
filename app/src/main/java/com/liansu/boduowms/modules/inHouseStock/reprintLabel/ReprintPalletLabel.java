@@ -16,6 +16,7 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.StockInfo;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
@@ -80,8 +81,9 @@ public class ReprintPalletLabel extends BaseActivity implements IReprintPalletLa
     @Override
     protected void initData() {
         super.initData();
+        int voucherType = getIntent().getIntExtra("VoucherType", OrderType.ORDER_TYPE_NONE_VALUE);
         if (mPresenter == null) {
-            mPresenter = new ReprintPalletLabelPresenter(mContext, this, mHandler);
+            mPresenter = new ReprintPalletLabelPresenter(mContext, this, mHandler,voucherType);
         }
         onMaterialNoFocus();
     }

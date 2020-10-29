@@ -16,6 +16,7 @@ import com.liansu.boduowms.modules.inHouseStock.inventory.InventoryHead;
 import com.liansu.boduowms.modules.inHouseStock.inventory.InventoryScann;
 import com.liansu.boduowms.modules.inHouseStock.inventoryMovement.InventoryMovementScan;
 import com.liansu.boduowms.modules.inHouseStock.query.QueryStock;
+import com.liansu.boduowms.modules.inHouseStock.reprintLabel.ReprintPalletLabel;
 import com.liansu.boduowms.modules.instock.baseInstockReturnBusiness.scan.InStockReturnStorageScan;
 import com.liansu.boduowms.modules.instock.baseInstockReturnBusiness.scan.InStockReturnsStorageScanModel;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.bill.BaseOrderBillChoice;
@@ -365,6 +366,12 @@ public class MenuModel {
             else if(voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_REPLENISHMENT){
                 icon = R.drawable.b_in_stock_house_replenishment;
             }
+            //77 标签补打
+            else if(voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_REPRINT_PALLET_LABEL){
+                icon = R.drawable.b_batch_print;
+            }
+
+
             if (icon != -1) {
                 item.setIcon(icon);
             }
@@ -604,6 +611,13 @@ public class MenuModel {
             //75 补货
             else if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_REPLENISHMENT) {
                 intent.setClass(mContext, InStockHouseReplenishment.class);
+                intent.putExtra("Title", info.getTitle());
+                intent.putExtra("VoucherType", voucherType);
+            }
+
+            //77 标签补打
+            else if(voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_REPRINT_PALLET_LABEL){
+                intent.setClass(mContext, ReprintPalletLabel.class);
                 intent.putExtra("Title", info.getTitle());
                 intent.putExtra("VoucherType", voucherType);
             }

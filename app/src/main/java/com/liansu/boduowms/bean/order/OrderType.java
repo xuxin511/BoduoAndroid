@@ -78,6 +78,7 @@ public class OrderType {
     public final static int IN_HOUSE_STOCK_ORDER_TYPE_OPEN_INVENTORY      = 73;//明盘
     public final static int IN_HOUSE_STOCK_ORDER_TYPE_BEGINNING_INVENTORY = 74;//期初盘点
     public final static int IN_HOUSE_STOCK_ORDER_TYPE_REPLENISHMENT       = 75;//补货
+    public final static int IN_HOUSE_STOCK_ORDER_TYPE_REPRINT_PALLET_LABEL       = 77;//标签补打
     public final static int ORDER_TYPE_NONE_VALUE                         = -1;//未选择单据类型
 
 

@@ -631,10 +631,10 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_setting, menu);
-        MenuItem menuItem=menu.findItem(R.id.menu_order_reprint);
-        if (menuItem!=null){
-            menuItem.setVisible(true);
-        }
+//        MenuItem menuItem=menu.findItem(R.id.menu_order_reprint);
+//        if (menuItem!=null){
+//            menuItem.setVisible(true);
+//        }
         return true;
     }
 
