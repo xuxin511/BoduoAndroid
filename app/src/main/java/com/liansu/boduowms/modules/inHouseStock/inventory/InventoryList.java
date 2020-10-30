@@ -273,7 +273,7 @@ public class InventoryList extends BaseActivity {
 
     //数量回车事件
     @Event(value = R.id.inventory_list_num,type = EditText.OnKeyListener.class)
-    private  boolean kedowm(View v, int keyCode, KeyEvent event){
+    private  boolean kedowm(View v, int keyCode, KeyEvent event) {
         View vFocus = v.findFocus();
         int etid = vFocus.getId();
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == inventory_list_num.getId()) {
@@ -283,7 +283,7 @@ public class InventoryList extends BaseActivity {
                     MessageBox.Show(context, "请先扫描库位");
                     return true;
                 }
-                if(listModel.size()==0){
+                if (listModel.size() == 0) {
                     CommonUtil.setEditFocus(inventory_list_warehouse);
                     MessageBox.Show(context, "当前列表不存在数据，请确认");
                     return true;
@@ -298,21 +298,22 @@ public class InventoryList extends BaseActivity {
                             Float aFloat = Float.parseFloat(inventory_list_num.getText().toString().trim());
                             item.setScannQty(aFloat);
                         }
-                        int status =Integer.parseInt(ywpair.value);
+                        int status = Integer.parseInt(ywpair.value);
                         item.Status = status;
                     }
                 }
+                CommonUtil.setEditFocus(inventory_list_barcode);
                 mAdapter.notifyDataSetChanged();
                 return true;
 
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 inventory_list_num.setSelectAllOnFocus(true);
                 CommonUtil.setEditFocus(inventory_list_num);
                 MessageBox.Show(context, "请输入正确数量");
                 return true;
             }
         }
-        return  false;
+        return false;
     }
 
 
@@ -369,7 +370,7 @@ public class InventoryList extends BaseActivity {
                     for (InventoryModel item : listModel) {
                         if (item.getBarcode().equals(barcode)) {
                             item.isCheck = true;
-                            inventory_list_num.setText(item.getScannQty().toString());
+                            inventory_list_num.setText(item.getQty().toString());
                             int type = item.getStatus();
                             if(type==0){
                                 type=1;
@@ -384,6 +385,9 @@ public class InventoryList extends BaseActivity {
                     mList.smoothScrollToPosition(count);
                     mAdapter.notifyDataSetChanged();
                     Toast.makeText(context, "已经定位到该托盘", Toast.LENGTH_SHORT).show();
+                    inventory_list_num.setSelectAllOnFocus(true);
+                    CommonUtil.setEditFocus(inventory_list_num);
+                    return true;
                 }
 
             } catch (Exception ex) {
@@ -667,6 +671,7 @@ public class InventoryList extends BaseActivity {
                         item.isCheck=false;
                     }
                 }
+                mList.smoothScrollToPosition(0);
                 inventory_list_num.setSelectAllOnFocus(true);
                 CommonUtil.setEditFocus(inventory_list_num);
             }
