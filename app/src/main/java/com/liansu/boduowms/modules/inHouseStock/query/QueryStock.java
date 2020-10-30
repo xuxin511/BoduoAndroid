@@ -796,9 +796,10 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
                 postInfo.setSerialno(scanInfo.getSerialno());
 //                postInfo.setBarcode(info.getBarcode());
 //                postInfo.setSerialno(info.getSerialno());
+                postInfo.setQty(scanInfo.getQty());
                 postInfo.setBatchno(info.getBatchno());
                 postInfo.setMaterialno(info.getMaterialno());
-                postInfo.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
+                postInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
                 postInfo.setPrintertype(UrlInfo.mInStockPrintType);
                 postInfo.setPrintername(UrlInfo.mInStockPrintName);
                 MessageBox.Show2(mContext, "是否确定打印托盘码,打印张数：1", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {

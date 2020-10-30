@@ -489,8 +489,7 @@ public class ReprintPalletLabelPresenter {
                 postInfo.setSerialno(stockInfo.getSerialno());
                 postInfo.setBatchno(stockInfo.getBatchno());
                 postInfo.setMaterialno(stockInfo.getMaterialno());
-                postInfo.setCreater(BaseApplication.mCurrentUserInfo.getUserno());
-                postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
+                postInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
                 postInfo.setPrintertype(UrlInfo.mInStockPrintType);
                 postInfo.setPrintername(UrlInfo.mInStockPrintName);
                 postInfo.setVouchertype(mModel.getVoucherType());
