@@ -403,11 +403,16 @@ public class InventoryScann extends BaseActivity {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
             } else {
                 listModel = returnMsgModel.getData();
-                listModel.get(0).isCheck = true;
                 //更新列表
                 //更新下拉框
-                if( listModel.size()>0) {
+                if (listModel.size() > 0) {
+                    listModel.get(0).isCheck = true;
                     inventory_scann_num.setText(listModel.get(0).getQty().toString());
+                } else {
+                    MessageBox.Show(context, "请扫描正确的托盘码");
+                    inventory_scann_barcode.setSelectAllOnFocus(true);
+                    CommonUtil.setEditFocus(inventory_scann_barcode);
+                    return ;
                 }
             }
         } catch (Exception ex) {
