@@ -29,6 +29,7 @@ import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
 import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
+import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.order.VoucherTypeInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.bean.stock.StockInfo;
@@ -802,6 +803,7 @@ public class QueryStock extends BaseActivity implements IQueryStockView, RadioGr
                 postInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
                 postInfo.setPrintertype(UrlInfo.mInStockPrintType);
                 postInfo.setPrintername(UrlInfo.mInStockPrintName);
+                postInfo.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_REPRINT_PALLET_LABEL);
                 MessageBox.Show2(mContext, "是否确定打印托盘码,打印张数：1", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -289,6 +289,7 @@ public class InventoryMovementPresenter {
 
         List<StockInfo> postList = mModel.getStockInfoList();
         for (StockInfo info:postList){
+            info.setModifytime(null);
             info.setToareano(inMoveAreaNo);
             info.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
             info.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_MOVEMENT_VALUE);
