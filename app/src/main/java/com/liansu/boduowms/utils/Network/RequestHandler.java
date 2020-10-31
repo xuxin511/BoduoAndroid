@@ -10,10 +10,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.ui.dialog.LoadingDialog;
 import com.liansu.boduowms.utils.log.LogUtil;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,6 +32,9 @@ import static com.liansu.boduowms.base.BaseApplication.getRequestQueue;
 public class RequestHandler {
 
     public static int SOCKET_TIMEOUT = 90000;
+
+
+
 
     private static void addRequest(
             int method, String tag,

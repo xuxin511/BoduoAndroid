@@ -234,7 +234,6 @@ public class InventoryScann extends BaseActivity {
                 String modelJson = parseModelToJson(model);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_InventoryConfig_GetWarehouse, "获取库位信息",
                         context, mHandler, RESULT_InventoryConfig_GetWarehouse, null, UrlInfo.getUrl().Inventory_GetAreamodel, modelJson, null);
-
             } catch (Exception ex) {
                 CommonUtil.setEditFocus(inventory_scann_warehouse);
                 MessageBox.Show(context, ex.toString());
