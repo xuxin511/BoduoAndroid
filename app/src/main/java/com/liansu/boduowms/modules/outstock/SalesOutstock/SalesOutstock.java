@@ -692,6 +692,7 @@ public class SalesOutstock  extends BaseActivity  {
                 }else
                 {
                     MessageBox.Show(context, "批次集合数据为空");
+                    return;
                 }
             }
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
