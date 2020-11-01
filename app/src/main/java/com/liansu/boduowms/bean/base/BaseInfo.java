@@ -3,8 +3,6 @@ package com.liansu.boduowms.bean.base;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * @ Des: 数据基类
  * @ Created by yangyiqing on 2020/7/1.
@@ -17,7 +15,7 @@ public class BaseInfo implements Parcelable {
     protected String Creater ;
 //    protected Date   Createtime ;
     protected String Modifyer ;
-    protected Date Modifytime ;
+//    protected Date Modifytime ;
    public  BaseInfo(){}
     protected BaseInfo(Parcel in) {
         Id = in.readInt();
@@ -96,13 +94,13 @@ public class BaseInfo implements Parcelable {
         Modifyer = modifyer;
     }
 
-    public Date getModifytime() {
-        return Modifytime;
-    }
-
-    public void setModifytime(Date modifytime) {
-        Modifytime = modifytime;
-    }
+//    public Date getModifytime() {
+//        return Modifytime;
+//    }
+//
+//    public void setModifytime(Date modifytime) {
+//        Modifytime = modifytime;
+//    }
 
     @Override
     public int describeContents() {

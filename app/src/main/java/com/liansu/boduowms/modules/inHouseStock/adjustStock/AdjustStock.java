@@ -168,6 +168,7 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
             mCurrentStockInfo.setStatus(QCStatusType);
             mCurrentStockInfo.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE);
         }
+//        mCurrentStockInfo.setModifytime(null);
         if (isBtnDelete) {
             new AlertDialog.Builder(mContext).setCancelable(false).setTitle("提示").setIcon(android.R.drawable.ic_dialog_info).setMessage("是否删除库存？\n" + mCurrentStockInfo.getBarcode())
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {

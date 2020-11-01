@@ -233,6 +233,7 @@ public class InstockCombinePalletPresenter {
             MessageBox.Show(mContext, "不能全部删除该托盘码上的物料!至少保留一个物料");
             return;
         }
+
         CombinePalletInfo postInfo = new CombinePalletInfo();
         postInfo.setTargetPalletNo(mModel.getTargetPalletInfoList().get(0).getBarcode());
         postInfo.setCombinePalletType(mView.getCombinePalletType());
@@ -240,7 +241,6 @@ public class InstockCombinePalletPresenter {
         postInfo.setPrintertype(UrlInfo.mInStockPrintType);
         postInfo.setPrintername(UrlInfo.mInStockPrintName);
         postInfo.setStockList(selectedList);
-
         mModel.requestDisCombineOrderRefer(postInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
