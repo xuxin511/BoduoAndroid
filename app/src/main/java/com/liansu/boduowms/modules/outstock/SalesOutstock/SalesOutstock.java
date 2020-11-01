@@ -303,7 +303,7 @@ public class SalesOutstock  extends BaseActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        if (CurrOrderNO != "") {
+        if (!CurrOrderNO.equals("") && CurrOrderNO!=null) {
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;

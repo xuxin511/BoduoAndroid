@@ -232,7 +232,7 @@ public  class SalesOutStockBox   extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!CurrOrder.equals("")) {
+        if (!CurrOrder.equals("")&& CurrOrder !=null) {
             SalesoutStcokboxRequery model = new SalesoutStcokboxRequery();
             model.Erpvoucherno = CurrOrder;
             model.Vouchertype = CurrVoucherType;

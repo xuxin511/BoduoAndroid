@@ -184,7 +184,7 @@ public class OutstockConfigreview extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!CurrOrderNO.equals("")){
+        if(!CurrOrderNO.equals("")&&CurrOrderNO !=null){
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
@@ -409,8 +409,9 @@ public class OutstockConfigreview extends BaseActivity {
                 return;
             }
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
+
                 //   CommonUtil.setEditFocus(sales_outstock_);
-                // MessageBox.Show(context, returnMsgModel.getResultValue());
+                MessageBox.Show(context, returnMsgModel.getResultValue());
                 //清空
               //  MessageBox.Show(context, returnMsgModel.getResultValue());
 
@@ -500,6 +501,7 @@ public class OutstockConfigreview extends BaseActivity {
             if(judge!=1){
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, "物料不存在当前复核数据中");
+                return;
             }
             //库存
            // inputTitleDialog("输入散件数量");
@@ -736,7 +738,7 @@ public class OutstockConfigreview extends BaseActivity {
             }
         if (strarr.length == 4||strarr.length==3||strarr.length==2) {
             if(strarr.length==4){
-            if (strarr[3].equals(OutStock_Submit_type_box))//拼箱
+            if (strarr[3].equals(OutStock_Submit_type_box))
                 return OutStock_Submit_type_box;
             }
             else {

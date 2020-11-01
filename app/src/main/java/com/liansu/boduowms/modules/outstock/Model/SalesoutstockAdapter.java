@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.order.OutStockOrderDetailInfo;
 import com.liansu.boduowms.modules.inHouseStock.inventory.Model.InventoryModel;
+import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 
 import java.util.ArrayList;
@@ -43,11 +44,18 @@ public class SalesoutstockAdapter extends BaseAdapter {
         this.outStockTaskDetailsInfoModels = outStockTaskDetailsInfoModels;
         Iterator<OutStockOrderDetailInfo> it = this.outStockTaskDetailsInfoModels.iterator();
         List<OutStockOrderDetailInfo> list = new ArrayList<OutStockOrderDetailInfo>();
+        List<OutStockOrderDetailInfo> REDlist = new ArrayList<OutStockOrderDetailInfo>();
         while (it.hasNext()) {
             OutStockOrderDetailInfo model = it.next();
             if (model.getRemainqty() == 0) {
-                list.add(model);
-                it.remove();
+//                if(model.getVoucherqty()<0&& model.getOutstockqty()==0&&model.getRemainqty()==0){
+//                    REDlist.add(model);
+//                    it.remove();
+//                }else{
+                    list.add(model);
+                    it.remove();
+               // }
+
             }
         }
         int i = outStockTaskDetailsInfoModels.size();
@@ -55,6 +63,11 @@ public class SalesoutstockAdapter extends BaseAdapter {
             outStockTaskDetailsInfoModels.add(i, item);
             i++;
         }
+//        int j = outStockTaskDetailsInfoModels.size();
+//        for (OutStockOrderDetailInfo item : REDlist) {
+//            outStockTaskDetailsInfoModels.add(j, item);
+//            j++;
+//        }
 
     }
 
@@ -114,10 +127,16 @@ public class SalesoutstockAdapter extends BaseAdapter {
         if(mDetailInfo.getBatchno()!=null)
             batchno=mDetailInfo.getBatchno();
         listItemView.txtbatchno.setText("批次:" +batchno);
-        listItemView.txtVoucherQty.setText("下架量:" + mDetailInfo.getVoucherqty());
+
         //listItemView.txtVoucherQty.setText("下架量:" + "11111111"+mDetailInfo.getUnit());
         listItemView.txtRemainQty.setText("剩余量:" + mDetailInfo.getRemainqty());
-        listItemView.txtScanQty.setText("已下架:" + mDetailInfo.getScanqty());
+        if(mDetailInfo.getVoucherqty()<0&& mDetailInfo.getOutstockqty()==0&&mDetailInfo.getRemainqty()==0) {
+            listItemView.txtVoucherQty.setText("下架量:0");
+            listItemView.txtScanQty.setText("已超领:" + ArithUtil.sub(0f, mDetailInfo.getVoucherqty()));
+        }else {
+            listItemView.txtVoucherQty.setText("下架量:" + mDetailInfo.getVoucherqty());
+            listItemView.txtScanQty.setText("已下架:" + mDetailInfo.getScanqty());
+        }
         listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
         listItemView.txtMaterialDesc.setText(mDetailInfo.getMaterialdesc());
         listItemView.unitno.setText("单位:"+mDetailInfo.getUnit());
@@ -133,7 +152,6 @@ public class SalesoutstockAdapter extends BaseAdapter {
 //        listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());
 //        listItemView.txtMaterialDesc.setText("物料名称:" + mDetailInfo.getMaterialdesc());
 
-
         if (mDetailInfo.getRemainqty() > 0 && mDetailInfo.getRemainqty() < mDetailInfo.getVoucherqty()) {
             convertView.setBackgroundResource(R.color.khaki);
         } else if (mDetailInfo.getRemainqty() == 0) {
@@ -141,6 +159,9 @@ public class SalesoutstockAdapter extends BaseAdapter {
         } else {
             convertView.setBackgroundResource(R.color.trans);
         }
+//        if(mDetailInfo.getVoucherqty()<0&& mDetailInfo.getOutstockqty()==0&&mDetailInfo.getRemainqty()==0){
+//            convertView.setBackgroundResource(R.color.colorAccent);
+//        }
         return convertView;
     }
 
