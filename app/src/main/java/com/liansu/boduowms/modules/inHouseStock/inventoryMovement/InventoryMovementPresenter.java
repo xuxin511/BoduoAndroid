@@ -186,7 +186,7 @@ public class InventoryMovementPresenter {
             return;
         }
         if (!areaNo.equals("")) {
-            onRefer();
+//            onRefer();
 //            getAreaInfo(areaNo, InventoryMovementModel.MOVE_TYPE_IN_AREA_NO);
         }
     }
