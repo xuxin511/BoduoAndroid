@@ -128,7 +128,7 @@ public class OutstockConfigreview extends BaseActivity {
     private AwyBll awyBll;
 
 
-    String  CurrOrderNO="";
+  String  CurrOrderNO="";
     @Override
     protected void initViews() {
         super.initViews();
@@ -206,18 +206,18 @@ public class OutstockConfigreview extends BaseActivity {
         // MessageBox.Show(context, "订单未全部复核完成");
         //     MessageBox.Show(context, "订单未扫描,不能过账");
 
-        //  } else {
-        if(!IsScanningOver()){
-            //全部复核
-            ISSubmit("订单未全部复核完成，确认提交吗");
-        }else
-        {
-            //全部复核
-            ISSubmit("订单全部复核完成，确认提交吗");
+      //  } else {
+           if(!IsScanningOver()){
+               //全部复核
+               ISSubmit("订单未全部复核完成，确认提交吗");
+           }else
+           {
+               //全部复核
+               ISSubmit("订单全部复核完成，确认提交吗");
 
-        }
+           }
 
-        // }
+      // }
     }
 
 
