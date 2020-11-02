@@ -128,7 +128,7 @@ public class OutstockConfigreview extends BaseActivity {
     private AwyBll awyBll;
 
 
-  String  CurrOrderNO="";
+    String  CurrOrderNO="";
     @Override
     protected void initViews() {
         super.initViews();
@@ -200,28 +200,28 @@ public class OutstockConfigreview extends BaseActivity {
     //提交过账
     @Event(value =R.id.outstock_sales_configbutton_reviewsubmit)
     private void   Sales_outstock_review_Submit(View view) {
-      //  if (IsScanning()) {
-            //部分复核
-            //  CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
-            // MessageBox.Show(context, "订单未全部复核完成");
-       //     MessageBox.Show(context, "订单未扫描,不能过账");
+        //  if (IsScanning()) {
+        //部分复核
+        //  CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+        // MessageBox.Show(context, "订单未全部复核完成");
+        //     MessageBox.Show(context, "订单未扫描,不能过账");
 
-      //  } else {
-           if(!IsScanningOver()){
-               //全部复核
-               ISSubmit("订单未全部复核完成，确认提交吗");
-           }else
-           {
-               //全部复核
-               ISSubmit("订单全部复核完成，确认提交吗");
+        //  } else {
+        if(!IsScanningOver()){
+            //全部复核
+            ISSubmit("订单未全部复核完成，确认提交吗");
+        }else
+        {
+            //全部复核
+            ISSubmit("订单全部复核完成，确认提交吗");
 
-           }
+        }
 
-      // }
+        // }
     }
 
 
-     //条码回车
+    //条码回车
     @Event(value = R.id.sales_outstock_config_reviewbarcode,type = EditText.OnKeyListener.class)
     private  boolean palletKeyDowm(View v, int keyCode, KeyEvent event) {
         View vFocus = v.findFocus();
@@ -380,7 +380,7 @@ public class OutstockConfigreview extends BaseActivity {
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 /// 失败之后直接返回
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-               // closeActivity();
+                // closeActivity();
                 return;
             }
             //   CurrOrderNO = awyBll.LinkVoucherNo;
@@ -413,7 +413,7 @@ public class OutstockConfigreview extends BaseActivity {
                 //   CommonUtil.setEditFocus(sales_outstock_);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 //清空
-              //  MessageBox.Show(context, returnMsgModel.getResultValue());
+                //  MessageBox.Show(context, returnMsgModel.getResultValue());
 
 //                outstock_sales_jiancount.setText("0");
 //                outstock_sales_jianscanning.setText("0");
@@ -487,24 +487,23 @@ public class OutstockConfigreview extends BaseActivity {
             materialModle = returnMsgModel.getData();
             int judge=0;
             Float qty=0f;
-              for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
-                  if (materialModle.getMaterialno().equals(item.getMaterialno())) {
-                      judge=1;
-                       if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())<1){
-                           qty=ArithUtil.sub(item.getRemainqty(),item.getScanqty());
-                       }else{
-                           qty=1f;
-
-                       }
-                  }
-              }
+            for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
+                if (materialModle.getMaterialno().equals(item.getMaterialno())) {
+                    judge=1;
+                    if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())<1){//未装车数量小于1的情况
+                        qty=ArithUtil.sub(item.getRemainqty(),item.getScanqty());//给小数
+                    }else{
+                        qty=1f;
+                    }
+                }
+            }
             if(judge!=1){
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, "物料不存在当前复核数据中");
                 return;
             }
             //库存
-           // inputTitleDialog("输入散件数量");
+            // inputTitleDialog("输入散件数量");
             //直接打印 +1
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
@@ -596,7 +595,7 @@ public class OutstockConfigreview extends BaseActivity {
         CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
     }
 
-     //散件输入
+    //散件输入
     private void inputTitleDialog(String name) {
         final EditText inputServer = new EditText(this);
         inputServer.setSingleLine(true);
@@ -738,8 +737,8 @@ public class OutstockConfigreview extends BaseActivity {
             }
         if (strarr.length == 4||strarr.length==3||strarr.length==2) {
             if(strarr.length==4){
-            if (strarr[3].equals(OutStock_Submit_type_box))
-                return OutStock_Submit_type_box;
+                if (strarr[3].equals(OutStock_Submit_type_box))
+                    return OutStock_Submit_type_box;
             }
             else {
                 return OutStock_Submit_type_box;
