@@ -337,23 +337,34 @@ public class BaseOrderLabelPrintSelectModel extends BaseModel {
      * @time 2020/8/14 13:59
      */
     public List<String> getVoucherTypeNameList(int voucherType) {
+        String sKey=null;
+        String purchase_storage_name="";
         List<String> list = new ArrayList<>();
-//        list.add(ORDER_TYPE_NONE);
         for (String key : mVoucherTypeMap.keySet()) {
             if (!list.contains(key)) {
-                if (mVoucherTypeMap.get(key) == voucherType || voucherType == VOUCHER_TYPE_NONE) {
-                    if (voucherType != VOUCHER_TYPE_NONE) {
-                        list.add(0, key);
-                    } else {
-                        if (mVoucherTypeMap.get(key) == IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
-                            list.add(0, key);
-                        } else {
-                            list.add(key);
-                        }
-                    }
-                } else {
-                    list.add(0,key);
+                if (mVoucherTypeMap.get(key) == IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE){
+                    purchase_storage_name=key;
                 }
+                if (mVoucherTypeMap.get(key) == voucherType){
+                    sKey=key;
+                }else {
+                    list.add(key);
+                }
+            }
+
+        }
+
+        if (sKey!=null){
+            list.add(0, sKey);
+        }else {
+            if (purchase_storage_name!=null && !purchase_storage_name.trim().equals("")){
+                for (String key : list) {
+                    if (key.contains(purchase_storage_name)){
+                        list.remove(key);
+                        break;
+                    }
+                }
+                list.add(0,purchase_storage_name);
             }
 
         }
