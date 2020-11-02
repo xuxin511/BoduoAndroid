@@ -490,11 +490,10 @@ public class OutstockConfigreview extends BaseActivity {
               for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
                   if (materialModle.getMaterialno().equals(item.getMaterialno())) {
                       judge=1;
-                       if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())<1){
-                           qty=ArithUtil.sub(item.getRemainqty(),item.getScanqty());
+                       if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())<1){//未装车数量小于1的情况
+                           qty=ArithUtil.sub(item.getRemainqty(),item.getScanqty());//给小数
                        }else{
                            qty=1f;
-
                        }
                   }
               }

@@ -454,7 +454,7 @@ public class SalesOutstock  extends BaseActivity  {
                                 //  MessageBox.Show(context, "是箱号");
                                 //提交
                                 String[] strBox = boxNo.split("%");
-                                String Strongholdcode = GetStrongholdcode(strBox[0]);
+                              //  String Strongholdcode = GetStrongholdcode(strBox[0]);
                                 String[] strPallet = palletno.split("%");
                                 SalesoutstockRequery model = new SalesoutstockRequery();
                                 if(strBox.length>1) {//是否是旧的箱号69码
@@ -476,7 +476,7 @@ public class SalesOutstock  extends BaseActivity  {
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                                 model.PalletNo = palletno;
-                                model.Strongholdcode = Strongholdcode;
+                                model.Strongholdcode = "";
                                 model.Vouchertype=CurrVoucherType;
                                 model.BarcodeType = 2;
                                 model.MaterialNo = boxNo;
@@ -631,14 +631,14 @@ public class SalesOutstock  extends BaseActivity  {
                 CommonUtil.setEditFocus(sales_outstock_order);
                 //清空所有数据
                 //据点集合
-                StrongholdcodeList=new HashMap<>();
+                StrongholdcodeList = new HashMap<>();
                 //存储类
-                mModel= new PurchaseReturnOffScanModel(context, mHandler);
+                mModel = new PurchaseReturnOffScanModel(context, mHandler);
                 mAdapter = new SalesoutstockAdapter(context, mModel.getOrderDetailList());
                 mList.setAdapter(mAdapter);
                 //散件类
-                materialModle=new MaterialResponseModel();
-                CurrOrderNO="";
+                materialModle = new MaterialResponseModel();
+                CurrOrderNO = "";
                 sales_outstock_address.setText("无");
                 outstock_sales_shelf.setText("0");
                 outstock_sales_boxnum.setText("0");
@@ -646,7 +646,15 @@ public class SalesOutstock  extends BaseActivity  {
                 return;
             }
             CurrOrderNO = sales_outstock_order.getText().toString().trim();
-            sales_outstock_address.setText(returnMsgModel.getData().getAddress());
+           String address= returnMsgModel.getData().getAddress();
+          if(address!=null) {
+              if (address.length() > 15) {
+                  address = address.substring(0, 15);
+              }
+
+          }
+
+            sales_outstock_address.setText(address);
             Float cartonnum = returnMsgModel.getData().getOrderCartonNum();
             Float OrderScanCartonNum = returnMsgModel.getData().getOrderScanCartonNum();
             outstock_sales_shelf.setText(String.valueOf(OrderScanCartonNum));
@@ -654,14 +662,14 @@ public class SalesOutstock  extends BaseActivity  {
             //成功
             List<OutStockOrderDetailInfo> detailInfos = new ArrayList<OutStockOrderDetailInfo>();
             detailInfos = returnMsgModel.getData().getDetail();
-            StrongholdcodeList.put("1", returnMsgModel.getData().getStrongholdcode());
+        //    StrongholdcodeList.put("1", returnMsgModel.getData().getStrongholdcode());
             for (OutStockOrderDetailInfo item:returnMsgModel.getData().getDetail()) {
                 item.setVouchertype(CurrVoucherType);
             }
-            for (OutStockOrderDetailInfo orderDetailInfo:detailInfos) {
-                //存储据点
-                StrongholdcodeList.put(orderDetailInfo.getMaterialno(), orderDetailInfo.getStrongholdcode());
-            }
+//            for (OutStockOrderDetailInfo orderDetailInfo:detailInfos) {
+//                //存储据点
+//                StrongholdcodeList.put(orderDetailInfo.getMaterialno(), orderDetailInfo.getStrongholdcode());
+//            }
             if (detailInfos.size() > 0) {
                 //绑定
                 mModel.setOrderHeaderInfo(returnMsgModel.getData());
@@ -763,9 +771,14 @@ public class SalesOutstock  extends BaseActivity  {
                 MessageBox.Show(context, "包装量等于1不允许下架");
                 return;
             }
+            Float sanqty=0f;
+            for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()){
+                if(materialModle.getMaterialno().equals(item.getMaterialno())){
+                    sanqty=item.getRemainqty();
+                }
+            }
             //输入数量
-            inputTitleDialog("请输入散件数量");
-
+            inputTitleDialog("该行物料剩余"+sanqty+"请输入散件数量");
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_boxtext);
             MessageBox.Show(context, EX.toString());
@@ -807,21 +820,15 @@ public class SalesOutstock  extends BaseActivity  {
                 //调用方法
                 //  MessageBox.Show(context, "是托盘");
                 String[] strPallet = palletno.split("%");
-                String  Strongholdcode=GetStrongholdcode(strPallet[0]);
-                //拼托不知道据点
-//                                if(Strongholdcode.equals("")){
-//                                    MessageBox.Show(context,"该托盘的据点不存在");
-//                                }else
-//                                {
                 SalesoutstockRequery model = new SalesoutstockRequery();
                 model.Erpvoucherno = CurrOrderNO;
                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                 model.PalletNo = palletno;
                 model.Vouchertype=CurrVoucherType;
-                model.Strongholdcode =Strongholdcode;
-                model.MaterialNo=strPallet[0];
-                model.Batchno = strPallet[1];
+                model.Strongholdcode ="";
+                model.MaterialNo=palletList.get(0).getMaterialno();
+                model.Batchno = palletList.get(0).getBatchno();
                 model.BarcodeType = 1;
                 model.ScanQty = Float.parseFloat(strPallet[2]);
                 String json = GsonUtil.parseModelToJson(model);
@@ -989,18 +996,17 @@ public class SalesOutstock  extends BaseActivity  {
                                 model.Erpvoucherno = CurrOrderNO;
                                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
-                                model.Strongholdcode=GetStrongholdcode(materialModle.getMaterialno());
-                                model.Batchno =palletno.split("%")[1];
+                                model.Strongholdcode="";
+                                model.Batchno ="";
                                 model.PalletNo = palletno;
                                 model.Vouchertype=CurrVoucherType;
                                 model.MaterialNo = materialModle.getMaterialno();
                                  model.BarcodeType = 3;
-                                model.ScanQty =inputValue;
+                                 model.ScanQty =inputValue;
+                                 outwareQty=inputValue;
                                 String json = GsonUtil.parseModelToJson(model);
                                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                                         context, mHandler, RESULT_Saleoutstock_ScannParts_Submit, null, info.SalesOutstock_SacnningPallet, json, null);
-
-
                         } catch (Exception ex) {
                             CommonUtil.setEditFocus(sales_outstock_boxtext);
                             MessageBox.Show(context, "请输入正确的数量");
@@ -1116,6 +1122,7 @@ public class SalesOutstock  extends BaseActivity  {
                             }
                         }
                     }else {
+                        model.ScanQty=batchQty;
                         submit = 3;
                     }
                     model.Erpvoucherno = CurrOrderNO;
@@ -1123,7 +1130,7 @@ public class SalesOutstock  extends BaseActivity  {
                     model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                     model.PalletNo = Currpalletno;
                     model.Vouchertype=CurrVoucherType;
-                    model.Strongholdcode=GetStrongholdcode(materialModle.getMaterialno());
+                    model.Strongholdcode="";
                     model.MaterialNo= sales_outstock_boxtext.getText().toString().trim();
                     model.Batchno = cities[which];
                     model.BarcodeType = submit;

@@ -624,7 +624,6 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                        MessageBox.Show(context, "请确认,扫描的托盘对应的批次或者物料不存在当前列表中");
                        return;
                    }
-
                }
            }
             //原材料可以混托下架吗
