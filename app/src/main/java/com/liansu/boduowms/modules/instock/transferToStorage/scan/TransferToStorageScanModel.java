@@ -122,7 +122,124 @@ public class TransferToStorageScanModel extends BaseOrderScanModel {
         LogUtil.WriteLog(BaseOrderScan.class, TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC, modelJson);
         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC, mContext.getString(R.string.message_request_refer_barcode_info), mContext, mHandler, RESULT_TAG_SAVE_T_TRANSFER_IN_DETAIL_ADF_ASYNC, null, UrlInfo.getUrl().SaveT_TransferInDetailADFAsync, modelJson, null);
     }
+    /**
+     * @desc: 获取扫描外箱码相对应的物料信息
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/1 14:16
+     */
+    public BaseMultiResultInfo<Boolean, Void> findOutBarcodeInfoFromMaterial(OutBarcodeInfo info) {
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        OrderDetailInfo sMaterialInfo = null;
+        String barcodeMaterialNo = info.getMaterialno() != null ? info.getMaterialno() : "";
+        String barcodeBatchNo = info.getBatchno() != null ? info.getBatchno() : "";
+        try {
 
+
+            for (int i = 0; i < mOrderDetailList.size(); i++) {
+                OrderDetailInfo materialInfo = mOrderDetailList.get(i);
+                if (materialInfo != null) {
+                    String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
+                    if (materialNo.trim().equals(barcodeMaterialNo.trim())) {
+                        if (materialInfo.getRemainqty() != 0) {
+                            sMaterialInfo = materialInfo;
+                            info.setUnit(sMaterialInfo.getUnit());
+                            info.setMaterialno(sMaterialInfo.getMaterialno());
+                            info.setMaterialdesc(sMaterialInfo.getMaterialdesc());
+                            info.setRowno(sMaterialInfo.getRowno());
+                            info.setRownodel(sMaterialInfo.getRownodel());
+                            info.setErpvoucherno(sMaterialInfo.getErpvoucherno());
+                            info.setStrongholdcode(sMaterialInfo.getStrongholdcode());
+                            info.setStrongholdname(sMaterialInfo.getStrongholdname());
+                            info.setPackqty(sMaterialInfo.getPackQty());
+                            info.setSpec(sMaterialInfo.getSpec());
+                            break;
+                        }
+
+
+                    }
+                }
+            }
+
+            if (sMaterialInfo != null) {
+                resultInfo.setHeaderStatus(true);
+            } else {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("物料号:[" + barcodeMaterialNo + "],批次:[" + barcodeBatchNo + "]不在订单：" + mHeaderInfo.getErpvoucherno() + "中,不能组托");
+                return resultInfo;
+            }
+
+
+        } catch (Exception e) {
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("获取物料信息出现意料之外的异常:" + e.getMessage());
+        }
+
+        return resultInfo;
+
+    }
+
+    /**
+     * @desc: 找到扫描条码的所在行
+     * @param:
+     * @return:
+     * @author: Nietzsche
+     * @time 2020/7/5 11:01
+     */
+    @Override
+    public BaseMultiResultInfo<Boolean, List<OrderDetailInfo>> findMaterialInfoList(OutBarcodeInfo scanBarcode) {
+        BaseMultiResultInfo<Boolean, List<OrderDetailInfo>> resultInfo = new BaseMultiResultInfo<>();
+        List<OrderDetailInfo> sMaterialInfoList = new ArrayList<>();
+        String barcodeMaterialNo = scanBarcode.getMaterialno() != null ? scanBarcode.getMaterialno() : "";
+        String barcodeStrongHoldCode = scanBarcode.getStrongholdcode() != null ? scanBarcode.getStrongholdcode() : "";
+        float barcodeQty = scanBarcode.getQty();
+        try {
+
+            if (barcodeMaterialNo == null || barcodeMaterialNo.equals("")) {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:条码的物料信息不能为空");
+                return resultInfo;
+            }
+
+            if (barcodeQty < 0) {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:条码的数量必须大于等于0");
+                return resultInfo;
+            }
+            //查找和条码的 物料和批次匹配的订单明细行的数据，只查第一个
+            for (int i = 0; i < mOrderDetailList.size(); i++) {
+                OrderDetailInfo materialInfo = mOrderDetailList.get(i);
+                if (materialInfo != null) {
+                    String materialNo = materialInfo.getMaterialno() != null ? materialInfo.getMaterialno() : "";
+                    String rowNo = materialInfo.getRowno() != null ? materialInfo.getRowno() : "";
+                    String rowDel = materialInfo.getRownodel() != null ? materialInfo.getRownodel() : "";
+                    if (materialNo.trim().equals(barcodeMaterialNo.trim())) {
+                        List<OutBarcodeInfo> list = new ArrayList<>();
+                        list.add(scanBarcode);
+                        materialInfo.setLstBarCode(list);
+                        sMaterialInfoList.add(materialInfo);
+
+                    }
+                }
+            }
+
+            if (sMaterialInfoList != null && sMaterialInfoList.size() > 0) {
+                resultInfo.setHeaderStatus(true);
+                resultInfo.setInfo(sMaterialInfoList);
+            } else {
+                resultInfo.setHeaderStatus(false);
+                resultInfo.setMessage("校验条码失败:订单中没有物料号为:[" + barcodeMaterialNo + "]的物料行,扫描的条码序列号为:" + scanBarcode.getBarcode());
+                return resultInfo;
+            }
+        } catch (Exception e) {
+            resultInfo.setHeaderStatus(false);
+            resultInfo.setMessage("校验条码失败:出现预期之外的错误:" + e.getMessage());
+            return resultInfo;
+        }
+
+        return resultInfo;
+    }
     /**
      * @desc: 找到扫描条码的所在行
      * @param:

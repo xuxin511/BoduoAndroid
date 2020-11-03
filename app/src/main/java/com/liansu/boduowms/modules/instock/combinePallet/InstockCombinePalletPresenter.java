@@ -136,7 +136,19 @@ public class InstockCombinePalletPresenter {
                                 List<StockInfo> list = returnMsgModel.getData();
                                 if (list != null) {
                                     if (palletType == InstockCombinePalletModel.PALLET_TYPE_FIRST_PALLET) {
-                                        mModel.setTargetPalletInfoList(list);
+                                        BaseMultiResultInfo<Boolean, Void> checkResult = mModel.checkTargetPalletInfoList(list);
+                                        if (checkResult.getHeaderStatus()) {
+                                            mModel.setTargetPalletInfoList(list);
+                                        } else {
+                                            MessageBox.Show(mContext, checkResult.getMessage(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    mView.requestPalletFocus(palletType);
+                                                }
+                                            });
+                                            return;
+                                        }
+
                                     } else if (palletType == InstockCombinePalletModel.PALLET_TYPE_SECOND_PALLET) {
                                         int count = mModel.getSerialNoCount();
                                         if (count > 2) {
@@ -225,11 +237,11 @@ public class InstockCombinePalletPresenter {
             MessageBox.Show(mContext, "扫描数据为空!请先进行扫描操作");
             return;
         }
-        if (selectedList==null || selectedList.size()==0 ){
+        if (selectedList == null || selectedList.size() == 0) {
             MessageBox.Show(mContext, "没有选中的数据!请先选择要删除的托盘物料行");
             return;
         }
-        if (selectedList.size()==list.size()){
+        if (selectedList.size() == list.size()) {
             MessageBox.Show(mContext, "不能全部删除该托盘码上的物料!至少保留一个物料");
             return;
         }

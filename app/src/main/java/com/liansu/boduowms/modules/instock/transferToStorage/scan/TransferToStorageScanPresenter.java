@@ -127,7 +127,7 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
     }
 
     /**
-     * @desc: 扫描外箱条码
+     * @desc: 扫描托盘条码
      * @param:
      * @return:
      * @author: Nietzsche
@@ -141,6 +141,8 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
 
     @Override
     public void onCombinePalletRefer(final OutBarcodeInfo outBarcodeInfo) {
+        outBarcodeInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
+        outBarcodeInfo.setStrongholdname(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         super.onCombinePalletRefer(outBarcodeInfo);
 
     }

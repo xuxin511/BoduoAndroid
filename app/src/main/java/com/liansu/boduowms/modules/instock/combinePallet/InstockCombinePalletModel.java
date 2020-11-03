@@ -92,7 +92,32 @@ public class InstockCombinePalletModel extends BaseOrderScanModel {
             mList.addAll(0, list);
         }
     }
-
+   /**
+    * @desc:  校验拼入托盘 的taskqty 是否大于0
+    * @param:
+    * @return:
+    * @author: Nietzsche
+    * @time 2020/11/2 21:47
+    */
+    public  BaseMultiResultInfo<Boolean, Void> checkTargetPalletInfoList(List<StockInfo> list){
+        BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
+        boolean result=true;
+        String  message="";
+        if (list!=null && list.size()>0){
+            for (StockInfo info:list){
+                if (info!=null){
+                    if (info.getTaskQty()>0){
+                        result=false;
+                        message="校验托盘失败：托盘:"+info.getBarcode()+"上的物料["+info.getMaterialno()+"]的任务数量大于0,不允许进行拼托或拆托操作";
+                        break;
+                    }
+                }
+            }
+        }
+        resultInfo.setHeaderStatus(result);
+        resultInfo.setMessage(message);
+        return  resultInfo;
+    }
     public List<StockInfo> getTargetPalletInfoList() {
         return mTargetPalletInfoList;
     }
