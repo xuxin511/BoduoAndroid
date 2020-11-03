@@ -487,15 +487,24 @@ public class OutstockConfigreview extends BaseActivity {
             materialModle = returnMsgModel.getData();
             int judge=0;
             Float qty=0f;
+            Boolean isreviewover=true;//该物料是否复核完成
             for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
                 if (materialModle.getMaterialno().equals(item.getMaterialno())) {
                     judge=1;
-                    if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())<1){//未装车数量小于1的情况
+                    if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())!=0){
+                        isreviewover=false;
+                    }
+                    if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())<1 && ArithUtil.sub(item.getRemainqty(),item.getScanqty())>0){//未装车数量小于1的情况
                         qty=ArithUtil.sub(item.getRemainqty(),item.getScanqty());//给小数
                     }else{
                         qty=1f;
                     }
                 }
+            }
+            if(isreviewover) {
+                CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+                MessageBox.Show(context, "该物料已经全部复核完成,请确认");
+                return;
             }
             if(judge!=1){
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
@@ -593,6 +602,7 @@ public class OutstockConfigreview extends BaseActivity {
             MessageBox.Show(context, EX.toString());
         }
         CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+        return;
     }
 
     //散件输入

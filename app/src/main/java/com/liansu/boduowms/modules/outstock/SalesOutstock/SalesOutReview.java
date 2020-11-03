@@ -604,7 +604,14 @@ public  class SalesOutReview extends BaseActivity {
                 return;
             }
             CurrOrderNO = sales_outstock_revieworder.getText().toString().trim();
-            sales_outstock_address.setText(returnMsgModel.getData().getAddress());
+            String address=returnMsgModel.getData().getAddress();
+            if(returnMsgModel.getData().getAddress()!=null){
+                if (address.length() > 15) {
+                    address = address.substring(0, 15);
+                }
+
+            }
+            sales_outstock_address.setText(address);
             out_stock_sales_reviewusername.setText(returnMsgModel.getData().getContacts());
             Float cartonnum = returnMsgModel.getData().getOrderCartonNum();
             outstock_sales_boxnum.setText(String.valueOf(cartonnum));

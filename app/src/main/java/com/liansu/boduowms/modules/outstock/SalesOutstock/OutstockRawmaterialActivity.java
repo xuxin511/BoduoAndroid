@@ -220,31 +220,21 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             mButton.setVisibility(View.INVISIBLE);
         }
         if(CurrOrderNO!=null && !CurrOrderNO.equals("")) {
-            if (CurrVoucherType == 28 || CurrVoucherType == 61 || CurrVoucherType == 62 || CurrVoucherType == 46 || CurrVoucherType == 57)//采购，销售，成品 验退需要立即查询单号
-            {
-                sales_outstock_rawmaterial_order.setText(menuOutStockModel.ErpVoucherNo);
-                //  CommonUtil.setEditFocus(sales_outstock_rawmaterial_order);
-                SalesoutstockRequery salesoutstockRequery = new SalesoutstockRequery();
-                salesoutstockRequery.Erpvoucherno = menuOutStockModel.ErpVoucherNo;
-                salesoutstockRequery.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-                salesoutstockRequery.Vouchertype = CurrVoucherType;
-                salesoutstockRequery.Creater = BaseApplication.mCurrentUserInfo.getUsername();
-                String json = GsonUtil.parseModelToJson(salesoutstockRequery);
-                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
-                        context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
-
+            SalesoutstockRequery salesoutstockRequery = new SalesoutstockRequery();
+            sales_outstock_rawmaterial_order.setText(menuOutStockModel.ErpVoucherNo);
+            salesoutstockRequery.Erpvoucherno = menuOutStockModel.ErpVoucherNo;
+            if(menuOutStockModel.ErpVoucherNo==null) {
+                salesoutstockRequery.Erpvoucherno = CurrOrderNO;
+                sales_outstock_rawmaterial_order.setText(CurrOrderNO);
             }
+            salesoutstockRequery.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+            salesoutstockRequery.Vouchertype = CurrVoucherType;
+            salesoutstockRequery.Creater = BaseApplication.mCurrentUserInfo.getUsername();
+            String json = GsonUtil.parseModelToJson(salesoutstockRequery);
+            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
+                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+
         }
-//        if(!CurrOrderNO.equals("")){
-//            SalesoutstockRequery model = new SalesoutstockRequery();
-//            model.Erpvoucherno = CurrOrderNO;
-//            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-//            model.Vouchertype = CurrVoucherType;
-//            model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
-//            String json = GsonUtil.parseModelToJson(model);
-//            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
-//                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
-//        }
     }
 
     //#region 事件
@@ -621,7 +611,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     }
                     if(!batchnoisTrue) {
                         CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                        MessageBox.Show(context, "请确认,扫描的托盘对应的批次或者物料不存在当前列表中");
+                        MessageBox.Show(context, "请确认,扫描的托盘的物料不存在当前列表中");
                         return;
                     }
                 }
