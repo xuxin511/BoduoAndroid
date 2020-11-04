@@ -757,6 +757,7 @@ public class SalesOutstock  extends BaseActivity  {
                     ispalletexits=true;
                 }
             }
+
             if(!ispalletexits) {
                 CommonUtil.setEditFocus(sales_outstock_boxtext);
                 MessageBox.Show(context, "扫描的散件或者物料不在该托盘下");
@@ -772,10 +773,22 @@ public class SalesOutstock  extends BaseActivity  {
                 return;
             }
             Float sanqty=0f;
+            boolean isexit=false;
             for (OutStockOrderDetailInfo item:mModel.getOrderDetailList()){
                 if(materialModle.getMaterialno().equals(item.getMaterialno())){
+                    isexit=true;
                     sanqty=item.getRemainqty();
                 }
+            }
+            if(!isexit){
+                CommonUtil.setEditFocus(sales_outstock_boxtext);
+                MessageBox.Show(context, materialModle.getMaterialno()+"物料不存在当前列表中，请确认");
+                return;
+            }
+            if(sanqty==0) {
+                CommonUtil.setEditFocus(sales_outstock_boxtext);
+                MessageBox.Show(context, materialModle.getMaterialno()+"该物料已下架完毕，请确认");
+                return;
             }
             //输入数量
             inputTitleDialog("该行物料剩余"+sanqty+"请输入散件数量");

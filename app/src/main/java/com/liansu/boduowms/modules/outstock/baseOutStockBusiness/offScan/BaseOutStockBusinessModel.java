@@ -21,6 +21,7 @@ import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.QRCodeFunc.BARCODE_TYPE_PALLET_NO;
@@ -625,34 +626,56 @@ public class BaseOutStockBusinessModel extends BaseModel {
             String batchno = detailInfo.getBatchno() != null ? detailInfo.getBatchno() : "";
             String erpVoucherNo = detailInfo.getErpvoucherno() != null ? detailInfo.getErpvoucherno() : "";
             String arrvoucherno = detailInfo.getArrvoucherNO() != null ? detailInfo.getArrvoucherNO() : "";
-            sortList = mOrderDetailList;
-            for (OutStockOrderDetailInfo info : mOrderDetailList) {
-                String smaterialno = info.getMaterialno() != null ? info.getMaterialno() : "";
-                String sbatchno = info.getBatchno() != null ? info.getBatchno() : "";
-                String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
-                String sarrvoucherno = info.getArrvoucherNO() != null ? info.getArrvoucherNO() : "";
+            Iterator<OutStockOrderDetailInfo> it = this.mOrderDetailList.iterator();
+            OutStockOrderDetailInfo orderDetailInfo=new OutStockOrderDetailInfo();
+            while (it.hasNext()) {
+                OutStockOrderDetailInfo model = it.next();
+                String smaterialno = model.getMaterialno() != null ? model.getMaterialno() : "";
+                String sbatchno = model.getBatchno() != null ? model.getBatchno() : "";
+                String sErpVoucherNo = model.getErpvoucherno() != null ? model.getErpvoucherno() : "";
+                String sarrvoucherno = model.getArrvoucherNO() != null ? model.getArrvoucherNO() : "";
                 if (smaterialno.equals(materialno) && batchno.equals(sbatchno) && sErpVoucherNo.equals(erpVoucherNo) && sarrvoucherno.equals(arrvoucherno)) {
-                    sortList.remove(info);
-                    if (erpVoucherNo.equals(sErpVoucherNo)) {
-                        info.setScanqty(detailInfo.getScanqty());
-                        Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
-                        //如果已经超发了
-                        if(arr<0) {
-                            arr = 0f;
-                        }
-                        info.setRemainqty(arr);
-                        if(arr==0){
-                            sortList.add(sortList.size(), info);
-                        }else
-                        {
-                            sortList.add(0, info);
-                        }
-
-                        resultInfo.setHeaderStatus(true);
-                        return resultInfo;
+                    orderDetailInfo = model;
+                    orderDetailInfo.setScanqty(detailInfo.getScanqty());
+                    Float arr = ArithUtil.sub(orderDetailInfo.getVoucherqty(), orderDetailInfo.getScanqty());
+                    if (arr < 0) {
+                        arr = 0f;
                     }
+                    orderDetailInfo.setRemainqty(arr);
+                    it.remove();
+                    if (arr == 0) {
+                        mOrderDetailList.add(mOrderDetailList.size(), orderDetailInfo);
+                    } else {
+                        mOrderDetailList.add(0, orderDetailInfo);
+                    }
+                    resultInfo.setHeaderStatus(true);
+                    return resultInfo;
                 }
             }
+//            for (OutStockOrderDetailInfo info : mOrderDetailList) {
+//                String smaterialno = info.getMaterialno() != null ? info.getMaterialno() : "";
+//                String sbatchno = info.getBatchno() != null ? info.getBatchno() : "";
+//                String sErpVoucherNo = info.getErpvoucherno() != null ? info.getErpvoucherno() : "";
+//                String sarrvoucherno = info.getArrvoucherNO() != null ? info.getArrvoucherNO() : "";
+//                if (smaterialno.equals(materialno) && batchno.equals(sbatchno) && sErpVoucherNo.equals(erpVoucherNo) && sarrvoucherno.equals(arrvoucherno)) {
+//                    sortList.remove(info);
+//                    info.setScanqty(detailInfo.getScanqty());
+//                    Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
+//                    //如果已经超发了
+//                    if (arr < 0) {
+//                        arr = 0f;
+//                    }
+//                    info.setRemainqty(arr);
+//                    if (arr == 0) {
+//                        sortList.add(sortList.size(), info);
+//                    } else {
+//                        sortList.add(0, info);
+//                    }
+//
+//                    resultInfo.setHeaderStatus(true);
+//                    return resultInfo;
+//                }
+    //        }
         }
         resultInfo.setHeaderStatus(false);
         return resultInfo;

@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -36,6 +38,7 @@ import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
+import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
@@ -178,6 +181,23 @@ public class OutstockConfigreview extends BaseActivity {
         super.initData();
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.refresh_nav_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_refresh) {
+           onResume();
+        }
+        return false;
+    }
+
 
 
     //当上一个界面返回后会触发这个方法

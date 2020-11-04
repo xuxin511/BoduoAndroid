@@ -189,7 +189,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-            selectWareHouse(this);
+
 
         }
         return false;
@@ -516,6 +516,9 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 String msg = "";
                 if (list.size() > 0) {
                     for (OutStockOrderDetailInfo oderdetail : list) {
+                        if(oderdetail.getScanqty()==0){
+                            continue;
+                        }
                         //可以超发，判断逻辑限定在最开始输入的时候
                         BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateListViewItemcf(oderdetail);
                         mAdapter.notifyDataSetChanged();
@@ -559,6 +562,17 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             }
             //托盘对象
             palletModel=returnMsgModel.getData().get(0);
+            boolean isexit=false;
+            for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                if (item.getMaterialno().equals(palletModel.getMaterialno()) ) {
+                    isexit = true;
+                }
+            }
+            if(!isexit) {
+                CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                MessageBox.Show(context, "该托盘物料不存在列表中");
+                return;
+            }
             //check到货单号  验退（成品，采购，销售）
             if (CurrVoucherType == 28 || CurrVoucherType == 61 || CurrVoucherType == 62) {
                 if (!CurrOrderNO.equals(palletModel.Qualityno)) {
@@ -570,14 +584,14 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             String materino=palletModel.getMaterialno()==null?"":palletModel.getMaterialno();
             String batchno=palletModel.getBatchno()==null?"":palletModel.getBatchno();
             //找到该托盘物料
-            OutStockOrderDetailInfo model = new OutStockOrderDetailInfo();
+            List<OutStockOrderDetailInfo> model = new ArrayList<OutStockOrderDetailInfo>();
             boolean batchnoisTrue=false;
             //check批次  验退（成品，采购，销售） 仓退
             if(CurrVoucherType==27||CurrVoucherType==28||CurrVoucherType==61||CurrVoucherType==62){
                 for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
                     if (item.getBatchno().equals(batchno) && item.getMaterialno().equals(materino)) {
                         batchnoisTrue = true;
-                        model = item;
+                        model.add(item);
                     }
                 }
                 if(!batchnoisTrue) {
@@ -591,22 +605,14 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 if(CurrVoucherType==46|| CurrVoucherType==57){//委外发料，原材料出库
                     for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
                         if (item.getMaterialno().equals(materino)) {
-                            if(item.getScanqty()>=0&& item.getVoucherqty()>=item.getScanqty()){//扫描量大于零，下架量大于或等于扫描量 才允许超发
-                                batchnoisTrue = true;
-                                model = item;
-                            }
+                            model.add(item);
                         }
-                    }
-                    if(!batchnoisTrue) {
-                        CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                        MessageBox.Show(context, "请确认,扫描的物料已经超发完成");
-                        return;
                     }
                 }else{//不是超发
                     for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
                         if (item.getMaterialno().equals(materino)&& item.getRemainqty()!=0) {
                             batchnoisTrue = true;
-                            model = item;
+                            model.add(item);
                         }
                     }
                     if(!batchnoisTrue) {
@@ -618,32 +624,49 @@ public class OutstockRawmaterialActivity extends BaseActivity {
             }
             //原材料可以混托下架吗
             // OutStockOrderDetailInfo model = stockorderdetail.get(palletarr[0] + palletarr[1]);
+            Float sumVoucherqty=0f;
+            Float sumScanqty=0f;
+            Float sumRemainqty=0f;
+            Float sumqty=0f;
+            for (OutStockOrderDetailInfo item:model) {
+                sumVoucherqty = ArithUtil.add(sumVoucherqty, item.getVoucherqty());
+                sumScanqty = ArithUtil.add(sumScanqty, item.getScanqty());
+                sumRemainqty = ArithUtil.add(sumRemainqty, item.getRemainqty());
+                sumqty=ArithUtil.add(sumqty, item.getQty());
+            }
+
+
             if (model != null) {
                 if(CurrVoucherType!=46 && CurrVoucherType!=57){
-                    Float arr = ArithUtil.sub(model.getVoucherqty(), model.getScanqty());
+                    Float arr = ArithUtil.sub(sumVoucherqty, sumScanqty);
                     if (arr == 0) {
                         CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                        MessageBox.Show(context, model.getMaterialno() + "该物料已经扫描完成,请确认");
+                        MessageBox.Show(context, model.get(0).getMaterialno() + "该物料已经扫描完成,请确认");
                         return;
-                    }}
+                    }
+                }else{
+                    if(ArithUtil.sub(sumVoucherqty,sumScanqty)<0f){
+                        MessageBox.Show(context, model.get(0).getMaterialno() + "该物料已经超发,请确认");
+                        return;
+                    }
+                }
                 //判断数量是否大于当前行
-                if(ArithUtil.sub(model.getRemainqty(),returnMsgModel.getData().get(0).getQty())>=0) {
+                if(ArithUtil.sub(sumRemainqty,returnMsgModel.getData().get(0).getQty())>=0) {
                     SalesoutstockRequery modelRequery = new SalesoutstockRequery();
                     modelRequery.Erpvoucherno = CurrOrderNO;
                     modelRequery.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                     modelRequery.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                     modelRequery.PalletNo = palletModel.getBarcode();
-                    String[] strPallet = modelRequery.PalletNo.split("%");
                     modelRequery.Vouchertype = CurrVoucherType;
-                    modelRequery.MaterialNo = strPallet[0];
-                    modelRequery.Batchno = strPallet[1];
+                    modelRequery.MaterialNo = palletModel.getMaterialno();
+                    modelRequery.Batchno = palletModel.getBatchno();
                     modelRequery.BarcodeType = 3;
                     modelRequery.ScanQty =palletModel.getQty() ;
                     String json = GsonUtil.parseModelToJson(modelRequery);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitPallet, "托盘提交中",
                             context, mHandler, RESULT_Saleoutstock_ScannPalletNo, null, info.SalesOutstock_SacnningPallet, json, null);
                 }else{
-                    String strremainqty=String.valueOf( model.getRemainqty());
+                    String strremainqty=String.valueOf( sumRemainqty);
                     String strqty=String.valueOf(palletModel.getQty());
                     inputTitleDialog("当前物料剩余" + strremainqty+"托盘量为"+strqty);
                 }

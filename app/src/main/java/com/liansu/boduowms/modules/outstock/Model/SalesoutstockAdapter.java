@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ch.qos.logback.core.joran.spi.ElementSelector;
+
 public class SalesoutstockAdapter extends BaseAdapter {
     private Context context; // 运行上下文
     private List<OutStockOrderDetailInfo> outStockTaskDetailsInfoModels; // 信息集合
@@ -48,14 +50,11 @@ public class SalesoutstockAdapter extends BaseAdapter {
         while (it.hasNext()) {
             OutStockOrderDetailInfo model = it.next();
             if (model.getRemainqty() == 0) {
-//                if(model.getVoucherqty()<0&& model.getOutstockqty()==0&&model.getRemainqty()==0){
-//                    REDlist.add(model);
-//                    it.remove();
-//                }else{
-                    list.add(model);
-                    it.remove();
-               // }
-
+                list.add(model);
+                it.remove();
+            } else if (model.getRemainqty() > 0 && model.getRemainqty() < model.getVoucherqty()) {
+                REDlist.add(model);
+                it.remove();
             }
         }
         int i = outStockTaskDetailsInfoModels.size();
@@ -63,11 +62,9 @@ public class SalesoutstockAdapter extends BaseAdapter {
             outStockTaskDetailsInfoModels.add(i, item);
             i++;
         }
-//        int j = outStockTaskDetailsInfoModels.size();
-//        for (OutStockOrderDetailInfo item : REDlist) {
-//            outStockTaskDetailsInfoModels.add(j, item);
-//            j++;
-//        }
+        for (OutStockOrderDetailInfo item : REDlist) {
+            outStockTaskDetailsInfoModels.add(0, item);
+        }
 
     }
 
