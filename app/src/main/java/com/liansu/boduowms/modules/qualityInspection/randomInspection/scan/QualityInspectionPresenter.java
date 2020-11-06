@@ -368,43 +368,48 @@ public class QualityInspectionPresenter {
             return;
         }
 
-        QualityHeaderInfo postInfo = mModel.getCurrentDetailInfo();
+        final QualityHeaderInfo postInfo = mModel.getCurrentDetailInfo();
         postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
         postInfo.setScanqty(qty);
         mModel.getCurrentBarcodeInfo().setQty(qty);
         List<StockInfo> list = new ArrayList<>();
         list.add(mModel.getCurrentBarcodeInfo());
         postInfo.setLstBarCode(list);
-
         if (postInfo != null) {
-            mModel.requestReferInfo(postInfo, new NetCallBackListener<String>() {
+            MessageBox.Show2(mContext,"抽检数量："+qty+"，是否确认提交", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                 @Override
-                public void onCallBack(String result) {
-                    try {
-                        LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_POST_CHECK_QUALITY_SYNC, result);
-                        BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
-                        }.getType());
-                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                            MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    getOrderDetailInfo();
-                                }
-                            });
-                        } else {
-                            MessageBox.Show(mContext, "提交质检信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which) {
+                    mModel.requestReferInfo(postInfo, new NetCallBackListener<String>() {
+                        @Override
+                        public void onCallBack(String result) {
+                            try {
+                                LogUtil.WriteLog(BaseOrderScan.class, mModel.TAG_POST_CHECK_QUALITY_SYNC, result);
+                                BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                                }.getType());
+                                if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                                    MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            getOrderDetailInfo();
+                                        }
+                                    });
+                                } else {
+                                    MessageBox.Show(mContext, "提交质检信息失败:" + returnMsgModel.getResultValue(), MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
 
+                                        }
+                                    });
                                 }
-                            });
+                            } catch (Exception e) {
+                                MessageBox.Show(mContext, "提交质检信息失败,出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR);
+                            }
                         }
-                    } catch (Exception e) {
-                        MessageBox.Show(mContext, "提交质检信息失败,出现意料之外的异常:" + e.getMessage(), MEDIA_MUSIC_ERROR);
-                    }
+                    });
                 }
             });
+
         } else {
 
             MessageBox.Show(mContext, "提交质检信息失败,订单信息不能为空:", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
@@ -437,6 +442,8 @@ public class QualityInspectionPresenter {
             return;
         }
         onOrderRefer();
+
+
 //        BaseMultiResultInfo<Boolean, Void> result = mModel.setBarcodeInfo(scanBarcode, scanQty, mModel.getCurrentDetailInfo());
 //        if (result.getHeaderStatus()) {
 //            mView.setScannedQty(mModel.getScannedQty() + "/" + mModel.getCurrentDetailInfo().getVoucherqty());
