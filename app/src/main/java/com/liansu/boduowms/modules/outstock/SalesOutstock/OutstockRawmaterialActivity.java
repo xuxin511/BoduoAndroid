@@ -189,8 +189,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.user_setting_warehouse_select) {
-
-
+            selectWareHouse(this);
         }
         return false;
     }

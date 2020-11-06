@@ -849,6 +849,21 @@ public class SalesOutstock  extends BaseActivity  {
                         context, mHandler, RESULT_Saleoutstock_ScannPalletNo, null, info.SalesOutstock_SacnningPallet, json, null);
                 //}
             } else {
+                boolean materialis = false;//托盘对应的物料是否存在该列表
+                //判断托盘是否存在当前物料行
+                for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                    for (Outbarcode_Requery itemp : palletList) {
+                        if (item.getMaterialno().equals(itemp.getMaterialno())) {
+                            materialis = true;
+                        }
+
+                    }
+                }
+                if (!materialis) {
+                    CommonUtil.setEditFocus(sales_outstock_pallettext);
+                    MessageBox.Show(context, "托盘物料不存在当前列表中，请确认");
+                    return;
+                }
                 CommonUtil.setEditFocus(sales_outstock_boxtext);
             }
             //endregion

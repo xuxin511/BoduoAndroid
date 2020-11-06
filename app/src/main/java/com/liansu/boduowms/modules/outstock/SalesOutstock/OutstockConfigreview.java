@@ -47,6 +47,7 @@ import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.ArithUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
+import com.liansu.boduowms.utils.log.LogUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -287,6 +288,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                         model.ScanQty = Float.parseFloat(strPallet[2]);
                         String json = GsonUtil.parseModelToJson(model);
+                        LogUtil.WriteLog(OutstockConfigreview.class, "复核装车托盘提交", json);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
 
@@ -329,6 +331,7 @@ public class OutstockConfigreview extends BaseActivity {
 //                            MessageBox.Show(context, "该物料不存在列表中");
 //                            return true;
 //                        }
+                        LogUtil.WriteLog(OutstockConfigreview.class, "复核装车箱号提交", json);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         sales_outstock_config_reviewbarcode.setText("");
@@ -494,6 +497,7 @@ public class OutstockConfigreview extends BaseActivity {
                     model.Vouchertype = CurrvoucherType;
                     model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                     String modelJson = parseModelToJson(model);
+                    LogUtil.WriteLog(OutstockConfigreview.class, "复核装车箱号提交", modelJson);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
                     sales_outstock_config_reviewbarcode.setText("");
@@ -543,6 +547,7 @@ public class OutstockConfigreview extends BaseActivity {
             model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
             model.ScanQty = qty;
             String json = GsonUtil.parseModelToJson(model);
+            LogUtil.WriteLog(OutstockConfigreview.class, "复核装车散件提交", json);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                     context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
         } catch (Exception EX) {
@@ -576,6 +581,7 @@ public class OutstockConfigreview extends BaseActivity {
                 model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                 model.ScanQty = Float.parseFloat(strPallet[2]);
                 String json = GsonUtil.parseModelToJson(model);
+                LogUtil.WriteLog(OutstockConfigreview.class, "复核装车托盘提交", json);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
                         context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
             }
@@ -588,6 +594,7 @@ public class OutstockConfigreview extends BaseActivity {
     //箱号/托盘 提交返回值
     public  void  BarcodeSubmit(String result) {
         try {
+            LogUtil.WriteLog(OutstockConfigreview.class, "复核装车返回数据", result);
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -656,6 +663,7 @@ public class OutstockConfigreview extends BaseActivity {
                             model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
                             model.ScanQty = inputValue;
                             String json = GsonUtil.parseModelToJson(model);
+                            LogUtil.WriteLog(OutstockConfigreview.class, "复核装车散件提交", json);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                                     context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         } catch (Exception ex) {
@@ -683,13 +691,13 @@ public class OutstockConfigreview extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         //点击取消触发的事件
                         //再次访问订单信息
-                        SalesoutstockRequery model = new SalesoutstockRequery();
-                        model.Erpvoucherno = CurrOrderNO;
-                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-                        model.Vouchertype = CurrvoucherType;
-                        String json = GsonUtil.parseModelToJson(model);
-                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
-                                context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
+//                        SalesoutstockRequery model = new SalesoutstockRequery();
+//                        model.Erpvoucherno = CurrOrderNO;
+//                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+//                        model.Vouchertype = CurrvoucherType;
+//                        String json = GsonUtil.parseModelToJson(model);
+//                        RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
+//                                context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
                     }
                 }).show();
     }

@@ -219,13 +219,14 @@ public class OutstockOneReview extends BaseActivity {
             }
             //成功后提示
             MessageBox.Show(context, returnMsgModel.getResultValue());
-            SalesoutstockRequery model = new SalesoutstockRequery();
-            model.Erpvoucherno = CurrOrderNO;
-            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-            model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
-            String json = GsonUtil.parseModelToJson(model);
-            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
-                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+            return;
+//            SalesoutstockRequery model = new SalesoutstockRequery();
+//            model.Erpvoucherno = CurrOrderNO;
+//            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+//            model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
+//            String json = GsonUtil.parseModelToJson(model);
+//            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
+//                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
         } catch (Exception ex) {
             CommonUtil.setEditFocus(outstock_onereview_order);
             MessageBox.Show(context, ex.toString());

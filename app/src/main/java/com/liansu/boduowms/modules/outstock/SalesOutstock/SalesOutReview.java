@@ -210,7 +210,20 @@ public  class SalesOutReview extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.refresh_nav_menu, menu);
+        return true;
+    }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_refresh) {
+            onResume();
+        }
+        return false;
+    }
 
 
 
@@ -316,6 +329,7 @@ public  class SalesOutReview extends BaseActivity {
                         model.MaterialNo = palletno;
                         model.ScanQty = Float.parseFloat(strPallet[2]);
                         String json = GsonUtil.parseModelToJson(model);
+                        LogUtil.WriteLog(SalesOutReview.class, "托盘市区装车提交", json);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "托盘提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
 
@@ -357,6 +371,7 @@ public  class SalesOutReview extends BaseActivity {
                             return true;
                         }else{
                         String json = GsonUtil.parseModelToJson(model);
+                        LogUtil.WriteLog(SalesOutReview.class, "箱号市区装车提交", json);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         return true;
@@ -514,6 +529,7 @@ public  class SalesOutReview extends BaseActivity {
                         inputBoxnumDialog("当前物料剩余复核数量为"+qty,qty,model.MaterialNo );
                     }else{
                     String modelJson = parseModelToJson(model);
+                        LogUtil.WriteLog(SalesOutReview.class, "箱号市区装车提交", modelJson);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
                     return;
@@ -550,6 +566,7 @@ public  class SalesOutReview extends BaseActivity {
                 model.MaterialNo = sales_outstock_reviewbarcode.getText().toString().trim();
                 model.ScanQty = 1.0f;
                 String json = GsonUtil.parseModelToJson(model);
+                LogUtil.WriteLog(SalesOutReview.class, "散件市区装车提交", json);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                         context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
             }
@@ -636,7 +653,7 @@ public  class SalesOutReview extends BaseActivity {
     public void BarcodeSubmit(String result) {
         try {
             //返回
-            LogUtil.WriteLog(SalesOutReview.class, "返回", result);
+            LogUtil.WriteLog(SalesOutReview.class, "市区装车返回", result);
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -707,7 +724,7 @@ public  class SalesOutReview extends BaseActivity {
                             model.MaterialNo = sales_outstock_reviewbarcode.getText().toString().trim();
                             model.ScanQty = inputValue;
                             String json = GsonUtil.parseModelToJson(model);
-                            LogUtil.WriteLog(SalesOutReview.class, "散件提交", json);
+                            LogUtil.WriteLog(SalesOutReview.class, "散件市区装车提交", json);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitParts_Submit, "散件提交中",
                                     context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                         } catch (Exception ex) {
@@ -749,6 +766,7 @@ public  class SalesOutReview extends BaseActivity {
                             }else {
                                 model.ScanQty = inputValue;
                                 String json = GsonUtil.parseModelToJson(model);
+                                LogUtil.WriteLog(SalesOutReview.class, "箱号市区装车提交", json);
                                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                         context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
                             }
