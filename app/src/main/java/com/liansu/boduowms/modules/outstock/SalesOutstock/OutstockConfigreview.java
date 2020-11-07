@@ -241,6 +241,8 @@ public class OutstockConfigreview extends BaseActivity {
       // }
     }
 
+   //当前扫描类型
+    private  String CurrScannType;
 
     //条码回车
     @Event(value = R.id.sales_outstock_config_reviewbarcode,type = EditText.OnKeyListener.class)
@@ -257,6 +259,7 @@ public class OutstockConfigreview extends BaseActivity {
                     }
                     String barcode = sales_outstock_config_reviewbarcode.getText().toString().trim();
                     String type = Analysis(barcode);
+                    CurrScannType=type;
                     //无效
                     if (type.equals(OutStock_Submit_type_none)) {
                         CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
@@ -264,6 +267,7 @@ public class OutstockConfigreview extends BaseActivity {
                         return true;
                     }
                     if (type.equals(OutStock_Submit_type_pallet)) {
+
                         //托盘
                         //先判断托盘是否存在
 //                        Outbarcode_Requery model = new Outbarcode_Requery();

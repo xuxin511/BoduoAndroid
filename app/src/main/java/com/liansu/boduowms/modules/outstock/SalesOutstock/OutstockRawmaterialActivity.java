@@ -573,33 +573,33 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 return;
             }
             //check到货单号  验退（成品，采购，销售）
-            if (CurrVoucherType == 28 || CurrVoucherType == 61 || CurrVoucherType == 62) {
-                if (!CurrOrderNO.equals(palletModel.Qualityno)) {
-                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                    MessageBox.Show(context, "该托盘号对应的质检单跟单据不一致");
-                    return;
-                }
-            }
+//            if (CurrVoucherType == 28 || CurrVoucherType == 61 || CurrVoucherType == 62) {
+//                if (!CurrOrderNO.equals(palletModel.Qualityno)) {
+//                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+//                    MessageBox.Show(context, "该托盘号对应的质检单跟单据不一致");
+//                    return;
+//                }
+//            }
             String materino=palletModel.getMaterialno()==null?"":palletModel.getMaterialno();
             String batchno=palletModel.getBatchno()==null?"":palletModel.getBatchno();
             //找到该托盘物料
             List<OutStockOrderDetailInfo> model = new ArrayList<OutStockOrderDetailInfo>();
             boolean batchnoisTrue=false;
             //check批次  验退（成品，采购，销售） 仓退
-            if(CurrVoucherType==27||CurrVoucherType==28||CurrVoucherType==61||CurrVoucherType==62){
-                for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-                    if (item.getBatchno().equals(batchno) && item.getMaterialno().equals(materino)) {
-                        batchnoisTrue = true;
-                        model.add(item);
-                    }
-                }
-                if(!batchnoisTrue) {
-                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                    MessageBox.Show(context, "请确认,扫描的托盘对应的批次或者物料不存在当前列表中");
-                    return;
-                }
-
-            }else {
+//            if(CurrVoucherType==27||CurrVoucherType==28||CurrVoucherType==61||CurrVoucherType==62){
+//                for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+//                    if (item.getBatchno().equals(batchno) && item.getMaterialno().equals(materino)) {
+//                        batchnoisTrue = true;
+//                        model.add(item);
+//                    }
+//                }
+//                if(!batchnoisTrue) {
+//                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+//                    MessageBox.Show(context, "请确认,扫描的托盘对应的批次或者物料不存在当前列表中");
+//                    return;
+//                }
+//
+//            }else {
                 //判断超发
                 if(CurrVoucherType==46|| CurrVoucherType==57){//委外发料，原材料出库
                     for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
@@ -616,11 +616,11 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     }
                     if(!batchnoisTrue) {
                         CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-                        MessageBox.Show(context, "请确认,扫描的托盘的物料不存在当前列表中");
+                        MessageBox.Show(context, "请确认,扫描的托盘的物料不存在当前列表中或者已经下架完成");
                         return;
                     }
                 }
-            }
+          //  }
             //原材料可以混托下架吗
             // OutStockOrderDetailInfo model = stockorderdetail.get(palletarr[0] + palletarr[1]);
             Float sumVoucherqty=0f;
