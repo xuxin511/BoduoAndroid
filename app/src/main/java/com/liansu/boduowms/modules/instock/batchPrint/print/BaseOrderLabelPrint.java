@@ -115,7 +115,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                 case R.id.base_order_label_print_batch_no:
                     if (mPresenter != null) {
                         String batchNo = mBatchNo.getText().toString().trim();
-                        if (batchNo.equals("")) {
+                        if (batchNo==null||batchNo.equals("")) {
                             MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -129,7 +129,19 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                             BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(batchNo);
                             if (resultInfo.getHeaderStatus()) {
                                 batchNo = resultInfo.getInfo().getBatchno();
-                                mBatchNo.setText(batchNo);
+                                if(batchNo!=null){
+                                    mBatchNo.setText(batchNo);
+                                }else {
+                                    MessageBox.Show(mContext, "条码中的批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            onBatchNoFocus();
+
+                                        }
+                                    });
+                                    return false;
+                                }
+
                             }
                         }
 
