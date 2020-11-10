@@ -147,6 +147,16 @@ public class SalesOutstock  extends BaseActivity  {
     @ViewInject(R.id.sales_outstock_radiogroup)
     RadioGroup radioGroup;
 
+    //收货地址
+    @ViewInject(R.id.combine_pallet_worker_order_text)
+    TextView combine_pallet_worker_order_text;
+    //整箱
+    @ViewInject(R.id.outstock_sales_boxnum_name)
+    TextView outstock_sales_boxnum_name;
+    //散件
+    @ViewInject(R.id.outstock_sales_shelf_name)
+    TextView outstock_sales_shelf_name;
+
     //listview    适配器
     SalesoutstockAdapter mAdapter;
 
@@ -260,7 +270,15 @@ public class SalesOutstock  extends BaseActivity  {
     protected void initData() {
         super.initData();
         //重写路径
-
+        // 派车单去掉数量以及地址显示
+        if(CurrVoucherType==36){
+            combine_pallet_worker_order_text.setVisibility(View.GONE);
+            outstock_sales_boxnum_name.setVisibility(View.GONE);
+            outstock_sales_shelf_name.setVisibility(View.GONE);
+            sales_outstock_address.setVisibility(View.GONE);
+            outstock_sales_shelf.setVisibility(View.GONE);
+            outstock_sales_boxnum.setVisibility(View.GONE);
+        }
     }
 
 

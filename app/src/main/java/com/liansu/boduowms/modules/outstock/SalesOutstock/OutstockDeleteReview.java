@@ -169,7 +169,7 @@ public class OutstockDeleteReview extends BaseActivity {
     //删除
     @Event(value =R.id.outstock_deletereview_button)
     private void  Click_delete(View view) {
-        if (mModel == null) {
+        if (mModel == null && mModel.getPackageSeq()!=0) {
             MessageBox.Show(context, "请选中列表行删除");
             return;
         }

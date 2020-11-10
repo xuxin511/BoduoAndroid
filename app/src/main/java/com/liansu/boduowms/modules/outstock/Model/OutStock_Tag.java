@@ -114,4 +114,8 @@ public class OutStock_Tag {
     public static String TAG_Saleoutstock_AreaPlatForm = "Sales_outstock_AreaPlatForm";    // 散件扫描托盘提交
     public static final int RESULT_Saleoutstock_AreaPlatForm = 154;
 
+
+    public static String TAG_Saleoutstock_OrderSelect = "Sales_outstock_OrderSelect";    // 发货通知单查询
+    public static final int RESULT_Saleoutstock_OrderSelect = 155;
+
 }

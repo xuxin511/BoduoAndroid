@@ -157,6 +157,9 @@ public class UrlInfo {
     public String  OutStock_WayBill_GetOrderList      = GetWCFAdress() + "WayBill/GetCompleteWayBillNo";
     public String  OutStock_WayBill_CancelPrintWayBill      = GetWCFAdress() + "WayBill/CancelPrintWayBill";
 
+    //发货通知单查询单号
+    public String  OutStock_OrderSelect      = GetWCFAdress() + "WayBill/Get_OutstockDetailPDA";
+
     //入库，出库 条码回退
     public String GetT_DetailSubAsync    = "";//  获取暂存数据
     public String DeleteT_DetailSubAsync = ""; // 删除暂存数据

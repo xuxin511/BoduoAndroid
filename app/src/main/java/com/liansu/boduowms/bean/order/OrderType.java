@@ -67,6 +67,7 @@ public class OrderType {
     public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_SENDCARSORDER_VALUE        = 36;
     public final static int    OUT_STOCK_ORDER_TYPE_PURCHASE_ALLOCATION_VALUE           = 25;
     public final static int OUT_STOCK_ORDER_TYPE_CONSIGNMENT_PLUS_BILL           = 76;   //托运加单
+    public final static int OUT_STOCK_ORDER_TYPE_OUTSTOCK_ORDERSELECT          = 79;   //发货通知单查询
 
 
     public final static int OUT_STOCK_ORDER_TYPE_OTHER_DELIVERY_AND_LOADING_VALUE = 1;

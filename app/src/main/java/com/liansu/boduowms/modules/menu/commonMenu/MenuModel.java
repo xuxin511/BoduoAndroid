@@ -32,6 +32,7 @@ import com.liansu.boduowms.modules.instock.salesReturn.scan.SalesReturnStorageSc
 import com.liansu.boduowms.modules.instock.transferToStorage.scan.TransferToStorageScan;
 import com.liansu.boduowms.modules.menu.commonMenu.subMenu.CommonBusinessSubMenu;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
+import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockOrderSelect;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockRawmaterialActivity;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.OutstockWaybillStates;
 import com.liansu.boduowms.modules.outstock.SalesOutstock.SalesOutStockCallback;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.liansu.boduowms.bean.order.OrderType.OUT_STOCK_ORDER_TYPE_CONSIGNMENT_PLUS_BILL;
+import static com.liansu.boduowms.bean.order.OrderType.OUT_STOCK_ORDER_TYPE_OUTSTOCK_ORDERSELECT;
 
 /**
  * @ Des:
@@ -314,6 +316,9 @@ public class MenuModel {
                 case 56://56 行政领用单
                     icon = R.drawable.b_administrative_requisition;
                     break;
+                case OUT_STOCK_ORDER_TYPE_OUTSTOCK_ORDERSELECT://发货通知单查询
+                    icon = R.drawable.b_inventory_scan;
+                    break;
             }
             if (icon != -1) {
                 item.setIcon(icon);
@@ -540,6 +545,10 @@ public class MenuModel {
                 case OUT_STOCK_ORDER_TYPE_CONSIGNMENT_PLUS_BILL:
                     intent.setData(data);
                     intent.setClass(mContext, OutstockWaybillStates.class);
+                    break;
+                case OUT_STOCK_ORDER_TYPE_OUTSTOCK_ORDERSELECT:
+                    intent.setData(data);
+                    intent.setClass(mContext, OutstockOrderSelect.class);
                     break;
             }
         } catch (Exception ex) {

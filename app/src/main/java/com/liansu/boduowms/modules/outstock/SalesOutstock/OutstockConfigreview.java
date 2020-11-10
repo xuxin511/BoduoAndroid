@@ -218,7 +218,7 @@ public class OutstockConfigreview extends BaseActivity {
     }
 
 
-    //提交过账
+    //提交过账FF
     @Event(value =R.id.outstock_sales_configbutton_reviewsubmit)
     private void   Sales_outstock_review_Submit(View view) {
         //  if (IsScanning()) {
@@ -258,6 +258,10 @@ public class OutstockConfigreview extends BaseActivity {
                         return true;
                     }
                     String barcode = sales_outstock_config_reviewbarcode.getText().toString().trim();
+                    if(barcode.equals("")){
+                        MessageBox.Show(context, "请输入或扫描条码");
+                        return true;
+                    }
                     String type = Analysis(barcode);
                     CurrScannType=type;
                     //无效
@@ -338,7 +342,7 @@ public class OutstockConfigreview extends BaseActivity {
                         LogUtil.WriteLog(OutstockConfigreview.class, "复核装车箱号提交", json);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
-                        sales_outstock_config_reviewbarcode.setText("");
+                       // sales_outstock_config_reviewbarcode.setText("");
                         return true;
                     }
                     if (type.equals(OutStock_Submit_type_parts)) {
@@ -504,7 +508,7 @@ public class OutstockConfigreview extends BaseActivity {
                     LogUtil.WriteLog(OutstockConfigreview.class, "复核装车箱号提交", modelJson);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
-                    sales_outstock_config_reviewbarcode.setText("");
+                 //   sales_outstock_config_reviewbarcode.setText("");
                     return;
                 } else {
                     CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
