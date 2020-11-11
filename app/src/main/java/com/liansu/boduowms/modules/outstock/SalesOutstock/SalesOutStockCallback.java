@@ -50,7 +50,7 @@ import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 @ContentView(R.layout.activity_outstock_callback)
 public class SalesOutStockCallback extends BaseActivity {
     Context context = SalesOutStockCallback.this;
-//outstock_callback_submit
+    //outstock_callback_submit
 
     //提交
     @ViewInject(R.id.outstock_callback_submit)
