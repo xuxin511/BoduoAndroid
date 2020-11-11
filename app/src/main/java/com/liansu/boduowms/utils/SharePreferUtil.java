@@ -22,11 +22,11 @@ import java.lang.reflect.Type;
 public class SharePreferUtil {
 
     public static void ReadShare(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting2", Context.MODE_PRIVATE);
         if (sharedPreferences != null) {
             UrlInfo.ElecIP = sharedPreferences.getString("ElecIP", "1.1.1.1");
             UrlInfo.isWMS = sharedPreferences.getBoolean("isWMS", true);
-            RequestHandler.SOCKET_TIMEOUT = sharedPreferences.getInt("TimeOut", 20000);
+            RequestHandler.SOCKET_TIMEOUT = sharedPreferences.getInt("TimeOut", 200000);
             UrlInfo.mOfficialEnvironmentIpAddress=sharedPreferences.getString("OfficialEnvironmentIpAddress","http://172.19.106.190:7001/api/");
             UrlInfo.mTestEnvironmentIpAddress=sharedPreferences.getString("TestEnvironmentIpAddress","http://172.19.106.230:5001/api/");
             UrlInfo.IPAdress = sharedPreferences.getString("IPAddress", "172.19.106.190");
@@ -40,7 +40,7 @@ public class SharePreferUtil {
     public static void SetShare(Context context, String IPAdress, String PrintIP, String ElecIP, Integer Port, Integer TimeOut, Boolean isWMS) {
         ElecIP = "1.1.1.1";
         PrintIP = ElecIP;
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting2", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString("IPAddress", IPAdress);
         edit.putString("PrintIP", PrintIP);
@@ -58,7 +58,7 @@ public class SharePreferUtil {
     }
 
     public static void setSystemSettingShare(Context context,String IPAddress,int port,String lastContent,int timeOut,String officialEnvironmentIpAddress,String testEnvironmentIpAddress,int environmentType){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting2", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString("IPAddress", IPAddress);
         edit.putInt("Port", port);
@@ -144,7 +144,7 @@ public class SharePreferUtil {
 
     public static void setPrinterAddressShare(Context context, String laserPrinterAddress, String desktopPrintAddress) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting2", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString("LaserPrinterAddress", laserPrinterAddress);
         edit.putString("DesktopPrintAddress", desktopPrintAddress);
@@ -161,7 +161,7 @@ public class SharePreferUtil {
      * @time 2020/7/30 15:01
      */
     public static void setBusinessPrinterType(Context context, int inStockPrintType, String inStockPrintAddress, int outStockPrintType, String outStockPrintAddress,int outStockPackingBoxPrintType, String outStockPackingBoxPrintAddress) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting2", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putInt("InStockPrintType", inStockPrintType);
         edit.putInt("OutStockPrintType", outStockPrintType);
@@ -179,7 +179,7 @@ public class SharePreferUtil {
     }
 
     public static void setBluetoothPrinterMacAddressShare(Context context, String macAddress) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting2", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString("MacAddress", macAddress);
         edit.commit();
@@ -188,7 +188,7 @@ public class SharePreferUtil {
 
 
     public static void readBluetoothPrinterMacAddressShare(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting2", Context.MODE_PRIVATE);
         if (sharedPreferences != null) {
             UrlInfo.mBluetoothPrinterMacAddress = sharedPreferences.getString("MacAddress", "1.1.1.1");
         }
@@ -202,7 +202,7 @@ public class SharePreferUtil {
      * @time 2020/7/30 15:06
      */
     public static void ReadPrintSettingShare(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Setting2", Context.MODE_PRIVATE);
         if (sharedPreferences != null) {
             UrlInfo.mBluetoothPrinterMacAddress = sharedPreferences.getString("MacAddress", "1.1.1.1");
             UrlInfo.mLaserPrinterAddress = sharedPreferences.getString("LaserPrinterAddress", "1.1.1.1");

@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
@@ -422,9 +423,15 @@ public class SalesOutstock  extends BaseActivity  {
                                 null, info.SalesOutstock_JudgeStock, json, null);
                         return true;
                         // }
+                    }else{
+
+                        CommonUtil.setEditFocus(sales_outstock_pallettext);
+                        MessageBox.Show(context,"请扫描正确托盘码");
+                        return true;
                     }
                 }else
                 {
+
                     return true;
                 }
             } catch (Exception ex) {
@@ -607,7 +614,7 @@ public class SalesOutstock  extends BaseActivity  {
             case RESULT_Saleoutstock_ScannBoxNo://箱号提交 更新列表
             case  RESULT_Saleoutstock_ScannParts_Submit:
                 SacnnPalletNo((String) msg.obj);
-                CommonUtil.setEditFocus(sales_outstock_boxtext);
+
                 break;
             case RESULT_Saleoutstock_ScannParts://检查物料69码是否存在
                 ScannParts((String) msg.obj);
@@ -718,11 +725,13 @@ public class SalesOutstock  extends BaseActivity  {
                 }else
                 {
                     MessageBox.Show(context, "批次集合数据为空");
+                    CommonUtil.setEditFocus(sales_outstock_boxtext);
                     return;
                 }
             }
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 MessageBox.Show(context, returnMsgModel.getResultValue());
+                CommonUtil.setEditFocus(sales_outstock_boxtext);
                 return;
             }
             materialModle=new MaterialResponseModel();
@@ -732,6 +741,7 @@ public class SalesOutstock  extends BaseActivity  {
             //成功需要更新listView 怎么更新
             String msg = "";
             if (returnMsgModel.getData().size() > 0) {
+                String updateMaterialno = list.get(0).getMaterialno();
                 for (OutStockOrderDetailInfo oderdetail : list) {
                     BaseMultiResultInfo<Boolean, Void> checkResult = mModel.UpdateListViewItem(oderdetail);
                     mAdapter.notifyDataSetChanged();
@@ -739,13 +749,23 @@ public class SalesOutstock  extends BaseActivity  {
                         msg = msg + "物料" + oderdetail.getMaterialno() + "批次" + oderdetail.getBatchno();
                     }
                 }
+                for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
+                    if (item.getMaterialno().equals(updateMaterialno) && item.getRemainqty() == 0) {
+                        //清空箱号框 选中托盘框
+                        sales_outstock_boxtext.setText("");
+                        Toast.makeText(context, "物料" + updateMaterialno + "已经下架完成", Toast.LENGTH_SHORT).show();
+                        CommonUtil.setEditFocus(sales_outstock_pallettext);//选择托盘框
+                        return;
+                    }
+                }
             }
             if (!msg.equals("")) {
                 MessageBox.Show(context, msg + "更新失败");
+                CommonUtil.setEditFocus(sales_outstock_boxtext);
             }
-
         } catch (Exception EX) {
             MessageBox.Show(context, EX.toString());
+            CommonUtil.setEditFocus(sales_outstock_boxtext);
         }
     }
 
