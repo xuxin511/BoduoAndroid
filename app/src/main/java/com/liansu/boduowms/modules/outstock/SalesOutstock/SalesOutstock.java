@@ -614,7 +614,6 @@ public class SalesOutstock  extends BaseActivity  {
             case RESULT_Saleoutstock_ScannBoxNo://箱号提交 更新列表
             case  RESULT_Saleoutstock_ScannParts_Submit:
                 SacnnPalletNo((String) msg.obj);
-
                 break;
             case RESULT_Saleoutstock_ScannParts://检查物料69码是否存在
                 ScannParts((String) msg.obj);
@@ -763,6 +762,8 @@ public class SalesOutstock  extends BaseActivity  {
                 MessageBox.Show(context, msg + "更新失败");
                 CommonUtil.setEditFocus(sales_outstock_boxtext);
             }
+            CommonUtil.setEditFocus(sales_outstock_boxtext);
+
         } catch (Exception EX) {
             MessageBox.Show(context, EX.toString());
             CommonUtil.setEditFocus(sales_outstock_boxtext);
