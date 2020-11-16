@@ -207,9 +207,9 @@ public class SharePreferUtil {
             UrlInfo.mBluetoothPrinterMacAddress = sharedPreferences.getString("MacAddress", "1.1.1.1");
             UrlInfo.mLaserPrinterAddress = sharedPreferences.getString("LaserPrinterAddress", "1.1.1.1");
             UrlInfo.mDesktopPrintAddress = sharedPreferences.getString("DesktopPrintAddress", "1.1.1.1");
-            UrlInfo.mInStockPrintType = sharedPreferences.getInt("InStockPrintType", -1);
-            UrlInfo.mOutStockPrintType = sharedPreferences.getInt("OutStockPrintType", -1);
-            UrlInfo.mOutStockPackingBoxPrintType = sharedPreferences.getInt("OutStockPackingBoxPrintType", -1);
+            UrlInfo.mInStockPrintType = sharedPreferences.getInt("InStockPrintType", 1);
+            UrlInfo.mOutStockPrintType = sharedPreferences.getInt("OutStockPrintType", 1);
+            UrlInfo.mOutStockPackingBoxPrintType = sharedPreferences.getInt("OutStockPackingBoxPrintType", 1);
             UrlInfo.mInStockPrintName=sharedPreferences.getString("InStockPrintAddress", "");
             UrlInfo.mOutStockPrintName=sharedPreferences.getString("OutStockPrintAddress", "");
             UrlInfo.mOutStockPackingBoxPrintName=sharedPreferences.getString("OutStockPackingBoxPrintAddress", "");

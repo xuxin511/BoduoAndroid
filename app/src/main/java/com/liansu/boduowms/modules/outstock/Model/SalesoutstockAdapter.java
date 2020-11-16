@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.outstock.Model;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,7 @@ public class SalesoutstockAdapter extends BaseAdapter {
             listItemView.unitno = (TextView) convertView.findViewById(R.id.txt_unitno);
             listItemView.txt_recommended_location = (TextView) convertView.findViewById(R.id.txt_recommended_location);
             if(mDetailInfo.getVouchertype()==36){
+                listItemView.  txt_reference_standard.setGravity(Gravity.LEFT);
                 listItemView.txt_recommended_location.setVisibility(View.GONE);
                 listItemView.txtMaterialDesc.setVisibility(View.GONE);
                 listItemView.unitno.setVisibility(View.GONE);
@@ -133,12 +135,15 @@ public class SalesoutstockAdapter extends BaseAdapter {
         listItemView.txtbatchno.setText("批次:" +batchno);
 
         //listItemView.txtVoucherQty.setText("下架量:" + "11111111"+mDetailInfo.getUnit());
-        listItemView.txtRemainQty.setText("剩余量:" + mDetailInfo.getRemainqty());
+   //     listItemView.txtRemainQty.setText("剩余量:" + mDetailInfo.getRemainqty());
+        listItemView.txtRemainQty.setText("待扫量:" + mDetailInfo.getRemainqty());
         if(mDetailInfo.getVoucherqty()<0&& mDetailInfo.getOutstockqty()==0&&mDetailInfo.getRemainqty()==0) {
-            listItemView.txtVoucherQty.setText("下架量:0");
+           // listItemView.txtVoucherQty.setText("下架量:0");
+            listItemView.txtVoucherQty.setText("需求量:0");
             listItemView.txtScanQty.setText("已超领:" + ArithUtil.sub(0f, mDetailInfo.getVoucherqty()));
         }else {
-            listItemView.txtVoucherQty.setText("下架量:" + mDetailInfo.getVoucherqty());
+            listItemView.txtVoucherQty.setText("需求量:" + mDetailInfo.getVoucherqty());
+            //listItemView.txtVoucherQty.setText("下架量:" + mDetailInfo.getVoucherqty());
             listItemView.txtScanQty.setText("已下架:" + mDetailInfo.getScanqty());
         }
         listItemView.txt_recommended_location.setText("推荐库位:"+mDetailInfo.getAreano());

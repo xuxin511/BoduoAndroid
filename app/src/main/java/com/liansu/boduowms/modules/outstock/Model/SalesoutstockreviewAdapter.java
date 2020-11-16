@@ -105,7 +105,7 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
 //            listItemView.txt_reference_standard.setText("外箱:" + mDetailInfo.getMaterialCartonNum() + "/零头:" + mDetailInfo.getMaterialPartNum());
 //        }
         Float QTY=ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty());
-        listItemView.txtVoucherQty.setText("需求量:" + mDetailInfo.getOutstockqty()+mDetailInfo.getUnit());
+        listItemView.txtVoucherQty.setText("需求量:" + mDetailInfo.getVoucherqty()+mDetailInfo.getUnit());
         // Float arr = ArithUtil.sub(info.getVoucherqty(), detailInfo.getScanqty());
         listItemView.txtRemainQty.setText("未装车:"+ ArithUtil.sub(mDetailInfo.getRemainqty(),mDetailInfo.getScanqty())+mDetailInfo.getUnit());
         listItemView.txtScanQty.setText("已装车:" + mDetailInfo.getScanqty()+mDetailInfo.getUnit());
@@ -115,7 +115,7 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
         listItemView.txt_batch_no.setText("批次:"+mDetailInfo.getBatchno());
         if (QTY>0&&QTY<mDetailInfo.getRemainqty()) {//已扫数量
             convertView.setBackgroundResource(R.color.khaki);
-        } else if ( ArithUtil.sub( mDetailInfo.getRemainqty() ,mDetailInfo.getScanqty())==0) {
+        } else if ( ArithUtil.sub( mDetailInfo.getVoucherqty() ,mDetailInfo.getScanqty())==0) {
             convertView.setBackgroundResource(R.color.springgreen);
         } else {
             convertView.setBackgroundResource(R.color.trans);

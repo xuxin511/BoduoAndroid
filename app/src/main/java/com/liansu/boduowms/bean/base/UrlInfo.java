@@ -23,9 +23,9 @@ public class UrlInfo {
     public static String  mBluetoothPrinterMacAddress  = "AC3FA45B9232"; //蓝牙打印地址
     public static String  mDesktopPrintAddress         = "";  //桌面打印机名称
     public static String  mLaserPrinterAddress         = "";  //激光打印机名称
-    public static int     mInStockPrintType            = -1; //入库打印机选择
-    public static int     mOutStockPrintType           = -1; //出库打印机选择
-    public static int     mOutStockPackingBoxPrintType = -1; //出库拼箱打印机选择
+    public static int     mInStockPrintType            = 1; //入库打印机选择
+    public static int     mOutStockPrintType           = 1; //出库打印机选择
+    public static int     mOutStockPackingBoxPrintType = 1; //出库拼箱打印机选择
     public static String  mInStockPrintName            = ""; //入库打印名称
     public static String  mOutStockPrintName           = ""; //出库打印名称
     public static String  mOutStockPackingBoxPrintName = ""; //出库拼箱打印名称

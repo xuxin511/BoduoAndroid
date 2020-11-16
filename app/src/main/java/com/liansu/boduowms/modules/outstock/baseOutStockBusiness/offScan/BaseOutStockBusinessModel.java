@@ -477,7 +477,7 @@ public class BaseOutStockBusinessModel extends BaseModel {
     // 更新item
     public BaseMultiResultInfo<Boolean, Void> UpdateMaterialInfo(OutStockOrderDetailInfo detailInfo) {
         BaseMultiResultInfo<Boolean, Void> resultInfo = new BaseMultiResultInfo<>();
-        if (detailInfo != null) {
+        if (detailInfo.getRowno()!= null&&detailInfo.getRownodel() !=null) {
             sortList = new ArrayList<OutStockOrderDetailInfo>();
             String rowNo = detailInfo.getRowno() != null ? detailInfo.getRowno() : "";
             String rowDel = detailInfo.getRownodel() != null ? detailInfo.getRownodel() : "";

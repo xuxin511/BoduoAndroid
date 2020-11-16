@@ -839,7 +839,7 @@ public  class SalesOutReview extends BaseActivity {
     private boolean IsScanningOver() {
         boolean istrue = true;
         for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-            if (item.getRemainqty() != item.getScanqty()) {
+            if (item.getVoucherqty() != item.getScanqty()) {
                 istrue = false;
             }
         }
