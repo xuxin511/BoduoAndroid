@@ -9,9 +9,29 @@ package com.liansu.boduowms.modules.outstock.Model;
     public  Float  Voucherqty;
     public  Float  Postqty;
     public  Float  Notpostqty;
+    public  Float Outstockqty;
+    public  Float ReviewQty;
 
-    public  String Arrvoucherno;
+      public Float getOutstockqty() {
+          return Outstockqty;
+      }
+
+      public void setOutstockqty(Float outstockqty) {
+          Outstockqty = outstockqty;
+      }
+
+      public Float getReviewQty() {
+          return ReviewQty;
+      }
+
+      public void setReviewQty(Float reviewQty) {
+          ReviewQty = reviewQty;
+      }
+
+      public  String Arrvoucherno;
     public  String Erpvoucherno;
+
+
 
     public String getMaterialno() {
         return Materialno;

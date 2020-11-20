@@ -9,6 +9,7 @@ import android.icu.lang.UProperty;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,9 +60,7 @@ import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 @ContentView(R.layout.activity_outstock_order_select)
 public class OutstockOrderSelect extends BaseActivity {
     Context context = OutstockOrderSelect.this;
-    //托运单号
-    @ViewInject(R.id.sales_outstock_select_wabillorder)
-    EditText sales_outstock_select_wabillorder;
+
 
     //发货通知单号
     @ViewInject(R.id.sales_outstock_select_order)
@@ -119,17 +118,37 @@ public class OutstockOrderSelect extends BaseActivity {
         // mList.not
     }
 
+    @Event(value = R.id.sales_outstock_select_order,type = EditText.OnKeyListener.class)
+    private  boolean boxKeyDowm(View v, int keyCode, KeyEvent event) {
+        View vFocus = v.findFocus();
+        int etid = vFocus.getId();
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == sales_outstock_select_order.getId()) {
+            try {
+                OutstockOrderSelectModel model = new OutstockOrderSelectModel();
+         // model.Erpvoucherno = sales_outstock_select_wabillorder.getText().toString().trim();
+                model.Erpvoucherno = sales_outstock_select_order.getText().toString().trim();
+                String json = GsonUtil.parseModelToJson(model);
+                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_OrderSelect, "查询单号信息中",
+                        context, mHandler, RESULT_Saleoutstock_OrderSelect, null, info.OutStock_OrderSelect, json, null);
+            } catch (Exception ex) {
+                CommonUtil.setEditFocus(sales_outstock_select_order);
+                MessageBox.Show(context, ex.toString());
+            }
+        }
+        return false;
+    }
+
     //点击查询
     @Event(value = R.id.outstock_selectorder_button)
     private void Click_Select(View view) {
-        if (sales_outstock_select_wabillorder.getText().toString().trim().equals("") && sales_outstock_select_order.getText().toString().trim().equals("")) {
-            CommonUtil.setEditFocus(sales_outstock_select_wabillorder);
+        if ( sales_outstock_select_order.getText().toString().trim().equals("")) {
+            CommonUtil.setEditFocus(sales_outstock_select_order);
             MessageBox.Show(context, "请输入或扫描单号");
         } else {
             //都不为空的情况
             OutstockOrderSelectModel model = new OutstockOrderSelectModel();
-            model.Erpvoucherno = sales_outstock_select_wabillorder.getText().toString().trim();
-            model.Arrvoucherno = sales_outstock_select_order.getText().toString().trim();
+//            model.Erpvoucherno = sales_outstock_select_wabillorder.getText().toString().trim();
+            model.Erpvoucherno = sales_outstock_select_order.getText().toString().trim();
             String json = GsonUtil.parseModelToJson(model);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_OrderSelect, "查询单号信息中",
                     context, mHandler, RESULT_Saleoutstock_OrderSelect, null, info.OutStock_OrderSelect, json, null);

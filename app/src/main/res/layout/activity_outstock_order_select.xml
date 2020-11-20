@@ -46,30 +46,12 @@
         app:layout_constraintRight_toLeftOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/combine_pallet_toolbar" />
-    <EditText
-        android:id="@+id/sales_outstock_select_wabillorder"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/sp_30"
-        android:layout_marginTop="2sp"
-        android:background="@drawable/et_selector"
-        android:gravity="left|center_vertical"
-        android:hint="请输入或扫描托运单"
-        android:selectAllOnFocus="true"
-        android:paddingLeft="@dimen/sp_7"
-        android:singleLine="true"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_17"
-        android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_select_order" />
     <TextView
         android:layout_height="@dimen/sp_8"
         android:layout_width="match_parent"
         android:id="@+id/sales_outstock_line2"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_select_wabillorder"
+        app:layout_constraintTop_toBottomOf="@+id/sales_outstock_select_order"
         />
 
 

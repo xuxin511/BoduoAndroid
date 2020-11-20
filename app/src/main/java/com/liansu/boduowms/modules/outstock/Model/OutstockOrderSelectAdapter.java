@@ -71,6 +71,7 @@ public class OutstockOrderSelectAdapter extends BaseAdapter {
             listItemView.txtThreeRight = (TextView) convertView.findViewById(R.id.item_area_no);
             listItemView.txtThreeLeft.setTextColor(Color.RED);
             listItemView.txtThreeRight.setTextColor(Color.RED);
+            listItemView.txtTwoLeft.setTextColor(Color.RED);
             listItemView.txtFourRight = (TextView) convertView.findViewById(R.id.item_material_desc);
             convertView.setTag(listItemView);
         } else {
@@ -78,15 +79,14 @@ public class OutstockOrderSelectAdapter extends BaseAdapter {
         }
         final OutstockOrderSelectModel mDetailInfo = modelList.get(selectID);
         listItemView.txtOneLeft.setText(mDetailInfo.getMaterialdesc());
-        listItemView.txtTwoLeft.setText(mDetailInfo.getMaterialno());
-        listItemView.txtTwoRight.setText("申请量:" + mDetailInfo.getVoucherqty());
-        listItemView.txtThreeLeft.setText("已转出:" + mDetailInfo.Postqty);
-        listItemView.txtThreeRight.setText("未转出:" + mDetailInfo.Notpostqty);
+        listItemView.txtTwoLeft.setText("申请量:" + mDetailInfo.Voucherqty);
+        listItemView.txtTwoRight.setText ("已转出:" + mDetailInfo.Outstockqty);
+        listItemView.txtThreeLeft.setText("未转出:" + mDetailInfo.ReviewQty);
+        listItemView.txtThreeRight.setText("过账量:" + mDetailInfo.Postqty);
+
         if(mDetailInfo.Erpvoucherno==null)
             mDetailInfo.Erpvoucherno="无";
-        if(mDetailInfo.Arrvoucherno==null)
-            mDetailInfo.Arrvoucherno="无";
-        listItemView.txtFourRight.setText("托运单:"+mDetailInfo.Erpvoucherno + "\n" + "发货单:"+mDetailInfo.Arrvoucherno);
+        listItemView.txtFourRight.setText("物料号:"+mDetailInfo.Materialno + "\n" + "发货单:"+mDetailInfo.Erpvoucherno);
         return convertView;
     }
 }
