@@ -36,6 +36,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -426,6 +427,14 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
                             if (mUserSettingPresenter != null) {
                                 mUserSettingPresenter.saveCurrentWareHouse(select_item);
                             }
+                            if (mPresenter!=null){
+                                ArrayList<OrderDetailInfo> orderDetailInfos= mPresenter.getModel().getOrderDetailList();
+                                if (orderDetailInfos!=null && orderDetailInfos.size()>0){
+                                     mPresenter.onReset();
+                                }
+
+                            }
+
 
                             dialog.dismiss();
                         }
