@@ -110,11 +110,9 @@ public  class SalesOutReview extends BaseActivity {
     @ViewInject(R.id.sales_outstock_reviewbarcode)
     EditText sales_outstock_reviewbarcode;
 
-
     //地址
     @ViewInject(R.id.sales_outstock_address)
     TextView sales_outstock_address;
-
 
     //收货人
     @ViewInject(R.id.out_stock_sales_reviewusername)
@@ -558,6 +556,8 @@ public  class SalesOutReview extends BaseActivity {
                 //库存输入散件
                 inputTitleDialog("该物料当前剩余数量为"+qty,qty);
             }else {
+
+
                 SalesoutstockRequery model = new SalesoutstockRequery();
                 model.Erpvoucherno = CurrOrderNO;
                 model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;

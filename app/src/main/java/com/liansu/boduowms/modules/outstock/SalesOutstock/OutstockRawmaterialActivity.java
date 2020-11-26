@@ -573,13 +573,13 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                 return;
             }
             //check到货单号  验退（成品，采购，销售）
-//            if (CurrVoucherType == 28 || CurrVoucherType == 61 || CurrVoucherType == 62) {
-//                if (!CurrOrderNO.equals(palletModel.Qualityno)) {
-//                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
-//                    MessageBox.Show(context, "该托盘号对应的质检单跟单据不一致");
-//                    return;
-//                }
-//            }
+            if (CurrVoucherType == 28 || CurrVoucherType == 61 || CurrVoucherType == 62) {
+                if (!CurrOrderNO.equals(palletModel.Qualityno)) {
+                    CommonUtil.setEditFocus(sales_outstock_material_pallettext);
+                    MessageBox.Show(context, "该托盘号对应的质检单跟单据不一致");
+                    return;
+                }
+            }
             String materino=palletModel.getMaterialno()==null?"":palletModel.getMaterialno();
             String batchno=palletModel.getBatchno()==null?"":palletModel.getBatchno();
             //找到该托盘物料
