@@ -70,7 +70,7 @@ public class OrderDetailInfo implements Parcelable {
     protected int                  Materialnoid;
     protected String               Rownodel;
     protected String               Purchaseqty;
-    protected int                  Postqty;
+    protected float                  Postqty;
     protected String               Postuser;
     protected Object               Postdate;
     protected String               Specialstock;//寄售库存
@@ -130,7 +130,7 @@ public class OrderDetailInfo implements Parcelable {
         Materialnoid = in.readInt();
         Rownodel = in.readString();
         Purchaseqty = in.readString();
-        Postqty = in.readInt();
+        Postqty = in.readFloat();
         Postuser = in.readString();
         Specialstock = in.readString();
         Scanqty = in.readFloat();
@@ -328,11 +328,11 @@ public class OrderDetailInfo implements Parcelable {
         Purchaseqty = purchaseqty;
     }
 
-    public int getPostqty() {
+    public float getPostqty() {
         return Postqty;
     }
 
-    public void setPostqty(int postqty) {
+    public void setPostqty(float postqty) {
         Postqty = postqty;
     }
 
@@ -645,7 +645,7 @@ public class OrderDetailInfo implements Parcelable {
         dest.writeInt(Materialnoid);
         dest.writeString(Rownodel);
         dest.writeString(Purchaseqty);
-        dest.writeInt(Postqty);
+        dest.writeFloat(Postqty);
         dest.writeString(Postuser);
         dest.writeString(Specialstock);
         dest.writeFloat(Scanqty);
