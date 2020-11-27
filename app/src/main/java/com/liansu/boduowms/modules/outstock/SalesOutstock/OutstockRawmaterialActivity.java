@@ -149,7 +149,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
         CurrVoucherType = type; //
 
         //一阶段调拨没有长按删除功能
-        if(CurrVoucherType!=25){
+        //if(CurrVoucherType!=25){
             mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(context, StockRollBack.class);
@@ -162,7 +162,7 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                     return false;
                 }
             });
-        }
+        //}
 
 
 //        if(CurrVoucherType==46) {//领料 发料 派车单 自动过账  (开始隐藏按钮 失败后显示按钮)
