@@ -21,4 +21,6 @@ public interface IBaseOrderLabelPrintView {
     float getPalletQty();
     int  getPrintCount();
     boolean checkBatchNo(String batchNo);
+    float getOriginalRemainQty();
+    boolean checkRemainQty();
 }

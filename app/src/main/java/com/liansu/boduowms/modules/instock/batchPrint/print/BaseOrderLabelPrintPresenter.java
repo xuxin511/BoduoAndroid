@@ -196,6 +196,23 @@ public class BaseOrderLabelPrintPresenter {
                     });
                     return;
                 }
+//                if (mModel.getCurrentPrintInfo()!=null && mModel.getCurrentPrintInfo().getVouchertype()== OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE){
+//                    if (mView.getOriginalRemainQty()>0){
+//                        if (ArithUtil.sub(mView.getOriginalRemainQty(),remainQty)<0){
+//                            MessageBox.Show(mContext, "修改的剩余打印数量不能大于订单的剩余打印数量", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    mView.onOrderRemainQtyFocus();
+//                                }
+//                            });
+//                            return;
+//                        }
+//                    }
+//                }
+                if (!mView.checkRemainQty()) {
+                    return;
+                }
+
                 if (remainQty < palletQty) {
                     MessageBox.Show(mContext, "总数量必须大于等于可打印数", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                         @Override
@@ -229,7 +246,7 @@ public class BaseOrderLabelPrintPresenter {
                                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                                     }.getType());
                                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
-                                        ToastUtil.show( returnMsgModel.getResultValue());
+                                        ToastUtil.show(returnMsgModel.getResultValue());
                                         mView.onReset();
 //                                        MessageBox.Show(mContext, returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
 //                                            @Override
