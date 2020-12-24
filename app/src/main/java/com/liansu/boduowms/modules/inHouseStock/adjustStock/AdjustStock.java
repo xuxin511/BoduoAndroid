@@ -164,6 +164,7 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
             } else {
                 mCurrentStockInfo.setQty(qty);
             }
+            mCurrentStockInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUsername());
             mCurrentStockInfo.setBatchno(batchNo);
             mCurrentStockInfo.setStatus(QCStatusType);
             mCurrentStockInfo.setVouchertype(OrderType.IN_HOUSE_STOCK_ORDER_TYPE_INVENTORY_ADJUSTMENT_VALUE);
