@@ -10,7 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.liansu.boduowms.R;
+import com.liansu.boduowms.utils.function.ArithUtil;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 //明盘列表
@@ -35,7 +38,43 @@ import java.util.List;
         this.mContext = mContext;
         listContainer = LayoutInflater.from(mContext); // 创建视图容器并设置上下文
         this.stockInfoModels = stockInfoModels;
+        //  List<InventoryModel>
 
+        //盘点数量等于暂存数量沉底
+        //大于 沉底之上
+        //小于  大于之上
+        Iterator<InventoryModel> it = this.stockInfoModels.iterator();
+        List<InventoryModel> lvlist = new ArrayList<InventoryModel>();
+        List<InventoryModel> hlist = new ArrayList<InventoryModel>();
+        List<InventoryModel> huanglist = new ArrayList<InventoryModel>();
+        while (it.hasNext()) {
+            InventoryModel model = it.next();
+            if (ArithUtil.sub(model.Qty, model.ScannQty) == 0 && ArithUtil.sub(0f, model.ScannQty)!=0) {
+                lvlist.add(model);
+                it.remove();
+            } else if (ArithUtil.sub(model.Qty, model.ScannQty) > 0 && ArithUtil.sub(0f, model.ScannQty)!=0) {
+                huanglist.add(model);
+                it.remove();
+            } else if (ArithUtil.sub(model.Qty, model.ScannQty) < 0 && ArithUtil.sub(0f, model.ScannQty)!=0) {
+                hlist.add(model);
+                it.remove();
+            }
+        }
+        int i = stockInfoModels.size();
+        for (InventoryModel item : hlist) {
+            stockInfoModels.add(i, item);
+            i++;
+        }
+        i = stockInfoModels.size();
+        for (InventoryModel item : huanglist) {
+            stockInfoModels.add(i, item);
+            i++;
+        }
+        i = stockInfoModels.size();
+        for (InventoryModel item : lvlist) {
+            stockInfoModels.add(i, item);
+            i++;
+        }
     }
 
     @Override
@@ -83,7 +122,14 @@ import java.util.List;
         listItemView.txtVoucherQty.setText("数量:" + mDetailInfo.getQty() + mDetailInfo.getUnit());
         listItemView.txtbatchno.setText("序列号:" + mDetailInfo.Serialno);
         if (mDetailInfo.isCheck) {
+            convertView.setBackgroundResource(R.color.gray_cc);
+        } else if (ArithUtil.sub(mDetailInfo.Qty, mDetailInfo.ScannQty) == 0 && ArithUtil.sub(0f, mDetailInfo.ScannQty)!=0) {
             convertView.setBackgroundResource(R.color.springgreen);
+//111
+        } else if (ArithUtil.sub(mDetailInfo.Qty, mDetailInfo.ScannQty) > 0 && ArithUtil.sub(0f, mDetailInfo.ScannQty)!=0) {
+            convertView.setBackgroundResource(R.color.khaki);
+        } else if (ArithUtil.sub(mDetailInfo.Qty, mDetailInfo.ScannQty) < 0 && ArithUtil.sub(0f, mDetailInfo.ScannQty)!=0) {
+            convertView.setBackgroundResource(R.color.pink);
         } else {
             convertView.setBackgroundResource(R.color.trans);
         }

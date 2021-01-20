@@ -303,7 +303,9 @@ public class InventoryList extends BaseActivity {
                     }
                 }
                 CommonUtil.setEditFocus(inventory_list_barcode);
-                mAdapter.notifyDataSetChanged();
+                //mAdapter.notifyDataSetChanged();
+                mAdapter = new InventoryListAdapter(context, listModel);
+                mList.setAdapter(mAdapter);
                 return true;
 
             } catch (Exception ex) {
