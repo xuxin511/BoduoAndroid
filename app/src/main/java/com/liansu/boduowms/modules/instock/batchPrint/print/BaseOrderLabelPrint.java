@@ -69,7 +69,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
     EditText mPrintCount;
     Context                      mContext = BaseOrderLabelPrint.this;
     BaseOrderLabelPrintPresenter mPresenter;
-    float mOriginalRemainQty;
+    float                        mOriginalRemainQty;
 
     @Override
     public void onHandleMessage(Message msg) {
@@ -108,7 +108,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
         }
     }
 
-    @Event(value = {R.id.base_order_label_print_batch_no, R.id.base_order_label_print_pack_qty, R.id.base_order_label_print_pallet_no,R.id.base_order_label_print_remain_qty}, type = View.OnKeyListener.class)
+    @Event(value = {R.id.base_order_label_print_batch_no, R.id.base_order_label_print_pack_qty, R.id.base_order_label_print_pallet_no, R.id.base_order_label_print_remain_qty}, type = View.OnKeyListener.class)
     private boolean onScan(View v, int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)// 如果为Enter键
         {
@@ -117,42 +117,7 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
                 case R.id.base_order_label_print_batch_no:
                     if (mPresenter != null) {
                         String batchNo = mBatchNo.getText().toString().trim();
-                        if (batchNo==null||batchNo.equals("")) {
-                            MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    onBatchNoFocus();
-
-                                }
-                            });
-                            return false;
-                        }
-                        if (batchNo.contains("%")) {
-                            BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(batchNo);
-                            if (resultInfo.getHeaderStatus()) {
-                                batchNo = resultInfo.getInfo().getBatchno();
-                                if(batchNo!=null){
-                                    mBatchNo.setText(batchNo);
-                                }else {
-                                    MessageBox.Show(mContext, "条码中的批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            onBatchNoFocus();
-                                        }
-                                    });
-                                    return false;
-                                }
-
-                            }
-                        }
-
-                        if (!DateUtil.isBeforeOrCompareToday(batchNo.trim(), "yyyyMMdd")) {
-                            MessageBox.Show(mContext, "校验日期格式失败:" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    onBatchNoFocus();
-                                }
-                            });
+                        if (!checkBatchNo(batchNo)) {
                             return false;
                         }
                         if (mPresenter.getModel().getPrintType() == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
@@ -279,14 +244,14 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
 
     @Override
     public void setPrintInfoData(OrderDetailInfo printInfoData, int printType) {
-        mOriginalRemainQty=0;
+        mOriginalRemainQty = 0;
         if (printInfoData != null) {
             mMaterialNo.setText(printInfoData.getMaterialno());
             mMaterialDesc.setText(printInfoData.getMaterialdesc());
             mBatchNo.setText(printInfoData.getBatchno());
             mRemainQty.setText(printInfoData.getRemainqty() + "");
             mErpVoucherNo.setText(printInfoData.getErpvoucherno());
-            mOriginalRemainQty=printInfoData.getRemainqty();
+            mOriginalRemainQty = printInfoData.getRemainqty();
             if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
                 if (printInfoData.getPackQty() > 0) {
                     mPackQty.setEnabled(false);
@@ -371,6 +336,34 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
 
     @Override
     public boolean checkBatchNo(String batchNo) {
+        if (batchNo == null || batchNo.equals("")) {
+            MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBatchNoFocus();
+
+                }
+            });
+            return false;
+        }
+        if (batchNo.contains("%")) {
+            BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(batchNo);
+            if (resultInfo.getHeaderStatus()) {
+                batchNo = resultInfo.getInfo().getBatchno();
+                if (batchNo != null) {
+                    mBatchNo.setText(batchNo);
+                } else {
+                    MessageBox.Show(mContext, "条码中的批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onBatchNoFocus();
+                        }
+                    });
+                    return false;
+                }
+
+            }
+        }
         if (!DateUtil.isBeforeOrCompareToday(batchNo.trim(), "yyyyMMdd")) {
             MessageBox.Show(mContext, "校验日期格式失败:[" + batchNo + "]" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
@@ -404,17 +397,17 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
     }
 
     /**
-     * @desc:  校验采购订单的剩余数量，手动输入的剩余数量不能大于订单的剩余数量
+     * @desc: 校验采购订单的剩余数量，手动输入的剩余数量不能大于订单的剩余数量
      * @param:
      * @return:
      * @author: Nietzsche
      * @time 2020/12/4 9:52
      */
-    public boolean checkRemainQty(){
-        if (mPresenter!=null){
-            if (mPresenter.mModel.getCurrentPrintInfo()!=null && mPresenter.mModel.getCurrentPrintInfo().getVouchertype()== OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE){
-                if (getOriginalRemainQty()>0){
-                    if (ArithUtil.sub(getOriginalRemainQty(),getRemainQty())<0){
+    public boolean checkRemainQty() {
+        if (mPresenter != null) {
+            if (mPresenter.mModel.getCurrentPrintInfo() != null && mPresenter.mModel.getCurrentPrintInfo().getVouchertype() == OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE) {
+                if (getOriginalRemainQty() > 0) {
+                    if (ArithUtil.sub(getOriginalRemainQty(), getRemainQty()) < 0) {
                         MessageBox.Show(mContext, "修改的剩余打印数量不能大于订单的剩余打印数量", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

@@ -7,6 +7,7 @@ import android.os.Message;
 import com.google.gson.reflect.TypeToken;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderDetailInfo;
@@ -31,13 +32,14 @@ import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
  * @ Created by yangyiqing on 2020/8/14.
  */
 public class BaseOrderLabelPrintPresenter {
-    protected       Context                  mContext;
-    protected       BaseOrderLabelPrintModel mModel;
-    protected       IBaseOrderLabelPrintView mView;
-    protected       PrintBusinessModel       mPrintModel;
-    protected       MyHandler<BaseActivity>  mHandler;
-    protected final int                      PRINT_OUTER_BOX = 10003;
-
+    protected           Context                  mContext;
+    protected           BaseOrderLabelPrintModel mModel;
+    protected           IBaseOrderLabelPrintView mView;
+    protected           PrintBusinessModel       mPrintModel;
+    protected           MyHandler<BaseActivity>  mHandler;
+    protected final     int                      PRINT_OUTER_BOX           = 10003;
+    public static final int                      CHECK_BATCH_NO_TYPE_NONE  = 0;
+    public static final int                      CHECK_BATCH_NO_TYPE_PRINT = 1;
 
     PrintCallBackListener mPrintCallBackListener = new PrintCallBackListener() {
         @Override
@@ -82,7 +84,8 @@ public class BaseOrderLabelPrintPresenter {
         if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_OUTER_BOX) {
             onOuterBoxInfoBatchPrint();
         } else if (printType == PrintBusinessModel.PRINTER_LABEL_TYPE_PALLET_NO || printType == PrintBusinessModel.PRINTER_LABEL_TYPE_NO_SOURCE_PALLET_NO) {
-            onPalletInfoBatchPrint();
+//            onPalletInfoBatchPrint();
+            checkBatchNoOfPallet(CHECK_BATCH_NO_TYPE_PRINT);
         }
     }
 
@@ -286,5 +289,89 @@ public class BaseOrderLabelPrintPresenter {
 
     }
 
+    /**
+     * @desc: 校验托盘的批次信息
+     * @param: checkType 0
+     * @return:
+     * @author: Nietzsche
+     * @time 2021/1/21 10:22
+     */
+    ;
+
+    public void checkBatchNoOfPallet(final int checkType) {
+        final String batchNo = mView.getBatchNo();
+        if (mView.checkBatchNo(batchNo) == false) {
+            return;
+        }
+        OrderDetailInfo printInfo = mModel.getCurrentPrintInfo();
+        if (printInfo!=null){
+            final String materialNo = printInfo.getMaterialno();
+            if (materialNo==null ||materialNo.equals("")) {
+                MessageBox.Show(mContext, "物料编号不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                return;
+            }
+            OrderDetailInfo  orderDetailInfo=new OrderDetailInfo();
+            orderDetailInfo.setBatchno(batchNo);
+            orderDetailInfo.setMaterialno(materialNo);
+            orderDetailInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+
+            mModel.requestCheckBatchNoOfPallet(orderDetailInfo, new NetCallBackListener<String>() {
+                @Override
+                public void onCallBack(String result) {
+                    try {
+                        LogUtil.WriteLog(BaseOrderLabelPrint.class, mModel.TAG_CHECK_BATCH_DATE, result);
+                        BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+                        }.getType());
+                        if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                              String maxStockBatchNo=returnMsgModel.getData();
+                              if (maxStockBatchNo!=null || !maxStockBatchNo.equals("")){
+                                  BaseMultiResultInfo<Boolean, Void> checkResult=mModel.compareDate(batchNo,maxStockBatchNo,"yyyyMMdd",materialNo);
+                                  if (!checkResult.getHeaderStatus()){
+                                      MessageBox.Show2(mContext, checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                          @Override
+                                          public void onClick(DialogInterface dialog, int which) {
+                                              if (checkType == CHECK_BATCH_NO_TYPE_PRINT) {
+                                                  onPalletInfoBatchPrint();
+                                              }
+
+                                          }
+                                      });
+                                  }else {
+                                      if (checkType == CHECK_BATCH_NO_TYPE_PRINT) {
+                                          onPalletInfoBatchPrint();
+                                      }
+                                  }
+                              }else {
+                                  if (checkType == CHECK_BATCH_NO_TYPE_PRINT) {
+                                      onPalletInfoBatchPrint();
+                                  }
+                              }
+
+                        } else {
+                            MessageBox.Show(mContext, "校验批次信息失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mView.onBatchNoFocus();
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        MessageBox.Show(mContext, "校验批次信息失败,出现预期之外的异常:" + e.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mView.onBatchNoFocus();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+    }
 
 }

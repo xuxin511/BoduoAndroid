@@ -542,4 +542,5 @@
     <string name="reprint_pallet_label_batch_no">批次:</string>
     <string name="reprint_pallet_label_batch_hint">请扫描或输入批次</string>
     <string name="reprint_pallet_label_area_no_hint">请扫描或输入库位</string>
+    <string name="request_label_print_check_batch_no">正在校验批次信息...</string>
 </resources>
