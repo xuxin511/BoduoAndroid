@@ -75,6 +75,16 @@ public class OutStockOrderHeaderInfo implements Parcelable {
 
     public String Vouuser;
 
+    public int SettlementMethod;
+
+    public int getSettlementMethod() {
+        return SettlementMethod;
+    }
+
+    public void setSettlementMethod(int settlementMethod) {
+        SettlementMethod = settlementMethod;
+    }
+
     public String getCreatetime() {
         //  return formater(Createtime);
         String date= Createtime.replace("T", " ");

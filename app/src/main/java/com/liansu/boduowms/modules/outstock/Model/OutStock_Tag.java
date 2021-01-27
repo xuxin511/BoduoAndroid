@@ -118,4 +118,13 @@ public class OutStock_Tag {
     public static String TAG_Saleoutstock_OrderSelect = "Sales_outstock_OrderSelect";    // 发货通知单查询
     public static final int RESULT_Saleoutstock_OrderSelect = 155;
 
+
+    public static String TAG_Get_PackCartonCountADFAsync = "Sales_outstock_Get_PackCartonCountADFAsync";    // 复核获取件数
+    public static final int RESULT_Get_PackCartonCountADFAsynce = 156;
+
+
+
+    public static String TAG_SaveManualPackageNumADFAsync = "Sales_outstock_SaveManualPackageNumADFAsync";    // 复核保存提交件数
+    public static final int RESULT_SaveManualPackageNumADFAsync = 157;
+
 }

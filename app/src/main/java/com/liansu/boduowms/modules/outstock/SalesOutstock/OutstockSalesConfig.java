@@ -228,39 +228,39 @@ public class OutstockSalesConfig extends BaseActivity {
 
 
         //结算方式
-        mjsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
-        ) {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                PairAdapter fydapter = new PairAdapter();
-                sales_outstock_configdj_text.setText("0");
-                if (position == 0) {//月结 到付三种
-                    fytype=1;
-                    fydapter.pairs = new Pair[3];
-                    fydapter.addPairs(1, "1", "重量", fydapter.pairs);
-                    fydapter.addPairs(2, "2", "件数", fydapter.pairs);
-                    fydapter.addPairs(3, "3", "体积", fydapter.pairs);
-                    fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
-                    if(feiyongType!=0){
-                        mfySpinner.setSelection(feiyongType-1);
-                        feiyongType=0;
-                    }
-                } else {//到付   只能是新店和整车
-                    fytype=2;
-                    fydapter.pairs = new Pair[2];
-                    fydapter.addPairs(1, "4", "整车", fydapter.pairs);
-                    fydapter.addPairs(2, "5", "新店", fydapter.pairs);
-                    fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
-                    if(feiyongType!=0){
-                        mfySpinner.setSelection(feiyongType-3);
-                        feiyongType=0;
-                    }
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+//        mjsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(
+//        ) {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                PairAdapter fydapter = new PairAdapter();
+//                sales_outstock_configdj_text.setText("0");
+//                if (position == 0) {//月结 到付三种
+//                    fytype=1;
+//                    fydapter.pairs = new Pair[3];
+//                    fydapter.addPairs(1, "1", "重量", fydapter.pairs);
+//                    fydapter.addPairs(2, "2", "件数", fydapter.pairs);
+//                    fydapter.addPairs(3, "3", "体积", fydapter.pairs);
+//                    fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+//                    if(feiyongType!=0){
+//                        mfySpinner.setSelection(feiyongType-1);
+//                        feiyongType=0;
+//                    }
+//                } else {//到付   只能是新店和整车
+//                    fytype=2;
+//                    fydapter.pairs = new Pair[2];
+//                    fydapter.addPairs(1, "4", "整车", fydapter.pairs);
+//                    fydapter.addPairs(2, "5", "新店", fydapter.pairs);
+//                    fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+//                    if(feiyongType!=0){
+//                        mfySpinner.setSelection(feiyongType-3);
+//                        feiyongType=0;
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
         CommonUtil.setEditFocus(sales_outstock_configOrder);
     }
 
@@ -289,11 +289,11 @@ public class OutstockSalesConfig extends BaseActivity {
         ywadapter.addPairs(2, "2", "销售", ywadapter.pairs);
         ywadapter.bindAdapter(mYwtypeAdapter, mywSpinner, ywadapter.pairs, context);
         //结算方式
-        PairAdapter jsdapter = new PairAdapter();
-        jsdapter.pairs = new Pair[2];
-        jsdapter.addPairs(1, "1", "月结", jsdapter.pairs);
-        jsdapter.addPairs(2, "2", "到付", jsdapter.pairs);
-        jsdapter.bindAdapter(mJstypeAdapter, mjsSpinner, jsdapter.pairs, context);
+//        PairAdapter jsdapter = new PairAdapter();
+//        jsdapter.pairs = new Pair[2];
+//        jsdapter.addPairs(1, "1", "月结", jsdapter.pairs);
+//        jsdapter.addPairs(2, "2", "到付", jsdapter.pairs);
+//        jsdapter.bindAdapter(mJstypeAdapter, mjsSpinner, jsdapter.pairs, context);
 //        //费用计算方式
 //        PairAdapter fydapter = new PairAdapter();
 //        fydapter.pairs = new Pair[5];
@@ -603,29 +603,57 @@ public class OutstockSalesConfig extends BaseActivity {
             }
             //得到数据赋值地址
             //   awyBll=returnMsgModel.getData();
-            CurrVoucherNo=returnMsgModel.getData().getErpvoucherno();
+            PairAdapter fydapter = new PairAdapter();//费用计算
+            PairAdapter jsdapter = new PairAdapter();//计算方式
+            jsdapter.pairs = new Pair[1];
+            if (returnMsgModel.getData().getSettlementMethod() == 2) {
+                //到付   只能是新店和整车
+                jsdapter.addPairs(1, "2", "到付", jsdapter.pairs);
+                fytype = 2;
+                fydapter.pairs = new Pair[2];
+                fydapter.addPairs(1, "4", "整车", fydapter.pairs);
+                fydapter.addPairs(2, "5", "新店", fydapter.pairs);
+                fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+                if (feiyongType != 0) {
+                    mfySpinner.setSelection(feiyongType - 3);
+                    feiyongType = 0;
+                }
+            } else {
+                jsdapter.addPairs(1, "1", "月结", jsdapter.pairs);
+                fytype = 1;
+                fydapter.pairs = new Pair[3];
+                fydapter.addPairs(1, "1", "重量", fydapter.pairs);
+                fydapter.addPairs(2, "2", "件数", fydapter.pairs);
+                fydapter.addPairs(3, "3", "体积", fydapter.pairs);
+                fydapter.bindAdapter(mFytypeAdapter, mfySpinner, fydapter.pairs, context);
+                if (feiyongType != 0) {
+                    mfySpinner.setSelection(feiyongType - 1);
+                    feiyongType = 0;
+                }
+            }
+            jsdapter.bindAdapter(mJstypeAdapter, mjsSpinner, jsdapter.pairs, context);
+            CurrVoucherNo = returnMsgModel.getData().getErpvoucherno();
             outstock_config_address.setText(returnMsgModel.getData().getAddress());
             outstock_config_creater.setText(returnMsgModel.getData().getContacts());
-            if(returnMsgModel.getData().getOutCostTotal()!=0){
+            if (returnMsgModel.getData().getOutCostTotal() != 0) {
                 mshSpinner.setSelection(1);
-            }else
-            {
+            } else {
                 mshSpinner.setSelection(0);
             }
             //送货方式
             mfhSpinner.setText(returnMsgModel.getData().getLogisticsCompany());
             //根据地址跟客户获取托运单号
             AwyBll model = new AwyBll();
-            awyBll.LinkVoucherNo=returnMsgModel.getData().getErpvoucherno();
-            awyBll.Customerno=returnMsgModel.getData().getCustomerno();
-            awyBll.Address=returnMsgModel.getData().getAddress();
-            awyBll.Customername=returnMsgModel.getData().getCustomername();
-            awyBll.Tel=returnMsgModel.getData().getTel();
-            awyBll.LogisticsCompany=returnMsgModel.getData().getLogisticsCompany();
-            awyBll.WeightTotal=returnMsgModel.getData().getWeightTotal();
-            awyBll.OutCostTotal=returnMsgModel.getData().getOutCostTotal();
-            awyBll.CostTotal=returnMsgModel.getData().getCostTotal();
-           // awyBll.IsStockCombine=returnMsgModel.getData().
+            awyBll.LinkVoucherNo = returnMsgModel.getData().getErpvoucherno();
+            awyBll.Customerno = returnMsgModel.getData().getCustomerno();
+            awyBll.Address = returnMsgModel.getData().getAddress();
+            awyBll.Customername = returnMsgModel.getData().getCustomername();
+            awyBll.Tel = returnMsgModel.getData().getTel();
+            awyBll.LogisticsCompany = returnMsgModel.getData().getLogisticsCompany();
+            awyBll.WeightTotal = returnMsgModel.getData().getWeightTotal();
+            awyBll.OutCostTotal = returnMsgModel.getData().getOutCostTotal();
+            awyBll.CostTotal = returnMsgModel.getData().getCostTotal();
+            // awyBll.IsStockCombine=returnMsgModel.getData().
             //赋值给
             model.Address = returnMsgModel.getData().getAddress();
             model.Customerno = returnMsgModel.getData().getCustomerno();
@@ -670,36 +698,6 @@ public class OutstockSalesConfig extends BaseActivity {
     }
 
 
-    private  void SelectOrder1(){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("选择一个托运单号");
-        final String[] cities = new String[awyBllList.size()];
-        cities[0] = "新的托运单号";
-        int i = 0;
-        for (AwyBll model : awyBllList) {
-            if (i > 0) {
-                cities[i] = model.Erpvoucherno;
-            }
-            i++;
-        }
-        builder.setItems(cities, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which){
-                try {
-
-                } catch (Exception ex) {
-                    MessageBox.Show(context, "系统出现异常请重新扫描");
-                }
-
-            }
-
-        });
-        builder.show();
-    }
-
-
-
     //选择托运单
     private void SelectOrder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -726,7 +724,7 @@ public class OutstockSalesConfig extends BaseActivity {
                         if (model.Erpvoucherno.equals(order)) {
                             awyBll = model;
                             mshSpinner.setSelection(awyBll.SendMethod-1);
-                            mjsSpinner.setSelection(awyBll.SettlementMethod-1);
+                          //  mjsSpinner.setSelection(awyBll.SettlementMethod-1);
                             mywSpinner.setSelection(awyBll.BusinessType-1);
                             feiyongType=awyBll.CostCalMethod;
 //                             if(fytype==1){

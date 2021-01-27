@@ -24,6 +24,4 @@ public class PairAdapter {
         Pair p = new Pair(values, key);
         pair[i - 1] = p;
     }
-
-
 }

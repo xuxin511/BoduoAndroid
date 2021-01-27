@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +35,7 @@ import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
 import com.liansu.boduowms.modules.outstock.Model.OutStockDeleteReviewModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
+import com.liansu.boduowms.modules.outstock.Model.OutstockPackDTO;
 import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter;
@@ -55,7 +57,9 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_box;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_none;
@@ -63,17 +67,22 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_S
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pbox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_ppallet;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Get_PackCartonCountADFAsynce;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ReviewOrder;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SubmitBarcode;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_SaveManualPackageNumADFAsync;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Get_PackCartonCountADFAsync;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_ReviewOrder;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitBarcode;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_barcodeisExist;
+import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_SaveManualPackageNumADFAsync;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
 
@@ -131,6 +140,7 @@ public class OutstockConfigreview extends BaseActivity {
 
     private AwyBll awyBll;
 
+    OutstockPackDTO  outstockPackDTO=new OutstockPackDTO();
 
   String  CurrOrderNO="";
     @Override
@@ -217,6 +227,7 @@ public class OutstockConfigreview extends BaseActivity {
         }
     }
 
+     int isReviewOver;//是否全部复核完成
 
     //提交过账FF
     @Event(value =R.id.outstock_sales_configbutton_reviewsubmit)
@@ -228,11 +239,14 @@ public class OutstockConfigreview extends BaseActivity {
         //     MessageBox.Show(context, "订单未扫描,不能过账");
 
       //  } else {
+
            if(!IsScanningOver()){
                //全部复核
+               isReviewOver=1;
                ISSubmit("订单未全部复核完成，确认提交吗");
            }else
            {
+               isReviewOver=2;
                //全部复核
                ISSubmit("订单全部复核完成，确认提交吗");
 
@@ -392,6 +406,12 @@ public class OutstockConfigreview extends BaseActivity {
             case RESULT_Saleoutstock_ReviewOrder:
                 SacnnNo((String) msg.obj);
                 break;
+            case RESULT_Get_PackCartonCountADFAsynce:
+                Getpackcartoncount((String) msg.obj);
+                break;
+            case RESULT_SaveManualPackageNumADFAsync:
+                Savepackagenum((String) msg.obj);
+                break;
             case NetworkError.NET_ERROR_CUSTOM:
                 MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
@@ -403,6 +423,56 @@ public class OutstockConfigreview extends BaseActivity {
 
         }
     }
+
+
+    //保存件数
+    public  void Savepackagenum(String result){
+        try {
+            BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                /// 失败之后直接返回
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                // closeActivity();
+                ISReturn("复核完成，件数保存失败 是否返回上一层");
+                return;
+            }else
+            {
+                ISReturn("复核完成，件数保存成功 是否返回上一层");
+            }
+        } catch (Exception ex) {
+            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+            MessageBox.Show(context, "数据解析报错");
+        }
+
+    }
+
+
+    //获取件数
+    public  void Getpackcartoncount(String result) {
+
+        try {
+            BaseResultInfo<OutstockPackDTO> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutstockPackDTO>>() {
+            }.getType());
+            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                /// 失败之后直接返回
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                // closeActivity();
+                return;
+            }
+            outstockPackDTO = returnMsgModel.getData();
+            //输入
+            String title="总件数为"+outstockPackDTO.CartonNum+"请输入实际件数";
+            inputjian( title);
+        } catch (Exception ex) {
+            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+            MessageBox.Show(context, "数据解析报错");
+        }
+    }
+
+
+
+
 
     public  void SacnnNo(String result) {
         try {
@@ -459,7 +529,18 @@ public class OutstockConfigreview extends BaseActivity {
 //                mAdapter.notifyDataSetChanged();
                 //this.closeActivity();
                 //跳到前一界面
-                ISReturn();
+               if (isReviewOver == 2) {
+                    //请求获取对象
+                    Map<String, String> map = new HashMap<>();
+                    map.put("ErpVoucherNo", awyBll.LinkVoucherNo);
+                    String json = GsonUtil.parseModelToJson(map);
+                    LogUtil.WriteLog(OutstockConfigreview.class, "获取件数", json);
+                    RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Get_PackCartonCountADFAsync, "获取件数中",
+                            context, mHandler, RESULT_Get_PackCartonCountADFAsynce, null, info.Outstock_Get_PackCartonCountADFAsync, map, null);
+                } else {
+                    ISReturn("复核完成，是否返回上一层");
+                }
+                //
             }
 
         } catch (Exception EX) {
@@ -630,6 +711,7 @@ public class OutstockConfigreview extends BaseActivity {
 
             if(IsScanningOver()) {
                 //全部复核
+                isReviewOver=2;
                 ISSubmit("订单已全部复核完成，确认提交吗");
             }
         } catch (Exception EX) {
@@ -685,8 +767,8 @@ public class OutstockConfigreview extends BaseActivity {
 
 
     //是否返回上一级菜单
-    public void ISReturn() {
-        new AlertDialog.Builder(this).setTitle("数据保存成功，是否返回上一页")
+    public void ISReturn(String title) {
+        new AlertDialog.Builder(this).setTitle(title)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -710,6 +792,37 @@ public class OutstockConfigreview extends BaseActivity {
                 }).show();
     }
 
+
+
+    private void inputjian(String name) {
+        final EditText inputServer = new EditText(this);
+        //    numeric="integer"
+        // inputServer.android
+        inputServer.setRawInputType(InputType.TYPE_CLASS_NUMBER);//设置bai进入du的时zhi候显dao示为zhuannumber模式shu
+        inputServer.setFocusable(true);
+        inputServer.setSingleLine(true);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(name).setIcon(
+                null).setView(inputServer).setNegativeButton(
+                "取消", null);
+        builder.setPositiveButton("确认提交",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String Value = inputServer.getText().toString();
+                        try {
+                            int inputValue = Integer.parseInt(Value);
+                            outstockPackDTO.ManualCartonNum = inputValue;
+                            outstockPackDTO.WayBillNo=awyBll.Erpvoucherno;
+                            String json = GsonUtil.parseModelToJson(outstockPackDTO);
+                            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveManualPackageNumADFAsync, "件数提交中",
+                                    context, mHandler, RESULT_SaveManualPackageNumADFAsync, null, info.Outstock_SaveManualPackageNumADFAsync, json, null);
+                        } catch (Exception ex) {
+                            MessageBox.Show(context, "请输入正确的数量");
+                        }
+                    }
+                });
+        builder.show();
+    }
 
 
     public void ISSubmit(String name) {
