@@ -338,4 +338,5 @@ public class UrlInfo {
     //标签补打  OutBarcode/PrintPalletno
     public String PrintPalletno = GetWCFAdress() + "OutBarcode/PrintPalletno"; //托盘标签补打
     public String GetT_StockDetailList = GetWCFAdress() + "Stock/GetT_StockDetailList"; //标签补打查询
+    public String Get_MaxStockBatchADFAsync= GetWCFAdress()+"Stock/Get_MaxStockBatchADFAsync"; //查询最大的批次信息
 }
