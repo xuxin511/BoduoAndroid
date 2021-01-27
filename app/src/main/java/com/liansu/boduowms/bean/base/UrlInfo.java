@@ -343,4 +343,5 @@ public class UrlInfo {
 
 
 
+    public String Get_MaxStockBatchADFAsync= GetWCFAdress()+"Stock/Get_MaxStockBatchADFAsync"; //查询最大的批次信息
 }
