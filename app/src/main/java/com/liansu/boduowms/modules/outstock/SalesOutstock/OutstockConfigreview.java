@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
@@ -463,7 +464,7 @@ public class OutstockConfigreview extends BaseActivity {
             outstockPackDTO = returnMsgModel.getData();
             //输入
             String title="总件数为"+outstockPackDTO.CartonNum+"请输入实际件数";
-            inputjian( title);
+            inputjian1( title);
         } catch (Exception ex) {
             CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
             MessageBox.Show(context, "数据解析报错");
@@ -513,23 +514,8 @@ public class OutstockConfigreview extends BaseActivity {
 
                 //   CommonUtil.setEditFocus(sales_outstock_);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-                //清空
-                //  MessageBox.Show(context, returnMsgModel.getResultValue());
-
-//                outstock_sales_jiancount.setText("0");
-//                outstock_sales_jianscanning.setText("0");
-                //清空
-//                outstock_sales_boxcount.setText("0");
-//                outstock_sales_boxscanning.setText("0");
-//                mModel = new PurchaseReturnOffScanModel(context, mHandler);
-//                CurrOrderNO = "";
-//                materialModle = new MaterialResponseModel();
-//                mAdapter = new SalesoutstockreviewAdapter(context, mModel.getOrderDetailList());
-//                mList.setAdapter(mAdapter);
-//                mAdapter.notifyDataSetChanged();
-                //this.closeActivity();
                 //跳到前一界面
-               if (isReviewOver == 2) {
+              if (isReviewOver == 2) {
                     //请求获取对象
                     Map<String, String> map = new HashMap<>();
                     map.put("ErpVoucherNo", awyBll.LinkVoucherNo);
@@ -796,8 +782,38 @@ public class OutstockConfigreview extends BaseActivity {
 
     private void inputjian(String name) {
         final EditText inputServer = new EditText(this);
+        inputServer.setRawInputType(InputType.TYPE_CLASS_NUMBER);//设置bai进入du的时zhi候显dao示为zhuannumber模式shu
+        inputServer.setFocusable(true);
+        inputServer.setSingleLine(true);
         //    numeric="integer"
         // inputServer.android
+        inputServer.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
+                    String a=  inputServer.getText().toString();
+                    if(inputServer.getText().toString().equals("0")){
+                        MessageBox.Show(context, "不能为零");
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        inputServer.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                   if(!hasFocus){//失去焦点 等于零 就获取焦点
+                       if(inputServer.getText().toString().equals("0")){
+                           inputServer.setSelectAllOnFocus(true);
+                           inputServer.setFocusable(true);
+                           inputServer.requestFocus();
+                       }
+                   }
+            }
+        });
+
         inputServer.setRawInputType(InputType.TYPE_CLASS_NUMBER);//设置bai进入du的时zhi候显dao示为zhuannumber模式shu
         inputServer.setFocusable(true);
         inputServer.setSingleLine(true);
@@ -810,6 +826,9 @@ public class OutstockConfigreview extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String Value = inputServer.getText().toString();
                         try {
+                            if(Value.equals("0")){
+                                return ;
+                            }
                             int inputValue = Integer.parseInt(Value);
                             outstockPackDTO.ManualCartonNum = inputValue;
                             outstockPackDTO.WayBillNo=awyBll.Erpvoucherno;
@@ -824,6 +843,46 @@ public class OutstockConfigreview extends BaseActivity {
         builder.show();
     }
 
+    //自己控制关闭弹出层
+    private void inputjian1(String name) {
+        final EditText inputServer = new EditText(this);
+        inputServer.setRawInputType(InputType.TYPE_CLASS_NUMBER);//设置bai进入du的时zhi候显dao示为zhuannumber模式shu
+        inputServer.setFocusable(true);
+        inputServer.setSingleLine(true);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(name).setIcon(
+                null).setView(inputServer);
+        builder.setPositiveButton("确认", null);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // String cardNum = cardNumET.getText().toString().trim();
+                if (inputServer.getText().toString().equals("0")) {
+                    Toast.makeText(context, "数量不能为零", Toast.LENGTH_SHORT).show();
+                    inputServer.setSelectAllOnFocus(true);
+                    inputServer.setFocusable(true);
+                    inputServer.requestFocus();
+                    return;
+                }
+               try {
+                   int inputValue = Integer.parseInt(inputServer.getText().toString());
+                   outstockPackDTO.ManualCartonNum = inputValue;
+                   outstockPackDTO.WayBillNo=awyBll.Erpvoucherno;
+                   String json = GsonUtil.parseModelToJson(outstockPackDTO);
+                   RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveManualPackageNumADFAsync, "件数提交中",
+                           context, mHandler, RESULT_SaveManualPackageNumADFAsync, null, info.Outstock_SaveManualPackageNumADFAsync, json, null);
+                   alertDialog.dismiss();
+               }catch (Exception ex){
+                   Toast.makeText(context, "请输入正确数字", Toast.LENGTH_SHORT).show();
+                   inputServer.setSelectAllOnFocus(true);
+                   inputServer.setFocusable(true);
+                   inputServer.requestFocus();
+               }
+            }
+        });
+    }
 
     public void ISSubmit(String name) {
         new AlertDialog.Builder(this).setTitle(name)
