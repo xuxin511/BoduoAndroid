@@ -46,7 +46,6 @@ public class DateUtil {
 
     }
 
-
     /**
      * @desc: 校验日期超过当前日期
      * @param:
@@ -67,7 +66,7 @@ public class DateUtil {
             int day = cal.get(Calendar.DAY_OF_MONTH);
             int month = cal.get(Calendar.MONTH) + 1;//Calendar里取出来的month比实际的月份少1，所以要加上
             int year = cal.get(Calendar.YEAR);
-            if (isAfterToday(year, month, day) == false) {
+            if (isAfterToday(year, month, day,cal) == false) {
                 convertSuccess = true;
             } else {
                 convertSuccess = false;
@@ -93,20 +92,26 @@ public class DateUtil {
      * @author: Nietzsche
      * @time 2020/8/17 12:29
      */
-    public static boolean isAfterToday(int year, int month, int day) {
-        Calendar myDate = Calendar.getInstance();
-        myDate.set(year, month, day);
+    public static boolean isAfterToday(int year, int month, int day,Calendar myDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar today = Calendar.getInstance();
         int currentDay = today.get(Calendar.DAY_OF_MONTH);
         int currentMonth = today.get(Calendar.MONTH) + 1;//Calendar里取出来的month比实际的月份少1，所以要加上
         int currentYear = today.get(Calendar.YEAR);
-        today.set(currentYear, currentMonth, currentDay);
-        if (myDate.before(today)) {
-            return false;
-        }
+
+        String time1 = format.format(myDate.getTime());
+        String time2 = format.format(today.getTime());
+        System.out.println("完整的时间和日期1： " + time1);
+        System.out.println("完整的时间和日期2： " + time2);
+
         if (year == currentYear && month == currentMonth && day == currentDay) {
             return false;
         }
+
+        if (myDate.before(today)) {
+            return false;
+        }
+
         if (myDate.after(today)) {
             return true;
         }
