@@ -18,6 +18,7 @@ import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.function.ArithUtil;
+import com.liansu.boduowms.utils.function.DateUtil;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -329,7 +330,8 @@ public class BaseOrderLabelPrintPresenter {
                         }.getType());
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
                               String maxStockBatchNo=returnMsgModel.getData();
-                              if (maxStockBatchNo!=null || !maxStockBatchNo.equals("")){
+                              // 如果库存条码是客户以前的批次 不是标准的批次格式（yyyyMMdd）或者这个物料没有入过库存，最新批次不存在（为null 或空），则不去比较当前批次和库存批次，直接打印
+                              if (maxStockBatchNo!=null && !maxStockBatchNo.equals("") &&DateUtil.isValidDate(maxStockBatchNo.trim(), "yyyyMMdd")){
                                   BaseMultiResultInfo<Boolean, Void> checkResult=mModel.compareDate(batchNo,maxStockBatchNo,"yyyyMMdd",materialNo);
                                   if (!checkResult.getHeaderStatus()){
                                       MessageBox.Show2(mContext, checkResult.getMessage(), MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
