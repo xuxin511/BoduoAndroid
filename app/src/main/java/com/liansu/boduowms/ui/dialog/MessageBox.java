@@ -118,7 +118,17 @@ public class MessageBox {
         }
 
     }
+    public static void Show2(Context context, String message, int type, DialogInterface.OnClickListener positiveListener,DialogInterface.OnClickListener negativeListener) {
+        if (type == MEDIA_MUSIC_ERROR) {
+            music = MediaPlayer.create(context, R.raw.error_first);
+            music.start();
+            new AlertDialog.Builder(context,R.style.ErrorDialogStyle).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", positiveListener).setNegativeButton("取消", negativeListener).show();
+        }else {
+            new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(message).setPositiveButton("确定", positiveListener).setNegativeButton("取消", negativeListener).show();
 
+        }
+
+    }
     public static void Show(Context context, int resourceID) {
         String msg = context.getResources().getString(resourceID);
         new AlertDialog.Builder(context).setTitle("提示").setCancelable(false).setMessage(msg).setPositiveButton("确定", null).show();

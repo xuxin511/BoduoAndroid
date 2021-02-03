@@ -1,13 +1,10 @@
 package com.liansu.boduowms.modules.outstock.SalesOutstock;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Message;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -34,17 +31,13 @@ import com.liansu.boduowms.bean.order.OutStockOrderHeaderInfo;
 import com.liansu.boduowms.modules.outstock.Model.AwyBll;
 import com.liansu.boduowms.modules.outstock.Model.MaterialResponseModel;
 import com.liansu.boduowms.modules.outstock.Model.MenuOutStockModel;
-import com.liansu.boduowms.modules.outstock.Model.OutStockDeleteReviewModel;
 import com.liansu.boduowms.modules.outstock.Model.Outbarcode_Requery;
 import com.liansu.boduowms.modules.outstock.Model.OutstockPackDTO;
 import com.liansu.boduowms.modules.outstock.Model.SalesoustockReviewRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockRequery;
 import com.liansu.boduowms.modules.outstock.Model.SalesoutstockreviewAdapter;
 import com.liansu.boduowms.modules.outstock.purchaseReturn.offscan.PurchaseReturnOffScanModel;
-import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
-import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.dialog.MessageBox;
-import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.ArithUtil;
@@ -66,13 +59,11 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_S
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_none;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_parts;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_pbox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_ppallet;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Get_PackCartonCountADFAsynce;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PostReview;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ReviewOrder;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_ScannParts_Submit;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SubmitBarcode;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_barcodeisExist;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_SaveManualPackageNumADFAsync;
@@ -82,7 +73,6 @@ import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleou
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitBarcode;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_SubmitParts_Submit;
-import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_Saleoutstock_barcodeisExist;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.TAG_SaveManualPackageNumADFAsync;
 import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
@@ -109,7 +99,6 @@ public class OutstockConfigreview extends BaseActivity {
 //    TextView outstock_sales_jianscanning;
 
 
-
     //托运单号
     @ViewInject(R.id.sales_outstock_tyorder)
     TextView sales_outstock_tyorder;
@@ -131,26 +120,27 @@ public class OutstockConfigreview extends BaseActivity {
     //储存类
     private PurchaseReturnOffScanModel mModel;
 
-    private   int CurrvoucherType;
+    private int CurrvoucherType;
 
 
     //散件类
     private MaterialResponseModel materialModle;
 
-    UrlInfo info=new UrlInfo();
+    UrlInfo info = new UrlInfo();
 
     private AwyBll awyBll;
 
-    OutstockPackDTO  outstockPackDTO=new OutstockPackDTO();
+    OutstockPackDTO outstockPackDTO = new OutstockPackDTO();
 
-  String  CurrOrderNO="";
+    String CurrOrderNO = "";
+
     @Override
     protected void initViews() {
         super.initViews();
-        BaseApplication.context=context;
+        BaseApplication.context = context;
         BaseApplication.toolBarTitle = new ToolBarTitle("物流装车扫描", true);
         x.view().inject(this);
-        BaseApplication.isCloseActivity=false;
+        BaseApplication.isCloseActivity = false;
         awyBll = new AwyBll();
         Intent intentMain = getIntent();
         Uri data = intentMain.getData();
@@ -166,11 +156,11 @@ public class OutstockConfigreview extends BaseActivity {
         mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
-                MenuOutStockModel model=new MenuOutStockModel();
-                model.ErpVoucherNo=CurrOrderNO;
-                model.VoucherType=String.valueOf(CurrvoucherType);
-                model.Title="物流装车删除";
-                String json=  GsonUtil.parseModelToJson(model);
+                MenuOutStockModel model = new MenuOutStockModel();
+                model.ErpVoucherNo = CurrOrderNO;
+                model.VoucherType = String.valueOf(CurrvoucherType);
+                model.Title = "物流装车删除";
+                String json = GsonUtil.parseModelToJson(model);
                 Uri data = Uri.parse(json);
                 intent.setData(data);
                 intent.setClass(context, OutstockDeleteReview.class);
@@ -205,18 +195,17 @@ public class OutstockConfigreview extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_refresh) {
-           onResume();
+            onResume();
         }
         return false;
     }
-
 
 
     //当上一个界面返回后会触发这个方法
     @Override
     protected void onResume() {
         super.onResume();
-        if(!CurrOrderNO.equals("")&&CurrOrderNO !=null){
+        if (!CurrOrderNO.equals("") && CurrOrderNO != null) {
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
             model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
@@ -228,57 +217,56 @@ public class OutstockConfigreview extends BaseActivity {
         }
     }
 
-     int isReviewOver;//是否全部复核完成
+    int isReviewOver;//是否全部复核完成
 
     //提交过账FF
-    @Event(value =R.id.outstock_sales_configbutton_reviewsubmit)
-    private void   Sales_outstock_review_Submit(View view) {
+    @Event(value = R.id.outstock_sales_configbutton_reviewsubmit)
+    private void Sales_outstock_review_Submit(View view) {
         //  if (IsScanning()) {
         //部分复核
         //  CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
         // MessageBox.Show(context, "订单未全部复核完成");
         //     MessageBox.Show(context, "订单未扫描,不能过账");
 
-      //  } else {
+        //  } else {
 
-           if(!IsScanningOver()){
-               //全部复核
-               isReviewOver=1;
-               ISSubmit("订单未全部复核完成，确认提交吗");
-           }else
-           {
-               isReviewOver=2;
-               //全部复核
-               ISSubmit("订单全部复核完成，确认提交吗");
+        if (!IsScanningOver()) {
+            //全部复核
+            isReviewOver = 1;
+            ISSubmit("订单未全部复核完成，确认提交吗");
+        } else {
+            isReviewOver = 2;
+            //全部复核
+            ISSubmit("订单全部复核完成，确认提交吗");
 
-           }
+        }
 
-      // }
+        // }
     }
 
-   //当前扫描类型
-    private  String CurrScannType;
+    //当前扫描类型
+    private String CurrScannType;
 
     //条码回车
-    @Event(value = R.id.sales_outstock_config_reviewbarcode,type = EditText.OnKeyListener.class)
-    private  boolean palletKeyDowm(View v, int keyCode, KeyEvent event) {
+    @Event(value = R.id.sales_outstock_config_reviewbarcode, type = EditText.OnKeyListener.class)
+    private boolean palletKeyDowm(View v, int keyCode, KeyEvent event) {
         View vFocus = v.findFocus();
         int etid = vFocus.getId();
         //如果是扫描
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == sales_outstock_config_reviewbarcode.getId()) {
             try {
-                if(!IsScanningOver()){
-                    if(CurrOrderNO.equals("")) {
+                if (!IsScanningOver()) {
+                    if (CurrOrderNO.equals("")) {
                         MessageBox.Show(context, "请先扫描有效单号");
                         return true;
                     }
                     String barcode = sales_outstock_config_reviewbarcode.getText().toString().trim();
-                    if(barcode.equals("")){
+                    if (barcode.equals("")) {
                         MessageBox.Show(context, "请输入或扫描条码");
                         return true;
                     }
                     String type = Analysis(barcode);
-                    CurrScannType=type;
+                    CurrScannType = type;
                     //无效
                     if (type.equals(OutStock_Submit_type_none)) {
                         CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
@@ -305,10 +293,10 @@ public class OutstockConfigreview extends BaseActivity {
                         SalesoutstockRequery model = new SalesoutstockRequery();
                         model.Erpvoucherno = CurrOrderNO;
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
-                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.Vouchertype = CurrvoucherType;
                         model.MaterialNo = palletno;
-                        model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
+                        model.WayBillNo = sales_outstock_tyorder.getText().toString().trim();
                         model.ScanQty = Float.parseFloat(strPallet[2]);
                         String json = GsonUtil.parseModelToJson(model);
                         LogUtil.WriteLog(OutstockConfigreview.class, "复核装车托盘提交", json);
@@ -326,12 +314,12 @@ public class OutstockConfigreview extends BaseActivity {
                         model.Erpvoucherno = CurrOrderNO;
                         model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                         model.Vouchertype = CurrvoucherType;
-                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
-                        model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
+                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                        model.WayBillNo = sales_outstock_tyorder.getText().toString().trim();
                         model.MaterialNo = barcode;
-                        if( barcode.split("%").length!=2){
+                        if (barcode.split("%").length != 2) {
                             model.ScanQty = Float.parseFloat(strPallet[2]);
-                        }else{
+                        } else {
                             model.ScanQty = Float.parseFloat(strPallet[1]);
                         }
                         String json = GsonUtil.parseModelToJson(model);
@@ -357,7 +345,7 @@ public class OutstockConfigreview extends BaseActivity {
                         LogUtil.WriteLog(OutstockConfigreview.class, "复核装车箱号提交", json);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                                 context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, json, null);
-                       // sales_outstock_config_reviewbarcode.setText("");
+                        // sales_outstock_config_reviewbarcode.setText("");
                         return true;
                     }
                     if (type.equals(OutStock_Submit_type_parts)) {
@@ -375,7 +363,7 @@ public class OutstockConfigreview extends BaseActivity {
                         return true;
                     }
 
-                }else{
+                } else {
                     MessageBox.Show(context, "已经全部复核完成");
                     CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                     return true;
@@ -427,7 +415,7 @@ public class OutstockConfigreview extends BaseActivity {
 
 
     //保存件数
-    public  void Savepackagenum(String result){
+    public void Savepackagenum(String result) {
         try {
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
@@ -437,8 +425,7 @@ public class OutstockConfigreview extends BaseActivity {
                 // closeActivity();
                 ISReturn("复核完成，件数保存失败 是否返回上一层");
                 return;
-            }else
-            {
+            } else {
                 ISReturn("复核完成，件数保存成功 是否返回上一层");
             }
         } catch (Exception ex) {
@@ -450,7 +437,7 @@ public class OutstockConfigreview extends BaseActivity {
 
 
     //获取件数
-    public  void Getpackcartoncount(String result) {
+    public void Getpackcartoncount(String result) {
 
         try {
             BaseResultInfo<OutstockPackDTO> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutstockPackDTO>>() {
@@ -462,9 +449,20 @@ public class OutstockConfigreview extends BaseActivity {
                 return;
             }
             outstockPackDTO = returnMsgModel.getData();
-            //输入
-            String title="总件数为"+outstockPackDTO.CartonNum+"请输入实际件数";
-            inputjian1( title);
+            MessageBox.Show2(context, "复核成功,总件数为" + outstockPackDTO.CartonNum + "是否需要修改件数?", MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //输入
+                    String title = "总件数为" + outstockPackDTO.CartonNum + "请输入实际件数";
+                    inputjian1(title);
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ISReturn("复核完成，是否返回上一层");
+                }
+            });
+
         } catch (Exception ex) {
             CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
             MessageBox.Show(context, "数据解析报错");
@@ -472,10 +470,7 @@ public class OutstockConfigreview extends BaseActivity {
     }
 
 
-
-
-
-    public  void SacnnNo(String result) {
+    public void SacnnNo(String result) {
         try {
             BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
             }.getType());
@@ -501,7 +496,8 @@ public class OutstockConfigreview extends BaseActivity {
             MessageBox.Show(context, "数据解析报错");
         }
     }
-    public  void   PostReview(String  result) {
+
+    public void PostReview(String result) {
         try {
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
@@ -513,19 +509,22 @@ public class OutstockConfigreview extends BaseActivity {
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
 
                 //   CommonUtil.setEditFocus(sales_outstock_);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
+//                MessageBox.Show(context, returnMsgModel.getResultValue());
                 //跳到前一界面
-              if (isReviewOver == 2) {
-                    //请求获取对象
-                    Map<String, String> map = new HashMap<>();
-                    map.put("ErpVoucherNo", awyBll.LinkVoucherNo);
-                    String json = GsonUtil.parseModelToJson(map);
-                    LogUtil.WriteLog(OutstockConfigreview.class, "获取件数", json);
-                    RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Get_PackCartonCountADFAsync, "获取件数中",
-                            context, mHandler, RESULT_Get_PackCartonCountADFAsynce, null, info.Outstock_Get_PackCartonCountADFAsync, map, null);
-                } else {
-                    ISReturn("复核完成，是否返回上一层");
-                }
+                MessageBox.Show(context, returnMsgModel.getResultValue() , MessageBox.MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //请求获取对象
+                        Map<String, String> map = new HashMap<>();
+                        map.put("ErpVoucherNo", awyBll.LinkVoucherNo);
+                        String json = GsonUtil.parseModelToJson(map);
+                        LogUtil.WriteLog(OutstockConfigreview.class, "获取件数", json);
+                        RequestHandler.addRequestWithDialog(Request.Method.GET, TAG_Get_PackCartonCountADFAsync, "获取件数中",
+                                context, mHandler, RESULT_Get_PackCartonCountADFAsynce, null, info.Outstock_Get_PackCartonCountADFAsync, map, null);
+
+                    }
+                });
+
                 //
             }
 
@@ -536,26 +535,24 @@ public class OutstockConfigreview extends BaseActivity {
     }
 
 
-
-
     //扫描物料或者69码获取对象
-    public  void   ScannParts(String  result) {
+    public void ScannParts(String result) {
         try {
             BaseResultInfo<MaterialResponseModel> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<MaterialResponseModel>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
                 if (returnMsgModel.getData() != null) {//旧外箱
                     MaterialResponseModel material = returnMsgModel.getData();
-                    int judge=0;
-                    for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
+                    int judge = 0;
+                    for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
                         if (material.getMaterialno().equals(item.getMaterialno())) {
-                            judge=1;
-                            if(ArithUtil.sub(item.getRemainqty(),ArithUtil.add(item.getScanqty(),material.OuterQty))<0){
-                                judge=2;
+                            judge = 1;
+                            if (ArithUtil.sub(item.getRemainqty(), ArithUtil.add(item.getScanqty(), material.OuterQty)) < 0) {
+                                judge = 2;
                             }
                         }
                     }
-                    if(judge==2) {
+                    if (judge == 2) {
                         CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                         MessageBox.Show(context, "该物料包装量超过了当前剩余数量");
                         return;
@@ -567,15 +564,15 @@ public class OutstockConfigreview extends BaseActivity {
                     model.MaterialNo = material.Materialno;
                     model.Erpvoucherno = CurrOrderNO;
                     model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
-                    model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                    model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                     model.ScanQty = material.OuterQty;
                     model.Vouchertype = CurrvoucherType;
-                    model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
+                    model.WayBillNo = sales_outstock_tyorder.getText().toString().trim();
                     String modelJson = parseModelToJson(model);
                     LogUtil.WriteLog(OutstockConfigreview.class, "复核装车箱号提交", modelJson);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SubmitBarcode, "箱号提交中",
                             context, mHandler, RESULT_Saleoutstock_SubmitBarcode, null, info.SalesOutstock__SubmitBarcode, modelJson, null);
-                 //   sales_outstock_config_reviewbarcode.setText("");
+                    //   sales_outstock_config_reviewbarcode.setText("");
                     return;
                 } else {
                     CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
@@ -584,28 +581,28 @@ public class OutstockConfigreview extends BaseActivity {
                 }
             }
             materialModle = returnMsgModel.getData();
-            int judge=0;
-            Float qty=0f;
-            Boolean isreviewover=true;//该物料是否复核完成
-            for (OutStockOrderDetailInfo item: mModel.getOrderDetailList()) {
+            int judge = 0;
+            Float qty = 0f;
+            Boolean isreviewover = true;//该物料是否复核完成
+            for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
                 if (materialModle.getMaterialno().equals(item.getMaterialno())) {
-                    judge=1;
-                    if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())!=0){
-                        isreviewover=false;
+                    judge = 1;
+                    if (ArithUtil.sub(item.getRemainqty(), item.getScanqty()) != 0) {
+                        isreviewover = false;
                     }
-                    if(ArithUtil.sub(item.getRemainqty(),item.getScanqty())<1 && ArithUtil.sub(item.getRemainqty(),item.getScanqty())>0){//未装车数量小于1的情况
-                        qty=ArithUtil.sub(item.getRemainqty(),item.getScanqty());//给小数
-                    }else{
-                        qty=1f;
+                    if (ArithUtil.sub(item.getRemainqty(), item.getScanqty()) < 1 && ArithUtil.sub(item.getRemainqty(), item.getScanqty()) > 0) {//未装车数量小于1的情况
+                        qty = ArithUtil.sub(item.getRemainqty(), item.getScanqty());//给小数
+                    } else {
+                        qty = 1f;
                     }
                 }
             }
-            if(isreviewover) {
+            if (isreviewover) {
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, "该物料已经全部复核完成,请确认");
                 return;
             }
-            if(judge!=1){
+            if (judge != 1) {
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, "物料不存在当前复核数据中");
                 return;
@@ -619,7 +616,7 @@ public class OutstockConfigreview extends BaseActivity {
             model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
             model.Vouchertype = CurrvoucherType;
             model.MaterialNo = materialModle.getMaterialno();
-            model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
+            model.WayBillNo = sales_outstock_tyorder.getText().toString().trim();
             model.ScanQty = qty;
             String json = GsonUtil.parseModelToJson(model);
             LogUtil.WriteLog(OutstockConfigreview.class, "复核装车散件提交", json);
@@ -634,7 +631,7 @@ public class OutstockConfigreview extends BaseActivity {
 
 
     //判断托盘是否存在库存
-    public  void  PallExits(String result) {
+    public void PallExits(String result) {
         try {
             BaseResultInfo<Outbarcode_Requery> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<Outbarcode_Requery>>() {
             }.getType());
@@ -650,10 +647,10 @@ public class OutstockConfigreview extends BaseActivity {
                 SalesoutstockRequery model = new SalesoutstockRequery();
                 model.Erpvoucherno = CurrOrderNO;
                 model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
-                model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                 model.Vouchertype = CurrvoucherType;
                 model.MaterialNo = palletno;
-                model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
+                model.WayBillNo = sales_outstock_tyorder.getText().toString().trim();
                 model.ScanQty = Float.parseFloat(strPallet[2]);
                 String json = GsonUtil.parseModelToJson(model);
                 LogUtil.WriteLog(OutstockConfigreview.class, "复核装车托盘提交", json);
@@ -667,7 +664,7 @@ public class OutstockConfigreview extends BaseActivity {
     }
 
     //箱号/托盘 提交返回值
-    public  void  BarcodeSubmit(String result) {
+    public void BarcodeSubmit(String result) {
         try {
             LogUtil.WriteLog(OutstockConfigreview.class, "复核装车返回数据", result);
             BaseResultInfo<List<OutStockOrderDetailInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<OutStockOrderDetailInfo>>>() {
@@ -695,9 +692,9 @@ public class OutstockConfigreview extends BaseActivity {
                 MessageBox.Show(context, msg + "更新失败");
             }
 
-            if(IsScanningOver()) {
+            if (IsScanningOver()) {
                 //全部复核
-                isReviewOver=2;
+                isReviewOver = 2;
                 ISSubmit("订单已全部复核完成，确认提交吗");
             }
         } catch (Exception EX) {
@@ -724,7 +721,7 @@ public class OutstockConfigreview extends BaseActivity {
                         try {
                             Float inputValue = Float.parseFloat(Value);
                             Float packqty = Float.parseFloat(materialModle.PackQty);
-                            if(ArithUtil.sub(inputValue,packqty)>=0) {
+                            if (ArithUtil.sub(inputValue, packqty) >= 0) {
                                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                                 MessageBox.Show(context, "不能大于" + packqty + "包装量");
                                 return;
@@ -736,7 +733,7 @@ public class OutstockConfigreview extends BaseActivity {
                             model.PostUserNo = BaseApplication.mCurrentUserInfo.getUserno();
                             model.Vouchertype = CurrvoucherType;
                             model.MaterialNo = sales_outstock_config_reviewbarcode.getText().toString().trim();
-                            model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
+                            model.WayBillNo = sales_outstock_tyorder.getText().toString().trim();
                             model.ScanQty = inputValue;
                             String json = GsonUtil.parseModelToJson(model);
                             LogUtil.WriteLog(OutstockConfigreview.class, "复核装车散件提交", json);
@@ -779,7 +776,6 @@ public class OutstockConfigreview extends BaseActivity {
     }
 
 
-
     private void inputjian(String name) {
         final EditText inputServer = new EditText(this);
         inputServer.setRawInputType(InputType.TYPE_CLASS_NUMBER);//设置bai进入du的时zhi候显dao示为zhuannumber模式shu
@@ -791,8 +787,8 @@ public class OutstockConfigreview extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
-                    String a=  inputServer.getText().toString();
-                    if(inputServer.getText().toString().equals("0")){
+                    String a = inputServer.getText().toString();
+                    if (inputServer.getText().toString().equals("0")) {
                         MessageBox.Show(context, "不能为零");
                     }
                     return true;
@@ -804,13 +800,13 @@ public class OutstockConfigreview extends BaseActivity {
         inputServer.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                   if(!hasFocus){//失去焦点 等于零 就获取焦点
-                       if(inputServer.getText().toString().equals("0")){
-                           inputServer.setSelectAllOnFocus(true);
-                           inputServer.setFocusable(true);
-                           inputServer.requestFocus();
-                       }
-                   }
+                if (!hasFocus) {//失去焦点 等于零 就获取焦点
+                    if (inputServer.getText().toString().equals("0")) {
+                        inputServer.setSelectAllOnFocus(true);
+                        inputServer.setFocusable(true);
+                        inputServer.requestFocus();
+                    }
+                }
             }
         });
 
@@ -826,12 +822,12 @@ public class OutstockConfigreview extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String Value = inputServer.getText().toString();
                         try {
-                            if(Value.equals("0")){
-                                return ;
+                            if (Value.equals("0")) {
+                                return;
                             }
                             int inputValue = Integer.parseInt(Value);
                             outstockPackDTO.ManualCartonNum = inputValue;
-                            outstockPackDTO.WayBillNo=awyBll.Erpvoucherno;
+                            outstockPackDTO.WayBillNo = awyBll.Erpvoucherno;
                             String json = GsonUtil.parseModelToJson(outstockPackDTO);
                             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveManualPackageNumADFAsync, "件数提交中",
                                     context, mHandler, RESULT_SaveManualPackageNumADFAsync, null, info.Outstock_SaveManualPackageNumADFAsync, json, null);
@@ -866,20 +862,20 @@ public class OutstockConfigreview extends BaseActivity {
                     inputServer.requestFocus();
                     return;
                 }
-               try {
-                   int inputValue = Integer.parseInt(inputServer.getText().toString());
-                   outstockPackDTO.ManualCartonNum = inputValue;
-                   outstockPackDTO.WayBillNo=awyBll.Erpvoucherno;
-                   String json = GsonUtil.parseModelToJson(outstockPackDTO);
-                   RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveManualPackageNumADFAsync, "件数提交中",
-                           context, mHandler, RESULT_SaveManualPackageNumADFAsync, null, info.Outstock_SaveManualPackageNumADFAsync, json, null);
-                   alertDialog.dismiss();
-               }catch (Exception ex){
-                   Toast.makeText(context, "请输入正确数字", Toast.LENGTH_SHORT).show();
-                   inputServer.setSelectAllOnFocus(true);
-                   inputServer.setFocusable(true);
-                   inputServer.requestFocus();
-               }
+                try {
+                    int inputValue = Integer.parseInt(inputServer.getText().toString());
+                    outstockPackDTO.ManualCartonNum = inputValue;
+                    outstockPackDTO.WayBillNo = awyBll.Erpvoucherno;
+                    String json = GsonUtil.parseModelToJson(outstockPackDTO);
+                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveManualPackageNumADFAsync, "件数提交中",
+                            context, mHandler, RESULT_SaveManualPackageNumADFAsync, null, info.Outstock_SaveManualPackageNumADFAsync, json, null);
+                    alertDialog.dismiss();
+                } catch (Exception ex) {
+                    Toast.makeText(context, "请输入正确数字", Toast.LENGTH_SHORT).show();
+                    inputServer.setSelectAllOnFocus(true);
+                    inputServer.setFocusable(true);
+                    inputServer.requestFocus();
+                }
             }
         });
     }
@@ -890,13 +886,13 @@ public class OutstockConfigreview extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //点击确定触发的事件
-                        List<SalesoustockReviewRequery> list=new ArrayList<SalesoustockReviewRequery>();
-                        SalesoustockReviewRequery model=new SalesoustockReviewRequery();
-                        model.Erpvoucherno=CurrOrderNO;
-                        model.Scanuserno=BaseApplication.mCurrentUserInfo.getUserno();
-                        model.Vouchertype=CurrvoucherType;
-                        model.WayBillNo=sales_outstock_tyorder.getText().toString().trim();
-                        model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                        List<SalesoustockReviewRequery> list = new ArrayList<SalesoustockReviewRequery>();
+                        SalesoustockReviewRequery model = new SalesoustockReviewRequery();
+                        model.Erpvoucherno = CurrOrderNO;
+                        model.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
+                        model.Vouchertype = CurrvoucherType;
+                        model.WayBillNo = sales_outstock_tyorder.getText().toString().trim();
+                        model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",
@@ -913,34 +909,27 @@ public class OutstockConfigreview extends BaseActivity {
     }
 
 
-
-
     //判断是否全部复核完成
     private boolean IsScanningOver() {
         boolean istrue = true;
         for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-            if (ArithUtil.sub(item.getVoucherqty(),item.getScanqty())!=0) {
+            if (ArithUtil.sub(item.getVoucherqty(), item.getScanqty()) != 0) {
                 istrue = false;
             }
         }
         return istrue;
     }
+
     //判断是否全部复核完成
     private boolean IsScanning() {
         boolean istrue = true;
         for (OutStockOrderDetailInfo item : mModel.getOrderDetailList()) {
-            if (item.getScanqty()>0){
+            if (item.getScanqty() > 0) {
                 istrue = false;
             }
         }
         return istrue;
     }
-
-
-
-
-
-
 
 
     //解析传入的格式是否符号当前扫描的类型
@@ -953,12 +942,11 @@ public class OutstockConfigreview extends BaseActivity {
                 if (strarr[4].equals(OutStock_Submit_type_ppallet))//拼托
                     return OutStock_Submit_type_ppallet;
             }
-        if (strarr.length == 4||strarr.length==3||strarr.length==2) {
-            if(strarr.length==4){
+        if (strarr.length == 4 || strarr.length == 3 || strarr.length == 2) {
+            if (strarr.length == 4) {
                 if (strarr[3].equals(OutStock_Submit_type_box))
                     return OutStock_Submit_type_box;
-            }
-            else {
+            } else {
                 return OutStock_Submit_type_box;
             }
         }
