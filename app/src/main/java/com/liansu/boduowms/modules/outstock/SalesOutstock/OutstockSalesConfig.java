@@ -384,6 +384,17 @@ public class OutstockSalesConfig extends BaseActivity {
                 return;
             }
             if (!awyBll.Erpvoucherno.equals("")) {
+                if(!awyBll.getLinkVoucherNo().equals(sales_outstock_configOrder.getText().toString().trim())) {
+                    //重新选择托运单
+                    SalesoutstockRequery model = new SalesoutstockRequery();
+                    model.Erpvoucherno = sales_outstock_configOrder.getText().toString().trim();
+                    model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+                    model.Vouchertype = CurrVoucherType;
+                    String json = GsonUtil.parseModelToJson(model);
+                    RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_ReviewOrder, "单号检验中",
+                            context, mHandler, RESULT_Saleoutstock_ReviewOrder, null, info.SalesOutstock_Review_ScanningNo, json, null);
+                    return;
+                }
 //                if(sales_outstock_wlOrder.getText().toString().trim().equals("")){
 //                    CommonUtil.setEditFocus(sales_outstock_wlOrder);
 //                    MessageBox.Show(context, "物流单号不能为空");
