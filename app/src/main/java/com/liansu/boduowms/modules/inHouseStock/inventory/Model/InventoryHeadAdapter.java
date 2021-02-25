@@ -26,6 +26,7 @@ import java.util.List;
         public TextView txtOneRight;
         public TextView txtTwoCenter;
         public TextView txtThreeCenter;
+        public TextView  txtTwoCenter1;
     }
 
     public InventoryHeadAdapter(Context mContext, List<InventoryModel> stockInfoModels) {
@@ -65,6 +66,8 @@ import java.util.List;
             listItemView.txtOneRight = (TextView)convertView.findViewById(R.id.inventory_txt_one_right);
             listItemView.txtTwoCenter = (TextView) convertView.findViewById(R.id.inventory_txt_two_center);
             listItemView.txtThreeCenter = (TextView) convertView.findViewById(R.id.inventory_txt_three_center);
+            listItemView.txtTwoCenter1 = (TextView) convertView.findViewById(R.id.inventory_txt_two_center1);
+            //listItemView.txtTwoCenter1.setVisibility(View.GONE);
             //   listItemView.txtQty = (TextView) convertView.findViewById(R.id.item_quality_inspection_qty);
             convertView.setTag(listItemView);
         } else {
@@ -89,9 +92,12 @@ import java.util.List;
         }
         listItemView.txtOneRight.setText("状态:" + status);
         listItemView.txtTwoCenter.setText("仓库:" + stockInfoModel. Warehouseno);
+        //listItemView.
         if(stockInfoModel.Checkdesc==null)
             stockInfoModel.Checkdesc="无";
         listItemView.txtThreeCenter.setText("描述:" + stockInfoModel.Checkdesc);
+        listItemView.txtTwoCenter1.setText("备注:" + stockInfoModel.getRemarks());
+
    //     listItemView.txtOneLeft.setText("单号" + stockInfoModel.Erpvoucherno );
         //listItemView.txtOneLeft.setText("单号" + stockInfoModel.Erpvoucherno );
         return convertView;
