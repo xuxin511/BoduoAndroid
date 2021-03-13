@@ -17,6 +17,9 @@ import com.liansu.boduowms.R;
 import com.liansu.boduowms.base.BaseActivity;
 import com.liansu.boduowms.base.BaseApplication;
 import com.liansu.boduowms.base.ToolBarTitle;
+import com.liansu.boduowms.bean.QRCodeFunc;
+import com.liansu.boduowms.bean.barcode.OutBarcodeInfo;
+import com.liansu.boduowms.bean.base.BaseMultiResultInfo;
 import com.liansu.boduowms.bean.base.BaseResultInfo;
 import com.liansu.boduowms.bean.base.UrlInfo;
 import com.liansu.boduowms.bean.order.OrderType;
@@ -155,6 +158,9 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
         StockInfo checkInfo = new StockInfo();
         checkInfo.setBatchno(batchNo);
         checkInfo.setQty(qty);
+        if (checkBatchNo(batchNo) == false) {
+            return;
+        }
         //校验数据     成功给条码赋值,不成功报错
         if (!checkBarcodeInfoRefer(checkInfo)) {
             return;
@@ -509,5 +515,55 @@ public class AdjustStock extends BaseActivity implements IAdjustStockView, IUser
             selectWareHouse(mUserSettingPresenter.getModel().getWareHouseNoList());
         }
         return false;
+    }
+
+    public boolean checkBatchNo(String batchNo) {
+        if (batchNo == null || batchNo.equals("")) {
+            MessageBox.Show(mContext, "批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBatchNoFocus();
+
+                }
+            });
+            return false;
+        }
+        if (batchNo.contains("%")) {
+            BaseMultiResultInfo<Boolean, OutBarcodeInfo> resultInfo = QRCodeFunc.getQrCode(batchNo);
+            if (resultInfo.getHeaderStatus()) {
+                batchNo = resultInfo.getInfo().getBatchno();
+                if (batchNo != null) {
+                    mBatchNo.setText(batchNo);
+                } else {
+                    MessageBox.Show(mContext, "条码中的批次不能为空", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onBatchNoFocus();
+                        }
+                    });
+                    return false;
+                }
+
+            }
+        }
+        if (!DateUtil.checkDate(batchNo)){
+            MessageBox.Show(mContext, "校验日期格式失败:[" + batchNo + "]" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBatchNoFocus();
+                }
+            });
+            return false;
+        }
+        if (!DateUtil.isBeforeOrCompareToday(batchNo.trim(), "yyyyMMdd")) {
+            MessageBox.Show(mContext, "校验日期格式失败:[" + batchNo + "]" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBatchNoFocus();
+                }
+            });
+            return false;
+        }
+        return true;
     }
 }

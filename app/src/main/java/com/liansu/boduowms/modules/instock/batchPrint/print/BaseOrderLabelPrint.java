@@ -364,6 +364,15 @@ public class BaseOrderLabelPrint extends BaseActivity implements IBaseOrderLabel
 
             }
         }
+        if (!DateUtil.checkDate(batchNo)){
+            MessageBox.Show(mContext, "校验日期格式失败:[" + batchNo + "]" + "日期格式不正确", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBatchNoFocus();
+                }
+            });
+            return false;
+        }
         if (!DateUtil.isBeforeOrCompareToday(batchNo.trim(), "yyyyMMdd")) {
             MessageBox.Show(mContext, "校验日期格式失败:[" + batchNo + "]" + "日期格式不正确或日期大于今天", MessageBox.MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                 @Override
