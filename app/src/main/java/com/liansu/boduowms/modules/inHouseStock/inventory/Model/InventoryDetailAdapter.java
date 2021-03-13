@@ -26,6 +26,7 @@ public class InventoryDetailAdapter extends BaseAdapter {
         public TextView txtTwoCenter;
         public TextView txtThreeCenter;
         public TextView txtThreeleft;
+        public TextView txtTwoCenter1;
     }
 
     public InventoryDetailAdapter(Context mContext, List<InventoryModel> stockInfoModels) {
@@ -65,7 +66,8 @@ public class InventoryDetailAdapter extends BaseAdapter {
             listItemView.txtTwoCenter = (TextView) convertView.findViewById(R.id.inventory_txt_two_center);
             listItemView.txtThreeCenter = (TextView) convertView.findViewById(R.id.inventory_txt_three_center);
             listItemView.txtThreeleft = (TextView) convertView.findViewById(R.id.txt_batch_no);
-
+            listItemView.txtTwoCenter1 = (TextView) convertView.findViewById(R.id.inventory_txt_two_center1);
+            listItemView.txtTwoCenter1.setVisibility(View.GONE);
 
             //   listItemView.txtQty = (TextView) convertView.findViewById(R.id.item_quality_inspection_qty);
             convertView.setTag(listItemView);

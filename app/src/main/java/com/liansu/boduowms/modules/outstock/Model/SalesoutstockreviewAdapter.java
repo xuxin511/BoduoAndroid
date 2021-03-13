@@ -115,7 +115,7 @@ public class SalesoutstockreviewAdapter extends BaseAdapter {
         listItemView.txt_batch_no.setText("批次:" + mDetailInfo.getBatchno());
         if (QTY > 0 && QTY < mDetailInfo.getRemainqty()) {//已扫数量
             convertView.setBackgroundResource(R.color.khaki);
-        } else if (ArithUtil.sub(mDetailInfo.getVoucherqty(), mDetailInfo.getScanqty()) == 0) {
+        } else if (ArithUtil.sub(mDetailInfo.getRemainqty(), mDetailInfo.getScanqty()) == 0) {
             convertView.setBackgroundResource(R.color.springgreen);
         } else {
             convertView.setBackgroundResource(R.color.trans);
