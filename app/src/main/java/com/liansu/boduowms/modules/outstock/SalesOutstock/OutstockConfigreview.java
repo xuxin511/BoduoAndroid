@@ -541,7 +541,7 @@ public class OutstockConfigreview extends BaseActivity {
             }else{
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-                if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
                     Return=false;
                 }
             }

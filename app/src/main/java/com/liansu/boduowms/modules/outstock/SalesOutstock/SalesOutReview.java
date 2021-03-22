@@ -475,7 +475,7 @@ public  class SalesOutReview extends BaseActivity {
             } else{
                 CommonUtil.setEditFocus(sales_outstock_revieworder);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
-                if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ERPPOSTERROR){
+                if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
                     Return=false;
                 }
             }

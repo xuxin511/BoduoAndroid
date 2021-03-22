@@ -227,7 +227,7 @@ public class OutstockOneReview extends BaseActivity {
             }.getType());
             MessageBox.Show(context, returnMsgModel.getResultValue());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ERPPOSTERROR){
+                if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
                     Return=false;
                 }
                 CommonUtil.setEditFocus(outstock_onereview_order);
