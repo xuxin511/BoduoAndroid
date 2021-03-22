@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.liansu.boduowms.R;
 import com.liansu.boduowms.bean.CheckNumRefMaterial;
 import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.ui.dialog.ToastUtil;
 import com.liansu.boduowms.utils.SharePreferUtil;
 import com.liansu.boduowms.utils.function.CommonUtil;
@@ -231,17 +232,25 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
         return true;
     }
 
+    //-99 可以退出  ，成功可以退出  失败允许退出
+    public  boolean  ReturnActivity(){
+        return true;
+    }
 
     public void BackAlter() {
-        new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage("是否返回上一页面？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO 自动生成的方法
-                        closeActivity();
-                    }
-                }).setNegativeButton("取消", null).show();
+        if (ReturnActivity()) {
+            new AlertDialog.Builder(BaseApplication.context).setTitle("提示").setCancelable(false).setIcon(android.R.drawable.ic_dialog_info).setMessage("是否返回上一页面？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO 自动生成的方法
+                            closeActivity();
+                        }
+                    }).setNegativeButton("取消", null).show();
+        }
     }
+
+
 
     /**
      * 隐藏键盘

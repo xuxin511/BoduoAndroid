@@ -10,6 +10,7 @@ public class BaseResultInfo<T> {
     public static final int    RESULT_TYPE_POST_SUCCESS = 3; //过账成功
     public static final int    RESULT_TYPE_POST_ERROR = 4; //过账失败
     public static final int    RESULT_TYPE_POST_ISDEL = 5; //是否删除
+    public static final int    RESULT_TYPE_ERPPOSTERROR = -99;//erp过账失败 不允许退出
     public static final int    RESULT_TYPE_ERROR           = 0;
     public static final int    RESULT_TYPE_DEFAULT         = -1;
     private             int    Result;

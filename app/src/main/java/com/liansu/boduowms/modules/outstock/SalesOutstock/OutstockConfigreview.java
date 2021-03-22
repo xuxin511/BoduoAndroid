@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_box;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_none;
@@ -133,6 +134,9 @@ public class OutstockConfigreview extends BaseActivity {
     OutstockPackDTO outstockPackDTO = new OutstockPackDTO();
 
     String CurrOrderNO = "";
+    String                       mUuid   = null;//每次进入界面只存在一个guiid
+
+    boolean Return;
 
     @Override
     protected void initViews() {
@@ -168,6 +172,8 @@ public class OutstockConfigreview extends BaseActivity {
                 return false;
             }
         });
+        mUuid= UUID.randomUUID().toString();
+        Return=true;
         //直接访问订单信息
 //        SalesoutstockRequery model = new SalesoutstockRequery();
 //        model.Erpvoucherno = CurrOrderNO;
@@ -497,15 +503,21 @@ public class OutstockConfigreview extends BaseActivity {
         }
     }
 
+
+    @Override
+    public  boolean  ReturnActivity(){
+        if(!Return){
+            CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+            MessageBox.Show(context, "过账异常不允许退出，请重新提交");
+        }
+        return Return;
+    }
+
     public void PostReview(String result) {
         try {
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
-            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-                return;
-            }
+
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
 
                 //   CommonUtil.setEditFocus(sales_outstock_);
@@ -526,8 +538,13 @@ public class OutstockConfigreview extends BaseActivity {
                 });
 
                 //
+            }else{
+                CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                    Return=false;
+                }
             }
-
         } catch (Exception EX) {
             MessageBox.Show(context, EX.toString());
         }
@@ -842,7 +859,7 @@ public class OutstockConfigreview extends BaseActivity {
     //自己控制关闭弹出层
     private void inputjian1(String name) {
         final EditText inputServer = new EditText(this);
-        inputServer.setRawInputType(InputType.TYPE_CLASS_NUMBER);//设置bai进入du的时zhi候显dao示为zhuannumber模式shu
+        inputServer.setRawInputType(InputType.TYPE_CLASS_NUMBER);//设置b进入的时候显示为number模式
         inputServer.setFocusable(true);
         inputServer.setSingleLine(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -854,14 +871,6 @@ public class OutstockConfigreview extends BaseActivity {
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // String cardNum = cardNumET.getText().toString().trim();
-                if (inputServer.getText().toString().equals("0")) {
-                    Toast.makeText(context, "数量不能为零", Toast.LENGTH_SHORT).show();
-                    inputServer.setSelectAllOnFocus(true);
-                    inputServer.setFocusable(true);
-                    inputServer.requestFocus();
-                    return;
-                }
                 try {
                     int inputValue = Integer.parseInt(inputServer.getText().toString());
                     outstockPackDTO.ManualCartonNum = inputValue;
@@ -869,7 +878,7 @@ public class OutstockConfigreview extends BaseActivity {
                     String json = GsonUtil.parseModelToJson(outstockPackDTO);
                     RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_SaveManualPackageNumADFAsync, "件数提交中",
                             context, mHandler, RESULT_SaveManualPackageNumADFAsync, null, info.Outstock_SaveManualPackageNumADFAsync, json, null);
-                    alertDialog.dismiss();
+                    alertDialog.dismiss();//自己控制窗口关闭
                 } catch (Exception ex) {
                     Toast.makeText(context, "请输入正确数字", Toast.LENGTH_SHORT).show();
                     inputServer.setSelectAllOnFocus(true);
@@ -893,6 +902,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.Vouchertype = CurrvoucherType;
                         model.WayBillNo = sales_outstock_tyorder.getText().toString().trim();
                         model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                        model.GUID= mUuid;
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",

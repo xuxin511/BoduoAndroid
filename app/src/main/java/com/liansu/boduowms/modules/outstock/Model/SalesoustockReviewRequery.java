@@ -15,6 +15,15 @@ public class SalesoustockReviewRequery {
     public  int Printertype;
     public  String Fromwarehouseno;
     public  String Towarehouseno;
+     public String GUID;
+
+    public String getGUID() {
+        return GUID;
+    }
+
+    public void setGUID(String GUID) {
+        this.GUID = GUID;
+    }
 
     public String getTowarehouseno() {
         return Towarehouseno;

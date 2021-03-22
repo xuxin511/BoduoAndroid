@@ -10,6 +10,16 @@ public class SalesoutstockRequery {
     public String  Scanuserno;
     public  String    WayBillNo;
 
+    public  String     GUID;
+
+    public String getGUID() {
+        return GUID;
+    }
+
+    public void setGUID(String GUID) {
+        this.GUID = GUID;
+    }
+
     public String getWayBillNo() {
         return WayBillNo;
     }

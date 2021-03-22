@@ -42,6 +42,7 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_SalesNO;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Saleoutstock_OneReview;
@@ -80,7 +81,8 @@ public class OutstockOneReview extends BaseActivity {
     private int CurrVoucherType;
     UrlInfo info=new UrlInfo();
     MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
-
+    String                       mUuid   = null;//每次进入界面只存在一个guiid
+    boolean Return;
     @Override
     protected void initViews() {
         super.initViews();
@@ -97,6 +99,8 @@ public class OutstockOneReview extends BaseActivity {
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mModel= new PurchaseReturnOffScanModel(context, mHandler);
+        mUuid= UUID.randomUUID().toString();
+        Return=true;
     }
 
     @Override
@@ -140,6 +144,7 @@ public class OutstockOneReview extends BaseActivity {
     //一件复核
     @Event(value =R.id.outstock_onereview_button)
     private void  outstock_ordercolse_Submit(View view) {
+       // Return=false;
         if (CurrOrderNO.equals("")) {
             CommonUtil.setEditFocus(outstock_onereview_order);
             MessageBox.Show(context, "请先输入或扫描单号");
@@ -207,18 +212,28 @@ public class OutstockOneReview extends BaseActivity {
         }
     }
 
+    @Override
+    public  boolean  ReturnActivity(){
+        if(!Return){
+            CommonUtil.setEditFocus(outstock_onereview_order);
+            MessageBox.Show(context, "过账异常不允许退出，请重新提交");
+        }
+        return Return;
+    }
     //提交
     private  void Submit (String result) {
         try {
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
+            MessageBox.Show(context, returnMsgModel.getResultValue());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+                if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ERPPOSTERROR){
+                    Return=false;
+                }
                 CommonUtil.setEditFocus(outstock_onereview_order);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-                return;
             }
             //成功后提示
-            MessageBox.Show(context, returnMsgModel.getResultValue());
+
             return;
 //            SalesoutstockRequery model = new SalesoutstockRequery();
 //            model.Erpvoucherno = CurrOrderNO;
@@ -244,6 +259,7 @@ public class OutstockOneReview extends BaseActivity {
                         model.Vouchertype = CurrVoucherType;
                         model.Creater=BaseApplication.mCurrentUserInfo.getUserno();
                         model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                        model.GUID= mUuid;
                         String modelJson = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_OneReview, "提交复核中",
                                 context, mHandler, RESUL_Saleoutstock_OneReview, null, UrlInfo.getUrl().SalesOutstock_Onereview, modelJson, null);

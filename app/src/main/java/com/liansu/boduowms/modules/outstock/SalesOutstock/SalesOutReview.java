@@ -61,6 +61,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_box;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.OutStock_Submit_type_none;
@@ -143,7 +144,6 @@ public  class SalesOutReview extends BaseActivity {
 
     String CurrOrderNO="";
 
-
     //据点集合
     Map<String, String> StrongholdcodeList = new HashMap<>();
 
@@ -153,7 +153,8 @@ public  class SalesOutReview extends BaseActivity {
 
     MenuOutStockModel menuOutStockModel = new MenuOutStockModel();
 
-
+    String                       mUuid   = null;//每次进入界面只存在一个guiid
+    boolean    Return;
     @Override
     protected void initViews() {
         super.initViews();
@@ -186,6 +187,8 @@ public  class SalesOutReview extends BaseActivity {
                 return false;
             }
         });
+        mUuid= UUID.randomUUID().toString();
+        Return=true;
     }
 
     @Override
@@ -450,24 +453,32 @@ public  class SalesOutReview extends BaseActivity {
         }
     }
 
+    @Override
+    public  boolean  ReturnActivity(){
+        if(!Return){
+            CommonUtil.setEditFocus(sales_outstock_revieworder);
+            MessageBox.Show(context, "过账异常不允许退出，请重新提交");
+        }
+        return Return;
+    }
+
     public void PostReview(String result) {
         try {
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
-            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
-                CommonUtil.setEditFocus(sales_outstock_revieworder);
-                MessageBox.Show(context, returnMsgModel.getResultValue());
-            }
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
-                //   CommonUtil.setEditFocus(sales_outstock_);
-                // MessageBox.Show(context, returnMsgModel.getResultValue());
                 //清空
                 CommonUtil.setEditFocus(sales_outstock_revieworder);
                 del();
                 MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
                 //this.closeActivity();
+            } else{
+                CommonUtil.setEditFocus(sales_outstock_revieworder);
+                MessageBox.Show(context, returnMsgModel.getResultValue());
+                if(returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_ERPPOSTERROR){
+                    Return=false;
+                }
             }
-
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_revieworder);
             MessageBox.Show(context, EX.toString());
@@ -862,6 +873,7 @@ public  class SalesOutReview extends BaseActivity {
                         model.Printername= UrlInfo.mOutStockPrintName;
                         model.Printertype= UrlInfo.mOutStockPrintType;
                         model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                        model.GUID=mUuid;
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",
