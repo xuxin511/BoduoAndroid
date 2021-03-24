@@ -137,6 +137,7 @@ public class OutstockConfigreview extends BaseActivity {
     String                       mUuid   = null;//每次进入界面只存在一个guiid
 
     boolean Return;
+    boolean isPost;//是否点击过过账按钮   该参数重置于返回方法里面，用来判断过账是否连接超时
 
     @Override
     protected void initViews() {
@@ -174,6 +175,7 @@ public class OutstockConfigreview extends BaseActivity {
         });
         mUuid= UUID.randomUUID().toString();
         Return=true;
+        isPost=false;
         //直接访问订单信息
 //        SalesoutstockRequery model = new SalesoutstockRequery();
 //        model.Erpvoucherno = CurrOrderNO;
@@ -201,7 +203,11 @@ public class OutstockConfigreview extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_refresh) {
-            onResume();
+            if(Return){
+                onResume();
+            }else{
+                MessageBox.Show(context,"过账异常不允许刷新，请先过账当前单号");
+            }
         }
         return false;
     }
@@ -211,6 +217,7 @@ public class OutstockConfigreview extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        BaseApplication.isCloseActivity = false;//关闭界面 再次提示
         if (!CurrOrderNO.equals("") && CurrOrderNO != null) {
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
@@ -408,6 +415,10 @@ public class OutstockConfigreview extends BaseActivity {
                 Savepackagenum((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
+                if(isPost){
+                    //isPost=false;
+                    Return=false;
+                }
                 MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -517,9 +528,9 @@ public class OutstockConfigreview extends BaseActivity {
         try {
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
-
+            isPost=false;//重置，表明提交过账之后有返回
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
-
+                Return=true;
                 //   CommonUtil.setEditFocus(sales_outstock_);
 //                MessageBox.Show(context, returnMsgModel.getResultValue());
                 //跳到前一界面
@@ -536,17 +547,21 @@ public class OutstockConfigreview extends BaseActivity {
 
                     }
                 });
-
+                mUuid=UUID.randomUUID().toString();
                 //
             }else{
                 CommonUtil.setEditFocus(sales_outstock_config_reviewbarcode);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
                     Return=false;
+                }else{
+                    Return=true;
+                    mUuid=UUID.randomUUID().toString();
                 }
             }
         } catch (Exception EX) {
             MessageBox.Show(context, EX.toString());
+            Return=false;
         }
 
     }
@@ -867,6 +882,7 @@ public class OutstockConfigreview extends BaseActivity {
                 null).setView(inputServer);
         builder.setPositiveButton("确认", null);
         final AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);//只能点击确认才能关闭
         alertDialog.show();
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -905,6 +921,7 @@ public class OutstockConfigreview extends BaseActivity {
                         model.GUID= mUuid;
                         list.add(model);
                         String modelJson = parseModelToJson(list);
+                        isPost=true;
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",
                                 context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);
                     }

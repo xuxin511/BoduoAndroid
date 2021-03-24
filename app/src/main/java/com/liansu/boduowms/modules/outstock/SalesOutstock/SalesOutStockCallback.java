@@ -38,6 +38,7 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Toutstock_Callback;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESUL_Toutstock_Callback_Submit;
@@ -70,6 +71,9 @@ public class SalesOutStockCallback extends BaseActivity {
 
     UrlInfo info = new UrlInfo();
     MenuOutStockModel model = new MenuOutStockModel();
+    String                       mUuid   = null;//每次进入界面只存在一个guiid
+    boolean    Return;
+    boolean isPost;
     @Override
     protected void initViews() {
         super.initViews();
@@ -85,6 +89,9 @@ public class SalesOutStockCallback extends BaseActivity {
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         CurrErpvoucherno = "";
+        mUuid= UUID.randomUUID().toString();
+        Return=true;
+        isPost=false;
     }
 
     @Override
@@ -92,7 +99,14 @@ public class SalesOutStockCallback extends BaseActivity {
         super.initData();
     }
 
-
+    @Override
+    public  boolean  ReturnActivity(){
+        if(!Return){
+            CommonUtil.setEditFocus(sales_outstock_callback_order);
+            MessageBox.Show(context, "过账异常不允许退出，请重新提交");
+        }
+        return Return;
+    }
     //回车
     @Event(value = R.id.sales_outstock_callback_order,type = EditText.OnKeyListener.class)
     private  boolean callback_orderclick(View v, int keyCode, KeyEvent event) {
@@ -101,6 +115,10 @@ public class SalesOutStockCallback extends BaseActivity {
         //如果是扫描
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == sales_outstock_callback_order.getId()) {
             try {
+                if(!Return){
+                    MessageBox.Show(context,"过账异常不允许扫描，请先过账当前单号");
+                    return true;
+                }
                 String erpvoucherno=sales_outstock_callback_order.getText().toString().trim();
                 if(erpvoucherno.equals("")){
                     CommonUtil.setEditFocus(sales_outstock_callback_order);
@@ -111,6 +129,7 @@ public class SalesOutStockCallback extends BaseActivity {
                 salesoutstockRequery.Erpvoucherno = erpvoucherno;
                 salesoutstockRequery.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
                 salesoutstockRequery.Creater = BaseApplication.mCurrentUserInfo.getUsername();
+                salesoutstockRequery.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
                 salesoutstockRequery.Vouchertype=CurrVoucherType;
                 String json = GsonUtil.parseModelToJson(salesoutstockRequery);
                 RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_outstock_Callback, "获取单据信息中",
@@ -142,6 +161,8 @@ public class SalesOutStockCallback extends BaseActivity {
             salesoutstockRequery.Scanuserno = BaseApplication.mCurrentUserInfo.getUserno();
             salesoutstockRequery.Vouchertype = CurrVoucherType;
             salesoutstockRequery.Strongholdcode = Strongholdcode;
+            salesoutstockRequery.GUID=mUuid;
+            isPost=true;
             Llist.add(salesoutstockRequery);
             String json = GsonUtil.parseModelToJson(Llist);
             RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_outstock_Callback_Submit, "提交单据数据",
@@ -163,6 +184,10 @@ public class SalesOutStockCallback extends BaseActivity {
                 SubmitOrder((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
+                if(isPost){
+                    //isPost=false;
+                    Return=false;
+                }
                 MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -178,6 +203,7 @@ public class SalesOutStockCallback extends BaseActivity {
     //扫描订单号
     public  void  ScannOrder(String result) {
         try {
+            mUuid= UUID.randomUUID().toString();
             BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -208,25 +234,37 @@ public class SalesOutStockCallback extends BaseActivity {
 
     public  void SubmitOrder(String result) {
         try {
+            isPost=false;
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
-            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+            if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
+                mUuid=UUID.randomUUID().toString();
+                Return=true;
+                CurrErpvoucherno = "";
+                //成功
+                List<OutStockOrderDetailInfo> detailInfos = new ArrayList<OutStockOrderDetailInfo>();
+                Strongholdcode = "";
+                //绑定
+                mAdapter = new SaleoutstockcallbackAdapter(context, detailInfos);
+                mList.setAdapter(mAdapter);
                 CommonUtil.setEditFocus(sales_outstock_callback_order);
+                MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
+            }else{
+                CommonUtil.setEditFocus(sales_outstock_callback_order);
+                if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                    Return=false;
+                }else{
+                    mUuid=UUID.randomUUID().toString();
+                    Return=true;
+                }
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-            CurrErpvoucherno = "";
-            //成功
-            List<OutStockOrderDetailInfo> detailInfos = new ArrayList<OutStockOrderDetailInfo>();
-            Strongholdcode = "";
-            //绑定
-            mAdapter = new SaleoutstockcallbackAdapter(context, detailInfos);
-            mList.setAdapter(mAdapter);
-            CommonUtil.setEditFocus(sales_outstock_callback_order);
-            MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
+
         } catch (Exception ex) {
             CommonUtil.setEditFocus(sales_outstock_callback_order);
             MessageBox.Show(context, "数据解析报错");
+            Return=false;
         }
 
     }

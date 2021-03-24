@@ -45,6 +45,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_DelBox;
 import static com.liansu.boduowms.modules.outstock.Model.OutStock_Tag.RESULT_Saleoutstock_PlatForm;
@@ -90,6 +91,10 @@ public class OutstockOrderColse extends BaseActivity {
     private int CurrVoucherType;
     UrlInfo info=new UrlInfo();
     MenuOutStockModel  menuOutStockModel = new MenuOutStockModel();
+
+    String                       mUuid   = null;//每次进入界面只存在一个guiid
+    boolean    Return;
+    boolean isPost;
     @Override
     protected void initViews() {
         super.initViews();
@@ -108,11 +113,23 @@ public class OutstockOrderColse extends BaseActivity {
         x.view().inject(this);
         BaseApplication.isCloseActivity = false;
         mModel= new PurchaseReturnOffScanModel(context, mHandler);
+        mUuid= UUID.randomUUID().toString();
+        Return=true;
+        isPost=false;
     }
 
     @Override
     protected void initData() {
         super.initData();
+    }
+
+    @Override
+    public  boolean  ReturnActivity(){
+        if(!Return){
+            CommonUtil.setEditFocus(outstock_ordercolse_order);
+            MessageBox.Show(context, "过账异常不允许退出，请重新提交");
+        }
+        return Return;
     }
 
     //订单回车
@@ -123,6 +140,10 @@ public class OutstockOrderColse extends BaseActivity {
         //如果是扫描
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == outstock_ordercolse_order.getId()) {
             try {
+                if(!Return){
+                    MessageBox.Show(context,"过账异常不允许扫描，请先过账当前单号");
+                    return true;
+                }
                 String order = outstock_ordercolse_order.getText().toString().trim();
                 if (order.equals("")) {
                     MessageBox.Show(context, "青先输入或扫描单号");
@@ -182,6 +203,7 @@ public class OutstockOrderColse extends BaseActivity {
     //扫描单号
     private  void SacnnNo(String result) {
         try {
+            mUuid= UUID.randomUUID().toString();
             BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -221,20 +243,34 @@ public class OutstockOrderColse extends BaseActivity {
     //提交
     private  void Submit (String result) {
         try {
+            isPost=false;
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
-            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+            if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
+                MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
+//                SalesoutstockRequery model = new SalesoutstockRequery();
+                mUuid=UUID.randomUUID().toString();
+                Return=true;
+//                Return=true;
+//                model.Erpvoucherno = CurrOrderNO;
+//                model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
+//                model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
+//                model.GUID=mUuid;
+//                String json = GsonUtil.parseModelToJson(model);
+//                RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
+//                        context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+            }else {
                 CommonUtil.setEditFocus(outstock_ordercolse_order);
+                if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                    Return=false;
+                }else{
+                    mUuid=UUID.randomUUID().toString();
+                    Return=true;
+                }
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 return;
             }
-            SalesoutstockRequery model = new SalesoutstockRequery();
-            model.Erpvoucherno = CurrOrderNO;
-            model.Towarehouseno = BaseApplication.mCurrentWareHouseInfo.Warehouseno;
-            model.Creater = BaseApplication.mCurrentUserInfo.getUsername();
-            String json = GsonUtil.parseModelToJson(model);
-            RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_SelectNO, "获取单据信息中",
-                    context, mHandler, RESULT_Saleoutstock_SalesNO, null, info.SalesOutstock_ScanningNo, json, null);
+
         } catch (Exception ex) {
             CommonUtil.setEditFocus(outstock_ordercolse_order);
             MessageBox.Show(context, ex.toString());
@@ -254,6 +290,8 @@ public class OutstockOrderColse extends BaseActivity {
                         model.Vouchertype = CurrVoucherType;
                         model.Strongholdcode = strongcode;
                         model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
+                        model.GUID=mUuid;
+                        isPost=true;
                         String modelJson = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_outstock_Ordercolose_Submit, "提交中",
                                 context, mHandler, RESUL_Toutstock_Ordercolose_Submit, null, UrlInfo.getUrl().SalesOutstock_OrderColose, modelJson, null);

@@ -155,6 +155,7 @@ public  class SalesOutReview extends BaseActivity {
 
     String                       mUuid   = null;//每次进入界面只存在一个guiid
     boolean    Return;
+    boolean isPost;
     @Override
     protected void initViews() {
         super.initViews();
@@ -189,6 +190,7 @@ public  class SalesOutReview extends BaseActivity {
         });
         mUuid= UUID.randomUUID().toString();
         Return=true;
+        isPost=false;
     }
 
     @Override
@@ -201,6 +203,7 @@ public  class SalesOutReview extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        BaseApplication.isCloseActivity = false;
         if (!CurrOrderNO.equals("")&& CurrOrderNO!=null) {
             SalesoutstockRequery model = new SalesoutstockRequery();
             model.Erpvoucherno = CurrOrderNO;
@@ -221,7 +224,11 @@ public  class SalesOutReview extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_refresh) {
-            onResume();
+            if(Return){
+                onResume();
+            }else{
+                MessageBox.Show(context,"过账异常不允许刷新，请先过账当前单号");
+            }
         }
         return false;
     }
@@ -262,6 +269,10 @@ public  class SalesOutReview extends BaseActivity {
         //如果是扫描
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == sales_outstock_revieworder.getId()) {
             try {
+                if(!Return){
+                    MessageBox.Show(context,"过账异常不允许扫描，请先过账当前单号");
+                    return true;
+                }
                 String order = sales_outstock_revieworder.getText().toString().trim();
                 if (!order.equals("")) {
                     SalesoutstockRequery model = new SalesoutstockRequery();
@@ -442,6 +453,10 @@ public  class SalesOutReview extends BaseActivity {
                 PostReview((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
+                if(isPost){
+                    //isPost=false;
+                    Return=false;
+                }
                 MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -464,6 +479,7 @@ public  class SalesOutReview extends BaseActivity {
 
     public void PostReview(String result) {
         try {
+            isPost=false;
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
             if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
@@ -472,16 +488,22 @@ public  class SalesOutReview extends BaseActivity {
                 del();
                 MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
                 //this.closeActivity();
+                mUuid=UUID.randomUUID().toString();
+                Return=true;
             } else{
                 CommonUtil.setEditFocus(sales_outstock_revieworder);
                 MessageBox.Show(context, returnMsgModel.getResultValue());
                 if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
                     Return=false;
+                }else{
+                    mUuid=UUID.randomUUID().toString();
+                    Return=true;
                 }
             }
         } catch (Exception EX) {
             CommonUtil.setEditFocus(sales_outstock_revieworder);
             MessageBox.Show(context, EX.toString());
+            Return=false;
         }
 
     }
@@ -623,6 +645,7 @@ public  class SalesOutReview extends BaseActivity {
     //扫描单号获取数据
     public void SacnnNo(String result) {
         try {
+            mUuid= UUID.randomUUID().toString();
             BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -875,6 +898,7 @@ public  class SalesOutReview extends BaseActivity {
                         model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.GUID=mUuid;
                         list.add(model);
+                        isPost=true;
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "复核过账提交中",
                                 context, mHandler, RESULT_Saleoutstock_PostReview, null, info.SalesOutstock__Review_Submit, modelJson, null);

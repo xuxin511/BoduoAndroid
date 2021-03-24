@@ -77,6 +77,8 @@ public class OutstockOneReview extends BaseActivity {
 
     String strongcode;
 
+
+    boolean   isPost;
     //当前类型
     private int CurrVoucherType;
     UrlInfo info=new UrlInfo();
@@ -101,6 +103,7 @@ public class OutstockOneReview extends BaseActivity {
         mModel= new PurchaseReturnOffScanModel(context, mHandler);
         mUuid= UUID.randomUUID().toString();
         Return=true;
+        isPost=false;
     }
 
     @Override
@@ -116,11 +119,14 @@ public class OutstockOneReview extends BaseActivity {
         //如果是扫描
         if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP && etid == outstock_onereview_order.getId()) {
             try {
+                if(!Return){
+                    MessageBox.Show(context,"过账异常不允许扫描，请先过账当前单号");
+                    return true;
+                }
                 String order = outstock_onereview_order.getText().toString().trim();
                 if (order.equals("")) {
                     MessageBox.Show(context, "青先输入或扫描单号");
-                    return true
-                            ;
+                    return true;
                 }
                 SalesoutstockRequery model = new SalesoutstockRequery();
                 model.Erpvoucherno = order;
@@ -163,6 +169,10 @@ public class OutstockOneReview extends BaseActivity {
                 Submit((String) msg.obj);
                 break;
             case NetworkError.NET_ERROR_CUSTOM:
+                if(isPost){
+                 //   isPost=false;
+                    Return=false;
+                }
                 MessageBox.Show(context, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -176,6 +186,8 @@ public class OutstockOneReview extends BaseActivity {
     //扫描单号
     private  void SacnnNo(String result) {
         try {
+
+            mUuid= UUID.randomUUID().toString();
             BaseResultInfo<OutStockOrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OutStockOrderHeaderInfo>>() {
             }.getType());
             if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
@@ -223,15 +235,23 @@ public class OutstockOneReview extends BaseActivity {
     //提交
     private  void Submit (String result) {
         try {
+            isPost=false;
             BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
             }.getType());
-            MessageBox.Show(context, returnMsgModel.getResultValue());
-            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_OK) {
+            if (returnMsgModel.getResult() == returnMsgModel.RESULT_TYPE_OK) {
+                mUuid=UUID.randomUUID().toString();
+                Return=true;
+                MessageBox.Show(context, returnMsgModel.getResultValue(),2,null);
+            }else{
                 if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
                     Return=false;
+                }else{
+                    Return=true;
+                    mUuid=UUID.randomUUID().toString();
                 }
-                CommonUtil.setEditFocus(outstock_onereview_order);
+                MessageBox.Show(context, returnMsgModel.getResultValue());
             }
+            CommonUtil.setEditFocus(outstock_onereview_order);
             //成功后提示
 
             return;
@@ -245,6 +265,7 @@ public class OutstockOneReview extends BaseActivity {
         } catch (Exception ex) {
             CommonUtil.setEditFocus(outstock_onereview_order);
             MessageBox.Show(context, ex.toString());
+            Return=false;
         }
     }
 
@@ -260,6 +281,7 @@ public class OutstockOneReview extends BaseActivity {
                         model.Creater=BaseApplication.mCurrentUserInfo.getUserno();
                         model.Towarehouseno=BaseApplication.mCurrentWareHouseInfo.getWarehouseno();
                         model.GUID= mUuid;
+                        isPost=true;
                         String modelJson = parseModelToJson(model);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_OneReview, "提交复核中",
                                 context, mHandler, RESUL_Saleoutstock_OneReview, null, UrlInfo.getUrl().SalesOutstock_Onereview, modelJson, null);
