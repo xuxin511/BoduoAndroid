@@ -880,6 +880,8 @@ public class OutstockRawmaterialActivity extends BaseActivity {
                         model.Printername = UrlInfo.mOutStockPrintName;
                         model.Printertype = UrlInfo.mOutStockPrintType;
                         model.Fromwarehouseno = Fromwarehouseno;
+                        model.GUID=mUuid;
+                        isPost=true;
                         list.add(model);
                         String modelJson = parseModelToJson(list);
                         RequestHandler.addRequestWithDialog(Request.Method.POST, TAG_Saleoutstock_PostReview, "过账提交中",
