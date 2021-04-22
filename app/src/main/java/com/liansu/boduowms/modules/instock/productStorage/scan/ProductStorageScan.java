@@ -113,6 +113,18 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     }
 
     @Override
+    public  boolean  ReturnActivity(){
+        if (mPresenter!=null &&mPresenter.getGUIDHelper()!=null){
+            if(!mPresenter.getGUIDHelper().isReturn()){
+                // CommonUtil.setEditFocus(receiption_scan_out_barcode);
+                MessageBox.Show(mContext, "过账异常不允许退出，请继续提交");
+            }
+            return mPresenter.getGUIDHelper().isReturn();
+        }
+        return  true;
+    }
+
+    @Override
     public void setTransferSubmissionStatus() {
         mTransferSubmission.setVisibility(View.GONE);
     }
@@ -202,6 +214,7 @@ public class ProductStorageScan extends BaseActivity implements IProductStorager
     @Override
     protected void onResume() {
         super.onResume();
+        BaseApplication.isCloseActivity = false;//关闭界面 再次提示
         String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
         if (mPresenter != null && !erpVoucherNo.equals("")) {
             OrderHeaderInfo orderHeaderInfo = new OrderHeaderInfo();

@@ -150,6 +150,17 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     }
 
     @Override
+    public  boolean  ReturnActivity(){
+        if (mPresenter!=null &&mPresenter.getGUIDHelper()!=null){
+            if(!mPresenter.getGUIDHelper().isReturn()){
+                // CommonUtil.setEditFocus(receiption_scan_out_barcode);
+                MessageBox.Show(context, "过账异常不允许退出，请继续提交");
+            }
+            return mPresenter.getGUIDHelper().isReturn();
+        }
+        return  true;
+    }
+    @Override
     public void onHandleMessage(Message msg) {
         mPresenter.onHandleMessage(msg);
     }
@@ -157,6 +168,7 @@ public class QualityInspectionProcessingScan extends BaseActivity implements IQu
     @Override
     protected void onResume() {
         super.onResume();
+        BaseApplication.isCloseActivity = false;//关闭界面 再次提示
         WareHouseInfo info = BaseApplication.mCurrentWareHouseInfo;
         if (info != null) {
             if (info.getIstransfer() == 2) {

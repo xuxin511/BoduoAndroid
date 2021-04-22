@@ -36,4 +36,5 @@ public interface IBaseOrderScanView {
 
     void onActivityFinish(String title);
     void  startRollBackActivity( String erpVoucherNo, int voucherType, String title);
+
 }

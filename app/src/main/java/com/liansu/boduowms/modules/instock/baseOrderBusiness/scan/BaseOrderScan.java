@@ -36,6 +36,8 @@ import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.GUIDHelper;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.CommonUtil;
 import com.liansu.boduowms.utils.function.DoubleClickCheck;
 
@@ -46,11 +48,14 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 
 @ContentView(R.layout.activity_receiption_scan)
@@ -99,6 +104,14 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
     protected    String                 mBusinessType   = "";
     protected    UserSettingPresenter   mUserSettingPresenter;
 
+
+  // GUIDHelper helper=new  GUIDHelper();
+//
+//    String                       mUuid   = null;//每次进入界面只存在一个guiid
+//    boolean Return;
+//    boolean isPost;//是否点击过过账按钮   该参数重置于返回方法里面，用来判断过账是否连接超时
+
+
     @Override
     protected void initViews() {
         super.initViews();
@@ -109,14 +122,31 @@ public class BaseOrderScan extends BaseActivity implements IBaseOrderScanView, I
         initListener();
         onAreaNoFocus();
         mUserSettingPresenter = new UserSettingPresenter(mContext, this);
+//        mUuid= UUID.randomUUID().toString();
+//        Return=true;
+//        isPost=false;
 //        setToolbarTitleViewTextSize((AppCompatActivity) mContext,toolbar);
     }
 
     @Override
     public void onHandleMessage(Message msg) {
         if (mPresenter != null) {
-            mPresenter.onHandleMessage(msg);
+
+                mPresenter.onHandleMessage(msg);
+
         }
+    }
+
+    @Override
+    public  boolean  ReturnActivity(){
+        if (mPresenter!=null && mPresenter.getGUIDHelper()!=null){
+            if(!mPresenter.getGUIDHelper().isReturn()){
+                // CommonUtil.setEditFocus(receiption_scan_out_barcode);
+                MessageBox.Show(mContext, "过账异常不允许退出，请继续提交");
+            }
+            return mPresenter.getGUIDHelper().isReturn();
+        }
+        return  true;
     }
 
 

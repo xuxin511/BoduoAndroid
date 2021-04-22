@@ -17,6 +17,7 @@ import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanM
 import com.liansu.boduowms.modules.instock.batchPrint.order.BaseOrderLabelPrintSelect;
 import com.liansu.boduowms.modules.print.linkos.PrintInfo;
 import com.liansu.boduowms.modules.print.linkos.PrintType;
+import com.liansu.boduowms.utils.GUIDHelper;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.RequestHandler;
 import com.liansu.boduowms.utils.function.ArithUtil;

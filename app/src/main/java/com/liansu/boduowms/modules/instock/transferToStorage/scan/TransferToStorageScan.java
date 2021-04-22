@@ -29,6 +29,7 @@ import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.modules.stockRollBack.StockRollBack;
 import com.liansu.boduowms.ui.adapter.instock.baseScanStorage.BaseScanDetailAdapter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -112,6 +113,18 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
         }
 
 
+    }
+
+    @Override
+    public  boolean  ReturnActivity(){
+        if (mPresenter!=null &&mPresenter.getGUIDHelper()!=null){
+            if(!mPresenter.getGUIDHelper().isReturn()){
+                // CommonUtil.setEditFocus(receiption_scan_out_barcode);
+                MessageBox.Show(mContext, "过账异常不允许退出，请继续提交");
+            }
+            return mPresenter.getGUIDHelper().isReturn();
+        }
+        return  true;
     }
 
     @Override
@@ -200,6 +213,7 @@ public class TransferToStorageScan extends BaseActivity implements TransferToSto
     protected void onResume() {
         super.onResume();
         String erpVoucherNo = mErpVoucherNo.getText().toString().trim();
+        BaseApplication.isCloseActivity = false;//关闭界面 再次提示
         if (mPresenter != null && !erpVoucherNo.equals("")) {
             OrderRequestInfo orderHeaderInfo=new OrderRequestInfo();
             orderHeaderInfo.setErpvoucherno(erpVoucherNo);

@@ -24,6 +24,7 @@ import com.liansu.boduowms.modules.menu.commonMenu.MenuModel;
 import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.salesReturnStorage.SalesReturnStorageAdapter;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -92,6 +93,18 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
 //        return true;
 //    }
 
+
+    @Override
+    public  boolean  ReturnActivity(){
+        if (mPresenter!=null &&mPresenter.getGUIDHelper()!=null){
+            if(!mPresenter.getGUIDHelper().isReturn()){
+                // CommonUtil.setEditFocus(receiption_scan_out_barcode);
+                MessageBox.Show(mContext, "过账异常不允许退出，请继续提交");
+            }
+            return mPresenter.getGUIDHelper().isReturn();
+        }
+        return  true;
+    }
     @Override
     protected void initData() {
         super.initData();
@@ -103,6 +116,7 @@ public class SalesReturnStorageScan extends BaseActivity implements ISalesReturn
     @Override
     protected void onResume() {
         super.onResume();
+        BaseApplication.isCloseActivity = false;//关闭界面 再次提示
         mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         //每次界面启动时刷新实时数据
         if (mAdapter != null) {

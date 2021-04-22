@@ -19,7 +19,9 @@ import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.GUIDHelper;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -36,16 +38,35 @@ import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
  * @ Created by yangyiqing on 2020/6/27.
  */
 public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<TransferToStorageScanView, TransferToStorageScanModel> {
-
+    protected GUIDHelper mGUIDHelper;
     public TransferToStorageScanPresenter(Context context, TransferToStorageScanView view, MyHandler<BaseActivity> handler, OrderHeaderInfo orderHeaderInfo, List<OutBarcodeInfo> barCodeInfos, int voucherType) {
         super(context, view, handler, orderHeaderInfo, barCodeInfos, new TransferToStorageScanModel(context, handler, voucherType));
+        mGUIDHelper=new GUIDHelper();
     }
 
     @Override
     public void onHandleMessage(Message msg) {
-        mModel.onHandleMessage(msg);
-    }
 
+        if (msg.what == NetworkError.NET_ERROR_CUSTOM) {
+            if (mGUIDHelper.isPost()) {
+                //isPost=false;
+                mGUIDHelper.setReturn(false);
+            }
+            MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+        } else {
+            mModel.onHandleMessage(msg);
+        }
+//        mModel.onHandleMessage(msg);
+    }
+    @Override
+    public GUIDHelper getGUIDHelper() {
+        return mGUIDHelper;
+    }
     @Override
     protected String getTitle() {
         String title = "";
@@ -67,10 +88,14 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
      */
 
     protected void getOrderDetailInfoList(OrderRequestInfo orderHeaderInfo, int voucherType) {
-        onReset();
         orderHeaderInfo.setVouchertype(voucherType);
         orderHeaderInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
         orderHeaderInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
+        if(!mGUIDHelper.isReturn()){
+            MessageBox.Show(mContext,"过账异常不允许扫描，请先过账当前单号");
+            return ;
+        }
+        onReset();
         mModel.requestOrderDetail(orderHeaderInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -79,6 +104,7 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
                     BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        mGUIDHelper.createUUID();
                         OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
                         if (orderHeaderInfo != null) {
                             mModel.setOrderHeaderInfo(orderHeaderInfo);
@@ -217,6 +243,8 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
             postInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
             postInfo.setVouchertype(firstDetailInfo.getVouchertype());
             postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+            postInfo.setGuid(mGUIDHelper.getmUuid());
+            mGUIDHelper.setPost(false);
             List<OrderDetailInfo> list = new ArrayList<>();
             list.add(postInfo);
             mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
@@ -224,10 +252,13 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
                 public void onCallBack(String result) {
                     LogUtil.WriteLog(TransferToStorageScan.class, mModel.TAG_POST_T_TRANSFER_IN_DETAIL_ADF_ASYNC, result);
                     try {
+                        mGUIDHelper.setPost(true);
                         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
 //                        BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                         }.getType());
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                            mGUIDHelper.setReturn(true);
+                            mGUIDHelper.createUUID();
                             BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
                             if (!checkResult.getHeaderStatus()) {
                                 MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
@@ -247,11 +278,18 @@ public class TransferToStorageScanPresenter extends BaseOrderScanPresenter<Trans
                             }
 
                         } else {
+                            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                                mGUIDHelper.setReturn(false);
+                            } else {
+                                mGUIDHelper.setReturn(true);
+                                mGUIDHelper.createUUID();
+                            }
                             MessageBox.Show(mContext, "提交单据信息失败:" + returnMsgModel.getResultValue());
                         }
 
                     } catch (Exception ex) {
                         MessageBox.Show(mContext, "提交单据信息失败:出现预期之外的异常," + ex.getMessage());
+                        mGUIDHelper.setReturn(false);
                     }
 
 

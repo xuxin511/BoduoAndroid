@@ -232,7 +232,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IHandleM
         return true;
     }
 
-    //-99 可以退出  ，成功可以退出  失败允许退出
+    //-99 可以退出  ，成功可以退出  失败不允许退出
     public  boolean  ReturnActivity(){
         return true;
     }

@@ -18,6 +18,7 @@ import com.liansu.boduowms.bean.order.OrderHeaderInfo;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.GUIDHelper;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
@@ -38,6 +39,8 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
     protected V                  mView;
     protected PrintBusinessModel mPrintModel;
 
+   //protected  GUIDHelper mGUIDHelper;
+
     public void onHandleMessage(Message msg) {
         mModel.onHandleMessage(msg);
     }
@@ -50,8 +53,12 @@ public abstract class BaseOrderScanPresenter<V extends IBaseOrderScanView, K ext
         this.mModel.setBarCodeInfos(barCodeInfos);
         this.mPrintModel = new PrintBusinessModel(context, handler);
         setHeaderInfo();
+    //    mGUIDHelper=new GUIDHelper();
     }
-
+     public GUIDHelper getGUIDHelper(){
+      // return mGUIDHelper;
+        return  null;
+     }
     public K getModel() {
         return mModel;
     }

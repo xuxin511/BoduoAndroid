@@ -107,6 +107,9 @@ public class OrderDetailInfo implements Parcelable {
     protected String               OnwayWarehouse;  // 在途仓
     protected String  Customerno;
     protected String                Customername;
+    protected  String Guid;
+
+
     public OrderDetailInfo() {
     }
 
@@ -162,6 +165,7 @@ public class OrderDetailInfo implements Parcelable {
         OnwayWarehouse = in.readString();
         Customerno=in.readString();
         Customername=in.readString();
+        Guid=in.readString();
     }
 
     public static final Creator<OrderDetailInfo> CREATOR = new Creator<OrderDetailInfo>() {
@@ -175,6 +179,14 @@ public class OrderDetailInfo implements Parcelable {
             return new OrderDetailInfo[size];
         }
     };
+
+    public String getGuid() {
+        return Guid;
+    }
+
+    public void setGuid(String guid) {
+        Guid = guid;
+    }
 
     public int getId() {
         return Id;
@@ -677,6 +689,7 @@ public class OrderDetailInfo implements Parcelable {
         dest.writeString(OnwayWarehouse);
         dest.writeString(Customerno);
         dest.writeString(Customername);
+        dest.writeString(Guid);
     }
 
 

@@ -35,6 +35,7 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
     private int    Istransfer;
     private String Creater;  //创建人 ，收货人
     private String Strcreatetime; //收货时间
+    private  String Guid;
 
 
     public QualityHeaderInfo() {
@@ -98,6 +99,7 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
         Istransfer = in.readInt();
         Creater = in.readString();
         Strcreatetime=in.readString();
+        Guid=in.readString();
     }
 
     public static final Creator<QualityHeaderInfo> CREATOR = new Creator<QualityHeaderInfo>() {
@@ -111,6 +113,14 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
             return new QualityHeaderInfo[size];
         }
     };
+
+    public String getGuid() {
+        return Guid;
+    }
+
+    public void setGuid(String guid) {
+        Guid = guid;
+    }
 
     public float getQualityqty() {
         return Qualityqty;
@@ -336,5 +346,6 @@ public class QualityHeaderInfo extends QualityDetailInfo implements Parcelable {
         dest.writeInt(Istransfer);
         dest.writeString(Creater);
         dest.writeString(Strcreatetime);
+        dest.writeString(Guid);
     }
 }

@@ -27,6 +27,7 @@ import com.liansu.boduowms.modules.setting.user.IUserSettingView;
 import com.liansu.boduowms.modules.setting.user.UserSettingPresenter;
 import com.liansu.boduowms.ui.adapter.instock.NoSourceScanDetailAdapter;
 import com.liansu.boduowms.ui.dialog.MaterialInfoDialogActivity;
+import com.liansu.boduowms.ui.dialog.MessageBox;
 import com.liansu.boduowms.utils.function.CommonUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -93,6 +94,25 @@ public class NoSourceOtherScan extends BaseActivity implements INoSourceOtherSca
         mUserSettingPresenter=new UserSettingPresenter(mContext,this);
         onReset();
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BaseApplication.isCloseActivity = false;//关闭界面 再次提示
+    }
+
+    @Override
+    public  boolean  ReturnActivity(){
+        if (mPresenter!=null &&mPresenter.getGUIDHelper()!=null){
+            if(!mPresenter.getGUIDHelper().isReturn()){
+                // CommonUtil.setEditFocus(receiption_scan_out_barcode);
+                MessageBox.Show(mContext, "过账异常不允许退出，请继续提交");
+            }
+            return mPresenter.getGUIDHelper().isReturn();
+        }
+        return  true;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.liansu.boduowms.modules.qualityInspection.qualityInspectionProcessing;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Message;
 
 import com.google.gson.reflect.TypeToken;
@@ -14,17 +15,21 @@ import com.liansu.boduowms.bean.qualitySpection.QualityHeaderInfo;
 import com.liansu.boduowms.bean.warehouse.WareHouseInfo;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.GUIDHelper;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.liansu.boduowms.bean.base.BaseResultInfo.RESULT_TYPE_OK;
 import static com.liansu.boduowms.modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingModel.QUALITY_TYPE_QUALIFIED;
 import static com.liansu.boduowms.modules.qualityInspection.qualityInspectionProcessing.QualityInspectionProcessingModel.QUALITY_TYPE_UNQUALIFIED;
+import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_ERROR;
 
 /**
  * @ Des:
@@ -35,9 +40,23 @@ public class QualityInspectionProcessingPresenter {
     private QualityInspectionProcessingModel mModel;
     private IQualityInspectionProcessingView mView;
     private PrintBusinessModel               mPrintModel;
-
+    protected GUIDHelper mGUIDHelper;
     public void onHandleMessage(Message msg) {
-        mModel.onHandleMessage(msg);
+        if (msg.what == NetworkError.NET_ERROR_CUSTOM) {
+            if (mGUIDHelper.isPost()) {
+                //isPost=false;
+                mGUIDHelper.setReturn(false);
+            }
+            MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+        } else {
+            mModel.onHandleMessage(msg);
+        }
+        //mModel.onHandleMessage(msg);
     }
 
     public QualityInspectionProcessingPresenter(Context context, IQualityInspectionProcessingView view, MyHandler<BaseActivity> handler, QualityHeaderInfo headerInfo, String qualityType) {
@@ -48,6 +67,7 @@ public class QualityInspectionProcessingPresenter {
         this.mView.setOrderInfo(headerInfo);
         this.mModel.setQualityType(qualityType);
         this.mPrintModel = new PrintBusinessModel(context, handler);
+        mGUIDHelper=new GUIDHelper();
     }
 
     public QualityInspectionProcessingModel getModel() {
@@ -55,6 +75,10 @@ public class QualityInspectionProcessingPresenter {
     }
 
 
+
+    public GUIDHelper getGUIDHelper() {
+        return mGUIDHelper;
+    }
     /**
      * @desc: 获取质检合格明细
      * @param:
@@ -66,6 +90,10 @@ public class QualityInspectionProcessingPresenter {
         if (mModel.getQualityHeaderInfo()!=null){
             mModel.getQualityHeaderInfo().setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
         }
+        if(!mGUIDHelper.isReturn()){
+            MessageBox.Show(mContext,"过账异常不允许扫描，请先过账当前单号");
+            return ;
+        }
         mModel.requestQualityInspectionDetail(mModel.getQualityHeaderInfo(), new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -74,6 +102,7 @@ public class QualityInspectionProcessingPresenter {
                     BaseResultInfo<List<QualityHeaderInfo>> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<List<QualityHeaderInfo>>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == 1) {
+                        mGUIDHelper.createUUID();
                         List<QualityHeaderInfo> list = returnMsgModel.getData();
                         if (list != null && list.size() > 0) {
                             mModel.setQualityInspectionDetailList(list);
@@ -228,6 +257,7 @@ public class QualityInspectionProcessingPresenter {
      */
     public void onQualifiedOrderRefer() {
         QualityHeaderInfo info = mModel.getQualityHeaderInfo();
+        info.setGuid(mGUIDHelper.getmUuid());
         info.setScanqty(info.getQualityqty());
         info.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
 //        List<OutBarcodeInfo> list = new ArrayList<>();
@@ -236,6 +266,7 @@ public class QualityInspectionProcessingPresenter {
 //        outBarcodeInfo.setTowarehouseid(BaseApplication.mCurrentWareHouseInfo.getId());
 //        list.add(outBarcodeInfo);
 //        info.setLstBarCode(list);
+        mGUIDHelper.setPost(false);
         final int isTransfer=BaseApplication.mCurrentWareHouseInfo.getIstransfer();
         mModel.requestQualifiedRefer(info, new NetCallBackListener<String>() {
             @Override
@@ -244,7 +275,10 @@ public class QualityInspectionProcessingPresenter {
                     LogUtil.WriteLog(QualityInspectionProcessingScan.class, mModel.TAG_PostT_QualityADFAsync, result);
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
+                    mGUIDHelper.setPost(true);
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        mGUIDHelper.setReturn(true);
+                        mGUIDHelper.createUUID();
                         if (isTransfer!=2){
                             mView.onActivityFinish(returnMsgModel.getResultValue());
                         }else {
@@ -252,10 +286,17 @@ public class QualityInspectionProcessingPresenter {
                         }
 
                     } else {
+                        if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                            mGUIDHelper.setReturn(false);
+                        } else {
+                            mGUIDHelper.setReturn(true);
+                            mGUIDHelper.createUUID();
+                        }
                         MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
                     }
                 } catch (Exception e) {
                     MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
+                    mGUIDHelper.setReturn(false);
                 }
             }
         });
@@ -348,6 +389,8 @@ public class QualityInspectionProcessingPresenter {
         }
     }
 
+    String newGuid= UUID.randomUUID().toString();
+
     /**
      * @desc: 生成二阶段调拨
      * @param:
@@ -384,7 +427,9 @@ public class QualityInspectionProcessingPresenter {
             postInfo.setFromwarehouseid(wareHouseInfo.getId());
             postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
             postInfo.setVouchertype(info.getVouchertype());
+            postInfo.setGuid(newGuid);
             postInfo.setAreano(areaNo);
+            mGUIDHelper.setPost(false);
             mModel.requestQualifiedTransferRefer(postInfo, new NetCallBackListener<String>() {
                 @Override
                 public void onCallBack(String result) {
@@ -392,13 +437,23 @@ public class QualityInspectionProcessingPresenter {
                         LogUtil.WriteLog(QualityInspectionProcessingScan.class, mModel.TAG_POST_T_QUALITY_TRANSFER_TWO_ADF_ASYNC, result);
                         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                         }.getType());
+                        mGUIDHelper.setPost(true);
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                            mGUIDHelper.setReturn(true);
+                            newGuid= UUID.randomUUID().toString();;
                             MessageBox.Show(mContext, returnMsgModel.getResultValue(),MessageBox.MEDIA_MUSIC_NONE,null);
 //                            mView.onActivityFinish(returnMsgModel.getResultValue());
                         } else {
+                            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                                mGUIDHelper.setReturn(false);
+                            } else {
+                                mGUIDHelper.setReturn(true);
+                                newGuid= UUID.randomUUID().toString();;
+                            }
                             MessageBox.Show(mContext, returnMsgModel.getResultValue(), 1);
                         }
                     } catch (Exception e) {
+                        mGUIDHelper.setReturn(false);
                         MessageBox.Show(mContext, "出现意料之外的异常:" + e.getMessage());
                     }
                 }

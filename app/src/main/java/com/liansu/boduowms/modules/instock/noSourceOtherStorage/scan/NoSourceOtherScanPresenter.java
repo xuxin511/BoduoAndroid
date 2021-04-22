@@ -17,6 +17,7 @@ import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.GUIDHelper;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
@@ -41,19 +42,37 @@ public class NoSourceOtherScanPresenter {
     protected NoSourceOtherStorageScanModel mModel;
     protected INoSourceOtherScanView        mView;
     protected PrintBusinessModel            mPrintModel;
-
+    protected GUIDHelper mGUIDHelper;
     public void onHandleMessage(Message msg) {
-        mModel.onHandleMessage(msg);
-        switch (msg.what){
-            case NetworkError.NET_ERROR_CUSTOM:
-                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if (msg.what == NetworkError.NET_ERROR_CUSTOM) {
+            if (mGUIDHelper.isPost()) {
+                //isPost=false;
+                mGUIDHelper.setReturn(false);
+            }
+            MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
 
-                    }
-                });
-                break;
+        } else {
+            mModel.onHandleMessage(msg);
         }
+//        mModel.onHandleMessage(msg);
+//        switch (msg.what){
+//            case NetworkError.NET_ERROR_CUSTOM:
+//                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+//                break;
+//        }
+    }
+
+    public GUIDHelper getGUIDHelper() {
+        return mGUIDHelper;
     }
 
     public NoSourceOtherScanPresenter(Context context, INoSourceOtherScanView view, MyHandler<BaseActivity> handler) {
@@ -61,6 +80,7 @@ public class NoSourceOtherScanPresenter {
         this.mView = view;
         this.mModel = new NoSourceOtherStorageScanModel(context, handler);
         this.mPrintModel = new PrintBusinessModel(context, handler);
+        mGUIDHelper=new GUIDHelper();
     }
 
     public NoSourceOtherStorageScanModel getModel() {
@@ -265,6 +285,10 @@ public class NoSourceOtherScanPresenter {
             MessageBox.Show(mContext, "扫描数据为空!请先进行扫描操作");
             return;
         }
+        for (OutBarcodeInfo item:list){
+            item.setGuid(mGUIDHelper.getmUuid());
+        }
+        mGUIDHelper.setPost(false);
         mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -272,7 +296,10 @@ public class NoSourceOtherScanPresenter {
                 try {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
+                    mGUIDHelper.setPost(true);
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        mGUIDHelper.setReturn(true);
+                        mGUIDHelper.createUUID();
                         MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -280,10 +307,17 @@ public class NoSourceOtherScanPresenter {
                             }
                         });
                     } else {
+                        if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                            mGUIDHelper.setReturn(false);
+                        } else {
+                            mGUIDHelper.setReturn(true);
+                            mGUIDHelper.createUUID();
+                        }
                         MessageBox.Show(mContext, returnMsgModel.getResultValue());
                     }
 
                 } catch (Exception ex) {
+                    mGUIDHelper.setReturn(false);
                     MessageBox.Show(mContext, ex.getMessage());
                 }
 

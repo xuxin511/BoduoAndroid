@@ -83,6 +83,8 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
     protected List<Map<String, String>>  SupplierList = new ArrayList<Map<String, String>>();//供应商列表
     protected OrderBillChioceItemAdapter mAdapter;
     protected UserSettingPresenter        mUserSettingPresenter;
+
+
     @Override
     protected void initViews() {
         super.initViews();
@@ -117,7 +119,6 @@ public class BaseOrderBillChoice extends BaseActivity implements SwipeRefreshLay
         }
         mPresenter.onResume();
         setTitle();
-
     }
 
     @Override

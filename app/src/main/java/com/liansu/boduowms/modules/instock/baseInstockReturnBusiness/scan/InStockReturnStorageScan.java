@@ -91,6 +91,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
     protected int                  mVoucherType  = OrderType.ORDER_TYPE_NONE_VALUE;
     protected int                  mBusinessType = InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_NONE;
 
+
     @Override
     protected void initViews() {
         super.initViews();
@@ -112,6 +113,17 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
         }
     }
 
+    @Override
+    public  boolean  ReturnActivity(){
+        if (mPresenter!=null &&mPresenter.getGUIDHelper()!=null){
+            if(!mPresenter.getGUIDHelper().isReturn()){
+                // CommonUtil.setEditFocus(receiption_scan_out_barcode);
+                MessageBox.Show(mContext, "过账异常不允许退出，请继续提交");
+            }
+            return mPresenter.getGUIDHelper().isReturn();
+        }
+        return  true;
+    }
 
     @Override
     protected void onStart() {
@@ -199,6 +211,7 @@ public class InStockReturnStorageScan extends BaseActivity implements IInStockRe
     @Override
     protected void onResume() {
         super.onResume();
+        BaseApplication.isCloseActivity = false;//关闭界面 再次提示
         if (mPresenter != null) {
             mPresenter.onResume();
         }

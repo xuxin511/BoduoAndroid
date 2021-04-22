@@ -20,7 +20,9 @@ import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScanPresenter;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.IBaseOrderScanView;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.GUIDHelper;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -37,15 +39,36 @@ import static com.liansu.boduowms.ui.dialog.MessageBox.MEDIA_MUSIC_NONE;
  * @ Created by yangyiqing on 2020/6/27.
  */
 public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderScanView, ActiveOtherScanModel> {
-
+    protected GUIDHelper mGUIDHelper;
     public ActiveOtherScanPresenter(Context context, IBaseOrderScanView view, MyHandler<BaseActivity> handler, OrderHeaderInfo orderHeaderInfo, List<OutBarcodeInfo> barCodeInfos) {
         super(context, view, handler, orderHeaderInfo, barCodeInfos, new ActiveOtherScanModel(context, handler));
         mView.setSecondLineInfo(null, null, false);
+        mGUIDHelper=new GUIDHelper();
     }
 
     @Override
-    public void onHandleMessage(Message msg) {
-        mModel.onHandleMessage(msg);
+    public GUIDHelper getGUIDHelper() {
+        return mGUIDHelper;
+    }
+
+    @Override
+    public void onHandleMessage(Message msg)
+    {
+        if (msg.what == NetworkError.NET_ERROR_CUSTOM) {
+            if (mGUIDHelper.isPost()) {
+                //isPost=false;
+                mGUIDHelper.setReturn(false);
+            }
+            MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+        } else {
+            mModel.onHandleMessage(msg);
+        }
+      //  mModel.onHandleMessage(msg);
     }
 
     @Override
@@ -66,13 +89,18 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
 
     @Override
     protected void getOrderDetailInfoList(String erpVoucherNo) {
-        onReset();
+        //onReset();
         OrderRequestInfo postInfo = new OrderRequestInfo();
         postInfo.setErpvoucherno(erpVoucherNo);
         postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         postInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
         postInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
         postInfo.setVouchertype(OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE);
+        if(!mGUIDHelper.isReturn()){
+            MessageBox.Show(mContext,"过账异常不允许扫描，请先过账当前单号");
+            return ;
+        }
+        onReset();
         mModel.setOrderRequestInfo(postInfo);
         mModel.requestActiveOtherDetail(mModel.getOrderRequestInfo(), new NetCallBackListener<String>() {
             @Override
@@ -82,6 +110,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
                     BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        mGUIDHelper.createUUID();
                         OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
                         if (orderHeaderInfo != null) {
                             mModel.setOrderHeaderInfo(orderHeaderInfo);
@@ -171,6 +200,7 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
     @Override
     public void onResume() {
         super.onResume();
+        BaseApplication.isCloseActivity = false;//关闭界面 再次提示
         mView.onErpVoucherNoFocus();
         final String erpVoucherNo = mView.getErpVoucherNo();
         if (erpVoucherNo != null && !erpVoucherNo.equals("")) {
@@ -185,9 +215,11 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
             postInfo.setErpvoucherno(firstDetailInfo.getErpvoucherno());
             postInfo.setScanuserno(BaseApplication.mCurrentUserInfo.getUserno());
             postInfo.setVouchertype(firstDetailInfo.getVouchertype());
+            postInfo.setGuid(mGUIDHelper.getmUuid());
             postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
             List<OrderDetailInfo> list = new ArrayList<>();
             list.add(postInfo);
+            mGUIDHelper.setPost(false);
             mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
                 @Override
                 public void onCallBack(String result) {
@@ -195,7 +227,10 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
                     try {
                         BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                         }.getType());
+                        mGUIDHelper.setPost(true);
                         if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                            mGUIDHelper.setReturn(true);
+                            mGUIDHelper.createUUID();
                             BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
                             if (!checkResult.getHeaderStatus()) {
                                 MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
@@ -215,10 +250,17 @@ public class ActiveOtherScanPresenter extends BaseOrderScanPresenter<IBaseOrderS
 //                                mView.onActivityFinish(checkResult.getMessage());
                             }
                         } else {
+                            if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                                mGUIDHelper.setReturn(false);
+                            } else {
+                                mGUIDHelper.setReturn(true);
+                                mGUIDHelper.createUUID();
+                            }
                             MessageBox.Show(mContext, "提交订单失败:" + returnMsgModel.getResultValue(), MessageBox.MEDIA_MUSIC_ERROR);
                         }
 
                     } catch (Exception ex) {
+                        mGUIDHelper.setReturn(false);
                         MessageBox.Show(mContext, "提交订单失败:出现预期之外的异常" + ex.getMessage(), MessageBox.MEDIA_MUSIC_ERROR);
                     }
 

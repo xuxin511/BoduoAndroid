@@ -127,7 +127,7 @@ public class OutstockOrderColse extends BaseActivity {
     public  boolean  ReturnActivity(){
         if(!Return){
             CommonUtil.setEditFocus(outstock_ordercolse_order);
-            MessageBox.Show(context, "过账异常不允许退出，请重新提交");
+            MessageBox.Show(context, "过账异常不允许退出，请继续提交");
         }
         return Return;
     }

@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.liansu.boduowms.bean.base.BaseInfo;
+import com.liansu.boduowms.utils.GUIDHelper;
 
 import androidx.annotation.NonNull;
 
@@ -60,6 +61,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
     private   String Specialstock;
     private   int Headeridsub;//关联表体ID
     private   float Packqty; //包装量
+
 //    private   int    PackQty; //包装量
     /**
      * 1-不拆零 2-拆零
@@ -79,6 +81,9 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
     protected  int Scantype; //1-原托盘入库 0-新托盘入库
     protected  String WBarcode;//外箱码
     protected  String WBatchno;//外箱批次
+    protected  String  Guid;
+
+
 
     public OutBarcodeInfo() {
     }
@@ -129,6 +134,15 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         Scantype=in.readInt();
         WBarcode=in.readString();
         WBatchno=in.readString();
+        Guid =in.readString();
+    }
+
+    public String getGuid() {
+        return Guid;
+    }
+
+    public void setGuid(String guid) {
+        Guid = guid;
     }
 
     @NonNull
@@ -555,6 +569,7 @@ public class OutBarcodeInfo extends BaseInfo implements Parcelable, Cloneable {
         dest.writeInt(Scantype);
         dest.writeString(WBarcode);
         dest.writeString(WBatchno);
+        dest.writeString(Guid);
     }
 
 //    @Override

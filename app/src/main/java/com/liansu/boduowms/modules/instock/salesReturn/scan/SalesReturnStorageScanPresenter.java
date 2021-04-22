@@ -16,7 +16,9 @@ import com.liansu.boduowms.bean.order.OrderType;
 import com.liansu.boduowms.bean.stock.AreaInfo;
 import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.GUIDHelper;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
+import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
 import com.liansu.boduowms.utils.hander.MyHandler;
 import com.liansu.boduowms.utils.log.LogUtil;
@@ -35,16 +37,35 @@ public class SalesReturnStorageScanPresenter {
     protected Context                     mContext;
     protected SalesReturnStorageScanModel mModel;
     protected ISalesReturnStorageScanView mView;
+    protected GUIDHelper mGUIDHelper;
+    public void onHandleMessage(Message msg)
+    {
+        if (msg.what == NetworkError.NET_ERROR_CUSTOM) {
+            if (mGUIDHelper.isPost()) {
+                //isPost=false;
+                mGUIDHelper.setReturn(false);
+            }
+            MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
 
-    public void onHandleMessage(Message msg) {
-        mModel.onHandleMessage(msg);
+        } else {
+            mModel.onHandleMessage(msg);
+        }
+        //mModel.onHandleMessage(msg);
+    }
+
+    public GUIDHelper getGUIDHelper() {
+        return mGUIDHelper;
     }
 
     public SalesReturnStorageScanPresenter(Context context, ISalesReturnStorageScanView view, MyHandler<BaseActivity> handler) {
         this.mContext = context;
         this.mView = view;
         this.mModel = new SalesReturnStorageScanModel(context, handler, OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE);
-
+        mGUIDHelper=new GUIDHelper();
     }
 
     public SalesReturnStorageScanModel getModel() {
@@ -244,6 +265,10 @@ public class SalesReturnStorageScanPresenter {
             MessageBox.Show(mContext, "扫描数据为空!请先进行扫描操作");
             return;
         }
+        for (OutBarcodeInfo item:list){
+            item.setGuid(mGUIDHelper.getmUuid());
+        }
+        mGUIDHelper.setPost(false);
         mModel.requestOrderRefer(list, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -251,7 +276,10 @@ public class SalesReturnStorageScanPresenter {
                 try {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
+                    mGUIDHelper.setPost(true);
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        mGUIDHelper.setReturn(true);
+                        mGUIDHelper.createUUID();
                         MessageBox.Show(mContext, returnMsgModel.getResultValue(), MEDIA_MUSIC_NONE, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -259,10 +287,17 @@ public class SalesReturnStorageScanPresenter {
                             }
                         });
                     } else {
+                        if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                            mGUIDHelper.setReturn(false);
+                        } else {
+                            mGUIDHelper.setReturn(true);
+                            mGUIDHelper.createUUID();
+                        }
                         MessageBox.Show(mContext, returnMsgModel.getResultValue());
                     }
 
                 } catch (Exception ex) {
+                    mGUIDHelper.setReturn(false);
                     MessageBox.Show(mContext, ex.getMessage());
                 }
 

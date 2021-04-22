@@ -40,6 +40,7 @@ import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
  * @ Created by yangyiqing on 2020/6/27.
  */
 public abstract class BaseOrderScanModel extends BaseModel {
+
     public          String                     TAG_COMBINE_AND_REFER_PALLET_SUB               = "TAG_COMBINE_AND_REFER_PALLET_SUB";
     public          String                     TAG_GetT_InStockDetailListByHeaderIDADF        = "ReceiptionScan_GetT_InStockDetailListByHeaderIDADF";
     public          String                     TAG_GetT_PalletDetailByBarCodeADF              = "ReceiptionScan_GetT_PalletDetailByBarCodeADF";

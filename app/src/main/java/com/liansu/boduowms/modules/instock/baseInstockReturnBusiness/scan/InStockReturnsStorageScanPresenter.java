@@ -22,6 +22,7 @@ import com.liansu.boduowms.modules.instock.baseOrderBusiness.scan.BaseOrderScan;
 import com.liansu.boduowms.modules.outstock.purchaseInspection.offScan.scan.PurchaseInspectionProcessingScan;
 import com.liansu.boduowms.modules.print.PrintBusinessModel;
 import com.liansu.boduowms.ui.dialog.MessageBox;
+import com.liansu.boduowms.utils.GUIDHelper;
 import com.liansu.boduowms.utils.Network.NetCallBackListener;
 import com.liansu.boduowms.utils.Network.NetworkError;
 import com.liansu.boduowms.utils.function.GsonUtil;
@@ -44,19 +45,39 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
     protected K                  mModel;
     protected V                  mView;
     protected PrintBusinessModel mPrintModel;
+    protected GUIDHelper mGUIDHelper;
 
     public void onHandleMessage(Message msg) {
-        mModel.onHandleMessage(msg);
-        switch (msg.what) {
-            case NetworkError.NET_ERROR_CUSTOM:
-                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if (msg.what == NetworkError.NET_ERROR_CUSTOM) {
+            if (mGUIDHelper.isPost()) {
+                //isPost=false;
+                mGUIDHelper.setReturn(false);
+            }
+            MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
 
-                    }
-                });
-                break;
+        } else {
+            mModel.onHandleMessage(msg);
         }
+//        mModel.onHandleMessage(msg);
+//        switch (msg.what) {
+//            case NetworkError.NET_ERROR_CUSTOM:
+//                MessageBox.Show(mContext, "获取请求失败_____" + msg.obj, MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+//                break;
+//        }
+    }
+
+    public GUIDHelper getGUIDHelper(){
+//        return mGUIDHelper;
+        return  mGUIDHelper;
     }
 
     public InStockReturnsStorageScanPresenter(Context context, V view, MyHandler<BaseActivity> handler, K model) {
@@ -64,6 +85,7 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
         this.mView = view;
         this.mModel = model;
         this.mPrintModel = new PrintBusinessModel(context, handler);
+        mGUIDHelper=new GUIDHelper();
     }
 
     public K getModel() {
@@ -148,6 +170,10 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
         orderRequestInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
         orderRequestInfo.setStrongholdcode(BaseApplication.mCurrentWareHouseInfo.getStrongholdcode());
         orderRequestInfo.setStrongholdName(BaseApplication.mCurrentWareHouseInfo.getStrongholdname());
+        if(!mGUIDHelper.isReturn()){
+            MessageBox.Show(mContext,"过账异常不允许扫描，请先过账当前单号");
+            return ;
+        }
         mModel.requestOrderDetail(orderRequestInfo, new NetCallBackListener<String>() {
             @Override
             public void onCallBack(String result) {
@@ -157,6 +183,7 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
                     BaseResultInfo<OrderHeaderInfo> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<OrderHeaderInfo>>() {
                     }.getType());
                     if (returnMsgModel.getResult() == RESULT_TYPE_OK) {
+                        mGUIDHelper.createUUID();
                         OrderHeaderInfo orderHeaderInfo = returnMsgModel.getData();
                         if (orderHeaderInfo != null) {
                             mModel.setOrderDetailList(orderHeaderInfo.getDetail());
@@ -685,6 +712,7 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
             });
             return;
         }
+
         OrderDetailInfo firstDetailInfo = mModel.getOrderDetailList().get(0);
         if (firstDetailInfo != null) {
             OrderDetailInfo postInfo = new OrderDetailInfo();
@@ -693,12 +721,14 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
             postInfo.setUsername(BaseApplication.mCurrentUserInfo.getUsername());
             postInfo.setVouchertype(mModel.getVoucherType());
             postInfo.setTowarehouseno(BaseApplication.mCurrentWareHouseInfo.getWarehouseno());
+            postInfo.setGuid(mGUIDHelper.getmUuid());
             List<OrderDetailInfo> list = new ArrayList<>();
             list.add(postInfo);
             BaseMultiResultInfo<Boolean, Void> isOrderFinished = mModel.isOrderScanFinished();
             if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE_VALUE) {
                 //销退只能过一次账
                 if (isOrderFinished.getHeaderStatus()) {
+                    mGUIDHelper.setPost(false);
                     onActiveOrderRefer(list);
                 } else {
                     MessageBox.Show(mContext, "校验单据信息失败:单据未全部扫描完毕,请扫描完成后再提交", MEDIA_MUSIC_ERROR, new DialogInterface.OnClickListener() {
@@ -711,6 +741,7 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
                 }
                 //工单退可以多次过账
             } else if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE) {
+                mGUIDHelper.setPost(false);
                 onActiveOrderRefer(list);
             }
 
@@ -733,7 +764,10 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
                 try {
                     BaseResultInfo<String> returnMsgModel = GsonUtil.getGsonUtil().fromJson(result, new TypeToken<BaseResultInfo<String>>() {
                     }.getType());
+                    mGUIDHelper.setPost(true);
                     if (returnMsgModel.getResult() == BaseResultInfo.RESULT_TYPE_OK) {
+                        mGUIDHelper.setReturn(true);
+                        mGUIDHelper.createUUID();
                         BaseMultiResultInfo<Boolean, Void> checkResult = mModel.isOrderScanFinished();
                         if (!checkResult.getHeaderStatus()) {
                             if (mModel.getVoucherType() == OrderType.IN_STOCK_ORDER_TYPE_PRODUCTION_RETURNS_STORAGE_VALUE) {
@@ -755,10 +789,17 @@ public class InStockReturnsStorageScanPresenter<V extends IInStockReturnStorageS
 //                                mView.onActivityFinish(checkResult.getMessage());
                         }
                     } else {
+                        if (returnMsgModel.getResult() != returnMsgModel.RESULT_TYPE_ERPPOSTERROR) {
+                            mGUIDHelper.setReturn(false);
+                        } else {
+                            mGUIDHelper.setReturn(true);
+                            mGUIDHelper.createUUID();
+                        }
                         MessageBox.Show(mContext, "提交单据失败:" + returnMsgModel.getResultValue());
                     }
 
                 } catch (Exception ex) {
+                    mGUIDHelper.setReturn(false);
                     MessageBox.Show(mContext, "提交单据出现预期之外的异常:" + ex.getMessage());
                 }
 

@@ -24,6 +24,7 @@ import com.liansu.boduowms.utils.log.LogUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelListToJsonArray;
 import static com.liansu.boduowms.utils.function.GsonUtil.parseModelToJson;
@@ -46,6 +47,7 @@ public class PurchaseStorageScanModel extends BaseOrderScanModel {
 
     public PurchaseStorageScanModel(Context context, MyHandler<BaseActivity> handler) {
         super(context, handler,OrderType.IN_STOCK_ORDER_TYPE_PURCHASE_STORAGE_VALUE);
+
     }
 
     @Override

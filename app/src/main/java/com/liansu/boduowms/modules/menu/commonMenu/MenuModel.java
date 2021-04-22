@@ -395,7 +395,7 @@ public class MenuModel {
         Intent intent = new Intent();
         if (voucherType != -1) {
             //入库
-            //41 批量打印
+            //41 批量打印  1
             if (voucherType == OrderType.IN_HOUSE_STOCK_ORDER_TYPE_BATCH_PRINT_VALUE) {
                 intent.setClass(mContext, BaseOrderLabelPrintSelect.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_BATCH_PRINTING);
@@ -409,7 +409,7 @@ public class MenuModel {
                 intent.putExtra("Title", info.getTitle());
                 intent.putExtra("VoucherType", voucherType);
             }
-            //47 到货抽检
+            //47 到货抽检   1
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_RANDOM_INSPECTION_STORAGE_VALUE) {
                 intent.setClass(mContext, RandomInspectionBill.class);
                 intent.putExtra("Title", info.getTitle());
@@ -422,7 +422,7 @@ public class MenuModel {
                 intent.putExtra("Title", info.getTitle());
                 intent.putExtra("VoucherType", voucherType);
             }
-            //68 生产入库打印
+            //68 生产入库打印  1
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE_PRINT_VALUE) {
                 intent.setClass(mContext, PrintPalletScan.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_PRODUCT_STORAGE);
@@ -450,7 +450,7 @@ public class MenuModel {
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_TRANSFER_TO_STORAGE);
                 intent.putExtra("Title", info.getTitle());
             }
-            //44 有源入库
+            //44 有源入库2
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_ACTIVE_OTHER_STORAGE_VALUE) {
                 intent.setClass(mContext, BaseOrderScan.class);
                 Bundle bundle = new Bundle();
@@ -482,14 +482,14 @@ public class MenuModel {
                 intent.putExtra("BusinessType", InStockReturnsStorageScanModel.IN_STOCK_RETURN_TYPE_NO_SOURCE);
                 intent.putExtra("VoucherType", voucherType);
             }
-            //72 销售退货打印
+            //72 销售退货打印 1
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_PRINT_STORAGE_VALUE) {
                 intent.setClass(mContext, SalesReturnPrint.class);
                 intent.putExtra("BusinessType", OrderType.IN_STOCK_ORDER_TYPE_SALES_RETURN_STORAGE);
                 intent.putExtra("Title", info.getTitle());
                 intent.putExtra("VoucherType", voucherType);
             }
-            //70 质检合格
+            //70 质检合格2
             else if (voucherType == OrderType.IN_STOCK_ORDER_TYPE_QUALITY_INSPECTION_VALUE) {
                 intent.setClass(mContext, QualityInspectionMainActivity.class);
                 intent.putExtra("Title", info.getTitle());
